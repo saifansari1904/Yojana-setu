@@ -1,0 +1,198 @@
+import React, { useState, useMemo } from 'react';
+import { AnimatePresence } from 'motion/react';
+import { ActiveScreen, MatchResult, UserProfile } from './types';
+import { SCHEMES_DATABASE } from './data/schemes';
+import { rankSchemesForProfile } from './utils/matchingEngine';
+import { Header } from './components/Header';
+import { LoginScreen } from './components/LoginScreen';
+import { EligibilityFormScreen } from './components/EligibilityFormScreen';
+import { ResultsListScreen } from './components/ResultsListScreen';
+import { WhyMatchModal } from './components/WhyMatchModal';
+import { WhyNotEligibleView } from './components/WhyNotEligibleView';
+import { LanguageProvider, useTranslation } from './i18n';
+import { ThemeProvider } from './theme/ThemeContext';
+import { AnimatedPage } from './animations/AnimatedPage';
+import { AmbientBackground } from './animations/AmbientBackground';
+import { SplashScreen } from './animations/SplashScreen';
+
+function YojanaSetuMain() {
+  const { lang } = useTranslation();
+  const [showSplash, setShowSplash] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return !sessionStorage.getItem('yojana_setu_splash_seen');
+  });
+  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('login');
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [applicantName, setApplicantName] = useState<string>('');
+
+  // User profile starts as null (no pre-selected default profile)
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+
+  // Modal / Slide-over state for "Why this match?"
+  const [whyMatchTarget, setWhyMatchTarget] = useState<MatchResult | null>(null);
+
+  // Target match for "Why Not Eligible" dedicated view
+  const [whyNotEligibleTarget, setWhyNotEligibleTarget] = useState<MatchResult | null>(null);
+
+  // Compute matched schemes reactively with active language
+  const matchResults = useMemo(() => {
+    if (!userProfile) return [];
+    return rankSchemesForProfile(SCHEMES_DATABASE, userProfile, lang);
+  }, [userProfile, lang]);
+
+  // Keep modal/alternatives target in sync when language toggles
+  const currentWhyMatchTarget = useMemo(() => {
+    if (!whyMatchTarget) return null;
+    return matchResults.find((m) => m.scheme.id === whyMatchTarget.scheme.id) || whyMatchTarget;
+  }, [matchResults, whyMatchTarget]);
+
+  const currentWhyNotEligibleTarget = useMemo(() => {
+    if (!whyNotEligibleTarget) return null;
+    return (
+      matchResults.find((m) => m.scheme.id === whyNotEligibleTarget.scheme.id) ||
+      whyNotEligibleTarget
+    );
+  }, [matchResults, whyNotEligibleTarget]);
+
+  // Handlers
+  const handleSplashComplete = () => {
+    try {
+      sessionStorage.setItem('yojana_setu_splash_seen', 'true');
+    } catch {
+      // Ignore sessionStorage issues
+    }
+    setShowSplash(false);
+  };
+
+  const handleLogin = (name?: string) => {
+    if (name) {
+      setApplicantName(name);
+    }
+    setIsAuthenticated(true);
+    setCurrentScreen('form');
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setUserProfile(null);
+    setApplicantName('');
+    setCurrentScreen('login');
+  };
+
+  const handleFormSubmit = (newProfile: UserProfile) => {
+    setUserProfile({
+      ...newProfile,
+      applicantName: applicantName || newProfile.applicantName || (lang === 'hi' ? 'नागरिक उद्यमी' : 'Citizen Entrepreneur')
+    });
+    setIsAuthenticated(true);
+    setCurrentScreen('results');
+  };
+
+  const handleOpenWhyMatch = (match: MatchResult) => {
+    setWhyMatchTarget(match);
+  };
+
+  const handleOpenWhyNotEligible = (match: MatchResult) => {
+    setWhyNotEligibleTarget(match);
+    setCurrentScreen('alternatives');
+  };
+
+  return (
+    <div className="relative min-h-screen flex flex-col bg-[#FAFAF9] dark:bg-[#0E1311] text-[#1A1C1B] dark:text-[#F0F4F2] font-sans antialiased selection:bg-[#D4EFE1] dark:selection:bg-[#1A382D] selection:text-[#14453D] dark:selection:text-[#4ADE80] transition-colors duration-200 overflow-x-hidden">
+      {/* Ambient background subtle lighting gradient */}
+      <AmbientBackground />
+
+      {/* Splash Screen on initial app arrival */}
+      <AnimatePresence>
+        {showSplash && (
+          <SplashScreen onComplete={handleSplashComplete} minDuration={1400} />
+        )}
+      </AnimatePresence>
+
+      {/* App Navigation Header */}
+      <Header
+        currentScreen={currentScreen}
+        onNavigate={(screen) => setCurrentScreen(screen)}
+        userProfile={userProfile}
+        applicantName={applicantName}
+        isAuthenticated={isAuthenticated}
+        onLogout={handleLogout}
+      />
+
+      {/* Main View Area with Direction & Transition-Aware Pages */}
+      <main className="relative z-10 flex-1 pb-12">
+        <AnimatePresence mode="wait">
+          {currentScreen === 'login' && (
+            <AnimatedPage key="login">
+              <LoginScreen
+                onLogin={handleLogin}
+                onSkipToForm={() => {
+                  setIsAuthenticated(true);
+                  setCurrentScreen('form');
+                }}
+              />
+            </AnimatedPage>
+          )}
+
+          {currentScreen === 'form' && (
+            <AnimatedPage key="form">
+              <EligibilityFormScreen
+                initialProfile={userProfile}
+                onSubmit={handleFormSubmit}
+              />
+            </AnimatedPage>
+          )}
+
+          {currentScreen === 'results' && (
+            <AnimatedPage key="results">
+              <ResultsListScreen
+                matchResults={matchResults}
+                userProfile={userProfile}
+                onOpenWhyMatch={handleOpenWhyMatch}
+                onOpenWhyNotEligible={handleOpenWhyNotEligible}
+                onEditProfile={() => setCurrentScreen('form')}
+              />
+            </AnimatedPage>
+          )}
+
+          {currentScreen === 'alternatives' && (
+            <AnimatedPage key="alternatives">
+              <WhyNotEligibleView
+                targetMatch={
+                  currentWhyNotEligibleTarget ||
+                  matchResults.find((m) => m.matchPercentage < 75) ||
+                  matchResults[0]
+                }
+                allMatches={matchResults}
+                userProfile={userProfile}
+                onBackToResults={() => setCurrentScreen('results')}
+                onSelectAlternative={(alt) => {
+                  setWhyMatchTarget(alt);
+                }}
+              />
+            </AnimatedPage>
+          )}
+        </AnimatePresence>
+      </main>
+
+      {/* Slide-over / Modal for "Why This Match?" 5-Factor Audit */}
+      {currentWhyMatchTarget && (
+        <WhyMatchModal
+          matchResult={currentWhyMatchTarget}
+          onClose={() => setWhyMatchTarget(null)}
+          onOpenWhyNotEligible={handleOpenWhyNotEligible}
+        />
+      )}
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <LanguageProvider>
+        <YojanaSetuMain />
+      </LanguageProvider>
+    </ThemeProvider>
+  );
+}
