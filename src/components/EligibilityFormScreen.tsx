@@ -50,7 +50,7 @@ import { useTranslation } from '../i18n';
 import { AnimatedCounter } from '../animations/AnimatedCounter';
 import { questionVariants, errorShakeVariants } from '../animations/variants';
 
-const DRAFT_KEY = 'yojana_setu_adaptive_form_draft';
+const DRAFT_KEY = 'yojana_setu_adaptive_form_draft_v2';
 
 interface EligibilityFormScreenProps {
   initialProfile: UserProfile | null;
@@ -85,7 +85,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     return null;
   }, []);
 
-  // Form State
+  // Form State - No preselected options by default
   const [category, setCategory] = useState<SocialCategory | null>(
     initialProfile?.category || savedDraft?.category || null
   );
@@ -94,46 +94,46 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       ? initialProfile.age
       : savedDraft?.age !== undefined
       ? savedDraft.age
-      : 30
+      : ''
   );
   const [annualIncome, setAnnualIncome] = useState<number | ''>(
     initialProfile?.annualIncome !== undefined
       ? initialProfile.annualIncome
       : savedDraft?.annualIncome !== undefined
       ? savedDraft.annualIncome
-      : 300000
+      : ''
   );
   const [state, setState] = useState<string>(
-    initialProfile?.state || savedDraft?.state || 'All States & UTs'
+    initialProfile?.state || savedDraft?.state || ''
   );
-  const [ruralUrban, setRuralUrban] = useState<RuralUrban>(
-    initialProfile?.ruralUrban || savedDraft?.ruralUrban || 'rural'
+  const [ruralUrban, setRuralUrban] = useState<RuralUrban | null>(
+    initialProfile?.ruralUrban || savedDraft?.ruralUrban || null
   );
 
   const [businessStage, setBusinessStage] = useState<BusinessStage | null>(
-    initialProfile?.businessStage || savedDraft?.businessStage || 'new'
+    initialProfile?.businessStage || savedDraft?.businessStage || null
   );
   const [businessType, setBusinessType] = useState<BusinessType | null>(
     initialProfile?.businessType || savedDraft?.businessType || null
   );
 
-  const [fundingRangeId, setFundingRangeId] = useState<FundingRangeId>(
-    initialProfile?.fundingRangeId || savedDraft?.fundingRangeId || '1l_5l'
+  const [fundingRangeId, setFundingRangeId] = useState<FundingRangeId | null>(
+    initialProfile?.fundingRangeId || savedDraft?.fundingRangeId || null
   );
   const [fundingRequired, setFundingRequired] = useState<number | ''>(
     initialProfile?.fundingRequired !== undefined
       ? initialProfile.fundingRequired
       : savedDraft?.fundingRequired !== undefined
       ? savedDraft.fundingRequired
-      : 300000
+      : ''
   );
 
   const [businessRegistration, setBusinessRegistration] =
-    useState<BusinessRegistrationType>(
-      initialProfile?.businessRegistration || savedDraft?.businessRegistration || 'udyam'
+    useState<BusinessRegistrationType | null>(
+      initialProfile?.businessRegistration || savedDraft?.businessRegistration || null
     );
-  const [turnoverRangeId, setTurnoverRangeId] = useState<TurnoverRangeId>(
-    initialProfile?.turnoverRangeId || savedDraft?.turnoverRangeId || 'under_5l'
+  const [turnoverRangeId, setTurnoverRangeId] = useState<TurnoverRangeId | null>(
+    initialProfile?.turnoverRangeId || savedDraft?.turnoverRangeId || null
   );
 
   // Active stage navigation
@@ -213,8 +213,10 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     state,
     businessStage,
     fundingRequired,
+    fundingRangeId,
     ruralUrban,
     businessRegistration,
+    turnoverRangeId,
     lang,
   ]);
 
@@ -259,6 +261,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
         );
         return false;
       }
+      if (!ruralUrban) {
+        setValidationError(
+          lang === 'hi'
+            ? 'कृपया अपना उद्यम क्षेत्र (ग्रामीण अथवा शहरी) चुनें।'
+            : 'Please select your Enterprise Location (Rural or Urban).'
+        );
+        return false;
+      }
       if (annualIncome === '' || isNaN(Number(annualIncome)) || Number(annualIncome) < 0) {
         setValidationError(
           lang === 'hi'
@@ -286,7 +296,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
         return false;
       }
     } else if (currentStage.id === 'funding') {
-      if (!fundingRangeId) {
+      if (!fundingRangeId && (fundingRequired === '' || Number(fundingRequired) <= 0)) {
         setValidationError(
           lang === 'hi'
             ? 'कृपया अपेक्षित ऋण राशि अथवा सीमा चुनें।'
@@ -300,6 +310,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
           lang === 'hi'
             ? 'कृपया अपने व्यवसाय का पंजीकरण प्रकार चुनें।'
             : 'Please select your Business Registration status.'
+        );
+        return false;
+      }
+      if (!turnoverRangeId) {
+        setValidationError(
+          lang === 'hi'
+            ? 'कृपया अपने व्यवसाय का वार्षिक टर्नओवर सीमा चुनें।'
+            : 'Please select your Annual Business Turnover range.'
         );
         return false;
       }
@@ -337,7 +355,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
 
   const handleFinalSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!category || !businessType) {
+    if (!category || !businessType || !state || !ruralUrban || !businessStage) {
       setValidationError(
         lang === 'hi'
           ? 'कृपया सभी आवश्यक प्रश्न पूर्ण करें।'
@@ -348,16 +366,16 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
 
     const finalProfile: UserProfile = {
       category,
-      age: Number(age),
-      annualIncome: Number(annualIncome),
+      age: typeof age === 'number' ? age : 30,
+      annualIncome: typeof annualIncome === 'number' ? annualIncome : 0,
       businessType,
       state: state || 'All States & UTs',
       businessStage: businessStage || 'new',
       fundingRequired: typeof fundingRequired === 'number' ? fundingRequired : 300000,
-      fundingRangeId,
-      ruralUrban,
-      businessRegistration,
-      turnoverRangeId,
+      fundingRangeId: fundingRangeId || undefined,
+      ruralUrban: ruralUrban || 'rural',
+      businessRegistration: businessRegistration || 'unregistered',
+      turnoverRangeId: turnoverRangeId || undefined,
     };
 
     onSubmit(finalProfile);
@@ -572,7 +590,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   <span className="text-red-500">*</span>
                 </label>
                 <span className="text-xs font-bold text-[#14453D] dark:text-[#34D399]">
-                  {age !== '' ? `${age} ${t('common.years')}` : '18 – 70'}
+                  {age !== '' ? `${age} ${t('common.years')}` : (lang === 'hi' ? 'आयु चुनें (18–70)' : 'Not set (18–70)')}
                 </span>
               </div>
 
@@ -582,6 +600,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   type="number"
                   min="18"
                   max="70"
+                  placeholder={lang === 'hi' ? 'उदा. 28' : 'e.g. 28'}
                   value={age}
                   onChange={(e) => {
                     const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
@@ -594,7 +613,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   type="range"
                   min="18"
                   max="70"
-                  value={age === '' ? 30 : age}
+                  value={age === '' ? 18 : age}
                   onChange={(e) => {
                     setAge(parseInt(e.target.value, 10));
                     setValidationError(null);
@@ -652,6 +671,11 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 }}
                 className="w-full p-2.5 text-xs font-semibold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
               >
+                <option value="" disabled>
+                  {lang === 'hi'
+                    ? '-- अपना राज्य या केंद्र शासित प्रदेश चुनें --'
+                    : '-- Select your State or Union Territory --'}
+                </option>
                 {INDIAN_STATES.map((st) => (
                   <option key={st} value={st}>
                     {getLocalizedState(st)}
@@ -693,32 +717,39 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               <div className="mt-4 pt-3 border-t border-[#E2E2E0]/60 dark:border-[#24342D]/60">
                 <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1.5">
                   {t('questionnaire.locationTitle')}
+                  <span className="text-red-500 ml-1">*</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {RURAL_URBAN_OPTIONS.map((loc) => (
-                    <button
-                      key={loc.id}
-                      type="button"
-                      onClick={() => setRuralUrban(loc.id)}
-                      className={`p-2.5 rounded border text-left cursor-pointer transition-all flex items-center justify-between ${
-                        ruralUrban === loc.id
-                          ? 'border-[#14453D] dark:border-[#34D399] bg-[#D4EFE1]/40 dark:bg-[#1A382D] ring-1 ring-[#14453D] dark:ring-[#34D399]'
-                          : 'border-[#E2E2E0] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613]'
-                      }`}
-                    >
-                      <div>
-                        <div className="font-bold text-xs text-[#1A1C1B] dark:text-[#F0F4F2]">
-                          {t(loc.labelKey as any)}
+                  {RURAL_URBAN_OPTIONS.map((loc) => {
+                    const isSelected = ruralUrban === loc.id;
+                    return (
+                      <button
+                        key={loc.id}
+                        type="button"
+                        onClick={() => {
+                          setRuralUrban(loc.id);
+                          setValidationError(null);
+                        }}
+                        className={`p-2.5 rounded border text-left cursor-pointer transition-all flex items-center justify-between ${
+                          isSelected
+                            ? 'border-[#14453D] dark:border-[#34D399] bg-[#D4EFE1]/40 dark:bg-[#1A382D] ring-1 ring-[#14453D] dark:ring-[#34D399]'
+                            : 'border-[#E2E2E0] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613] hover:border-[#14453D]/50 dark:hover:border-[#34D399]/50'
+                        }`}
+                      >
+                        <div>
+                          <div className="font-bold text-xs text-[#1A1C1B] dark:text-[#F0F4F2]">
+                            {t(loc.labelKey as any)}
+                          </div>
+                          <div className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] mt-0.5">
+                            {t(loc.descKey as any)}
+                          </div>
                         </div>
-                        <div className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] mt-0.5">
-                          {t(loc.descKey as any)}
-                        </div>
-                      </div>
-                      {ruralUrban === loc.id && (
-                        <Check className="w-3.5 h-3.5 text-[#14453D] dark:text-[#34D399]" />
-                      )}
-                    </button>
-                  ))}
+                        {isSelected && (
+                          <Check className="w-3.5 h-3.5 text-[#14453D] dark:text-[#34D399]" />
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -738,7 +769,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 </label>
                 <span className="text-xs font-bold text-[#14453D] dark:text-[#34D399]">
                   {t('form.incomeFormatted')}{' '}
-                  {annualIncome !== '' ? formatCurrency(Number(annualIncome)) : '₹0'}
+                  {annualIncome !== '' ? formatCurrency(Number(annualIncome)) : (lang === 'hi' ? 'दर्ज नहीं किया गया' : 'Not entered')}
                 </span>
               </div>
 
@@ -751,6 +782,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   type="number"
                   step="50000"
                   min="0"
+                  placeholder={lang === 'hi' ? 'उदा. 250000' : 'e.g. 250000'}
                   value={annualIncome}
                   onChange={(e) => {
                     const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
@@ -1013,10 +1045,12 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     type="number"
                     step="50000"
                     min="10000"
+                    placeholder={lang === 'hi' ? 'उदा. 300000' : 'e.g. 300000'}
                     value={fundingRequired}
                     onChange={(e) => {
                       const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
                       setFundingRequired(val);
+                      setValidationError(null);
                     }}
                     className="w-full pl-8 pr-3 py-2.5 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
                   />
@@ -1085,6 +1119,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
             <div className="pt-5 border-t border-[#E2E2E0] dark:border-[#24342D]">
               <label className="text-xs sm:text-sm font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-2">
                 {t('questionnaire.turnoverLabel')}
+                <span className="text-red-500 ml-1">*</span>
               </label>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -1094,7 +1129,10 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     <button
                       key={to.id}
                       type="button"
-                      onClick={() => setTurnoverRangeId(to.id)}
+                      onClick={() => {
+                        setTurnoverRangeId(to.id);
+                        setValidationError(null);
+                      }}
                       className={`p-3 rounded border text-left cursor-pointer transition-all flex items-start justify-between ${
                         isSelected
                           ? 'border-[#14453D] dark:border-[#34D399] bg-[#D4EFE1]/40 dark:bg-[#1A382D] ring-1 ring-[#14453D] dark:ring-[#34D399]'
@@ -1171,19 +1209,19 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   <div className="flex justify-between">
                     <dt className="text-[#6F7A73] dark:text-[#8E9F97]">{t('factors.age')}:</dt>
                     <dd className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
-                      {age} {t('common.years')}
+                      {age !== '' ? `${age} ${t('common.years')}` : t('questionnaire.notSpecified')}
                     </dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-[#6F7A73] dark:text-[#8E9F97]">{t('factors.state')}:</dt>
                     <dd className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
-                      {getLocalizedState(state)}
+                      {state ? getLocalizedState(state) : t('questionnaire.notSpecified')}
                     </dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-[#6F7A73] dark:text-[#8E9F97]">{t('factors.income')}:</dt>
                     <dd className="font-bold text-[#14453D] dark:text-[#34D399]">
-                      {formatCurrency(Number(annualIncome))}
+                      {annualIncome !== '' ? formatCurrency(Number(annualIncome)) : t('questionnaire.notSpecified')}
                     </dd>
                   </div>
                   <div className="flex justify-between">
@@ -1191,9 +1229,11 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       {t('questionnaire.locationLabel')}:
                     </dt>
                     <dd className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
-                      {ruralUrban === 'rural'
-                        ? t('questionnaire.ruralLabel')
-                        : t('questionnaire.urbanLabel')}
+                      {ruralUrban
+                        ? ruralUrban === 'rural'
+                          ? t('questionnaire.ruralLabel')
+                          : t('questionnaire.urbanLabel')
+                        : t('questionnaire.notSpecified')}
                     </dd>
                   </div>
                 </dl>
@@ -1227,6 +1267,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       {businessStage === 'new' && t('questionnaire.stageNewBizLabel')}
                       {businessStage === 'existing' && t('questionnaire.stageExistingBizLabel')}
                       {businessStage === 'expanding' && t('questionnaire.stageExpandingBizLabel')}
+                      {!businessStage && t('questionnaire.notSpecified')}
                     </dd>
                   </div>
                   <div className="flex justify-between">
@@ -1257,7 +1298,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                           {t('questionnaire.registrationLabel')}:
                         </dt>
                         <dd className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
-                          {businessRegistration.toUpperCase()}
+                          {businessRegistration ? businessRegistration.toUpperCase() : t('questionnaire.notSpecified')}
                         </dd>
                       </div>
                       <div className="flex justify-between">
@@ -1269,6 +1310,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                           {turnoverRangeId === '5l_25l' && '₹5 Lakh – ₹25 Lakh'}
                           {turnoverRangeId === '25l_1cr' && '₹25 Lakh – ₹1 Crore'}
                           {turnoverRangeId === 'above_1cr' && '> ₹1 Crore'}
+                          {!turnoverRangeId && t('questionnaire.notSpecified')}
                         </dd>
                       </div>
                     </>
