@@ -9,7 +9,6 @@ import {
   ShieldCheck,
   ExternalLink,
   Scale,
-  Info,
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
 import {
@@ -33,6 +32,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
   onOpenWhyNotEligible,
 }) => {
   const { t, getLocalizedScheme, lang } = useTranslation();
+  const isHindi = lang === 'hi';
   const shouldReduceMotion = useReducedMotion();
 
   // Handle ESC key and prevent background body scroll when open
@@ -43,7 +43,6 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
       if (e.key === 'Escape') onClose();
     };
 
-    // Lock background scroll
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', handleKeyDown);
@@ -56,11 +55,16 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
 
   if (!matchResult) return null;
 
-  const locScheme = getLocalizedScheme(matchResult.scheme);
-  const { matchPercentage, breakdown, plainLanguageExplanation, matchStatus, primaryGap } =
-    matchResult;
-  const isEligible = matchStatus === 'eligible';
-  const isNearMatch = matchStatus === 'near-match';
+  const locScheme = getLocalizedScheme ? getLocalizedScheme(matchResult.scheme) : matchResult.scheme;
+  const { matchPercentage, breakdown, plainLanguageExplanation, matchStatus, primaryGap } = matchResult;
+  const isEligible = matchStatus === 'eligible' || matchPercentage >= 75;
+  const isNearMatch = matchStatus === 'near-match' || (matchPercentage >= 50 && matchPercentage < 75);
+
+  // Safe translation helper with human-readable default fallbacks
+  const getText = (key: string, defaultText: string) => {
+    const val = t ? t(key) : null;
+    return val && val !== key ? val : defaultText;
+  };
 
   return (
     <motion.div
@@ -71,7 +75,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
       animate={shouldReduceMotion ? { opacity: 1 } : 'visible'}
       exit={shouldReduceMotion ? { opacity: 0 } : 'exit'}
       transition={shouldReduceMotion ? reducedMotionTransition : undefined}
-      className="fixed inset-0 z-50 overflow-y-auto bg-[#0E1311]/70 backdrop-blur-xs flex justify-end transition-colors"
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#0E1311]/70 backdrop-blur-sm flex justify-end transition-colors"
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
@@ -93,26 +97,31 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D4EFE1] dark:bg-[#1A382D] px-2 py-0.5 rounded uppercase tracking-wider">
-                  {t('modal.ruleAudit')}
+                  {getText('modal.ruleAudit', isHindi ? 'नियम ऑडिट' : 'Rule Audit')}
                 </span>
                 {isEligible ? (
                   <span className="text-[10px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D4EFE1] dark:bg-[#1A382D] px-2 py-0.5 rounded">
-                    {t('results.statusEligible')}
+                    {getText('results.statusEligible', isHindi ? 'पात्र' : 'Eligible')}
                   </span>
                 ) : isNearMatch ? (
                   <span className="text-[10px] font-bold text-amber-900 dark:text-amber-300 bg-amber-100 dark:bg-amber-950 px-2 py-0.5 rounded">
-                    {t('results.statusNearMatch')}
+                    {getText('results.statusNearMatch', isHindi ? 'निकटतम मेल' : 'Near Match')}
                   </span>
                 ) : (
                   <span className="text-[10px] font-bold text-[#7C2C0F] dark:text-[#FCA5A5] bg-[#FFDAD6] dark:bg-[#3D1A14] px-2 py-0.5 rounded">
-                    {t('results.statusLowMatch')}
+                    {getText('results.statusLowMatch', isHindi ? 'कम पात्रता' : 'Low Match')}
                   </span>
                 )}
               </div>
-              <h2 id="modal-title" className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mt-1 leading-tight">
-                {t('modal.whyTitle')}
+              <h2
+                id="modal-title"
+                className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mt-1.5 leading-tight"
+              >
+                {getText('modal.whyTitle', isHindi ? 'यह योजना आपकी प्रोफ़ाइल से क्यों मेल खाती है' : 'Why this scheme matched your profile')}
               </h2>
-              <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mt-0.5 font-medium">{locScheme.name}</p>
+              <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mt-0.5 font-medium">
+                {locScheme.name}
+              </p>
             </div>
           </div>
           <button
@@ -126,18 +135,22 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
           </button>
         </div>
 
-        {/* Scheme Quick Specs Banner */}
+        {/* Scheme Authority Banner */}
         <div className="px-6 py-2.5 bg-[#F3F4F3] dark:bg-[#111714] border-b border-[#E2E2E0] dark:border-[#24342D] flex items-center justify-between text-xs">
           <span className="text-[#3F4943] dark:text-[#9EB0A7] truncate mr-2">
-            {t('modal.authorityLabel')}:{' '}
-            <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">{locScheme.sponsoringMinistry}</strong>
+            {getText('modal.authorityLabel', isHindi ? 'प्राधिकरण' : 'Authority')}:{' '}
+            <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">
+              {locScheme.sponsoringMinistry}
+            </strong>
           </span>
-          <span className="text-[#14453D] dark:text-[#4ADE80] font-bold shrink-0">{locScheme.fundingRangeText}</span>
+          <span className="text-[#14453D] dark:text-[#4ADE80] font-bold shrink-0">
+            {locScheme.fundingRangeText}
+          </span>
         </div>
 
-        {/* Scrollable Core Content Area */}
+        {/* Scrollable Core Content */}
         <div className="p-6 space-y-4 flex-1 overflow-y-auto">
-          {/* Near Match Gap Callout if primaryGap exists */}
+          {/* Near Match Gap Notice */}
           {primaryGap && (
             <motion.div
               initial={shouldReduceMotion ? undefined : { opacity: 0, y: 8 }}
@@ -149,20 +162,21 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                 <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-xs font-bold text-amber-900 dark:text-amber-200">
-                    {t('modal.gapNoticeTitle')}: {primaryGap.factorLabel}
+                    {getText('modal.gapNoticeTitle', isHindi ? 'मुख्य अंतर' : 'Identified Gap')}: {primaryGap.factorLabel}
                   </h4>
                   <p className="text-xs text-amber-800 dark:text-amber-300 mt-1 leading-relaxed">
                     {primaryGap.gapDistance || primaryGap.statutoryRequirement}
                   </p>
                   {onOpenWhyNotEligible && (
                     <button
+                      type="button"
                       onClick={() => {
                         onClose();
                         onOpenWhyNotEligible(matchResult);
                       }}
                       className="mt-2 text-xs font-bold text-amber-900 dark:text-amber-200 underline cursor-pointer"
                     >
-                      {t('modal.viewGapActionBtn')}
+                      {getText('modal.viewGapActionBtn', isHindi ? 'वैकल्पिक योजनाएं देखें →' : 'Explore alternative schemes →')}
                     </button>
                   )}
                 </div>
@@ -170,17 +184,21 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
             </motion.div>
           )}
 
+          {/* Audit Subheader */}
           <div className="flex items-center justify-between">
             <h3 className="text-xs font-bold uppercase tracking-wider text-[#1A1C1B] dark:text-[#E2E8E4] flex items-center gap-1.5">
               <Scale className="w-4 h-4 text-[#14453D] dark:text-[#4ADE80]" />
-              <span>{t('modal.statutoryAuditTitle')}</span>
+              <span>
+                {getText('modal.statutoryAuditTitle', isHindi ? 'वैधानिक 5-कारक पात्रता ऑडिट' : 'Statutory 5-Factor Eligibility Audit')}
+              </span>
             </h3>
             <span className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] font-semibold">
-              {matchResult.matchedCount} of {matchResult.totalFactorsCount} {t('modal.factorsVerified')}
+              {matchResult.matchedCount} of {matchResult.totalFactorsCount}{' '}
+              {getText('modal.factorsVerified', isHindi ? 'कारक सत्यापित' : 'Factors Evaluated')}
             </span>
           </div>
 
-          {/* Row-by-row breakdown list with stagger animation */}
+          {/* 5-Factor Breakdown Cards */}
           <motion.div
             variants={shouldReduceMotion ? undefined : staggerContainer}
             initial={shouldReduceMotion ? undefined : 'hidden'}
@@ -219,25 +237,31 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                         : 'bg-[#FFDAD6] dark:bg-[#3D1A14] text-[#7C2C0F] dark:text-[#FCA5A5]'
                     }`}
                   >
-                    {item.matched ? t('modal.criteriaMet') : t('modal.mismatch')}
+                    {item.matched
+                      ? getText('modal.criteriaMet', isHindi ? 'पात्रता पूर्ण' : 'Criteria Met')
+                      : getText('modal.mismatch', isHindi ? 'अपात्र' : 'Mismatch')}
                   </span>
                 </div>
 
-                {/* Profile vs Scheme Requirement Grid */}
+                {/* Profile vs Scheme Requirement Table */}
                 <div className="grid grid-cols-2 gap-2 text-xs bg-white dark:bg-[#18221E] p-2.5 rounded border border-[#E2E2E0] dark:border-[#293B33] mt-2">
                   <div>
                     <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase tracking-wider font-semibold">
-                      {t('modal.yourInputLabel')}:
+                      {getText('modal.yourInputLabel', isHindi ? 'आपका विवरण:' : 'Your Input:')}
                     </span>
-                    <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] font-semibold">{item.userValue}</strong>
+                    <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] font-semibold">
+                      {item.userValue}
+                    </strong>
                   </div>
                   <div>
                     <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase tracking-wider font-semibold">
-                      {t('modal.statutoryReqLabel')}:
+                      {getText('modal.statutoryReqLabel', isHindi ? 'सरकारी नियम:' : 'Official Gazette Rule:')}
                     </span>
                     <strong
                       className={`font-semibold ${
-                        item.matched ? 'text-[#14453D] dark:text-[#4ADE80]' : 'text-[#7C2C0F] dark:text-[#FCA5A5]'
+                        item.matched
+                          ? 'text-[#14453D] dark:text-[#4ADE80]'
+                          : 'text-[#7C2C0F] dark:text-[#FCA5A5]'
                       }`}
                     >
                       {item.statutoryRequirement}
@@ -253,37 +277,42 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
             ))}
           </motion.div>
 
-          {/* Plain-Language Overall Summary Sentence */}
+          {/* Plain Language Overall Summary */}
           <div className="p-4 bg-[#FAFAF9] dark:bg-[#111714] border border-[#E2E2E0] dark:border-[#24342D] rounded">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#1A1C1B] dark:text-[#E2E8E4] block mb-1">
-              {t('modal.summaryAssessment')}:
+              {getText('modal.summaryAssessment', isHindi ? 'सारांश मूल्यांकन:' : 'Summary Assessment:')}
             </span>
             <p className="text-xs text-[#1F2421] dark:text-[#D5DDD8] font-medium leading-relaxed">
               {plainLanguageExplanation}
             </p>
           </div>
 
-          {/* Trust Indicator Line */}
+          {/* Trust Footnote */}
           <div className="flex items-center gap-2 p-3 bg-[#F3F4F3] dark:bg-[#111714] border border-[#E2E2E0] dark:border-[#24342D] rounded text-[11px] text-[#3F4943] dark:text-[#9EB0A7]">
             <ShieldCheck className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80] shrink-0" />
             <span>
-              {t('modal.disclaimer')}
+              {getText(
+                'modal.disclaimer',
+                isHindi
+                  ? 'पात्रता आधिकारिक योजना मानदंडों के आधार पर निर्धारित की गई है।'
+                  : 'Eligibility determined by published scheme criteria · explanation generated for clarity'
+              )}
             </span>
           </div>
         </div>
 
-        {/* Panel Footer Actions (Sticky) */}
+        {/* Panel Sticky Footer */}
         <div className="sticky bottom-0 z-10 p-6 border-t border-[#E2E2E0] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#151C19] space-y-3">
           <motion.a
             id="modal-official-portal-link"
-            href={locScheme.officialPortalUrl}
+            href={locScheme.officialPortalUrl || '#'}
             target="_blank"
             rel="noopener noreferrer"
             whileHover={shouldReduceMotion ? undefined : { y: -1 }}
             whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
             className="w-full bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white py-2.5 px-4 rounded text-xs font-bold transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
           >
-            <span>{t('modal.applyOfficialPortal')}</span>
+            <span>{getText('modal.applyOfficialPortal', isHindi ? 'आधिकारिक पोर्टल पर आवेदन करें' : 'Apply on Official Ministry Portal')}</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </motion.a>
 
@@ -292,7 +321,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
             onClick={onClose}
             className="w-full text-center text-xs text-[#516A5F] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] font-medium py-1 cursor-pointer"
           >
-            {t('modal.backToList')}
+            {getText('modal.backToList', isHindi ? 'वापस योजनाओं की सूची पर जाएं' : 'Back to matched schemes list')}
           </button>
         </div>
       </motion.div>

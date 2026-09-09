@@ -9,6 +9,7 @@ import { EligibilityFormScreen } from './components/EligibilityFormScreen';
 import { ResultsListScreen } from './components/ResultsListScreen';
 import { WhyMatchModal } from './components/WhyMatchModal';
 import { WhyNotEligibleView } from './components/WhyNotEligibleView';
+import { SchemeDetailScreen } from './components/SchemeDetailScreen';
 import { LanguageProvider, useTranslation } from './i18n';
 import { ThemeProvider } from './theme/ThemeContext';
 import { AnimatedPage } from './animations/AnimatedPage';
@@ -34,13 +35,27 @@ function YojanaSetuMain() {
   // Target match for "Why Not Eligible" dedicated view
   const [whyNotEligibleTarget, setWhyNotEligibleTarget] = useState<MatchResult | null>(null);
 
+  // Selected scheme match for Scheme Detail Screen
+  const [selectedSchemeMatch, setSelectedSchemeMatch] = useState<MatchResult | null>(null);
+
+  // Saved scheme IDs (persisted in localStorage)
+  const [savedSchemeIds, setSavedSchemeIds] = useState<Set<string>>(() => {
+    if (typeof window === 'undefined') return new Set();
+    try {
+      const stored = localStorage.getItem('yojana_setu_saved_schemes');
+      return stored ? new Set(JSON.parse(stored)) : new Set();
+    } catch {
+      return new Set();
+    }
+  });
+
   // Compute matched schemes reactively with active language
   const matchResults = useMemo(() => {
     if (!userProfile) return [];
     return rankSchemesForProfile(SCHEMES_DATABASE, userProfile, lang);
   }, [userProfile, lang]);
 
-  // Keep modal/alternatives target in sync when language toggles
+  // Keep modal/alternatives/detail targets in sync when language toggles
   const currentWhyMatchTarget = useMemo(() => {
     if (!whyMatchTarget) return null;
     return matchResults.find((m) => m.scheme.id === whyMatchTarget.scheme.id) || whyMatchTarget;
@@ -53,6 +68,14 @@ function YojanaSetuMain() {
       whyNotEligibleTarget
     );
   }, [matchResults, whyNotEligibleTarget]);
+
+  const currentSelectedSchemeMatch = useMemo(() => {
+    if (!selectedSchemeMatch) return null;
+    return (
+      matchResults.find((m) => m.scheme.id === selectedSchemeMatch.scheme.id) ||
+      selectedSchemeMatch
+    );
+  }, [matchResults, selectedSchemeMatch]);
 
   // Handlers
   const handleSplashComplete = () => {
@@ -95,6 +118,28 @@ function YojanaSetuMain() {
   const handleOpenWhyNotEligible = (match: MatchResult) => {
     setWhyNotEligibleTarget(match);
     setCurrentScreen('alternatives');
+  };
+
+  const handleSelectScheme = (match: MatchResult) => {
+    setSelectedSchemeMatch(match);
+    setCurrentScreen('scheme-detail');
+  };
+
+  const handleToggleSaveScheme = (schemeId: string) => {
+    setSavedSchemeIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(schemeId)) {
+        next.delete(schemeId);
+      } else {
+        next.add(schemeId);
+      }
+      try {
+        localStorage.setItem('yojana_setu_saved_schemes', JSON.stringify(Array.from(next)));
+      } catch {
+        // Ignore storage failure
+      }
+      return next;
+    });
   };
 
   return (
@@ -151,6 +196,7 @@ function YojanaSetuMain() {
                 onOpenWhyMatch={handleOpenWhyMatch}
                 onOpenWhyNotEligible={handleOpenWhyNotEligible}
                 onEditProfile={() => setCurrentScreen('form')}
+                onSelectScheme={handleSelectScheme}
               />
             </AnimatedPage>
           )}
@@ -167,8 +213,24 @@ function YojanaSetuMain() {
                 userProfile={userProfile}
                 onBackToResults={() => setCurrentScreen('results')}
                 onSelectAlternative={(alt) => {
-                  setWhyMatchTarget(alt);
+                  handleSelectScheme(alt);
                 }}
+              />
+            </AnimatedPage>
+          )}
+
+          {currentScreen === 'scheme-detail' && currentSelectedSchemeMatch && (
+            <AnimatedPage key="scheme-detail">
+              <SchemeDetailScreen
+                matchResult={currentSelectedSchemeMatch}
+                allMatches={matchResults}
+                userProfile={userProfile}
+                onBackToResults={() => setCurrentScreen('results')}
+                onSelectScheme={handleSelectScheme}
+                onOpenWhyMatch={handleOpenWhyMatch}
+                onOpenWhyNotEligible={handleOpenWhyNotEligible}
+                savedSchemeIds={savedSchemeIds}
+                onToggleSaveScheme={handleToggleSaveScheme}
               />
             </AnimatedPage>
           )}

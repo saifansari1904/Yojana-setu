@@ -122,7 +122,8 @@ export type ActiveScreen =
   | 'login'
   | 'form'
   | 'results'
-  | 'alternatives';
+  | 'alternatives'
+  | 'scheme-detail';
 
 export interface RepaymentCalculation {
   principalAmount: number;

@@ -139,7 +139,7 @@ export const Header: React.FC<HeaderProps> = ({
               id="nav-results-btn"
               onClick={() => onNavigate('results')}
               className={`px-3.5 py-2 text-xs font-bold rounded transition-colors flex items-center gap-1.5 cursor-pointer ${
-                currentScreen === 'results' || currentScreen === 'alternatives'
+                currentScreen === 'results' || currentScreen === 'alternatives' || currentScreen === 'scheme-detail'
                   ? 'bg-[#14453D] dark:bg-[#1C5045] text-white shadow-xs'
                   : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1E2723]'
               }`}

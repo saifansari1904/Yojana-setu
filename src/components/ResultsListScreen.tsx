@@ -29,6 +29,7 @@ interface ResultsListScreenProps {
   onOpenWhyMatch: (match: MatchResult) => void;
   onOpenWhyNotEligible: (match: MatchResult) => void;
   onEditProfile: () => void;
+  onSelectScheme?: (match: MatchResult) => void;
 }
 
 export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
@@ -37,6 +38,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
   onOpenWhyMatch,
   onOpenWhyNotEligible,
   onEditProfile,
+  onSelectScheme,
 }) => {
   const {
     t,
@@ -160,7 +162,10 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 </span>
               </div>
 
-              <h2 className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors">
+              <h2
+                onClick={() => onSelectScheme?.(result)}
+                className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors cursor-pointer"
+              >
                 {locScheme.name}
               </h2>
 
@@ -278,11 +283,20 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               <div className="mt-5 pt-4 border-t border-[#E2E2E0] dark:border-[#24342D] flex flex-wrap items-center justify-between gap-3">
                 <div className="flex flex-wrap items-center gap-2">
                   <button
-                    id={`why-match-btn-${locScheme.id}`}
-                    onClick={() => onOpenWhyMatch(result)}
+                    id={`view-scheme-btn-${locScheme.id}`}
+                    onClick={() => onSelectScheme?.(result)}
                     className="bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-3.5 py-2 rounded text-xs font-bold flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
                   >
-                    <HelpCircle className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
+                    <span>{t('results.viewSchemeBtn')}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+
+                  <button
+                    id={`why-match-btn-${locScheme.id}`}
+                    onClick={() => onOpenWhyMatch(result)}
+                    className="bg-white dark:bg-[#1E2924] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#14453D] dark:text-[#4ADE80] border border-[#E2E2E0] dark:border-[#2E4137] px-3 py-2 rounded text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <HelpCircle className="w-3.5 h-3.5" />
                     <span>{t('results.whyMatchBtn')}</span>
                   </button>
 
