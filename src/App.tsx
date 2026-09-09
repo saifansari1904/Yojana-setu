@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { ActiveScreen, MatchResult, UserProfile } from './types';
 import { SCHEMES_DATABASE } from './data/schemes';
@@ -77,6 +77,11 @@ function YojanaSetuMain() {
     );
   }, [matchResults, selectedSchemeMatch]);
 
+  // Smoothly scroll to the top of the portal when transitioning between screens
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentScreen]);
+
   // Handlers
   const handleSplashComplete = () => {
     try {
@@ -109,6 +114,7 @@ function YojanaSetuMain() {
     });
     setIsAuthenticated(true);
     setCurrentScreen('results');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleOpenWhyMatch = (match: MatchResult) => {

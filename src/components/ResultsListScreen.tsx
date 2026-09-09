@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { MatchResult, UserProfile } from '../types';
 import { MatchGauge } from './MatchGauge';
 import { TrustFooterStrip } from './TrustFooterStrip';
+import { YojanaSetuLogo } from './YojanaSetuLogo';
+import { AnimatedCounter } from '../animations/AnimatedCounter';
 import {
   FileText,
   ExternalLink,
@@ -10,10 +12,12 @@ import {
   AlertTriangle,
   HelpCircle,
   ArrowRight,
+  ArrowUp,
   Sparkles,
   ChevronRight,
   Info,
   FileCheck2,
+  ShieldCheck,
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
 import {
@@ -53,6 +57,34 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
 
   const [activeTab, setActiveTab] = useState<'all' | 'eligible' | 'near' | 'subsidized'>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Smooth scroll to top when entering matched schemes portal
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  // Monitor scroll position to reveal quick 'Back to Top' action
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 280) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleTabChange = (tab: 'all' | 'eligible' | 'near' | 'subsidized') => {
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Counts based on MatchStatus
   const eligibleMatches = matchResults.filter((m) => m.matchStatus === 'eligible');
@@ -365,8 +397,69 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
+      {/* Top Brand & Portal Header */}
+      <motion.div
+        id="matched-schemes-portal-header"
+        variants={shouldReduceMotion ? undefined : fadeSlideUp}
+        initial={shouldReduceMotion ? undefined : 'hidden'}
+        animate={shouldReduceMotion ? undefined : 'visible'}
+        className="mb-6 text-center"
+      >
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <YojanaSetuLogo size={28} iconOnly={true} />
+          <span className="font-bold text-xs uppercase tracking-widest text-[#14453D] dark:text-[#34D399]">
+            {t('common.appName')} · {t('results.badge')}
+          </span>
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight">
+          {t('results.title')}
+        </h1>
+        <p className="text-xs sm:text-sm text-[#516A5F] dark:text-[#8E9F97] max-w-xl mx-auto mt-1">
+          {lang === 'hi'
+            ? 'आपकी व्यक्तिगत प्रोफ़ाइल एवं आवश्यकता के आधार पर सत्यापित सरकारी ऋण व सब्सिडी योजनाएं'
+            : 'Personalized statutory evaluation of central and state credit and subsidy schemes tailored to your entrepreneurial profile'}
+        </p>
+      </motion.div>
+
+      {/* Live Verified Schemes Match Banner */}
+      <motion.div
+        id="results-verified-banner"
+        variants={shouldReduceMotion ? undefined : fadeSlideUp}
+        initial={shouldReduceMotion ? undefined : 'hidden'}
+        animate={shouldReduceMotion ? undefined : 'visible'}
+        className="mb-6 p-4 rounded-md border border-[#C1E2D0] dark:border-[#22503E] bg-[#D4EFE1]/40 dark:bg-[#143327]/60 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xs"
+      >
+        <div className="flex items-center gap-3">
+          <div className="relative flex items-center justify-center">
+            <span className="w-3 h-3 rounded-full bg-[#16A34A] dark:bg-[#4ADE80] animate-ping opacity-75 absolute inline-flex"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#16A34A] dark:bg-[#4ADE80] relative inline-flex"></span>
+          </div>
+          <p className="text-xs sm:text-sm text-[#14453D] dark:text-[#D4EFE1]">
+            <span>{lang === 'hi' ? 'सफलतापूर्वक विश्लेषित योजनाएं: ' : 'Analyzed Schemes: '}</span>
+            <strong className="text-base font-extrabold underline decoration-[#16A34A] dark:decoration-[#4ADE80] inline-flex items-center gap-1">
+              <AnimatedCounter value={matchResults.length} />
+              <span>{t('results.tabAll').toLowerCase()}</span>
+            </strong>{' '}
+            <span className="text-xs text-[#516A5F] dark:text-[#8E9F97]">
+              ({lang === 'hi'
+                ? `उच्च पात्रता: ${eligibleMatches.length} | आंशिक पात्रता: ${nearMatches.length}`
+                : `High Eligibility: ${eligibleMatches.length} | Near Matches: ${nearMatches.length}`})
+            </span>
+          </p>
+        </div>
+        <span className="text-[11px] font-semibold text-[#14453D] dark:text-[#4ADE80] bg-white/80 dark:bg-[#101613]/80 px-2.5 py-1 rounded border border-[#C1E2D0] dark:border-[#24342D] whitespace-nowrap flex items-center gap-1.5">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
+          <span>{lang === 'hi' ? '100% वैधानिक नियम सत्यापित' : '100% Statutory Criteria Verified'}</span>
+        </span>
+      </motion.div>
+
       {/* Top Banner: Profile snapshot + Match summary */}
-      <div className="bg-white dark:bg-[#151C19] rounded-md border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 mb-6 shadow-xs transition-colors duration-200">
+      <motion.div
+        variants={shouldReduceMotion ? undefined : fadeSlideUp}
+        initial={shouldReduceMotion ? undefined : 'hidden'}
+        animate={shouldReduceMotion ? undefined : 'visible'}
+        className="bg-white dark:bg-[#151C19] rounded-md border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 mb-6 shadow-xs transition-colors duration-200"
+      >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -377,9 +470,9 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 {matchResults.length} {t('results.schemesAnalyzed')}
               </span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight">
               {t('results.title')}
-            </h1>
+            </h2>
             {userProfile && (
               <p className="text-xs text-[#3F4943] dark:text-[#9EB0A7] mt-1">
                 {t('results.profileSummaryPrefix')}{' '}
@@ -432,47 +525,65 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           </div>
         </div>
 
-        {/* 3-Tier Summary Metrics */}
+        {/* 3-Tier Summary Metrics with Animated Counters */}
         <div className="grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-[#E2E2E0] dark:border-[#24342D] text-center">
-          <div
-            onClick={() => setActiveTab('eligible')}
-            className="bg-[#D4EFE1]/50 dark:bg-[#16382B]/60 border border-[#D4EFE1] dark:border-[#235845] rounded p-2.5 cursor-pointer hover:border-[#14453D] transition-colors"
+          <button
+            type="button"
+            onClick={() => handleTabChange('eligible')}
+            className={`rounded p-2.5 cursor-pointer transition-all text-center ${
+              activeTab === 'eligible'
+                ? 'bg-[#D4EFE1] dark:bg-[#1A382D] border-2 border-[#14453D] dark:border-[#34D399] shadow-xs'
+                : 'bg-[#D4EFE1]/50 dark:bg-[#16382B]/60 border border-[#D4EFE1] dark:border-[#235845] hover:border-[#14453D]'
+            }`}
           >
-            <span className="text-lg font-bold text-[#14453D] dark:text-[#4ADE80] leading-none block">
-              {eligibleMatches.length}
+            <span className="text-xl font-extrabold text-[#14453D] dark:text-[#4ADE80] leading-none block">
+              <AnimatedCounter value={eligibleMatches.length} />
             </span>
             <span className="text-[11px] font-semibold text-[#1A1C1B] dark:text-[#F0F4F2]">
               {t('results.metricHigh')}
             </span>
-          </div>
-          <div
-            onClick={() => setActiveTab('near')}
-            className="bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 rounded p-2.5 cursor-pointer hover:border-amber-400 transition-colors"
+          </button>
+          <button
+            type="button"
+            onClick={() => handleTabChange('near')}
+            className={`rounded p-2.5 cursor-pointer transition-all text-center ${
+              activeTab === 'near'
+                ? 'bg-amber-100 dark:bg-amber-950/70 border-2 border-amber-500 shadow-xs'
+                : 'bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 hover:border-amber-400'
+            }`}
           >
-            <span className="text-lg font-bold text-amber-700 dark:text-amber-400 leading-none block">
-              {nearMatches.length}
+            <span className="text-xl font-extrabold text-amber-700 dark:text-amber-400 leading-none block">
+              <AnimatedCounter value={nearMatches.length} />
             </span>
             <span className="text-[11px] font-semibold text-amber-900 dark:text-amber-300">
               {t('results.metricPartial')}
             </span>
-          </div>
-          <div className="bg-[#F3F4F3] dark:bg-[#1B2420] border border-[#E2E2E0] dark:border-[#293B33] rounded p-2.5">
-            <span className="text-lg font-bold text-[#3F4943] dark:text-[#C5D5CC] leading-none block">
-              {otherMatches.length}
+          </button>
+          <button
+            type="button"
+            onClick={() => handleTabChange('all')}
+            className={`rounded p-2.5 cursor-pointer transition-all text-center ${
+              activeTab === 'all'
+                ? 'bg-[#E5E7E5] dark:bg-[#25322B] border-2 border-[#516A5F] dark:border-[#8E9F97] shadow-xs'
+                : 'bg-[#F3F4F3] dark:bg-[#1B2420] border border-[#E2E2E0] dark:border-[#293B33] hover:border-[#516A5F]'
+            }`}
+          >
+            <span className="text-xl font-extrabold text-[#3F4943] dark:text-[#C5D5CC] leading-none block">
+              <AnimatedCounter value={otherMatches.length} />
             </span>
             <span className="text-[11px] font-semibold text-[#3F4943] dark:text-[#9EB0A7]">
               {t('results.metricGap')}
             </span>
-          </div>
+          </button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Tabs & Search Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-6">
+      <div id="scheme-results-tabs" className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-6">
         <div className="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
           <button
             id="tab-all"
-            onClick={() => setActiveTab('all')}
+            onClick={() => handleTabChange('all')}
             className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${
               activeTab === 'all'
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white'
@@ -483,7 +594,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           </button>
           <button
             id="tab-best"
-            onClick={() => setActiveTab('eligible')}
+            onClick={() => handleTabChange('eligible')}
             className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${
               activeTab === 'eligible'
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white'
@@ -494,7 +605,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           </button>
           <button
             id="tab-near"
-            onClick={() => setActiveTab('near')}
+            onClick={() => handleTabChange('near')}
             className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${
               activeTab === 'near'
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white'
@@ -505,7 +616,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           </button>
           <button
             id="tab-subsidized"
-            onClick={() => setActiveTab('subsidized')}
+            onClick={() => handleTabChange('subsidized')}
             className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${
               activeTab === 'subsidized'
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white'
@@ -673,6 +784,29 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
+
+      {/* Floating Scroll-to-Top Button */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            id="matched-schemes-scroll-top-btn"
+            type="button"
+            onClick={scrollToTop}
+            initial={{ opacity: 0, y: 16, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
+            className="fixed bottom-6 right-6 z-40 bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-3.5 py-2.5 rounded-full shadow-lg border border-[#34D399]/40 flex items-center gap-2 cursor-pointer group"
+            title={lang === 'hi' ? 'पोर्टल के शीर्ष पर जाएं' : 'Scroll to top of matched schemes'}
+            aria-label="Scroll to top"
+          >
+            <ArrowUp className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform text-[#34D399]" />
+            <span className="text-xs font-bold pr-1">
+              {lang === 'hi' ? 'ऊपर जाएं' : 'Top'}
+            </span>
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
