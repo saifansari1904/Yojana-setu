@@ -7,3 +7,4 @@ export * from './SetuLoader';
 export * from './SuccessCheckmark';
 export * from './AmbientBackground';
 export * from './SplashScreen';
+export * from './MatchingTransition';

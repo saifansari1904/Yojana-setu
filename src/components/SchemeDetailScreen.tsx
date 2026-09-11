@@ -185,14 +185,30 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
     <div id={`scheme-detail-${locScheme.id}`} className="max-w-5xl mx-auto px-4 py-6 sm:py-8">
       {/* 1. Back navigation bar & breadcrumb */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-        <button
+        <motion.button
           id="detail-back-btn"
           onClick={onBackToResults}
+          initial="initial"
+          whileHover={shouldReduceMotion ? undefined : 'hover'}
+          whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+          variants={{
+            initial: { x: 0 },
+            hover: { x: -2 },
+          }}
           className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:text-[#0B302B] dark:hover:text-[#6EE7B7] inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-[#D4EFE1]/40 dark:hover:bg-[#16382B]/60 transition-colors cursor-pointer"
         >
-          <ChevronLeft className="w-4 h-4" />
+          <motion.span
+            variants={{
+              initial: { x: 0 },
+              hover: { x: -3 },
+            }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+            className="inline-flex"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </motion.span>
           <span>{t('schemeDetail.backToResults')}</span>
-        </button>
+        </motion.button>
 
         <div className="flex items-center gap-2 text-[11px] text-[#6F7A73] dark:text-[#8E9F97]">
           <span>{t('results.title')}</span>
@@ -320,6 +336,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               <motion.button
                 id={`save-scheme-btn-${locScheme.id}`}
                 type="button"
+                whileHover={shouldReduceMotion ? undefined : { y: -1 }}
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
                 onClick={() => onToggleSaveScheme(locScheme.id)}
                 aria-label={isSaved ? t('schemeDetail.saved') : t('schemeDetail.saveScheme')}
@@ -329,42 +346,52 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                     : 'bg-white dark:bg-[#1E2924] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#3F4943] dark:text-[#C5D5CC] border-[#E2E2E0] dark:border-[#2E4137]'
                 }`}
               >
-                <Heart
-                  className={`w-3.5 h-3.5 transition-colors ${
-                    isSaved
-                      ? 'fill-[#14453D] dark:fill-[#4ADE80] text-[#14453D] dark:text-[#4ADE80]'
-                      : 'text-[#6F7A73] dark:text-[#9EB0A7]'
-                  }`}
-                />
+                <motion.span
+                  animate={isSaved && !shouldReduceMotion ? { scale: [1, 1.3, 1] } : undefined}
+                  transition={{ duration: 0.25 }}
+                  className="inline-flex"
+                >
+                  <Heart
+                    className={`w-3.5 h-3.5 transition-colors ${
+                      isSaved
+                        ? 'fill-[#14453D] dark:fill-[#4ADE80] text-[#14453D] dark:text-[#4ADE80]'
+                        : 'text-[#6F7A73] dark:text-[#9EB0A7]'
+                    }`}
+                  />
+                </motion.span>
                 <span>{isSaved ? t('schemeDetail.saved') : t('schemeDetail.saveScheme')}</span>
               </motion.button>
 
               {/* Share Button */}
-              <button
+              <motion.button
                 id={`share-scheme-btn-${locScheme.id}`}
                 type="button"
+                whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
                 onClick={handleShare}
                 aria-label={t('schemeDetail.share')}
                 className="p-2 rounded text-xs font-bold bg-white dark:bg-[#1E2924] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#3F4943] dark:text-[#C5D5CC] border border-[#E2E2E0] dark:border-[#2E4137] transition-colors cursor-pointer"
                 title={t('schemeDetail.share')}
               >
                 <Share2 className="w-3.5 h-3.5" />
-              </button>
+              </motion.button>
             </div>
 
             {/* Official Portal CTA Button (Desktop) */}
             <div className="hidden md:block">
               {locScheme.officialPortalUrl ? (
-                <a
+                <motion.a
                   id={`hero-apply-btn-${locScheme.id}`}
                   href={locScheme.officialPortalUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  whileHover={shouldReduceMotion ? undefined : { y: -1.5, scale: 1.015 }}
+                  whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                   className="bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-4 py-2.5 rounded text-xs font-bold inline-flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
                 >
                   <span>{t('schemeDetail.applyOfficial')}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+                </motion.a>
               ) : (
                 <span className="text-xs text-[#6F7A73] dark:text-[#8E9F97] italic">
                   {t('schemeDetail.officialUnavailable')}

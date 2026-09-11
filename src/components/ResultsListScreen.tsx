@@ -121,7 +121,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
       ? filteredNear.length
       : filteredEligible.length + filteredNear.length + filteredOther.length;
 
-  const renderSchemeCard = (result: MatchResult) => {
+  const renderSchemeCard = (result: MatchResult, isTopPick: boolean = false) => {
     const locScheme = getLocalizedScheme(result.scheme);
     const isEligible = result.matchStatus === 'eligible';
     const isNearMatch = result.matchStatus === 'near-match';
@@ -131,10 +131,10 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         key={result.scheme.id}
         id={`scheme-card-${result.scheme.id}`}
         variants={shouldReduceMotion ? undefined : staggerItem}
-        whileHover={shouldReduceMotion ? undefined : { y: -2 }}
+        whileHover={shouldReduceMotion ? undefined : { y: -3 }}
         whileTap={shouldReduceMotion ? undefined : { scale: 0.995 }}
-        transition={transitions.fast}
-        className={`bg-white dark:bg-[#151C19] rounded-md border shadow-xs overflow-hidden transition-colors hover:border-[#14453D] dark:hover:border-[#34D399] ${
+        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        className={`bg-white dark:bg-[#151C19] rounded-md border shadow-xs overflow-hidden transition-all duration-200 hover:shadow-md hover:border-[#14453D] dark:hover:border-[#34D399] ${
           isNearMatch
             ? 'border-amber-300 dark:border-amber-800/60 bg-gradient-to-r from-amber-50/20 to-transparent dark:from-amber-950/10'
             : isEligible
@@ -142,6 +142,12 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             : 'border-[#E2E2E0] dark:border-[#24342D]'
         }`}
       >
+        {isTopPick && (
+          <div className="bg-[#14453D] dark:bg-[#1C5045] text-white px-4 py-1 text-[11px] font-bold flex items-center gap-1.5 border-b border-[#0B302B]/30">
+            <Sparkles className="w-3.5 h-3.5 text-[#34D399]" />
+            <span>{lang === 'hi' ? 'सर्वश्रेष्ठ अनुशंसा (शीर्ष मिलान)' : 'Top Recommendation (Highest Match)'}</span>
+          </div>
+        )}
         <div className="p-5 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start gap-5">
             {/* Left Column: Match Gauge & Dual Status Pill */}
@@ -314,33 +320,53 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               {/* Interactive Action Row */}
               <div className="mt-5 pt-4 border-t border-[#E2E2E0] dark:border-[#24342D] flex flex-wrap items-center justify-between gap-3">
                 <div className="flex flex-wrap items-center gap-2">
-                  <button
+                  <motion.button
                     id={`view-scheme-btn-${locScheme.id}`}
                     onClick={() => onSelectScheme?.(result)}
+                    initial="initial"
+                    whileHover={shouldReduceMotion ? undefined : 'hover'}
+                    whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                    variants={{
+                      initial: { y: 0 },
+                      hover: { y: -1 },
+                    }}
                     className="bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-3.5 py-2 rounded text-xs font-bold flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
                   >
                     <span>{t('results.viewSchemeBtn')}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                    <motion.span
+                      variants={{
+                        initial: { x: 0 },
+                        hover: { x: 3.5 },
+                      }}
+                      transition={{ duration: 0.15, ease: 'easeOut' }}
+                      className="inline-flex"
+                    >
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </motion.span>
+                  </motion.button>
 
-                  <button
+                  <motion.button
                     id={`why-match-btn-${locScheme.id}`}
                     onClick={() => onOpenWhyMatch(result)}
+                    whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+                    whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
                     className="bg-white dark:bg-[#1E2924] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#14453D] dark:text-[#4ADE80] border border-[#E2E2E0] dark:border-[#2E4137] px-3 py-2 rounded text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                   >
                     <HelpCircle className="w-3.5 h-3.5" />
                     <span>{t('results.whyMatchBtn')}</span>
-                  </button>
+                  </motion.button>
 
                   {!isEligible && (
-                    <button
+                    <motion.button
                       id={`gap-analysis-btn-${locScheme.id}`}
                       onClick={() => onOpenWhyNotEligible(result)}
+                      whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+                      whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
                       className="bg-[#FAFAF9] dark:bg-[#101613] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1A14]/70 text-[#7C2C0F] dark:text-[#FCA5A5] border border-[#FFCCBD] dark:border-[#5A2B20] px-3 py-2 rounded text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
                     >
                       <AlertTriangle className="w-3.5 h-3.5 text-[#C2603F] dark:text-[#F87171]" />
                       <span>{lang === 'hi' ? 'शर्त विश्लेषण एवं विकल्प' : 'Gap Analysis & Alternatives'}</span>
-                    </button>
+                    </motion.button>
                   )}
                 </div>
 
@@ -668,7 +694,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 animate={shouldReduceMotion ? undefined : 'visible'}
                 className="space-y-4"
               >
-                {filteredEligible.map((result) => renderSchemeCard(result))}
+                {filteredEligible.map((result, idx) => renderSchemeCard(result, idx === 0 && result.matchPercentage >= 80))}
               </motion.div>
             </section>
           )}
@@ -733,7 +759,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           animate={shouldReduceMotion ? undefined : 'visible'}
           className="space-y-4"
         >
-          {filteredEligible.map((result) => renderSchemeCard(result))}
+          {filteredEligible.map((result, idx) => renderSchemeCard(result, idx === 0 && result.matchPercentage >= 80))}
         </motion.div>
       )}
 

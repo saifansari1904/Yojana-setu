@@ -400,9 +400,11 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
 
         {/* Linear Progress Bar */}
         <div className="w-full bg-[#EEEEED] dark:bg-[#202B26] h-2 rounded-full overflow-hidden mb-4">
-          <div
-            className="bg-[#14453D] dark:bg-[#34D399] h-full transition-all duration-300 ease-out"
-            style={{ width: `${((currentStageIdx + 1) / activeStages.length) * 100}%` }}
+          <motion.div
+            className="bg-[#14453D] dark:bg-[#34D399] h-full rounded-full"
+            initial={false}
+            animate={{ width: `${((currentStageIdx + 1) / activeStages.length) * 100}%` }}
+            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           />
         </div>
 
@@ -412,9 +414,10 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
             const isCompleted = idx < currentStageIdx;
             const isCurrent = idx === currentStageIdx;
             return (
-              <button
+              <motion.button
                 key={stage.id}
                 type="button"
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
                 onClick={() => {
                   if (idx <= currentStageIdx || validateCurrentStage()) {
                     handleJumpToStage(stage.id);
@@ -422,7 +425,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 }}
                 className={`px-2 py-1.5 rounded text-left transition-colors flex items-center gap-1.5 cursor-pointer text-[11px] ${
                   isCurrent
-                    ? 'bg-[#14453D] text-white font-bold'
+                    ? 'bg-[#14453D] text-white font-bold shadow-2xs'
                     : isCompleted
                     ? 'bg-[#D4EFE1]/50 dark:bg-[#1A382D]/50 text-[#14453D] dark:text-[#4ADE80] hover:bg-[#D4EFE1] dark:hover:bg-[#1A382D]'
                     : 'text-[#6F7A73] dark:text-[#8E9F97] hover:bg-[#F3F4F3] dark:hover:bg-[#1A2420]'
@@ -440,7 +443,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   {isCompleted ? <Check className="w-2.5 h-2.5" /> : idx + 1}
                 </div>
                 <span className="truncate">{t(stage.stageShortKey as any)}</span>
-              </button>
+              </motion.button>
             );
           })}
         </div>
@@ -1293,11 +1296,26 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
             <motion.button
               type="button"
               onClick={handlePrev}
-              whileHover={shouldReduceMotion ? undefined : { x: -2 }}
-              whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+              initial="initial"
+              whileHover={shouldReduceMotion ? undefined : 'hover'}
+              whileTap={shouldReduceMotion ? undefined : 'tap'}
+              variants={{
+                initial: { y: 0 },
+                hover: { y: -1 },
+                tap: { scale: 0.98 },
+              }}
               className="w-full sm:w-auto px-5 py-2.5 rounded text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924] transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <motion.span
+                variants={{
+                  initial: { x: 0 },
+                  hover: { x: -3.5 },
+                }}
+                transition={{ duration: 0.15, ease: 'easeOut' }}
+                className="inline-flex"
+              >
+                <ArrowLeft className="w-4 h-4" />
+              </motion.span>
               <span>{t('questionnaire.prevBtn')}</span>
             </motion.button>
           ) : (
@@ -1309,19 +1327,34 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               type="button"
               id="stage-next-btn"
               onClick={handleNext}
-              whileHover={shouldReduceMotion ? undefined : { x: 2 }}
-              whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+              initial="initial"
+              whileHover={shouldReduceMotion ? undefined : 'hover'}
+              whileTap={shouldReduceMotion ? undefined : 'tap'}
+              variants={{
+                initial: { y: 0 },
+                hover: { y: -1 },
+                tap: { scale: 0.98 },
+              }}
               className="w-full sm:w-auto px-7 py-3 rounded text-xs font-bold bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>{t('questionnaire.nextBtn')}</span>
-              <ArrowRight className="w-4 h-4" />
+              <motion.span
+                variants={{
+                  initial: { x: 0 },
+                  hover: { x: 3.5 },
+                }}
+                transition={{ duration: 0.15, ease: 'easeOut' }}
+                className="inline-flex"
+              >
+                <ArrowRight className="w-4 h-4" />
+              </motion.span>
             </motion.button>
           ) : (
             <motion.button
               type="button"
               id="form-submit-btn"
               onClick={handleFinalSubmit}
-              whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
+              whileHover={shouldReduceMotion ? undefined : { y: -1.5, scale: 1.015 }}
               whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
               className="w-full sm:w-auto px-8 py-3.5 rounded text-xs sm:text-sm font-extrabold bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
             >

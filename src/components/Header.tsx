@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ActiveScreen, UserProfile } from '../types';
 import {
   FileCheck2,
@@ -31,6 +32,11 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const { lang, setLang, t, getLocalizedCategory, getLocalizedBusinessType } = useTranslation();
   const { isDark, toggleTheme } = useTheme();
+  const shouldReduceMotion = useReducedMotion();
+
+  const isFormActive = currentScreen === 'form';
+  const isResultsActive =
+    currentScreen === 'results' || currentScreen === 'alternatives' || currentScreen === 'scheme-detail';
 
   return (
     <header id="main-header" className="sticky top-0 z-40 bg-[#FAFAF9]/95 dark:bg-[#151C19]/95 backdrop-blur-sm border-b border-[#E2E2E0] dark:border-[#24342D] transition-colors duration-200">
@@ -53,9 +59,10 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Direct Bilingual Switcher: हिन्दी | English */}
             <div className="flex items-center bg-[#0B302B] dark:bg-[#061814] rounded-full p-0.5 border border-[#23584E] dark:border-[#1A4238]">
-              <button
+              <motion.button
                 id="lang-btn-hi"
                 type="button"
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
                 onClick={() => setLang('hi')}
                 aria-pressed={lang === 'hi'}
                 className={`px-2 py-0.5 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
@@ -66,11 +73,12 @@ export const Header: React.FC<HeaderProps> = ({
                 aria-label="Switch to Hindi"
               >
                 हिन्दी
-              </button>
+              </motion.button>
               <span className="text-white/40 text-[10px] px-0.5">|</span>
-              <button
+              <motion.button
                 id="lang-btn-en"
                 type="button"
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
                 onClick={() => setLang('en')}
                 aria-pressed={lang === 'en'}
                 className={`px-2 py-0.5 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
@@ -81,13 +89,15 @@ export const Header: React.FC<HeaderProps> = ({
                 aria-label="Switch to English"
               >
                 English
-              </button>
+              </motion.button>
             </div>
 
-            {/* Top Bar Theme Toggle Button (Sun/Moon icon only) */}
-            <button
+            {/* Top Bar Theme Toggle Button (Sun/Moon icon with tactile micro-rotate) */}
+            <motion.button
               id="top-theme-toggle-btn"
               type="button"
+              whileHover={shouldReduceMotion ? undefined : { scale: 1.08 }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.9, rotate: 15 }}
               onClick={toggleTheme}
               className="w-7 h-7 flex items-center justify-center bg-[#0B302B] dark:bg-[#061814] hover:bg-[#12423A] dark:hover:bg-[#0B251F] text-white/90 hover:text-white rounded-full border border-[#23584E] dark:border-[#1A4238] transition-all cursor-pointer shadow-xs"
               title={isDark ? t('header.switchToLight') : t('header.switchToDark')}
@@ -98,7 +108,7 @@ export const Header: React.FC<HeaderProps> = ({
               ) : (
                 <Moon className="w-3.5 h-3.5 text-emerald-300" />
               )}
-            </button>
+            </motion.button>
 
             <span className="text-[#16A34A] hidden sm:inline">•</span>
             <span className="text-white/90 font-semibold hidden sm:inline">
@@ -112,49 +122,57 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-18 py-2">
           {/* Logo & Brand */}
-          <button
+          <motion.button
             id="brand-logo-btn"
+            whileHover={shouldReduceMotion ? undefined : { opacity: 0.9 }}
+            whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
             onClick={() => onNavigate(isAuthenticated ? 'results' : 'login')}
             className="flex items-center gap-2 text-left group focus:outline-none cursor-pointer"
           >
             <YojanaSetuLogo horizontal={true} size="sm" showTaglines={true} />
-          </button>
+          </motion.button>
 
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1.5">
-            <button
+          {/* Navigation Links with purposeful hover & active state */}
+          <nav className="hidden md:flex items-center gap-2">
+            <motion.button
               id="nav-form-btn"
+              whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
               onClick={() => onNavigate('form')}
-              className={`px-3.5 py-2 text-xs font-bold rounded transition-colors flex items-center gap-1.5 cursor-pointer ${
-                currentScreen === 'form'
+              className={`px-3.5 py-2 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
+                isFormActive
                   ? 'bg-[#14453D] dark:bg-[#1C5045] text-white shadow-xs'
                   : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1E2723]'
               }`}
             >
               <FileCheck2 className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
               <span>{t('header.navEligibilityCheck')}</span>
-            </button>
+            </motion.button>
 
-            <button
+            <motion.button
               id="nav-results-btn"
+              whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
               onClick={() => onNavigate('results')}
-              className={`px-3.5 py-2 text-xs font-bold rounded transition-colors flex items-center gap-1.5 cursor-pointer ${
-                currentScreen === 'results' || currentScreen === 'alternatives' || currentScreen === 'scheme-detail'
+              className={`px-3.5 py-2 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
+                isResultsActive
                   ? 'bg-[#14453D] dark:bg-[#1C5045] text-white shadow-xs'
                   : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1E2723]'
               }`}
             >
               <Sparkles className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
               <span>{t('header.navMatchedSchemes')}</span>
-            </button>
+            </motion.button>
           </nav>
 
           {/* User profile / Auth button */}
           <div className="flex items-center gap-2">
             {isAuthenticated && userProfile ? (
               <div className="flex items-center gap-2">
-                <button
+                <motion.button
                   id="profile-chip-btn"
+                  whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+                  whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                   onClick={() => onNavigate('form')}
                   className="bg-[#F3F4F3] dark:bg-[#1E2723] hover:bg-[#EEEEED] dark:hover:bg-[#26352E] border border-[#E2E2E0] dark:border-[#2A3C34] px-3 py-1.5 rounded flex items-center gap-2 text-xs text-[#1A1C1B] dark:text-[#F0F4F2] transition-colors cursor-pointer"
                   title={t('header.modifyProfileTooltip')}
@@ -168,47 +186,55 @@ export const Header: React.FC<HeaderProps> = ({
                     </span>
                     <span className="text-[#6F7A73] dark:text-[#9EB0A7]"> · {getLocalizedBusinessType(userProfile.businessType)}</span>
                   </div>
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   id="logout-btn"
+                  whileHover={shouldReduceMotion ? undefined : { scale: 1.06 }}
+                  whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
                   onClick={onLogout}
                   className="p-2 text-[#6F7A73] dark:text-[#9EB0A7] hover:text-[#C2603F] dark:hover:text-[#F87171] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1E19]/40 rounded transition-colors cursor-pointer"
                   title={t('header.logout')}
                   aria-label={t('header.logout')}
                 >
                   <LogOut className="w-4 h-4" />
-                </button>
+                </motion.button>
               </div>
             ) : isAuthenticated ? (
               <div className="flex items-center gap-2">
-                <button
+                <motion.button
                   id="profile-chip-btn"
+                  whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+                  whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                   onClick={() => onNavigate('form')}
                   className="bg-[#F3F4F3] dark:bg-[#1E2723] hover:bg-[#EEEEED] dark:hover:bg-[#26352E] border border-[#E2E2E0] dark:border-[#2A3C34] px-3 py-1.5 rounded flex items-center gap-2 text-xs text-[#1A1C1B] dark:text-[#F0F4F2] transition-colors cursor-pointer"
                   title={t('header.modifyProfileTooltip')}
                 >
                   <User className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
                   <span className="font-semibold">{applicantName || (lang === 'hi' ? 'नागरिक' : 'Citizen')}</span>
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   id="logout-btn"
+                  whileHover={shouldReduceMotion ? undefined : { scale: 1.06 }}
+                  whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
                   onClick={onLogout}
                   className="p-2 text-[#6F7A73] dark:text-[#9EB0A7] hover:text-[#C2603F] dark:hover:text-[#F87171] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1E19]/40 rounded transition-colors cursor-pointer"
                   title={t('header.logout')}
                   aria-label={t('header.logout')}
                 >
                   <LogOut className="w-4 h-4" />
-                </button>
+                </motion.button>
               </div>
             ) : (
-              <button
+              <motion.button
                 id="header-login-cta"
+                whileHover={shouldReduceMotion ? undefined : { y: -1, scale: 1.01 }}
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                 onClick={() => onNavigate('login')}
-                className="bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-4 py-2 rounded text-xs font-bold tracking-wide transition-colors shadow-xs flex items-center gap-1.5 cursor-pointer"
+                className="bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-4 py-2 rounded text-xs font-bold tracking-wide transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
               >
                 <User className="w-3.5 h-3.5" />
                 <span>{t('header.citizenLogin')}</span>
-              </button>
+              </motion.button>
             )}
           </div>
         </div>
@@ -216,29 +242,32 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Mobile secondary tab bar */}
         <div className="flex md:hidden items-center justify-start border-t border-[#E2E2E0] dark:border-[#24342D] py-2 px-1">
           <div className="flex items-center gap-2">
-            <button
+            <motion.button
               id="mobile-nav-form-btn"
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
               onClick={() => onNavigate('form')}
               className={`px-3 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors ${
-                currentScreen === 'form' ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
+                isFormActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
               }`}
             >
               <FileCheck2 className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
               <span>{t('header.navFormShort')}</span>
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               id="mobile-nav-results-btn"
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
               onClick={() => onNavigate('results')}
               className={`px-3 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors ${
-                currentScreen === 'results' || currentScreen === 'alternatives' ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
+                isResultsActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
               }`}
             >
               <Sparkles className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
               <span>{t('header.navSchemesShort')}</span>
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
     </header>
   );
 };
+

@@ -111,11 +111,11 @@ export const pageVariants: Variants = {
 };
 
 // Direction-aware Question Variants for Step-by-Step Questionnaire
-// Forward (direction > 0): enters from right (+24px), exits to left (-24px)
-// Backward (direction < 0): enters from left (-24px), exits to right (+24px)
+// Forward (direction > 0): enters from right (+15px), exits to left (-15px)
+// Backward (direction < 0): enters from left (-15px), exits to right (+15px)
 export const questionVariants: Variants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 24 : -24,
+    x: direction > 0 ? 15 : -15,
     opacity: 0,
   }),
   center: {
@@ -124,11 +124,11 @@ export const questionVariants: Variants = {
     transition: transitions.questionSlide,
   },
   exit: (direction: number) => ({
-    x: direction > 0 ? -24 : 24,
+    x: direction > 0 ? -15 : 15,
     opacity: 0,
     transition: {
-      duration: 0.2,
-      ease: 'easeOut',
+      duration: 0.18,
+      ease: [0.16, 1, 0.3, 1],
     },
   }),
 };
@@ -159,7 +159,7 @@ export const fastStaggerContainer: Variants = {
 export const staggerItem: Variants = {
   hidden: {
     opacity: 0,
-    y: 10,
+    y: 8,
   },
   visible: {
     opacity: 1,
@@ -171,18 +171,40 @@ export const staggerItem: Variants = {
 // Micro-interaction presets (hover, tap)
 export const cardInteractive = {
   whileHover: {
-    y: -2,
-    transition: { duration: 0.2, ease: 'easeOut' },
+    y: -3,
+    transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] },
   },
   whileTap: {
-    scale: 0.99,
+    scale: 0.992,
+  },
+};
+
+export const optionCardInteractive = {
+  whileHover: {
+    y: -2,
+    transition: { duration: 0.15, ease: [0.16, 1, 0.3, 1] },
+  },
+  whileTap: {
+    scale: 0.985,
   },
 };
 
 export const buttonInteractive = {
   whileHover: {
     y: -1,
-    transition: { duration: 0.15, ease: 'easeOut' },
+    scale: 1.01,
+    transition: { duration: 0.15, ease: [0.16, 1, 0.3, 1] },
+  },
+  whileTap: {
+    scale: 0.98,
+  },
+};
+
+export const primaryCtaInteractive = {
+  whileHover: {
+    y: -1.5,
+    scale: 1.015,
+    transition: { duration: 0.15, ease: [0.16, 1, 0.3, 1] },
   },
   whileTap: {
     scale: 0.98,
@@ -198,6 +220,33 @@ export const iconInteractive = {
     scale: 0.94,
   },
 };
+
+// Badge entrance (animates once, no loop)
+export const badgeEntranceVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.85,
+    y: 4,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.25,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+// Heart micro-bounce on bookmarking
+export const heartBounce = {
+  tap: {
+    scale: [1, 1.25, 0.94, 1],
+    transition: { duration: 0.3, ease: 'easeOut' },
+  },
+};
+
 
 // Modal Backdrop Overlay
 export const modalOverlayVariants: Variants = {
