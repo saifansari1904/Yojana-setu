@@ -43,6 +43,7 @@ import {
   Rocket,
   TrendingUp,
   CheckCircle2,
+  RotateCcw,
 } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { YojanaSetuLogo } from './YojanaSetuLogo';
@@ -53,12 +54,11 @@ import { questionVariants, errorShakeVariants } from '../animations/variants';
 const DRAFT_KEY = 'yojana_setu_adaptive_form_draft_v2';
 
 interface EligibilityFormScreenProps {
-  initialProfile: UserProfile | null;
+  initialProfile?: UserProfile | null;
   onSubmit: (profile: UserProfile) => void;
 }
 
 export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
-  initialProfile,
   onSubmit,
 }) => {
   const {
@@ -73,68 +73,19 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
   const shouldReduceMotion = useReducedMotion();
   const [slideDirection, setSlideDirection] = useState<number>(1);
 
-  // Load saved draft from localStorage if available
-  const savedDraft = useMemo(() => {
-    if (typeof window === 'undefined') return null;
-    try {
-      const raw = localStorage.getItem(DRAFT_KEY);
-      if (raw) return JSON.parse(raw);
-    } catch {
-      // Ignore corrupt JSON
-    }
-    return null;
-  }, []);
-
-  // Form State - No preselected options by default
-  const [category, setCategory] = useState<SocialCategory | null>(
-    initialProfile?.category || savedDraft?.category || null
-  );
-  const [age, setAge] = useState<number | ''>(
-    initialProfile?.age !== undefined
-      ? initialProfile.age
-      : savedDraft?.age !== undefined
-      ? savedDraft.age
-      : ''
-  );
-  const [annualIncome, setAnnualIncome] = useState<number | ''>(
-    initialProfile?.annualIncome !== undefined
-      ? initialProfile.annualIncome
-      : savedDraft?.annualIncome !== undefined
-      ? savedDraft.annualIncome
-      : ''
-  );
-  const [state, setState] = useState<string>(
-    initialProfile?.state || savedDraft?.state || ''
-  );
-  const [ruralUrban, setRuralUrban] = useState<RuralUrban | null>(
-    initialProfile?.ruralUrban || savedDraft?.ruralUrban || null
-  );
-
-  const [businessStage, setBusinessStage] = useState<BusinessStage | null>(
-    initialProfile?.businessStage || savedDraft?.businessStage || null
-  );
-  const [businessType, setBusinessType] = useState<BusinessType | null>(
-    initialProfile?.businessType || savedDraft?.businessType || null
-  );
-
-  const [fundingRangeId, setFundingRangeId] = useState<FundingRangeId | null>(
-    initialProfile?.fundingRangeId || savedDraft?.fundingRangeId || null
-  );
-  const [fundingRequired, setFundingRequired] = useState<number | ''>(
-    initialProfile?.fundingRequired !== undefined
-      ? initialProfile.fundingRequired
-      : savedDraft?.fundingRequired !== undefined
-      ? savedDraft.fundingRequired
-      : ''
-  );
-
+  // Form State - Always initialized empty/unselected so user enters details manually every time
+  const [category, setCategory] = useState<SocialCategory | null>(null);
+  const [age, setAge] = useState<number | ''>('');
+  const [annualIncome, setAnnualIncome] = useState<number | ''>('');
+  const [state, setState] = useState<string>('');
+  const [ruralUrban, setRuralUrban] = useState<RuralUrban | null>(null);
+  const [businessStage, setBusinessStage] = useState<BusinessStage | null>(null);
+  const [businessType, setBusinessType] = useState<BusinessType | null>(null);
+  const [fundingRangeId, setFundingRangeId] = useState<FundingRangeId | null>(null);
+  const [fundingRequired, setFundingRequired] = useState<number | ''>('');
   const [businessRegistration, setBusinessRegistration] =
-    useState<BusinessRegistrationType | null>(
-      initialProfile?.businessRegistration || savedDraft?.businessRegistration || null
-    );
-  const [turnoverRangeId, setTurnoverRangeId] = useState<TurnoverRangeId | null>(
-    initialProfile?.turnoverRangeId || savedDraft?.turnoverRangeId || null
-  );
+    useState<BusinessRegistrationType | null>(null);
+  const [turnoverRangeId, setTurnoverRangeId] = useState<TurnoverRangeId | null>(null);
 
   // Active stage navigation
   const [currentStageIdx, setCurrentStageIdx] = useState<number>(0);
@@ -155,39 +106,38 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     }
   }, [activeStages, currentStageIdx]);
 
-  // Persist form state to localStorage
+  // Clear any legacy cached drafts from localStorage to ensure clean state every session
   useEffect(() => {
     try {
-      const draft = {
-        category,
-        age,
-        annualIncome,
-        state,
-        ruralUrban,
-        businessStage,
-        businessType,
-        fundingRangeId,
-        fundingRequired,
-        businessRegistration,
-        turnoverRangeId,
-      };
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+      localStorage.removeItem(DRAFT_KEY);
+      localStorage.removeItem('yojana_setu_adaptive_form_draft');
     } catch {
       // Ignore storage errors
     }
-  }, [
-    category,
-    age,
-    annualIncome,
-    state,
-    ruralUrban,
-    businessStage,
-    businessType,
-    fundingRangeId,
-    fundingRequired,
-    businessRegistration,
-    turnoverRangeId,
-  ]);
+  }, []);
+
+  // Handler to clear and reset the form to blank slate anytime
+  const handleResetForm = () => {
+    setCategory(null);
+    setAge('');
+    setAnnualIncome('');
+    setState('');
+    setRuralUrban(null);
+    setBusinessStage(null);
+    setBusinessType(null);
+    setFundingRangeId(null);
+    setFundingRequired('');
+    setBusinessRegistration(null);
+    setTurnoverRangeId(null);
+    setCurrentStageIdx(0);
+    setValidationError(null);
+    try {
+      localStorage.removeItem(DRAFT_KEY);
+      localStorage.removeItem('yojana_setu_adaptive_form_draft');
+    } catch {
+      // Ignore storage errors
+    }
+  };
 
   // Reactive Live Indicative Match Count Calculation
   const liveIndicativeMatches = useMemo(() => {
@@ -431,9 +381,21 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               ? `चरण ${currentStageIdx + 1} / ${activeStages.length}: ${t(currentStage.stageShortKey as any)}`
               : `Step ${currentStageIdx + 1} of ${activeStages.length}: ${t(currentStage.stageShortKey as any)}`}
           </span>
-          <span className="text-[#6F7A73] dark:text-[#8E9F97] font-medium">
-            {Math.round(((currentStageIdx + 1) / activeStages.length) * 100)}% Completed
-          </span>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              id="reset-form-btn"
+              onClick={handleResetForm}
+              className="text-[#6F7A73] dark:text-[#8E9F97] hover:text-[#C2603F] dark:hover:text-[#F87171] text-[11px] font-medium flex items-center gap-1 transition-colors cursor-pointer"
+              title={lang === 'hi' ? 'सभी फ़ील्ड साफ़ करें' : 'Clear all fields'}
+            >
+              <RotateCcw className="w-3 h-3" />
+              <span>{lang === 'hi' ? 'रीसेट करें' : 'Reset Form'}</span>
+            </button>
+            <span className="text-[#6F7A73] dark:text-[#8E9F97] font-medium">
+              {Math.round(((currentStageIdx + 1) / activeStages.length) * 100)}% Completed
+            </span>
+          </div>
         </div>
 
         {/* Linear Progress Bar */}
