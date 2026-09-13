@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { Lock, User, ArrowRight } from 'lucide-react';
+import { Lock, User, ShieldCheck, Landmark, CheckCircle2 } from 'lucide-react';
 import { YojanaSetuLogo } from './YojanaSetuLogo';
 import { useTranslation } from '../i18n';
-import { fadeUp, fadeDown, scaleIn } from '../animations/variants';
+import { fadeUp, fadeDown } from '../animations/variants';
 import { transitions, reducedMotionTransition } from '../animations/transitions';
+import { ArrowFillButton, AnimatedScore } from './ui';
 
 interface LoginScreenProps {
   onLogin: (applicantName?: string) => void;
@@ -122,16 +123,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
                 <span className="text-[#516A5F] dark:text-[#8FA197] text-[11px]">{t('login.encrypted')}</span>
               </div>
 
-              <motion.button
-                id="login-submit-btn"
-                type="submit"
-                whileHover={shouldReduceMotion ? undefined : { y: -1 }}
-                whileTap={shouldReduceMotion ? undefined : { scale: 0.985 }}
-                className="w-full mt-2 bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white font-bold py-2.5 px-4 rounded text-sm transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <span>{t('login.signInBtn')}</span>
-                <ArrowRight className="w-4 h-4" />
-              </motion.button>
+              <div className="mt-3">
+                <ArrowFillButton
+                  id="login-submit-btn"
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                  fullWidth={true}
+                >
+                  {t('login.signInBtn')}
+                </ArrowFillButton>
+              </div>
             </form>
 
             {/* Guest Direct Access */}
@@ -151,6 +153,52 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
 
           <div className="bg-[#F3F4F3] dark:bg-[#111714] px-6 py-3 border-t border-[#E2E2E0] dark:border-[#24342D] text-[11px] text-[#516A5F] dark:text-[#8FA197] text-center font-medium">
             {t('login.subFooter')}
+          </div>
+        </motion.div>
+
+        {/* Section 29: Trust Counters Row */}
+        <motion.div
+          id="login-trust-counters"
+          variants={shouldReduceMotion ? undefined : fadeUp}
+          initial={shouldReduceMotion ? undefined : 'hidden'}
+          animate={shouldReduceMotion ? undefined : 'visible'}
+          transition={shouldReduceMotion ? reducedMotionTransition : { ...transitions.smooth, delay: 0.2 }}
+          className="mt-6 grid grid-cols-3 gap-2 sm:gap-4 text-center"
+        >
+          <div className="bg-white/80 dark:bg-[#151C19]/80 backdrop-blur-xs border border-[#E2E2E0] dark:border-[#24342D] rounded p-3 shadow-2xs">
+            <div className="flex items-center justify-center text-[#14453D] dark:text-[#4ADE80] mb-1">
+              <ShieldCheck className="w-4 h-4" />
+            </div>
+            <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[#4ADE80]">
+              <AnimatedScore value={39} suffix="+" />
+            </div>
+            <div className="text-[10px] text-[#516A5F] dark:text-[#8FA197] font-medium leading-tight">
+              {lang === 'hi' ? 'सत्यापित योजनाएं' : 'Verified Schemes'}
+            </div>
+          </div>
+
+          <div className="bg-white/80 dark:bg-[#151C19]/80 backdrop-blur-xs border border-[#E2E2E0] dark:border-[#24342D] rounded p-3 shadow-2xs">
+            <div className="flex items-center justify-center text-[#14453D] dark:text-[#4ADE80] mb-1">
+              <Landmark className="w-4 h-4" />
+            </div>
+            <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[#4ADE80]">
+              <AnimatedScore value={6} suffix="" />
+            </div>
+            <div className="text-[10px] text-[#516A5F] dark:text-[#8FA197] font-medium leading-tight">
+              {lang === 'hi' ? 'दक्षिण राज्य व केंद्र' : 'South States & Central'}
+            </div>
+          </div>
+
+          <div className="bg-white/80 dark:bg-[#151C19]/80 backdrop-blur-xs border border-[#E2E2E0] dark:border-[#24342D] rounded p-3 shadow-2xs">
+            <div className="flex items-center justify-center text-[#14453D] dark:text-[#4ADE80] mb-1">
+              <CheckCircle2 className="w-4 h-4" />
+            </div>
+            <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[#4ADE80]">
+              <AnimatedScore value={100} suffix="%" />
+            </div>
+            <div className="text-[10px] text-[#516A5F] dark:text-[#8FA197] font-medium leading-tight">
+              {lang === 'hi' ? 'सटीक नियम गणना' : 'Deterministic Rules'}
+            </div>
           </div>
         </motion.div>
       </div>

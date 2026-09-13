@@ -5,9 +5,10 @@ import { useTranslation } from '../i18n';
 
 interface SplashScreenProps {
   onComplete: () => void;
+  minDuration?: number;
 }
 
-export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
+export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDuration = 1500 }) => {
   const { lang, t } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
   const [isExiting, setIsExiting] = useState(false);

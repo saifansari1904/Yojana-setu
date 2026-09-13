@@ -1,43 +1,15 @@
 import { Scheme } from '../types';
 import { SOUTH_INDIA_SCHEMES } from './southIndiaSchemes';
+import { INDIAN_STATES } from '../constants/geography';
+import {
+  normalizeScheme,
+  calculateDatasetMetadata,
+  generateCompletenessReport,
+} from '../lib/data/normalization';
 
-export const INDIAN_STATES: string[] = [
-  'All States & UTs',
-  'Andhra Pradesh',
-  'Arunachal Pradesh',
-  'Assam',
-  'Bihar',
-  'Chhattisgarh',
-  'Goa',
-  'Gujarat',
-  'Haryana',
-  'Himachal Pradesh',
-  'Jharkhand',
-  'Karnataka',
-  'Kerala',
-  'Madhya Pradesh',
-  'Maharashtra',
-  'Manipur',
-  'Meghalaya',
-  'Mizoram',
-  'Nagaland',
-  'Odisha',
-  'Punjab',
-  'Rajasthan',
-  'Sikkim',
-  'Tamil Nadu',
-  'Telangana',
-  'Tripura',
-  'Uttar Pradesh',
-  'Uttarakhand',
-  'West Bengal',
-  'Delhi (NCT)',
-  'Jammu & Kashmir',
-  'Ladakh',
-  'Puducherry',
-];
+export { INDIAN_STATES };
 
-export const SCHEMES_DATABASE: Scheme[] = [
+const RAW_SCHEMES_DATABASE: Scheme[] = [
   {
     id: 'pmegp-msme',
     name: 'Prime Minister’s Employment Generation Programme (PMEGP)',
@@ -1700,4 +1672,11 @@ export const SCHEMES_DATABASE: Scheme[] = [
   ...SOUTH_INDIA_SCHEMES,
 ];
 
+export const SCHEMES_DATABASE: Scheme[] = RAW_SCHEMES_DATABASE.map(normalizeScheme);
+
+export const DATASET_METADATA = calculateDatasetMetadata(SCHEMES_DATABASE);
+
+export const COMPLETENESS_REPORT = generateCompletenessReport(SCHEMES_DATABASE);
+
 export { SOUTH_INDIA_SCHEMES };
+

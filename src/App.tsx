@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { ActiveScreen, MatchResult, UserProfile } from './types';
-import { SCHEMES_DATABASE } from './data/schemes';
+import { getAllSchemes } from './lib/data';
 import { rankSchemesForProfile } from './utils/matchingEngine';
 import { Header } from './components/Header';
 import { LoginScreen } from './components/LoginScreen';
@@ -10,11 +10,13 @@ import { ResultsListScreen } from './components/ResultsListScreen';
 import { WhyMatchModal } from './components/WhyMatchModal';
 import { WhyNotEligibleView } from './components/WhyNotEligibleView';
 import { SchemeDetailScreen } from './components/SchemeDetailScreen';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { LanguageProvider, useTranslation } from './i18n';
 import { ThemeProvider } from './theme/ThemeContext';
 import { AnimatedPage } from './animations/AnimatedPage';
 import { AmbientBackground } from './animations/AmbientBackground';
 import { SplashScreen } from './animations/SplashScreen';
+import { MatchingTransition } from './animations/MatchingTransition';
 
 function YojanaSetuMain() {
   const { lang } = useTranslation();
@@ -25,6 +27,7 @@ function YojanaSetuMain() {
   const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('login');
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [applicantName, setApplicantName] = useState<string>('');
+  const [isMatching, setIsMatching] = useState<boolean>(false);
 
   // User profile starts as null (no pre-selected default profile)
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -52,7 +55,8 @@ function YojanaSetuMain() {
   // Compute matched schemes reactively with active language
   const matchResults = useMemo(() => {
     if (!userProfile) return [];
-    return rankSchemesForProfile(SCHEMES_DATABASE, userProfile, lang);
+    const schemes = getAllSchemes();
+    return rankSchemesForProfile(schemes, userProfile, lang);
   }, [userProfile, lang]);
 
   // Keep modal/alternatives/detail targets in sync when language toggles
@@ -113,6 +117,11 @@ function YojanaSetuMain() {
       applicantName: applicantName || newProfile.applicantName || (lang === 'hi' ? 'नागरिक उद्यमी' : 'Citizen Entrepreneur')
     });
     setIsAuthenticated(true);
+    setIsMatching(true);
+  };
+
+  const handleMatchingComplete = () => {
+    setIsMatching(false);
     setCurrentScreen('results');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -160,6 +169,16 @@ function YojanaSetuMain() {
         )}
       </AnimatePresence>
 
+      {/* Deterministic Scheme Matching Transition Sequence */}
+      <AnimatePresence>
+        {isMatching && (
+          <MatchingTransition
+            onComplete={handleMatchingComplete}
+            totalSchemesCount={getAllSchemes().length}
+          />
+        )}
+      </AnimatePresence>
+
       {/* App Navigation Header */}
       <Header
         currentScreen={currentScreen}
@@ -172,75 +191,79 @@ function YojanaSetuMain() {
 
       {/* Main View Area with Direction & Transition-Aware Pages */}
       <main className="relative z-10 flex-1 pb-12">
-        <AnimatePresence mode="wait">
-          {currentScreen === 'login' && (
-            <AnimatedPage key="login">
-              <LoginScreen
-                onLogin={handleLogin}
-                onSkipToForm={() => {
-                  setIsAuthenticated(true);
-                  setCurrentScreen('form');
-                }}
-              />
-            </AnimatedPage>
-          )}
+        <ErrorBoundary>
+          <AnimatePresence mode="wait">
+            {currentScreen === 'login' && (
+              <AnimatedPage key="login">
+                <LoginScreen
+                  onLogin={handleLogin}
+                  onSkipToForm={() => {
+                    setIsAuthenticated(true);
+                    setCurrentScreen('form');
+                  }}
+                />
+              </AnimatedPage>
+            )}
 
-          {currentScreen === 'form' && (
-            <AnimatedPage key="form">
-              <EligibilityFormScreen
-                initialProfile={userProfile}
-                onSubmit={handleFormSubmit}
-              />
-            </AnimatedPage>
-          )}
+            {currentScreen === 'form' && (
+              <AnimatedPage key="form">
+                <EligibilityFormScreen
+                  initialProfile={userProfile}
+                  onSubmit={handleFormSubmit}
+                />
+              </AnimatedPage>
+            )}
 
-          {currentScreen === 'results' && (
-            <AnimatedPage key="results">
-              <ResultsListScreen
-                matchResults={matchResults}
-                userProfile={userProfile}
-                onOpenWhyMatch={handleOpenWhyMatch}
-                onOpenWhyNotEligible={handleOpenWhyNotEligible}
-                onEditProfile={() => setCurrentScreen('form')}
-                onSelectScheme={handleSelectScheme}
-              />
-            </AnimatedPage>
-          )}
+            {currentScreen === 'results' && (
+              <AnimatedPage key="results">
+                <ResultsListScreen
+                  matchResults={matchResults}
+                  userProfile={userProfile}
+                  onOpenWhyMatch={handleOpenWhyMatch}
+                  onOpenWhyNotEligible={handleOpenWhyNotEligible}
+                  onEditProfile={() => setCurrentScreen('form')}
+                  onSelectScheme={handleSelectScheme}
+                  savedSchemeIds={savedSchemeIds}
+                  onToggleSaveScheme={handleToggleSaveScheme}
+                />
+              </AnimatedPage>
+            )}
 
-          {currentScreen === 'alternatives' && (
-            <AnimatedPage key="alternatives">
-              <WhyNotEligibleView
-                targetMatch={
-                  currentWhyNotEligibleTarget ||
-                  matchResults.find((m) => m.matchPercentage < 75) ||
-                  matchResults[0]
-                }
-                allMatches={matchResults}
-                userProfile={userProfile}
-                onBackToResults={() => setCurrentScreen('results')}
-                onSelectAlternative={(alt) => {
-                  handleSelectScheme(alt);
-                }}
-              />
-            </AnimatedPage>
-          )}
+            {currentScreen === 'alternatives' && (
+              <AnimatedPage key="alternatives">
+                <WhyNotEligibleView
+                  targetMatch={
+                    currentWhyNotEligibleTarget ||
+                    matchResults.find((m) => m.matchPercentage < 75) ||
+                    matchResults[0]
+                  }
+                  allMatches={matchResults}
+                  userProfile={userProfile}
+                  onBackToResults={() => setCurrentScreen('results')}
+                  onSelectAlternative={(alt) => {
+                    handleSelectScheme(alt);
+                  }}
+                />
+              </AnimatedPage>
+            )}
 
-          {currentScreen === 'scheme-detail' && currentSelectedSchemeMatch && (
-            <AnimatedPage key="scheme-detail">
-              <SchemeDetailScreen
-                matchResult={currentSelectedSchemeMatch}
-                allMatches={matchResults}
-                userProfile={userProfile}
-                onBackToResults={() => setCurrentScreen('results')}
-                onSelectScheme={handleSelectScheme}
-                onOpenWhyMatch={handleOpenWhyMatch}
-                onOpenWhyNotEligible={handleOpenWhyNotEligible}
-                savedSchemeIds={savedSchemeIds}
-                onToggleSaveScheme={handleToggleSaveScheme}
-              />
-            </AnimatedPage>
-          )}
-        </AnimatePresence>
+            {currentScreen === 'scheme-detail' && currentSelectedSchemeMatch && (
+              <AnimatedPage key="scheme-detail">
+                <SchemeDetailScreen
+                  matchResult={currentSelectedSchemeMatch}
+                  allMatches={matchResults}
+                  userProfile={userProfile}
+                  onBackToResults={() => setCurrentScreen('results')}
+                  onSelectScheme={handleSelectScheme}
+                  onOpenWhyMatch={handleOpenWhyMatch}
+                  onOpenWhyNotEligible={handleOpenWhyNotEligible}
+                  savedSchemeIds={savedSchemeIds}
+                  onToggleSaveScheme={handleToggleSaveScheme}
+                />
+              </AnimatedPage>
+            )}
+          </AnimatePresence>
+        </ErrorBoundary>
       </main>
 
       {/* Slide-over / Modal for "Why This Match?" 5-Factor Audit */}

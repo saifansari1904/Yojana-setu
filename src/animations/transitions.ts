@@ -12,9 +12,12 @@ import { Transition } from 'motion/react';
 
 export const motionTokens = {
   duration: {
+    fast: 0.18,        // 180ms (FAST: 150–200ms)
     micro: 0.15,       // 150ms
+    normal: 0.30,      // 300ms (NORMAL: 250–350ms)
     standard: 0.24,    // 240ms
     page: 0.32,        // 320ms
+    emphasis: 0.45,    // 450ms (EMPHASIS: 400–500ms)
     major: 0.45,       // 450ms
   },
   easing: {
@@ -23,6 +26,21 @@ export const motionTokens = {
     emphasized: [0.2, 0, 0, 1],       // Decelerated for focal actions
   },
 };
+
+/**
+ * Direct constants for clean imports
+ */
+export const MOTION_DURATIONS = {
+  FAST: 0.18,
+  NORMAL: 0.30,
+  EMPHASIS: 0.45,
+} as const;
+
+export const MOTION_EASINGS = {
+  EASE_OUT: [0.16, 1, 0.3, 1],
+  EASE_IN_OUT: [0.4, 0, 0.2, 1],
+  EMPHASIZED: [0.2, 0, 0, 1],
+} as const;
 
 export const transitions = {
   /** Micro interactions: tooltips, buttons, small toggles, arrow nudges (120–180ms) */

@@ -3,6 +3,7 @@ export * from './variants';
 export * from './AnimatedPage';
 export * from './AnimatedList';
 export * from './AnimatedCounter';
+export * from '../components/ui/AnimatedScore';
 export * from './SetuLoader';
 export * from './SuccessCheckmark';
 export * from './AmbientBackground';

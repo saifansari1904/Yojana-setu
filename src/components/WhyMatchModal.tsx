@@ -6,6 +6,7 @@ import {
   X,
   CheckCircle2,
   AlertTriangle,
+  HelpCircle,
   ShieldCheck,
   ExternalLink,
   Scale,
@@ -211,8 +212,10 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                 id={`breakdown-row-${item.factorKey}`}
                 variants={shouldReduceMotion ? undefined : staggerItem}
                 className={`p-3.5 rounded border transition-colors ${
-                  item.matched
+                  item.state === 'MATCHED' || item.matched
                     ? 'bg-[#FAFAF9] dark:bg-[#111714] border-[#D4EFE1] dark:border-[#235845]'
+                    : item.state === 'UNKNOWN'
+                    ? 'bg-amber-50/20 dark:bg-amber-950/20 border-amber-300 dark:border-amber-800'
                     : 'bg-[#FFDAD6]/20 dark:bg-[#3D1A14]/30 border-[#FFCCBD] dark:border-[#5A2B20]'
                 }`}
               >
@@ -222,8 +225,10 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                       variants={shouldReduceMotion ? undefined : popIn}
                       className="shrink-0 flex items-center"
                     >
-                      {item.matched ? (
+                      {item.state === 'MATCHED' || item.matched ? (
                         <CheckCircle2 className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
+                      ) : item.state === 'UNKNOWN' ? (
+                        <HelpCircle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                       ) : (
                         <AlertTriangle className="w-4 h-4 text-[#C2603F] dark:text-[#F87171]" />
                       )}
@@ -232,13 +237,17 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                   </span>
                   <span
                     className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
-                      item.matched
+                      item.state === 'MATCHED' || item.matched
                         ? 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
+                        : item.state === 'UNKNOWN'
+                        ? 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300'
                         : 'bg-[#FFDAD6] dark:bg-[#3D1A14] text-[#7C2C0F] dark:text-[#FCA5A5]'
                     }`}
                   >
-                    {item.matched
+                    {item.state === 'MATCHED' || item.matched
                       ? getText('modal.criteriaMet', isHindi ? 'पात्रता पूर्ण' : 'Criteria Met')
+                      : item.state === 'UNKNOWN'
+                      ? (isHindi ? 'विवरण आवश्यक' : 'Needed')
                       : getText('modal.mismatch', isHindi ? 'अपात्र' : 'Mismatch')}
                   </span>
                 </div>

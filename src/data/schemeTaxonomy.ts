@@ -263,7 +263,8 @@ export type SourceType =
   | 'ministry_portal'
   | 'statutory_guideline'
   | 'nodal_agency'
-  | 'cabinet_notification';
+  | 'cabinet_notification'
+  | 'secondary_aggregator';
 
 export const VERIFICATION_STATUS_META: Record<
   VerificationStatus,
@@ -295,3 +296,154 @@ export const VERIFICATION_STATUS_META: Record<
     badgeColor: '#9CA3AF',
   },
 };
+
+// ==========================================
+// 9. PHASE 2 — SCHEME SCOPE & CATEGORIZATION TAXONOMY
+// ==========================================
+export type SchemeScope = 'NATIONAL' | 'STATE_SPECIFIC';
+
+export type SchemeVerificationStatus =
+  | 'VERIFIED'
+  | 'PARTIALLY_VERIFIED'
+  | 'UNVERIFIED'
+  | 'verified'
+  | 'needs_review'
+  | 'unknown';
+
+export type NormalizedSchemeCategory =
+  | 'Entrepreneurship'
+  | 'MSME'
+  | 'Startup'
+  | 'Business Loan'
+  | 'Subsidy'
+  | 'Grant'
+  | 'Credit Support'
+  | 'Working Capital'
+  | 'Equipment / Machinery'
+  | 'Manufacturing'
+  | 'Services'
+  | 'Agriculture & Allied Enterprise'
+  | 'Food Processing'
+  | 'Handicrafts / Artisans'
+  | 'Women Entrepreneurship'
+  | 'SC/ST Entrepreneurship'
+  | 'Rural Entrepreneurship'
+  | 'Skill & Self Employment'
+  | 'Market / Export Support'
+  | 'Infrastructure'
+  | 'Technology / Digitalization';
+
+export const NORMALIZED_SCHEME_CATEGORIES: NormalizedSchemeCategory[] = [
+  'Entrepreneurship',
+  'MSME',
+  'Startup',
+  'Business Loan',
+  'Subsidy',
+  'Grant',
+  'Credit Support',
+  'Working Capital',
+  'Equipment / Machinery',
+  'Manufacturing',
+  'Services',
+  'Agriculture & Allied Enterprise',
+  'Food Processing',
+  'Handicrafts / Artisans',
+  'Women Entrepreneurship',
+  'SC/ST Entrepreneurship',
+  'Rural Entrepreneurship',
+  'Skill & Self Employment',
+  'Market / Export Support',
+  'Infrastructure',
+  'Technology / Digitalization',
+];
+
+export const NORMALIZED_SCHEME_CATEGORY_LABELS: Record<
+  NormalizedSchemeCategory,
+  { en: string; hi: string }
+> = {
+  'Entrepreneurship': {
+    en: 'Entrepreneurship & Enterprise Setup',
+    hi: 'उद्यमिता एवं उद्यम स्थापना',
+  },
+  'MSME': {
+    en: 'MSME Growth & Competitiveness',
+    hi: 'सूक्ष्म, लघु एवं मध्यम उद्यम',
+  },
+  'Startup': {
+    en: 'Startups, Innovation & Seed Grants',
+    hi: 'स्टार्टअप एवं नवाचार अनुदान',
+  },
+  'Business Loan': {
+    en: 'Term Loans & Working Credit',
+    hi: 'व्यावसायिक ऋण एवं कार्यशील पूंजी',
+  },
+  'Subsidy': {
+    en: 'Capital Investment Subsidy',
+    hi: 'पूंजीगत निवेश सब्सिडी',
+  },
+  'Grant': {
+    en: 'Direct Innovation & Matching Grants',
+    hi: 'प्रत्यक्ष अनुदान एवं सहायता',
+  },
+  'Credit Support': {
+    en: 'Credit Guarantee & Collateral-Free Cover',
+    hi: 'ऋण गारंटी एवं संपार्श्विक-मुक्त कवर',
+  },
+  'Working Capital': {
+    en: 'Working Capital & Inventory Finance',
+    hi: 'कार्यशील पूंजी एवं दैनिक परिचालन',
+  },
+  'Equipment / Machinery': {
+    en: 'Plant, Machinery & Tool Acquisition',
+    hi: 'संयंत्र, मशीनरी एवं उपकरण खरीद',
+  },
+  'Manufacturing': {
+    en: 'Manufacturing & Industrial Production',
+    hi: 'विनिर्माण एवं औद्योगिक उत्पादन',
+  },
+  'Services': {
+    en: 'Commercial & Technical Services',
+    hi: 'व्यावसायिक एवं तकनीकी सेवाएं',
+  },
+  'Agriculture & Allied Enterprise': {
+    en: 'Agro-Enterprises, Dairy & Animal Husbandry',
+    hi: 'कृषि उद्यम, डेयरी एवं पशुपालन',
+  },
+  'Food Processing': {
+    en: 'Agro & Food Processing Units',
+    hi: 'कृषि एवं खाद्य प्रसंस्करण इकाइयां',
+  },
+  'Handicrafts / Artisans': {
+    en: 'Artisans, Handlooms & Traditional Crafts',
+    hi: 'दस्तकार, हथकरघा एवं पारंपरिक शिल्प',
+  },
+  'Women Entrepreneurship': {
+    en: 'Women-Led Enterprise Development',
+    hi: 'महिला उद्यमिता संवर्धन',
+  },
+  'SC/ST Entrepreneurship': {
+    en: 'Affirmative Credit for SC/ST Promoters',
+    hi: 'अनुसूचित जाति/जनजाति उद्यमिता सहायता',
+  },
+  'Rural Entrepreneurship': {
+    en: 'Rural & Village Enterprise Promotion',
+    hi: 'ग्रामीण एवं ग्रामोद्योग प्रोत्साहन',
+  },
+  'Skill & Self Employment': {
+    en: 'Skill Certification & Self-Employment',
+    hi: 'कौशल विकास एवं स्वरोजगार',
+  },
+  'Market / Export Support': {
+    en: 'Marketing, Branding & Export Support',
+    hi: 'विपणन, ब्रांडिंग एवं निर्यात प्रोत्साहन',
+  },
+  'Infrastructure': {
+    en: 'Industrial Sheds & Site Infrastructure',
+    hi: 'औद्योगिक बुनियादी ढांचा विकास',
+  },
+  'Technology / Digitalization': {
+    en: 'Technology Adoption & Digital Transformation',
+    hi: 'तकनीकी उन्नयन एवं डिजिटलीकरण',
+  },
+};
+

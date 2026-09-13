@@ -1,0 +1,81 @@
+import React from 'react';
+import { motion, useReducedMotion } from 'motion/react';
+import { ShieldCheck, AlertTriangle, Info, CheckCircle2 } from 'lucide-react';
+
+export type VerificationTier = 'verified' | 'partially-verified' | 'in-review' | 'gazetted';
+
+export interface VerificationBadgeProps {
+  tier?: VerificationTier;
+  label?: string;
+  sourceText?: string;
+  className?: string;
+  id?: string;
+}
+
+export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
+  tier = 'verified',
+  label,
+  sourceText,
+  className = '',
+  id,
+}) => {
+  const shouldReduceMotion = useReducedMotion();
+
+  const configs: Record<
+    VerificationTier,
+    { bg: string; text: string; border: string; icon: React.ElementType; defaultLabel: string }
+  > = {
+    gazetted: {
+      bg: 'bg-[#D4EFE1] dark:bg-[#1A382D]',
+      text: 'text-[#0F6B4C] dark:text-[#4ADE80]',
+      border: 'border-[#B2CDBF] dark:border-[#285743]',
+      icon: ShieldCheck,
+      defaultLabel: 'Gazette Verified',
+    },
+    verified: {
+      bg: 'bg-[#D4EFE1] dark:bg-[#1A382D]',
+      text: 'text-[#0F6B4C] dark:text-[#4ADE80]',
+      border: 'border-[#B2CDBF] dark:border-[#285743]',
+      icon: CheckCircle2,
+      defaultLabel: 'Official Gov Scheme',
+    },
+    'partially-verified': {
+      bg: 'bg-amber-50 dark:bg-amber-950/60',
+      text: 'text-amber-800 dark:text-amber-300',
+      border: 'border-amber-200 dark:border-amber-800/60',
+      icon: AlertTriangle,
+      defaultLabel: 'Partially Verified',
+    },
+    'in-review': {
+      bg: 'bg-slate-100 dark:bg-slate-800/60',
+      text: 'text-slate-700 dark:text-slate-300',
+      border: 'border-slate-200 dark:border-slate-700',
+      icon: Info,
+      defaultLabel: 'Review In Progress',
+    },
+  };
+
+  const current = configs[tier] || configs.verified;
+  const IconComponent = current.icon;
+  const displayLabel = label || current.defaultLabel;
+
+  return (
+    <motion.span
+      id={id}
+      initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95 }}
+      animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
+      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-semibold border select-none ${
+        current.bg
+      } ${current.text} ${current.border} ${className}`}
+    >
+      <IconComponent className="w-3 h-3 shrink-0" />
+      <span>{displayLabel}</span>
+      {sourceText && (
+        <span className="opacity-70 font-normal border-l border-current/30 pl-1 ml-0.5">
+          {sourceText}
+        </span>
+      )}
+    </motion.span>
+  );
+};

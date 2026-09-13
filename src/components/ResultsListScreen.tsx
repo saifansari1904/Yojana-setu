@@ -4,6 +4,7 @@ import { MatchResult, UserProfile } from '../types';
 import { MatchGauge } from './MatchGauge';
 import { TrustFooterStrip } from './TrustFooterStrip';
 import { YojanaSetuLogo } from './YojanaSetuLogo';
+import { EmptyState } from './common/EmptyState';
 import { AnimatedCounter } from '../animations/AnimatedCounter';
 import {
   FileText,
@@ -18,14 +19,24 @@ import {
   Info,
   FileCheck2,
   ShieldCheck,
+  Building2,
+  Globe,
+  MapPin,
+  Scale,
+  X,
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
+import { getSchemeCategories } from '../lib/data/normalization';
+import { deriveSchemeTrustProfile } from '../lib/data/trustEngine';
+import { getNextBestAction } from '../lib/matching/decisionEngine';
+import { SchemeComparisonModal } from './SchemeComparisonModal';
 import {
   staggerContainer,
   staggerItem,
   fadeSlideUp,
 } from '../animations/variants';
 import { transitions, reducedMotionTransition } from '../animations/transitions';
+import { ArrowFillButton, BookmarkButton, VerificationBadge } from './ui';
 
 interface ResultsListScreenProps {
   matchResults: MatchResult[];
@@ -34,6 +45,8 @@ interface ResultsListScreenProps {
   onOpenWhyNotEligible: (match: MatchResult) => void;
   onEditProfile: () => void;
   onSelectScheme?: (match: MatchResult) => void;
+  savedSchemeIds?: Set<string>;
+  onToggleSaveScheme?: (schemeId: string) => void;
 }
 
 export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
@@ -43,6 +56,8 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
   onOpenWhyNotEligible,
   onEditProfile,
   onSelectScheme,
+  savedSchemeIds,
+  onToggleSaveScheme,
 }) => {
   const {
     t,
@@ -56,8 +71,35 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
   const shouldReduceMotion = useReducedMotion();
 
   const [activeTab, setActiveTab] = useState<'all' | 'eligible' | 'near' | 'subsidized'>('all');
+  const [selectedRegion, setSelectedRegion] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Scheme Comparison State (up to 3 schemes)
+  const [selectedForCompareIds, setSelectedForCompareIds] = useState<string[]>([]);
+  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
+
+  const toggleCompareScheme = (schemeId: string) => {
+    setSelectedForCompareIds((prev) => {
+      if (prev.includes(schemeId)) {
+        return prev.filter((id) => id !== schemeId);
+      }
+      if (prev.length >= 3) {
+        // Replace oldest or cap at 3
+        return [...prev.slice(1), schemeId];
+      }
+      return [...prev, schemeId];
+    });
+  };
+
+  const removeCompareScheme = (schemeId: string) => {
+    setSelectedForCompareIds((prev) => prev.filter((id) => id !== schemeId));
+  };
+
+  const clearComparison = () => {
+    setSelectedForCompareIds([]);
+    setIsComparisonOpen(false);
+  };
 
   // Smooth scroll to top when entering matched schemes portal
   useEffect(() => {
@@ -94,13 +136,22 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
   const filterMatches = (list: MatchResult[]) => {
     return list.filter((result) => {
       const locScheme = getLocalizedScheme(result.scheme);
-      if (
-        searchQuery &&
-        !locScheme.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !locScheme.sponsoringMinistry.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !locScheme.benefitSummary.toLowerCase().includes(searchQuery.toLowerCase())
-      ) {
-        return false;
+      const categories = getSchemeCategories(result.scheme);
+
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        const matchesQuery =
+          locScheme.name.toLowerCase().includes(query) ||
+          locScheme.sponsoringMinistry.toLowerCase().includes(query) ||
+          locScheme.benefitSummary.toLowerCase().includes(query) ||
+          categories.some((c) => c.toLowerCase().includes(query));
+        if (!matchesQuery) return false;
+      }
+
+      if (selectedRegion === 'central') {
+        if (result.scheme.applicableStates.length > 0) return false;
+      } else if (selectedRegion !== 'all') {
+        if (!result.scheme.applicableStates.includes(selectedRegion)) return false;
       }
 
       if (activeTab === 'subsidized') {
@@ -191,10 +242,35 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
 
             {/* Scheme Information & Details */}
             <div className="flex-1 w-full">
-              <div className="flex flex-wrap items-center gap-2 mb-1.5">
+              <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
                 <span className="text-[11px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D4EFE1] dark:bg-[#1A382D] px-2 py-0.5 rounded uppercase tracking-wider">
                   {locScheme.schemeType}
                 </span>
+
+                {locScheme.applicableStates.length === 0 ? (
+                  <span className="text-[10px] font-semibold text-blue-800 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/60 px-1.5 py-0.5 rounded flex items-center gap-1">
+                    <Globe className="w-3 h-3" />
+                    Central Scheme
+                  </span>
+                ) : (
+                  <span className="text-[10px] font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 px-1.5 py-0.5 rounded flex items-center gap-1">
+                    <Building2 className="w-3 h-3" />
+                    {locScheme.applicableStates.join(', ')} Scheme
+                  </span>
+                )}
+
+                {/* Phase 2.5 Dynamic Data Trust Badge */}
+                {(() => {
+                  const trust = result.scheme.trustProfile || deriveSchemeTrustProfile(result.scheme);
+                  const tier =
+                    trust.verification.status === 'VERIFIED'
+                      ? 'verified'
+                      : trust.verification.status === 'PARTIALLY_VERIFIED'
+                      ? 'partially-verified'
+                      : 'in-review';
+                  return <VerificationBadge tier={tier} />;
+                })()}
+
                 <span className="text-xs text-[#516A5F] dark:text-[#9EB0A7] font-medium">
                   {locScheme.sponsoringMinistry}
                 </span>
@@ -206,6 +282,24 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               >
                 {locScheme.name}
               </h2>
+
+              {/* Normalized Category Tags */}
+              {(() => {
+                const cats = getSchemeCategories(result.scheme);
+                if (!cats || cats.length === 0) return null;
+                return (
+                  <div className="flex flex-wrap gap-1 mt-1 mb-1.5">
+                    {cats.slice(0, 3).map((cat) => (
+                      <span
+                        key={cat}
+                        className="text-[10px] font-medium bg-[#F3F4F3] dark:bg-[#1E2924] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E2E2E0] dark:border-[#2A3C34] px-1.5 py-0.5 rounded"
+                      >
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
+                );
+              })()}
 
               {/* Benefit Summary */}
               <p className="text-xs text-[#3F4943] dark:text-[#9EB0A7] mt-1.5 leading-relaxed font-medium">
@@ -267,34 +361,82 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 </div>
               </div>
 
-              {/* 5-Factor Compliance Pills */}
+              {/* 5-Factor Compliance Pills with 3-State Indicators */}
               <div className="mt-3.5">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#6F7A73] dark:text-[#8E9F97] block mb-1.5">
                   {t('results.factorComplianceTitle')}:
                 </span>
                 <div className="flex flex-wrap gap-1.5">
-                  {result.breakdown.map((b) => (
-                    <span
-                      key={b.factorKey}
-                      id={`factor-${locScheme.id}-${b.factorKey}`}
-                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium border ${
-                        b.matched
-                          ? 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] border-[#B2CDBF] dark:border-[#285743]'
-                          : 'bg-[#FFDAD6] dark:bg-[#3D1A14] text-[#7C2C0F] dark:text-[#FCA5A5] border-[#FFCCBD] dark:border-[#5A2B20]'
-                      }`}
-                    >
-                      {b.matched ? (
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80] shrink-0" />
-                      ) : (
-                        <AlertTriangle className="w-3.5 h-3.5 text-[#C2603F] dark:text-[#F87171] shrink-0" />
-                      )}
-                      <span>
-                        {b.factorLabel}: {b.matched ? t('common.matched') : t('common.gap')}
+                  {result.breakdown.map((b) => {
+                    const isMatched = b.state === 'MATCHED' || b.matched;
+                    const isUnknown = b.state === 'UNKNOWN';
+
+                    return (
+                      <span
+                        key={b.factorKey}
+                        id={`factor-${locScheme.id}-${b.factorKey}`}
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium border ${
+                          isMatched
+                            ? 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] border-[#B2CDBF] dark:border-[#285743]'
+                            : isUnknown
+                            ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800'
+                            : 'bg-[#FFDAD6] dark:bg-[#3D1A14] text-[#7C2C0F] dark:text-[#FCA5A5] border-[#FFCCBD] dark:border-[#5A2B20]'
+                        }`}
+                      >
+                        {isMatched ? (
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80] shrink-0" />
+                        ) : isUnknown ? (
+                          <HelpCircle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+                        ) : (
+                          <AlertTriangle className="w-3.5 h-3.5 text-[#C2603F] dark:text-[#F87171] shrink-0" />
+                        )}
+                        <span>
+                          {b.factorLabel}:{' '}
+                          {isMatched
+                            ? t('common.matched')
+                            : isUnknown
+                            ? (lang === 'hi' ? 'विवरण आवश्यक' : 'Needed')
+                            : t('common.gap')}
+                        </span>
                       </span>
-                    </span>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
+
+              {/* Authoritative Decision Layer: Next Best Action Callout */}
+              {userProfile && (() => {
+                const nextAction = getNextBestAction(result, userProfile, lang);
+                return (
+                  <div
+                    id={`next-action-${locScheme.id}`}
+                    className="mt-3.5 p-2.5 rounded-md bg-[#F4F8F6] dark:bg-[#16231C] border border-[#CDE3D7] dark:border-[#223F30] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
+                  >
+                    <div className="flex items-start sm:items-center gap-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider bg-[#14453D] text-white dark:bg-[#34D399] dark:text-[#0B251F] px-1.5 py-0.5 rounded shrink-0">
+                        {nextAction.badgeText}
+                      </span>
+                      <span className="text-[#1A1C1B] dark:text-[#E0E8E3] font-medium leading-tight">
+                        <strong className="font-bold">{nextAction.title}:</strong>{' '}
+                        <span className="text-[#516A5F] dark:text-[#9EB0A7]">
+                          {nextAction.description}
+                        </span>
+                      </span>
+                    </div>
+                    {nextAction.actionUrl && (
+                      <a
+                        href={nextAction.actionUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="self-start sm:self-center font-bold text-[#14453D] dark:text-[#4ADE80] hover:underline flex items-center gap-1 text-[11px] shrink-0"
+                      >
+                        <span>{nextAction.buttonLabel}</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                  </div>
+                );
+              })()}
 
               {/* Required Documents Section */}
               <div className="mt-3 flex flex-wrap items-center gap-1.5">
@@ -320,49 +462,76 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               {/* Interactive Action Row */}
               <div className="mt-5 pt-4 border-t border-[#E2E2E0] dark:border-[#24342D] flex flex-wrap items-center justify-between gap-3">
                 <div className="flex flex-wrap items-center gap-2">
-                  <motion.button
+                  <ArrowFillButton
                     id={`view-scheme-btn-${locScheme.id}`}
                     onClick={() => onSelectScheme?.(result)}
-                    initial="initial"
-                    whileHover={shouldReduceMotion ? undefined : 'hover'}
-                    whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
-                    variants={{
-                      initial: { y: 0 },
-                      hover: { y: -1 },
-                    }}
-                    className="bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-3.5 py-2 rounded text-xs font-bold flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+                    variant="primary"
+                    size="sm"
                   >
-                    <span>{t('results.viewSchemeBtn')}</span>
-                    <motion.span
-                      variants={{
-                        initial: { x: 0 },
-                        hover: { x: 3.5 },
-                      }}
-                      transition={{ duration: 0.15, ease: 'easeOut' }}
-                      className="inline-flex"
-                    >
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </motion.span>
-                  </motion.button>
+                    {t('results.viewSchemeBtn')}
+                  </ArrowFillButton>
 
                   <motion.button
                     id={`why-match-btn-${locScheme.id}`}
+                    type="button"
                     onClick={() => onOpenWhyMatch(result)}
                     whileHover={shouldReduceMotion ? undefined : { y: -1 }}
                     whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
-                    className="bg-white dark:bg-[#1E2924] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#14453D] dark:text-[#4ADE80] border border-[#E2E2E0] dark:border-[#2E4137] px-3 py-2 rounded text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="bg-white dark:bg-[#1E2924] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#14453D] dark:text-[#4ADE80] border border-[#E2E2E0] dark:border-[#2E4137] px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                   >
                     <HelpCircle className="w-3.5 h-3.5" />
                     <span>{t('results.whyMatchBtn')}</span>
                   </motion.button>
 
+                  {/* Side-by-side comparison selector */}
+                  {(() => {
+                    const isSelectedForCompare = selectedForCompareIds.includes(result.scheme.id);
+                    return (
+                      <motion.button
+                        id={`compare-toggle-btn-${locScheme.id}`}
+                        type="button"
+                        onClick={() => toggleCompareScheme(result.scheme.id)}
+                        whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+                        whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                        className={`px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer border ${
+                          isSelectedForCompare
+                            ? 'bg-[#14453D] text-white border-[#14453D] dark:bg-[#34D399] dark:text-[#0B251F]'
+                            : 'bg-white dark:bg-[#1E2924] text-[#516A5F] dark:text-[#9EB0A7] border-[#E2E2E0] dark:border-[#2E4137] hover:bg-[#F3F4F3] dark:hover:bg-[#25362C]'
+                        }`}
+                        title={
+                          isSelectedForCompare
+                            ? (lang === 'hi' ? 'तुलना सूची से हटाएं' : 'Remove from comparison')
+                            : (lang === 'hi' ? 'तुलना हेतु 3 तक योजनाएं चुनें' : 'Select up to 3 schemes to compare')
+                        }
+                      >
+                        <Scale className="w-3.5 h-3.5" />
+                        <span>
+                          {isSelectedForCompare
+                            ? (lang === 'hi' ? 'तुलना में शामिल ✓' : 'Comparing ✓')
+                            : (lang === 'hi' ? 'तुलना करें' : 'Compare')}
+                        </span>
+                      </motion.button>
+                    );
+                  })()}
+
+                  {onToggleSaveScheme && (
+                    <BookmarkButton
+                      id={`bookmark-btn-${locScheme.id}`}
+                      isSaved={savedSchemeIds?.has(locScheme.id) ?? false}
+                      onToggle={() => onToggleSaveScheme(locScheme.id)}
+                      schemeName={locScheme.name}
+                      compact={false}
+                    />
+                  )}
+
                   {!isEligible && (
                     <motion.button
                       id={`gap-analysis-btn-${locScheme.id}`}
+                      type="button"
                       onClick={() => onOpenWhyNotEligible(result)}
                       whileHover={shouldReduceMotion ? undefined : { y: -1 }}
                       whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
-                      className="bg-[#FAFAF9] dark:bg-[#101613] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1A14]/70 text-[#7C2C0F] dark:text-[#FCA5A5] border border-[#FFCCBD] dark:border-[#5A2B20] px-3 py-2 rounded text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                      className="bg-[#FAFAF9] dark:bg-[#101613] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1A14]/70 text-[#7C2C0F] dark:text-[#FCA5A5] border border-[#FFCCBD] dark:border-[#5A2B20] px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
                     >
                       <AlertTriangle className="w-3.5 h-3.5 text-[#C2603F] dark:text-[#F87171]" />
                       <span>{lang === 'hi' ? 'शर्त विश्लेषण एवं विकल्प' : 'Gap Analysis & Alternatives'}</span>
@@ -374,7 +543,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                   id={`official-link-${locScheme.id}`}
                   href={locScheme.officialPortalUrl}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:text-[#16A34A] dark:hover:text-[#6EE7B7] hover:underline flex items-center gap-1"
                 >
                   <span>{t('common.officialMinistryPortal')}</span>
@@ -665,10 +834,58 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         </div>
       </div>
 
+      {/* South India Regional Jurisdiction Filter */}
+      <div className="flex flex-wrap items-center gap-1.5 mb-6 py-2 px-3 bg-[#F3F4F3] dark:bg-[#1A2520] rounded border border-[#E2E2E0] dark:border-[#24342D] text-xs">
+        <span className="text-[#516A5F] dark:text-[#9EB0A7] font-semibold flex items-center gap-1 mr-1">
+          <MapPin className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
+          <span>{lang === 'hi' ? 'क्षेत्रीय फिल्टर:' : 'Jurisdiction:'}</span>
+        </span>
+        {[
+          { id: 'all', label: lang === 'hi' ? 'सभी क्षेत्र' : 'All Regions' },
+          { id: 'central', label: lang === 'hi' ? 'केंद्रीय योजनाएं' : 'Central / Pan-India' },
+          { id: 'Karnataka', label: 'Karnataka' },
+          { id: 'Kerala', label: 'Kerala' },
+          { id: 'Tamil Nadu', label: 'Tamil Nadu' },
+          { id: 'Telangana', label: 'Telangana' },
+          { id: 'Andhra Pradesh', label: 'Andhra Pradesh' },
+        ].map((reg) => (
+          <button
+            key={reg.id}
+            onClick={() => setSelectedRegion(reg.id)}
+            className={`px-2.5 py-1 rounded text-[11px] font-bold transition-all cursor-pointer ${
+              selectedRegion === reg.id
+                ? 'bg-[#14453D] dark:bg-[#1C5045] text-white shadow-xs'
+                : 'bg-white dark:bg-[#151C19] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E2E2E0] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#202D27]'
+            }`}
+          >
+            {reg.label}
+          </button>
+        ))}
+      </div>
+
       {totalFilteredCount === 0 && (
-        <div className="bg-white dark:bg-[#151C19] rounded-md border border-[#E2E2E0] dark:border-[#24342D] p-8 text-center text-sm text-[#516A5F] dark:text-[#9EB0A7]">
-          {t('results.noSchemesFound')}
-        </div>
+        <EmptyState
+          title={
+            searchQuery
+              ? lang === 'hi'
+                ? `"${searchQuery}" के लिए कोई योजना नहीं मिली`
+                : `No schemes found for "${searchQuery}"`
+              : t('results.noSchemesFound')
+          }
+          description={
+            searchQuery
+              ? lang === 'hi'
+                ? 'कृपया अन्य कीवर्ड खोजें या फ़िल्टर रीसेट करें।'
+                : 'Try checking for typos or searching by ministry or broad trade domain.'
+              : undefined
+          }
+          type={searchQuery ? 'search' : 'filter'}
+          actionLabel={lang === 'hi' ? 'फ़िल्टर रीसेट करें' : 'Reset Search & Filters'}
+          onAction={() => {
+            setSearchQuery('');
+            setActiveTab('all');
+          }}
+        />
       )}
 
       {/* RENDER GROUPED SECTIONS (When Tab is 'all') */}
@@ -810,6 +1027,70 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
+
+      {/* Floating Scheme Comparison Action Bar */}
+      <AnimatePresence>
+        {selectedForCompareIds.length > 0 && (
+          <motion.div
+            id="floating-compare-bar"
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 30, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-[#14453D] text-white px-4 sm:px-6 py-3 rounded-full shadow-2xl border border-[#34D399]/50 flex items-center gap-3 sm:gap-5 backdrop-blur-md"
+          >
+            <div className="flex items-center gap-2">
+              <Scale className="w-4 h-4 sm:w-5 sm:h-5 text-[#34D399]" />
+              <div className="text-xs sm:text-sm font-bold whitespace-nowrap">
+                <span>{selectedForCompareIds.length} / 3 </span>
+                <span className="text-[#34D399]">
+                  {lang === 'hi' ? 'योजनाएं चयनित' : 'Schemes Selected'}
+                </span>
+              </div>
+            </div>
+
+            {selectedForCompareIds.length >= 2 ? (
+              <button
+                id="open-comparison-dialog-btn"
+                type="button"
+                onClick={() => setIsComparisonOpen(true)}
+                className="bg-[#34D399] hover:bg-[#28B781] text-[#0B251F] text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full transition-colors cursor-pointer flex items-center gap-1.5 shadow-md"
+              >
+                <span>{lang === 'hi' ? 'तुलना करें' : 'Compare Now'}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            ) : (
+              <span className="text-[11px] text-[#A0B0A7] hidden sm:inline">
+                {lang === 'hi' ? '(कम से कम 2 चुनें)' : '(Select at least 2)'}
+              </span>
+            )}
+
+            <button
+              id="clear-comparison-selection-btn"
+              type="button"
+              onClick={clearComparison}
+              className="p-1 text-[#A0B0A7] hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer"
+              title={lang === 'hi' ? 'चयन हटाएं' : 'Clear selection'}
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Side-by-side Scheme Comparison Modal */}
+      {userProfile && (
+        <SchemeComparisonModal
+          isOpen={isComparisonOpen}
+          selectedMatches={matchResults.filter((m) =>
+            selectedForCompareIds.includes(m.scheme.id)
+          )}
+          profile={userProfile}
+          onClose={() => setIsComparisonOpen(false)}
+          onSelectScheme={onSelectScheme}
+          onRemoveScheme={removeCompareScheme}
+        />
+      )}
 
       {/* Floating Scroll-to-Top Button */}
       <AnimatePresence>

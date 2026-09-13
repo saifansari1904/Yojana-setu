@@ -9,7 +9,9 @@ import {
   BusinessRegistrationType,
   TurnoverRangeId,
 } from '../types';
-import { INDIAN_STATES, SCHEMES_DATABASE } from '../data/schemes';
+import { INDIAN_STATES } from '../data/schemes';
+import { getAllSchemes } from '../lib/data';
+import { validateUserProfile } from '../lib/validation';
 import { rankSchemesForProfile } from '../utils/matchingEngine';
 import {
   QUESTIONNAIRE_STAGES,
@@ -50,6 +52,7 @@ import { YojanaSetuLogo } from './YojanaSetuLogo';
 import { useTranslation } from '../i18n';
 import { AnimatedCounter } from '../animations/AnimatedCounter';
 import { questionVariants, errorShakeVariants } from '../animations/variants';
+import { ArrowFillButton } from './ui';
 
 const DRAFT_KEY = 'yojana_setu_adaptive_form_draft_v2';
 
@@ -153,7 +156,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       businessRegistration: businessRegistration || 'unregistered',
     };
 
-    const evaluated = rankSchemesForProfile(SCHEMES_DATABASE, probeProfile, lang);
+    const evaluated = rankSchemesForProfile(getAllSchemes(), probeProfile, lang);
     return evaluated.filter((m) => m.isEligible || m.matchStatus === 'near-match').length;
   }, [
     category,
@@ -328,7 +331,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       turnoverRangeId: turnoverRangeId || undefined,
     };
 
-    onSubmit(finalProfile);
+    const validation = validateUserProfile(finalProfile, lang);
+    if (!validation.isValid) {
+      const firstError = Object.values(validation.errors)[0];
+      setValidationError(firstError);
+      return;
+    }
+
+    onSubmit(validation.formattedProfile || finalProfile);
   };
 
   return (
@@ -1323,44 +1333,25 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
           )}
 
           {currentStageIdx < activeStages.length - 1 ? (
-            <motion.button
-              type="button"
+            <ArrowFillButton
               id="stage-next-btn"
               onClick={handleNext}
-              initial="initial"
-              whileHover={shouldReduceMotion ? undefined : 'hover'}
-              whileTap={shouldReduceMotion ? undefined : 'tap'}
-              variants={{
-                initial: { y: 0 },
-                hover: { y: -1 },
-                tap: { scale: 0.98 },
-              }}
-              className="w-full sm:w-auto px-7 py-3 rounded text-xs font-bold bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+              variant="primary"
+              size="md"
+              className="w-full sm:w-auto"
             >
-              <span>{t('questionnaire.nextBtn')}</span>
-              <motion.span
-                variants={{
-                  initial: { x: 0 },
-                  hover: { x: 3.5 },
-                }}
-                transition={{ duration: 0.15, ease: 'easeOut' }}
-                className="inline-flex"
-              >
-                <ArrowRight className="w-4 h-4" />
-              </motion.span>
-            </motion.button>
+              {t('questionnaire.nextBtn')}
+            </ArrowFillButton>
           ) : (
-            <motion.button
-              type="button"
+            <ArrowFillButton
               id="form-submit-btn"
               onClick={handleFinalSubmit}
-              whileHover={shouldReduceMotion ? undefined : { y: -1.5, scale: 1.015 }}
-              whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-              className="w-full sm:w-auto px-8 py-3.5 rounded text-xs sm:text-sm font-extrabold bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+              variant="primary"
+              size="lg"
+              className="w-full sm:w-auto"
             >
-              <Sparkles className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
-              <span>{t('questionnaire.submitReviewBtn')}</span>
-            </motion.button>
+              {t('questionnaire.submitReviewBtn')}
+            </ArrowFillButton>
           )}
         </div>
       </div>

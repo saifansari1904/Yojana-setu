@@ -64,7 +64,12 @@ const VALID_VERIFICATION_STATUSES = new Set([
   'outdated',
   'inactive',
   'unknown',
+  'VERIFIED',
+  'PARTIALLY_VERIFIED',
+  'UNVERIFIED',
 ]);
+
+const VALID_SCOPES = new Set(['NATIONAL', 'STATE_SPECIFIC']);
 
 const URL_PATTERN = /^https?:\/\/.+/i;
 
@@ -360,6 +365,44 @@ export function validateScheme(scheme: Scheme): SchemeValidationResult {
         field: 'intelligence.governance.sourceName',
         message: 'Governance sourceName is empty',
         code: 'WARN_EMPTY_SOURCE_NAME',
+      });
+    }
+  }
+
+  // 10. Phase 2 Scope & Categorization
+  if (scheme.scope && !VALID_SCOPES.has(scheme.scope)) {
+    errors.push({
+      schemeId,
+      field: 'scope',
+      message: `Invalid scheme scope '${scheme.scope}'. Must be 'NATIONAL' or 'STATE_SPECIFIC'`,
+      code: 'ERR_INVALID_SCOPE',
+    });
+  }
+
+  if (scheme.sourceProvenance) {
+    const prov = scheme.sourceProvenance;
+    if (!VALID_VERIFICATION_STATUSES.has(prov.verificationStatus)) {
+      errors.push({
+        schemeId,
+        field: 'sourceProvenance.verificationStatus',
+        message: `Invalid sourceProvenance verificationStatus '${prov.verificationStatus}'`,
+        code: 'ERR_INVALID_PROVENANCE_STATUS',
+      });
+    }
+    if (!prov.officialSourceUrl || !URL_PATTERN.test(prov.officialSourceUrl)) {
+      errors.push({
+        schemeId,
+        field: 'sourceProvenance.officialSourceUrl',
+        message: `sourceProvenance officialSourceUrl '${prov.officialSourceUrl}' is invalid`,
+        code: 'ERR_INVALID_PROVENANCE_URL',
+      });
+    }
+    if (prov.priorityLevel < 1 || prov.priorityLevel > 5) {
+      errors.push({
+        schemeId,
+        field: 'sourceProvenance.priorityLevel',
+        message: `sourceProvenance priorityLevel must be between 1 and 5, got ${prov.priorityLevel}`,
+        code: 'ERR_INVALID_PRIORITY_LEVEL',
       });
     }
   }

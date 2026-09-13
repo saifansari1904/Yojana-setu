@@ -11,8 +11,12 @@ import {
   ExternalLink,
   ArrowRight,
   ShieldAlert,
+  HelpCircle,
+  ShieldX,
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
+import { getNextBestAction } from '../lib/matching/decisionEngine';
+import { buildMatchExplanation } from '../lib/matching/explanationBuilder';
 import {
   fadeSlideUp,
   staggerContainer,
@@ -130,9 +134,22 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
         <div className="border-t-4 border-[#C2603F] dark:border-[#E05338] p-6 sm:p-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#C2603F] dark:text-[#F87171] bg-[#FFDAD6] dark:bg-[#3D1A14] px-2.5 py-0.5 rounded">
-                {t('whyNotEligible.badge')}
-              </span>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#C2603F] dark:text-[#F87171] bg-[#FFDAD6] dark:bg-[#3D1A14] px-2.5 py-0.5 rounded">
+                  {t('whyNotEligible.badge')}
+                </span>
+                {targetMatch.eligibilityClassification === 'BLOCKED' ? (
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-800 flex items-center gap-1">
+                    <ShieldX className="w-3.5 h-3.5" />
+                    <span>{lang === 'hi' ? 'वैधानिक प्रतिबंध' : 'Statutory Blocker'}</span>
+                  </span>
+                ) : targetMatch.eligibilityClassification === 'NEEDS_INFORMATION' ? (
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800 flex items-center gap-1">
+                    <HelpCircle className="w-3.5 h-3.5" />
+                    <span>{lang === 'hi' ? 'प्रोफ़ाइल विवरण आवश्यक' : 'Profile Info Needed'}</span>
+                  </span>
+                ) : null}
+              </div>
               <h1 className="text-xl sm:text-2xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mt-2">
                 {locScheme.shortCode} {t('whyNotEligible.title')}
               </h1>
@@ -148,6 +165,45 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
               </div>
             </div>
           </div>
+
+          {/* Actionable Next Step Card */}
+          {userProfile && (() => {
+            const nextAction = getNextBestAction(targetMatch, userProfile, lang);
+            return (
+              <div
+                id="gap-next-action-card"
+                className="mb-6 p-4 rounded-md bg-[#F4F8F6] dark:bg-[#16241D] border border-[#CDE3D7] dark:border-[#223F30] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+              >
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-[#14453D] text-white dark:bg-[#34D399] dark:text-[#0B251F] px-1.5 py-0.5 rounded">
+                      {lang === 'hi' ? 'कार्यवाही योग्य अगला कदम' : 'Actionable Next Step'}
+                    </span>
+                    <span className="text-[11px] font-bold text-[#14453D] dark:text-[#4ADE80]">
+                      {nextAction.badgeText}
+                    </span>
+                  </div>
+                  <strong className="text-sm text-[#1A1C1B] dark:text-[#F0F4F2] block">
+                    {nextAction.title}
+                  </strong>
+                  <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mt-0.5">
+                    {nextAction.description}
+                  </p>
+                </div>
+                {nextAction.actionUrl && (
+                  <a
+                    href={nextAction.actionUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#14453D] hover:bg-[#0E352E] dark:bg-[#34D399] dark:hover:bg-[#28B781] text-white dark:text-[#0B251F] font-bold px-4 py-2 rounded transition-colors flex items-center gap-1.5 shrink-0 self-start sm:self-center"
+                  >
+                    <span>{nextAction.buttonLabel}</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                )}
+              </div>
+            );
+          })()}
 
           {/* Primary Gap Highlight Spotlight */}
           {primaryGap && (
@@ -351,7 +407,7 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
                   <a
                     href={locAlt.officialPortalUrl}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="w-full bg-[#FAFAF9] dark:bg-[#101613] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924] text-[#1A1C1B] dark:text-[#F0F4F2] border border-[#E2E2E0] dark:border-[#2A3C34] py-1.5 rounded text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"
                   >
                     <span>{t('whyNotEligible.officialPortalBtn')}</span>

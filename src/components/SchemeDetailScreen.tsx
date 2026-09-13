@@ -30,8 +30,13 @@ import {
   Briefcase,
   AlertCircle,
   FileCheck2,
+  Globe,
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
+import { getSchemeCategories, getSchemeProvenance } from '../lib/data/normalization';
+import { deriveSchemeTrustProfile } from '../lib/data/trustEngine';
+import { getNextBestAction } from '../lib/matching/decisionEngine';
+import { evaluateFundingFit } from '../lib/matching/fundingFit';
 import {
   fadeIn,
   fadeSlideUp,
@@ -40,6 +45,7 @@ import {
   scaleIn,
 } from '../animations/variants';
 import { transitions } from '../animations/transitions';
+import { ArrowFillButton, BookmarkButton, VerificationBadge, AnimatedScore } from './ui';
 
 interface SchemeDetailScreenProps {
   matchResult: MatchResult;
@@ -251,11 +257,42 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               <span className="bg-[#EEEEED] dark:bg-[#1E2924] text-[#3F4943] dark:text-[#C5D5CC] text-xs font-medium px-2.5 py-0.5 rounded">
                 {locScheme.schemeType}
               </span>
+
+              {locScheme.applicableStates.length === 0 ? (
+                <span className="bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/60 text-blue-800 dark:text-blue-300 text-xs font-semibold px-2 py-0.5 rounded flex items-center gap-1">
+                  <Globe className="w-3.5 h-3.5" />
+                  <span>Central / Pan-India Scheme</span>
+                </span>
+              ) : (
+                <span className="bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300 text-xs font-semibold px-2 py-0.5 rounded flex items-center gap-1">
+                  <Building2 className="w-3.5 h-3.5" />
+                  <span>{locScheme.applicableStates.join(', ')} State Scheme</span>
+                </span>
+              )}
+
               <span className="bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] text-xs font-bold px-2.5 py-0.5 rounded flex items-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
                 <span>{t('schemeDetail.verifiedSource')}</span>
               </span>
             </div>
+
+            {/* Normalized Category Tags */}
+            {(() => {
+              const categories = getSchemeCategories(matchResult.scheme);
+              if (!categories || categories.length === 0) return null;
+              return (
+                <div className="flex flex-wrap items-center gap-1.5 mb-3">
+                  {categories.map((cat) => (
+                    <span
+                      key={cat}
+                      className="text-xs font-medium bg-[#F3F4F3] dark:bg-[#1E2924] text-[#3F4943] dark:text-[#C5D5CC] border border-[#E2E2E0] dark:border-[#2A3C34] px-2 py-0.5 rounded"
+                    >
+                      {cat}
+                    </span>
+                  ))}
+                </div>
+              );
+            })()}
 
             {/* Scheme Full Name */}
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight leading-snug mb-2">
@@ -333,34 +370,12 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             {/* Actions: Save & Share */}
             <div className="flex items-center gap-2">
               {/* Save Scheme Button */}
-              <motion.button
+              <BookmarkButton
                 id={`save-scheme-btn-${locScheme.id}`}
-                type="button"
-                whileHover={shouldReduceMotion ? undefined : { y: -1 }}
-                whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
-                onClick={() => onToggleSaveScheme(locScheme.id)}
-                aria-label={isSaved ? t('schemeDetail.saved') : t('schemeDetail.saveScheme')}
-                className={`px-3 py-2 rounded text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border ${
-                  isSaved
-                    ? 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] border-[#16A34A]'
-                    : 'bg-white dark:bg-[#1E2924] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#3F4943] dark:text-[#C5D5CC] border-[#E2E2E0] dark:border-[#2E4137]'
-                }`}
-              >
-                <motion.span
-                  animate={isSaved && !shouldReduceMotion ? { scale: [1, 1.3, 1] } : undefined}
-                  transition={{ duration: 0.25 }}
-                  className="inline-flex"
-                >
-                  <Heart
-                    className={`w-3.5 h-3.5 transition-colors ${
-                      isSaved
-                        ? 'fill-[#14453D] dark:fill-[#4ADE80] text-[#14453D] dark:text-[#4ADE80]'
-                        : 'text-[#6F7A73] dark:text-[#9EB0A7]'
-                    }`}
-                  />
-                </motion.span>
-                <span>{isSaved ? t('schemeDetail.saved') : t('schemeDetail.saveScheme')}</span>
-              </motion.button>
+                isSaved={isSaved}
+                onToggle={() => onToggleSaveScheme(locScheme.id)}
+                schemeName={locScheme.name}
+              />
 
               {/* Share Button */}
               <motion.button
@@ -380,18 +395,15 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             {/* Official Portal CTA Button (Desktop) */}
             <div className="hidden md:block">
               {locScheme.officialPortalUrl ? (
-                <motion.a
+                <ArrowFillButton
                   id={`hero-apply-btn-${locScheme.id}`}
-                  href={locScheme.officialPortalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={shouldReduceMotion ? undefined : { y: -1.5, scale: 1.015 }}
-                  whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-                  className="bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-4 py-2.5 rounded text-xs font-bold inline-flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
+                  onClick={() => window.open(locScheme.officialPortalUrl, '_blank', 'noopener,noreferrer')}
+                  variant="primary"
+                  size="md"
+                  icon={ExternalLink}
                 >
-                  <span>{t('schemeDetail.applyOfficial')}</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </motion.a>
+                  {t('schemeDetail.applyOfficial')}
+                </ArrowFillButton>
               ) : (
                 <span className="text-xs text-[#6F7A73] dark:text-[#8E9F97] italic">
                   {t('schemeDetail.officialUnavailable')}
@@ -401,6 +413,67 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
           </div>
         </div>
       </motion.section>
+
+      {/* AUTHORITATIVE DECISION LAYER: NEXT BEST ACTION BANNER */}
+      {userProfile && (() => {
+        const nextAction = getNextBestAction(matchResult, userProfile, lang);
+        return (
+          <motion.div
+            id="scheme-detail-next-action-banner"
+            variants={shouldReduceMotion ? undefined : fadeSlideUp}
+            initial="hidden"
+            animate="visible"
+            className="mb-6 bg-[#F4F8F6] dark:bg-[#16231C] border border-[#CDE3D7] dark:border-[#223F30] rounded-lg p-4 sm:p-5 shadow-xs transition-colors"
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-start sm:items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-[#14453D] dark:bg-[#34D399] text-white dark:text-[#0B251F] flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+                  <Sparkles className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider bg-[#14453D] dark:bg-[#34D399] text-white dark:text-[#0B251F] px-2 py-0.5 rounded">
+                      {lang === 'hi' ? 'सर्वोत्तम अगला कदम' : 'Next Best Action'}
+                    </span>
+                    <span className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80]">
+                      {nextAction.badgeText}
+                    </span>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+                    {nextAction.title}
+                  </h3>
+                  <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mt-0.5">
+                    {nextAction.description}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 self-start sm:self-center shrink-0">
+                {nextAction.actionUrl && (
+                  <a
+                    href={nextAction.actionUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#14453D] hover:bg-[#0E352E] dark:bg-[#34D399] dark:hover:bg-[#28B781] text-white dark:text-[#0B251F] font-bold text-xs py-2 px-4 rounded transition-colors flex items-center gap-1.5"
+                  >
+                    <span>{nextAction.buttonLabel}</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                )}
+                {nextAction.actionTarget === 'alternatives' && onOpenWhyNotEligible && (
+                  <button
+                    onClick={() => onOpenWhyNotEligible(matchResult)}
+                    className="bg-[#14453D] hover:bg-[#0E352E] dark:bg-[#34D399] dark:hover:bg-[#28B781] text-white dark:text-[#0B251F] font-bold text-xs py-2 px-4 rounded transition-colors flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>{nextAction.buttonLabel}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        );
+      })()}
 
       {/* 3. NEAR-MATCH CALLOUT BANNER (if applicable) */}
       {isNearMatch && (
@@ -733,10 +806,15 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                         {row.statutoryRequirement}
                       </td>
                       <td className="py-3 px-3 text-right">
-                        {row.matched ? (
+                        {row.state === 'MATCHED' || row.matched ? (
                           <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#16A34A] dark:text-[#4ADE80]">
                             <Check className="w-3.5 h-3.5" />
                             <span>{t('common.matched')}</span>
+                          </span>
+                        ) : row.state === 'UNKNOWN' ? (
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 dark:text-amber-300">
+                            <HelpCircle className="w-3.5 h-3.5" />
+                            <span>{lang === 'hi' ? 'विवरण आवश्यक' : 'Needed'}</span>
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#C2603F] dark:text-[#F87171]">
@@ -878,30 +956,75 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               </div>
             </div>
 
-            {/* Official Source Info */}
-            <div className="mt-6 pt-4 border-t border-[#E2E2E0] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#101613] p-4 rounded text-xs">
-              <span className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1">
-                {t('schemeDetail.officialSourceTitle')}
-              </span>
-              <p className="text-[#516A5F] dark:text-[#9EB0A7] mb-2 leading-relaxed">
-                {t('schemeDetail.sourceNote')}
-              </p>
-              <div className="flex flex-wrap items-center gap-4 text-[11px]">
-                <div>
-                  <span className="text-[#6F7A73] dark:text-[#8E9F97]">
-                    {t('schemeDetail.lastUpdated')}:{' '}
-                  </span>
-                  <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">
-                    {locScheme.lastVerifiedDate}
-                  </strong>
+            {/* Phase 2.5 Government Data Trust, Freshness & Provenance */}
+            {(() => {
+              const prov = getSchemeProvenance(matchResult.scheme);
+              const trust = matchResult.scheme.trustProfile || deriveSchemeTrustProfile(matchResult.scheme);
+              const hierarchyLabels: Record<number, string> = {
+                1: 'Level 1 · Central Government Portal',
+                2: 'Level 2 · State Government Portal',
+                3: 'Level 3 · Sponsoring Ministry / Department',
+                4: 'Level 4 · Statutory Implementing Agency',
+                5: 'Level 5 · Govt-backed Enterprise / Corporation',
+                6: 'Level 6 · Secondary Aggregator',
+              };
+
+              return (
+                <div className="mt-6 pt-4 border-t border-[#E2E2E0] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#101613] p-4 rounded text-xs">
+                  <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                    <span className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2] flex items-center gap-1.5 text-sm">
+                      <ShieldCheck className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
+                      Government Data Trust & Provenance
+                    </span>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                        Status: {trust.verification.status}
+                      </span>
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                        {trust.confidence} Confidence
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Responsible Statutory Disclaimer */}
+                  <p className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] mb-3 leading-relaxed">
+                    Yojana Setu provides verified government scheme intelligence to help entrepreneurs identify potential funding. Final eligibility, sanction amounts, and current guidelines are determined solely by the sponsoring government authority upon submission of statutory application.
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] pt-2 border-t border-[#E2E2E0] dark:border-[#24342D]">
+                    <div>
+                      <span className="text-[#6F7A73] dark:text-[#8E9F97]">Official Sponsoring Body: </span>
+                      <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] block sm:inline">
+                        {prov.sourceName}
+                      </strong>
+                    </div>
+                    <div>
+                      <span className="text-[#6F7A73] dark:text-[#8E9F97]">Data Freshness: </span>
+                      <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">
+                        {trust.freshness.freshnessLabel}
+                      </strong>
+                    </div>
+                    <div>
+                      <span className="text-[#6F7A73] dark:text-[#8E9F97]">Source Hierarchy: </span>
+                      <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">
+                        {hierarchyLabels[trust.source.hierarchyLevel] || prov.sourceType}
+                      </strong>
+                    </div>
+                    <div>
+                      <span className="text-[#6F7A73] dark:text-[#8E9F97]">Direct Government Portal: </span>
+                      <a
+                        href={prov.officialSourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#14453D] dark:text-[#4ADE80] font-semibold underline truncate block"
+                      >
+                        {prov.officialSourceUrl}
+                      </a>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-[#6F7A73] dark:text-[#8E9F97]">
-                    {t('schemeDetail.sourceTypeGovt')}
-                  </span>
-                </div>
-              </div>
-            </div>
+              );
+            })()}
           </motion.section>
         </div>
 
@@ -926,6 +1049,47 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
 
             {/* Assistance Cards List */}
             <div className="space-y-3">
+              {/* Profile Funding Fit Analysis */}
+              {userProfile && (() => {
+                const fundingFit = evaluateFundingFit(matchResult.scheme, userProfile, lang);
+                const isWithin = fundingFit.fitStatus === 'WITHIN_RANGE';
+                const isAbove = fundingFit.fitStatus === 'ABOVE_RANGE';
+
+                return (
+                  <div
+                    id={`funding-fit-${locScheme.id}`}
+                    className={`p-3 rounded border text-xs ${
+                      isWithin
+                        ? 'bg-emerald-50/70 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-200'
+                        : isAbove
+                        ? 'bg-amber-50/70 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800 text-amber-950 dark:text-amber-200'
+                        : 'bg-blue-50/70 dark:bg-blue-950/40 border-blue-300 dark:border-blue-800 text-blue-950 dark:text-blue-200'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider">
+                        {lang === 'hi' ? 'वित्तीय आवश्यकता अनुकूलता' : 'Funding Fit Analysis'}
+                      </span>
+                      <span className="text-[10px] font-extrabold px-1.5 py-0.2 rounded bg-white/70 dark:bg-black/40">
+                        {isWithin
+                          ? (lang === 'hi' ? 'दायरे में' : 'Within Range')
+                          : isAbove
+                          ? (lang === 'hi' ? 'अधिकतम सीमा से अधिक' : 'Exceeds Cap')
+                          : (lang === 'hi' ? 'विवरण' : 'Info')}
+                      </span>
+                    </div>
+                    <p className="text-[11px] leading-relaxed mb-1.5 font-medium">
+                      {fundingFit.explanation}
+                    </p>
+                    {fundingFit.subsidyExplanation && (
+                      <div className="pt-1.5 border-t border-black/10 dark:border-white/10 text-[10px] text-emerald-800 dark:text-emerald-300 font-semibold">
+                        {fundingFit.subsidyExplanation}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+
               {/* Max Funding */}
               {locScheme.maxAmount > 0 && (
                 <div className="p-3 bg-[#D4EFE1]/40 dark:bg-[#1A382D]/40 rounded border border-[#A3D9C9] dark:border-[#265343]">
@@ -1127,42 +1291,31 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
           {/* Quick Score */}
           <div className="shrink-0 flex items-center gap-2">
             <span className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D4EFE1] dark:bg-[#1A382D] px-2 py-1 rounded">
-              {Math.round(matchResult.matchPercentage)}%
+              <AnimatedScore value={matchResult.matchPercentage} />
             </span>
           </div>
 
           {/* Save Button */}
-          <button
+          <BookmarkButton
             id="mobile-save-btn"
-            onClick={() => onToggleSaveScheme(locScheme.id)}
-            aria-label={isSaved ? t('schemeDetail.saved') : t('schemeDetail.saveScheme')}
-            className={`p-2.5 rounded border transition-colors cursor-pointer ${
-              isSaved
-                ? 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] border-[#16A34A]'
-                : 'bg-[#FAFAF9] dark:bg-[#1E2924] text-[#3F4943] dark:text-[#C5D5CC] border-[#E2E2E0] dark:border-[#2E4137]'
-            }`}
-          >
-            <Heart
-              className={`w-4 h-4 ${
-                isSaved
-                  ? 'fill-[#14453D] dark:fill-[#4ADE80] text-[#14453D] dark:text-[#4ADE80]'
-                  : ''
-              }`}
-            />
-          </button>
+            isSaved={isSaved}
+            onToggle={() => onToggleSaveScheme(locScheme.id)}
+            compact={true}
+            schemeName={locScheme.name}
+          />
 
           {/* Apply on Official Portal */}
           {locScheme.officialPortalUrl ? (
-            <a
+            <ArrowFillButton
               id="mobile-apply-btn"
-              href={locScheme.officialPortalUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] text-white py-2.5 px-4 rounded text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+              onClick={() => window.open(locScheme.officialPortalUrl, '_blank', 'noopener,noreferrer')}
+              variant="primary"
+              size="sm"
+              icon={ExternalLink}
+              className="flex-1"
             >
-              <span>{t('schemeDetail.applyOfficial')}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
+              {t('schemeDetail.applyOfficial')}
+            </ArrowFillButton>
           ) : (
             <div className="flex-1 text-center py-2 px-3 bg-[#F3F4F3] dark:bg-[#1E2924] rounded text-[11px] text-[#6F7A73] dark:text-[#8E9F97]">
               {t('schemeDetail.officialUnavailable')}
