@@ -24,6 +24,7 @@ import {
   popIn,
 } from '../animations/variants';
 import { transitions, reducedMotionTransition } from '../animations/transitions';
+import { GapDiffBar } from '../animations/GapDiffBar';
 
 interface WhyNotEligibleViewProps {
   targetMatch: MatchResult | null;
@@ -238,6 +239,16 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
                       <strong className="text-amber-800 dark:text-amber-300">{primaryGap.statutoryRequirement}</strong>
                     </div>
                   </div>
+
+                  {/* Animated distance-to-requirement bar */}
+                  <GapDiffBar
+                    id="primary-gap-diff-bar"
+                    yourLabel={t('whyNotEligible.yourProfileValue')}
+                    requiredLabel={t('modal.statutoryReqLabel')}
+                    yourValue={String(primaryGap.userValue)}
+                    requiredValue={String(primaryGap.statutoryRequirement)}
+                    closeness={Math.min(0.9, Math.max(0.1, matchPercentage / 100))}
+                  />
                 </div>
               </div>
             </motion.div>

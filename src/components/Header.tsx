@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { ActiveScreen, UserProfile } from '../types';
 import {
+  ClipboardList,
   FileCheck2,
   Sparkles,
   User,
@@ -20,6 +21,8 @@ interface HeaderProps {
   applicantName?: string;
   isAuthenticated: boolean;
   onLogout: () => void;
+  /** Number of tracked applications, shown as a badge on the tracker tab. */
+  trackedCount?: number;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -29,6 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
   applicantName,
   isAuthenticated,
   onLogout,
+  trackedCount = 0,
 }) => {
   const { lang, setLang, t, getLocalizedCategory, getLocalizedBusinessType } = useTranslation();
   const { isDark, toggleTheme } = useTheme();
@@ -37,6 +41,9 @@ export const Header: React.FC<HeaderProps> = ({
   const isFormActive = currentScreen === 'form';
   const isResultsActive =
     currentScreen === 'results' || currentScreen === 'alternatives' || currentScreen === 'scheme-detail';
+  const isTrackerActive = currentScreen === 'tracker';
+  const trackerLabel = lang === 'hi' ? 'मेरे आवेदन' : 'My Applications';
+  const trackerShortLabel = lang === 'hi' ? 'आवेदन' : 'Applications';
 
   return (
     <header id="main-header" className="sticky top-0 z-40 bg-[#FAFAF9]/95 dark:bg-[#151C19]/95 backdrop-blur-sm border-b border-[#E2E2E0] dark:border-[#24342D] transition-colors duration-200">
@@ -163,6 +170,32 @@ export const Header: React.FC<HeaderProps> = ({
               <Sparkles className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
               <span>{t('header.navMatchedSchemes')}</span>
             </motion.button>
+
+            <motion.button
+              id="nav-tracker-btn"
+              whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+              onClick={() => onNavigate('tracker')}
+              className={`px-3.5 py-2 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
+                isTrackerActive
+                  ? 'bg-[#14453D] dark:bg-[#1C5045] text-white shadow-xs'
+                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1E2723]'
+              }`}
+            >
+              <ClipboardList className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
+              <span>{trackerLabel}</span>
+              {trackedCount > 0 && (
+                <span
+                  className={`min-w-4 px-1 py-0.5 rounded-full text-[10px] font-bold leading-none ${
+                    isTrackerActive
+                      ? 'bg-white/20 text-white'
+                      : 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
+                  }`}
+                >
+                  {trackedCount}
+                </span>
+              )}
+            </motion.button>
           </nav>
 
           {/* User profile / Auth button */}
@@ -263,6 +296,28 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <Sparkles className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
               <span>{t('header.navSchemesShort')}</span>
+            </motion.button>
+            <motion.button
+              id="mobile-nav-tracker-btn"
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
+              onClick={() => onNavigate('tracker')}
+              className={`px-3 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors ${
+                isTrackerActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
+              }`}
+            >
+              <ClipboardList className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
+              <span>{trackerShortLabel}</span>
+              {trackedCount > 0 && (
+                <span
+                  className={`min-w-4 px-1 rounded-full text-[10px] font-bold leading-none ${
+                    isTrackerActive
+                      ? 'bg-white/20 text-white'
+                      : 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
+                  }`}
+                >
+                  {trackedCount}
+                </span>
+              )}
             </motion.button>
           </div>
         </div>

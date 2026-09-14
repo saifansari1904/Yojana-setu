@@ -13,6 +13,9 @@ export * from './scheme';
 // Matching Engine & Statutory Audit Results
 export * from './matching';
 
+// Application Tracker (Phase 1)
+export * from './tracker';
+
 // Re-export core taxonomy types from schemeTaxonomy for backward compatibility
 export type {
   EnterpriseType,

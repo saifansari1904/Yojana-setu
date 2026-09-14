@@ -210,6 +210,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 percentage={result.matchPercentage}
                 size={66}
                 strokeWidth={6}
+                layoutId={`scheme-gauge-${result.scheme.id}`}
               />
               <div className="text-left sm:text-center">
                 <span className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] block">
@@ -279,12 +280,13 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 </span>
               </div>
 
-              <h2
+              <motion.h2
+                layoutId={`scheme-title-${result.scheme.id}`}
                 onClick={() => onSelectScheme?.(result)}
                 className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors cursor-pointer"
               >
                 {locScheme.name}
-              </h2>
+              </motion.h2>
 
               {/* Normalized Category Tags */}
               {(() => {
@@ -998,7 +1000,8 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               <motion.div
                 variants={shouldReduceMotion ? undefined : staggerContainer}
                 initial={shouldReduceMotion ? undefined : 'hidden'}
-                animate={shouldReduceMotion ? undefined : 'visible'}
+                whileInView={shouldReduceMotion ? undefined : 'visible'}
+                viewport={{ once: true, amount: 'some' }}
                 className="space-y-4"
               >
                 {filteredEligible.map((result, idx) => renderSchemeCard(result, idx === 0 && result.matchPercentage >= 80))}
@@ -1023,7 +1026,8 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               <motion.div
                 variants={shouldReduceMotion ? undefined : staggerContainer}
                 initial={shouldReduceMotion ? undefined : 'hidden'}
-                animate={shouldReduceMotion ? undefined : 'visible'}
+                whileInView={shouldReduceMotion ? undefined : 'visible'}
+                viewport={{ once: true, amount: 'some' }}
                 className="space-y-4"
               >
                 {filteredNear.map((result) => renderSchemeCard(result))}
@@ -1048,7 +1052,8 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               <motion.div
                 variants={shouldReduceMotion ? undefined : staggerContainer}
                 initial={shouldReduceMotion ? undefined : 'hidden'}
-                animate={shouldReduceMotion ? undefined : 'visible'}
+                whileInView={shouldReduceMotion ? undefined : 'visible'}
+                viewport={{ once: true, amount: 'some' }}
                 className="space-y-4"
               >
                 {filteredOther.map((result) => renderSchemeCard(result))}

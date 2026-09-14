@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { MatchResult, UserProfile, Scheme } from '../types';
 import { MatchGauge } from './MatchGauge';
 import { SchemeDocumentChecklist } from './SchemeDocumentChecklist';
@@ -41,7 +41,10 @@ import {
   deriveBusinessNeedProfile,
   BUSINESS_STAGE_TAXONOMY,
   SUPPORT_NEEDS_TAXONOMY,
+  buildSupportPathway,
 } from '../lib/business';
+import { SupportPathway } from './business';
+import type { PathwayAction } from '../types/supportPathway';
 import {
   fadeIn,
   fadeSlideUp,
@@ -50,6 +53,7 @@ import {
   scaleIn,
 } from '../animations/variants';
 import { transitions } from '../animations/transitions';
+import { toastVariants } from '../animations/variants';
 import { ArrowFillButton, BookmarkButton, VerificationBadge, AnimatedScore } from './ui';
 
 interface SchemeDetailScreenProps {
@@ -122,8 +126,36 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
     });
   };
 
+  // PHASE 4.2 — deterministic, memoized support pathway for the selected scheme
+  const phase42Pathway = useMemo(() => {
+    if (!userProfile) return null;
+    return buildSupportPathway({
+      profile: userProfile,
+      matchResults: allMatches && allMatches.length > 0 ? allMatches : [matchResult],
+      selectedMatch: matchResult,
+      preparedDocIds: readyDocs,
+      hasEngagedWithChecklist: readyDocs.length > 0,
+      lang: lang === 'hi' ? 'hi' : 'en',
+    });
+  }, [userProfile, allMatches, matchResult, readyDocs, lang]);
+
   // Toast feedback for copy/share
   const [shareFeedback, setShareFeedback] = useState<boolean>(false);
+
+  const handlePathwayAction = (action: PathwayAction) => {
+    if (action.actionTarget === 'portal' && (action.actionUrl || locScheme.officialPortalUrl)) {
+      window.open(action.actionUrl || locScheme.officialPortalUrl, '_blank', 'noopener,noreferrer');
+    } else if (action.actionTarget === 'checklist') {
+      const el = document.getElementById('scheme-document-checklist');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (action.actionTarget === 'form' || action.actionTarget === 'details') {
+      onBackToResults();
+    } else if (action.actionTarget === 'alternatives' && onOpenWhyNotEligible) {
+      onOpenWhyNotEligible(matchResult);
+    }
+  };
 
   const handleShare = async () => {
     const shareData = {
@@ -235,18 +267,30 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
         </div>
       </div>
 
-      {/* Share Toast Notification */}
-      {shareFeedback && (
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }}
-          className="mb-4 p-3 bg-[#D4EFE1] dark:bg-[#1A382D] border border-[#16A34A] text-[#14453D] dark:text-[#4ADE80] rounded text-xs font-semibold flex items-center gap-2 shadow-xs"
-        >
-          <Check className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
-          <span>{t('schemeDetail.shareSuccess')}</span>
-        </motion.div>
-      )}
+      {/* Share Toast Notification — springs in, settles out */}
+      <AnimatePresence>
+        {shareFeedback && (
+          <motion.div
+            role="status"
+            aria-live="polite"
+            variants={shouldReduceMotion ? undefined : toastVariants}
+            initial={shouldReduceMotion ? undefined : 'hidden'}
+            animate={shouldReduceMotion ? undefined : 'visible'}
+            exit={shouldReduceMotion ? undefined : 'exit'}
+            className="mb-4 p-3 bg-[#D4EFE1] dark:bg-[#1A382D] border border-[#16A34A] text-[#14453D] dark:text-[#4ADE80] rounded text-xs font-semibold flex items-center gap-2 shadow-xs"
+          >
+            <motion.span
+              initial={shouldReduceMotion ? undefined : { scale: 0.4, opacity: 0 }}
+              animate={shouldReduceMotion ? undefined : { scale: 1, opacity: 1 }}
+              transition={{ delay: 0.08, type: 'spring', stiffness: 420, damping: 24 }}
+              className="flex items-center"
+            >
+              <Check className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
+            </motion.span>
+            <span>{t('schemeDetail.shareSuccess')}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 2. TOP SECTION — SCHEME HERO */}
       <motion.section
@@ -305,9 +349,12 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             })()}
 
             {/* Scheme Full Name */}
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight leading-snug mb-2">
+            <motion.h1
+              layoutId={`scheme-title-${locScheme.id}`}
+              className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight leading-snug mb-2"
+            >
               {locScheme.name}
-            </h1>
+            </motion.h1>
 
             {/* Sponsoring Ministry */}
             <p className="text-xs sm:text-sm text-[#516A5F] dark:text-[#9EB0A7] flex items-center gap-1.5 flex-wrap">
@@ -366,6 +413,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 size={80}
                 strokeWidth={7}
                 id={`detail-gauge-${locScheme.id}`}
+                layoutId={`scheme-gauge-${locScheme.id}`}
               />
               <div className="text-left md:text-right">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-[#6F7A73] dark:text-[#8E9F97] block">
@@ -562,7 +610,8 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               id="why-helps-business-section"
               variants={shouldReduceMotion ? undefined : fadeSlideUp}
               initial="hidden"
-              animate="visible"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
               className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 shadow-xs transition-colors duration-200"
             >
               <div className="flex items-center justify-between gap-2 mb-3">
@@ -571,7 +620,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                     <Briefcase className="w-3.5 h-3.5" />
                   </div>
                   <h2 className="text-base sm:text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
-                    {lang === 'hi' ? 'यह आपके व्यवसाय के लिए क्यों उपयोगी है' : 'Why This May Help Your Business'}
+                    {lang === 'hi' ? 'यह आपके व्यवसाय के लिए क्य��ं उपयोगी है' : 'Why This May Help Your Business'}
                   </h2>
                 </div>
                 {matchResult.businessRelevance && (
@@ -684,12 +733,36 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             </motion.section>
           )}
 
+          {/* Phase 4.2: Integrated Business Support Pathway */}
+          {phase42Pathway && (
+            <motion.div
+              id="phase-4-2-support-pathway"
+              variants={shouldReduceMotion ? undefined : fadeSlideUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+            >
+              <SupportPathway
+                pathway={phase42Pathway}
+                onAction={handlePathwayAction}
+                onSelectScheme={(targetSchemeId) => {
+                  const target = allMatches.find((m) => m.scheme.id === targetSchemeId);
+                  if (target) {
+                    onSelectScheme(target);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                }}
+              />
+            </motion.div>
+          )}
+
           {/* 4. "WHY THIS SCHEME MATCHES YOU" (5-Factor Detailed Rule Breakdown) */}
           <motion.section
             id="why-matches-section"
             variants={shouldReduceMotion ? undefined : fadeSlideUp}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
             className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 shadow-xs transition-colors duration-200"
           >
             <div className="flex items-center gap-2 mb-2">
@@ -788,7 +861,8 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             id="scheme-overview-section"
             variants={shouldReduceMotion ? undefined : fadeSlideUp}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
             className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 shadow-xs transition-colors duration-200"
           >
             <div className="flex items-center gap-2 mb-3">
@@ -893,7 +967,8 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             id="eligibility-table-section"
             variants={shouldReduceMotion ? undefined : fadeSlideUp}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
             className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 shadow-xs transition-colors duration-200"
           >
             <div className="flex items-center gap-2 mb-3">
@@ -972,7 +1047,8 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
           <motion.section
             variants={shouldReduceMotion ? undefined : fadeSlideUp}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
           >
             <SchemeDocumentChecklist
               documents={locScheme.requiredDocuments}
@@ -987,7 +1063,8 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             id="how-to-apply-section"
             variants={shouldReduceMotion ? undefined : fadeSlideUp}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
             className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 shadow-xs transition-colors duration-200"
           >
             <div className="flex items-center justify-between gap-3 mb-4">
@@ -1173,7 +1250,8 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             id="benefits-financial-section"
             variants={shouldReduceMotion ? undefined : fadeSlideUp}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
             className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 shadow-xs transition-colors duration-200"
           >
             <div className="flex items-center gap-2 mb-3">
@@ -1343,7 +1421,8 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             id="alternatives-sidebar-section"
             variants={shouldReduceMotion ? undefined : fadeSlideUp}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
             className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 shadow-xs transition-colors duration-200"
           >
             <div className="flex items-center gap-2 mb-2">

@@ -1,5 +1,5 @@
 import React, { useId } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import {
   X,
   CheckCircle2,
@@ -19,6 +19,7 @@ import { useTranslation } from '../i18n';
 import { compareSchemes, SchemeComparisonResult } from '../lib/matching/comparisonEngine';
 import { MatchGauge } from './MatchGauge';
 import { VerificationBadge } from './ui';
+import { columnStaggerContainer, columnStaggerItem, winnerFlash } from '../animations/variants';
 
 interface SchemeComparisonModalProps {
   isOpen: boolean;
@@ -40,6 +41,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
   const { lang, t } = useTranslation();
   const isHi = lang === 'hi';
   const modalId = useId();
+  const shouldReduceMotion = useReducedMotion();
 
   if (!isOpen || selectedMatches.length < 2) return null;
 
@@ -99,15 +101,21 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
 
           {/* Comparison Content Table */}
           <div className="flex-1 overflow-x-auto overflow-y-auto p-4 sm:p-6">
-            <div className={`grid grid-cols-1 md:grid-cols-${columns.length} gap-4 min-w-[640px]`}>
+            <motion.div
+              variants={columnStaggerContainer}
+              initial="hidden"
+              animate="visible"
+              className={`grid grid-cols-1 md:grid-cols-${columns.length} gap-4 min-w-[640px]`}
+            >
               {columns.map((col) => {
                 const isBestMatch = col.schemeId === bestMatchSchemeId;
                 const matchResult = selectedMatches.find((m) => m.scheme.id === col.schemeId);
 
                 return (
-                  <div
+                  <motion.div
                     key={col.schemeId}
                     id={`compare-column-${col.schemeId}`}
+                    variants={columnStaggerItem}
                     className={`rounded-lg border p-4 sm:p-5 flex flex-col justify-between transition-all ${
                       isBestMatch
                         ? 'border-[#14453D] dark:border-[#34D399] bg-[#FAFDFB] dark:bg-[#15221C] shadow-sm'
@@ -148,8 +156,13 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         {col.sponsoringMinistry}
                       </p>
 
-                      {/* Match Score & Status Header */}
-                      <div className="flex items-center gap-3 p-3 rounded-md bg-[#F4F6F5] dark:bg-[#1B2720] border border-[#E2E2E0] dark:border-[#25362C] mb-4">
+                      {/* Match Score & Status Header — winner flashes once after columns settle */}
+                      <motion.div
+                        variants={isBestMatch && !shouldReduceMotion ? winnerFlash : undefined}
+                        initial={isBestMatch && !shouldReduceMotion ? 'hidden' : undefined}
+                        animate={isBestMatch && !shouldReduceMotion ? 'visible' : undefined}
+                        className="flex items-center gap-3 p-3 rounded-md bg-[#F4F6F5] dark:bg-[#1B2720] border border-[#E2E2E0] dark:border-[#25362C] mb-4"
+                      >
                         <MatchGauge percentage={col.matchPercentage} size={54} strokeWidth={5} />
                         <div>
                           <span className="text-[10px] uppercase font-bold text-[#6F7A73] dark:text-[#8E9F97] block">
@@ -177,7 +190,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                             )}
                           </div>
                         </div>
-                      </div>
+                      </motion.div>
 
                       {/* Highlights */}
                       {col.standoutHighlights.length > 0 && (
@@ -324,10 +337,10 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         )}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
           </div>
 
           {/* Footer Note */}

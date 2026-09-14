@@ -1,0 +1,347 @@
+import React, { useMemo, useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
+import {
+  ArrowRight,
+  CheckCircle2,
+  ClipboardList,
+  FileText,
+  NotebookPen,
+  Trash2,
+  XCircle,
+} from 'lucide-react';
+import type { ApplicationStatus, MatchResult, TrackedApplication } from '../types';
+import {
+  getDocReadiness,
+  getNextStatus,
+  getStatusMeta,
+  summariseByStatus,
+} from '../lib/tracker/applicationTracker';
+import { EmptyState } from './common/EmptyState';
+import { AnimatedCounter } from '../animations/AnimatedCounter';
+import { staggerContainer, staggerItem } from '../animations/variants';
+import { useTranslation } from '../i18n';
+
+interface ApplicationTrackerScreenProps {
+  applications: TrackedApplication[];
+  matchResults: MatchResult[];
+  onUpdateStatus: (schemeId: string, status: ApplicationStatus) => void;
+  onUpdateNote: (schemeId: string, note: string) => void;
+  onUpdateAppliedOn: (schemeId: string, appliedOn: string) => void;
+  onRemove: (schemeId: string) => void;
+  onSelectScheme: (match: MatchResult) => void;
+  onBackToResults: () => void;
+}
+
+/** Display order: active work first, terminal outcomes last. */
+const DISPLAY_ORDER: ApplicationStatus[] = [
+  'interested',
+  'docs-ready',
+  'applied',
+  'approved',
+  'rejected',
+];
+
+export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> = ({
+  applications,
+  matchResults,
+  onUpdateStatus,
+  onUpdateNote,
+  onUpdateAppliedOn,
+  onRemove,
+  onSelectScheme,
+  onBackToResults,
+}) => {
+  const { lang, getLocalizedScheme } = useTranslation();
+  const shouldReduceMotion = useReducedMotion();
+  const isHi = lang === 'hi';
+
+  const [openNoteFor, setOpenNoteFor] = useState<string | null>(null);
+
+  const summary = useMemo(() => summariseByStatus(applications), [applications]);
+
+  const sorted = useMemo(
+    () =>
+      [...applications].sort((a, b) => {
+        const orderDiff = DISPLAY_ORDER.indexOf(a.status) - DISPLAY_ORDER.indexOf(b.status);
+        if (orderDiff !== 0) return orderDiff;
+        return b.updatedAt.localeCompare(a.updatedAt);
+      }),
+    [applications],
+  );
+
+  const activeCount = summary.interested + summary['docs-ready'] + summary.applied;
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+      <div className="mb-6">
+        <div className="flex items-center gap-2 mb-1.5">
+          <ClipboardList className="w-5 h-5 text-[#16A34A] dark:text-[#4ADE80]" />
+          <h1 className="text-xl sm:text-2xl font-bold text-[#14453D] dark:text-[#E8EFEA]">
+            {isHi ? 'मेरे आवेदन' : 'My Applications'}
+          </h1>
+        </div>
+        <p className="text-xs sm:text-sm text-[#516A5F] dark:text-[#9EB0A7] max-w-2xl">
+          {isHi
+            ? 'सहेजी गई योजनाओं की प्रगति यहीं ट्रैक करें — दस्तावेज़ से स्वीकृति तक।'
+            : 'Track every saved scheme from documents through to a decision.'}
+        </p>
+        <p className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] mt-1.5">
+          {isHi
+            ? 'यह सूची केवल इस ब्राउज़र में सहेजी जाती है।'
+            : 'Saved in this browser only — not submitted to any ministry.'}
+        </p>
+      </div>
+
+      {applications.length > 0 && (
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-6">
+          {DISPLAY_ORDER.map((status) => {
+            const meta = getStatusMeta(status, lang);
+            return (
+              <div
+                key={status}
+                id={`tracker-summary-${status}`}
+                className="bg-white dark:bg-[#151C19] border border-[#E2E2E0] dark:border-[#24342D] rounded-md px-3 py-2.5"
+              >
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className={`w-1.5 h-1.5 rounded-full ${meta.dotClass}`} />
+                  <span className="text-[10px] font-bold uppercase tracking-wide text-[#6F7A73] dark:text-[#8E9F97]">
+                    {meta.label}
+                  </span>
+                </div>
+                <div className="text-lg font-bold text-[#14453D] dark:text-[#E8EFEA] leading-none">
+                  <AnimatedCounter value={summary[status]} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {applications.length === 0 ? (
+        <EmptyState
+          type="no-data"
+          title={isHi ? 'अभी कोई आवेदन ट्रैक नहीं हो रहा' : 'No applications tracked yet'}
+          description={
+            isHi
+              ? 'परिणाम पेज पर किसी योजना को सहेजें — वह अपने आप यहाँ दिखेगी।'
+              : 'Save a scheme from your results and it will appear here automatically.'
+          }
+          actionLabel={isHi ? 'मिलान देखें' : 'View matched schemes'}
+          onAction={onBackToResults}
+        />
+      ) : (
+        <>
+          {activeCount > 0 && (
+            <p className="text-xs font-semibold text-[#3F4943] dark:text-[#C5D5CC] mb-3">
+              {isHi ? `${activeCount} आवेदन प्रगति में` : `${activeCount} in progress`}
+            </p>
+          )}
+
+          <motion.div
+            variants={shouldReduceMotion ? undefined : staggerContainer}
+            initial={shouldReduceMotion ? undefined : 'hidden'}
+            animate={shouldReduceMotion ? undefined : 'visible'}
+            className="space-y-3 pb-10"
+          >
+            {sorted.map((app) => {
+              const match = matchResults.find((m) => m.scheme.id === app.schemeId);
+              const scheme = match ? getLocalizedScheme(match.scheme) : null;
+              const schemeName = scheme?.name || app.schemeName;
+              const meta = getStatusMeta(app.status, lang);
+              const nextStatus = getNextStatus(app.status);
+              const nextMeta = nextStatus ? getStatusMeta(nextStatus, lang) : null;
+              const docs = getDocReadiness(
+                app.schemeId,
+                match?.scheme.requiredDocuments?.length || 0,
+              );
+              const isNoteOpen = openNoteFor === app.schemeId;
+
+              return (
+                <motion.div
+                  key={app.schemeId}
+                  id={`tracked-application-${app.schemeId}`}
+                  variants={shouldReduceMotion ? undefined : staggerItem}
+                  className="bg-white dark:bg-[#151C19] border border-[#E2E2E0] dark:border-[#24342D] rounded-md p-4 shadow-xs"
+                >
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <div className="min-w-0">
+                      <h2 className="text-sm font-bold text-[#14453D] dark:text-[#E8EFEA] leading-snug">
+                        {schemeName}
+                      </h2>
+                      <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                        <span
+                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] font-bold ${meta.pillClass}`}
+                        >
+                          <span className={`w-1.5 h-1.5 rounded-full ${meta.dotClass}`} />
+                          {meta.label}
+                        </span>
+                        {match && (
+                          <span className="text-[10px] font-semibold text-[#516A5F] dark:text-[#9EB0A7]">
+                            {match.matchPercentage}% {isHi ? 'मिलान' : 'match'}
+                          </span>
+                        )}
+                        {docs.total > 0 && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#516A5F] dark:text-[#9EB0A7]">
+                            <FileText className="w-3 h-3" />
+                            {docs.ready}/{docs.total} {isHi ? 'दस्तावेज़' : 'docs'}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <button
+                      id={`tracker-remove-${app.schemeId}`}
+                      type="button"
+                      onClick={() => onRemove(app.schemeId)}
+                      className="shrink-0 p-1.5 text-[#6F7A73] dark:text-[#8E9F97] hover:text-[#C2603F] dark:hover:text-[#F87171] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1A14]/40 rounded transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
+                      title={isHi ? 'ट्रैकिंग से हटाएं' : 'Remove from tracker'}
+                      aria-label={isHi ? 'ट्रैकिंग से हटाएं' : 'Remove from tracker'}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  {app.status === 'interested' && docs.allReady && (
+                    <div className="mb-3 flex items-start gap-2 bg-[#D4EFE1]/60 dark:bg-[#1A382D]/50 border border-[#C1E2D0] dark:border-[#22503E] rounded px-3 py-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80] shrink-0 mt-0.5" />
+                      <p className="text-[11px] text-[#14453D] dark:text-[#C5D5CC]">
+                        {isHi
+                          ? 'सभी दस्तावेज़ जाँचे जा चुके हैं — स्थिति आगे बढ़ाएं।'
+                          : 'Your document checklist is complete — ready to move this forward.'}
+                      </p>
+                    </div>
+                  )}
+
+                  {app.status === 'applied' && (
+                    <div className="mb-3">
+                      <label
+                        htmlFor={`tracker-applied-on-${app.schemeId}`}
+                        className="block text-[10px] font-bold uppercase tracking-wide text-[#6F7A73] dark:text-[#8E9F97] mb-1"
+                      >
+                        {isHi ? 'आवेदन की तारीख' : 'Applied on'}
+                      </label>
+                      <input
+                        id={`tracker-applied-on-${app.schemeId}`}
+                        type="date"
+                        value={app.appliedOn || ''}
+                        onChange={(e) => onUpdateAppliedOn(app.schemeId, e.target.value)}
+                        className="bg-[#FAFAF9] dark:bg-[#1B2720] border border-[#E2E2E0] dark:border-[#2A3C34] rounded px-2.5 py-1.5 text-xs text-[#1A1C1B] dark:text-[#F0F4F2] focus-visible:ring-2 focus-visible:ring-[#16A34A] outline-none"
+                      />
+                    </div>
+                  )}
+
+                  {isNoteOpen ? (
+                    <div className="mb-3">
+                      <label
+                        htmlFor={`tracker-note-${app.schemeId}`}
+                        className="block text-[10px] font-bold uppercase tracking-wide text-[#6F7A73] dark:text-[#8E9F97] mb-1"
+                      >
+                        {isHi ? 'टिप्पणी' : 'Note'}
+                      </label>
+                      <textarea
+                        id={`tracker-note-${app.schemeId}`}
+                        rows={3}
+                        value={app.note || ''}
+                        onChange={(e) => onUpdateNote(app.schemeId, e.target.value)}
+                        placeholder={
+                          isHi
+                            ? 'संदर्भ संख्या, बैंक शाखा, अगला कदम…'
+                            : 'Reference number, bank branch, next step…'
+                        }
+                        className="w-full bg-[#FAFAF9] dark:bg-[#1B2720] border border-[#E2E2E0] dark:border-[#2A3C34] rounded px-2.5 py-2 text-xs text-[#1A1C1B] dark:text-[#F0F4F2] placeholder:text-[#9EB0A7] focus-visible:ring-2 focus-visible:ring-[#16A34A] outline-none resize-y"
+                      />
+                    </div>
+                  ) : (
+                    app.note && (
+                      <p className="mb-3 text-[11px] text-[#3F4943] dark:text-[#C5D5CC] bg-[#F4F6F5] dark:bg-[#1B2720] border border-[#EAECEB] dark:border-[#24342D] rounded px-3 py-2 whitespace-pre-wrap">
+                        {app.note}
+                      </p>
+                    )
+                  )}
+
+                  {/* Actions */}
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    {nextMeta && (
+                      <motion.button
+                        id={`tracker-advance-${app.schemeId}`}
+                        type="button"
+                        whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+                        whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                        onClick={() => onUpdateStatus(app.schemeId, nextMeta.status)}
+                        className="inline-flex items-center gap-1.5 bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-3 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
+                      >
+                        <span>
+                          {isHi ? 'अगला: ' : 'Mark as '}
+                          {nextMeta.label}
+                        </span>
+                        <ArrowRight className="w-3 h-3" />
+                      </motion.button>
+                    )}
+
+                    {match && (
+                      <button
+                        id={`tracker-open-scheme-${app.schemeId}`}
+                        type="button"
+                        onClick={() => onSelectScheme(match)}
+                        className="inline-flex items-center gap-1.5 bg-[#F3F4F3] dark:bg-[#1E2723] hover:bg-[#EEEEED] dark:hover:bg-[#26352E] border border-[#E2E2E0] dark:border-[#2A3C34] text-[#14453D] dark:text-[#C5D5CC] px-3 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
+                      >
+                        <FileText className="w-3 h-3" />
+                        <span>{isHi ? 'योजना खोलें' : 'Open scheme'}</span>
+                      </button>
+                    )}
+
+                    <button
+                      id={`tracker-toggle-note-${app.schemeId}`}
+                      type="button"
+                      onClick={() => setOpenNoteFor(isNoteOpen ? null : app.schemeId)}
+                      className="inline-flex items-center gap-1.5 text-[#516A5F] dark:text-[#9EB0A7] hover:text-[#14453D] dark:hover:text-[#F0F4F2] px-2 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
+                      aria-expanded={isNoteOpen}
+                    >
+                      <NotebookPen className="w-3 h-3" />
+                      <span>
+                        {isNoteOpen
+                          ? isHi
+                            ? 'टिप्पणी बंद करें'
+                            : 'Done editing'
+                          : app.note
+                            ? isHi
+                              ? 'टिप्पणी संपादित करें'
+                              : 'Edit note'
+                            : isHi
+                              ? 'टिप्पणी जोड़ें'
+                              : 'Add note'}
+                      </span>
+                    </button>
+
+                    {app.status !== 'rejected' && app.status !== 'approved' && (
+                      <button
+                        id={`tracker-reject-${app.schemeId}`}
+                        type="button"
+                        onClick={() => onUpdateStatus(app.schemeId, 'rejected')}
+                        className="inline-flex items-center gap-1.5 text-[#6F7A73] dark:text-[#8E9F97] hover:text-[#C2603F] dark:hover:text-[#F87171] px-2 py-1.5 rounded text-[11px] font-semibold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
+                      >
+                        <XCircle className="w-3 h-3" />
+                        <span>{isHi ? 'अस्वीकृत दर्ज करें' : 'Mark rejected'}</span>
+                      </button>
+                    )}
+
+                    {(app.status === 'approved' || app.status === 'rejected') && (
+                      <button
+                        id={`tracker-reopen-${app.schemeId}`}
+                        type="button"
+                        onClick={() => onUpdateStatus(app.schemeId, 'applied')}
+                        className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] hover:text-[#14453D] dark:hover:text-[#F0F4F2] px-2 py-1.5 rounded transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
+                      >
+                        {isHi ? 'पुनः खोलें' : 'Reopen'}
+                      </button>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </>
+      )}
+    </div>
+  );
+};

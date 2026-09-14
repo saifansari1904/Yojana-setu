@@ -53,7 +53,7 @@ export function calculateBusinessProfileCompleteness(
 
   const missing: MissingFieldPrompt[] = [];
   let score = 0;
-  const maxScore = 10;
+  const maxScore = 13;
 
   // 1. Business Stage (Weight: 2)
   if (profile.businessStageKey || profile.businessStage) {
@@ -121,8 +121,41 @@ export function calculateBusinessProfileCompleteness(
     });
   }
 
-  // 5. State / Location (Weight: 1)
-  if (profile.businessState || profile.state) {
+  // 5. Operational Status (Weight: 1)
+  const hasOperationalStatus =
+    profile.operationalStatus !== undefined &&
+    profile.operationalStatus !== 'UNKNOWN' &&
+    profile.operationalStatus !== null;
+
+  if (hasOperationalStatus || profile.hasExistingBusiness !== undefined) {
+    score += 1;
+  } else {
+    missing.push({
+      fieldKey: 'operationalStatus',
+      labelEn: 'Operational Status',
+      labelHi: 'परिचालन स्थिति',
+      priority: 'MEDIUM',
+      helperEn: 'Distinguishes between pre-launch, active operating units, and expansion.',
+      helperHi: 'लॉन्च पूर्व, सक्रिय परिचालन एवं विस्तार इकाइयों में भेद करता है।',
+    });
+  }
+
+  // 6. Business Legal Structure / Entity Type (Weight: 1)
+  if (profile.businessEntityType) {
+    score += 1;
+  } else {
+    missing.push({
+      fieldKey: 'businessEntityType',
+      labelEn: 'Legal Entity Structure',
+      labelHi: 'विधिक संरचना (प्रोपराइटरशिप/एलएलपी/प्राइवेट लि.)',
+      priority: 'MEDIUM',
+      helperEn: 'Matches corporate, partnership, or solo artisan scheme criteria.',
+      helperHi: 'कॉर्पोरेट, साझेदारी या व्यक्तिगत कारीगर पात्रता का मिलान करता है।',
+    });
+  }
+
+  // 7. State & Location / Domicile (Weight: 1)
+  if (profile.businessState || profile.residenceState || profile.state) {
     score += 1;
   } else {
     missing.push({
@@ -135,7 +168,7 @@ export function calculateBusinessProfileCompleteness(
     });
   }
 
-  // 6. Support Need Priority (Weight: 1)
+  // 8. Primary Support Need (Weight: 1)
   if (profile.primarySupportNeed) {
     score += 1;
   } else {
@@ -149,8 +182,28 @@ export function calculateBusinessProfileCompleteness(
     });
   }
 
-  // 7. Business Idea or Entity Structure (Weight: 1)
-  if (profile.businessIdea || profile.businessEntityType || profile.applicantName) {
+  // 9. Secondary Support Needs (Weight: 1)
+  if (profile.secondarySupportNeeds && profile.secondarySupportNeeds.length > 0) {
+    score += 1;
+  } else {
+    missing.push({
+      fieldKey: 'secondarySupportNeeds',
+      labelEn: 'Additional Support Needs',
+      labelHi: 'अतिरिक्त व्यावसायिक आवश्यकताएं',
+      priority: 'MEDIUM',
+      helperEn: 'Adds secondary assistance criteria such as market access or certification.',
+      helperHi: 'बाजार संपर्क अथवा प्रमाणन जैसी अतिरिक्त सहायता आवश्यकताओं को जोड़ता है।',
+    });
+  }
+
+  // 10. Experience & Profile Context (Weight: 1)
+  if (
+    profile.entrepreneurExperienceYears !== undefined ||
+    profile.businessIdea ||
+    profile.businessName ||
+    profile.subSector ||
+    profile.applicantName
+  ) {
     score += 1;
   }
 

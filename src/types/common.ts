@@ -3,7 +3,8 @@ export type ActiveScreen =
   | 'form'
   | 'results'
   | 'alternatives'
-  | 'scheme-detail';
+  | 'scheme-detail'
+  | 'tracker';
 
 export interface RepaymentCalculation {
   principalAmount: number;

@@ -302,3 +302,57 @@ export const errorShakeVariants: Variants = {
     transition: { duration: 0.15 },
   },
 };
+
+// ── Added motion primitives ──────────────────────────────────────────────
+
+// Restrained celebration glow for very high match scores (no confetti)
+export const glowPulse: Variants = {
+  hidden: { opacity: 0, scale: 0.85 },
+  visible: {
+    opacity: [0, 0.55, 0],
+    scale: [0.85, 1.35, 1.5],
+    transition: { duration: 1.1, ease: 'easeOut', delay: 0.35 },
+  },
+};
+
+// Column-wise stagger for the comparison matrix
+export const columnStaggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.09, delayChildren: 0.06 },
+  },
+};
+
+export const columnStaggerItem: Variants = {
+  hidden: { opacity: 0, y: 14, scale: 0.985 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: transitions.gentleSpring,
+  },
+};
+
+// Winning cell highlight flash in the comparison matrix
+export const winnerFlash: Variants = {
+  hidden: { backgroundColor: 'rgba(22,163,74,0)' },
+  visible: {
+    backgroundColor: ['rgba(22,163,74,0)', 'rgba(22,163,74,0.16)', 'rgba(22,163,74,0.06)'],
+    transition: { duration: 0.9, ease: 'easeOut', delay: 0.5 },
+  },
+};
+
+// Toast slide-in for copy/share confirmations
+export const toastVariants: Variants = {
+  hidden: { opacity: 0, y: 16, scale: 0.96 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: transitions.gentleSpring },
+  exit: { opacity: 0, y: 10, scale: 0.97, transition: transitions.fast },
+};
+
+// Field-level validation tick
+export const validationTick: Variants = {
+  hidden: { opacity: 0, scale: 0.5 },
+  visible: { opacity: 1, scale: 1, transition: transitions.spring },
+  exit: { opacity: 0, scale: 0.6, transition: transitions.micro },
+};

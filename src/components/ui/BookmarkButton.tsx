@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Heart } from 'lucide-react';
 import { useTranslation } from '../../i18n';
+import { BurstParticles } from '../../animations/BurstParticles';
 
 export interface BookmarkButtonProps {
   id?: string;
@@ -44,12 +45,15 @@ export const BookmarkButton: React.FC<BookmarkButtonProps> = ({
       title={label}
       whileHover={shouldReduceMotion ? undefined : { y: -1 }}
       whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
-      className={`inline-flex items-center justify-center font-bold rounded transition-all cursor-pointer select-none border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16A34A] ${
+      className={`relative inline-flex items-center justify-center font-bold rounded transition-all cursor-pointer select-none border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16A34A] ${
         isSaved
           ? 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] border-[#16A34A] dark:border-[#22C55E]'
           : 'bg-white dark:bg-[#1E2924] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#516A5F] dark:text-[#C5D5CC] border-[#E2E2E0] dark:border-[#2E4137] hover:border-[#B2CDBF] dark:hover:border-[#3E5C4E]'
       } ${compact ? 'p-2 text-xs' : 'px-3 py-1.5 text-xs gap-1.5'} ${className}`}
     >
+      {/* Radial spark burst on save confirmation */}
+      <BurstParticles active={justToggled && isSaved} />
+
       {/* Animated Heart Icon */}
       <motion.div
         animate={

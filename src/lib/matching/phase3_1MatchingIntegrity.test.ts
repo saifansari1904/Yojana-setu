@@ -94,7 +94,7 @@ assert(expBlocked.recommendationReason.includes('Statutory restriction') || expB
 // 5. Decision Engine & Next Best Action
 const nextActionQualifying = getNextBestAction(resultQualifying, qualifyingSCFemale, 'en');
 assert(nextActionQualifying.priority === 'medium' || nextActionQualifying.priority === 'high', 'T22: Eligible next action has appropriate priority');
-assert(nextActionQualifying.actionType === 'VERIFY_INFORMATION' || nextActionQualifying.actionType === 'VISIT_OFFICIAL_PORTAL' || nextActionQualifying.actionType === 'PREPARE_DOCUMENTS', 'T23: Actionable next step recommended');
+assert(nextActionQualifying.actionType === 'VERIFY_INFORMATION' || nextActionQualifying.actionType === 'VISIT_OFFICIAL_PORTAL' || nextActionQualifying.actionType === 'PREPARE_DOCUMENTS' || nextActionQualifying.actionType === 'COMPLETE_BUSINESS_PROFILE', 'T23: Actionable next step recommended');
 assert(nextActionQualifying.buttonLabel.length > 0, 'T24: Action button label provided');
 
 const nextActionBlocked = getNextBestAction(resultGeneralMale, generalMale, 'en');

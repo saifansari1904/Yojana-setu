@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { motion, animate, useReducedMotion } from 'motion/react';
 import { useTranslation } from '../i18n';
 import { useTheme } from '../theme/ThemeContext';
+import { glowPulse } from '../animations/variants';
 
 interface MatchGaugeProps {
   percentage: number;
@@ -10,6 +11,12 @@ interface MatchGaugeProps {
   showLabel?: boolean;
   className?: string;
   id?: string;
+  /**
+   * Shared-layout id. Pass the same value on the results card gauge and the
+   * detail screen gauge so the ring morphs between screens instead of
+   * cross-fading.
+   */
+  layoutId?: string;
 }
 
 export const MatchGauge: React.FC<MatchGaugeProps> = ({
@@ -19,6 +26,7 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
   showLabel = true,
   className = '',
   id,
+  layoutId,
 }) => {
   const { lang } = useTranslation();
   const { isDark } = useTheme();
@@ -27,7 +35,6 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
   const clampedPercent = Math.min(100, Math.max(0, isNaN(percentage) ? 0 : Math.round(percentage)));
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (clampedPercent / 100) * circumference;
 
   // Smooth number count-up state
   const [displayPercent, setDisplayPercent] = useState<number>(shouldReduceMotion ? clampedPercent : 0);
@@ -42,7 +49,7 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
 
     const startVal = prevPercentRef.current;
     const controls = animate(startVal, clampedPercent, {
-      duration: 0.75,
+      duration: 0.85,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (val) => setDisplayPercent(Math.round(val)),
       onComplete: () => {
@@ -56,18 +63,24 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
   // Determine tone
   const isHighMatch = clampedPercent >= 75;
   const isMediumMatch = clampedPercent >= 50 && clampedPercent < 75;
+  const isExceptionalMatch = clampedPercent >= 90;
 
-  const strokeColor = isDark
-    ? isHighMatch
-      ? '#34D399' // Bright mint
-      : isMediumMatch
-      ? '#86B5A1' // Sage
-      : '#F87171' // Coral red
-    : isHighMatch
-    ? '#0F6B4C' // Emerald
+  const lowColor = isDark ? '#F87171' : '#C2603F';
+  const midColor = isDark ? '#86B5A1' : '#4B6459';
+  const highColor = isDark ? '#34D399' : '#0F6B4C';
+
+  const strokeColor = isHighMatch ? highColor : isMediumMatch ? midColor : lowColor;
+
+  /**
+   * Colour sweep: while the ring draws, the stroke travels through the
+   * red -> amber/sage -> green ramp and settles on the final tone. This makes
+   * the score feel "earned" rather than pre-decided.
+   */
+  const sweepColors = isHighMatch
+    ? [lowColor, midColor, highColor]
     : isMediumMatch
-    ? '#4B6459' // Secondary Slate Green
-    : '#C2603F'; // Terracotta
+    ? [lowColor, midColor]
+    : [lowColor];
 
   const bgColor = isDark
     ? isHighMatch
@@ -93,9 +106,20 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
       aria-valuemax={100}
       aria-label={`Eligibility match score: ${clampedPercent}%`}
     >
-      <div className="relative" style={{ width: size, height: size }}>
+      <motion.div layoutId={layoutId} className="relative" style={{ width: size, height: size }}>
+        {/* Restrained celebration glow for exceptional matches (90%+) */}
+        {isExceptionalMatch && !shouldReduceMotion && (
+          <motion.span
+            aria-hidden="true"
+            variants={glowPulse}
+            initial="hidden"
+            animate="visible"
+            className="absolute inset-0 rounded-full bg-[#16A34A]/30 dark:bg-[#34D399]/25 blur-md"
+          />
+        )}
+
         <svg
-          className="rotate-[-90deg] transform"
+          className="relative rotate-[-90deg] transform"
           width={size}
           height={size}
           viewBox={`0 0 ${size} ${size}`}
@@ -109,22 +133,35 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
             strokeWidth={strokeWidth}
             fill="transparent"
           />
-          {/* Smooth animated progress circle */}
+          {/* Draw-on progress arc with synchronised colour sweep */}
           <motion.circle
             cx={size / 2}
             cy={size / 2}
             r={radius}
-            stroke={strokeColor}
             strokeWidth={strokeWidth}
             fill="transparent"
             strokeDasharray={circumference}
-            initial={{ strokeDashoffset: shouldReduceMotion ? strokeDashoffset : circumference }}
-            animate={{ strokeDashoffset }}
-            transition={{
-              duration: shouldReduceMotion ? 0.01 : 0.8,
-              ease: [0.16, 1, 0.3, 1],
-            }}
             strokeLinecap="round"
+            initial={{
+              strokeDashoffset: shouldReduceMotion
+                ? circumference - (clampedPercent / 100) * circumference
+                : circumference,
+              stroke: sweepColors[0],
+            }}
+            animate={{
+              strokeDashoffset: circumference - (clampedPercent / 100) * circumference,
+              stroke: shouldReduceMotion ? strokeColor : sweepColors,
+            }}
+            transition={{
+              strokeDashoffset: {
+                duration: shouldReduceMotion ? 0.01 : 0.9,
+                ease: [0.16, 1, 0.3, 1],
+              },
+              stroke: {
+                duration: shouldReduceMotion ? 0.01 : 0.9,
+                ease: 'easeInOut',
+              },
+            }}
           />
         </svg>
 
@@ -142,7 +179,7 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
             </span>
           )}
         </div>
-      </div>
+      </motion.div>
 
       {showLabel && size > 90 && (
         <span
@@ -156,7 +193,7 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
         >
           {isHighMatch
             ? lang === 'hi'
-              ? 'उच्च पात्रता'
+              ? 'उत्कृष्ट पात्रता'
               : 'High Eligibility'
             : isMediumMatch
             ? lang === 'hi'

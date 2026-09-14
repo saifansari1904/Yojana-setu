@@ -9,8 +9,23 @@ import {
   BusinessRegistrationType,
   TurnoverRangeId,
 } from '../types';
-import { SupportNeedType } from '../types/business';
-import { deriveBusinessNeedProfile, deriveBusinessProfile } from '../lib/business';
+import {
+  SupportNeedType,
+  BusinessStageKey,
+  BusinessEntityType,
+  RegistrationStatus,
+  OperationalStatus,
+  SUPPORT_NEEDS_TAXONOMY,
+  BUSINESS_ENTITY_LABELS,
+  BUSINESS_STAGE_TAXONOMY,
+} from '../types/business';
+import {
+  deriveBusinessNeedProfile,
+  deriveBusinessProfile,
+  mapLegacyStageToKey,
+  mapKeyToLegacyStage,
+  calculateFundingGap,
+} from '../lib/business';
 import { INDIAN_STATES } from '../data/schemes';
 import { getAllSchemes } from '../lib/data';
 import { validateUserProfile } from '../lib/validation';
@@ -53,7 +68,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { YojanaSetuLogo } from './YojanaSetuLogo';
 import { useTranslation } from '../i18n';
 import { AnimatedCounter } from '../animations/AnimatedCounter';
-import { questionVariants, errorShakeVariants } from '../animations/variants';
+import { questionVariants, errorShakeVariants, validationTick } from '../animations/variants';
 import { ArrowFillButton } from './ui';
 
 const DRAFT_KEY = 'yojana_setu_adaptive_form_draft_v2';
@@ -119,17 +134,71 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
   const [primarySupportNeed, setPrimarySupportNeed] = useState<SupportNeedType | null>(
     initialProfile?.primarySupportNeed || null
   );
+  const [secondarySupportNeeds, setSecondarySupportNeeds] = useState<SupportNeedType[]>(
+    initialProfile?.secondarySupportNeeds || []
+  );
+
+  // Extended Geographic Location
+  const [residenceState, setResidenceState] = useState<string>(
+    initialProfile?.residenceState || initialProfile?.state || ''
+  );
+  const [businessState, setBusinessState] = useState<string>(
+    initialProfile?.businessState || initialProfile?.state || ''
+  );
+  const [isDifferentState, setIsDifferentState] = useState<boolean>(
+    Boolean(
+      initialProfile?.residenceState &&
+        initialProfile?.businessState &&
+        initialProfile.residenceState.trim() !== initialProfile.businessState.trim()
+    )
+  );
+  const [district, setDistrict] = useState<string>(initialProfile?.district || '');
+
+  // Detailed Stage & Operational Status
+  const [businessStageKey, setBusinessStageKey] = useState<BusinessStageKey | null>(
+    initialProfile?.businessStageKey || null
+  );
+  const [operationalStatus, setOperationalStatus] = useState<OperationalStatus | null>(
+    initialProfile?.operationalStatus || null
+  );
+
+  // Legal Structure, Trade Subsector & Experience
+  const [businessEntityType, setBusinessEntityType] = useState<BusinessEntityType | null>(
+    initialProfile?.businessEntityType || null
+  );
+  const [subSector, setSubSector] = useState<string>(initialProfile?.subSector || '');
+  const [entrepreneurExperienceYears, setEntrepreneurExperienceYears] = useState<number | ''>(
+    initialProfile?.entrepreneurExperienceYears ?? ''
+  );
+
+  // Registration Status
+  const [registrationStatus, setRegistrationStatus] = useState<RegistrationStatus | null>(
+    initialProfile?.registrationStatus || null
+  );
 
   const calculatedFundingGap = useMemo(() => {
-    const cost =
-      typeof totalProjectCost === 'number'
-        ? totalProjectCost
-        : typeof fundingRequired === 'number'
-        ? fundingRequired
-        : 0;
-    const invested = typeof existingInvestment === 'number' ? existingInvestment : 0;
-    return Math.max(0, cost - invested);
-  }, [totalProjectCost, fundingRequired, existingInvestment]);
+    return calculateFundingGap(
+      typeof totalProjectCost === 'number' ? totalProjectCost : undefined,
+      typeof existingInvestment === 'number' ? existingInvestment : undefined,
+      typeof fundingRequired === 'number' ? fundingRequired : undefined
+    );
+  }, [totalProjectCost, existingInvestment, fundingRequired]);
+
+  // Primary support need handler: ensures primary cannot be selected as secondary
+  const handleSelectPrimaryNeed = (need: SupportNeedType | null) => {
+    setPrimarySupportNeed(need);
+    if (need) {
+      setSecondarySupportNeeds((prev) => prev.filter((s) => s !== need));
+    }
+  };
+
+  // Secondary support need multi-select toggle handler
+  const handleToggleSecondaryNeed = (need: SupportNeedType) => {
+    if (need === primarySupportNeed) return;
+    setSecondarySupportNeeds((prev) =>
+      prev.includes(need) ? prev.filter((s) => s !== need) : [...prev, need]
+    );
+  };
 
   // Active stage navigation
   const [currentStageIdx, setCurrentStageIdx] = useState<number>(0);
@@ -173,6 +242,22 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     setFundingRequired('');
     setBusinessRegistration(null);
     setTurnoverRangeId(null);
+    setTotalProjectCost('');
+    setExistingInvestment('');
+    setBusinessIdea('');
+    setBusinessName('');
+    setPrimarySupportNeed(null);
+    setSecondarySupportNeeds([]);
+    setResidenceState('');
+    setBusinessState('');
+    setIsDifferentState(false);
+    setDistrict('');
+    setBusinessStageKey(null);
+    setOperationalStatus(null);
+    setBusinessEntityType(null);
+    setSubSector('');
+    setEntrepreneurExperienceYears('');
+    setRegistrationStatus(null);
     setCurrentStageIdx(0);
     setValidationError(null);
     try {
@@ -358,13 +443,35 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       return;
     }
 
+    const finalResidenceState = residenceState || state || 'All States & UTs';
+    const finalBusinessState = businessState || state || 'All States & UTs';
+    const finalIsInterstate = Boolean(
+      isDifferentState &&
+        finalResidenceState &&
+        finalBusinessState &&
+        finalResidenceState.trim() !== finalBusinessState.trim()
+    );
+
     const finalProfile: UserProfile = {
       category,
       age: typeof age === 'number' ? age : 30,
       annualIncome: typeof annualIncome === 'number' ? annualIncome : 0,
       businessType,
       state: state || 'All States & UTs',
+      district: district.trim() || undefined,
+      residenceState: finalResidenceState,
+      businessState: finalBusinessState,
+      isInterstate: finalIsInterstate,
       businessStage: businessStage || 'new',
+      businessStageKey:
+        businessStageKey ||
+        (businessStage ? mapLegacyStageToKey(businessStage) : 'NEW_BUSINESS'),
+      operationalStatus: operationalStatus || undefined,
+      businessEntityType: businessEntityType || undefined,
+      subSector: subSector.trim() || undefined,
+      entrepreneurExperienceYears:
+        typeof entrepreneurExperienceYears === 'number' ? entrepreneurExperienceYears : undefined,
+      registrationStatus: registrationStatus || undefined,
       fundingRequired: typeof fundingRequired === 'number' ? fundingRequired : 300000,
       fundingRangeId: fundingRangeId || undefined,
       ruralUrban: ruralUrban || 'rural',
@@ -381,6 +488,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       existingInvestment: typeof existingInvestment === 'number' ? existingInvestment : 0,
       fundingGap: calculatedFundingGap,
       primarySupportNeed: primarySupportNeed || undefined,
+      secondarySupportNeeds: secondarySupportNeeds.length > 0 ? secondarySupportNeeds : undefined,
     };
 
     finalProfile.businessNeedProfile = deriveBusinessNeedProfile(finalProfile);
@@ -465,20 +573,47 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               <RotateCcw className="w-3 h-3" />
               <span>{lang === 'hi' ? 'रीसेट करें' : 'Reset Form'}</span>
             </button>
-            <span className="text-[#6F7A73] dark:text-[#8E9F97] font-medium">
-              {Math.round(((currentStageIdx + 1) / activeStages.length) * 100)}% Completed
+            <span className="text-[#6F7A73] dark:text-[#8E9F97] font-medium flex items-center gap-1">
+              <AnimatedCounter
+                value={Math.round(((currentStageIdx + 1) / activeStages.length) * 100)}
+              />
+              <span>% Completed</span>
             </span>
           </div>
         </div>
 
-        {/* Linear Progress Bar */}
-        <div className="w-full bg-[#EEEEED] dark:bg-[#202B26] h-2 rounded-full overflow-hidden mb-4">
+        {/* Segmented + shimmering Linear Progress Bar */}
+        <div className="relative w-full bg-[#EEEEED] dark:bg-[#202B26] h-2 rounded-full overflow-hidden mb-4">
           <motion.div
-            className="bg-[#14453D] dark:bg-[#34D399] h-full rounded-full"
+            className="relative h-full rounded-full bg-gradient-to-r from-[#14453D] via-[#16A34A] to-[#34D399] overflow-hidden"
             initial={false}
             animate={{ width: `${((currentStageIdx + 1) / activeStages.length) * 100}%` }}
-            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          />
+            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {!shouldReduceMotion && (
+              <motion.span
+                aria-hidden="true"
+                className="absolute inset-y-0 w-1/3 bg-white/35"
+                initial={{ x: '-120%' }}
+                animate={{ x: '320%' }}
+                transition={{ repeat: Infinity, duration: 1.8, ease: 'linear' }}
+              />
+            )}
+          </motion.div>
+
+          {/* Stage tick marks so progress reads as discrete steps */}
+          <div className="pointer-events-none absolute inset-0 flex">
+            {activeStages.map((stage, idx) => (
+              <div
+                key={`tick-${stage.id}`}
+                className={`flex-1 ${
+                  idx === activeStages.length - 1
+                    ? ''
+                    : 'border-r border-white/70 dark:border-[#0E1311]/70'
+                }`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Stepper Tabs Bar */}
@@ -513,7 +648,30 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       : 'bg-[#E2E2E0] dark:bg-[#293B33] text-[#516A5F] dark:text-[#8E9F97]'
                   }`}
                 >
-                  {isCompleted ? <Check className="w-2.5 h-2.5" /> : idx + 1}
+                  <AnimatePresence mode="wait" initial={false}>
+                    {isCompleted ? (
+                      <motion.span
+                        key="tick"
+                        variants={shouldReduceMotion ? undefined : validationTick}
+                        initial={shouldReduceMotion ? undefined : 'hidden'}
+                        animate={shouldReduceMotion ? undefined : 'visible'}
+                        exit={shouldReduceMotion ? undefined : 'exit'}
+                        className="flex items-center justify-center"
+                      >
+                        <Check className="w-2.5 h-2.5" />
+                      </motion.span>
+                    ) : (
+                      <motion.span
+                        key="index"
+                        variants={shouldReduceMotion ? undefined : validationTick}
+                        initial={shouldReduceMotion ? undefined : 'hidden'}
+                        animate={shouldReduceMotion ? undefined : 'visible'}
+                        exit={shouldReduceMotion ? undefined : 'exit'}
+                      >
+                        {idx + 1}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </div>
                 <span className="truncate">{t(stage.stageShortKey as any)}</span>
               </motion.button>
@@ -704,7 +862,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 id="state-select"
                 value={state}
                 onChange={(e) => {
-                  setState(e.target.value);
+                  const val = e.target.value;
+                  setState(val);
+                  if (!isDifferentState) {
+                    setBusinessState(val);
+                    setResidenceState(val);
+                  } else {
+                    setBusinessState(val);
+                  }
                   setValidationError(null);
                 }}
                 className="w-full p-2.5 text-xs font-semibold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
@@ -738,6 +903,12 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     type="button"
                     onClick={() => {
                       setState(st);
+                      if (!isDifferentState) {
+                        setBusinessState(st);
+                        setResidenceState(st);
+                      } else {
+                        setBusinessState(st);
+                      }
                       setValidationError(null);
                     }}
                     className={`px-2 py-0.5 text-[11px] rounded border cursor-pointer ${
@@ -749,6 +920,74 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     {getLocalizedState(st)}
                   </button>
                 ))}
+              </div>
+
+              {/* Optional District & Interstate Residence Toggle */}
+              <div className="mt-3.5 space-y-2.5">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                  <div className="w-full sm:w-1/2">
+                    <label className="text-[11px] font-semibold text-[#516A5F] dark:text-[#8E9F97] block mb-1">
+                      {lang === 'hi' ? 'ज़िला / शहर (वैकल्पिक):' : 'District / City (Optional):'}
+                    </label>
+                    <input
+                      type="text"
+                      placeholder={lang === 'hi' ? 'उदा. मैसूर, पुणे, वाराणसी' : 'e.g. Mysuru, Pune, Varanasi'}
+                      value={district}
+                      onChange={(e) => setDistrict(e.target.value)}
+                      className="w-full p-2 text-xs border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
+                    />
+                  </div>
+
+                  <div className="w-full sm:w-1/2 flex items-center pt-2 sm:pt-4">
+                    <label className="flex items-center gap-2 cursor-pointer text-xs text-[#1A1C1B] dark:text-[#F0F4F2]">
+                      <input
+                        type="checkbox"
+                        checked={isDifferentState}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          setIsDifferentState(checked);
+                          if (!checked) {
+                            setResidenceState(state || 'All States & UTs');
+                            setBusinessState(state || 'All States & UTs');
+                          }
+                        }}
+                        className="rounded border-[#C2C8C3] text-[#14453D] focus:ring-[#14453D] accent-[#14453D] dark:accent-[#34D399]"
+                      />
+                      <span>
+                        {lang === 'hi'
+                          ? 'व्यवसाय किसी अन्य राज्य में है (आवासीय राज्य भिन्न)'
+                          : 'Business is in a different state from residence'}
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                {isDifferentState && (
+                  <div className="p-3 bg-[#F4F8F6] dark:bg-[#15231B] border border-[#CDE3D7] dark:border-[#203D2E] rounded text-xs space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-[#14453D] dark:text-[#34D399]">
+                        {lang === 'hi' ? 'स्थायी निवास / अधिवास राज्य (Domicile State):' : 'Permanent Residence / Domicile State:'}
+                      </span>
+                      <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97]">
+                        {lang === 'hi' ? 'योजना पात्रता हेतु' : 'For state domicile quotas'}
+                      </span>
+                    </div>
+                    <select
+                      value={residenceState}
+                      onChange={(e) => setResidenceState(e.target.value)}
+                      className="w-full p-2 text-xs font-semibold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
+                    >
+                      <option value="" disabled>
+                        {lang === 'hi' ? '-- अपना निवास राज्य चुनें --' : '-- Select your Home / Domicile State --'}
+                      </option>
+                      {INDIAN_STATES.map((st) => (
+                        <option key={st} value={st}>
+                          {getLocalizedState(st)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
 
               {/* Location: Rural vs Urban */}
@@ -889,6 +1128,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     type="button"
                     onClick={() => {
                       setBusinessStage(opt.id);
+                      setBusinessStageKey(mapLegacyStageToKey(opt.id));
+                      if (opt.id === 'new') {
+                        setOperationalStatus('NOT_STARTED');
+                      } else if (opt.id === 'existing') {
+                        setOperationalStatus('OPERATING');
+                      } else if (opt.id === 'expanding') {
+                        setOperationalStatus('EXPANDING');
+                      }
                       setValidationError(null);
                     }}
                     className={`p-4 rounded border text-left cursor-pointer transition-all flex flex-col justify-between ${
@@ -929,6 +1176,90 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 );
               })}
             </div>
+
+            {/* Optional Lifecycle Sub-stage & Operational Status */}
+            {businessStage && (
+              <div className="mt-4 p-3.5 bg-[#F4F8F6] dark:bg-[#15231B] border border-[#CDE3D7] dark:border-[#203D2E] rounded space-y-3">
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="text-xs font-bold text-[#14453D] dark:text-[#34D399]">
+                      {lang === 'hi' ? 'विस्तृत व्यावसायिक चरण (वैकल्पिक):' : 'Specific Lifecycle Phase (Optional):'}
+                    </label>
+                    <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97]">
+                      {lang === 'hi' ? 'सटीक योजना मिलान हेतु' : 'Refines grant vs credit matching'}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {(
+                      [
+                        { id: 'IDEA', labelEn: 'Idea / Concept', labelHi: 'विचार / अवधारणा' },
+                        { id: 'PRE_LAUNCH', labelEn: 'Pre-launch Setup', labelHi: 'लॉन्च पूर्व तैयारी' },
+                        { id: 'NEW_BUSINESS', labelEn: 'Early Setup (< 1 yr)', labelHi: 'नई इकाई (< 1 वर्ष)' },
+                        { id: 'EARLY_OPERATION', labelEn: 'Established (1–3 yrs)', labelHi: 'प्रारंभिक संचालन (1–3 वर्ष)' },
+                        { id: 'GROWTH', labelEn: 'Scaling / Growth', labelHi: 'विकास / वृद्धि' },
+                        { id: 'EXPANSION', labelEn: 'Plant Expansion', labelHi: 'इकाई विस्तार' },
+                        { id: 'DISTRESS_OR_RESTRUCTURING', labelEn: 'Revival / Turnaround', labelHi: 'पुनरुद्धार' },
+                      ] as { id: BusinessStageKey; labelEn: string; labelHi: string }[]
+                    ).map((stage) => {
+                      const isSelected = businessStageKey === stage.id;
+                      return (
+                        <button
+                          key={stage.id}
+                          type="button"
+                          onClick={() => {
+                            setBusinessStageKey(isSelected ? null : stage.id);
+                            if (!isSelected) {
+                              setBusinessStage(mapKeyToLegacyStage(stage.id));
+                            }
+                          }}
+                          className={`px-2.5 py-1 rounded text-xs font-semibold border transition-all cursor-pointer ${
+                            isSelected
+                              ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#34D399]'
+                              : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
+                          }`}
+                        >
+                          {lang === 'hi' ? stage.labelHi : stage.labelEn}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-[#CDE3D7]/60 dark:border-[#203D2E]/60">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="text-xs font-bold text-[#14453D] dark:text-[#34D399]">
+                      {lang === 'hi' ? 'वर्तमान परिचालन स्थिति (Operational Status):' : 'Current Operational Status (Optional):'}
+                    </label>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {(
+                      [
+                        { id: 'OPERATING', labelEn: 'Operating / Active', labelHi: 'सक्रिय रूप से चालू' },
+                        { id: 'NOT_STARTED', labelEn: 'Not Yet Started', labelHi: 'अभी शुरू नहीं हुआ' },
+                        { id: 'EXPANDING', labelEn: 'Actively Expanding', labelHi: 'विस्तार प्रगति पर' },
+                        { id: 'TEMPORARILY_INACTIVE', labelEn: 'Temporarily Inactive', labelHi: 'अस्थायी रूप से निष्क्रिय' },
+                      ] as { id: OperationalStatus; labelEn: string; labelHi: string }[]
+                    ).map((status) => {
+                      const isSelected = operationalStatus === status.id;
+                      return (
+                        <button
+                          key={status.id}
+                          type="button"
+                          onClick={() => setOperationalStatus(isSelected ? null : status.id)}
+                          className={`px-2.5 py-1 rounded text-xs font-semibold border transition-all cursor-pointer ${
+                            isSelected
+                              ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#34D399]'
+                              : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
+                          }`}
+                        >
+                          {lang === 'hi' ? status.labelHi : status.labelEn}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Why we ask this */}
             <div className="mt-4 p-3 bg-[#FAFAF9] dark:bg-[#101613] rounded border border-[#E2E2E0] dark:border-[#24342D] flex items-start gap-2 text-xs text-[#516A5F] dark:text-[#8E9F97]">
@@ -1012,6 +1343,107 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   </button>
                 );
               })}
+            </div>
+
+            {/* Optional Legal Entity Structure, Sub-Sector & Experience */}
+            <div className="mt-5 p-3.5 bg-[#F4F8F6] dark:bg-[#15231B] border border-[#CDE3D7] dark:border-[#203D2E] rounded space-y-3.5">
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-xs font-bold text-[#14453D] dark:text-[#34D399]">
+                    {lang === 'hi' ? 'कानूनी संरचना / व्यावसायिक स्वरूप (वैकल्पिक):' : 'Legal Entity Structure (Optional):'}
+                  </label>
+                  <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97]">
+                    {lang === 'hi' ? 'कंपनी / स्वामित्व / समूह' : 'Sole prop, Pvt Ltd, SHG, etc.'}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {(
+                    [
+                      'SOLE_PROPRIETORSHIP',
+                      'PARTNERSHIP',
+                      'LLP',
+                      'PRIVATE_LIMITED',
+                      'SELF_HELP_GROUP',
+                      'COOPERATIVE',
+                      'INDIVIDUAL',
+                      'INFORMAL_BUSINESS',
+                      'NOT_REGISTERED',
+                    ] as BusinessEntityType[]
+                  ).map((typeKey) => {
+                    const isSelected = businessEntityType === typeKey;
+                    const entityInfo = BUSINESS_ENTITY_LABELS[typeKey];
+                    return (
+                      <button
+                        key={typeKey}
+                        type="button"
+                        onClick={() => setBusinessEntityType(isSelected ? null : typeKey)}
+                        className={`px-2.5 py-1 rounded text-xs font-semibold border transition-all cursor-pointer ${
+                          isSelected
+                            ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#34D399]'
+                            : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
+                        }`}
+                      >
+                        {lang === 'hi' ? entityInfo.hi : entityInfo.en}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2.5 border-t border-[#CDE3D7]/60 dark:border-[#203D2E]/60">
+                <div>
+                  <label className="text-xs font-bold text-[#14453D] dark:text-[#34D399] block mb-1">
+                    {lang === 'hi' ? 'विशिष्ट उप-क्षेत्र / गतिविधि (वैकल्पिक):' : 'Specific Sub-Sector / Trade (Optional):'}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder={
+                      lang === 'hi'
+                        ? 'उदा. डेयरी चिलिंग, वस्त्र नि��्माण, सोलर उपकरण'
+                        : 'e.g. Dairy Chilling, Readymade Garments, Solar Equipment'
+                    }
+                    value={subSector}
+                    onChange={(e) => setSubSector(e.target.value)}
+                    className="w-full p-2 text-xs border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-[#14453D] dark:text-[#34D399] block mb-1">
+                    {lang === 'hi' ? 'उद्यमिता / उद्योग अनुभव (वर्ष):' : 'Industry Experience (Years):'}
+                  </label>
+                  <div className="flex items-center gap-1.5">
+                    <input
+                      type="number"
+                      min="0"
+                      max="60"
+                      placeholder="0"
+                      value={entrepreneurExperienceYears}
+                      onChange={(e) => {
+                        const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
+                        setEntrepreneurExperienceYears(val);
+                      }}
+                      className="w-20 p-2 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
+                    />
+                    <div className="flex flex-wrap gap-1">
+                      {[0, 1, 2, 3, 5, 10].map((yr) => (
+                        <button
+                          key={yr}
+                          type="button"
+                          onClick={() => setEntrepreneurExperienceYears(yr)}
+                          className={`px-2 py-1 text-[11px] rounded border cursor-pointer ${
+                            entrepreneurExperienceYears === yr
+                              ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#34D399]'
+                              : 'bg-white dark:bg-[#101613] text-[#516A5F] dark:text-[#8E9F97] border-[#D1D5D2] dark:border-[#2A3C34]'
+                          }`}
+                        >
+                          {yr}y
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Why we ask this */}
@@ -1199,6 +1631,8 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       { id: 'INFRASTRUCTURE', labelEn: 'Work Shed / Infra', labelHi: 'कार्यशाला' },
                       { id: 'SKILL_DEVELOPMENT', labelEn: 'Skill Training', labelHi: 'कौशल प्रशिक्षण' },
                       { id: 'MARKET_ACCESS', labelEn: 'Market Access', labelHi: 'बाजार संपर्क' },
+                      { id: 'COMPLIANCE_AND_REGISTRATION', labelEn: 'Compliance / Licenses', labelHi: 'अनुपालन व लाइसेंस' },
+                      { id: 'EXPORT_ASSISTANCE', labelEn: 'Export Assistance', labelHi: 'निर्यात सहायता' },
                     ] as { id: SupportNeedType; labelEn: string; labelHi: string }[]
                   ).map((need) => {
                     const isSelected = primarySupportNeed === need.id;
@@ -1207,7 +1641,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                         key={need.id}
                         type="button"
                         onClick={() =>
-                          setPrimarySupportNeed(isSelected ? null : need.id)
+                          handleSelectPrimaryNeed(isSelected ? null : need.id)
                         }
                         className={`px-2.5 py-1.5 rounded text-xs font-semibold border transition-all cursor-pointer ${
                           isSelected
@@ -1219,6 +1653,59 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       </button>
                     );
                   })}
+                </div>
+              </div>
+
+              {/* Secondary Support Needs Multi-Select */}
+              <div className="pt-2.5 border-t border-[#CDE3D7]/60 dark:border-[#203D2E]/60">
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+                    {lang === 'hi' ? 'अतिरिक्त / द्वितीयक आवश्यकताएँ (बहु-चयन):' : 'Secondary Support Needs (Multi-select, Optional):'}
+                  </label>
+                  {secondarySupportNeeds.length > 0 && (
+                    <span className="text-[10px] font-bold text-[#14453D] dark:text-[#34D399] bg-[#D4EFE1]/60 dark:bg-[#1A382D] px-2 py-0.5 rounded-full">
+                      {secondarySupportNeeds.length} {lang === 'hi' ? 'चयनित' : 'selected'}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] mb-2">
+                  {lang === 'hi'
+                    ? 'मुख्य आवश्यकता के अतिरिक्त अन्य किन क्षेत्रों में सरकारी सहायता चाहिए? (मुख्य आवश्यकता यहाँ नहीं चुनी जा सकती)'
+                    : 'Select any complementary support required (primary need is excluded from secondary selection).'}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {(
+                    [
+                      { id: 'CAPITAL', labelEn: 'Seed Capital', labelHi: 'प्रारंभिक पूंजी' },
+                      { id: 'WORKING_CAPITAL', labelEn: 'Working Capital', labelHi: 'कार्यशील पूंजी' },
+                      { id: 'EQUIPMENT', labelEn: 'Machinery / Tools', labelHi: 'मशीनरी व उपकरण' },
+                      { id: 'SUBSIDY', labelEn: 'Govt Subsidy', labelHi: 'सरकारी सब्सिडी' },
+                      { id: 'INFRASTRUCTURE', labelEn: 'Work Shed / Infra', labelHi: 'कार्यशाला' },
+                      { id: 'SKILL_DEVELOPMENT', labelEn: 'Skill Training', labelHi: 'कौशल प्रशिक्षण' },
+                      { id: 'MARKET_ACCESS', labelEn: 'Market Access', labelHi: 'बाजार संपर्क' },
+                      { id: 'COMPLIANCE_AND_REGISTRATION', labelEn: 'Compliance / Licenses', labelHi: 'अनुपालन व लाइसेंस' },
+                      { id: 'EXPORT_ASSISTANCE', labelEn: 'Export Assistance', labelHi: 'निर्यात सहायता' },
+                    ] as { id: SupportNeedType; labelEn: string; labelHi: string }[]
+                  )
+                    .filter((need) => need.id !== primarySupportNeed)
+                    .map((need) => {
+                      const isSelected = secondarySupportNeeds.includes(need.id);
+                      return (
+                        <button
+                          key={need.id}
+                          type="button"
+                          onClick={() => handleToggleSecondaryNeed(need.id)}
+                          className={`px-2.5 py-1.5 rounded text-xs font-semibold border transition-all cursor-pointer flex items-center gap-1.5 ${
+                            isSelected
+                              ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#34D399] shadow-xs'
+                              : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
+                          }`}
+                        >
+                          {isSelected && <Check className="w-3 h-3 text-white" />}
+                          <span>{lang === 'hi' ? need.labelHi : need.labelEn}</span>
+                        </button>
+                      );
+                    })}
                 </div>
               </div>
 
@@ -1272,6 +1759,11 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       type="button"
                       onClick={() => {
                         setBusinessRegistration(reg.id);
+                        if (reg.id === 'unregistered') {
+                          setRegistrationStatus('NOT_REGISTERED');
+                        } else {
+                          setRegistrationStatus('REGISTERED');
+                        }
                         setValidationError(null);
                       }}
                       className={`p-3 rounded border text-left cursor-pointer transition-all flex items-start justify-between ${
@@ -1294,6 +1786,35 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     </button>
                   );
                 })}
+              </div>
+
+              {/* Optional Registration Status override (e.g., In Process) */}
+              <div className="mt-3 flex items-center justify-between">
+                <span className="text-xs text-[#516A5F] dark:text-[#8E9F97]">
+                  {lang === 'hi' ? 'पंजीकरण वर्तमान स्थिति:' : 'Registration lifecycle state:'}
+                </span>
+                <div className="flex gap-1.5">
+                  {(
+                    [
+                      { id: 'REGISTERED', labelEn: 'Registered', labelHi: 'पंजीकृत' },
+                      { id: 'IN_PROCESS', labelEn: 'In Process / Applied', labelHi: 'प्रक्रियाधीन' },
+                      { id: 'NOT_REGISTERED', labelEn: 'Unregistered', labelHi: 'अपंजीकृत' },
+                    ] as { id: RegistrationStatus; labelEn: string; labelHi: string }[]
+                  ).map((st) => (
+                    <button
+                      key={st.id}
+                      type="button"
+                      onClick={() => setRegistrationStatus(st.id)}
+                      className={`px-2 py-0.5 text-[11px] rounded border cursor-pointer ${
+                        registrationStatus === st.id
+                          ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#34D399]'
+                          : 'bg-white dark:bg-[#101613] text-[#516A5F] dark:text-[#8E9F97] border-[#D1D5D2] dark:border-[#2A3C34]'
+                      }`}
+                    >
+                      {lang === 'hi' ? st.labelHi : st.labelEn}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -1473,6 +1994,63 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     </dd>
                   </div>
 
+                  {totalProjectCost !== '' && (
+                    <div className="flex justify-between">
+                      <dt className="text-[#6F7A73] dark:text-[#8E9F97]">
+                        {lang === 'hi' ? 'परियोजना लागत / वित्तीय अंतर:' : 'Project Cost / Gap:'}
+                      </dt>
+                      <dd className="font-bold text-[#14453D] dark:text-[#34D399]">
+                        {formatCurrency(Number(totalProjectCost))} (Gap: {formatCurrency(calculatedFundingGap)})
+                      </dd>
+                    </div>
+                  )}
+
+                  {primarySupportNeed && (
+                    <div className="flex justify-between">
+                      <dt className="text-[#6F7A73] dark:text-[#8E9F97]">
+                        {lang === 'hi' ? 'मुख्य आवश्यकता:' : 'Primary Need:'}
+                      </dt>
+                      <dd className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+                        {primarySupportNeed.replace(/_/g, ' ')}
+                      </dd>
+                    </div>
+                  )}
+
+                  {secondarySupportNeeds.length > 0 && (
+                    <div className="flex justify-between">
+                      <dt className="text-[#6F7A73] dark:text-[#8E9F97]">
+                        {lang === 'hi' ? 'अतिरिक्त आवश्यकताएँ:' : 'Secondary Needs:'}
+                      </dt>
+                      <dd className="font-medium text-[#516A5F] dark:text-[#8E9F97] text-right">
+                        {secondarySupportNeeds.map((s) => s.replace(/_/g, ' ')).join(', ')}
+                      </dd>
+                    </div>
+                  )}
+
+                  {businessEntityType && (
+                    <div className="flex justify-between">
+                      <dt className="text-[#6F7A73] dark:text-[#8E9F97]">
+                        {lang === 'hi' ? 'कानूनी संरचना:' : 'Entity Structure:'}
+                      </dt>
+                      <dd className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+                        {lang === 'hi'
+                          ? BUSINESS_ENTITY_LABELS[businessEntityType]?.hi || businessEntityType
+                          : BUSINESS_ENTITY_LABELS[businessEntityType]?.en || businessEntityType}
+                      </dd>
+                    </div>
+                  )}
+
+                  {subSector && (
+                    <div className="flex justify-between">
+                      <dt className="text-[#6F7A73] dark:text-[#8E9F97]">
+                        {lang === 'hi' ? 'उप-क्षेत्र:' : 'Sub-Sector:'}
+                      </dt>
+                      <dd className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2]">
+                        {subSector}
+                      </dd>
+                    </div>
+                  )}
+
                   {businessStage !== 'new' && (
                     <>
                       <div className="flex justify-between pt-1 border-t border-[#E2E2E0]/60 dark:border-[#24342D]/60">
@@ -1481,6 +2059,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                         </dt>
                         <dd className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
                           {businessRegistration ? businessRegistration.toUpperCase() : t('questionnaire.notSpecified')}
+                          {registrationStatus ? ` (${registrationStatus})` : ''}
                         </dd>
                       </div>
                       <div className="flex justify-between">

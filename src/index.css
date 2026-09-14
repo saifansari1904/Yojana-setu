@@ -30,3 +30,41 @@
 .font-hindi {
   font-family: 'Noto Sans Devanagari', 'Inter', -apple-system, sans-serif;
 }
+
+/* ── Native View Transitions (screen-level route changes) ───────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: yj-vt-exit 200ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  ::view-transition-new(root) {
+    animation: yj-vt-enter 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes yj-vt-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes yj-vt-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Keep the persistent chrome stable across a view transition */
+#scroll-progress-bar {
+  view-transition-name: yj-scroll-progress;
+}

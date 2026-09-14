@@ -2,12 +2,19 @@ import React from 'react';
 import {
   Sparkles,
   ArrowRight,
-  Info,
+  Briefcase,
+  Layers,
+  MapPin,
+  Coins,
+  Compass,
   CheckCircle2,
-  AlertCircle,
-  HelpCircle,
+  Tag,
 } from 'lucide-react';
-import { BusinessNeedProfile, SUPPORT_NEEDS_TAXONOMY, BUSINESS_STAGE_TAXONOMY } from '../../types/business';
+import {
+  BusinessNeedProfile,
+  SUPPORT_NEEDS_TAXONOMY,
+  BUSINESS_STAGE_TAXONOMY,
+} from '../../types/business';
 import { formatLakhCrore } from '../../lib/business/fundingCalculator';
 import { useTranslation } from '../../i18n';
 
@@ -20,7 +27,7 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
   needProfile,
   onCompleteProfile,
 }) => {
-  const { lang, getLocalizedBusinessType } = useTranslation();
+  const { lang, getLocalizedBusinessType, getLocalizedState } = useTranslation();
   const isHi = lang === 'hi';
 
   if (!needProfile || !needProfile.currentStage) {
@@ -98,7 +105,35 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
     return `You are ${stageVerb} in the ${domainLabel.toLowerCase()} domain, ${fundingText}${needText}`;
   };
 
-  const hasMissingFields = needProfile.missingHighValueFields.length > 0;
+  const hasMissingFields = needProfile.missingHighValueFields?.length > 0;
+
+  // Location display
+  const bizState = needProfile.location?.businessState
+    ? getLocalizedState(needProfile.location.businessState)
+    : undefined;
+  const resState = needProfile.location?.residenceState
+    ? getLocalizedState(needProfile.location.residenceState)
+    : undefined;
+
+  const locationText = bizState
+    ? needProfile.location?.isInterstate && resState && resState !== bizState
+      ? `${bizState} (${isHi ? 'मूल निवास' : 'Origin'}: ${resState})`
+      : bizState
+    : undefined;
+
+  // Business Name or Idea
+  const businessIdentifier =
+    needProfile.businessName || needProfile.businessIdeaText || undefined;
+
+  // Sector and subSector
+  const sectorDisplay = needProfile.subSector
+    ? `${domainLabel} • ${needProfile.subSector}`
+    : domainLabel;
+
+  // Additional / Secondary needs
+  const validSecondaryNeeds = (needProfile.secondaryNeeds || []).filter(
+    (need) => need !== needProfile.primaryNeed && SUPPORT_NEEDS_TAXONOMY[need]
+  );
 
   return (
     <div
@@ -139,6 +174,118 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
           )}
         </div>
       </div>
+
+      {/* Structured Profile Parameters (Where Available) */}
+      <div className="mt-3 pt-3 border-t border-[#C1E2D0]/60 dark:border-[#22503E]/60 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+        {/* Business Name / Idea */}
+        {businessIdentifier && (
+          <div className="flex flex-col">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+              {isHi ? 'व्यवसाय' : 'Business'}
+            </span>
+            <span className="font-medium text-[#111827] dark:text-[#F3F4F6] truncate" title={businessIdentifier}>
+              {businessIdentifier}
+            </span>
+          </div>
+        )}
+
+        {/* Stage */}
+        {stageLabel && (
+          <div className="flex flex-col">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+              {isHi ? 'चरण' : 'Stage'}
+            </span>
+            <span className="font-medium text-[#111827] dark:text-[#F3F4F6] truncate">
+              {stageLabel}
+            </span>
+          </div>
+        )}
+
+        {/* Sector */}
+        {sectorDisplay && (
+          <div className="flex flex-col">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+              {isHi ? 'क्षेत्रक' : 'Sector'}
+            </span>
+            <span className="font-medium text-[#111827] dark:text-[#F3F4F6] truncate" title={sectorDisplay}>
+              {sectorDisplay}
+            </span>
+          </div>
+        )}
+
+        {/* Location */}
+        {locationText && (
+          <div className="flex flex-col">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+              {isHi ? 'स्थान' : 'Location'}
+            </span>
+            <span className="font-medium text-[#111827] dark:text-[#F3F4F6] truncate" title={locationText}>
+              {locationText}
+            </span>
+          </div>
+        )}
+
+        {/* Project Cost */}
+        {needProfile.totalProjectCost !== undefined && needProfile.totalProjectCost > 0 && (
+          <div className="flex flex-col">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+              {isHi ? 'परियोजना लागत' : 'Project Cost'}
+            </span>
+            <span className="font-semibold text-[#111827] dark:text-[#F3F4F6]">
+              {formatLakhCrore(needProfile.totalProjectCost, isHi ? 'hi' : 'en')}
+            </span>
+          </div>
+        )}
+
+        {/* Funding Gap */}
+        {needProfile.fundingGap !== undefined && needProfile.fundingGap > 0 && (
+          <div className="flex flex-col">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+              {isHi ? 'वित्तीय अंतर (Funding Gap)' : 'Funding Gap'}
+            </span>
+            <span className="font-semibold text-[#14453D] dark:text-[#4ADE80]">
+              {formatLakhCrore(needProfile.fundingGap, isHi ? 'hi' : 'en')}
+            </span>
+          </div>
+        )}
+
+        {/* Primary Need */}
+        {primaryNeedLabel && (
+          <div className="flex flex-col">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+              {isHi ? 'मुख्य आवश्यकता' : 'Primary Need'}
+            </span>
+            <span className="font-medium text-[#111827] dark:text-[#F3F4F6] truncate">
+              {primaryNeedLabel}
+            </span>
+          </div>
+        )}
+
+        {/* Additional Needs */}
+        {validSecondaryNeeds.length > 0 && (
+          <div className="flex flex-col col-span-2 sm:col-span-4 mt-1">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF] mb-1">
+              {isHi ? 'अतिरिक्त आवश्यकताएं' : 'Additional Needs'}
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {validSecondaryNeeds.map((needKey) => {
+                const tax = SUPPORT_NEEDS_TAXONOMY[needKey];
+                const label = isHi ? tax?.labelHi : tax?.labelEn;
+                return (
+                  <span
+                    key={needKey}
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-white/80 dark:bg-[#101613] text-[#1E3A8A] dark:text-[#93C5FD] border border-[#BFDBFE] dark:border-[#1E3A8A]/50"
+                  >
+                    <Tag className="w-3 h-3 shrink-0" />
+                    {label || needKey}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
+

@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
-    "test": "tsx src/utils/matchingEngine.test.ts && tsx src/data/schemeValidation.test.ts && tsx src/data/southIndiaSchemes.test.ts && tsx src/data/phase2SchemeIntelligence.test.ts && tsx src/data/phase2_5Trust.test.ts && tsx src/lib/matching/phase3_1MatchingIntegrity.test.ts"
+    "test": "tsx src/utils/matchingEngine.test.ts && tsx src/data/schemeValidation.test.ts && tsx src/data/southIndiaSchemes.test.ts && tsx src/data/phase2SchemeIntelligence.test.ts && tsx src/data/phase2_5Trust.test.ts && tsx src/lib/matching/phase3_1MatchingIntegrity.test.ts && tsx src/lib/business/phase4_1BusinessIntelligence.test.ts && tsx src/lib/business/phase4_2SupportPathway.test.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
