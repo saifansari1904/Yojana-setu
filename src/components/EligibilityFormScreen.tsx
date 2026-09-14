@@ -9,6 +9,8 @@ import {
   BusinessRegistrationType,
   TurnoverRangeId,
 } from '../types';
+import { SupportNeedType } from '../types/business';
+import { deriveBusinessNeedProfile, deriveBusinessProfile } from '../lib/business';
 import { INDIAN_STATES } from '../data/schemes';
 import { getAllSchemes } from '../lib/data';
 import { validateUserProfile } from '../lib/validation';
@@ -62,6 +64,7 @@ interface EligibilityFormScreenProps {
 }
 
 export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
+  initialProfile,
   onSubmit,
 }) => {
   const {
@@ -76,19 +79,57 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
   const shouldReduceMotion = useReducedMotion();
   const [slideDirection, setSlideDirection] = useState<number>(1);
 
-  // Form State - Always initialized empty/unselected so user enters details manually every time
-  const [category, setCategory] = useState<SocialCategory | null>(null);
-  const [age, setAge] = useState<number | ''>('');
-  const [annualIncome, setAnnualIncome] = useState<number | ''>('');
-  const [state, setState] = useState<string>('');
-  const [ruralUrban, setRuralUrban] = useState<RuralUrban | null>(null);
-  const [businessStage, setBusinessStage] = useState<BusinessStage | null>(null);
-  const [businessType, setBusinessType] = useState<BusinessType | null>(null);
-  const [fundingRangeId, setFundingRangeId] = useState<FundingRangeId | null>(null);
-  const [fundingRequired, setFundingRequired] = useState<number | ''>('');
+  // Form State - Initialized with initialProfile if provided, otherwise empty
+  const [category, setCategory] = useState<SocialCategory | null>(initialProfile?.category || null);
+  const [age, setAge] = useState<number | ''>(initialProfile?.age || '');
+  const [annualIncome, setAnnualIncome] = useState<number | ''>(initialProfile?.annualIncome || '');
+  const [state, setState] = useState<string>(initialProfile?.state || '');
+  const [ruralUrban, setRuralUrban] = useState<RuralUrban | null>(initialProfile?.ruralUrban || null);
+  const [businessStage, setBusinessStage] = useState<BusinessStage | null>(
+    initialProfile?.businessStage || null
+  );
+  const [businessType, setBusinessType] = useState<BusinessType | null>(
+    initialProfile?.businessType || null
+  );
+  const [fundingRangeId, setFundingRangeId] = useState<FundingRangeId | null>(
+    initialProfile?.fundingRangeId || null
+  );
+  const [fundingRequired, setFundingRequired] = useState<number | ''>(
+    initialProfile?.fundingRequired || ''
+  );
   const [businessRegistration, setBusinessRegistration] =
-    useState<BusinessRegistrationType | null>(null);
-  const [turnoverRangeId, setTurnoverRangeId] = useState<TurnoverRangeId | null>(null);
+    useState<BusinessRegistrationType | null>(initialProfile?.businessRegistration || null);
+  const [turnoverRangeId, setTurnoverRangeId] = useState<TurnoverRangeId | null>(
+    initialProfile?.turnoverRangeId || null
+  );
+
+  // Phase 4.1 Business Profile & Need Intelligence Fields
+  const [totalProjectCost, setTotalProjectCost] = useState<number | ''>(
+    initialProfile?.totalProjectCost || ''
+  );
+  const [existingInvestment, setExistingInvestment] = useState<number | ''>(
+    initialProfile?.existingInvestment ?? ''
+  );
+  const [businessIdea, setBusinessIdea] = useState<string>(
+    initialProfile?.businessIdea || ''
+  );
+  const [businessName, setBusinessName] = useState<string>(
+    initialProfile?.businessName || ''
+  );
+  const [primarySupportNeed, setPrimarySupportNeed] = useState<SupportNeedType | null>(
+    initialProfile?.primarySupportNeed || null
+  );
+
+  const calculatedFundingGap = useMemo(() => {
+    const cost =
+      typeof totalProjectCost === 'number'
+        ? totalProjectCost
+        : typeof fundingRequired === 'number'
+        ? fundingRequired
+        : 0;
+    const invested = typeof existingInvestment === 'number' ? existingInvestment : 0;
+    return Math.max(0, cost - invested);
+  }, [totalProjectCost, fundingRequired, existingInvestment]);
 
   // Active stage navigation
   const [currentStageIdx, setCurrentStageIdx] = useState<number>(0);
@@ -329,7 +370,21 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       ruralUrban: ruralUrban || 'rural',
       businessRegistration: businessRegistration || 'unregistered',
       turnoverRangeId: turnoverRangeId || undefined,
+      businessIdea: businessIdea.trim() || undefined,
+      businessName: businessName.trim() || undefined,
+      totalProjectCost:
+        typeof totalProjectCost === 'number'
+          ? totalProjectCost
+          : typeof fundingRequired === 'number'
+          ? fundingRequired
+          : undefined,
+      existingInvestment: typeof existingInvestment === 'number' ? existingInvestment : 0,
+      fundingGap: calculatedFundingGap,
+      primarySupportNeed: primarySupportNeed || undefined,
     };
+
+    finalProfile.businessNeedProfile = deriveBusinessNeedProfile(finalProfile);
+    finalProfile.businessProfile = deriveBusinessProfile(finalProfile);
 
     const validation = validateUserProfile(finalProfile, lang);
     if (!validation.isValid) {
@@ -338,7 +393,15 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       return;
     }
 
-    onSubmit(validation.formattedProfile || finalProfile);
+    const outputProfile = validation.formattedProfile || finalProfile;
+    if (!outputProfile.businessNeedProfile) {
+      outputProfile.businessNeedProfile = finalProfile.businessNeedProfile;
+    }
+    if (!outputProfile.businessProfile) {
+      outputProfile.businessProfile = finalProfile.businessProfile;
+    }
+
+    onSubmit(outputProfile);
   };
 
   return (
@@ -1033,6 +1096,150 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 <span className="text-xs font-bold text-[#14453D] dark:text-[#34D399]">
                   {fundingRequired !== '' ? formatCurrency(Number(fundingRequired)) : ''}
                 </span>
+              </div>
+            </div>
+
+            {/* Phase 4.1 Business Intelligence: Project Cost, Funding Gap & Support Need */}
+            <div className="pt-4 border-t border-[#E2E2E0] dark:border-[#24342D] space-y-4">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#14453D] dark:text-[#34D399]" />
+                <h3 className="text-xs sm:text-sm font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+                  {lang === 'hi'
+                    ? 'परियोजना लागत, वित्तीय अंतर एवं सहायता आवश्यकता'
+                    : 'Project Cost, Funding Gap & Business Needs'}
+                </h3>
+              </div>
+
+              {/* Project Cost & Existing Investment Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1">
+                    {lang === 'hi' ? 'कुल अनुमानित परियोजना लागत:' : 'Total Estimated Project Cost:'}
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#516A5F] dark:text-[#8E9F97] font-bold text-xs">
+                      ₹
+                    </div>
+                    <input
+                      type="number"
+                      step="50000"
+                      min="0"
+                      placeholder={
+                        fundingRequired
+                          ? String(fundingRequired)
+                          : lang === 'hi'
+                          ? 'उदा. 500000'
+                          : 'e.g. 500000'
+                      }
+                      value={totalProjectCost}
+                      onChange={(e) => {
+                        const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
+                        setTotalProjectCost(val);
+                      }}
+                      className="w-full pl-7 pr-3 py-2 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1">
+                    {lang === 'hi' ? 'प्रवर्तक का स्वयं का निवेश / योगदान:' : 'Your Own Investment / Contribution:'}
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#516A5F] dark:text-[#8E9F97] font-bold text-xs">
+                      ₹
+                    </div>
+                    <input
+                      type="number"
+                      step="25000"
+                      min="0"
+                      placeholder={lang === 'hi' ? 'उदा. 100000' : 'e.g. 100000'}
+                      value={existingInvestment}
+                      onChange={(e) => {
+                        const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
+                        setExistingInvestment(val);
+                      }}
+                      className="w-full pl-7 pr-3 py-2 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Live Funding Gap Callout */}
+              <div className="p-3 rounded-lg bg-[#F4F8F6] dark:bg-[#16231C] border border-[#CDE3D7] dark:border-[#223F30] flex items-center justify-between">
+                <div>
+                  <span className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] block">
+                    {lang === 'hi'
+                      ? 'अनुमानित वित्तीय अंतर (Funding Gap):'
+                      : 'Calculated Funding Gap:'}
+                  </span>
+                  <span className="text-sm font-extrabold text-[#14453D] dark:text-[#34D399]">
+                    {formatCurrency(calculatedFundingGap)}
+                  </span>
+                </div>
+                <span className="text-[10px] text-[#516A5F] dark:text-[#9EB0A7] text-right font-medium">
+                  {lang === 'hi'
+                    ? 'परियोजना लागत − स्वयं का निवेश'
+                    : 'Project Cost − Own Investment'}
+                </span>
+              </div>
+
+              {/* Primary Support Need Selection */}
+              <div>
+                <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1.5">
+                  {lang === 'hi' ? 'आपकी मुख्य व्यावसायिक सहायता आवश्यकता:' : 'Primary Support Need:'}
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {(
+                    [
+                      { id: 'CAPITAL', labelEn: 'Seed Capital', labelHi: 'प्रारंभिक पूंजी' },
+                      { id: 'WORKING_CAPITAL', labelEn: 'Working Capital', labelHi: 'कार्यशील पूंजी' },
+                      { id: 'EQUIPMENT', labelEn: 'Machinery / Tools', labelHi: 'मशीनरी व उपकरण' },
+                      { id: 'SUBSIDY', labelEn: 'Govt Subsidy', labelHi: 'सरकारी सब्सिडी' },
+                      { id: 'INFRASTRUCTURE', labelEn: 'Work Shed / Infra', labelHi: 'कार्यशाला' },
+                      { id: 'SKILL_DEVELOPMENT', labelEn: 'Skill Training', labelHi: 'कौशल प्रशिक्षण' },
+                      { id: 'MARKET_ACCESS', labelEn: 'Market Access', labelHi: 'बाजार संपर्क' },
+                    ] as { id: SupportNeedType; labelEn: string; labelHi: string }[]
+                  ).map((need) => {
+                    const isSelected = primarySupportNeed === need.id;
+                    return (
+                      <button
+                        key={need.id}
+                        type="button"
+                        onClick={() =>
+                          setPrimarySupportNeed(isSelected ? null : need.id)
+                        }
+                        className={`px-2.5 py-1.5 rounded text-xs font-semibold border transition-all cursor-pointer ${
+                          isSelected
+                            ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#34D399] shadow-xs'
+                            : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
+                        }`}
+                      >
+                        {lang === 'hi' ? need.labelHi : need.labelEn}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Business Idea / Activity Description */}
+              <div>
+                <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1">
+                  {lang === 'hi'
+                    ? 'व्यवसाय गतिविधि / विचार संक्षेप (वैकल्पिक):'
+                    : 'Business Idea / Activity Summary (Optional):'}
+                </label>
+                <input
+                  type="text"
+                  placeholder={
+                    lang === 'hi'
+                      ? 'उदा. सोलर संचालित कोल्ड स्टोरेज इकाई या बेकरी उत्पाद'
+                      : 'e.g. Solar-powered micro cold storage unit or eco-friendly packaging'
+                  }
+                  value={businessIdea}
+                  onChange={(e) => setBusinessIdea(e.target.value)}
+                  className="w-full px-3 py-2 text-xs border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
+                />
               </div>
             </div>
 

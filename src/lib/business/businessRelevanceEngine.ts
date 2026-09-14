@@ -15,45 +15,41 @@ export function getSchemeSupportedNeeds(scheme: Scheme): SupportNeedType[] {
   const supported = new Set<SupportNeedType>();
 
   // Subsidy schemes
-  if (scheme.financials.subsidyRatePercent && scheme.financials.subsidyRatePercent > 0) {
+  const subsidyPercent = scheme.subsidyRatePercent ?? scheme.intelligence?.financial?.subsidyPercentage;
+  if (subsidyPercent && subsidyPercent > 0) {
     supported.add('SUBSIDY');
   }
 
   // Credit / Bank loan schemes
-  if (scheme.financials.loanMaxAmount > 0) {
+  const maxLoan = scheme.maxAmount ?? scheme.intelligence?.financial?.maxFunding ?? 0;
+  if (maxLoan > 0) {
     supported.add('CREDIT');
   }
 
   // Purpose-based mapping
-  if (scheme.taxonomies.fundingPurposes && scheme.taxonomies.fundingPurposes.length > 0) {
-    for (const purpose of scheme.taxonomies.fundingPurposes) {
-      switch (purpose) {
-        case 'seed_capital':
-          supported.add('CAPITAL');
-          break;
-        case 'working_capital':
-          supported.add('WORKING_CAPITAL');
-          break;
-        case 'equipment_purchase':
-          supported.add('EQUIPMENT');
-          break;
-        case 'infrastructure':
-          supported.add('INFRASTRUCTURE');
-          break;
-        case 'technology_upgrade':
-          supported.add('TECHNOLOGY');
-          break;
-        case 'training_skill':
-          supported.add('TRAINING');
-          supported.add('SKILL_DEVELOPMENT');
-          break;
-        case 'marketing_support':
-          supported.add('MARKET_ACCESS');
-          break;
-        case 'export_promotion':
-          supported.add('MARKET_ACCESS');
-          break;
-      }
+  if (scheme.fundingPurpose) {
+    const purpose = scheme.fundingPurpose.toLowerCase();
+    if (purpose.includes('seed') || purpose.includes('startup')) {
+      supported.add('CAPITAL');
+    }
+    if (purpose.includes('working') || purpose.includes('operational')) {
+      supported.add('WORKING_CAPITAL');
+    }
+    if (purpose.includes('equipment') || purpose.includes('machinery') || purpose.includes('plant')) {
+      supported.add('EQUIPMENT');
+    }
+    if (purpose.includes('infra')) {
+      supported.add('INFRASTRUCTURE');
+    }
+    if (purpose.includes('tech')) {
+      supported.add('TECHNOLOGY');
+    }
+    if (purpose.includes('skill') || purpose.includes('training')) {
+      supported.add('TRAINING');
+      supported.add('SKILL_DEVELOPMENT');
+    }
+    if (purpose.includes('market') || purpose.includes('export')) {
+      supported.add('MARKET_ACCESS');
     }
   }
 
@@ -135,7 +131,7 @@ export function evaluateBusinessRelevance(
 
   // Check business stage compatibility
   const legacyStage = mapKeyToLegacyStage(needProfile.currentStage);
-  const targetStages = scheme.eligibilityCriteria.targetBusinessStages || [];
+  const targetStages = scheme.intelligence?.eligibility?.targetBusinessStages || [];
 
   let stageFit: 'ALIGNED' | 'BROAD' | 'MISALIGNED' | 'UNKNOWN' = 'BROAD';
   if (targetStages.length > 0) {
@@ -166,8 +162,8 @@ export function evaluateBusinessRelevance(
   let fundingFitNoteHi: string | undefined;
 
   if (needProfile.fundingGap > 0) {
-    const loanMax = scheme.financials.loanMaxAmount;
-    const loanMin = scheme.financials.loanMinAmount;
+    const loanMax = scheme.maxAmount ?? scheme.intelligence?.financial?.maxFunding ?? 0;
+    const loanMin = scheme.minAmount ?? scheme.intelligence?.financial?.minFunding ?? 0;
 
     if (loanMax > 0) {
       if (needProfile.fundingGap <= loanMax && needProfile.fundingGap >= loanMin) {

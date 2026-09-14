@@ -80,7 +80,7 @@ export function normalizeBusinessEntityType(profile: Partial<UserProfile>): Busi
     return profile.businessEntityType;
   }
 
-  if (profile.enterpriseType === 'micro' || profile.enterpriseType === 'nano') {
+  if (profile.enterpriseType === 'micro' || profile.enterpriseType === 'nano_informal') {
     return 'SOLE_PROPRIETORSHIP';
   }
 

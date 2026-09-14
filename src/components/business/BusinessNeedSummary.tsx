@@ -12,7 +12,7 @@ import { formatLakhCrore } from '../../lib/business/fundingCalculator';
 import { useTranslation } from '../../i18n';
 
 interface BusinessNeedSummaryProps {
-  needProfile: BusinessNeedProfile;
+  needProfile?: BusinessNeedProfile | null;
   onCompleteProfile?: () => void;
 }
 
@@ -22,6 +22,10 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
 }) => {
   const { lang, getLocalizedBusinessType } = useTranslation();
   const isHi = lang === 'hi';
+
+  if (!needProfile || !needProfile.currentStage) {
+    return null;
+  }
 
   const stageInfo = BUSINESS_STAGE_TAXONOMY[needProfile.currentStage];
   const stageLabel = isHi ? stageInfo?.labelHi : stageInfo?.labelEn;

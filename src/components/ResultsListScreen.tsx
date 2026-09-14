@@ -24,12 +24,15 @@ import {
   MapPin,
   Scale,
   X,
+  IndianRupee,
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
 import { getSchemeCategories } from '../lib/data/normalization';
 import { deriveSchemeTrustProfile } from '../lib/data/trustEngine';
 import { getNextBestAction } from '../lib/matching/decisionEngine';
 import { SchemeComparisonModal } from './SchemeComparisonModal';
+import { BusinessProfileCard, BusinessNeedSummary } from './business';
+import { deriveBusinessNeedProfile } from '../lib/business';
 import {
   staggerContainer,
   staggerItem,
@@ -404,6 +407,71 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 </div>
               </div>
 
+              {/* Phase 4.1 Business-Need Relevance Layer (Independent Advisory Metric) */}
+              {result.businessRelevance && result.businessRelevance.relevanceLevel !== 'UNKNOWN' && (
+                <div
+                  id={`business-relevance-${locScheme.id}`}
+                  className={`mt-3.5 p-3 rounded-md border text-xs ${
+                    result.businessRelevance.relevanceLevel === 'HIGH'
+                      ? 'bg-[#EBF7F0] dark:bg-[#142C21] border-[#B2E4C9] dark:border-[#214D38]'
+                      : result.businessRelevance.relevanceLevel === 'MEDIUM'
+                      ? 'bg-blue-50/70 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800/60'
+                      : 'bg-[#F9F9F8] dark:bg-[#18201C] border-[#E2E2E0] dark:border-[#2A3C34]'
+                  }`}
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                    <div className="flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-[#14453D] dark:text-[#34D399]" />
+                      <span className="font-bold text-[#14453D] dark:text-[#E0E8E3]">
+                        {lang === 'hi' ? 'व्यावसायिक आवश्यकता प्रासंगिकता:' : 'Business-Need Relevance:'}
+                      </span>
+                      <span
+                        className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded tracking-wide ${
+                          result.businessRelevance.relevanceLevel === 'HIGH'
+                            ? 'bg-[#16A34A] text-white'
+                            : result.businessRelevance.relevanceLevel === 'MEDIUM'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-stone-500 text-white'
+                        }`}
+                      >
+                        {lang === 'hi'
+                          ? result.businessRelevance.relevanceLevel === 'HIGH'
+                            ? 'उच्च प्रासंगिकता'
+                            : result.businessRelevance.relevanceLevel === 'MEDIUM'
+                            ? 'मध्यम'
+                            : 'कम प्रासंगिकता'
+                          : `${result.businessRelevance.relevanceLevel} FIT`}
+                      </span>
+                    </div>
+                    {result.businessRelevance.matchedNeeds.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {result.businessRelevance.matchedNeeds.map((n) => (
+                          <span
+                            key={n.needType}
+                            className="text-[10px] font-semibold bg-white/90 dark:bg-[#1A2620] text-[#14453D] dark:text-[#4ADE80] border border-[#CDE3D7] dark:border-[#244335] px-1.5 py-0.5 rounded"
+                          >
+                            ✓ {lang === 'hi' ? n.labelHi : n.labelEn}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-[#3F4943] dark:text-[#C5D5CC] leading-relaxed">
+                    {lang === 'hi' ? result.businessRelevance.explanationHi : result.businessRelevance.explanationEn}
+                  </p>
+                  {(result.businessRelevance.fundingFitNoteEn || result.businessRelevance.fundingFitNoteHi) && (
+                    <div className="mt-1.5 text-[10px] font-medium text-[#14453D] dark:text-[#4ADE80] flex items-center gap-1">
+                      <IndianRupee className="w-3 h-3 shrink-0" />
+                      <span>
+                        {lang === 'hi'
+                          ? result.businessRelevance.fundingFitNoteHi
+                          : result.businessRelevance.fundingFitNoteEn}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Authoritative Decision Layer: Next Best Action Callout */}
               {userProfile && (() => {
                 const nextAction = getNextBestAction(result, userProfile, lang);
@@ -772,6 +840,28 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           </button>
         </div>
       </motion.div>
+
+      {/* Phase 4.1 Entrepreneur Business Profile & Need Intelligence */}
+      {(() => {
+        if (!userProfile) return null;
+        const effectiveNeedProfile =
+          userProfile.businessNeedProfile || deriveBusinessNeedProfile(userProfile);
+        if (!effectiveNeedProfile) return null;
+
+        return (
+          <div className="mb-6 space-y-4">
+            <BusinessNeedSummary
+              needProfile={effectiveNeedProfile}
+              onCompleteProfile={onEditProfile}
+            />
+            <BusinessProfileCard
+              needProfile={effectiveNeedProfile}
+              businessProfile={userProfile.businessProfile}
+              onEditProfile={onEditProfile}
+            />
+          </div>
+        );
+      })()}
 
       {/* Tabs & Search Bar */}
       <div id="scheme-results-tabs" className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-6">

@@ -38,6 +38,11 @@ import { deriveSchemeTrustProfile } from '../lib/data/trustEngine';
 import { getNextBestAction } from '../lib/matching/decisionEngine';
 import { evaluateFundingFit } from '../lib/matching/fundingFit';
 import {
+  deriveBusinessNeedProfile,
+  BUSINESS_STAGE_TAXONOMY,
+  SUPPORT_NEEDS_TAXONOMY,
+} from '../lib/business';
+import {
   fadeIn,
   fadeSlideUp,
   staggerContainer,
@@ -85,6 +90,11 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
   const isEligible = matchResult.matchStatus === 'eligible';
   const isNearMatch = matchResult.matchStatus === 'near-match';
   const isSaved = savedSchemeIds.has(locScheme.id);
+
+  const effectiveNeedProfile = useMemo(() => {
+    if (!userProfile) return null;
+    return userProfile.businessNeedProfile || deriveBusinessNeedProfile(userProfile);
+  }, [userProfile]);
 
   // Document checklist readiness in session storage
   const [readyDocs, setReadyDocs] = useState<string[]>(() => {
@@ -546,6 +556,134 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* LEFT TWO COLUMNS */}
         <div className="lg:col-span-2 space-y-6">
+          {/* Phase 4.1: "WHY THIS MAY HELP YOUR BUSINESS" (Business Need Intelligence) */}
+          {userProfile && (
+            <motion.section
+              id="why-helps-business-section"
+              variants={shouldReduceMotion ? undefined : fadeSlideUp}
+              initial="hidden"
+              animate="visible"
+              className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 shadow-xs transition-colors duration-200"
+            >
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center">
+                    <Briefcase className="w-3.5 h-3.5" />
+                  </div>
+                  <h2 className="text-base sm:text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+                    {lang === 'hi' ? 'यह आपके व्यवसाय के लिए क्यों उपयोगी है' : 'Why This May Help Your Business'}
+                  </h2>
+                </div>
+                {matchResult.businessRelevance && (
+                  <span
+                    className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded tracking-wider ${
+                      matchResult.businessRelevance.relevanceLevel === 'HIGH'
+                        ? 'bg-[#16A34A] text-white'
+                        : matchResult.businessRelevance.relevanceLevel === 'MEDIUM'
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-stone-500 text-white'
+                    }`}
+                  >
+                    {lang === 'hi'
+                      ? matchResult.businessRelevance.badgeLabelHi
+                      : matchResult.businessRelevance.badgeLabelEn}
+                  </span>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4 p-3.5 rounded bg-[#FAFAF9] dark:bg-[#101613] border border-[#E2E2E0] dark:border-[#24342D]">
+                <div>
+                  <span className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] block font-medium">
+                    {lang === 'hi' ? 'व्यवसाय चरण:' : 'Business Stage:'}
+                  </span>
+                  <strong className="text-xs text-[#1A1C1B] dark:text-[#F0F4F2] font-bold">
+                    {effectiveNeedProfile?.currentStage
+                      ? lang === 'hi'
+                        ? BUSINESS_STAGE_TAXONOMY[effectiveNeedProfile.currentStage]?.labelHi ||
+                          effectiveNeedProfile.currentStage
+                        : BUSINESS_STAGE_TAXONOMY[effectiveNeedProfile.currentStage]?.labelEn ||
+                          effectiveNeedProfile.currentStage
+                      : userProfile.businessStage || (lang === 'hi' ? 'सामान्य उद्यम' : 'General Setup')}
+                  </strong>
+                </div>
+                <div>
+                  <span className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] block font-medium">
+                    {lang === 'hi' ? 'प्राथमिक आवश्यकता:' : 'Primary Need:'}
+                  </span>
+                  <strong className="text-xs text-[#1A1C1B] dark:text-[#F0F4F2] font-bold">
+                    {effectiveNeedProfile?.primaryNeed
+                      ? lang === 'hi'
+                        ? SUPPORT_NEEDS_TAXONOMY[effectiveNeedProfile.primaryNeed]?.labelHi ||
+                          effectiveNeedProfile.primaryNeed
+                        : SUPPORT_NEEDS_TAXONOMY[effectiveNeedProfile.primaryNeed]?.labelEn ||
+                          effectiveNeedProfile.primaryNeed
+                      : lang === 'hi'
+                      ? 'पूंजी / ऋण सहायता'
+                      : 'Capital / Loan Assistance'}
+                  </strong>
+                </div>
+                <div>
+                  <span className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] block font-medium">
+                    {lang === 'hi' ? 'अनुमानित वित्तीय अंतर:' : 'Funding Gap:'}
+                  </span>
+                  <strong className="text-xs text-[#14453D] dark:text-[#4ADE80] font-bold">
+                    {effectiveNeedProfile?.fundingGap !== undefined &&
+                    effectiveNeedProfile.fundingGap > 0
+                      ? formatCurrency(effectiveNeedProfile.fundingGap)
+                      : userProfile.fundingGap !== undefined && userProfile.fundingGap > 0
+                      ? formatCurrency(userProfile.fundingGap)
+                      : userProfile.fundingRequired
+                      ? formatCurrency(userProfile.fundingRequired)
+                      : lang === 'hi'
+                      ? 'अनिर्दिष्ट'
+                      : 'Not specified'}
+                  </strong>
+                </div>
+              </div>
+
+              {/* Verified Scheme Support Details */}
+              <div className="space-y-2 text-xs">
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80] shrink-0 mt-0.5" />
+                  <p className="text-[#3F4943] dark:text-[#C5D5CC]">
+                    <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">
+                      {lang === 'hi' ? 'सत्यापित योजना लाभ: ' : 'Verified Scheme Benefit: '}
+                    </strong>
+                    {locScheme.benefitSummary}
+                  </p>
+                </div>
+                {matchResult.businessRelevance && (
+                  <div className="flex items-start gap-2">
+                    <Sparkles className="w-4 h-4 text-[#14453D] dark:text-[#34D399] shrink-0 mt-0.5" />
+                    <p className="text-[#3F4943] dark:text-[#C5D5CC]">
+                      <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">
+                        {lang === 'hi' ? 'प्रासंगिकता विश्लेषण: ' : 'Relevance Rationale: '}
+                      </strong>
+                      {lang === 'hi'
+                        ? matchResult.businessRelevance.explanationHi
+                        : matchResult.businessRelevance.explanationEn}
+                    </p>
+                  </div>
+                )}
+                {matchResult.businessRelevance?.matchedNeeds && matchResult.businessRelevance.matchedNeeds.length > 0 && (
+                  <div className="pt-2 mt-2 border-t border-[#E2E2E0] dark:border-[#24342D] flex flex-wrap items-center gap-1.5">
+                    <span className="text-[11px] font-medium text-[#6F7A73] dark:text-[#8E9F97]">
+                      {lang === 'hi' ? 'समर्थित व्यावसायिक जरूरतें:' : 'Supported Needs:'}
+                    </span>
+                    {matchResult.businessRelevance.matchedNeeds.map((n) => (
+                      <span
+                        key={n.needType}
+                        className="text-[10px] font-bold bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] px-2 py-0.5 rounded"
+                      >
+                        ✓ {lang === 'hi' ? n.labelHi : n.labelEn}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </motion.section>
+          )}
+
           {/* 4. "WHY THIS SCHEME MATCHES YOU" (5-Factor Detailed Rule Breakdown) */}
           <motion.section
             id="why-matches-section"

@@ -6,6 +6,7 @@ import {
 } from '../../types';
 import { INDIAN_STATES } from '../../constants/geography';
 import { BUSINESS_TYPES, SOCIAL_CATEGORIES } from '../../constants/business';
+import { deriveBusinessNeedProfile, deriveBusinessProfile } from '../business/businessNeedProfile';
 
 export interface ValidationResult {
   isValid: boolean;
@@ -239,6 +240,13 @@ export function validateUserProfile(
       businessProfile: profile.businessProfile,
       businessNeedProfile: profile.businessNeedProfile,
     };
+
+    if (!formattedProfile.businessNeedProfile) {
+      formattedProfile.businessNeedProfile = deriveBusinessNeedProfile(formattedProfile);
+    }
+    if (!formattedProfile.businessProfile) {
+      formattedProfile.businessProfile = deriveBusinessProfile(formattedProfile);
+    }
   }
 
   return {

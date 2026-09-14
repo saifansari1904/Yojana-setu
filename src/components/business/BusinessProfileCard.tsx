@@ -17,7 +17,7 @@ import { formatLakhCrore } from '../../lib/business/fundingCalculator';
 import { useTranslation } from '../../i18n';
 
 interface BusinessProfileCardProps {
-  needProfile: BusinessNeedProfile;
+  needProfile?: BusinessNeedProfile | null;
   businessProfile?: BusinessProfile;
   onEditProfile?: () => void;
   compact?: boolean;
@@ -31,6 +31,10 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
 }) => {
   const { lang, t, getLocalizedBusinessType, getLocalizedState } = useTranslation();
   const isHi = lang === 'hi';
+
+  if (!needProfile || !needProfile.currentStage) {
+    return null;
+  }
 
   const stageInfo = BUSINESS_STAGE_TAXONOMY[needProfile.currentStage];
   const stageLabel = isHi ? stageInfo?.labelHi : stageInfo?.labelEn;
@@ -48,11 +52,11 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
       : primaryNeedInfo.labelEn
     : undefined;
 
-  const businessLocationText = needProfile.location.businessState
+  const businessLocationText = needProfile.location?.businessState
     ? getLocalizedState(needProfile.location.businessState)
     : undefined;
 
-  const residenceLocationText = needProfile.location.residenceState
+  const residenceLocationText = needProfile.location?.residenceState
     ? getLocalizedState(needProfile.location.residenceState)
     : undefined;
 
@@ -159,7 +163,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] font-semibold block truncate">
               {businessLocationText || residenceLocationText || (isHi ? 'राष्ट्रीय' : 'National')}
             </strong>
-            {needProfile.location.isInterstate && (
+            {needProfile.location?.isInterstate && (
               <span className="text-[10px] text-amber-700 dark:text-amber-400 block truncate">
                 {isHi ? 'अंतरराज्यीय उद्यम' : 'Interstate Unit'}
               </span>

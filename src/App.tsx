@@ -3,6 +3,7 @@ import { AnimatePresence } from 'motion/react';
 import { ActiveScreen, MatchResult, UserProfile } from './types';
 import { getAllSchemes } from './lib/data';
 import { rankSchemesForProfile } from './utils/matchingEngine';
+import { deriveBusinessNeedProfile, deriveBusinessProfile } from './lib/business';
 import { Header } from './components/Header';
 import { LoginScreen } from './components/LoginScreen';
 import { EligibilityFormScreen } from './components/EligibilityFormScreen';
@@ -112,9 +113,13 @@ function YojanaSetuMain() {
   };
 
   const handleFormSubmit = (newProfile: UserProfile) => {
+    const needProfile = newProfile.businessNeedProfile || deriveBusinessNeedProfile(newProfile);
+    const businessProfile = newProfile.businessProfile || deriveBusinessProfile(newProfile);
     setUserProfile({
       ...newProfile,
-      applicantName: applicantName || newProfile.applicantName || (lang === 'hi' ? 'नागरिक उद्यमी' : 'Citizen Entrepreneur')
+      applicantName: applicantName || newProfile.applicantName || (lang === 'hi' ? 'नागरिक उद्यमी' : 'Citizen Entrepreneur'),
+      businessNeedProfile: needProfile,
+      businessProfile: businessProfile,
     });
     setIsAuthenticated(true);
     setIsMatching(true);
