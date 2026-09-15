@@ -16,6 +16,9 @@ export * from './matching';
 // Application Tracker (Phase 1)
 export * from './tracker';
 
+// Guided Application & Preparation Workspace (Phase 5)
+export * from './application';
+
 // Re-export core taxonomy types from schemeTaxonomy for backward compatibility
 export type {
   EnterpriseType,

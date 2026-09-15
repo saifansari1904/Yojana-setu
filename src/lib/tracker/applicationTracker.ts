@@ -1,4 +1,12 @@
-import type { ApplicationStatus, TrackedApplication } from '../../types/tracker';
+import type {
+  ApplicationStatus,
+  FollowUpReminder,
+  TrackedApplication,
+} from '../../types/tracker';
+import {
+  loadDocumentProgress,
+  summariseDocumentProgress,
+} from './documentProgress';
 
 const STORAGE_KEY = 'yojana_setu_applications_v1';
 
@@ -167,8 +175,11 @@ export const removeTrackedApplication = (
 ): TrackedApplication[] => applications.filter((a) => a.schemeId !== schemeId);
 
 /**
- * Document readiness for a scheme, read from the same session storage the
- * detail-screen checklist writes to (`setu_docs_<schemeId>`).
+ * Document readiness for a scheme.
+ *
+ * PHASE 4.3: reads the unified localStorage document-progress store instead of
+ * the old per-scheme sessionStorage keys, so tracker and scheme detail can no
+ * longer disagree about what the citizen has prepared.
  */
 export const getDocReadiness = (
   schemeId: string,
@@ -179,16 +190,46 @@ export const getDocReadiness = (
     return { ready: 0, total, allReady: false };
   }
 
-  try {
-    const raw = sessionStorage.getItem(`setu_docs_${schemeId}`);
-    const parsed = raw ? JSON.parse(raw) : [];
-    const ready = Array.isArray(parsed) ? parsed.length : 0;
-    const clamped = Math.min(ready, total);
-    return { ready: clamped, total, allReady: clamped >= total && total > 0 };
-  } catch {
-    return { ready: 0, total, allReady: false };
-  }
+  const summary = summariseDocumentProgress(loadDocumentProgress(), schemeId, total);
+  return { ready: summary.ready, total: summary.total, allReady: summary.allReady };
 };
+
+/* ===================== PHASE 4.3 — FOLLOW-UP REMINDERS ===================== */
+
+/**
+ * Sets or clears the citizen's own follow-up date.
+ * This is never a government deadline — the dataset carries no verified
+ * application windows, so none is ever generated.
+ */
+export const setFollowUpReminder = (
+  applications: TrackedApplication[],
+  schemeId: string,
+  followUp: FollowUpReminder | null,
+): TrackedApplication[] =>
+  applications.map((application) => {
+    if (application.schemeId !== schemeId) return application;
+    const next = { ...application, updatedAt: new Date().toISOString() };
+    if (!followUp) {
+      delete next.followUp;
+      return next;
+    }
+    return { ...next, followUp };
+  });
+
+export const completeFollowUpReminder = (
+  applications: TrackedApplication[],
+  schemeId: string,
+  completedOn: string = new Date().toISOString().slice(0, 10),
+): TrackedApplication[] =>
+  applications.map((application) =>
+    application.schemeId === schemeId && application.followUp
+      ? {
+          ...application,
+          followUp: { ...application.followUp, completedOn },
+          updatedAt: new Date().toISOString(),
+        }
+      : application,
+  );
 
 /** Pipeline counts for the tracker header. */
 export const summariseByStatus = (

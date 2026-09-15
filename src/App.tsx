@@ -12,14 +12,25 @@ import { WhyMatchModal } from './components/WhyMatchModal';
 import { WhyNotEligibleView } from './components/WhyNotEligibleView';
 import { SchemeDetailScreen } from './components/SchemeDetailScreen';
 import { ApplicationTrackerScreen } from './components/ApplicationTrackerScreen';
+import { HomeDashboardScreen } from './components/HomeDashboardScreen';
+import { ApplicationWorkspaceScreen } from './components/application';
 import {
+  completeFollowUpReminder,
   createTrackedApplication,
   loadTrackedApplications,
   patchTrackedApplication,
   removeTrackedApplication,
   saveTrackedApplications,
+  setFollowUpReminder,
   upsertTrackedApplication,
 } from './lib/tracker/applicationTracker';
+import {
+  recordDocumentProgressEvent,
+  startApplicationFromPathway,
+  statusChangeEvent,
+  appendJourneyEvent,
+} from './lib/tracker/applicationJourney';
+import type { SupportPathway as SupportPathwayModel } from './types/supportPathway';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { LanguageProvider, useTranslation } from './i18n';
 import { ThemeProvider } from './theme/ThemeContext';
@@ -52,6 +63,9 @@ function YojanaSetuMain() {
 
   // Selected scheme match for Scheme Detail Screen
   const [selectedSchemeMatch, setSelectedSchemeMatch] = useState<MatchResult | null>(null);
+
+  // Target match for Phase 5 Application Preparation Workspace
+  const [workspaceTarget, setWorkspaceTarget] = useState<MatchResult | null>(null);
 
   // Saved scheme IDs (persisted in localStorage)
   const [savedSchemeIds, setSavedSchemeIds] = useState<Set<string>>(() => {
@@ -108,6 +122,14 @@ function YojanaSetuMain() {
       selectedSchemeMatch
     );
   }, [matchResults, selectedSchemeMatch]);
+
+  const currentWorkspaceTarget = useMemo(() => {
+    if (!workspaceTarget) return null;
+    return (
+      matchResults.find((m) => m.scheme.id === workspaceTarget.scheme.id) ||
+      workspaceTarget
+    );
+  }, [matchResults, workspaceTarget]);
 
   // Smoothly scroll to the top of the portal when transitioning between screens
   useEffect(() => {
@@ -186,6 +208,11 @@ function YojanaSetuMain() {
     setCurrentScreen('scheme-detail');
   };
 
+  const handleOpenWorkspace = (match: MatchResult) => {
+    setWorkspaceTarget(match);
+    navigateTo('workspace');
+  };
+
   const handleToggleSaveScheme = (schemeId: string) => {
     const wasSaved = savedSchemeIds.has(schemeId);
 
@@ -230,6 +257,17 @@ function YojanaSetuMain() {
     commitTrackedApplications((current) =>
       patchTrackedApplication(current, schemeId, {
         status,
+        // Phase 4.3 — every status change is recorded on the journey timeline.
+        journey: appendJourneyEvent(
+          current.find((a) => a.schemeId === schemeId) || {
+            schemeId,
+            schemeName: schemeId,
+            status,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          },
+          statusChangeEvent(status),
+        ).journey,
         // Stamp the submission date on first entry into "applied".
         appliedOn:
           status === 'applied'
@@ -254,6 +292,35 @@ function YojanaSetuMain() {
 
   const handleRemoveTrackedApplication = (schemeId: string) => {
     commitTrackedApplications((current) => removeTrackedApplication(current, schemeId));
+  };
+
+  /* ================= PHASE 4.3 — APPLICATION JOURNEY ================= */
+
+  /** Turns the Phase 4.2 pathway into a tracked application journey. */
+  const handleStartPathwayApplication = (match: MatchResult, pathway: unknown) => {
+    commitTrackedApplications((current) =>
+      startApplicationFromPathway(current, match, pathway as SupportPathwayModel),
+    );
+  };
+
+  /** Records preparation progress against the journey (never changes status silently). */
+  const handleDocumentProgress = (schemeId: string, preparedDocIds: string[]) => {
+    const total =
+      matchResults.find((m) => m.scheme.id === schemeId)?.scheme.requiredDocuments?.length || 0;
+    if (total === 0) return;
+    commitTrackedApplications((current) =>
+      recordDocumentProgressEvent(current, schemeId, preparedDocIds.length, total),
+    );
+  };
+
+  const handleSetFollowUp = (schemeId: string, dueOn: string | null) => {
+    commitTrackedApplications((current) =>
+      setFollowUpReminder(current, schemeId, dueOn ? { dueOn } : null),
+    );
+  };
+
+  const handleCompleteFollowUp = (schemeId: string) => {
+    commitTrackedApplications((current) => completeFollowUpReminder(current, schemeId));
   };
 
   return (
@@ -309,6 +376,21 @@ function YojanaSetuMain() {
               </AnimatedPage>
             )}
 
+            {currentScreen === 'dashboard' && (
+              <AnimatedPage key="dashboard">
+                <HomeDashboardScreen
+                  userProfile={userProfile}
+                  matchResults={matchResults}
+                  applications={trackedApplications}
+                  savedSchemeIds={savedSchemeIds}
+                  onStartCheck={() => navigateTo('form')}
+                  onOpenResults={() => navigateTo('results')}
+                  onOpenTracker={() => navigateTo('tracker')}
+                  onSelectScheme={handleSelectScheme}
+                />
+              </AnimatedPage>
+            )}
+
             {currentScreen === 'form' && (
               <AnimatedPage key="form">
                 <EligibilityFormScreen
@@ -329,6 +411,10 @@ function YojanaSetuMain() {
                   onSelectScheme={handleSelectScheme}
                   savedSchemeIds={savedSchemeIds}
                   onToggleSaveScheme={handleToggleSaveScheme}
+                  onStartPathwayApplication={handleStartPathwayApplication}
+                  applications={trackedApplications}
+                  onOpenTracker={() => navigateTo('tracker')}
+                  onOpenWorkspace={handleOpenWorkspace}
                 />
               </AnimatedPage>
             )}
@@ -363,6 +449,8 @@ function YojanaSetuMain() {
                   onOpenWhyNotEligible={handleOpenWhyNotEligible}
                   savedSchemeIds={savedSchemeIds}
                   onToggleSaveScheme={handleToggleSaveScheme}
+                  onDocumentProgress={handleDocumentProgress}
+                  onOpenWorkspace={handleOpenWorkspace}
                 />
               </AnimatedPage>
             )}
@@ -376,8 +464,28 @@ function YojanaSetuMain() {
                   onUpdateNote={handleUpdateApplicationNote}
                   onUpdateAppliedOn={handleUpdateApplicationAppliedOn}
                   onRemove={handleRemoveTrackedApplication}
+                  onSetFollowUp={handleSetFollowUp}
+                  onCompleteFollowUp={handleCompleteFollowUp}
                   onSelectScheme={handleSelectScheme}
                   onBackToResults={() => navigateTo('results')}
+                  onOpenWorkspace={handleOpenWorkspace}
+                />
+              </AnimatedPage>
+            )}
+
+            {currentScreen === 'workspace' && currentWorkspaceTarget && userProfile && (
+              <AnimatedPage key="workspace">
+                <ApplicationWorkspaceScreen
+                  matchResult={currentWorkspaceTarget}
+                  userProfile={userProfile}
+                  applications={trackedApplications}
+                  savedSchemeIds={savedSchemeIds}
+                  onToggleSaveScheme={handleToggleSaveScheme}
+                  onBack={() => navigateTo('results')}
+                  onOpenTracker={() => navigateTo('tracker')}
+                  onUpdateApplications={(updated) => {
+                    commitTrackedApplications(() => updated);
+                  }}
                 />
               </AnimatedPage>
             )}

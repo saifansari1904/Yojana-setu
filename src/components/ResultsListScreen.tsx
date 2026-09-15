@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { MatchResult, UserProfile } from '../types';
 import { MatchGauge } from './MatchGauge';
@@ -25,14 +25,30 @@ import {
   Scale,
   X,
   IndianRupee,
+  Compass,
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
 import { getSchemeCategories } from '../lib/data/normalization';
 import { deriveSchemeTrustProfile } from '../lib/data/trustEngine';
 import { getNextBestAction } from '../lib/matching/decisionEngine';
 import { SchemeComparisonModal } from './SchemeComparisonModal';
-import { BusinessProfileCard, BusinessNeedSummary } from './business';
-import { deriveBusinessNeedProfile } from '../lib/business';
+import {
+  BusinessProfileCard,
+  BusinessNeedSummary,
+  SupportPathway,
+  SupportPathwayModal,
+} from './business';
+import { deriveBusinessNeedProfile, buildSupportPathway } from '../lib/business';
+import type { PathwayAction } from '../types/supportPathway';
+import { PathwayReportModal } from './PathwayReportModal';
+import type { TrackedApplication } from '../types/tracker';
+import {
+  loadDocumentProgress,
+  migrateLegacyDocumentProgress,
+  toggleDocumentPrepared,
+  saveDocumentProgress,
+  getPreparedDocIds,
+} from '../lib/tracker/documentProgress';
 import {
   staggerContainer,
   staggerItem,
@@ -50,6 +66,12 @@ interface ResultsListScreenProps {
   onSelectScheme?: (match: MatchResult) => void;
   savedSchemeIds?: Set<string>;
   onToggleSaveScheme?: (schemeId: string) => void;
+  /** Phase 4.3 — start (or enrich) a tracked application from the pathway. */
+  onStartPathwayApplication?: (match: MatchResult, pathway: unknown) => void;
+  applications?: TrackedApplication[];
+  onOpenTracker?: () => void;
+  /** Phase 5 — open guided preparation workspace. */
+  onOpenWorkspace?: (match: MatchResult) => void;
 }
 
 export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
@@ -61,6 +83,10 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
   onSelectScheme,
   savedSchemeIds,
   onToggleSaveScheme,
+  onStartPathwayApplication,
+  applications,
+  onOpenTracker,
+  onOpenWorkspace,
 }) => {
   const {
     t,
@@ -103,6 +129,82 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
     setSelectedForCompareIds([]);
     setIsComparisonOpen(false);
   };
+
+  /* ============ PHASE 4.2 / 4.3 — SUPPORT PATHWAY & REPORT ============ */
+
+  const [isPathwayModalOpen, setIsPathwayModalOpen] = useState(false);
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [docProgress, setDocProgress] = useState(() =>
+    typeof window === 'undefined' ? {} : migrateLegacyDocumentProgress(),
+  );
+
+  const topMatch = matchResults.length > 0 ? matchResults[0] : null;
+  const preparedDocIds = topMatch ? getPreparedDocIds(docProgress, topMatch.scheme.id) : [];
+
+  /** Deterministic Phase 4.2 engine output — memoized, never recomputed per render. */
+  const supportPathway = useMemo(() => {
+    if (!userProfile || matchResults.length === 0) return null;
+    return buildSupportPathway({
+      profile: userProfile,
+      matchResults,
+      preparedDocIds,
+      hasEngagedWithChecklist: preparedDocIds.length > 0,
+      lang,
+    });
+  }, [userProfile, matchResults, preparedDocIds, lang]);
+
+  const handlePathwayAction = (action: PathwayAction) => {
+    switch (action.actionTarget) {
+      case 'form':
+        onEditProfile();
+        return;
+      case 'compare':
+        setIsComparisonOpen(true);
+        document.getElementById('scheme-results-tabs')?.scrollIntoView({ behavior: 'smooth' });
+        return;
+      case 'portal':
+        if (action.actionUrl) window.open(action.actionUrl, '_blank', 'noopener,noreferrer');
+        return;
+      case 'checklist':
+      case 'details':
+        if (topMatch && onSelectScheme) {
+          onSelectScheme(topMatch);
+          return;
+        }
+        document
+          .getElementById('support-pathway-preparation-checklist')
+          ?.scrollIntoView({ behavior: 'smooth' });
+        return;
+      default:
+        document.getElementById('support-pathway-stack')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handlePathwaySchemeSelect = (schemeId: string) => {
+    const match = matchResults.find((m) => m.scheme.id === schemeId);
+    if (match && onSelectScheme) onSelectScheme(match);
+  };
+
+  /** Phase 4.3 — checklist ticks write to the shared localStorage store. */
+  const handlePathwayChecklistToggle = (itemId: string) => {
+    if (!topMatch) return;
+    setDocProgress((prev) => {
+      const next = toggleDocumentPrepared(prev, topMatch.scheme.id, itemId);
+      saveDocumentProgress(next);
+      return next;
+    });
+  };
+
+  /** Phase 4.3 — turn the pathway into a tracked application journey. */
+  const handleStartApplication = () => {
+    if (!topMatch || !supportPathway || !onStartPathwayApplication) return;
+    onStartPathwayApplication(topMatch, supportPathway);
+    if (onOpenTracker) onOpenTracker();
+  };
+
+  const isTopMatchTracked = Boolean(
+    topMatch && (applications || []).some((a) => a.schemeId === topMatch.scheme.id),
+  );
 
   // Smooth scroll to top when entering matched schemes portal
   useEffect(() => {
@@ -541,6 +643,20 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                     {t('results.viewSchemeBtn')}
                   </ArrowFillButton>
 
+                  {onOpenWorkspace && (
+                    <motion.button
+                      id={`prepare-workspace-btn-${locScheme.id}`}
+                      type="button"
+                      onClick={() => onOpenWorkspace(result)}
+                      whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+                      whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                      className="bg-[#0F6B4C]/10 hover:bg-[#0F6B4C]/20 dark:bg-[#4ADE80]/15 dark:hover:bg-[#4ADE80]/25 text-[#0F6B4C] dark:text-[#4ADE80] border border-[#0F6B4C]/30 dark:border-[#4ADE80]/30 px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                    >
+                      <FileCheck2 className="w-3.5 h-3.5" />
+                      <span>{lang === 'hi' ? 'आवेदन तैयारी' : 'Prepare Application'}</span>
+                    </motion.button>
+                  )}
+
                   <motion.button
                     id={`why-match-btn-${locScheme.id}`}
                     type="button"
@@ -864,6 +980,89 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           </div>
         );
       })()}
+
+      {/* Phase 4.2 / 4.3 Support Pathway Quick Action Bar — Clean & Uncluttered */}
+      {supportPathway && (
+        <div
+          id="results-support-pathway-bar"
+          className="mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-xl border border-[#D4EFE1] dark:border-[#1E3E32] bg-[#F4F8F6] dark:bg-[#12221B] shadow-xs"
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-9 h-9 rounded-lg bg-[#14453D] dark:bg-[#1C5045] text-white flex items-center justify-center shrink-0 shadow-xs">
+              <Compass className="w-5 h-5 text-[#4ADE80]" aria-hidden="true" />
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs sm:text-sm font-bold text-[#14453D] dark:text-[#E2EBE6]">
+                  {lang === 'hi' ? 'उद्यम सहायता मार्ग' : 'Enterprise Support Pathway'}
+                </span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#D4EFE1] dark:bg-[#1C5045] text-[#0F6B4C] dark:text-[#6EE7B7]">
+                  {lang === 'hi'
+                    ? supportPathway.currentStageLabelHi
+                    : supportPathway.currentStageLabelEn}
+                </span>
+              </div>
+              <p className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] truncate">
+                {lang === 'hi'
+                  ? `अनुशंसित अगला कदम: ${supportPathway.nextBestAction.titleHi}`
+                  : `Next recommended step: ${supportPathway.nextBestAction.titleEn}`}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0 self-end sm:self-center flex-wrap">
+            <button
+              id="open-support-pathway-modal-btn"
+              type="button"
+              onClick={() => setIsPathwayModalOpen(true)}
+              className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg bg-[#14453D] dark:bg-[#1C5045] px-3.5 py-1.5 text-xs font-bold text-white transition-colors hover:bg-[#0F3730] dark:hover:bg-[#163E36] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16A34A] cursor-pointer shadow-xs"
+            >
+              <Compass className="w-3.5 h-3.5 text-[#4ADE80]" aria-hidden="true" />
+              <span>{lang === 'hi' ? 'मार्गदर्शन योजना देखें' : 'View Support Pathway'}</span>
+            </button>
+
+            <button
+              id="open-pathway-report-btn"
+              type="button"
+              onClick={() => setIsReportOpen(true)}
+              className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg border border-[#B2CDBF] dark:border-[#285743] bg-white dark:bg-[#162922] px-3 py-1.5 text-xs font-bold text-[#14453D] dark:text-[#C7D6CE] hover:bg-[#EAEFEA] dark:hover:bg-[#1F332B] transition-colors cursor-pointer"
+            >
+              <FileText className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>{lang === 'hi' ? 'रिपोर्ट (PDF)' : 'Report (PDF)'}</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Full Support Pathway Modal (Non-cluttering overlay) */}
+      {isPathwayModalOpen && supportPathway && (
+        <SupportPathwayModal
+          isOpen={isPathwayModalOpen}
+          onClose={() => setIsPathwayModalOpen(false)}
+          pathway={supportPathway}
+          onAction={handlePathwayAction}
+          onSelectScheme={handlePathwaySchemeSelect}
+          onToggleChecklistItem={handlePathwayChecklistToggle}
+          onStartPathwayApplication={
+            onStartPathwayApplication && topMatch ? handleStartApplication : undefined
+          }
+          isTopMatchTracked={isTopMatchTracked}
+          onOpenReport={() => {
+            setIsPathwayModalOpen(false);
+            setIsReportOpen(true);
+          }}
+        />
+      )}
+
+      {isReportOpen && supportPathway && (
+        <PathwayReportModal
+          pathway={supportPathway}
+          matchResults={matchResults}
+          userProfile={userProfile}
+          applications={applications}
+          onClose={() => setIsReportOpen(false)}
+        />
+      )}
 
       {/* Tabs & Search Bar */}
       <div id="scheme-results-tabs" className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-6">

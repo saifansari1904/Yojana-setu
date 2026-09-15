@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'motion/react';
 import { ActiveScreen, UserProfile } from '../types';
 import {
   ClipboardList,
+  LayoutDashboard,
   FileCheck2,
   Sparkles,
   User,
@@ -40,10 +41,11 @@ export const Header: React.FC<HeaderProps> = ({
 
   const isFormActive = currentScreen === 'form';
   const isResultsActive =
-    currentScreen === 'results' || currentScreen === 'alternatives' || currentScreen === 'scheme-detail';
+    currentScreen === 'results' || currentScreen === 'alternatives' || currentScreen === 'scheme-detail' || currentScreen === 'workspace';
   const isTrackerActive = currentScreen === 'tracker';
-  const trackerLabel = lang === 'hi' ? 'मेरे आवेदन' : 'My Applications';
-  const trackerShortLabel = lang === 'hi' ? 'आवेदन' : 'Applications';
+  const isDashboardActive = currentScreen === 'dashboard';
+  const trackerLabel = t('tracker.title');
+  const trackerShortLabel = t('tracker.navShort');
 
   return (
     <header id="main-header" className="sticky top-0 z-40 bg-[#FAFAF9]/95 dark:bg-[#151C19]/95 backdrop-blur-sm border-b border-[#E2E2E0] dark:border-[#24342D] transition-colors duration-200">
@@ -154,6 +156,21 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <FileCheck2 className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
               <span>{t('header.navEligibilityCheck')}</span>
+            </motion.button>
+
+            <motion.button
+              id="nav-dashboard-btn"
+              whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+              onClick={() => onNavigate('dashboard')}
+              className={`px-3.5 py-2 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
+                isDashboardActive
+                  ? 'bg-[#14453D] dark:bg-[#1C5045] text-white shadow-xs'
+                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1E2723]'
+              }`}
+            >
+              <LayoutDashboard className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
+              <span>{t('dashboard.navLabel')}</span>
             </motion.button>
 
             <motion.button
@@ -285,6 +302,17 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <FileCheck2 className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
               <span>{t('header.navFormShort')}</span>
+            </motion.button>
+            <motion.button
+              id="mobile-nav-dashboard-btn"
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
+              onClick={() => onNavigate('dashboard')}
+              className={`px-3 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors ${
+                isDashboardActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
+              }`}
+            >
+              <LayoutDashboard className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
+              <span>{t('dashboard.navShort')}</span>
             </motion.button>
             <motion.button
               id="mobile-nav-results-btn"

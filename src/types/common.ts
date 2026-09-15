@@ -1,10 +1,12 @@
 export type ActiveScreen =
   | 'login'
+  | 'dashboard'
   | 'form'
   | 'results'
   | 'alternatives'
   | 'scheme-detail'
-  | 'tracker';
+  | 'tracker'
+  | 'workspace';
 
 export interface RepaymentCalculation {
   principalAmount: number;

@@ -58,7 +58,7 @@ const completeProfile: UserProfile = {
   primarySupportNeed: 'CAPITAL',
   secondarySupportNeeds: ['EQUIPMENT', 'TRAINING'],
   entrepreneurExperienceYears: 3,
-} as UserProfile;
+} as unknown as UserProfile;
 
 const sparseProfile: UserProfile = {
   applicantName: 'Sparse Entrepreneur',
@@ -66,10 +66,10 @@ const sparseProfile: UserProfile = {
   gender: 'male',
   category: 'General',
   socialCategory: 'general',
-  annualIncome: 180000,
   state: 'Karnataka',
+  annualIncome: 180000,
   businessType: 'services',
-} as UserProfile;
+} as unknown as UserProfile;
 
 const completeMatches = matchSchemesForProfile(completeProfile);
 const sparseMatches = matchSchemesForProfile(sparseProfile);

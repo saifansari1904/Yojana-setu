@@ -201,6 +201,7 @@ export interface PreparationItem {
   state: PreparationItemState;
   /** True when the requirement comes from verified scheme data. */
   fromSchemeData: boolean;
+  isMandatory?: boolean;
 }
 
 export interface PreparationChecklistResult {

@@ -41,10 +41,7 @@ import {
   deriveBusinessNeedProfile,
   BUSINESS_STAGE_TAXONOMY,
   SUPPORT_NEEDS_TAXONOMY,
-  buildSupportPathway,
 } from '../lib/business';
-import { SupportPathway } from './business';
-import type { PathwayAction } from '../types/supportPathway';
 import {
   fadeIn,
   fadeSlideUp,
@@ -52,6 +49,13 @@ import {
   staggerItem,
   scaleIn,
 } from '../animations/variants';
+import {
+  getPreparedDocIds,
+  loadDocumentProgress,
+  migrateLegacyDocumentProgress,
+  saveDocumentProgress,
+  setDocumentsPrepared,
+} from '../lib/tracker/documentProgress';
 import { transitions } from '../animations/transitions';
 import { toastVariants } from '../animations/variants';
 import { ArrowFillButton, BookmarkButton, VerificationBadge, AnimatedScore } from './ui';
@@ -66,6 +70,10 @@ interface SchemeDetailScreenProps {
   onOpenWhyNotEligible?: (match: MatchResult) => void;
   savedSchemeIds: Set<string>;
   onToggleSaveScheme: (schemeId: string) => void;
+  /** Phase 4.3 — lets the app record preparation progress on the journey. */
+  onDocumentProgress?: (schemeId: string, preparedDocIds: string[]) => void;
+  /** Phase 5 — open preparation workspace. */
+  onOpenWorkspace?: (match: MatchResult) => void;
 }
 
 export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
@@ -78,6 +86,8 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
   onOpenWhyNotEligible,
   savedSchemeIds,
   onToggleSaveScheme,
+  onDocumentProgress,
+  onOpenWorkspace,
 }) => {
   const {
     t,
@@ -100,62 +110,33 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
     return userProfile.businessNeedProfile || deriveBusinessNeedProfile(userProfile);
   }, [userProfile]);
 
-  // Document checklist readiness in session storage
+  /**
+   * PHASE 4.3: document readiness now lives in the shared localStorage store
+   * (`documentProgress.ts`), so the tracker, the pathway checklist and this
+   * screen all read the same truth and progress survives a new tab.
+   * Legacy sessionStorage keys are migrated on first read.
+   */
   const [readyDocs, setReadyDocs] = useState<string[]>(() => {
     if (typeof window === 'undefined') return [];
-    try {
-      const saved = sessionStorage.getItem(`setu_docs_${locScheme.id}`);
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
+    return getPreparedDocIds(migrateLegacyDocumentProgress(), locScheme.id);
   });
 
-  // Keep readyDocs synced with session storage
   const handleToggleDoc = (docName: string) => {
     setReadyDocs((prev) => {
       const next = prev.includes(docName)
         ? prev.filter((d) => d !== docName)
         : [...prev, docName];
-      try {
-        sessionStorage.setItem(`setu_docs_${locScheme.id}`, JSON.stringify(next));
-      } catch {
-        // Ignore session storage error
-      }
+      saveDocumentProgress(
+        setDocumentsPrepared(loadDocumentProgress(), locScheme.id, next),
+      );
+      if (onDocumentProgress) onDocumentProgress(locScheme.id, next);
       return next;
     });
   };
 
   // PHASE 4.2 — deterministic, memoized support pathway for the selected scheme
-  const phase42Pathway = useMemo(() => {
-    if (!userProfile) return null;
-    return buildSupportPathway({
-      profile: userProfile,
-      matchResults: allMatches && allMatches.length > 0 ? allMatches : [matchResult],
-      selectedMatch: matchResult,
-      preparedDocIds: readyDocs,
-      hasEngagedWithChecklist: readyDocs.length > 0,
-      lang: lang === 'hi' ? 'hi' : 'en',
-    });
-  }, [userProfile, allMatches, matchResult, readyDocs, lang]);
-
   // Toast feedback for copy/share
   const [shareFeedback, setShareFeedback] = useState<boolean>(false);
-
-  const handlePathwayAction = (action: PathwayAction) => {
-    if (action.actionTarget === 'portal' && (action.actionUrl || locScheme.officialPortalUrl)) {
-      window.open(action.actionUrl || locScheme.officialPortalUrl, '_blank', 'noopener,noreferrer');
-    } else if (action.actionTarget === 'checklist') {
-      const el = document.getElementById('scheme-document-checklist');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else if (action.actionTarget === 'form' || action.actionTarget === 'details') {
-      onBackToResults();
-    } else if (action.actionTarget === 'alternatives' && onOpenWhyNotEligible) {
-      onOpenWhyNotEligible(matchResult);
-    }
-  };
 
   const handleShare = async () => {
     const shareData = {
@@ -451,7 +432,19 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             </div>
 
             {/* Official Portal CTA Button (Desktop) */}
-            <div className="hidden md:block">
+            <div className="hidden md:flex flex-col gap-2 items-end">
+              {onOpenWorkspace && (
+                <button
+                  type="button"
+                  id={`hero-prepare-btn-${locScheme.id}`}
+                  onClick={() => onOpenWorkspace(matchResult)}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold border border-[#0F6B4C] dark:border-[#4ADE80] text-[#0F6B4C] dark:text-[#4ADE80] bg-[#0F6B4C]/5 hover:bg-[#0F6B4C]/10 transition-colors cursor-pointer"
+                >
+                  <FileCheck2 className="w-3.5 h-3.5" />
+                  <span>{lang === 'hi' ? 'आवेदन तैयारी कार्यक्षेत्र' : 'Preparation Workspace'}</span>
+                </button>
+              )}
+
               {locScheme.officialPortalUrl ? (
                 <ArrowFillButton
                   id={`hero-apply-btn-${locScheme.id}`}
@@ -717,7 +710,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 {matchResult.businessRelevance?.matchedNeeds && matchResult.businessRelevance.matchedNeeds.length > 0 && (
                   <div className="pt-2 mt-2 border-t border-[#E2E2E0] dark:border-[#24342D] flex flex-wrap items-center gap-1.5">
                     <span className="text-[11px] font-medium text-[#6F7A73] dark:text-[#8E9F97]">
-                      {lang === 'hi' ? 'समर्थित व्यावसायिक जरूरतें:' : 'Supported Needs:'}
+                      {lang === 'hi' ? 'समर्थ���त व्यावसायिक जरूरतें:' : 'Supported Needs:'}
                     </span>
                     {matchResult.businessRelevance.matchedNeeds.map((n) => (
                       <span
@@ -731,29 +724,6 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 )}
               </div>
             </motion.section>
-          )}
-
-          {/* Phase 4.2: Integrated Business Support Pathway */}
-          {phase42Pathway && (
-            <motion.div
-              id="phase-4-2-support-pathway"
-              variants={shouldReduceMotion ? undefined : fadeSlideUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
-            >
-              <SupportPathway
-                pathway={phase42Pathway}
-                onAction={handlePathwayAction}
-                onSelectScheme={(targetSchemeId) => {
-                  const target = allMatches.find((m) => m.scheme.id === targetSchemeId);
-                  if (target) {
-                    onSelectScheme(target);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }
-                }}
-              />
-            </motion.div>
           )}
 
           {/* 4. "WHY THIS SCHEME MATCHES YOU" (5-Factor Detailed Rule Breakdown) */}
@@ -1522,6 +1492,17 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
           />
 
           {/* Apply on Official Portal */}
+          {onOpenWorkspace && (
+            <button
+              type="button"
+              id="mobile-prepare-btn"
+              onClick={() => onOpenWorkspace(matchResult)}
+              className="px-3 py-2 rounded text-xs font-bold border border-[#0F6B4C] dark:border-[#4ADE80] text-[#0F6B4C] dark:text-[#4ADE80] bg-[#0F6B4C]/5 hover:bg-[#0F6B4C]/10 transition-colors"
+            >
+              {lang === 'hi' ? 'तैयारी' : 'Prepare'}
+            </button>
+          )}
+
           {locScheme.officialPortalUrl ? (
             <ArrowFillButton
               id="mobile-apply-btn"

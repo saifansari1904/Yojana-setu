@@ -313,6 +313,7 @@ export function buildPreparationChecklist(
     id: item.id,
     labelEn: item.name,
     labelHi: item.name,
+    isMandatory: item.isMandatory,
     state:
       item.state === 'PROVIDED'
         ? 'PREPARED'

@@ -17,6 +17,8 @@ interface SupportPathwayProps {
   onAction?: (action: PathwayAction) => void;
   onSelectScheme?: (schemeId: string) => void;
   showChecklist?: boolean;
+  onToggleChecklistItem?: (itemId: string) => void;
+  lang?: 'en' | 'hi';
   id?: string;
   className?: string;
 }
@@ -37,10 +39,13 @@ export const SupportPathway: React.FC<SupportPathwayProps> = ({
   onAction,
   onSelectScheme,
   showChecklist = false,
+  onToggleChecklistItem,
+  lang: propLang,
   id = 'support-pathway',
   className = '',
 }) => {
-  const { lang } = useTranslation();
+  const { lang: hookLang } = useTranslation();
+  const lang = propLang || hookLang;
   const isHi = lang === 'hi';
   const shouldReduceMotion = useReducedMotion();
 
@@ -187,7 +192,11 @@ export const SupportPathway: React.FC<SupportPathwayProps> = ({
 
       {/* 6. Preparation checklist (scheme-scoped) */}
       {showChecklist && (
-        <PreparationChecklist checklist={pathway.preparationChecklist} id={`${id}-checklist`} />
+        <PreparationChecklist
+          checklist={pathway.preparationChecklist}
+          id={`${id}-checklist`}
+          onToggleItem={onToggleChecklistItem ? (itemId) => onToggleChecklistItem(itemId) : undefined}
+        />
       )}
 
       <p className="flex items-start gap-2 text-xs text-[#3F4943] dark:text-[#9EB0A7]">

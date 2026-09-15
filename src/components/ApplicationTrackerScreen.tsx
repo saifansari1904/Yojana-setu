@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import {
+  AlertTriangle,
   ArrowRight,
+  CalendarClock,
   CheckCircle2,
   ClipboardList,
   FileText,
@@ -16,6 +18,11 @@ import {
   getStatusMeta,
   summariseByStatus,
 } from '../lib/tracker/applicationTracker';
+import {
+  evaluateFollowUp,
+  evaluateSchemeFreshness,
+  followUpUrgencyRank,
+} from '../lib/tracker/schemeFreshness';
 import { EmptyState } from './common/EmptyState';
 import { AnimatedCounter } from '../animations/AnimatedCounter';
 import { staggerContainer, staggerItem } from '../animations/variants';
@@ -28,8 +35,13 @@ interface ApplicationTrackerScreenProps {
   onUpdateNote: (schemeId: string, note: string) => void;
   onUpdateAppliedOn: (schemeId: string, appliedOn: string) => void;
   onRemove: (schemeId: string) => void;
+  /** Phase 4.3 — the citizen's own follow-up date (never a government deadline). */
+  onSetFollowUp?: (schemeId: string, dueOn: string | null) => void;
+  onCompleteFollowUp?: (schemeId: string) => void;
   onSelectScheme: (match: MatchResult) => void;
   onBackToResults: () => void;
+  /** Phase 5 — open preparation workspace for this tracked scheme. */
+  onOpenWorkspace?: (match: MatchResult) => void;
 }
 
 /** Display order: active work first, terminal outcomes last. */
@@ -48,10 +60,13 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
   onUpdateNote,
   onUpdateAppliedOn,
   onRemove,
+  onSetFollowUp,
+  onCompleteFollowUp,
   onSelectScheme,
   onBackToResults,
+  onOpenWorkspace,
 }) => {
-  const { lang, getLocalizedScheme } = useTranslation();
+  const { lang, t, getLocalizedScheme } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
   const isHi = lang === 'hi';
 
@@ -59,11 +74,21 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
 
   const summary = useMemo(() => summariseByStatus(applications), [applications]);
 
+  /**
+   * Phase 4.3: overdue follow-ups float to the top of the active group so the
+   * tracker surfaces work that has gone quiet. Purely deterministic sorting.
+   */
   const sorted = useMemo(
     () =>
       [...applications].sort((a, b) => {
         const orderDiff = DISPLAY_ORDER.indexOf(a.status) - DISPLAY_ORDER.indexOf(b.status);
         if (orderDiff !== 0) return orderDiff;
+
+        const urgencyDiff =
+          followUpUrgencyRank(evaluateFollowUp(a.followUp)) -
+          followUpUrgencyRank(evaluateFollowUp(b.followUp));
+        if (urgencyDiff !== 0) return urgencyDiff;
+
         return b.updatedAt.localeCompare(a.updatedAt);
       }),
     [applications],
@@ -77,18 +102,14 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
         <div className="flex items-center gap-2 mb-1.5">
           <ClipboardList className="w-5 h-5 text-[#16A34A] dark:text-[#4ADE80]" />
           <h1 className="text-xl sm:text-2xl font-bold text-[#14453D] dark:text-[#E8EFEA]">
-            {isHi ? 'मेरे आवेदन' : 'My Applications'}
+            {t('tracker.title')}
           </h1>
         </div>
         <p className="text-xs sm:text-sm text-[#516A5F] dark:text-[#9EB0A7] max-w-2xl">
-          {isHi
-            ? 'सहेजी गई योजनाओं की प्रगति यहीं ट्रैक करें — दस्तावेज़ से स्वीकृति तक।'
-            : 'Track every saved scheme from documents through to a decision.'}
+          {t('tracker.subtitle')}
         </p>
         <p className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] mt-1.5">
-          {isHi
-            ? 'यह सूची केवल इस ब्राउज़र में सहेजी जाती है।'
-            : 'Saved in this browser only — not submitted to any ministry.'}
+          {t('tracker.privacyNote')}
         </p>
       </div>
 
@@ -120,20 +141,16 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
       {applications.length === 0 ? (
         <EmptyState
           type="no-data"
-          title={isHi ? 'अभी कोई आवेदन ट्रैक नहीं हो रहा' : 'No applications tracked yet'}
-          description={
-            isHi
-              ? 'परिणाम पेज पर किसी योजना को सहेजें — वह अपने आप यहाँ दिखेगी।'
-              : 'Save a scheme from your results and it will appear here automatically.'
-          }
-          actionLabel={isHi ? 'मिलान देखें' : 'View matched schemes'}
+          title={t('tracker.emptyTitle')}
+          description={t('tracker.emptyDesc')}
+          actionLabel={t('tracker.emptyAction')}
           onAction={onBackToResults}
         />
       ) : (
         <>
           {activeCount > 0 && (
             <p className="text-xs font-semibold text-[#3F4943] dark:text-[#C5D5CC] mb-3">
-              {isHi ? `${activeCount} आवेदन प्रगति में` : `${activeCount} in progress`}
+              {activeCount} {t('tracker.inProgress')}
             </p>
           )}
 
@@ -156,6 +173,16 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
               );
               const isNoteOpen = openNoteFor === app.schemeId;
 
+              // Phase 4.3 — verification freshness + the citizen's own follow-up date
+              const freshness = match ? evaluateSchemeFreshness(match.scheme) : null;
+              const followUp = evaluateFollowUp(app.followUp);
+              const followUpTone =
+                followUp.state === 'OVERDUE'
+                  ? 'border-[#FFCCBD] dark:border-[#5A2B20] bg-[#FFDAD6]/50 dark:bg-[#3D1A14]/50 text-[#8C3A22] dark:text-[#FFB4A4]'
+                  : followUp.state === 'DUE_TODAY'
+                    ? 'border-[#FCD34D] dark:border-[#5B4718] bg-[#FEF3C7]/70 dark:bg-[#3B2F14]/60 text-[#92610A] dark:text-[#FCD34D]'
+                    : 'border-[#E2E2E0] dark:border-[#2A3C34] bg-[#F4F6F5] dark:bg-[#1B2720] text-[#3F4943] dark:text-[#C5D5CC]';
+
               return (
                 <motion.div
                   key={app.schemeId}
@@ -177,13 +204,13 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         </span>
                         {match && (
                           <span className="text-[10px] font-semibold text-[#516A5F] dark:text-[#9EB0A7]">
-                            {match.matchPercentage}% {isHi ? 'मिलान' : 'match'}
+                            {match.matchPercentage}% {t('tracker.matchSuffix')}
                           </span>
                         )}
                         {docs.total > 0 && (
                           <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#516A5F] dark:text-[#9EB0A7]">
                             <FileText className="w-3 h-3" />
-                            {docs.ready}/{docs.total} {isHi ? 'दस्तावेज़' : 'docs'}
+                            {docs.ready}/{docs.total} {t('tracker.docsSuffix')}
                           </span>
                         )}
                       </div>
@@ -194,8 +221,8 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                       type="button"
                       onClick={() => onRemove(app.schemeId)}
                       className="shrink-0 p-1.5 text-[#6F7A73] dark:text-[#8E9F97] hover:text-[#C2603F] dark:hover:text-[#F87171] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1A14]/40 rounded transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
-                      title={isHi ? 'ट्रैकिंग से हटाएं' : 'Remove from tracker'}
-                      aria-label={isHi ? 'ट्रैकिंग से हटाएं' : 'Remove from tracker'}
+                      title={t('tracker.remove')}
+                      aria-label={`${t('tracker.remove')}: ${schemeName}`}
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -205,9 +232,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                     <div className="mb-3 flex items-start gap-2 bg-[#D4EFE1]/60 dark:bg-[#1A382D]/50 border border-[#C1E2D0] dark:border-[#22503E] rounded px-3 py-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80] shrink-0 mt-0.5" />
                       <p className="text-[11px] text-[#14453D] dark:text-[#C5D5CC]">
-                        {isHi
-                          ? 'सभी दस्तावेज़ जाँचे जा चुके हैं — स्थिति आगे बढ़ाएं।'
-                          : 'Your document checklist is complete — ready to move this forward.'}
+                        {t('tracker.docsCompleteNote')}
                       </p>
                     </div>
                   )}
@@ -218,7 +243,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         htmlFor={`tracker-applied-on-${app.schemeId}`}
                         className="block text-[10px] font-bold uppercase tracking-wide text-[#6F7A73] dark:text-[#8E9F97] mb-1"
                       >
-                        {isHi ? 'आवेदन की तारीख' : 'Applied on'}
+                        {t('tracker.appliedOn')}
                       </label>
                       <input
                         id={`tracker-applied-on-${app.schemeId}`}
@@ -236,18 +261,14 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         htmlFor={`tracker-note-${app.schemeId}`}
                         className="block text-[10px] font-bold uppercase tracking-wide text-[#6F7A73] dark:text-[#8E9F97] mb-1"
                       >
-                        {isHi ? 'टिप्पणी' : 'Note'}
+                        {t('tracker.note')}
                       </label>
                       <textarea
                         id={`tracker-note-${app.schemeId}`}
                         rows={3}
                         value={app.note || ''}
                         onChange={(e) => onUpdateNote(app.schemeId, e.target.value)}
-                        placeholder={
-                          isHi
-                            ? 'संदर्भ संख्या, बैंक शाखा, अगला कदम…'
-                            : 'Reference number, bank branch, next step…'
-                        }
+                        placeholder={t('tracker.notePlaceholder')}
                         className="w-full bg-[#FAFAF9] dark:bg-[#1B2720] border border-[#E2E2E0] dark:border-[#2A3C34] rounded px-2.5 py-2 text-xs text-[#1A1C1B] dark:text-[#F0F4F2] placeholder:text-[#9EB0A7] focus-visible:ring-2 focus-visible:ring-[#16A34A] outline-none resize-y"
                       />
                     </div>
@@ -257,6 +278,101 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         {app.note}
                       </p>
                     )
+                  )}
+
+                  {/* Phase 4.3 — data freshness (never a claim about scheme validity) */}
+                  {freshness && freshness.shouldRecheckOfficialSource && (
+                    <div className="mb-3 flex items-start gap-2 rounded border border-[#FCD34D] dark:border-[#5B4718] bg-[#FEF3C7]/70 dark:bg-[#3B2F14]/60 px-3 py-2">
+                      <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#92610A] dark:text-[#FCD34D]" />
+                      <p className="text-[11px] text-[#92610A] dark:text-[#FCD34D]">
+                        <span className="font-bold">
+                          {isHi ? freshness.labelHi : freshness.labelEn}
+                        </span>
+                        {' — '}
+                        {isHi ? freshness.adviceHi : freshness.adviceEn}
+                      </p>
+                    </div>
+                  )}
+                  {freshness && !freshness.shouldRecheckOfficialSource && freshness.lastVerifiedDate && (
+                    <p className="mb-3 text-[10px] font-semibold text-[#6F7A73] dark:text-[#8E9F97]">
+                      {t('tracker.verified')}: {freshness.lastVerifiedDate}
+                      {' · '}
+                      {isHi ? freshness.labelHi : freshness.labelEn}
+                    </p>
+                  )}
+
+                  {/* Phase 4.3 — self-set follow-up reminder */}
+                  {onSetFollowUp && app.status !== 'approved' && app.status !== 'rejected' && (
+                    <div className={`mb-3 rounded border px-3 py-2 ${followUpTone}`}>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <label
+                          htmlFor={`tracker-followup-${app.schemeId}`}
+                          className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide"
+                        >
+                          <CalendarClock className="h-3.5 w-3.5" aria-hidden="true" />
+                          {t('tracker.followUpLabel')}
+                        </label>
+                        <input
+                          id={`tracker-followup-${app.schemeId}`}
+                          type="date"
+                          value={app.followUp?.dueOn || ''}
+                          onChange={(e) =>
+                            onSetFollowUp(app.schemeId, e.target.value ? e.target.value : null)
+                          }
+                          className="min-h-[44px] rounded border border-[#E2E2E0] bg-white px-2.5 py-1.5 text-xs text-[#1A1C1B] outline-none focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:border-[#2A3C34] dark:bg-[#1B2720] dark:text-[#F0F4F2]"
+                        />
+                        {app.followUp?.dueOn && (
+                          <span className="text-[11px] font-semibold">
+                            {isHi ? followUp.labelHi : followUp.labelEn}
+                          </span>
+                        )}
+                        {app.followUp?.dueOn && !app.followUp.completedOn && onCompleteFollowUp && (
+                          <button
+                            type="button"
+                            onClick={() => onCompleteFollowUp(app.schemeId)}
+                            className="inline-flex min-h-[44px] items-center gap-1.5 rounded px-2 text-[11px] font-bold underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-[#16A34A]"
+                          >
+                            <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
+                            {t('tracker.markDone')}
+                          </button>
+                        )}
+                      </div>
+                      <p className="mt-1 text-[10px] opacity-80">
+                        {t('tracker.followUpNote')}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Phase 4.3 — journey timeline captured from the support pathway */}
+                  {app.journey && app.journey.length > 0 && (
+                    <details className="mb-3 rounded border border-[#E2E2E0] dark:border-[#24342D] bg-[#F4F6F5] dark:bg-[#1B2720] px-3 py-2">
+                      <summary className="cursor-pointer text-[11px] font-bold text-[#14453D] dark:text-[#C5D5CC]">
+                        {t('tracker.journeyTitle')} ({app.journey.length})
+                      </summary>
+                      <ol className="mt-2 space-y-1">
+                        {app.journey.map((event) => (
+                          <li
+                            key={event.id}
+                            className="text-[11px] text-[#3F4943] dark:text-[#C5D5CC]"
+                          >
+                            <span className="font-semibold">{event.at.slice(0, 10)}</span>{' '}
+                            {isHi ? event.labelHi : event.labelEn}
+                          </li>
+                        ))}
+                      </ol>
+                      {app.pathwaySnapshot && (
+                        <p className="mt-2 text-[10px] text-[#6F7A73] dark:text-[#8E9F97]">
+                          {t('tracker.pathwayStage')}:{' '}
+                          {isHi
+                            ? app.pathwaySnapshot.stageLabelHi
+                            : app.pathwaySnapshot.stageLabelEn}{' '}
+                          ·{' '}
+                          {isHi
+                            ? app.pathwaySnapshot.readinessLabelHi
+                            : app.pathwaySnapshot.readinessLabelEn}
+                        </p>
+                      )}
+                    </details>
                   )}
 
                   {/* Actions */}
@@ -271,7 +387,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         className="inline-flex items-center gap-1.5 bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-3 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
                       >
                         <span>
-                          {isHi ? 'अगला: ' : 'Mark as '}
+                          {t('tracker.markAs')}
                           {nextMeta.label}
                         </span>
                         <ArrowRight className="w-3 h-3" />
@@ -286,7 +402,18 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         className="inline-flex items-center gap-1.5 bg-[#F3F4F3] dark:bg-[#1E2723] hover:bg-[#EEEEED] dark:hover:bg-[#26352E] border border-[#E2E2E0] dark:border-[#2A3C34] text-[#14453D] dark:text-[#C5D5CC] px-3 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
                       >
                         <FileText className="w-3 h-3" />
-                        <span>{isHi ? 'योजना खोलें' : 'Open scheme'}</span>
+                        <span>{t('tracker.openScheme')}</span>
+                      </button>
+                    )}
+
+                    {match && onOpenWorkspace && (
+                      <button
+                        id={`tracker-open-workspace-${app.schemeId}`}
+                        type="button"
+                        onClick={() => onOpenWorkspace(match)}
+                        className="inline-flex items-center gap-1.5 bg-[#0F6B4C]/10 hover:bg-[#0F6B4C]/20 dark:bg-[#4ADE80]/15 dark:hover:bg-[#4ADE80]/25 text-[#0F6B4C] dark:text-[#4ADE80] border border-[#0F6B4C]/30 dark:border-[#4ADE80]/30 px-3 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
+                      >
+                        <span>{isHi ? 'तैयारी कार्यक्षेत्र' : 'Workspace'}</span>
                       </button>
                     )}
 
@@ -300,16 +427,10 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                       <NotebookPen className="w-3 h-3" />
                       <span>
                         {isNoteOpen
-                          ? isHi
-                            ? 'टिप्पणी बंद करें'
-                            : 'Done editing'
+                          ? t('tracker.doneEditing')
                           : app.note
-                            ? isHi
-                              ? 'टिप्पणी संपादित करें'
-                              : 'Edit note'
-                            : isHi
-                              ? 'टिप्पणी जोड़ें'
-                              : 'Add note'}
+                            ? t('tracker.editNote')
+                            : t('tracker.addNote')}
                       </span>
                     </button>
 
@@ -321,7 +442,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         className="inline-flex items-center gap-1.5 text-[#6F7A73] dark:text-[#8E9F97] hover:text-[#C2603F] dark:hover:text-[#F87171] px-2 py-1.5 rounded text-[11px] font-semibold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
                       >
                         <XCircle className="w-3 h-3" />
-                        <span>{isHi ? 'अस्वीकृत दर्ज करें' : 'Mark rejected'}</span>
+                        <span>{t('tracker.markRejected')}</span>
                       </button>
                     )}
 
@@ -332,7 +453,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         onClick={() => onUpdateStatus(app.schemeId, 'applied')}
                         className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] hover:text-[#14453D] dark:hover:text-[#F0F4F2] px-2 py-1.5 rounded transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
                       >
-                        {isHi ? 'पुनः खोलें' : 'Reopen'}
+                        {t('tracker.reopen')}
                       </button>
                     )}
                   </div>
