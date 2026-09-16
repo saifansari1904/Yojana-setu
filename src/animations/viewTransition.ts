@@ -28,18 +28,5 @@ const prefersReducedMotion = (): boolean => {
  * identical on Safari/Firefox and under prefers-reduced-motion.
  */
 export const startScreenTransition = (update: () => void): void => {
-  if (!supportsViewTransitions() || prefersReducedMotion()) {
-    update();
-    return;
-  }
-
-  try {
-    (document as DocumentWithViewTransition).startViewTransition?.(() => {
-      // flushSync is required: the browser snapshots the DOM when the callback
-      // returns, so the React update must be committed synchronously.
-      flushSync(update);
-    });
-  } catch {
-    update();
-  }
+  update();
 };

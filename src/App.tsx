@@ -12,7 +12,7 @@ import { WhyMatchModal } from './components/WhyMatchModal';
 import { WhyNotEligibleView } from './components/WhyNotEligibleView';
 import { SchemeDetailScreen } from './components/SchemeDetailScreen';
 import { ApplicationTrackerScreen } from './components/ApplicationTrackerScreen';
-import { HomeDashboardScreen } from './components/HomeDashboardScreen';
+import { CommandCenterScreen } from './features/commandCenter/CommandCenterScreen';
 import { ApplicationWorkspaceScreen } from './components/application';
 import {
   completeFollowUpReminder,
@@ -378,7 +378,7 @@ function YojanaSetuMain() {
 
             {currentScreen === 'dashboard' && (
               <AnimatedPage key="dashboard">
-                <HomeDashboardScreen
+                <CommandCenterScreen
                   userProfile={userProfile}
                   matchResults={matchResults}
                   applications={trackedApplications}
@@ -387,6 +387,7 @@ function YojanaSetuMain() {
                   onOpenResults={() => navigateTo('results')}
                   onOpenTracker={() => navigateTo('tracker')}
                   onSelectScheme={handleSelectScheme}
+                  onToggleSave={handleToggleSaveScheme}
                 />
               </AnimatedPage>
             )}

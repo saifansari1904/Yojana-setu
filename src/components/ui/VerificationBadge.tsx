@@ -3,23 +3,55 @@ import { motion, useReducedMotion } from 'motion/react';
 import { ShieldCheck, AlertTriangle, Info, CheckCircle2 } from 'lucide-react';
 
 export type VerificationTier = 'verified' | 'partially-verified' | 'in-review' | 'gazetted';
+export type PortalDomainClass = 'VERIFIED_OFFICIAL' | 'KNOWN_NODAL' | 'UNVERIFIED_EXTERNAL' | 'INVALID';
 
 export interface VerificationBadgeProps {
   tier?: VerificationTier;
+  classification?: PortalDomainClass;
   label?: string;
   sourceText?: string;
+  showText?: boolean;
   className?: string;
   id?: string;
 }
 
 export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
-  tier = 'verified',
+  tier: propTier,
+  classification,
   label,
   sourceText,
+  showText = true,
   className = '',
   id,
 }) => {
   const shouldReduceMotion = useReducedMotion();
+
+  // Derive tier and default label from classification if supplied
+  let derivedTier: VerificationTier = propTier || 'verified';
+  let derivedLabel = label;
+
+  if (classification) {
+    switch (classification) {
+      case 'VERIFIED_OFFICIAL':
+        derivedTier = 'verified';
+        derivedLabel = label || 'Verified Official';
+        break;
+      case 'KNOWN_NODAL':
+        derivedTier = 'gazetted';
+        derivedLabel = label || 'Nodal Agency';
+        break;
+      case 'UNVERIFIED_EXTERNAL':
+        derivedTier = 'partially-verified';
+        derivedLabel = label || 'Unverified Source';
+        break;
+      case 'INVALID':
+        derivedTier = 'in-review';
+        derivedLabel = label || 'Invalid Domain';
+        break;
+    }
+  }
+
+  const tier = derivedTier;
 
   const configs: Record<
     VerificationTier,
@@ -65,13 +97,14 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
       initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95 }}
       animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
       transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      title={displayLabel}
       className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-semibold border select-none ${
         current.bg
       } ${current.text} ${current.border} ${className}`}
     >
       <IconComponent className="w-3 h-3 shrink-0" />
-      <span>{displayLabel}</span>
-      {sourceText && (
+      {showText && <span>{displayLabel}</span>}
+      {showText && sourceText && (
         <span className="opacity-70 font-normal border-l border-current/30 pl-1 ml-0.5">
           {sourceText}
         </span>
