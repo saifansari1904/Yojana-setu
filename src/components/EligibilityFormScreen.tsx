@@ -555,9 +555,13 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       </div>
 
       {/* Dynamic Stepper Header */}
-      <div className="bg-white dark:bg-[#151C19] border border-[#E2E2E0] dark:border-[#24342D] rounded-md p-4 mb-6 shadow-2xs">
+      <div className="yj-card p-4 sm:p-5 mb-6">
+        {/* Journey framing: the assessment reads as a guided profile journey. */}
+        <p className="yj-eyebrow text-[#6F7A73] dark:text-[#8E9F97] mb-2">
+          {lang === 'hi' ? 'आपकी व्यवसाय प्रोफ़ाइल यात्रा' : 'Your Business Profile Journey'}
+        </p>
         <div className="flex items-center justify-between mb-3 text-xs">
-          <span className="font-bold text-[#14453D] dark:text-[#34D399]">
+          <span className="font-bold text-[#0B5D4B] dark:text-[#34D399]">
             {lang === 'hi'
               ? `चरण ${currentStageIdx + 1} / ${activeStages.length}: ${t(currentStage.stageShortKey as any)}`
               : `Step ${currentStageIdx + 1} of ${activeStages.length}: ${t(currentStage.stageShortKey as any)}`}
@@ -711,10 +715,10 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
           >
             {/* Stage Header */}
             <div className="mb-6 pb-4 border-b border-[#E2E2E0] dark:border-[#24342D]">
-              <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+              <h2 className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2]">
                 {t(currentStage.stageTitleKey as any)}
               </h2>
-              <p className="text-xs sm:text-sm text-[#516A5F] dark:text-[#8E9F97] mt-1">
+              <p className="yj-support text-[#42544C] dark:text-[#9EB0A7] mt-1 yj-measure">
                 {t(currentStage.stageDescKey as any)}
               </p>
             </div>
@@ -1138,14 +1142,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       }
                       setValidationError(null);
                     }}
-                    className={`p-4 rounded border text-left cursor-pointer transition-all flex flex-col justify-between ${
+                    className={`yj-focus-ring group p-4 rounded-[var(--yj-radius-md)] border text-left cursor-pointer transition-all duration-200 flex flex-col justify-between active:scale-[0.99] ${
                       isSelected
-                        ? 'border-[#14453D] dark:border-[#34D399] bg-[#D4EFE1]/40 dark:bg-[#1A382D] ring-2 ring-[#14453D] dark:ring-[#34D399]'
-                        : 'border-[#E2E2E0] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613] hover:border-[#14453D]/50 dark:hover:border-[#34D399]/50'
+                        ? 'border-[#0B5D4B] dark:border-[#34D399] bg-[#D4EFE1]/40 dark:bg-[#1A382D] ring-2 ring-[#0B5D4B] dark:ring-[#34D399] shadow-[var(--yj-shadow-2)] -translate-y-0.5'
+                        : 'border-[#E2E2E0] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613] hover:-translate-y-0.5 hover:shadow-[var(--yj-shadow-2)] hover:border-[#0B5D4B]/50 dark:hover:border-[#34D399]/50'
                     }`}
                   >
                     <div>
-                      <div className="w-9 h-9 rounded-md bg-[#14453D]/10 dark:bg-[#34D399]/10 text-[#14453D] dark:text-[#34D399] flex items-center justify-center mb-3">
+                      <div className="w-9 h-9 rounded-md bg-[#14453D]/10 dark:bg-[#34D399]/10 text-[#14453D] dark:text-[#34D399] flex items-center justify-center mb-3 transition-transform duration-200 group-hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0">
                         <IconComponent className="w-5 h-5" />
                       </div>
                       <h3 className="font-bold text-sm text-[#1A1C1B] dark:text-[#F0F4F2] mb-1">
@@ -1159,9 +1163,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     <div className="mt-4 pt-3 border-t border-[#E2E2E0]/60 dark:border-[#24342D]/60 flex items-center justify-between text-xs">
                       <span className="font-medium text-[#14453D] dark:text-[#34D399]">
                         {isSelected ? (
-                          <span className="flex items-center gap-1 font-bold">
+                          <motion.span
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                            className="flex items-center gap-1 font-bold"
+                          >
                             <Check className="w-3.5 h-3.5" /> Selected
-                          </span>
+                          </motion.span>
                         ) : (
                           'Select option'
                         )}
@@ -1399,7 +1408,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     type="text"
                     placeholder={
                       lang === 'hi'
-                        ? 'उदा. डेयरी चिलिंग, वस्त्र नि��्माण, सोलर उपकरण'
+                        ? 'उदा. डेयरी चिलिंग, वस्त्र नि��्���ाण, सोलर उपकरण'
                         : 'e.g. Dairy Chilling, Readymade Garments, Solar Equipment'
                     }
                     value={subSector}
@@ -1503,7 +1512,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
             <div className="pt-4 border-t border-[#E2E2E0] dark:border-[#24342D]">
               <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1.5">
                 {lang === 'hi'
-                  ? 'अथवा सटीक राशि दर्ज करें (वैकल्पिक):'
+                  ? 'अथवा सट���क राशि दर्ज करें (वैकल्पिक):'
                   : 'Or specify an exact loan / funding requirement:'}
               </label>
               <div className="flex items-center gap-3">

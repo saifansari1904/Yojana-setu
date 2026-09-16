@@ -28,7 +28,7 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
   return (
     <div
       id={id}
-      className="bg-white dark:bg-[#151C19] rounded-xl border border-slate-200/90 dark:border-[#24342D] shadow-sm p-6"
+      className="yj-card yj-hoverable p-6"
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-[#EAECEB] dark:border-[#24342D]">
         <div className="flex items-center gap-2">

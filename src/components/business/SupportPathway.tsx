@@ -100,13 +100,25 @@ export const SupportPathway: React.FC<SupportPathwayProps> = ({
             animate={shouldReduceMotion ? undefined : 'visible'}
             className="space-y-2"
           >
-            {topPriorities.map((area) => (
+            {topPriorities.map((area, stepIdx) => (
               <motion.li
                 key={area.area}
                 variants={shouldReduceMotion ? undefined : staggerItem}
-                className="flex items-start gap-3 rounded-xl border border-[#E2E2E0] dark:border-[#24342D] px-3 py-2.5"
+                className="relative flex items-start gap-3 rounded-xl border border-[#E2E2E0] dark:border-[#24342D] px-3 py-2.5 yj-hoverable"
               >
-                <span className="inline-flex items-center justify-center w-6 h-6 shrink-0 rounded-lg bg-[#D4EFE1] dark:bg-[#1A382D] text-[11px] font-semibold text-[#0F6B4C] dark:text-[#4ADE80]">
+                {/* Setu connector: draws downward as each step enters the viewport */}
+                {stepIdx < topPriorities.length - 1 && (
+                  <motion.span
+                    aria-hidden="true"
+                    className="yj-setu-connector absolute left-[23px] top-[46px] w-0.5 origin-top"
+                    style={{ height: 'calc(100% - 30px)' }}
+                    initial={shouldReduceMotion ? undefined : { scaleY: 0, opacity: 0 }}
+                    whileInView={shouldReduceMotion ? undefined : { scaleY: 1, opacity: 1 }}
+                    viewport={{ once: true, amount: 0.6 }}
+                    transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  />
+                )}
+                <span className="relative z-10 inline-flex items-center justify-center w-6 h-6 shrink-0 rounded-lg bg-[#D4EFE1] dark:bg-[#1A382D] text-[11px] font-semibold text-[#0F6B4C] dark:text-[#4ADE80]">
                   {area.rank}
                 </span>
                 <span>

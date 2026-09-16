@@ -3,7 +3,14 @@ import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { transitions } from '../../animations/transitions';
 
-export type ArrowFillButtonVariant = 'primary' | 'secondary' | 'outline' | 'emerald' | 'ghost';
+export type ArrowFillButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'outline'
+  | 'emerald'
+  | 'ghost'
+  | 'destructive'
+  | 'icon';
 export type ArrowFillButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ArrowFillButtonProps {
@@ -57,6 +64,15 @@ export const ArrowFillButton: React.FC<ArrowFillButtonProps> = ({
       btn: 'bg-transparent hover:bg-[#EEEEED] dark:hover:bg-[#1E2723] text-[#3F4943] dark:text-[#C5D5CC] border border-transparent',
       badge: 'bg-[#E2E2E0] dark:bg-[#2A3C34] text-[#14453D] dark:text-[#4ADE80]',
     },
+    destructive: {
+      btn: 'bg-white dark:bg-[#2A1512] hover:bg-[#FFF5F3] dark:hover:bg-[#3D1A14] text-[#B3261E] dark:text-[#FCA5A5] border border-[#F3C6BE] dark:border-[#5A2B20]',
+      badge: 'bg-[#FFDAD6] dark:bg-[#5A2B20] text-[#B3261E] dark:text-[#FCA5A5]',
+    },
+    // Square, label-less control. Pass `ariaLabel` for an accessible name.
+    icon: {
+      btn: 'bg-white dark:bg-[#1E2924] hover:bg-[#F1F5F3] dark:hover:bg-[#26352E] text-[#0B5D4B] dark:text-[#4ADE80] border border-[#E2E2E0] dark:border-[#2E4137]',
+      badge: 'bg-transparent text-current',
+    },
   };
 
   const sizeStyles: Record<ArrowFillButtonSize, { btn: string; badge: string; icon: string }> = {
@@ -79,6 +95,11 @@ export const ArrowFillButton: React.FC<ArrowFillButtonProps> = ({
 
   const currentVariant = variantStyles[variant] || variantStyles.primary;
   const currentSize = sizeStyles[size] || sizeStyles.md;
+  const isIconOnly = variant === 'icon';
+
+  // Square geometry + 44px touch target for the icon-only variant.
+  const iconOnlyBtnSize =
+    size === 'sm' ? 'w-10 h-10 p-0' : size === 'lg' ? 'w-12 h-12 p-0' : 'w-11 h-11 p-0';
 
   return (
     <motion.button
@@ -90,11 +111,17 @@ export const ArrowFillButton: React.FC<ArrowFillButtonProps> = ({
       initial="initial"
       whileHover={disabled || shouldReduceMotion ? undefined : 'hover'}
       whileTap={disabled || shouldReduceMotion ? undefined : { scale: 0.98 }}
-      className={`relative inline-flex items-center justify-between font-bold rounded shadow-xs transition-colors cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16A34A] focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#151C19] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none ${
+      className={`relative inline-flex items-center ${
+        isIconOnly ? 'justify-center' : 'justify-between'
+      } font-bold rounded-[var(--yj-radius-md)] transition-colors cursor-pointer select-none yj-focus-ring disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none ${
         currentVariant.btn
-      } ${currentSize.btn} ${fullWidth ? 'w-full' : ''} ${className}`}
+      } ${isIconOnly ? iconOnlyBtnSize : currentSize.btn} ${fullWidth ? 'w-full' : ''} ${className}`}
     >
-      <span className="truncate">{children}</span>
+      {isIconOnly ? (
+        <span className="sr-only">{children}</span>
+      ) : (
+        <span className="truncate">{children}</span>
+      )}
 
       {/* Animated Arrow Icon Slot */}
       <div

@@ -42,7 +42,7 @@ export const SchemeCardSkeleton: React.FC<{ index?: number }> = ({ index = 0 }) 
       initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: shouldReduceMotion ? 0 : index * 0.08 }}
-      className="bg-white dark:bg-[#151C19] rounded-md border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 shadow-xs"
+      className="yj-card p-5 sm:p-6 shadow-xs"
     >
       <div className="flex flex-col sm:flex-row items-start gap-5">
         <div className="shrink-0 flex sm:flex-col items-center gap-3 sm:w-32">

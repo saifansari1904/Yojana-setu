@@ -12,6 +12,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { Compass } from 'lucide-react';
+import { ArrowFillButton } from '../../components/ui/ArrowFillButton';
 import type { MatchResult, UserProfile as AppProfile } from '../../types';
 import type { TrackedApplication } from '../../types/tracker';
 import { loadDocumentProgress } from '../../lib/tracker/documentProgress';
@@ -147,13 +148,31 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
       className={`max-w-5xl mx-auto px-4 py-6 sm:py-8 space-y-6 ${language === 'hi' ? 'font-hindi' : ''}`}
     >
       <header id="command-header" className="space-y-1">
-        <p className="text-[11px] font-semibold tracking-[0.14em] text-[#6F7A73] dark:text-[#8E9F97] uppercase">
+        <p className="yj-eyebrow text-[#6F7A73] dark:text-[#8E9F97]">
           {t('navHome')}
         </p>
-        <h1 className="text-lg sm:text-xl font-bold text-[#14453D] dark:text-[#F0F4F2]">
-          {userProfile?.businessName || userProfile?.applicantName || t('brandName')}
+        {/* Time-of-day greeting: presentation only, no business logic depends on it. */}
+        <h1 className="yj-h2 text-[#0B5D4B] dark:text-[#F0F4F2]">
+          {(() => {
+            const hour = new Date().getHours();
+            const isHindi = language === 'hi';
+            const greeting =
+              hour < 12
+                ? isHindi
+                  ? 'सुप्रभात।'
+                  : 'Good morning.'
+                : hour < 17
+                ? isHindi
+                  ? 'नमस्कार।'
+                  : 'Good afternoon.'
+                : isHindi
+                ? 'शुभ संध्या।'
+                : 'Good evening.';
+            const name = userProfile?.applicantName || userProfile?.businessName;
+            return name ? `${greeting.replace(/[।.]$/, '')}, ${name}.` : greeting;
+          })()}
         </h1>
-        <p className="text-xs sm:text-sm text-[#516A5F] dark:text-[#9EB0A7]">
+        <p className="yj-body text-[#42544C] dark:text-[#A9BDB3]">
           {insights.hasMatches ? t('headerSubtitle') : t('headerSubtitleEmpty')}
         </p>
       </header>
@@ -170,34 +189,36 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
         <section
           id="command-next-action"
           aria-labelledby="command-next-action-heading"
-          className="rounded-2xl border border-[#D4EFE1] dark:border-[#22503E] bg-[#F6F8F7] dark:bg-[#142E25] p-4 sm:p-5"
+          className="yj-card yj-card-lg border-[#D4EFE1] dark:border-[#22503E] bg-[#F6F8F7] dark:bg-[#142E25] p-4 sm:p-5"
         >
           <h2
             id="command-next-action-heading"
-            className="flex items-center gap-2 text-[11px] font-semibold tracking-[0.14em] text-[#0F6B4C] dark:text-[#4ADE80] uppercase"
+            className="flex items-center gap-2 yj-eyebrow text-[#0F6B4C] dark:text-[#4ADE80]"
           >
             <Compass className="w-4 h-4" aria-hidden="true" />
             {t('nextBestActionTitle')}
           </h2>
-          <p className="mt-2 text-sm sm:text-base font-bold text-[#14453D] dark:text-[#E8EFEA]">
+          <p className="mt-2 yj-h3 text-[#0B5D4B] dark:text-[#E8EFEA]">
             {nextBestAction.title}
           </p>
-          <p className="mt-1 text-xs sm:text-sm text-[#516A5F] dark:text-[#9EB0A7]">
+          <p className="mt-1 yj-support text-[#42544C] dark:text-[#9EB0A7] yj-measure">
             {nextBestAction.description}
           </p>
-          <button
-            id="command-next-action-cta"
-            type="button"
-            onClick={() => {
-              if (nextBestAction.targetWorkspace === 'PROFILE') onStartCheck();
-              else if (nextBestAction.targetWorkspace === 'TRACKER') onOpenTracker();
-              else if (nextBestAction.schemeId) openScheme(nextBestAction.schemeId);
-              else onOpenResults();
-            }}
-            className="mt-3 min-h-[44px] px-4 rounded-xl bg-[#14453D] text-white text-xs sm:text-sm font-bold hover:bg-[#0B302B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16A34A]"
-          >
-            {nextBestAction.actionLabel}
-          </button>
+          <div className="mt-3">
+            <ArrowFillButton
+              id="command-next-action-cta"
+              variant="primary"
+              size="md"
+              onClick={() => {
+                if (nextBestAction.targetWorkspace === 'PROFILE') onStartCheck();
+                else if (nextBestAction.targetWorkspace === 'TRACKER') onOpenTracker();
+                else if (nextBestAction.schemeId) openScheme(nextBestAction.schemeId);
+                else onOpenResults();
+              }}
+            >
+              {nextBestAction.actionLabel}
+            </ArrowFillButton>
+          </div>
         </section>
       )}
 
@@ -225,43 +246,46 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
         id="command-opportunities"
       />
 
-      <BusinessJourneyOverview
-        currentStage={insights.currentBusinessStage as BusinessStage}
-        relevantSchemesCount={insights.supportSummary.currentStagePathways.schemesCount}
-        supportPathwaysCount={insights.supportSummary.currentStagePathways.pathwaysCount}
-        applicationsUnderwayCount={insights.supportSummary.currentStagePathways.applicationsUnderwayCount}
-        onExploreStage={() => onOpenResults()}
-        id="command-journey"
-      />
+      {/* Modular dashboard grid: paired modules on wide screens, stacked on mobile. */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 items-start">
+        <BusinessJourneyOverview
+          currentStage={insights.currentBusinessStage as BusinessStage}
+          relevantSchemesCount={insights.supportSummary.currentStagePathways.schemesCount}
+          supportPathwaysCount={insights.supportSummary.currentStagePathways.pathwaysCount}
+          applicationsUnderwayCount={insights.supportSummary.currentStagePathways.applicationsUnderwayCount}
+          onExploreStage={() => onOpenResults()}
+          id="command-journey"
+        />
 
-      <SupportStackOverview
-        categoryCounts={insights.supportSummary.categoryCounts as Record<SupportCategory, number>}
-        onSelectCategory={() => onOpenResults()}
-        id="command-support-stack"
-      />
+        <SupportStackOverview
+          categoryCounts={insights.supportSummary.categoryCounts as Record<SupportCategory, number>}
+          onSelectCategory={() => onOpenResults()}
+          id="command-support-stack"
+        />
 
-      <ApplicationOverview
-        summary={insights.applicationSummary}
-        onOpenTracker={onOpenTracker}
-        onOpenWorkspace={schemeId => openScheme(schemeId)}
-        id="command-applications"
-      />
+        <ApplicationOverview
+          summary={insights.applicationSummary}
+          onOpenTracker={onOpenTracker}
+          onOpenWorkspace={schemeId => openScheme(schemeId)}
+          id="command-applications"
+        />
 
-      <DocumentOverview
-        summary={insights.documentSummary}
-        onOpenDocumentCenter={onOpenTracker}
-        id="command-documents"
-      />
+        <DocumentOverview
+          summary={insights.documentSummary}
+          onOpenDocumentCenter={onOpenTracker}
+          id="command-documents"
+        />
 
-      <FollowUpOverview
-        followUps={insights.followUpSummary.upcoming}
-        onToggleComplete={id => setCompletedFollowUpIds(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]))}
-        onAddReminder={() => setIsReminderOpen(true)}
-        onViewAll={onOpenTracker}
-        id="command-followups"
-      />
+        <FollowUpOverview
+          followUps={insights.followUpSummary.upcoming}
+          onToggleComplete={id => setCompletedFollowUpIds(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]))}
+          onAddReminder={() => setIsReminderOpen(true)}
+          onViewAll={onOpenTracker}
+          id="command-followups"
+        />
 
-      <TrustOverview summary={insights.trustSummary} id="command-trust" />
+        <TrustOverview summary={insights.trustSummary} id="command-trust" />
+      </div>
 
       <AddReminderModal
         schemes={insights.allOpportunities.map(o => o.scheme)}

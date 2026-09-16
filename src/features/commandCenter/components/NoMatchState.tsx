@@ -25,7 +25,7 @@ export const NoMatchState: React.FC<NoMatchStateProps> = ({
   return (
     <div
       id={id}
-      className="bg-white dark:bg-[#151C19] rounded-xl border border-slate-200/90 dark:border-[#24342D] shadow-sm p-8 text-center max-w-2xl mx-auto my-8"
+      className="yj-card yj-hoverable p-8 text-center max-w-2xl mx-auto my-8"
     >
       <div className="w-12 h-12 rounded-full bg-[#FEF3C7] dark:bg-[#3B2F14] text-[#92610A] dark:text-[#FCD34D] flex items-center justify-center mx-auto mb-4 border border-[#FCD34D]/40 dark:border-amber-700/60">
         <SearchX className="w-6 h-6" />

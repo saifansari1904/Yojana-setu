@@ -16,6 +16,7 @@ import {
   ArrowUp,
   Sparkles,
   ChevronRight,
+  ChevronDown,
   Info,
   FileCheck2,
   ShieldCheck,
@@ -287,10 +288,10 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         key={result.scheme.id}
         id={`scheme-card-${result.scheme.id}`}
         variants={shouldReduceMotion ? undefined : staggerItem}
-        whileHover={shouldReduceMotion ? undefined : { y: -3 }}
+        whileHover={shouldReduceMotion ? undefined : { y: -2 }}
         whileTap={shouldReduceMotion ? undefined : { scale: 0.995 }}
         transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        className={`bg-white dark:bg-[#151C19] rounded-md border shadow-xs overflow-hidden transition-all duration-200 hover:shadow-md hover:border-[#14453D] dark:hover:border-[#34D399] ${
+        className={`yj-card yj-card-lg overflow-hidden hover:yj-elev-2 hover:border-[#0B5D4B] dark:hover:border-[#34D399] ${
           isNearMatch
             ? 'border-amber-300 dark:border-amber-800/60 bg-gradient-to-r from-amber-50/20 to-transparent dark:from-amber-950/10'
             : isEligible
@@ -385,7 +386,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               <motion.h2
                 layoutId={`scheme-title-${result.scheme.id}`}
                 onClick={() => onSelectScheme?.(result)}
-                className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors cursor-pointer"
+                className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2] hover:text-[#0B5D4B] dark:hover:text-[#4ADE80] transition-colors cursor-pointer"
               >
                 {locScheme.name}
               </motion.h2>
@@ -412,6 +413,64 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               <p className="text-xs text-[#3F4943] dark:text-[#9EB0A7] mt-1.5 leading-relaxed font-medium">
                 {locScheme.benefitSummary}
               </p>
+
+              {/* Progressive disclosure: collapsed match reasoning, expanded on demand.
+                  Uses only factors already computed by the matching engine. */}
+              {Array.isArray(result.breakdown) && result.breakdown.length > 0 && (
+                <details className="group/why mt-3 rounded-[var(--yj-radius-md)] border border-[#E2E2E0] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#111714]">
+                  <summary className="yj-focus-ring flex items-center justify-between gap-2 cursor-pointer list-none px-3 py-2 text-[11px] font-bold text-[#0B5D4B] dark:text-[#4ADE80] rounded-[var(--yj-radius-md)]">
+                    <span>
+                      {lang === 'hi' ? 'यह क्यों मेल खाता है' : 'Why it matches'}
+                    </span>
+                    <span className="flex items-center gap-2 font-semibold text-[#516A5F] dark:text-[#9EB0A7]">
+                      <span className="inline-flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3 text-[#16A34A] dark:text-[#4ADE80]" aria-hidden="true" />
+                        {result.breakdown.filter((f) => f.matched || f.state === 'MATCHED').length}
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <Info className="w-3 h-3 text-amber-600 dark:text-amber-400" aria-hidden="true" />
+                        {result.breakdown.filter((f) => f.state === 'UNKNOWN').length}
+                      </span>
+                      <ChevronDown
+                        className="w-3.5 h-3.5 transition-transform duration-200 group-open/why:rotate-180 motion-reduce:transition-none"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </summary>
+                  <ul className="px-3 pb-2.5 pt-0.5 space-y-1">
+                    {result.breakdown.slice(0, 5).map((factor) => (
+                      <li
+                        key={factor.factorKey}
+                        className="flex items-start gap-1.5 text-[11px] text-[#3F4943] dark:text-[#9EB0A7]"
+                      >
+                        {factor.matched || factor.state === 'MATCHED' ? (
+                          <CheckCircle2 className="w-3 h-3 mt-0.5 shrink-0 text-[#16A34A] dark:text-[#4ADE80]" aria-hidden="true" />
+                        ) : factor.state === 'UNKNOWN' ? (
+                          <Info className="w-3 h-3 mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden="true" />
+                        ) : (
+                          <AlertTriangle className="w-3 h-3 mt-0.5 shrink-0 text-[#C2603F] dark:text-[#F87171]" aria-hidden="true" />
+                        )}
+                        <span>
+                          <strong className="font-semibold text-[#1A1C1B] dark:text-[#F0F4F2]">
+                            {factor.factorLabel}:
+                          </strong>{' '}
+                          {factor.matched || factor.state === 'MATCHED'
+                            ? lang === 'hi'
+                              ? 'मेल खाता है'
+                              : 'Matched'
+                            : factor.state === 'UNKNOWN'
+                            ? lang === 'hi'
+                              ? 'जानकारी आवश्यक'
+                              : 'Needs information'
+                            : lang === 'hi'
+                            ? 'मेल नहीं खाता'
+                            : 'Does not match'}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
 
               {/* Near-Match Dedicated Callout Box: Primary Gap with numerical distance */}
               {isNearMatch && result.primaryGap && (
@@ -751,7 +810,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
   if (!userProfile || matchResults.length === 0) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-        <div className="bg-white dark:bg-[#151C19] rounded-md border border-[#E2E2E0] dark:border-[#24342D] p-8 sm:p-10 shadow-xs">
+        <div className="yj-card p-8 sm:p-10 shadow-xs">
           <div className="w-12 h-12 rounded-full bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center mx-auto mb-4">
             <FileCheck2 className="w-6 h-6" />
           </div>
@@ -792,10 +851,16 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             {t('common.appName')} · {t('results.badge')}
           </span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight">
+        <h1 className="yj-h1 text-[#0F1512] dark:text-[#F0F4F2]">
           {t('results.title')}
         </h1>
-        <p className="text-xs sm:text-sm text-[#516A5F] dark:text-[#8E9F97] max-w-xl mx-auto mt-1">
+        {/* Plain-language count summary sits directly under the headline */}
+        <p className="yj-body mt-2 text-[#42544C] dark:text-[#A9BDB3]">
+          {lang === 'hi'
+            ? `आपकी प्रोफ़ाइल के आधार पर ${matchResults.length} योजनाएं मिलीं।`
+            : `We found ${matchResults.length} schemes based on your profile.`}
+        </p>
+        <p className="yj-support text-[#6F7A73] dark:text-[#8E9F97] max-w-xl mx-auto mt-1">
           {lang === 'hi'
             ? 'आपकी व्यक्तिगत प्रोफ़ाइल एवं आवश्यकता के आधार पर सत्यापित सरकारी ऋण व सब्सिडी योजनाएं'
             : 'Personalized statutory evaluation of central and state credit and subsidy schemes tailored to your entrepreneurial profile'}
@@ -839,7 +904,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         variants={shouldReduceMotion ? undefined : fadeSlideUp}
         initial={shouldReduceMotion ? undefined : 'hidden'}
         animate={shouldReduceMotion ? undefined : 'visible'}
-        className="bg-white dark:bg-[#151C19] rounded-md border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 mb-6 shadow-xs transition-colors duration-200"
+        className="yj-card p-5 sm:p-6 mb-6"
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -851,7 +916,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 {matchResults.length} {t('results.schemesAnalyzed')}
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight">
+            <h2 className="yj-h2 text-[#0F1512] dark:text-[#F0F4F2]">
               {t('results.title')}
             </h2>
             {userProfile && (

@@ -211,7 +211,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                 key={item.factorKey}
                 id={`breakdown-row-${item.factorKey}`}
                 variants={shouldReduceMotion ? undefined : staggerItem}
-                className={`p-3.5 rounded border transition-colors ${
+                className={`relative overflow-hidden p-3.5 pl-4 rounded-[var(--yj-radius-md)] border transition-colors ${
                   item.state === 'MATCHED' || item.matched
                     ? 'bg-[#FAFAF9] dark:bg-[#111714] border-[#D4EFE1] dark:border-[#235845]'
                     : item.state === 'UNKNOWN'
@@ -219,6 +219,21 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                     : 'bg-[#FFDAD6]/20 dark:bg-[#3D1A14]/30 border-[#FFCCBD] dark:border-[#5A2B20]'
                 }`}
               >
+                {/* Decorative state rail: draws in to reinforce matched / needed / mismatch */}
+                <motion.span
+                  aria-hidden="true"
+                  initial={shouldReduceMotion ? false : { scaleY: 0 }}
+                  animate={shouldReduceMotion ? undefined : { scaleY: 1 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  className={`pointer-events-none absolute left-0 top-0 bottom-0 w-1 origin-top ${
+                    item.state === 'MATCHED' || item.matched
+                      ? 'bg-[#16A34A] dark:bg-[#4ADE80]'
+                      : item.state === 'UNKNOWN'
+                      ? 'bg-amber-400 dark:bg-amber-500'
+                      : 'bg-[#C2603F] dark:bg-[#F87171]'
+                  }`}
+                />
+
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="font-bold text-xs text-[#1A1C1B] dark:text-[#F0F4F2] flex items-center gap-1.5">
                     <motion.span
@@ -264,7 +279,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                   </div>
                   <div>
                     <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase tracking-wider font-semibold">
-                      {getText('modal.statutoryReqLabel', isHindi ? 'सरकारी नियम:' : 'Official Gazette Rule:')}
+                      {getText('modal.statutoryReqLabel', isHindi ? 'सरकार��� नियम:' : 'Official Gazette Rule:')}
                     </span>
                     <strong
                       className={`font-semibold ${

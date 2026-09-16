@@ -57,7 +57,7 @@ export const TopOpportunitiesList: React.FC<TopOpportunitiesListProps> = ({
               key={scheme.id}
               id={`opp-card-${scheme.id}`}
               onClick={() => onSelectOpportunity(opp)}
-              className="bg-white dark:bg-[#151C19] rounded-xl border border-slate-200/90 dark:border-[#24342D] shadow-sm p-5 hover:border-[#E2E2E0] dark:hover:border-[#2A3C34] hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group"
+              className="yj-card yj-hoverable p-5 cursor-pointer flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-start justify-between gap-2 mb-3">

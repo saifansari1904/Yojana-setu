@@ -101,7 +101,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-1.5">
           <ClipboardList className="w-5 h-5 text-[#16A34A] dark:text-[#4ADE80]" />
-          <h1 className="text-xl sm:text-2xl font-bold text-[#14453D] dark:text-[#E8EFEA]">
+          <h1 className="yj-h2 text-[#0B5D4B] dark:text-[#E8EFEA]">
             {t('tracker.title')}
           </h1>
         </div>
@@ -121,7 +121,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
               <div
                 key={status}
                 id={`tracker-summary-${status}`}
-                className="bg-white dark:bg-[#151C19] border border-[#E2E2E0] dark:border-[#24342D] rounded-md px-3 py-2.5"
+                className="yj-card px-3 py-2.5"
               >
                 <div className="flex items-center gap-1.5 mb-1">
                   <span className={`w-1.5 h-1.5 rounded-full ${meta.dotClass}`} />
@@ -188,11 +188,11 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                   key={app.schemeId}
                   id={`tracked-application-${app.schemeId}`}
                   variants={shouldReduceMotion ? undefined : staggerItem}
-                  className="bg-white dark:bg-[#151C19] border border-[#E2E2E0] dark:border-[#24342D] rounded-md p-4 shadow-xs"
+                  className="yj-card yj-hoverable p-4"
                 >
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div className="min-w-0">
-                      <h2 className="text-sm font-bold text-[#14453D] dark:text-[#E8EFEA] leading-snug">
+                      <h2 className="yj-h3 text-[#0F1512] dark:text-[#E8EFEA] leading-snug">
                         {schemeName}
                       </h2>
                       <div className="flex flex-wrap items-center gap-2 mt-1.5">

@@ -127,6 +127,9 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
+      {/* Sovereign Tricolor Gold & Emerald Hairline Accent */}
+      <div className="h-[2px] w-full bg-gradient-to-r from-amber-500 via-[#16A34A] to-[#0F766E] opacity-80" />
+
       {/* Main Navigation Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-18 py-2">
@@ -141,20 +144,27 @@ export const Header: React.FC<HeaderProps> = ({
             <YojanaSetuLogo horizontal={true} size="sm" showTaglines={true} />
           </motion.button>
 
-          {/* Navigation Links with purposeful hover & active state */}
-          <nav className="hidden md:flex items-center gap-2">
+          {/* Navigation Links with animated active indicator pill */}
+          <nav className="hidden md:flex items-center gap-1.5 p-1 bg-[#F1F5F3] dark:bg-[#101714] rounded-lg border border-[#E2E8E5] dark:border-[#1E2E27]">
             <motion.button
               id="nav-form-btn"
               whileHover={shouldReduceMotion ? undefined : { y: -1 }}
               whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
               onClick={() => onNavigate('form')}
-              className={`px-3.5 py-2 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`relative px-3.5 py-2 text-xs font-bold rounded-md transition-colors flex items-center gap-1.5 cursor-pointer z-10 ${
                 isFormActive
-                  ? 'bg-[#14453D] dark:bg-[#1C5045] text-white shadow-xs'
-                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1E2723]'
+                  ? 'text-white'
+                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2]'
               }`}
             >
-              <FileCheck2 className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
+              {isFormActive && (
+                <motion.div
+                  layoutId="activeNavPill"
+                  className="absolute inset-0 bg-[#14453D] dark:bg-[#1C5045] rounded-md -z-10 shadow-xs"
+                  transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                />
+              )}
+              <FileCheck2 className={`w-4 h-4 ${isFormActive ? 'text-[#4ADE80]' : 'text-[#16A34A] dark:text-[#4ADE80]'}`} />
               <span>{t('header.navEligibilityCheck')}</span>
             </motion.button>
 
@@ -163,13 +173,20 @@ export const Header: React.FC<HeaderProps> = ({
               whileHover={shouldReduceMotion ? undefined : { y: -1 }}
               whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
               onClick={() => onNavigate('dashboard')}
-              className={`px-3.5 py-2 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`relative px-3.5 py-2 text-xs font-bold rounded-md transition-colors flex items-center gap-1.5 cursor-pointer z-10 ${
                 isDashboardActive
-                  ? 'bg-[#14453D] dark:bg-[#1C5045] text-white shadow-xs'
-                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1E2723]'
+                  ? 'text-white'
+                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2]'
               }`}
             >
-              <LayoutDashboard className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
+              {isDashboardActive && (
+                <motion.div
+                  layoutId="activeNavPill"
+                  className="absolute inset-0 bg-[#14453D] dark:bg-[#1C5045] rounded-md -z-10 shadow-xs"
+                  transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                />
+              )}
+              <LayoutDashboard className={`w-4 h-4 ${isDashboardActive ? 'text-[#4ADE80]' : 'text-[#16A34A] dark:text-[#4ADE80]'}`} />
               <span>{t('dashboard.navLabel')}</span>
             </motion.button>
 
@@ -178,13 +195,20 @@ export const Header: React.FC<HeaderProps> = ({
               whileHover={shouldReduceMotion ? undefined : { y: -1 }}
               whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
               onClick={() => onNavigate('results')}
-              className={`px-3.5 py-2 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`relative px-3.5 py-2 text-xs font-bold rounded-md transition-colors flex items-center gap-1.5 cursor-pointer z-10 ${
                 isResultsActive
-                  ? 'bg-[#14453D] dark:bg-[#1C5045] text-white shadow-xs'
-                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1E2723]'
+                  ? 'text-white'
+                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2]'
               }`}
             >
-              <Sparkles className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
+              {isResultsActive && (
+                <motion.div
+                  layoutId="activeNavPill"
+                  className="absolute inset-0 bg-[#14453D] dark:bg-[#1C5045] rounded-md -z-10 shadow-xs"
+                  transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                />
+              )}
+              <Sparkles className={`w-4 h-4 ${isResultsActive ? 'text-[#4ADE80]' : 'text-[#16A34A] dark:text-[#4ADE80]'}`} />
               <span>{t('header.navMatchedSchemes')}</span>
             </motion.button>
 
@@ -193,19 +217,26 @@ export const Header: React.FC<HeaderProps> = ({
               whileHover={shouldReduceMotion ? undefined : { y: -1 }}
               whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
               onClick={() => onNavigate('tracker')}
-              className={`px-3.5 py-2 text-xs font-bold rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`relative px-3.5 py-2 text-xs font-bold rounded-md transition-colors flex items-center gap-1.5 cursor-pointer z-10 ${
                 isTrackerActive
-                  ? 'bg-[#14453D] dark:bg-[#1C5045] text-white shadow-xs'
-                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1E2723]'
+                  ? 'text-white'
+                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2]'
               }`}
             >
-              <ClipboardList className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
+              {isTrackerActive && (
+                <motion.div
+                  layoutId="activeNavPill"
+                  className="absolute inset-0 bg-[#14453D] dark:bg-[#1C5045] rounded-md -z-10 shadow-xs"
+                  transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                />
+              )}
+              <ClipboardList className={`w-4 h-4 ${isTrackerActive ? 'text-[#4ADE80]' : 'text-[#16A34A] dark:text-[#4ADE80]'}`} />
               <span>{trackerLabel}</span>
               {trackedCount > 0 && (
                 <span
                   className={`min-w-4 px-1 py-0.5 rounded-full text-[10px] font-bold leading-none ${
                     isTrackerActive
-                      ? 'bg-white/20 text-white'
+                      ? 'bg-white/25 text-white'
                       : 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
                   }`}
                 >
@@ -290,13 +321,13 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Mobile secondary tab bar */}
-        <div className="flex md:hidden items-center justify-start border-t border-[#E2E2E0] dark:border-[#24342D] py-2 px-1">
-          <div className="flex items-center gap-2">
+        <div className="flex md:hidden items-center overflow-x-auto scrollbar-none border-t border-[#E2E2E0] dark:border-[#24342D] py-2 px-1">
+          <div className="flex items-center gap-1.5 shrink-0">
             <motion.button
               id="mobile-nav-form-btn"
               whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
               onClick={() => onNavigate('form')}
-              className={`px-3 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors ${
+              className={`px-2.5 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors shrink-0 whitespace-nowrap ${
                 isFormActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
               }`}
             >
@@ -307,7 +338,7 @@ export const Header: React.FC<HeaderProps> = ({
               id="mobile-nav-dashboard-btn"
               whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
               onClick={() => onNavigate('dashboard')}
-              className={`px-3 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors ${
+              className={`px-2.5 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors shrink-0 whitespace-nowrap ${
                 isDashboardActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
               }`}
             >
@@ -318,7 +349,7 @@ export const Header: React.FC<HeaderProps> = ({
               id="mobile-nav-results-btn"
               whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
               onClick={() => onNavigate('results')}
-              className={`px-3 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors ${
+              className={`px-2.5 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors shrink-0 whitespace-nowrap ${
                 isResultsActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
               }`}
             >
@@ -329,7 +360,7 @@ export const Header: React.FC<HeaderProps> = ({
               id="mobile-nav-tracker-btn"
               whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
               onClick={() => onNavigate('tracker')}
-              className={`px-3 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors ${
+              className={`px-2.5 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors shrink-0 whitespace-nowrap ${
                 isTrackerActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
               }`}
             >
@@ -353,4 +384,3 @@ export const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
-

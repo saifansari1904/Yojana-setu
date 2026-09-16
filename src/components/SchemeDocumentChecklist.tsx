@@ -42,7 +42,7 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
   return (
     <div
       id={`doc-checklist-${schemeId}`}
-      className={`bg-white dark:bg-[#151C19] rounded-md border border-[#E2E2E0] dark:border-[#24342D] p-5 shadow-xs transition-colors duration-200 ${className}`}
+      className={`yj-card p-5 shadow-xs transition-colors duration-200 ${className}`}
     >
       {/* Header & Readiness Counter */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">

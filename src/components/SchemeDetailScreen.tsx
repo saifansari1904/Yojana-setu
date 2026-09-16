@@ -279,7 +279,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
         variants={shouldReduceMotion ? undefined : fadeSlideUp}
         initial="hidden"
         animate="visible"
-        className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-7 shadow-xs mb-6 transition-colors duration-200"
+        className="yj-card yj-card-lg p-5 sm:p-7 mb-6"
       >
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
           {/* Main Title & Authority */}
@@ -605,14 +605,14 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.15 }}
-              className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 shadow-xs transition-colors duration-200"
+              className="yj-card yj-card-lg p-5 sm:p-6"
             >
               <div className="flex items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 rounded bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center">
                     <Briefcase className="w-3.5 h-3.5" />
                   </div>
-                  <h2 className="text-base sm:text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+                  <h2 className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2]">
                     {lang === 'hi' ? 'यह आपके व्यवसाय के लिए क्य��ं उपयोगी है' : 'Why This May Help Your Business'}
                   </h2>
                 </div>
@@ -733,13 +733,13 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
-            className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 shadow-xs transition-colors duration-200"
+            className="yj-card yj-card-lg p-5 sm:p-6"
           >
             <div className="flex items-center gap-2 mb-2">
               <div className="w-6 h-6 rounded bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center">
                 <HelpCircle className="w-3.5 h-3.5" />
               </div>
-              <h2 className="text-base sm:text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+              <h2 className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2]">
                 {t('schemeDetail.whyMatchesTitle')}
               </h2>
             </div>
@@ -833,13 +833,13 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
-            className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 shadow-xs transition-colors duration-200"
+            className="yj-card yj-card-lg p-5 sm:p-6"
           >
             <div className="flex items-center gap-2 mb-3">
               <div className="w-6 h-6 rounded bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center">
                 <Info className="w-3.5 h-3.5" />
               </div>
-              <h2 className="text-base sm:text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+              <h2 className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2]">
                 {t('schemeDetail.aboutTitle')}
               </h2>
             </div>
@@ -939,13 +939,13 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
-            className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 shadow-xs transition-colors duration-200"
+            className="yj-card yj-card-lg p-5 sm:p-6"
           >
             <div className="flex items-center gap-2 mb-3">
               <div className="w-6 h-6 rounded bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center">
                 <FileCheck2 className="w-3.5 h-3.5" />
               </div>
-              <h2 className="text-base sm:text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+              <h2 className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2]">
                 {t('schemeDetail.eligibilityTitle')}
               </h2>
             </div>
@@ -1035,14 +1035,14 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
-            className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 sm:p-6 shadow-xs transition-colors duration-200"
+            className="yj-card yj-card-lg p-5 sm:p-6"
           >
             <div className="flex items-center justify-between gap-3 mb-4">
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center">
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
-                <h2 className="text-base sm:text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+                <h2 className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2]">
                   {t('schemeDetail.howToApplyTitle')}
                 </h2>
               </div>
@@ -1222,13 +1222,13 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
-            className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 shadow-xs transition-colors duration-200"
+            className="yj-card p-5"
           >
             <div className="flex items-center gap-2 mb-3">
               <div className="w-6 h-6 rounded bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center">
                 <Coins className="w-3.5 h-3.5" />
               </div>
-              <h2 className="text-base font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+              <h2 className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2]">
                 {t('schemeDetail.benefitsTitle')}
               </h2>
             </div>
@@ -1393,13 +1393,13 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
-            className="bg-white dark:bg-[#151C19] rounded-lg border border-[#E2E2E0] dark:border-[#24342D] p-5 shadow-xs transition-colors duration-200"
+            className="yj-card p-5"
           >
             <div className="flex items-center gap-2 mb-2">
               <div className="w-6 h-6 rounded bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center">
                 <Sparkles className="w-3.5 h-3.5" />
               </div>
-              <h2 className="text-base font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+              <h2 className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2]">
                 {t('schemeDetail.alternativesTitle')}
               </h2>
             </div>
@@ -1472,7 +1472,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
       {/* 11. STICKY MOBILE CTA BAR */}
       <div
         id="sticky-mobile-cta"
-        className="fixed bottom-0 left-0 right-0 z-40 block md:hidden bg-white/95 dark:bg-[#151C19]/95 backdrop-blur-md border-t border-[#E2E2E0] dark:border-[#24342D] px-4 py-3 shadow-lg"
+        className="yj-sticky-actions block md:hidden yj-glass border-t border-[#E2E2E0] dark:border-[#24342D] px-4 py-3"
       >
         <div className="max-w-md mx-auto flex items-center justify-between gap-3">
           {/* Quick Score */}
@@ -1497,7 +1497,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               type="button"
               id="mobile-prepare-btn"
               onClick={() => onOpenWorkspace(matchResult)}
-              className="px-3 py-2 rounded text-xs font-bold border border-[#0F6B4C] dark:border-[#4ADE80] text-[#0F6B4C] dark:text-[#4ADE80] bg-[#0F6B4C]/5 hover:bg-[#0F6B4C]/10 transition-colors"
+              className="yj-tap px-3 py-2 rounded-[var(--yj-radius-md)] text-xs font-bold border border-[#0F6B4C] dark:border-[#4ADE80] text-[#0F6B4C] dark:text-[#4ADE80] bg-[#0F6B4C]/5 hover:bg-[#0F6B4C]/10 transition-colors yj-focus-ring"
             >
               {lang === 'hi' ? 'तैयारी' : 'Prepare'}
             </button>

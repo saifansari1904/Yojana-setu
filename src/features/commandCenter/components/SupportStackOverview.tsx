@@ -33,7 +33,7 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
   return (
     <div
       id={id}
-      className="bg-white dark:bg-[#151C19] rounded-xl border border-slate-200/90 dark:border-[#24342D] shadow-sm p-6 flex flex-col justify-between"
+      className="yj-card yj-hoverable p-6 flex flex-col justify-between"
     >
       <div>
         <div className="flex items-center justify-between mb-4">

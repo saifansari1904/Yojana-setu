@@ -32,21 +32,21 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   };
 
   return (
-    <div className="bg-white dark:bg-[#151C19] rounded-md border border-[#E2E2E0] dark:border-[#24342D] p-8 text-center max-w-lg mx-auto my-6">
+    <div className="yj-card p-8 text-center max-w-lg mx-auto my-6">
       <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#FAFAF9] dark:bg-[#1E2924] flex items-center justify-center border border-[#E2E2E0] dark:border-[#2A3C34]">
         {getIcon()}
       </div>
-      <h3 className="text-sm font-bold text-[#14453D] dark:text-[#E8EFEA] mb-1.5">
+      <h3 className="yj-h3 text-[#0B5D4B] dark:text-[#E8EFEA] mb-1.5">
         {title || t('results.noSchemesFound')}
       </h3>
-      <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mb-5 leading-relaxed">
+      <p className="yj-support text-[#42544C] dark:text-[#9EB0A7] mb-5 yj-measure-narrow mx-auto">
         {description ||
           'Try clearing active search filters or selecting "All Schemes" to view available opportunities.'}
       </p>
       {onAction && (
         <button
           onClick={onAction}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white rounded text-xs font-bold transition-colors cursor-pointer"
+          className="yj-tap yj-focus-ring inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#0B5D4B] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white rounded-[var(--yj-radius-md)] text-xs font-bold transition-colors cursor-pointer"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>{actionLabel || 'Reset Filters'}</span>

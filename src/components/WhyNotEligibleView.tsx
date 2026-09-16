@@ -47,7 +47,7 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
   if (!targetMatch) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-        <div className="bg-white dark:bg-[#151C19] rounded-md border border-[#E2E2E0] dark:border-[#24342D] p-8 shadow-xs">
+        <div className="yj-card p-8 shadow-xs">
           <button
             onClick={onBackToResults}
             className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:underline mb-4 inline-flex items-center gap-1 cursor-pointer"
@@ -130,7 +130,7 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
       {/* Primary Gap Analysis Card */}
       <motion.div
         variants={shouldReduceMotion ? undefined : fadeSlideUp}
-        className="bg-white dark:bg-[#151C19] rounded-md border border-[#E2E2E0] dark:border-[#24342D] shadow-xs overflow-hidden mb-8 transition-colors duration-200"
+        className="yj-card shadow-xs overflow-hidden mb-8 transition-colors duration-200"
       >
         <div className="border-t-4 border-[#C2603F] dark:border-[#E05338] p-6 sm:p-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
@@ -375,7 +375,7 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
                 variants={shouldReduceMotion ? undefined : staggerItem}
                 whileHover={shouldReduceMotion ? undefined : { y: -2 }}
                 transition={transitions.fast}
-                className="bg-white dark:bg-[#151C19] rounded-md border border-[#E2E2E0] dark:border-[#24342D] p-5 shadow-xs flex flex-col justify-between hover:border-[#14453D] dark:hover:border-[#34D399] transition-colors"
+                className="yj-card p-5 shadow-xs flex flex-col justify-between hover:border-[#14453D] dark:hover:border-[#34D399] transition-colors"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">

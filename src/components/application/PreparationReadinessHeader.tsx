@@ -61,12 +61,12 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
   return (
     <section
       id="workspace-readiness-header"
-      className="p-6 rounded-2xl bg-white dark:bg-[#151D19] border border-[#E5E9E7] dark:border-[#22332A] shadow-sm mb-6"
+      className="yj-card yj-card-lg p-6 mb-6"
     >
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-[#E5E9E7] dark:border-[#22332A]">
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#0F6B4C] dark:text-[#4ADE80]">
+            <span className="yj-eyebrow text-[#0F6B4C] dark:text-[#4ADE80]">
               {t('workspace.readinessTitle')}
             </span>
             <span
@@ -82,9 +82,28 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
               {lang === 'hi' ? readiness.labelHi : readiness.labelEn}
             </span>
           </div>
-          <p className="text-sm text-[#5A6561] dark:text-[#97A7A0] max-w-2xl leading-relaxed">
+          <p className="yj-body text-[#42544C] dark:text-[#97A7A0] yj-measure">
             {lang === 'hi' ? readiness.summaryHi : readiness.summaryEn}
           </p>
+
+          {/* Readiness progress: the same score, shown as a calm linear track */}
+          <div
+            className="mt-3 w-full max-w-md h-1.5 rounded-full bg-[#EDF1EF] dark:bg-[#102E29] overflow-hidden"
+            role="img"
+            aria-label={`${t('workspace.overallReadiness')}: ${readiness.overallScore}%`}
+          >
+            <motion.div
+              className="h-full rounded-full yj-gradient-accent"
+              initial={shouldReduceMotion ? false : { width: 0 }}
+              whileInView={{ width: `${readiness.overallScore}%` }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={
+                shouldReduceMotion
+                  ? { duration: 0 }
+                  : { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+              }
+            />
+          </div>
         </div>
 
         {/* Readiness Score Gauge */}

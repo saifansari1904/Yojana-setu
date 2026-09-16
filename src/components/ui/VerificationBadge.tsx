@@ -91,21 +91,35 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
   const IconComponent = current.icon;
   const displayLabel = label || current.defaultLabel;
 
+  // Provenance disclosure: where this status comes from, revealed on hover/focus.
+  // Only shown when we actually have a source; never invented.
+  const hasProvenance = Boolean(sourceText);
+
   return (
     <motion.span
       id={id}
       initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95 }}
       animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
       transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-      title={displayLabel}
-      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-semibold border select-none ${
-        current.bg
-      } ${current.text} ${current.border} ${className}`}
+      title={hasProvenance ? `${displayLabel} — ${sourceText}` : displayLabel}
+      tabIndex={hasProvenance ? 0 : undefined}
+      className={`group/provenance relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-semibold border select-none ${
+        hasProvenance ? 'yj-focus-ring cursor-help' : ''
+      } ${current.bg} ${current.text} ${current.border} ${className}`}
     >
       <IconComponent className="w-3 h-3 shrink-0" />
       {showText && <span>{displayLabel}</span>}
       {showText && sourceText && (
         <span className="opacity-70 font-normal border-l border-current/30 pl-1 ml-0.5">
+          {sourceText}
+        </span>
+      )}
+
+      {hasProvenance && (
+        <span
+          role="note"
+          className="pointer-events-none absolute left-0 top-full z-20 mt-1.5 w-max max-w-[240px] whitespace-normal rounded-[var(--yj-radius-md)] border border-[#E2E2E0] dark:border-[#24342D] bg-white dark:bg-[#151C19] px-2.5 py-1.5 text-left text-[10px] font-normal leading-snug text-[#42544C] dark:text-[#A9BDB3] opacity-0 translate-y-0.5 shadow-[var(--yj-shadow-2)] transition-all duration-150 group-hover/provenance:opacity-100 group-hover/provenance:translate-y-0 group-focus-visible/provenance:opacity-100 group-focus-visible/provenance:translate-y-0"
+        >
           {sourceText}
         </span>
       )}

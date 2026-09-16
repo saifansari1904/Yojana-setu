@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { ShieldCheck, CheckCircle2, Cpu, Scale, Sparkles } from 'lucide-react';
+import { MapPin, Building2, Users, Wallet, Gauge, Sparkles, Check } from 'lucide-react';
 import { useTranslation } from '../i18n';
 
 interface MatchingTransitionProps {
@@ -15,37 +15,59 @@ interface StepItem {
   icon: React.ElementType;
 }
 
+/**
+ * Signature matching sequence.
+ *
+ * Narrates the deterministic evaluation order the matching engine already
+ * uses (state filter → sector & investment → social category & stage →
+ * confidence scoring) as six short stages with animated checkmarks, a
+ * connected rail and a counting progress number. Purely presentational: the
+ * engine is untouched and `onComplete` still fires on the same ~1.65s budget,
+ * with a 300ms fast path under reduced motion.
+ */
 export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
   onComplete,
   totalSchemesCount = 39,
 }) => {
-  const { lang, t } = useTranslation();
+  const { lang } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
   const isHindi = lang === 'hi';
 
   const steps: StepItem[] = [
     {
-      id: 'profile',
-      labelEn: 'Analyzing enterprise profile & statutory factors',
-      labelHi: 'उद्यम प्रोफाइल और वैधानिक मानदंडों का विश्लेषण',
-      icon: Cpu,
+      id: 'location',
+      labelEn: 'Analyzing your location…',
+      labelHi: 'आपके राज्य का विश्लेषण…',
+      icon: MapPin,
+    },
+    {
+      id: 'business',
+      labelEn: 'Understanding your business…',
+      labelHi: 'आपके व्यवसाय को समझा जा रहा है…',
+      icon: Building2,
     },
     {
       id: 'eligibility',
-      labelEn: 'Evaluating Central & State scheme guidelines',
-      labelHi: 'केंद्रीय एवं राज्य योजना दिशानिर्देशों का मूल्यांकन',
-      icon: Scale,
+      labelEn: 'Checking eligibility signals…',
+      labelHi: 'पात्रता संकेतों की जांच…',
+      icon: Users,
     },
     {
-      id: 'ranking',
-      labelEn: `Scoring & ranking ${totalSchemesCount} entrepreneur schemes`,
-      labelHi: `${totalSchemesCount} उद्यम योजनाओं की रैंकिंग और मिलान`,
-      icon: ShieldCheck,
+      id: 'financial',
+      labelEn: 'Evaluating financial fit…',
+      labelHi: 'वित्तीय अनुकूलता का मूल्यांकन…',
+      icon: Wallet,
+    },
+    {
+      id: 'relevance',
+      labelEn: `Calculating relevance across ${totalSchemesCount} schemes…`,
+      labelHi: `${totalSchemesCount} योजनाओं में प्रासंगिकता की गणना…`,
+      icon: Gauge,
     },
     {
       id: 'ready',
-      labelEn: 'Personalized recommendations ready!',
-      labelHi: 'आपकी व्यक्तिगत अनुशंसाएं तैयार हैं!',
+      labelEn: 'Preparing recommendations…',
+      labelHi: 'अनुशंसाएं तैयार की जा रही हैं…',
       icon: Sparkles,
     },
   ];
@@ -53,30 +75,22 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
   const [activeStepIdx, setActiveStepIdx] = useState(0);
 
   useEffect(() => {
-    // If reduced motion is enabled, finish very fast
     if (shouldReduceMotion) {
-      const fastTimer = setTimeout(() => {
-        onComplete();
-      }, 300);
+      const fastTimer = setTimeout(() => onComplete(), 300);
       return () => clearTimeout(fastTimer);
     }
 
-    // Step pacing: total ~1.6s
-    // Step 0: 0 - 380ms
-    // Step 1: 380 - 800ms
-    // Step 2: 800 - 1250ms
-    // Step 3: 1250 - 1600ms -> onComplete()
-    const t1 = setTimeout(() => setActiveStepIdx(1), 400);
-    const t2 = setTimeout(() => setActiveStepIdx(2), 850);
-    const t3 = setTimeout(() => setActiveStepIdx(3), 1300);
-    const tEnd = setTimeout(() => onComplete(), 1650);
+    // Six stages inside the same ~1.65s budget as before.
+    const timers = [
+      setTimeout(() => setActiveStepIdx(1), 260),
+      setTimeout(() => setActiveStepIdx(2), 520),
+      setTimeout(() => setActiveStepIdx(3), 780),
+      setTimeout(() => setActiveStepIdx(4), 1040),
+      setTimeout(() => setActiveStepIdx(5), 1300),
+      setTimeout(() => onComplete(), 1650),
+    ];
 
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-      clearTimeout(tEnd);
-    };
+    return () => timers.forEach(clearTimeout);
   }, [onComplete, shouldReduceMotion]);
 
   const progressPercent = Math.min(100, Math.round(((activeStepIdx + 1) / steps.length) * 100));
@@ -88,88 +102,122 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-50 bg-[#FAFAF9]/95 dark:bg-[#101613]/95 backdrop-blur-md flex items-center justify-center p-4 transition-colors"
+      className="fixed inset-0 z-50 yj-glass flex items-center justify-center p-4"
       role="status"
       aria-live="polite"
     >
-      <div className="w-full max-w-md bg-white dark:bg-[#151C19] rounded-xl border border-[#E2E2E0] dark:border-[#24342D] p-6 sm:p-8 shadow-xl text-center">
-        {/* Emblem & Animated Pulse */}
-        <div className="relative w-16 h-16 mx-auto mb-5 flex items-center justify-center">
-          <motion.div
-            className="absolute inset-0 rounded-full bg-[#16A34A]/20 dark:bg-[#4ADE80]/20"
-            animate={shouldReduceMotion ? undefined : { scale: [1, 1.25, 1], opacity: [0.6, 0.2, 0.6] }}
-            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <div className="relative w-12 h-12 rounded-full bg-[#14453D] dark:bg-[#1C5045] text-white flex items-center justify-center shadow-md">
-            <ShieldCheck className="w-6 h-6 text-[#4ADE80]" />
+      <div className="w-full max-w-md yj-card yj-card-lg yj-elev-4 p-6 sm:p-8">
+        {/* Header: emblem + counting progress */}
+        <div className="flex items-start justify-between gap-4 mb-5">
+          <div className="flex items-center gap-3">
+            <div className="relative w-11 h-11 flex items-center justify-center">
+              <motion.span
+                aria-hidden="true"
+                className="absolute inset-0 rounded-full bg-[#16A34A]/18 dark:bg-[#4ADE80]/18"
+                animate={shouldReduceMotion ? undefined : { scale: [1, 1.22, 1], opacity: [0.6, 0.2, 0.6] }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              <span className="relative w-9 h-9 rounded-full yj-gradient-hero text-white flex items-center justify-center">
+                <Gauge className="w-[18px] h-[18px] text-[#4ADE80]" strokeWidth={1.75} />
+              </span>
+            </div>
+            <div className="text-left">
+              <h2 className={`yj-h3 text-[#0F1512] dark:text-[#F0F4F2] ${isHindi ? 'font-hindi' : ''}`}>
+                {isHindi ? 'योजना सेतु मिलान इंजन' : 'Matching schemes for you'}
+              </h2>
+              <p className={`yj-caption text-[#6F7A73] dark:text-[#8E9F97] ${isHindi ? 'font-hindi' : ''}`}>
+                {isHindi
+                  ? 'नियम-आधारित, सत्यापित स्रोत'
+                  : 'Deterministic, verified sources'}
+              </p>
+            </div>
           </div>
+          <motion.span
+            key={progressPercent}
+            initial={shouldReduceMotion ? undefined : { opacity: 0, y: -4 }}
+            animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.18 }}
+            className="yj-numeric yj-h3 text-[#0B5D4B] dark:text-[#4ADE80]"
+          >
+            {progressPercent}%
+          </motion.span>
         </div>
 
-        {/* Title */}
-        <h2 className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mb-1">
-          {isHindi ? 'योजना सेतु मिलान इंजन' : 'Matching Schemes For You'}
-        </h2>
-        <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mb-6">
-          {isHindi
-            ? 'आपकी पात्रता के अनुसार योजनाओं की जांच की जा रही है'
-            : 'Analyzing your profile against verified government schemes'}
-        </p>
-
-        {/* Dynamic Progress Bar */}
-        <div className="w-full bg-[#EEEEED] dark:bg-[#202B26] h-2 rounded-full overflow-hidden mb-6">
+        {/* Progress bar */}
+        <div className="w-full bg-[#EDF1EF] dark:bg-[#102E29] h-1.5 rounded-full overflow-hidden mb-6">
           <motion.div
-            className="h-full bg-[#14453D] dark:bg-[#4ADE80] rounded-full"
-            initial={{ width: '15%' }}
+            className="h-full rounded-full yj-gradient-accent"
+            initial={{ width: '8%' }}
             animate={{ width: `${progressPercent}%` }}
-            transition={{ duration: 0.35, ease: 'easeOut' }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
           />
         </div>
 
-        {/* Active Steps List */}
-        <div className="space-y-2.5 text-left mb-4">
+        {/* Connected stage rail */}
+        <ol className="text-left">
           {steps.map((step, idx) => {
             const isDone = idx < activeStepIdx;
             const isCurrent = idx === activeStepIdx;
+            const isLast = idx === steps.length - 1;
             const Icon = step.icon;
 
             return (
-              <motion.div
-                key={step.id}
-                initial={{ opacity: 0, x: -6 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.2 }}
-                className={`flex items-center gap-3 p-2.5 rounded-lg border text-xs transition-colors duration-200 ${
-                  isCurrent
-                    ? 'bg-[#D4EFE1]/50 dark:bg-[#1A382D]/50 border-[#16A34A]/40 text-[#14453D] dark:text-[#A7F3D0] font-semibold'
-                    : isDone
-                    ? 'bg-[#FAFAF9] dark:bg-[#121915] border-[#E2E2E0]/60 dark:border-[#202B26] text-[#6F7A73] dark:text-[#8E9F97]'
-                    : 'bg-transparent border-transparent text-[#9EB0A7] dark:text-[#4A5D54] opacity-50'
-                }`}
-              >
-                <div className="shrink-0">
+              <li key={step.id} className="relative flex items-start gap-3 pb-3 last:pb-0">
+                {/* Setu connector between stages; fills in as stages complete */}
+                {!isLast && (
+                  <span
+                    aria-hidden="true"
+                    className={`absolute left-[13px] top-7 bottom-0 w-0.5 rounded-full transition-colors duration-300 ${
+                      isDone ? 'bg-[#16A34A]/60 dark:bg-[#4ADE80]/50' : 'bg-[#E2E2E0] dark:bg-[#24342D]'
+                    }`}
+                  />
+                )}
+
+                <span
+                  aria-hidden="true"
+                  className={`relative z-10 w-[27px] h-[27px] shrink-0 rounded-full border flex items-center justify-center transition-colors duration-200 ${
+                    isDone
+                      ? 'bg-[#D4EFE1] dark:bg-[#12352B] border-[#16A34A]/45 text-[#0F6B4C] dark:text-[#4ADE80]'
+                      : isCurrent
+                      ? 'bg-[#F1F5F3] dark:bg-[#102E29] border-[#16A34A]/45 text-[#0B5D4B] dark:text-[#4ADE80]'
+                      : 'bg-transparent border-[#E2E2E0] dark:border-[#24342D] text-[#9EB0A7] dark:text-[#4A5D54]'
+                  }`}
+                >
                   {isDone ? (
-                    <CheckCircle2 className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
-                  ) : isCurrent ? (
-                    <motion.div
-                      animate={shouldReduceMotion ? undefined : { rotate: 360 }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+                    <motion.span
+                      initial={shouldReduceMotion ? undefined : { scale: 0.6, opacity: 0 }}
+                      animate={shouldReduceMotion ? undefined : { scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <Icon className="w-4 h-4 text-[#14453D] dark:text-[#4ADE80]" />
-                    </motion.div>
+                      <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
+                    </motion.span>
                   ) : (
-                    <div className="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-700" />
+                    <motion.span
+                      animate={
+                        shouldReduceMotion || !isCurrent ? undefined : { opacity: [1, 0.45, 1] }
+                      }
+                      transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                      <Icon className="w-3.5 h-3.5" strokeWidth={1.75} />
+                    </motion.span>
                   )}
-                </div>
-                <span className="truncate">{isHindi ? step.labelHi : step.labelEn}</span>
-              </motion.div>
+                </span>
+
+                <span
+                  className={`pt-1 yj-support transition-colors duration-200 ${isHindi ? 'font-hindi' : ''} ${
+                    isCurrent
+                      ? 'text-[#0F1512] dark:text-[#F0F4F2] font-semibold'
+                      : isDone
+                      ? 'text-[#42544C] dark:text-[#A9BDB3]'
+                      : 'text-[#9EB0A7] dark:text-[#5C6F66]'
+                  }`}
+                >
+                  {isHindi ? step.labelHi : step.labelEn}
+                </span>
+              </li>
             );
           })}
-        </div>
-
-        {/* Subtitle / Footnote */}
-        <div className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] flex items-center justify-center gap-1.5 pt-2 border-t border-[#E2E2E0]/60 dark:border-[#24342D]/60">
-          <span>{isHindi ? 'नियम-आधारित निष्पक्ष मिलान' : 'Deterministic, gazette-verified matching'}</span>
-        </div>
+        </ol>
       </div>
     </motion.div>
   );

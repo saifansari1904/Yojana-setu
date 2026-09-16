@@ -61,7 +61,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
   return (
     <div
       id={id}
-      className="bg-white dark:bg-[#151C19] rounded-xl border border-slate-200/90 dark:border-[#24342D] shadow-sm p-6 sm:p-7 relative transition-all duration-200 hover:shadow-md hover:border-[#E2E2E0] dark:hover:border-[#2A3C34]"
+      className="yj-card yj-hoverable p-6 sm:p-7 relative"
     >
       {/* Top Header Row */}
       <div className="flex items-start justify-between gap-4 mb-4">

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Lock, User, ShieldCheck, Landmark, CheckCircle2 } from 'lucide-react';
-import { YojanaSetuLogo } from './YojanaSetuLogo';
 import { useTranslation } from '../i18n';
-import { fadeUp, fadeDown } from '../animations/variants';
+import { fadeUp } from '../animations/variants';
 import { transitions, reducedMotionTransition } from '../animations/transitions';
 import { ArrowFillButton, AnimatedScore } from './ui';
+import { SetuHero } from './hero/SetuHero';
 
 interface LoginScreenProps {
   onLogin: (applicantName?: string) => void;
@@ -19,35 +19,45 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
   const { t, lang } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
 
+  /** Secondary hero CTA: reveal the trust/how-it-works strip below the fold. */
+  const handleExploreHowItWorks = () => {
+    const target = document.getElementById('login-trust-counters');
+    target?.scrollIntoView({
+      behavior: shouldReduceMotion ? 'auto' : 'smooth',
+      block: 'center',
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onLogin(username.trim() || (lang === 'hi' ? 'नागरिक उद्यमी' : 'Citizen Entrepreneur'));
   };
 
   return (
-    <div className="min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-8 bg-[#FAFAF9] dark:bg-[#0E1311] transition-colors duration-200">
-      <div className="w-full max-w-lg">
-        {/* Upper Branding Area */}
-        <motion.div
-          variants={shouldReduceMotion ? undefined : fadeDown}
-          initial={shouldReduceMotion ? undefined : 'hidden'}
-          animate={shouldReduceMotion ? undefined : 'visible'}
-          transition={shouldReduceMotion ? reducedMotionTransition : transitions.smooth}
-          className="flex flex-col items-center justify-center mb-6"
-        >
-          <YojanaSetuLogo size="md" showTaglines={true} showEnglishPill={true} className="mb-2" />
-        </motion.div>
+    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 py-6 sm:py-8 transition-colors duration-200">
+      {/* Above-the-fold layout: sign-in sits beside the hero on desktop and
+          first on mobile, so nobody has to scroll to reach it. */}
+      <div className="w-full max-w-6xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-center">
+        <div className="order-2 lg:order-1">
+          <SetuHero
+            compact
+            onFindSchemes={onSkipToForm}
+            onExploreHowItWorks={handleExploreHowItWorks}
+          />
+        </div>
 
+      {/* Sign-in column — brand emblem lives in the hero column beside it. */}
+      <div className="order-1 lg:order-2 w-full max-w-lg mx-auto">
         {/* Centered Login Card */}
         <motion.div
           variants={shouldReduceMotion ? undefined : fadeUp}
           initial={shouldReduceMotion ? undefined : 'hidden'}
           animate={shouldReduceMotion ? undefined : 'visible'}
           transition={shouldReduceMotion ? reducedMotionTransition : { ...transitions.smooth, delay: 0.1 }}
-          className="bg-white dark:bg-[#151C19] rounded-md border border-[#E2E2E0] dark:border-[#24342D] shadow-sm overflow-hidden transition-colors duration-200"
+          className="yj-card shadow-sm overflow-hidden transition-colors duration-200"
         >
-          <div className="border-t-4 border-[#14453D] dark:border-[#20695B] p-6 sm:p-8">
-            <div className="flex items-center justify-between mb-5">
+          <div className="border-t-4 border-[#14453D] dark:border-[#20695B] p-5 sm:p-6">
+            <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">{t('login.title')}</h2>
                 <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] font-hindi">
@@ -59,7 +69,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
               </span>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3.5">
               <div>
                 <label
                   htmlFor="login-username"
@@ -137,7 +147,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
             </form>
 
             {/* Guest Direct Access */}
-            <div className="mt-5 pt-4 border-t border-[#E2E2E0] dark:border-[#24342D] text-center">
+            <div className="mt-4 pt-3 border-t border-[#E2E2E0] dark:border-[#24342D] text-center">
               <motion.button
                 id="skip-to-form-btn"
                 type="button"
@@ -163,7 +173,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
           initial={shouldReduceMotion ? undefined : 'hidden'}
           animate={shouldReduceMotion ? undefined : 'visible'}
           transition={shouldReduceMotion ? reducedMotionTransition : { ...transitions.smooth, delay: 0.2 }}
-          className="mt-6 grid grid-cols-3 gap-2 sm:gap-4 text-center"
+          className="mt-4 grid grid-cols-3 gap-2 sm:gap-3 text-center"
         >
           <div className="bg-white/80 dark:bg-[#151C19]/80 backdrop-blur-xs border border-[#E2E2E0] dark:border-[#24342D] rounded p-3 shadow-2xs">
             <div className="flex items-center justify-center text-[#14453D] dark:text-[#4ADE80] mb-1">
@@ -201,6 +211,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
             </div>
           </div>
         </motion.div>
+      </div>
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ export const EmptyCommandCenter: React.FC<EmptyCommandCenterProps> = ({
 
   return (
     <div id={id} className="max-w-4xl mx-auto py-10 sm:py-16 px-4">
-      <div className="bg-white dark:bg-[#151C19] rounded-2xl border border-[#E2E2E0] dark:border-[#24342D] shadow-sm p-8 sm:p-12 text-center">
+      <div className="yj-card yj-card-lg p-8 sm:p-12 text-center">
         <div className="w-16 h-16 rounded-2xl bg-[#D4EFE1] dark:bg-[#1A382D] border border-[#D4EFE1] dark:border-[#22503E] flex items-center justify-center text-[#0F6B4C] dark:text-[#4ADE80] mx-auto mb-6">
           <Compass className="w-8 h-8" />
         </div>
