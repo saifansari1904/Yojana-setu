@@ -1,5 +1,5 @@
 {
-  "name": "yojana setu1",
+  "name": "Yojana Setu",
   "description": "Government scheme matching platform empowering marginalized entrepreneurs with transparent eligibility discovery, rule-based match breakdowns, and loan repayment estimation.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
