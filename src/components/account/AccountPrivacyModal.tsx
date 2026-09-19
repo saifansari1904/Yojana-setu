@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { ShieldCheck, Lock, HardDrive, EyeOff, X, CheckCircle2, UserCheck } from 'lucide-react';
 import { useTranslation } from '../../i18n';
@@ -24,14 +25,14 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
 
   if (!isOpen) return null;
 
-  return (
+  const modalContent = (
     <AnimatePresence>
       <div
         id="account-privacy-dialog"
         role="dialog"
         aria-modal="true"
         aria-labelledby="privacy-dialog-title"
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-xs"
+        className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-xs overflow-y-auto"
         onClick={onClose}
       >
         <motion.div
@@ -129,4 +130,8 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
       </div>
     </AnimatePresence>
   );
+
+  return typeof document !== 'undefined'
+    ? createPortal(modalContent, document.body)
+    : modalContent;
 };
