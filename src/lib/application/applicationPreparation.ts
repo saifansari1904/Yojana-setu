@@ -72,13 +72,17 @@ export function verifyOfficialPortalUrl(url?: string): {
   }
 }
 
+function addInstructionKeys(instructions: StepInstruction[]): StepInstruction[] {
+  return instructions.map((instruction) => ({ ...instruction, titleKey: `application.steps.${instruction.stepNumber}.title`, descriptionKey: `application.steps.${instruction.stepNumber}.description` }));
+}
+
 // Builds verifiable step-by-step instructions from verified scheme guidelines
-export function getStepByStepApplicationGuide(scheme: Scheme, lang: 'en' | 'hi' = 'en'): StepInstruction[] {
+export function getStepByStepApplicationGuide(scheme: Scheme): StepInstruction[] {
   const mode = scheme.applicationMode || 'Online via Portal';
   const agency = scheme.department || scheme.intelligence?.application?.nodalAgency || scheme.sponsoringMinistry;
 
   if (mode === 'Online via Portal') {
-    return [
+    return addInstructionKeys([
       {
         stepNumber: 1,
         titleEn: 'Portal Registration & Authentication',
@@ -120,11 +124,11 @@ export function getStepByStepApplicationGuide(scheme: Scheme, lang: 'en' | 'hi' 
         descHi: 'प्रस्तुति पीडीएफ डाउनलोड करें और विभागीय अनुवर्ती कार्रवाई हेतु अपनी आवेदन / पावती संदर्भ संख्या सुरक्षित रखें।',
         isMandatory: true,
       },
-    ];
+    ]);
   }
 
   if (mode === 'Hybrid') {
-    return [
+    return addInstructionKeys([
       {
         stepNumber: 1,
         titleEn: 'Online Preliminary Application Filing',
@@ -150,11 +154,11 @@ export function getStepByStepApplicationGuide(scheme: Scheme, lang: 'en' | 'hi' 
         isMandatory: true,
         agency,
       },
-    ];
+    ]);
   }
 
   // Offline / DIC / Bank Channel mode
-  return [
+  return addInstructionKeys([
     {
       stepNumber: 1,
       titleEn: 'Procure Official Application Form',
@@ -181,7 +185,7 @@ export function getStepByStepApplicationGuide(scheme: Scheme, lang: 'en' | 'hi' 
       isMandatory: true,
       agency,
     },
-  ];
+  ]);
 }
 
 // Computes the 4-Pillar Workspace Readiness
@@ -189,8 +193,7 @@ export function calculateWorkspaceReadiness(
   matchResult: MatchResult,
   userProfile: UserProfile,
   preparedDocIds: string[],
-  scheme: Scheme,
-  lang: 'en' | 'hi' = 'en'
+  scheme: Scheme
 ): WorkspaceReadiness {
   // Pillar 1: Eligibility Audit
   const blockersCount = matchResult.confirmedBlockers?.length || 0;
@@ -283,7 +286,7 @@ export function calculateWorkspaceReadiness(
   };
 
   // Pillar 3: Financial Alignment
-  const fundingFit = evaluateFundingFit(scheme, userProfile, lang);
+  const fundingFit = evaluateFundingFit(scheme, userProfile, 'en');
   let finScore = 80;
   let finState: 'SATISFIED' | 'PARTIAL' | 'PENDING' | 'BLOCKED' | 'UNKNOWN' = 'SATISFIED';
   let finSummaryEn = 'Financial requirements aligned';
@@ -404,14 +407,18 @@ export function calculateWorkspaceReadiness(
     summaryHi = 'आवश्यक दस्तावेज जुटाकर एवं पात्रता की समीक्षा कर शुरुआत करें।';
   }
 
+  const readinessPillars = [eligibilityPillar, docPillar, financialPillar, processPillar].map((pillar) => ({ ...pillar, labelKey: `application.readiness.${pillar.key}.label`, summaryKey: `application.readiness.${pillar.key}.summary`, detailKey: `application.readiness.${pillar.key}.detail` }));
+
   return {
     overallScore: rawScore,
     state,
+    labelKey: `application.readiness.state.${state}.label`,
+    summaryKey: `application.readiness.state.${state}.summary`,
     labelEn,
     labelHi,
     summaryEn,
     summaryHi,
-    pillars: [eligibilityPillar, docPillar, financialPillar, processPillar],
+    pillars: readinessPillars,
     canProceedToOfficialPortal: blockersCount === 0,
   };
 }
@@ -423,12 +430,12 @@ export function deriveApplicationWorkspace(input: {
   matchResult: MatchResult;
   preparedDocIds: string[];
   trackedApp?: TrackedApplication;
-  lang?: 'en' | 'hi';
+  lang?: string;
 }): ApplicationWorkspace {
-  const { scheme, userProfile, matchResult, preparedDocIds, trackedApp, lang = 'en' } = input;
+  const { scheme, userProfile, matchResult, preparedDocIds, trackedApp } = input;
   const portalVerification = verifyOfficialPortalUrl(scheme.officialPortalUrl);
-  const instructions = getStepByStepApplicationGuide(scheme, lang);
-  const readiness = calculateWorkspaceReadiness(matchResult, userProfile, preparedDocIds, scheme, lang);
+  const instructions = getStepByStepApplicationGuide(scheme);
+  const readiness = calculateWorkspaceReadiness(matchResult, userProfile, preparedDocIds, scheme);
 
   const steps: PreparationStep[] = [
     {

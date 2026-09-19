@@ -16,7 +16,12 @@ import type {
   FollowUpStatus,
   SchemeFreshness,
   SchemeFreshnessState,
+  PathwaySnapshot,
+  JourneyEvent,
 } from '../../types/tracker';
+import type { Language } from '../../i18n/types';
+import { resolveLocalizedPair } from '../../i18n/resolveLocalized';
+import { FRESHNESS_COPY, FOLLOW_UP_COPY } from '../../i18n/freshnessI18n';
 
 /** Verification older than this is "ageing". */
 export const FRESHNESS_AGEING_DAYS = 180;
@@ -38,48 +43,18 @@ const startOfUtcDay = (date: Date): number =>
 export const diffInDays = (a: Date, b: Date): number =>
   Math.round((startOfUtcDay(b) - startOfUtcDay(a)) / MS_PER_DAY);
 
-const FRESHNESS_COPY: Record<
-  SchemeFreshnessState,
-  { labelEn: string; labelHi: string; adviceEn: string; adviceHi: string }
-> = {
-  RECENTLY_VERIFIED: {
-    labelEn: 'Recently verified',
-    labelHi: 'हाल ही में सत्यापित',
-    adviceEn: 'This scheme record was verified recently against its official source.',
-    adviceHi: 'यह योजना विवरण हाल ही में इसके आधिकारिक स्रोत से सत्यापित किया गया था।',
-  },
-  VERIFICATION_AGEING: {
-    labelEn: 'Verification ageing',
-    labelHi: 'सत्यापन पुराना हो रहा है',
-    adviceEn:
-      'Details were last verified some months ago. Confirm current terms on the official portal before applying.',
-    adviceHi:
-      'विवरण कुछ माह पहले सत्यापित हुआ था। आवेदन से पहले आधिकारिक पोर्टल पर वर्तमान शर्तें जाँच लें।',
-  },
-  VERIFICATION_STALE: {
-    labelEn: 'Re-check official source',
-    labelHi: 'आधिकारिक स्रोत पुनः जाँचें',
-    adviceEn:
-      'Verification is more than a year old. Check the official scheme guidelines for the latest position.',
-    adviceHi:
-      'सत्यापन एक वर्ष से अधिक पुराना है। नवीनतम स्थिति हेतु आधिकारिक योजना दिशानिर्देश देखें।',
-  },
-  VERIFICATION_UNKNOWN: {
-    labelEn: 'Verification date unavailable',
-    labelHi: 'सत्यापन तिथि अनुपलब्ध',
-    adviceEn:
-      'No verification date is recorded for this scheme. Check the official scheme guidelines.',
-    adviceHi:
-      'इस योजना हेतु सत्यापन तिथि दर्ज नहीं है। आधिकारिक योजना दिशानिर्देश देखें।',
-  },
-  MARKED_INACTIVE: {
-    labelEn: 'Marked inactive in our records',
-    labelHi: 'हमारे रिकॉर्ड में निष्क्रिय',
-    adviceEn:
-      'Our records mark this scheme inactive. Confirm its current status on the official portal.',
-    adviceHi:
-      'हमारे रिकॉर्ड इस योजना को निष्क्रिय दर्शाते हैं। आधिकारिक पोर्टल पर वर्तमान स्थिति की पुष्टि करें।',
-  },
+
+
+export const getLocalizedFreshness = (
+  freshness: SchemeFreshness,
+  lang: Language = 'en',
+): { label: string; advice: string } => {
+  const copy = FRESHNESS_COPY[freshness.state];
+  if (copy && copy[lang]) return copy[lang];
+  return {
+    label: resolveLocalizedPair(freshness.labelEn, freshness.labelHi, lang),
+    advice: resolveLocalizedPair(freshness.adviceEn, freshness.adviceHi, lang),
+  };
 };
 
 /**
@@ -116,11 +91,71 @@ export const evaluateSchemeFreshness = (
     ageInDays,
     lastVerifiedDate,
     verificationStatus: verificationStatus ? String(verificationStatus) : undefined,
-    ...FRESHNESS_COPY[state],
+    labelEn: FRESHNESS_COPY[state].en.label,
+    labelHi: FRESHNESS_COPY[state].hi.label,
+    adviceEn: FRESHNESS_COPY[state].en.advice,
+    adviceHi: FRESHNESS_COPY[state].hi.advice,
     shouldRecheckOfficialSource:
       state === 'VERIFICATION_STALE' ||
       state === 'VERIFICATION_UNKNOWN' ||
       state === 'MARKED_INACTIVE',
+  };
+};
+
+export const getLocalizedFollowUp = (
+  status: FollowUpStatus,
+  lang: Language = 'en',
+): string => {
+  if (status.state === 'NONE') {
+    return FOLLOW_UP_COPY.NONE[lang] || FOLLOW_UP_COPY.NONE.en;
+  }
+  if (status.state === 'COMPLETED') {
+    return FOLLOW_UP_COPY.COMPLETED[lang] || FOLLOW_UP_COPY.COMPLETED.en;
+  }
+  if (status.state === 'DUE_TODAY') {
+    return FOLLOW_UP_COPY.DUE_TODAY[lang] || FOLLOW_UP_COPY.DUE_TODAY.en;
+  }
+  if (status.state === 'OVERDUE') {
+    const overdueBy = status.daysUntilDue !== null ? Math.abs(status.daysUntilDue) : 0;
+    const phrases: Record<Language, string> = {
+      en: `Follow-up overdue by ${overdueBy} day${overdueBy === 1 ? '' : 's'}`,
+      hi: `अनुसरण ${overdueBy} दिन विलंबित`,
+      ta: `பின்தொடர்தல் ${overdueBy} நாள் தாமதம்`,
+      te: `ఫాలో-అప్ ${overdueBy} రోజు ఆలస్యం`,
+      kn: `ಫಾಲೋ-ಅಪ್ ${overdueBy} ದಿನ ವಿಳಂಬವಾಗಿದೆ`,
+      ml: `ഫോളോ-അപ്പ് ${overdueBy} ദിവസം വൈകി`,
+    };
+    return phrases[lang] || phrases.en;
+  }
+  if (status.state === 'SCHEDULED') {
+    const days = status.daysUntilDue ?? 0;
+    const phrases: Record<Language, string> = {
+      en: `Follow-up in ${days} day${days === 1 ? '' : 's'}`,
+      hi: `अनुसरण ${days} दिन में`,
+      ta: `பின்தொடர்தல் ${days} நாளில்`,
+      te: `ఫాలో-అప్ ${days} రోజులలో`,
+      kn: `ಫಾಲೋ-ಅಪ್ ${days} ದಿನಗಳಲ್ಲಿ`,
+      ml: `ഫോളോ-അപ്പ് ${days} ദിവസത്തിൽ`,
+    };
+    return phrases[lang] || phrases.en;
+  }
+  return resolveLocalizedPair(status.labelEn, status.labelHi, lang);
+};
+
+export const getLocalizedJourneyEvent = (
+  event: JourneyEvent,
+  lang: Language = 'en',
+): string => {
+  return resolveLocalizedPair(event.labelEn, event.labelHi, lang);
+};
+
+export const getLocalizedPathwaySnapshot = (
+  snapshot: PathwaySnapshot,
+  lang: Language = 'en',
+): { stageLabel: string; readinessLabel: string } => {
+  return {
+    stageLabel: resolveLocalizedPair(snapshot.stageLabelEn, snapshot.stageLabelHi, lang),
+    readinessLabel: resolveLocalizedPair(snapshot.readinessLabelEn, snapshot.readinessLabelHi, lang),
   };
 };
 

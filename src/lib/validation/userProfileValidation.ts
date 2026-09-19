@@ -7,15 +7,58 @@ import {
 import { INDIAN_STATES } from '../../constants/geography';
 import { BUSINESS_TYPES, SOCIAL_CATEGORIES } from '../../constants/business';
 import { deriveBusinessNeedProfile, deriveBusinessProfile } from '../business/businessNeedProfile';
+import { Language } from '../../i18n/types';
+
+export type ValidationErrorCode =
+  | 'REQUIRED'
+  | 'INVALID'
+  | 'OUT_OF_RANGE'
+  | 'NEGATIVE'
+  | 'MISSING_AGE'
+  | 'INVALID_AGE'
+  | 'INVALID_INCOME'
+  | 'MISSING_STATE'
+  | 'INVALID_STATE'
+  | 'MISSING_CATEGORY'
+  | 'INVALID_CATEGORY'
+  | 'MISSING_BUSINESS_STAGE'
+  | 'MISSING_BUSINESS_TYPE'
+  | 'INVALID_BUSINESS_TYPE'
+  | 'MISSING_FUNDING'
+  | 'INVALID_FUNDING'
+  | 'MISSING_TURNOVER'
+  | 'PROFILE_MISSING';
 
 export interface ValidationResult {
   isValid: boolean;
   errors: Record<string, string>;
+  errorCodes?: Record<string, ValidationErrorCode>;
 }
 
 export interface ProfileValidationResult extends ValidationResult {
   formattedProfile?: UserProfile;
 }
+
+const VALIDATION_ERROR_CODES: Record<string, ValidationErrorCode> = {
+  age: 'INVALID_AGE',
+  annualIncome: 'INVALID_INCOME',
+  state: 'INVALID_STATE',
+  category: 'INVALID_CATEGORY',
+  businessStage: 'MISSING_BUSINESS_STAGE',
+  businessType: 'INVALID_BUSINESS_TYPE',
+  funding: 'INVALID_FUNDING',
+  fundingRequired: 'INVALID_FUNDING',
+  existingTurnover: 'MISSING_TURNOVER',
+  profile: 'PROFILE_MISSING',
+};
+
+function codeForField(field: string): ValidationErrorCode {
+  return VALIDATION_ERROR_CODES[field] || 'INVALID';
+}
+
+import { VALIDATION_MESSAGES } from '../../i18n/validationI18n';
+
+
 
 /**
  * Validates a single stage of the eligibility assessment questionnaire.
@@ -23,24 +66,20 @@ export interface ProfileValidationResult extends ValidationResult {
 export function validateStage(
   stageId: string,
   profile: Partial<UserProfile>,
-  lang: 'hi' | 'en' = 'en'
+  lang: Language = 'en'
 ): ValidationResult {
-  const isHi = lang === 'hi';
+  const m = VALIDATION_MESSAGES[lang] || VALIDATION_MESSAGES.en;
   const errors: Record<string, string> = {};
 
   switch (stageId) {
     case 'about_you': {
       // Age validation: statutory entrepreneurial age in India is 18 to 75
       if (profile.age === undefined || profile.age === null || isNaN(profile.age)) {
-        errors.age = isHi ? 'कृपया अपनी आयु दर्ज करें।' : 'Please enter your age.';
+        errors.age = m.ageRequired;
       } else if (profile.age < 18) {
-        errors.age = isHi
-          ? 'सरकारी योजनाओं हेतु न्यूनतम कानूनी आयु 18 वर्ष है।'
-          : 'Minimum statutory entrepreneurial age for government schemes is 18 years.';
+        errors.age = m.ageMin;
       } else if (profile.age > 75) {
-        errors.age = isHi
-          ? 'योजना पात्रता हेतु अधिकतम अनुमत आयु 75 वर्ष है।'
-          : 'Maximum eligible age threshold is 75 years.';
+        errors.age = m.ageMax;
       }
 
       // Annual household income validation: non-negative
@@ -49,66 +88,50 @@ export function validateStage(
         profile.annualIncome === null ||
         isNaN(profile.annualIncome)
       ) {
-        errors.annualIncome = isHi
-          ? 'कृपया वार्षिक पारिवारिक आय दर्ज करें।'
-          : 'Please enter your annual household income.';
+        errors.annualIncome = m.incomeRequired;
       } else if (profile.annualIncome < 0) {
-        errors.annualIncome = isHi
-          ? 'वार्षिक आय ऋणात्मक नहीं हो सकती।'
-          : 'Annual income cannot be a negative amount.';
+        errors.annualIncome = m.incomeNegative;
       }
 
       // State validation: must be a known state
       if (!profile.state) {
-        errors.state = isHi
-          ? 'कृपया अपने व्यवसाय का राज्य या केंद्र शासित प्रदेश चुनें।'
-          : 'Please select your business state or Union Territory.';
+        errors.state = m.stateRequired;
       } else if (!INDIAN_STATES.includes(profile.state)) {
-        errors.state = isHi
-          ? 'कृपया सूची से एक मान्य भारतीय राज्य चुनें।'
-          : 'Please select a valid Indian state or Union Territory from the list.';
+        errors.state = m.stateInvalid;
       }
 
       // Category validation
       if (!profile.category) {
-        errors.category = isHi ? 'कृपया अपना सामाजिक वर्ग चुनें।' : 'Please select your social category.';
+        errors.category = m.categoryRequired;
       } else if (!SOCIAL_CATEGORIES.includes(profile.category as SocialCategory)) {
-        errors.category = isHi ? 'अमान्य सामाजिक वर्ग।' : 'Invalid social category selected.';
+        errors.category = m.categoryInvalid;
       }
       break;
     }
 
     case 'business_stage': {
       if (!profile.businessStage) {
-        errors.businessStage = isHi
-          ? 'कृपया अपने व्यवसाय की वर्तमान स्थिति चुनें।'
-          : 'Please select your current business stage.';
+        errors.businessStage = m.businessStageRequired;
       }
       break;
     }
 
     case 'business_type': {
       if (!profile.businessType) {
-        errors.businessType = isHi
-          ? 'कृपया अपने व्यवसाय का प्राथमिक कार्यक्षेत्र चुनें।'
-          : 'Please select your primary business domain.';
+        errors.businessType = m.businessTypeRequired;
       } else if (!BUSINESS_TYPES.includes(profile.businessType as BusinessType)) {
-        errors.businessType = isHi ? 'अमान्य कार्यक्षेत्र।' : 'Invalid business domain selected.';
+        errors.businessType = m.businessTypeInvalid;
       }
       break;
     }
 
     case 'funding': {
       if (!profile.fundingRangeId && !profile.fundingRequired) {
-        errors.funding = isHi
-          ? 'कृपया आवश्यक पूंजीगत वित्तीय सहायता का दायरा चुनें।'
-          : 'Please select your required financial assistance range.';
+        errors.funding = m.fundingRequired;
       }
       if (profile.fundingRequired !== undefined && profile.fundingRequired !== null) {
         if (profile.fundingRequired < 0) {
-          errors.fundingRequired = isHi
-            ? 'वित्तीय सहायता राशि धनात्मक होनी चाहिए।'
-            : 'Funding amount must be a positive number.';
+          errors.fundingRequired = m.fundingNegative;
         }
       }
       break;
@@ -118,9 +141,7 @@ export function validateStage(
       // Required only if existing or expanding
       if (profile.businessStage === 'existing' || profile.businessStage === 'expanding') {
         if (!profile.turnoverRangeId && profile.existingTurnover === undefined) {
-          errors.existingTurnover = isHi
-            ? 'कृपया अपने व्यवसाय का वार्षिक कारोबार चुनें।'
-            : 'Please indicate your current annual turnover.';
+          errors.existingTurnover = m.turnoverRequired;
         }
       }
       break;
@@ -133,6 +154,7 @@ export function validateStage(
   return {
     isValid: Object.keys(errors).length === 0,
     errors,
+    errorCodes: Object.fromEntries(Object.keys(errors).map((field) => [field, codeForField(field)])),
   };
 }
 
@@ -142,33 +164,30 @@ export function validateStage(
  */
 export function validateUserProfile(
   profile: Partial<UserProfile> | null | undefined,
-  lang: 'hi' | 'en' = 'en'
+  lang: Language = 'en'
 ): ProfileValidationResult {
-  const isHi = lang === 'hi';
+  const m = VALIDATION_MESSAGES[lang] || VALIDATION_MESSAGES.en;
   const errors: Record<string, string> = {};
 
   if (!profile) {
     return {
       isValid: false,
       errors: {
-        profile: isHi ? 'प्रोफ़ाइल डेटा अनुपलब्ध है।' : 'User profile data is missing.',
+        profile: m.profileMissing,
       },
+      errorCodes: { profile: 'PROFILE_MISSING' },
     };
   }
 
   // Validate core demographic and statutory attributes
   if (!profile.category || !SOCIAL_CATEGORIES.includes(profile.category)) {
-    errors.category = isHi
-      ? 'मान्य सामाजिक वर्ग आवश्यक है।'
-      : 'Valid social category is required.';
+    errors.category = m.categoryRequired;
   }
 
   if (profile.age === undefined || profile.age === null || isNaN(profile.age)) {
-    errors.age = isHi ? 'आयु आवश्यक है।' : 'Age is required.';
+    errors.age = m.ageRequired;
   } else if (profile.age < 18 || profile.age > 75) {
-    errors.age = isHi
-      ? 'आयु 18 से 75 वर्ष के मध्य होनी चाहिए।'
-      : 'Age must be between 18 and 75 years.';
+    errors.age = m.ageMin;
   }
 
   if (
@@ -176,23 +195,17 @@ export function validateUserProfile(
     profile.annualIncome === null ||
     isNaN(profile.annualIncome)
   ) {
-    errors.annualIncome = isHi ? 'वार्षिक आय आवश्यक है।' : 'Annual household income is required.';
+    errors.annualIncome = m.incomeRequired;
   } else if (profile.annualIncome < 0) {
-    errors.annualIncome = isHi
-      ? 'वार्षिक आय 0 या उससे अधिक होनी चाहिए।'
-      : 'Annual income must be non-negative.';
+    errors.annualIncome = m.incomeNegative;
   }
 
   if (!profile.businessType || !BUSINESS_TYPES.includes(profile.businessType)) {
-    errors.businessType = isHi
-      ? 'मान्य व्यवसाय क्षेत्र आवश्यक है।'
-      : 'Valid business type is required.';
+    errors.businessType = m.businessTypeRequired;
   }
 
   if (!profile.state || !INDIAN_STATES.includes(profile.state)) {
-    errors.state = isHi
-      ? 'मान्य भारतीय राज्य अथवा केंद्र शासित प्रदेश आवश्यक है।'
-      : 'Valid Indian state or Union Territory is required.';
+    errors.state = m.stateRequired;
   }
 
   const isValid = Object.keys(errors).length === 0;
@@ -252,6 +265,7 @@ export function validateUserProfile(
   return {
     isValid,
     errors,
+    errorCodes: Object.fromEntries(Object.keys(errors).map((field) => [field, codeForField(field)])),
     formattedProfile,
   };
 }

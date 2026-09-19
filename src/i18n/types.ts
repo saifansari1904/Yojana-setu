@@ -1,6 +1,22 @@
 import { BusinessType, SocialCategory } from '../types';
 
-export type Language = 'hi' | 'en';
+export type Language = 'hi' | 'en' | 'ta' | 'te' | 'kn' | 'ml';
+
+export interface LanguageOption {
+  code: Language;
+  label: string;
+  nativeName: string;
+  region: string;
+}
+
+export const SUPPORTED_LANGUAGES: LanguageOption[] = [
+  { code: 'en', label: 'English', nativeName: 'English', region: 'National' },
+  { code: 'hi', label: 'Hindi', nativeName: 'हिन्दी', region: 'North / Central' },
+  { code: 'ta', label: 'Tamil', nativeName: 'தமிழ்', region: 'Tamil Nadu & Puducherry' },
+  { code: 'te', label: 'Telugu', nativeName: 'తెలుగు', region: 'Andhra Pradesh & Telangana' },
+  { code: 'kn', label: 'Kannada', nativeName: 'ಕನ್ನಡ', region: 'Karnataka' },
+  { code: 'ml', label: 'Malayalam', nativeName: 'മലയാളം', region: 'Kerala' },
+];
 
 export interface LocalizedSchemeData {
   name: string;
@@ -344,6 +360,61 @@ export interface Translations {
     attentionFreshness: string;
     openScheme: string;
     privacyNote: string;
+  };
+  /** Redesigned account popover & profile interaction system. */
+  account: {
+    podTitle: string;
+    manageProfile: string;
+    personalDetails: string;
+    businessProfile: string;
+    financialProfile: string;
+    documents: string;
+    registrations: string;
+    savedSchemes: string;
+    applications: string;
+    accountPrivacy: string;
+    logout: string;
+    signOut: string;
+    entrepreneurRole: string;
+    profileCompleteness: string;
+    profileReadiness: string;
+    sectionsNeedAttention: string;
+    allSectionsComplete: string;
+    language: string;
+    appearance: string;
+    themeLight: string;
+    themeDark: string;
+    themeSystem: string;
+    citizen: string;
+    privacyModalTitle: string;
+    privacyModalSubtitle: string;
+    privacyStorageNotice: string;
+    privacySecurityTitle: string;
+    privacySecurityDesc: string;
+    close: string;
+    nextAction: string;
+    nextActionComplete: string;
+    nextActionReview: string;
+    nextActionFinancialTitle: string;
+    nextActionFinancialDesc: string;
+    nextActionBusinessTitle: string;
+    nextActionBusinessDesc: string;
+    nextActionRegTitle: string;
+    nextActionRegDesc: string;
+    nextActionPersonalTitle: string;
+    nextActionPersonalDesc: string;
+    nextActionExploreTitle: string;
+    nextActionExploreDesc: string;
+    statsSaved: string;
+    statsApps: string;
+    statsDocs: string;
+    statusReady: string;
+    statusAlmostReady: string;
+    statusNeedsAttention: string;
+    groupProfile: string;
+    groupActivity: string;
+    groupAccount: string;
+    groupSession: string;
   };
   /** Phase 5 — guided application & preparation workspace. */
   workspace: {

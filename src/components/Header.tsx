@@ -1,29 +1,37 @@
-import React from 'react';
-import { motion, useReducedMotion } from 'motion/react';
-import { ActiveScreen, UserProfile } from '../types';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, useReducedMotion, AnimatePresence } from 'motion/react';
+import { ActiveScreen, MatchResult, UserProfile } from '../types';
 import {
   ClipboardList,
   LayoutDashboard,
   FileCheck2,
   Sparkles,
   User,
-  LogOut,
   Sun,
   Moon,
+  Globe,
+  ChevronDown,
+  Check,
 } from 'lucide-react';
 import { YojanaSetuLogo } from './YojanaSetuLogo';
-import { useTranslation } from '../i18n';
+import { useTranslation, SUPPORTED_LANGUAGES, Language } from '../i18n';
 import { useTheme } from '../theme/ThemeContext';
+import { AccountMenu } from './account/AccountMenu';
 
 interface HeaderProps {
   currentScreen: ActiveScreen;
-  onNavigate: (screen: ActiveScreen) => void;
+  onNavigate: (screen: ActiveScreen, targetSectionId?: string) => void;
   userProfile: UserProfile | null;
   applicantName?: string;
   isAuthenticated: boolean;
   onLogout: () => void;
   /** Number of tracked applications, shown as a badge on the tracker tab. */
   trackedCount?: number;
+  /** Number of saved schemes for the mini-stats */
+  savedCount?: number;
+  /** Computed match results for live next-action and recommendations */
+  matchResults?: MatchResult[];
+  onUpdateProfile?: (updatedProfile: UserProfile) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -34,10 +42,32 @@ export const Header: React.FC<HeaderProps> = ({
   isAuthenticated,
   onLogout,
   trackedCount = 0,
+  savedCount = 0,
+  matchResults = [],
+  onUpdateProfile,
 }) => {
-  const { lang, setLang, t, getLocalizedCategory, getLocalizedBusinessType } = useTranslation();
+  const { lang, setLang, t } = useTranslation();
   const { isDark, toggleTheme } = useTheme();
   const shouldReduceMotion = useReducedMotion();
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const langMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (langMenuRef.current && !langMenuRef.current.contains(event.target as Node)) {
+        setLangDropdownOpen(false);
+      }
+    };
+    if (langDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [langDropdownOpen]);
+
+  const currentLangOption = SUPPORTED_LANGUAGES.find((l) => l.code === lang) || SUPPORTED_LANGUAGES[0];
 
   const isFormActive = currentScreen === 'form';
   const isResultsActive =
@@ -49,7 +79,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header id="main-header" className="sticky top-0 z-40 bg-[#FAFAF9]/95 dark:bg-[#151C19]/95 backdrop-blur-sm border-b border-[#E2E2E0] dark:border-[#24342D] transition-colors duration-200">
-      {/* Top micro-bar: Official Taglines, Language Switcher & Quick Theme */}
+      {/* Top micro-bar: Official Taglines, Multilingual Language Switcher & Quick Theme */}
       <div className="bg-[#14453D] dark:bg-[#0B2A24] text-white px-4 py-1.5 text-[11px] font-medium border-b border-[#1E6156] dark:border-[#164239]">
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -66,39 +96,72 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Direct Bilingual Switcher: हिन्दी | English */}
-            <div className="flex items-center bg-[#0B302B] dark:bg-[#061814] rounded-full p-0.5 border border-[#23584E] dark:border-[#1A4238]">
+            {/* Multilingual 6-Language Switcher Dropdown */}
+            <div className="relative" ref={langMenuRef}>
               <motion.button
-                id="lang-btn-hi"
+                id="language-picker-btn"
                 type="button"
-                whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
-                onClick={() => setLang('hi')}
-                aria-pressed={lang === 'hi'}
-                className={`px-2 py-0.5 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
-                  lang === 'hi'
-                    ? 'bg-[#16A34A] text-white shadow-xs'
-                    : 'text-white/70 hover:text-white'
-                }`}
-                aria-label="Switch to Hindi"
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.95 }}
+                onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+                aria-expanded={langDropdownOpen}
+                aria-haspopup="listbox"
+                className="flex items-center gap-1.5 bg-[#0B302B] hover:bg-[#12423A] dark:bg-[#061814] dark:hover:bg-[#0B251F] text-white px-2.5 py-1 rounded-full border border-[#23584E] dark:border-[#1A4238] transition-all cursor-pointer shadow-xs text-[11px] font-medium"
+                title="Change language / भाषा बदलें / மொழியை மாற்றுக"
               >
-                हिन्दी
+                <Globe className="w-3.5 h-3.5 text-[#4ADE80]" />
+                <span className="font-bold tracking-tight">{currentLangOption.nativeName}</span>
+                <span className="text-[10px] text-white/60 hidden sm:inline">({currentLangOption.label})</span>
+                <ChevronDown className={`w-3 h-3 text-white/70 transition-transform duration-150 ${langDropdownOpen ? 'rotate-180' : ''}`} />
               </motion.button>
-              <span className="text-white/40 text-[10px] px-0.5">|</span>
-              <motion.button
-                id="lang-btn-en"
-                type="button"
-                whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
-                onClick={() => setLang('en')}
-                aria-pressed={lang === 'en'}
-                className={`px-2 py-0.5 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
-                  lang === 'en'
-                    ? 'bg-[#16A34A] text-white shadow-xs'
-                    : 'text-white/70 hover:text-white'
-                }`}
-                aria-label="Switch to English"
-              >
-                English
-              </motion.button>
+
+              {/* Language Selection Popover Menu */}
+              <AnimatePresence>
+                {langDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 mt-1.5 w-60 bg-[#0E2822] text-white rounded-xl shadow-xl border border-[#23584E] p-1.5 z-50 overflow-hidden"
+                    role="listbox"
+                    aria-label="Supported Languages"
+                  >
+                    <div className="px-2.5 py-1 text-[10px] font-semibold text-[#4ADE80] uppercase tracking-wider border-b border-[#1E4D43] mb-1">
+                      {t('header.langSwitch') || 'Select Language / भाषा चुनें'}
+                    </div>
+                    {SUPPORTED_LANGUAGES.map((option) => {
+                      const isSelected = lang === option.code;
+                      return (
+                        <button
+                          key={option.code}
+                          id={`lang-select-${option.code}`}
+                          role="option"
+                          aria-selected={isSelected}
+                          onClick={() => {
+                            setLang(option.code);
+                            setLangDropdownOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left text-xs transition-colors cursor-pointer ${
+                            isSelected
+                              ? 'bg-[#16A34A] text-white font-bold'
+                              : 'hover:bg-[#17463D] text-white/90 hover:text-white'
+                          }`}
+                        >
+                          <div className="flex flex-col">
+                            <span className="text-[13px] leading-tight font-semibold">
+                              {option.nativeName}
+                            </span>
+                            <span className="text-[10px] text-white/70">
+                              {option.label} • {option.region}
+                            </span>
+                          </div>
+                          {isSelected && <Check className="w-4 h-4 text-white shrink-0 ml-2" />}
+                        </button>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Top Bar Theme Toggle Button (Sun/Moon icon with tactile micro-rotate) */}
@@ -246,72 +309,26 @@ export const Header: React.FC<HeaderProps> = ({
             </motion.button>
           </nav>
 
-          {/* User profile / Auth button */}
+          {/* Account Menu & User Interaction */}
           <div className="flex items-center gap-2">
-            {isAuthenticated && userProfile ? (
-              <div className="flex items-center gap-2">
-                <motion.button
-                  id="profile-chip-btn"
-                  whileHover={shouldReduceMotion ? undefined : { y: -1 }}
-                  whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-                  onClick={() => onNavigate('form')}
-                  className="bg-[#F3F4F3] dark:bg-[#1E2723] hover:bg-[#EEEEED] dark:hover:bg-[#26352E] border border-[#E2E2E0] dark:border-[#2A3C34] px-3 py-1.5 rounded flex items-center gap-2 text-xs text-[#1A1C1B] dark:text-[#F0F4F2] transition-colors cursor-pointer"
-                  title={t('header.modifyProfileTooltip')}
-                >
-                  <div className="w-5 h-5 rounded-full bg-[#14453D] dark:bg-[#16A34A] text-white flex items-center justify-center text-[10px] font-bold">
-                    {userProfile.category.charAt(0)}
-                  </div>
-                  <div className="text-left hidden lg:block">
-                    <span className="font-bold text-[#14453D] dark:text-[#4ADE80]">
-                      {getLocalizedCategory(userProfile.category)}
-                    </span>
-                    <span className="text-[#6F7A73] dark:text-[#9EB0A7]"> · {getLocalizedBusinessType(userProfile.businessType)}</span>
-                  </div>
-                </motion.button>
-                <motion.button
-                  id="logout-btn"
-                  whileHover={shouldReduceMotion ? undefined : { scale: 1.06 }}
-                  whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
-                  onClick={onLogout}
-                  className="p-2 text-[#6F7A73] dark:text-[#9EB0A7] hover:text-[#C2603F] dark:hover:text-[#F87171] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1E19]/40 rounded transition-colors cursor-pointer"
-                  title={t('header.logout')}
-                  aria-label={t('header.logout')}
-                >
-                  <LogOut className="w-4 h-4" />
-                </motion.button>
-              </div>
-            ) : isAuthenticated ? (
-              <div className="flex items-center gap-2">
-                <motion.button
-                  id="profile-chip-btn"
-                  whileHover={shouldReduceMotion ? undefined : { y: -1 }}
-                  whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-                  onClick={() => onNavigate('form')}
-                  className="bg-[#F3F4F3] dark:bg-[#1E2723] hover:bg-[#EEEEED] dark:hover:bg-[#26352E] border border-[#E2E2E0] dark:border-[#2A3C34] px-3 py-1.5 rounded flex items-center gap-2 text-xs text-[#1A1C1B] dark:text-[#F0F4F2] transition-colors cursor-pointer"
-                  title={t('header.modifyProfileTooltip')}
-                >
-                  <User className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
-                  <span className="font-semibold">{applicantName || (lang === 'hi' ? 'नागरिक' : 'Citizen')}</span>
-                </motion.button>
-                <motion.button
-                  id="logout-btn"
-                  whileHover={shouldReduceMotion ? undefined : { scale: 1.06 }}
-                  whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
-                  onClick={onLogout}
-                  className="p-2 text-[#6F7A73] dark:text-[#9EB0A7] hover:text-[#C2603F] dark:hover:text-[#F87171] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1E19]/40 rounded transition-colors cursor-pointer"
-                  title={t('header.logout')}
-                  aria-label={t('header.logout')}
-                >
-                  <LogOut className="w-4 h-4" />
-                </motion.button>
-              </div>
+            {isAuthenticated ? (
+              <AccountMenu
+                userProfile={userProfile}
+                applicantName={applicantName}
+                onNavigate={onNavigate}
+                onLogout={onLogout}
+                trackedCount={trackedCount}
+                savedCount={savedCount}
+                matchResults={matchResults}
+                onUpdateProfile={onUpdateProfile}
+              />
             ) : (
               <motion.button
                 id="header-login-cta"
                 whileHover={shouldReduceMotion ? undefined : { y: -1, scale: 1.01 }}
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                 onClick={() => onNavigate('login')}
-                className="bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-4 py-2 rounded text-xs font-bold tracking-wide transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
+                className="bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
               >
                 <User className="w-3.5 h-3.5" />
                 <span>{t('header.citizenLogin')}</span>

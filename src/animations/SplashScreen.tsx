@@ -2,16 +2,51 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { YojanaSetuLogo } from '../components/YojanaSetuLogo';
 import { useTranslation } from '../i18n';
+import { Language } from '../i18n/types';
 
 interface SplashScreenProps {
   onComplete: () => void;
   minDuration?: number;
 }
 
+const SPLASH_I18N: Record<Language, { motto: string; description: string; loading: string }> = {
+  en: {
+    motto: 'Right Scheme • Right Support • Right Pathway',
+    description: 'Connecting marginalized entrepreneurs to eligible schemes',
+    loading: 'Loading portal...',
+  },
+  hi: {
+    motto: 'सही योजना • सही सहायता • सही रास्ता',
+    description: 'नागरिक सशक्तिकरण एवं पात्रता सेतु',
+    loading: 'लोड हो रहा है...',
+  },
+  ta: {
+    motto: 'சரியான திட்டம் • சரியான ஆதரவு • சரியான பாதை',
+    description: 'தொழில்முனைவோரை தகுதியான திட்டங்களுடன் இணைக்கிறது',
+    loading: 'இணையதளம் ஏற்றப்படுகிறது...',
+  },
+  te: {
+    motto: 'సరైన పథకం • సరైన మద్దతు • సరైన మార్గం',
+    description: 'ఔత్సాహిక పారిశ్రామికవేత్తలను అర్హతగల పథకాలతో అనుసంధానిస్తుంది',
+    loading: 'పోర్టల్ లోడ్ అవుతోంది...',
+  },
+  kn: {
+    motto: 'ಸರಿಯಾದ ಯೋಜನೆ • ಸರಿಯಾದ ಬೆಂಬಲ • ಸರಿಯಾದ ದಾರಿ',
+    description: 'ಉದ್ಯಮಿಗಳನ್ನು ಅರ್ಹ ಯೋಜನೆಗಳೊಂದಿಗೆ ಸಂಪರ್ಕಿಸುತ್ತದೆ',
+    loading: 'ಪೋರ್ಟಲ್ ಲೋಡ್ ಆಗುತ್ತಿದೆ...',
+  },
+  ml: {
+    motto: 'ശരിയായ പദ്ധതി • ശരിയായ പിന്തുണ • ശരിയായ വഴി',
+    description: 'സംരംഭകരെ അർഹമായ പദ്ധതികളുമായി ബന്ധിപ്പിക്കുന്നു',
+    loading: 'പോർട്ടൽ ലോഡുചെയ്യുന്നു...',
+  },
+};
+
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDuration = 1500 }) => {
   const { lang, t } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
   const [isExiting, setIsExiting] = useState(false);
+  const copy = SPLASH_I18N[lang] || SPLASH_I18N.en;
 
   useEffect(() => {
     // If user prefers reduced motion, complete almost immediately
@@ -86,14 +121,11 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDurat
                 <span>{t('common.citizenPortal')}</span>
               </div>
 
-              <p
-                className="text-sm font-semibold text-[#14453D] dark:text-[#E2E8E4] pt-1"
-                style={{ fontFamily: "'Noto Sans Devanagari', system-ui, sans-serif" }}
-              >
-                सही योजना • सही सहायता • सही रास्ता
+              <p className="text-sm font-semibold text-[#14453D] dark:text-[#E2E8E4] pt-1">
+                {copy.motto}
               </p>
               <p className="text-xs text-[#516A5F] dark:text-[#8E9F97] tracking-tight">
-                {lang === 'hi' ? 'नागरिक सशक्तिकरण एवं पात्रता सेतु' : 'Connecting marginalized entrepreneurs to eligible schemes'}
+                {copy.description}
               </p>
             </motion.div>
 
@@ -117,7 +149,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDurat
             </motion.div>
 
             <span className="text-[10px] text-[#6F7A73] dark:text-[#6C7E76] mt-3 font-medium">
-              {lang === 'hi' ? 'लोड हो रहा है...' : 'Loading portal...'}
+              {copy.loading}
             </span>
           </div>
         </motion.div>

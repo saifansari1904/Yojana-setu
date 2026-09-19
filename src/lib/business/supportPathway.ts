@@ -27,6 +27,8 @@ import { calculateBusinessProfileCompleteness } from './businessProfileCompleten
 import { evaluateDocumentReadiness } from '../matching/documentReadiness';
 import { evaluateFundingFit } from '../matching/fundingFit';
 import { derivePathwayNextBestAction } from './nextBestAction';
+import { Language } from '../../i18n/types';
+import { resolveLocalized, resolveLocalizedPair } from '../../i18n/resolveLocalized';
 
 // =============================================================================
 // 1. BUSINESS STAGE -> SUPPORT PRIORITIES
@@ -130,6 +132,8 @@ export function deriveRecommendedSupportAreas(
       area,
       rank: out.length + 1,
       source,
+      labelKey: `supportPathway.area.${area}.label`,
+      reasonKey: `supportPathway.reason.${source}`,
       labelEn: l.en,
       labelHi: l.hi,
       reasonEn: reason[source].en,
@@ -168,14 +172,46 @@ export const COMBINABILITY_NOTICE_EN =
 export const COMBINABILITY_NOTICE_HI =
   'ये योजनाएं अलग-अलग आवश्यकताओं को पूरा करती हैं। लाभ संयोजन की पुष्टि योजना डेटा में नहीं है — एक से अधिक आवेदन से पूर्व आधिकारिक दिशानिर्देश अवश्य जांचें।';
 
+export const COMBINABILITY_NOTICES: Record<Language, string> = {
+  en: COMBINABILITY_NOTICE_EN,
+  hi: COMBINABILITY_NOTICE_HI,
+  ta: 'இந்தத் திட்டங்கள் வெவ்வேறு ஆதரவுத் தேவைகளைப் பூர்த்தி செய்கின்றன. பல திட்டங்களுக்கு விண்ணப்பிக்கும் முன் அதிகாரப்பூர்வ வழிகாட்டுதல்களைச் சரிபார்க்கவும்.',
+  te: 'ఈ పథకాలు వేర్వేరు మద్దతు అవసరాలను తీరుస్తాయి. ఒకటికి మించి దరఖాస్తు చేసుకునే ముందు అధికారిక మార్గదర్శకాలను తనిఖీ చేయండి.',
+  kn: 'ಈ ಯೋಜನೆಗಳು ವಿಭಿನ್ನ ಬೆಂಬಲ ಅಗತ್ಯಗಳನ್ನು ಪೂರೈಸುತ್ತವೆ. ಒಂದಕ್ಕಿಂತ ಹೆಚ್ಚು ಯೋಜನೆಗಳಿಗೆ ಅರ್ಜಿ ಸಲ್ಲಿಸುವ ಮೊದಲು ಅಧಿಕೃತ ಮಾರ್ಗಸೂಚಿಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.',
+  ml: 'ഈ പദ്ധതികൾ വ്യത്യസ്ത ആവശ്യങ്ങൾ നിറവേറ്റുന്നു. ഒന്നിൽ കൂടുതൽ അപേക്ഷിക്കുന്നതിന് മുമ്പ് ഔദ്യോഗിക മാർഗ്ഗനിർദ്ദേശങ്ങൾ പരിശോധിക്കുക.',
+};
+
 export const FUNDING_GAP_DISCLAIMER_EN =
   'This is your own estimated requirement. It is not an assured or sanctioned government amount.';
 export const FUNDING_GAP_DISCLAIMER_HI =
   'यह आपकी स्वयं की अनुमानित आवश्यकता है, किसी सरकारी सहायता की गारंटीशुदा राशि नहीं।';
 
+export const FUNDING_GAP_DISCLAIMERS: Record<Language, string> = {
+  en: FUNDING_GAP_DISCLAIMER_EN,
+  hi: FUNDING_GAP_DISCLAIMER_HI,
+  ta: 'இது உங்கள் சொந்த மதிப்பீட்டுத் தேவை மட்டுமே. இது அரசால் உத்தரவாதமளிக்கப்பட்ட தொகை அல்ல.',
+  te: 'ఇది మీ స్వంత అంచనా అవసరం మాత్రమే. ఇది ప్రభుత్వం హా��ీ ఇచ్చిన లేదా మంజూరు చేసిన మొత్తం కాదు.',
+  kn: 'ಇದು ನಿಮ್ಮದೇ ಅಂದಾಜು ಅಗತ್ಯವಾಗಿದೆ. ಇದು ಖಚಿತವಾದ ಅಥವಾ ಮಂಜೂರಾದ ಸರ್ಕಾರದ ಮೊತ್ತವಲ್ಲ.',
+  ml: 'ഇത് നിങ്ങളുടെ സ്വന്തം ആവശ്യത്തിന്റെ കണക്കുകൂട്ടൽ മാത്രമാണ്. ഇത് സർക്കാരിന്റെ ഉറപ്പുള്ളതോ അനുവദിച്ചതോ ആയ തുകയല്ല.',
+};
+
+export const getLocalizedCombinabilityNotice = (
+  pathway: SupportPathway,
+  lang: Language = 'en',
+): string => {
+  if (!pathway.combinabilityNoticeEn && !pathway.combinabilityNoticeHi) return '';
+  return COMBINABILITY_NOTICES[lang] || COMBINABILITY_NOTICES.en;
+};
+
+export const getLocalizedFundingDisclaimer = (
+  lang: Language = 'en',
+): string => {
+  return FUNDING_GAP_DISCLAIMERS[lang] || FUNDING_GAP_DISCLAIMERS.en;
+};
+
 function relationNote(
   matchResult: MatchResult,
-  lang: 'en' | 'hi'
+  lang: Language
 ): { en: string; hi: string } {
   const relevance = matchResult.businessRelevance?.relevanceLevel;
   if (relevance === 'HIGH') {
@@ -196,6 +232,45 @@ function relationNote(
   };
 }
 
+export const RELATION_NOTE_LOCALIZED: Record<string, Record<Language, string>> = {
+  HIGH: {
+    en: 'High relevance to this need, based on scheme purpose and your stated priorities.',
+    hi: 'योजना के उद्देश्य एवं आपकी प्राथमिकताओं के आधार पर उच्च प्रासंगिकता।',
+    ta: 'திட்டத்தின் நோக்கம் மற்றும் உங்கள் முன்னுரிமைகளின் அடிப்படையில் அதிக பொருத்தம்.',
+    te: 'పథకం ఉద్దేశం మరియు మీ ప్రాధాన్యతల ఆధారంగా అధిక ఔచిత్యం.',
+    kn: 'ಯೋಜನೆಯ ಉದ್ದೇಶ ಮತ್ತು ನಿಮ್ಮ ಆದ್ಯತೆಗಳ ಆಧಾರದ ಮೇಲೆ ಹೆಚ್ಚಿನ ಪ್ರಸ್ತುತತೆ.',
+    ml: 'പദ്ധതിയുടെ ലക്ഷ്യത്തെയും നിങ്ങളുടെ മുൻഗണനകളെയും അടിസ്ഥാനമാക്കി ഉയർന്ന പ്രസക്തി.',
+  },
+  LOW: {
+    en: 'Listed because scheme data maps it to this area, though overall need alignment is limited.',
+    hi: 'योजना डेटा इसे इस क्षेत्र से जोड़ता है, यद्यपि समग्र आवश्यकता मेल सीमित है।',
+    ta: 'திட்டத் தரவு இதை இந்தப் பகுதியுடன் இணைக்கிறது, இருப்பினும் ஒட்டுமொத்த தேவை பொருத்தம் குறைவாக உள்ளது.',
+    te: 'పథకం డేటా దీన్ని ఈ ప్రాంతానికి మ్యాప్ చేస్తుంది, అయితే మొత్తం అవసర సమలేఖనం పరిమితం.',
+    kn: 'ಯೋಜನೆಯ ಡೇಟಾ ಇದನ್ನು ಈ ಪ್ರದೇಶಕ್ಕೆ ನಕ್ಷೆ ಮಾಡುತ್ತದೆ, ಆದರೆ ಒಟ್ಟಾರೆ ಅಗತ್ಯ ಹೊಂದಾಣಿಕೆ ಸೀಮಿತವಾಗಿದೆ.',
+    ml: 'പദ്ധതി ഡാറ്റ ഇതിനെ ഈ മേഖലയുമായി ബന്ധിപ്പിക്കുന്നു, എന്നിരുന്നാലും മൊത്തത്തിലുള്ള അനുയോജ്യത പരിമിതമാണ്.',
+  },
+  DEFAULT: {
+    en: 'Relevant support, based on available scheme information.',
+    hi: 'उपलब्ध योजना जानकारी के आधार पर प्रासंगिक सहायता।',
+    ta: 'கிடைக்கக்கூடிய திட்டத் தகவலின் அடிப்படையில் பொருத்தமான ஆதரவு.',
+    te: 'అందుబాటులో ఉన్న పథకం సమాచారం ఆధారంగా సంబంధిత మద్దతు.',
+    kn: 'ಲಭ್ಯವಿರುವ ಯೋಜನೆಯ ಮಾಹಿತಿಯ ಆಧಾರದ ಮೇಲೆ ಸೂಕ್ತವಾದ ಬೆಂಬಲ.',
+    ml: 'ലഭ്യമായ പദ്ധതി വിവരങ്ങളുടെ അടിസ്ഥാനത്തിൽ പ്രസക്തമായ സഹായം.',
+  },
+};
+
+export function getLocalizedRelationNote(
+  scheme: SupportStackScheme,
+  lang: Language = 'en'
+): string {
+  const level = scheme.relevanceLevel || 'DEFAULT';
+  const dict = RELATION_NOTE_LOCALIZED[level] || RELATION_NOTE_LOCALIZED.DEFAULT;
+  if (dict && dict[lang]) {
+    return dict[lang];
+  }
+  return resolveLocalizedPair(scheme.relationNoteEn, scheme.relationNoteHi, lang);
+}
+
 /**
  * Groups already-matched schemes by the support areas their verified scheme data
  * maps to. This performs NO eligibility evaluation of its own: statutory status
@@ -204,7 +279,7 @@ function relationNote(
 export function buildSupportStack(
   recommendedAreas: RecommendedSupportArea[],
   matchResults: MatchResult[],
-  lang: 'en' | 'hi' = 'en',
+  lang: Language = 'en',
   maxSchemesPerArea = 3
 ): SupportStackGroup[] {
   // Only schemes the authoritative engine did not rule out are eligible for the stack.
@@ -275,7 +350,7 @@ export function buildPreparationChecklist(
   profile: UserProfile,
   preparedDocIds: string[] | Set<string> = new Set(),
   hasEngagedWithChecklist = false,
-  lang: 'en' | 'hi' = 'en'
+  lang: Language = 'en'
 ): PreparationChecklistResult {
   if (!matchResult) {
     return {
@@ -371,6 +446,267 @@ const READINESS_META: Record<
   },
 };
 
+export const READINESS_META_LOCALIZED: Record<
+  ApplicationReadinessState,
+  Record<Language, { label: string; summary: string }>
+> = {
+  NOT_READY: {
+    en: {
+      label: 'Not ready yet',
+      summary: 'Core information is still needed before eligibility can be assessed properly.',
+    },
+    hi: {
+      label: 'अभी तैयार नहीं',
+      summary: 'पात्रता के सही आकलन हेतु अभी मूलभूत जानकारी आवश्यक है।',
+    },
+    ta: {
+      label: 'இன்னும் தயாராகவில்லை',
+      summary: 'தகுதியை முறையாக மதிப்பிடுவதற்கு முன் முதன்மை தகவல்கள் தேவைப்படுகின்றன.',
+    },
+    te: {
+      label: 'ఇంకా సిద్ధంగా లేదు',
+      summary: 'అర్హతను సరిగ్గా అంచనా వేయడానికి ముందు ప్రాథమిక సమాచారం అవసరం.',
+    },
+    kn: {
+      label: 'ಇನ್ನೂ ಸಿದ್ಧವಾಗಿಲ್ಲ',
+      summary: 'ಅರ್ಹತೆಯನ್ನು ಸರಿಯಾಗಿ ನಿರ್ಣಯಿಸುವ ಮೊದಲು ಮೂಲಭೂತ ಮಾಹಿತಿ ಅಗತ್ಯವಿದೆ.',
+    },
+    ml: {
+      label: 'ഇതുവരെ തയ്യാറായിട്ടില്ല',
+      summary: 'യോഗ്യത കൃത്യമായി വിലയിരുത്തുന്നതിന് മുമ്പ് പ്രാഥമിക വിവരങ്ങൾ ആവശ്യമാണ്.',
+    },
+  },
+  PARTIALLY_READY: {
+    en: {
+      label: 'Partially ready',
+      summary: 'Some preparation remains before you apply.',
+    },
+    hi: {
+      label: 'आंशिक रूप से तैयार',
+      summary: 'आवेदन से पूर्व कुछ तैयारी शेष है।',
+    },
+    ta: {
+      label: 'பகுதி அளவு தயார்',
+      summary: 'விண்ணப்பிக்கும் முன் சில தயாரிப்புகள் மீதமுள்ளன.',
+    },
+    te: {
+      label: 'పాక్షికంగా సిద్ధం',
+      summary: 'మీరు దరఖాస్తు చేసుకునే ముందు కొంత తయారీ మిగిలి ఉంది.',
+    },
+    kn: {
+      label: 'ಭಾಗಶಃ ಸಿದ್ಧ',
+      summary: 'ನೀವು ಅರ್ಜಿ ಸಲ್ಲಿಸುವ ಮೊದಲು ಕೆಲವು ಸಿದ್ಧತೆಗಳು ಬಾಕಿ ಉಳಿದಿವೆ.',
+    },
+    ml: {
+      label: 'ഭാഗികമായി തയ്യാറാണ്',
+      summary: 'അപേക്ഷിക്കുന്നതിന് മുമ്പ് ചില തയ്യാറെടുപ്പുകൾ ബാക്കിയുണ്ട്.',
+    },
+  },
+  READY_TO_REVIEW: {
+    en: {
+      label: 'Ready to review',
+      summary: 'No known blockers remain. Review the scheme requirements before applying.',
+    },
+    hi: {
+      label: 'समीक्षा हेतु तैयार',
+      summary: 'कोई ज्ञात बाधा शेष नहीं। आवेदन से पूर्व योजना की शर्तें देखें।',
+    },
+    ta: {
+      label: 'மதிப்பாய்வுக்கு தயார்',
+      summary: 'அறியப்பட்ட தடைகள் எதுவும் இல்லை. விண்ணப்பிக்கும் முன் திட்டத் தேவைகளை மதிப்பாய்வு செய்யவும்.',
+    },
+    te: {
+      label: 'సమీక్షకు సిద్ధం',
+      summary: 'ఎలాంటి అడ్డంకులు లేవు. దరఖాస్తు చేయడానికి ముందు పథకం అవసరాలను సమీక్షించండి.',
+    },
+    kn: {
+      label: 'ಪರಿಶೀಲನೆಗೆ ಸಿದ್ಧ',
+      summary: 'ಯಾವುದೇ ಅಡೆತಡೆಗಳಿಲ್ಲ. ಅರ್ಜಿ ಸಲ್ಲಿಸುವ ಮೊದಲು ಯೋಜನೆಯ ಅವಶ್ಯಕತೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.',
+    },
+    ml: {
+      label: 'പരിശോധിക്കാൻ തയ്യാറാണ്',
+      summary: 'തടസ്സങ്ങളൊന്നുമില്ല. അപേക്ഷിക്കുന്നതിന് മുമ്പ് പദ്ധതി നിബന്ധനകൾ പരിശോധിക്കുക.',
+    },
+  },
+  READY_TO_APPLY: {
+    en: {
+      label: 'Ready to apply',
+      summary: 'Profile, eligibility review, documents and financial fit show no outstanding items.',
+    },
+    hi: {
+      label: 'आवेदन हेतु तैयार',
+      summary: 'प्रोफाइल, पात्रता, दस्तावेज एवं वित्तीय अनुकूलता में कोई शेष कार्य नहीं।',
+    },
+    ta: {
+      label: 'விண்ணப்பிக்க தயார்',
+      summary: 'சுயவிவரம், தகுதி மதிப்பாய்வு, ஆவணங்கள் மற்றும் நிதிப் பொருத்தம் ஆகியவற்றில் நிலுவைகள் ஏதுமில்லை.',
+    },
+    te: {
+      label: 'దరఖాస్తుకు సిద్ధం',
+      summary: 'ప్రొఫైల్, అర్హత సమీక్ష, పత్రాలు మరియు ఆర్థిక సరిపోలికలో పెండింగ్‌లో ఏమీ లేవు.',
+    },
+    kn: {
+      label: 'ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಿದ್ಧ',
+      summary: 'ಪ್ರೊಫೈಲ್, ಅರ್ಹತಾ ಪರಿಶೀಲನೆ, ದಾಖಲೆಗಳು ಮತ್ತು ಹಣಕಾಸಿನ ಹೊಂದಾಣಿಕೆಯಲ್ಲಿ ಯಾವುದೇ ಬಾಕಿಗಳಿಲ್ಲ.',
+    },
+    ml: {
+      label: 'അപേക്ഷിക്കാൻ തയ്യാറാണ്',
+      summary: 'പ്രൊഫൈൽ, യോഗ്യതാ പരിശോധന, രേഖകൾ, സാമ്പത്തിക അനുയോജ്യത എന്നിവ പൂർണ്ണമാണ്.',
+    },
+  },
+};
+
+export const READINESS_CHECK_LABELS: Record<string, Record<Language, string>> = {
+  PROFILE: {
+    en: 'Profile completeness',
+    hi: 'प्रोफाइल पूर्णता',
+    ta: 'சுயவிவர முழுமை',
+    te: 'ప్రొఫైల్ సంపూర్ణత',
+    kn: 'ಪ್ರೊಫೈಲ್ ಪೂರ್ಣತೆ',
+    ml: 'പ്രൊഫൈൽ പൂർണ്ണത',
+  },
+  ELIGIBILITY: {
+    en: 'Eligibility review',
+    hi: 'पात्रता समीक्षा',
+    ta: 'தகுதி மதிப்பாய்வு',
+    te: 'అర్హత సమీక్ష',
+    kn: 'ಅರ್ಹತಾ ಪರಿಶೀಲನೆ',
+    ml: 'യോഗ്യതാ പരിശോധന',
+  },
+  DOCUMENTS: {
+    en: 'Documents',
+    hi: 'दस्तावेज',
+    ta: 'ஆவணங்கள்',
+    te: 'పత్రాలు',
+    kn: 'ದಾಖಲೆಗಳು',
+    ml: 'രേഖകൾ',
+  },
+  FINANCIAL_FIT: {
+    en: 'Financial fit',
+    hi: 'वित्तीय अनुकूलता',
+    ta: 'நிதிப் பொருத்தம்',
+    te: 'ఆర్థిక సరిపోలిక',
+    kn: 'ಹಣಕಾಸಿನ ಹೊಂದಾಣಿಕೆ',
+    ml: 'സാമ്പത്തിക അനുയോજ്യത',
+  },
+};
+
+export const SUPPORT_AREA_REASONS_LOCALIZED: Record<SupportAreaSource, Record<Language, string>> = {
+  PRIMARY_NEED: {
+    en: 'You selected this as your primary support priority.',
+    hi: 'आपने इसे अपनी प्राथमिक सहायता आवश्यकता के रूप में चुना है।',
+    ta: 'இதை உங்கள் முதன்மையான ஆதரவு முன்னுரிமையாக தேர்ந்தெடுத்துள்ளீர்கள்.',
+    te: 'మీరు దీన్ని మీ ప్రాథమిక మద్దతు ప్రాధాన్యతగా ఎంచుకున్నారు.',
+    kn: '���ೀವು ಇದನ್ನು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಬೆಂಬಲ ಆದ್ಯತೆಯಾಗಿ ಆಯ್ಕೆ ಮಾಡಿದ್ದೀರಿ.',
+    ml: 'നിങ്ങൾ ഇത് നിങ്ങളുടെ പ്രധാന സഹായ മുൻഗണനയായി തിരഞ്ഞെടുത്തു.',
+  },
+  DERIVED_FROM_PRIMARY_NEED: {
+    en: 'Commonly delivered alongside your primary support priority.',
+    hi: 'यह आपकी प्राथमिक आवश्यकता के साथ सामान्यतः उपलब्ध सहायता है।',
+    ta: 'உங்கள் முதன்மை ஆதரவு முன்னுரிமையுடன் பொதுவாக வழங்கப்படுகிறது.',
+    te: 'సాధారణంగా మీ ప్రాథమిక మద్దతు ప్రాధాన్యతతో పాటు అందించబడుతుంది.',
+    kn: 'ಸಾಮಾನ್ಯವಾಗಿ ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಬೆಂಬಲ ಆದ್ಯತೆಯೊಂದಿಗೆ ಒದಗಿಸಲಾಗುತ್ತದೆ.',
+    ml: 'നിങ്ങളുടെ പ്രധാന സഹായ മുൻഗണനയ്ക്കൊപ്പം സാധാരണയായി നൽകപ്പെടുന്നു.',
+  },
+  SECONDARY_NEED: {
+    en: 'You selected this as an additional support need.',
+    hi: 'आपने इसे अतिरिक्त सहायता आवश्यकता के रूप में चुना है।',
+    ta: 'இதை கூடுதல் ஆதரவுத் தேவையாக தேர்ந்தெடுத்துள்ளீர்கள்.',
+    te: 'మీరు దీన్ని అదనపు మద్దతు అవసరంగా ఎంచుకున్నారు.',
+    kn: 'ನೀವು ಇದನ್ನು ಹೆಚ್ಚುವರಿ ಬೆಂಬಲ ಅಗತ್ಯವಾಗಿ ಆಯ್ಕೆ ಮಾಡಿದ್ದೀರಿ.',
+    ml: 'നിങ്ങൾ ഇത് അധിക സഹായ ആവശ്യമായി തിരഞ്ഞെടുത്തു.',
+  },
+  BUSINESS_STAGE: {
+    en: 'Typical priority at this business stage. Prioritisation signal only, not an eligibility claim.',
+    hi: 'इस व्यवसाय चरण में सामान्य प्राथमिकता। यह केवल प्राथमिकता संकेत है, पात्रता का दावा नहीं।',
+    ta: 'இந்த வணிக நிலையில் பொதுவான முன்னுரிமை. இது முன்னுரிமை அறிகுறி மட்டுமே, தகுதி கோரிக்கை அல்ல.',
+    te: 'ఈ వ్యాపార దశలో సాధారణ ప్రాధాన్యత. ఇది ప్రాధాన్యతా సంకేతం మాత్రమే, అర్హత దావా కాదు.',
+    kn: 'ಈ ವ್ಯವಹಾರದ ಹಂತದಲ್ಲಿ ಸಾಮಾನ್ಯ ಆದ್ಯತೆ. ಇದು ಆದ್ಯತೆಯ ಸಂಕೇತ ಮಾತ್ರ, ಅರ್ಹತೆಯ ಹಕ್ಕಲ್ಲ.',
+    ml: 'ഈ ബിസിനസ്സ് ഘട്ടത്തിലെ സാധാരണ മുൻഗണന. ഇത് മുൻഗണനാ സൂചന മാത്രമാണ്, യോഗ്യതാ അവകാശവാദമല്ല.',
+  },
+};
+
+export function getLocalizedSupportAreaReason(
+  area: RecommendedSupportArea,
+  lang: Language = 'en'
+): string {
+  const dict = SUPPORT_AREA_REASONS_LOCALIZED[area.source];
+  if (dict && dict[lang]) {
+    return dict[lang];
+  }
+  return resolveLocalizedPair(area.reasonEn, area.reasonHi, lang);
+}
+
+export function getLocalizedReadiness(
+  readiness: ApplicationReadiness,
+  lang: Language = 'en'
+): { label: string; summary: string } {
+  const meta = READINESS_META_LOCALIZED[readiness.state];
+  if (meta && meta[lang]) {
+    return meta[lang];
+  }
+  return {
+    label: resolveLocalizedPair(readiness.labelEn, readiness.labelHi, lang),
+    summary: resolveLocalizedPair(readiness.summaryEn, readiness.summaryHi, lang),
+  };
+}
+
+export function getLocalizedReadinessCheck(
+  check: ReadinessCheck,
+  lang: Language = 'en'
+): { label: string; detail: string } {
+  const labels = READINESS_CHECK_LABELS[check.key];
+  const label = labels ? resolveLocalized(labels, lang) : resolveLocalizedPair(check.labelEn, check.labelHi, lang);
+  const detail = resolveLocalizedPair(check.detailEn, check.detailHi, lang);
+  return { label, detail };
+}
+
+export const CHECKLIST_UNVERIFIED_LOCALIZED: Record<Language, string> = {
+  en: 'Document requirements are not fully verified for this scheme. Check the official scheme guidelines.',
+  hi: 'इस योजना हेतु दस्तावेज आवश्यकताएं पूर्णतः सत्यापित नहीं हैं। आधिकारिक दिशानिर्देश देखें।',
+  ta: 'இந்தத் திட்டத்திற்கான ஆவணத் தேவைகள் முழுமையாகச் சரிபார்க்கப்படவில்லை. அதிகாரப்பூர்வ திட்ட வழிகாட்டுதல்களைப் பார்க்கவும்.',
+  te: 'ఈ పథకానికి పత్ర అవసరాలు పూర్తిగా ధృవీకరించబడలేదు. అధికారిక పథకం మార్గదర్శకాలను తనిఖీ చేయండి.',
+  kn: 'ಈ ಯೋಜನೆಗೆ ದಾಖಲಾತಿ ಅವಶ್ಯಕತೆಗಳನ್ನು ಸಂಪೂರ್ಣವಾಗಿ ಪರಿಶೀಲಿಸಲಾಗಿಲ್ಲ. ಅಧಿಕೃತ ಯೋಜನೆಯ ಮಾರ್ಗಸೂಚಿಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.',
+  ml: 'ഈ പദ്ധതിക്കായി രേഖകളുടെ ആവശ്യകതകൾ പൂർണ്ണമായി പരിശോധിച്ചിട്ടില്ല. ഔദ്യോഗിക പദ്ധതി മാർഗ്ഗനിർദ്ദേശങ്ങൾ പരിശോധിക്കുക.',
+};
+
+export const CHECKLIST_SELECT_SCHEME_LOCALIZED: Record<Language, string> = {
+  en: 'Select a scheme to see its preparation requirements.',
+  hi: 'तैयारी आवश्यकताएं देखने हेतु कोई योजना चुनें।',
+  ta: 'தயாரிப்புத் தேவைகளைப் பார்க்க ஒரு திட்டத்தைத் தேர்ந்தெடுக்கவும்.',
+  te: 'దాని తయారీ అవసరాలను చూడటానికి ఒక పథకాన్ని ఎంచుకోండి.',
+  kn: 'ಅದರ ಸಿದ್ಧತೆಯ ಅವಶ್ಯಕತೆಗಳನ್ನು ನೋಡಲು ಯೋಜನೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+  ml: 'തയ്യാറെടുപ്പ് ആവശ്യകതകൾ കാണുന്നതിന് ഒരു പദ്ധതി തിരഞ്ഞെടുക്കുക.',
+};
+
+export function getLocalizedChecklistSummary(
+  checklist: PreparationChecklistResult,
+  lang: Language = 'en'
+): string {
+  if (checklist.requirementsUnverified) {
+    if (!checklist.schemeId) {
+      return CHECKLIST_SELECT_SCHEME_LOCALIZED[lang] || checklist.summaryEn;
+    }
+    return CHECKLIST_UNVERIFIED_LOCALIZED[lang] || checklist.summaryEn;
+  }
+  const prepared = checklist.preparedCount;
+  const total = checklist.totalCount;
+  switch (lang) {
+    case 'hi':
+      return `${total} में से ${prepared} तैयार`;
+    case 'ta':
+      return `${total}-இல் ${prepared} தயாராக உள்ளது`;
+    case 'te':
+      return `${total} లో ${prepared} సిద్ధంగా ఉంది`;
+    case 'kn':
+      return `${total} ರಲ್ಲಿ ${prepared} ಸಿದ್ಧವಾಗಿದೆ`;
+    case 'ml':
+      return `${total}-ൽ ${prepared} തയ്യാറാണ്`;
+    default:
+      return `${prepared} of ${total} prepared`;
+  }
+}
+
 /**
  * Deterministic readiness state. Based only on verified information.
  *
@@ -382,7 +718,7 @@ export function deriveApplicationReadiness(
   needProfile: BusinessNeedProfile,
   selectedMatch: MatchResult | null | undefined,
   checklist: PreparationChecklistResult,
-  lang: 'en' | 'hi' = 'en'
+  lang: Language = 'en'
 ): ApplicationReadiness {
   const completeness = calculateBusinessProfileCompleteness(profile);
   const missingHigh = completeness.missingHighValueFields.filter((f) => f.priority === 'HIGH');
@@ -544,7 +880,7 @@ export interface BuildSupportPathwayInput {
   preparedDocIds?: string[] | Set<string>;
   hasEngagedWithChecklist?: boolean;
   needProfile?: BusinessNeedProfile;
-  lang?: 'en' | 'hi';
+  lang?: Language;
 }
 
 /**
@@ -565,7 +901,7 @@ export function buildSupportPathway(input: BuildSupportPathwayInput): SupportPat
   } = input;
 
   const needProfile =
-    input.needProfile || profile.businessNeedProfile || deriveBusinessNeedProfile(profile);
+    input.needProfile || (profile ? profile.businessNeedProfile || deriveBusinessNeedProfile(profile) : null);
 
   const recommendedSupportAreas = deriveRecommendedSupportAreas(needProfile);
   const supportStack = buildSupportStack(recommendedSupportAreas, matchResults, lang);
@@ -600,7 +936,6 @@ export function buildSupportPathway(input: BuildSupportPathwayInput): SupportPat
     checklist,
     readiness,
     supportStack,
-    lang,
   });
 
   const recommendedSchemeIds: string[] = [];

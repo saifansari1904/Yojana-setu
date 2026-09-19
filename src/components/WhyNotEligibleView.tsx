@@ -15,7 +15,11 @@ import {
   ShieldX,
 } from 'lucide-react';
 import { useTranslation } from '../i18n';
-import { getNextBestAction } from '../lib/matching/decisionEngine';
+import {
+  getProfileCompatibilityReason,
+  getWhyNotEligibleText,
+} from '../i18n/whyNotEligibleI18n';
+import { getNextBestAction } from '../i18n/decisionActionI18n';
 import { buildMatchExplanation } from '../lib/matching/explanationBuilder';
 import {
   fadeSlideUp,
@@ -99,10 +103,7 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
     backfills.forEach((bf) => {
       displayAlternatives.push({
         match: bf,
-        reason:
-          lang === 'hi'
-            ? `आपकी प्रोफाइल के लिए ${bf.matchPercentage}% अनुकूलता`
-            : `${bf.matchPercentage}% overall profile compatibility`,
+        reason: getProfileCompatibilityReason(bf.matchPercentage, lang),
       });
     });
   }
@@ -142,12 +143,12 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
                 {targetMatch.eligibilityClassification === 'BLOCKED' ? (
                   <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-800 flex items-center gap-1">
                     <ShieldX className="w-3.5 h-3.5" />
-                    <span>{lang === 'hi' ? 'वैधानिक प्रतिबंध' : 'Statutory Blocker'}</span>
+                    <span>{getWhyNotEligibleText('statutoryBlocker', lang)}</span>
                   </span>
                 ) : targetMatch.eligibilityClassification === 'NEEDS_INFORMATION' ? (
                   <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800 flex items-center gap-1">
                     <HelpCircle className="w-3.5 h-3.5" />
-                    <span>{lang === 'hi' ? 'प्रोफ़ाइल विवरण आवश्यक' : 'Profile Info Needed'}</span>
+                    <span>{getWhyNotEligibleText('profileInfoNeeded', lang)}</span>
                   </span>
                 ) : null}
               </div>
@@ -178,7 +179,7 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-[10px] font-bold uppercase tracking-wider bg-[#14453D] text-white dark:bg-[#34D399] dark:text-[#0B251F] px-1.5 py-0.5 rounded">
-                      {lang === 'hi' ? 'कार्यवाही योग्य अगला कदम' : 'Actionable Next Step'}
+                      {getWhyNotEligibleText('actionableNextStep', lang)}
                     </span>
                     <span className="text-[11px] font-bold text-[#14453D] dark:text-[#4ADE80]">
                       {nextAction.badgeText}

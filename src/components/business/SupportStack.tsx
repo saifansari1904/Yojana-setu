@@ -1,11 +1,22 @@
 import React from 'react';
+import {
+  Layers,
+  Banknote,
+  GraduationCap,
+  Store,
+  Compass,
+  FileCheck,
+  Building2,
+} from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
-import * as LucideIcons from 'lucide-react';
-import { HelpCircle, Info } from 'lucide-react';
+import { staggerContainer, staggerItem } from '../../animations';
+import { VerificationBadge } from '../ui/VerificationBadge';
 import { SupportStackGroup } from '../../types/supportPathway';
+import { getLocalizedRelationNote } from '../../lib/business/supportPathway';
+import { getLocalizedNeedLabel } from '../../i18n/schemeDetailI18n';
+import { SupportNeedType } from '../../types/business';
 import { useTranslation } from '../../i18n';
-import { VerificationBadge } from '../ui';
-import { staggerContainer, staggerItem } from '../../animations/variants';
+import type { Language } from '../../i18n/types';
 
 interface SupportStackProps {
   groups: SupportStackGroup[];
@@ -16,15 +27,43 @@ interface SupportStackProps {
   className?: string;
 }
 
-function resolveIcon(name: string): React.ElementType {
-  const icons = LucideIcons as unknown as Record<string, React.ElementType>;
-  return icons[name] || HelpCircle;
+const COPY = {
+  sectionTitle: {
+    en: 'Your support stack',
+    hi: 'आपका सहायता स्टैक',
+    ta: 'உங்கள் உதவி அடுக்கு',
+    te: 'మీ మద్దతు స్టాక్',
+    kn: 'ನಿಮ್ಮ ಬೆಂಬಲ ಸ್ಟಾಕ್',
+    ml: 'നിങ്ങളുടെ സഹായ സ്റ്റാക്ക്',
+  },
+  lastVerified: {
+    en: 'Last verified',
+    hi: 'अंतिम सत्यापन',
+    ta: 'கடைசியாக சரிபார்க்கப்பட்டது',
+    te: 'చివరిగా ధృవీకరించబడింది',
+    kn: 'ಕೊನೆಯದಾಗಿ ಪರಿಶೀಲಿಸಲಾಗಿದೆ',
+    ml: 'അവസാനം പരിശോധിച്ചത്',
+  },
+};
+
+const ICON_MAP: Record<string, React.ElementType> = {
+  banknote: Banknote,
+  'graduation-cap': GraduationCap,
+  store: Store,
+  compass: Compass,
+  'file-check': FileCheck,
+  'building-2': Building2,
+};
+
+function resolveIcon(name?: string): React.ElementType {
+  if (!name) return Layers;
+  return ICON_MAP[name] || Layers;
 }
 
 /**
- * Phase 4.2 — Support Stack.
- * Groups already-matched, verified schemes by support area instead of listing
- * every scheme independently. Provenance travels with every scheme.
+ * Phase 4.2 — Multi-scheme support stack.
+ * Groups by functional area (credit, skill, market, compliance).
+ * Every scheme retains individual provenance metadata.
  */
 export const SupportStack: React.FC<SupportStackProps> = ({
   groups,
@@ -35,8 +74,11 @@ export const SupportStack: React.FC<SupportStackProps> = ({
   className = '',
 }) => {
   const { lang } = useTranslation();
-  const isHi = lang === 'hi';
+  const l: Language = (lang in COPY.sectionTitle) ? lang : 'en';
   const shouldReduceMotion = useReducedMotion();
+
+  const title = COPY.sectionTitle[l];
+  const lastVerifiedText = COPY.lastVerified[l];
 
   const visibleGroups = groups.filter((g) => g.schemes.length > 0).slice(0, maxGroups);
 
@@ -47,11 +89,11 @@ export const SupportStack: React.FC<SupportStackProps> = ({
   return (
     <section
       id={id}
-      aria-label={isHi ? 'आपका सहायता स्टैक' : 'Your support stack'}
+      aria-label={title}
       className={className}
     >
       <h3 className="text-xs font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[#9EB0A7] mb-3">
-        {isHi ? 'आपका सहायता स्टैक' : 'Your support stack'}
+        {title}
       </h3>
 
       <motion.div
@@ -62,6 +104,7 @@ export const SupportStack: React.FC<SupportStackProps> = ({
       >
         {visibleGroups.map((group) => {
           const AreaIcon = resolveIcon(group.iconName);
+          const groupLabel = getLocalizedNeedLabel(group.area as SupportNeedType, l) || (l === 'hi' ? group.labelHi : group.labelEn);
           return (
             <motion.article
               key={group.area}
@@ -73,43 +116,46 @@ export const SupportStack: React.FC<SupportStackProps> = ({
                   <AreaIcon className="w-4 h-4" aria-hidden="true" />
                 </span>
                 <h4 className="text-sm font-semibold text-[#14453D] dark:text-[#F0F4F2]">
-                  {isHi ? group.labelHi : group.labelEn}
+                  {groupLabel}
                 </h4>
               </header>
 
               <ul className="space-y-2">
-                {group.schemes.map((scheme) => (
-                  <li key={scheme.schemeId}>
-                    <button
-                      type="button"
-                      onClick={() => onSelectScheme?.(scheme.schemeId)}
-                      className="w-full text-left rounded-xl border border-[#E2E2E0] dark:border-[#24342D] px-3 py-2.5 min-h-[44px] hover:border-[#B2CDBF] dark:hover:border-[#285743] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16A34A]"
-                      aria-label={`${scheme.schemeName} — ${isHi ? scheme.relationNoteHi : scheme.relationNoteEn}`}
-                    >
-                      <span className="block text-sm font-medium text-[#14453D] dark:text-[#F0F4F2]">
-                        {scheme.schemeName}
-                      </span>
-                      <span className="block text-xs text-[#3F4943] dark:text-[#9EB0A7] mt-0.5">
-                        {isHi ? scheme.relationNoteHi : scheme.relationNoteEn}
-                      </span>
-                      <span className="mt-2 flex flex-wrap items-center gap-1.5">
-                        <VerificationBadge
-                          tier={
-                            scheme.provenance.verificationStatus === 'verified'
-                              ? 'verified'
-                              : 'in-review'
-                          }
-                          label={scheme.provenance.source}
-                          sourceText={
-                            scheme.provenance.lastVerified
-                              ? `${isHi ? 'अंतिम सत्यापन' : 'Last verified'}: ${scheme.provenance.lastVerified}`
-                              : undefined
-                          }
-                        />
-                      </span>
-                    </button>
-                  </li>
-                ))}
+                {group.schemes.map((scheme) => {
+                  const relationNote = getLocalizedRelationNote(scheme, l);
+                  return (
+                    <li key={scheme.schemeId}>
+                      <button
+                        type="button"
+                        onClick={() => onSelectScheme?.(scheme.schemeId)}
+                        className="w-full text-left rounded-xl border border-[#E2E2E0] dark:border-[#24342D] px-3 py-2.5 min-h-[44px] hover:border-[#B2CDBF] dark:hover:border-[#285743] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16A34A]"
+                        aria-label={`${scheme.schemeName} — ${relationNote}`}
+                      >
+                        <span className="block text-sm font-medium text-[#14453D] dark:text-[#F0F4F2]">
+                          {scheme.schemeName}
+                        </span>
+                        <span className="block text-xs text-[#3F4943] dark:text-[#9EB0A7] mt-0.5">
+                          {relationNote}
+                        </span>
+                        <span className="mt-2 flex flex-wrap items-center gap-1.5">
+                          <VerificationBadge
+                            tier={
+                              scheme.provenance.verificationStatus === 'verified'
+                                ? 'verified'
+                                : 'in-review'
+                            }
+                            label={scheme.provenance.source}
+                            sourceText={
+                              scheme.provenance.lastVerified
+                                ? `${lastVerifiedText}: ${scheme.provenance.lastVerified}`
+                                : undefined
+                            }
+                          />
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             </motion.article>
           );
@@ -117,9 +163,8 @@ export const SupportStack: React.FC<SupportStackProps> = ({
       </motion.div>
 
       {combinabilityNotice && (
-        <p className="mt-3 flex items-start gap-2 rounded-xl border border-[#E2E2E0] dark:border-[#24342D] bg-[#F0F4F2] dark:bg-[#1A2B24] p-3 text-xs text-[#3F4943] dark:text-[#9EB0A7]">
-          <Info className="w-4 h-4 mt-0.5 shrink-0" aria-hidden="true" />
-          <span>{combinabilityNotice}</span>
+        <p className="mt-3 text-xs text-[#3F4943] dark:text-[#9EB0A7] bg-[#F0F4F2] dark:bg-[#1A2B24] rounded-xl p-3 border border-[#E2E2E0] dark:border-[#24342D]">
+          {combinabilityNotice}
         </p>
       )}
     </section>

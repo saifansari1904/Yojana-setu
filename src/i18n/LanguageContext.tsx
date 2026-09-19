@@ -1,15 +1,70 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
-import { Language, Translations, LocalizedSchemeData } from './types';
+import { Language, Translations, LocalizedSchemeData, SUPPORTED_LANGUAGES } from './types';
 import { enTranslations } from './en';
 import { hiTranslations } from './hi';
-import { hiSchemesData } from './schemesData';
+import { taTranslations } from './ta';
+import { teTranslations } from './te';
+import { knTranslations } from './kn';
+import { mlTranslations } from './ml';
+import { hiSchemesData, allLocalizedSchemes } from './schemesData';
 import { BusinessType, MatchResult, Scheme, SchemeRuleBreakdown, SocialCategory, UserProfile } from '../types';
+import {
+  SupportNeedType,
+  BusinessStageKey,
+  BusinessEntityType,
+  RegistrationStatus,
+} from '../types/business';
+import {
+  SUPPORT_NEEDS_LOCALIZED,
+  LIFECYCLE_PHASES_LOCALIZED,
+  BUSINESS_ENTITY_LOCALIZED,
+  REGISTRATION_STATUS_LOCALIZED,
+} from './formI18n';
 
 const STORAGE_KEY = 'yojana_setu_language';
 
-interface LocalizedScheme extends Scheme {
+export const translationsMap: Record<Language, Translations> = {
+  en: enTranslations,
+  hi: hiTranslations,
+  ta: taTranslations,
+  te: teTranslations,
+  kn: knTranslations,
+  ml: mlTranslations,
+};
+
+export function getCategoryLabel(category: SocialCategory, lang: Language = 'hi'): string {
+  const trans = translationsMap[lang] || translationsMap.en;
+  return trans.categories[category]?.label || translationsMap.en.categories[category]?.label || category;
+}
+
+export function getBusinessTypeLabel(biz: BusinessType, lang: Language = 'hi'): string {
+  const trans = translationsMap[lang] || translationsMap.en;
+  return trans.businessTypes[biz]?.label || translationsMap.en.businessTypes[biz]?.label || biz;
+}
+
+export function getFactorLabel(factorKey: string, lang: Language = 'hi'): string {
+  const trans = translationsMap[lang] || translationsMap.en;
+  if (factorKey in trans.factors) {
+    return trans.factors[factorKey as keyof typeof trans.factors];
+  }
+  return factorKey;
+}
+
+export function getStateLabel(state: string, lang: Language = 'hi'): string {
+  const trans = translationsMap[lang] || translationsMap.en;
+  return trans.states[state] || state;
+}
+
+export interface LocalizedScheme extends Scheme {
   originalName: string;
-  isHindi: boolean;
+  isLocalized: boolean;
+}
+
+export interface SchemeLike {
+  id: string;
+  name: string;
+  department?: string;
+  [key: string]: any;
 }
 
 interface LanguageContextType {
@@ -18,13 +73,26 @@ interface LanguageContextType {
   toggleLang: () => void;
   t: (keyPath: string, vars?: Record<string, string | number>) => string;
   formatCurrency: (amount: number) => string;
-  getLocalizedScheme: (scheme: Scheme) => LocalizedScheme;
+  getLocalizedScheme: <T extends SchemeLike>(scheme: T) => T & {
+    originalName: string;
+      isLocalized: boolean;
+    sponsoringMinistry?: string;
+    schemeType?: any;
+    benefitSummary?: string;
+    fundingRangeText?: string;
+    requiredDocuments?: string[];
+    lastVerifiedDate?: string;
+  };
   getLocalizedCategory: (category: SocialCategory) => string;
   getLocalizedCategoryDesc: (category: SocialCategory) => string;
   getLocalizedBusinessType: (biz: BusinessType) => string;
   getLocalizedBusinessTypeDesc: (biz: BusinessType) => string;
   getLocalizedState: (state: string) => string;
   getLocalizedFactorName: (factorKey: string) => string;
+  getLocalizedSupportNeed: (need: SupportNeedType) => string;
+  getLocalizedBusinessStage: (stage: BusinessStageKey) => string;
+  getLocalizedEntity: (entity: BusinessEntityType) => string;
+  getLocalizedRegistrationStatus: (reg: RegistrationStatus) => string;
   translations: Translations;
 }
 
@@ -34,14 +102,14 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [lang, setLangState] = useState<Language>(() => {
     if (typeof window === 'undefined') return 'hi';
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved === 'en' || saved === 'hi') {
+      const saved = localStorage.getItem(STORAGE_KEY) as Language | null;
+      if (saved && (saved in translationsMap)) {
         return saved;
       }
     } catch {
       // Ignore local storage error
     }
-    return 'hi'; // Default language MUST be Hindi
+    return 'hi'; // Default language is Hindi
   });
 
   const setLang = (newLang: Language) => {
@@ -55,7 +123,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const toggleLang = () => {
-    setLang(lang === 'hi' ? 'en' : 'hi');
+    const langOrder: Language[] = ['hi', 'en', 'ta', 'te', 'kn', 'ml'];
+    const idx = langOrder.indexOf(lang);
+    setLang(langOrder[(idx + 1) % langOrder.length]);
   };
 
   useEffect(() => {
@@ -66,7 +136,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   }, [lang]);
 
-  const translations = lang === 'hi' ? hiTranslations : enTranslations;
+  const translations = translationsMap[lang] || hiTranslations;
 
   const t = (keyPath: string, vars?: Record<string, string | number>): string => {
     const keys = keyPath.split('.');
@@ -77,7 +147,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (current && typeof current === 'object' && key in current) {
         current = current[key];
       } else {
-        // Fallback to English if key is missing in Hindi
+        // Fallback to English if key is missing in regional language
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let fallback: any = enTranslations;
         for (const fbKey of keys) {
@@ -115,27 +185,37 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }).format(amount);
   };
 
-  const getLocalizedScheme = (scheme: Scheme): LocalizedScheme => {
-    if (lang === 'hi' && hiSchemesData[scheme.id]) {
-      const hiData = hiSchemesData[scheme.id];
+  const getLocalizedScheme = <T extends SchemeLike>(scheme: T): T & {
+    originalName: string;
+      isLocalized: boolean;
+    sponsoringMinistry?: string;
+    schemeType?: any;
+    benefitSummary?: string;
+    fundingRangeText?: string;
+    requiredDocuments?: string[];
+    lastVerifiedDate?: string;
+  } => {
+    const schemeDict = allLocalizedSchemes[lang];
+    if (schemeDict && schemeDict[scheme.id]) {
+      const locData = schemeDict[scheme.id];
       return {
         ...scheme,
         originalName: scheme.name,
-        isHindi: true,
-        name: hiData.name,
-        sponsoringMinistry: hiData.sponsoringMinistry,
-        department: hiData.department || scheme.department,
-        schemeType: hiData.schemeType as any,
-        benefitSummary: hiData.benefitSummary,
-        fundingRangeText: hiData.fundingRangeText,
-        requiredDocuments: hiData.requiredDocuments,
-        lastVerifiedDate: hiData.lastVerifiedDate,
+        isLocalized: true,
+        name: locData.name,
+        sponsoringMinistry: locData.sponsoringMinistry,
+        department: locData.department || scheme.department,
+        schemeType: locData.schemeType as any,
+        benefitSummary: locData.benefitSummary,
+        fundingRangeText: locData.fundingRangeText,
+        requiredDocuments: locData.requiredDocuments,
+        lastVerifiedDate: locData.lastVerifiedDate,
       };
     }
     return {
       ...scheme,
       originalName: scheme.name,
-      isHindi: false,
+      isLocalized: false,
     };
   };
 
@@ -166,6 +246,22 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return factorKey;
   };
 
+  const getLocalizedSupportNeed = (need: SupportNeedType): string => {
+    return SUPPORT_NEEDS_LOCALIZED[need]?.[lang] || need;
+  };
+
+  const getLocalizedBusinessStage = (stage: BusinessStageKey): string => {
+    return LIFECYCLE_PHASES_LOCALIZED[stage]?.[lang] || stage;
+  };
+
+  const getLocalizedEntity = (entity: BusinessEntityType): string => {
+    return BUSINESS_ENTITY_LOCALIZED[entity]?.[lang] || entity;
+  };
+
+  const getLocalizedRegistrationStatus = (reg: RegistrationStatus): string => {
+    return REGISTRATION_STATUS_LOCALIZED[reg]?.[lang] || reg;
+  };
+
   const value = useMemo(
     () => ({
       lang,
@@ -180,6 +276,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       getLocalizedBusinessTypeDesc,
       getLocalizedState,
       getLocalizedFactorName,
+      getLocalizedSupportNeed,
+      getLocalizedBusinessStage,
+      getLocalizedEntity,
+      getLocalizedRegistrationStatus,
       translations,
     }),
     [lang]

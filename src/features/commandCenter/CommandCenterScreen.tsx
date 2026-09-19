@@ -49,6 +49,7 @@ export interface CommandCenterScreenProps {
   onStartCheck: () => void;
   onOpenResults: () => void;
   onOpenTracker: () => void;
+  onOpenProfile?: () => void;
   onSelectScheme: (match: MatchResult) => void;
   onToggleSave?: (schemeId: string) => void;
 }
@@ -61,6 +62,7 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
   onStartCheck,
   onOpenResults,
   onOpenTracker,
+  onOpenProfile,
   onSelectScheme,
   onToggleSave,
 }) => {
@@ -145,7 +147,7 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
 
   return (
     <div
-      className={`max-w-5xl mx-auto px-4 py-6 sm:py-8 space-y-6 ${language === 'hi' ? 'font-hindi' : ''}`}
+      className={`max-w-5xl mx-auto px-4 py-6 sm:py-8 space-y-6 ${{ hi: 'font-hindi', ta: 'font-tamil', te: 'font-telugu', kn: 'font-kannada', ml: 'font-malayalam', en: '' }[language] || ''}`}
     >
       <header id="command-header" className="space-y-1">
         <p className="yj-eyebrow text-[#6F7A73] dark:text-[#8E9F97]">
@@ -155,19 +157,12 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
         <h1 className="yj-h2 text-[#0B5D4B] dark:text-[#F0F4F2]">
           {(() => {
             const hour = new Date().getHours();
-            const isHindi = language === 'hi';
             const greeting =
               hour < 12
-                ? isHindi
-                  ? 'सुप्रभात।'
-                  : 'Good morning.'
+                ? t('greetingMorning')
                 : hour < 17
-                ? isHindi
-                  ? 'नमस्कार।'
-                  : 'Good afternoon.'
-                : isHindi
-                ? 'शुभ संध्या।'
-                : 'Good evening.';
+                ? t('greetingAfternoon')
+                : t('greetingEvening');
             const name = userProfile?.applicantName || userProfile?.businessName;
             return name ? `${greeting.replace(/[।.]$/, '')}, ${name}.` : greeting;
           })()}
@@ -180,7 +175,7 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
       {!profileCompleteness.isComplete && (
         <PartialProfileBanner
           completeness={profileCompleteness}
-          onCompleteProfile={onStartCheck}
+          onCompleteProfile={onOpenProfile || onStartCheck}
           id="command-partial-profile"
         />
       )}
@@ -210,7 +205,10 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
               variant="primary"
               size="md"
               onClick={() => {
-                if (nextBestAction.targetWorkspace === 'PROFILE') onStartCheck();
+                if (nextBestAction.targetWorkspace === 'PROFILE') {
+                  if (onOpenProfile) onOpenProfile();
+                  else onStartCheck();
+                }
                 else if (nextBestAction.targetWorkspace === 'TRACKER') onOpenTracker();
                 else if (nextBestAction.schemeId) openScheme(nextBestAction.schemeId);
                 else onOpenResults();

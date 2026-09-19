@@ -98,20 +98,40 @@ export function analyzeFunding(
 /**
  * Formats an Indian currency number cleanly with Lakh / Crore notation.
  */
-export function formatLakhCrore(amount: number, lang: 'en' | 'hi' = 'en'): string {
+export function formatLakhCrore(amount: number, lang: string = 'en'): string {
   const clean = sanitizeAmount(amount);
   if (clean === 0) {
-    return lang === 'hi' ? '₹0' : '₹0';
+    return '₹0';
   }
+
+  const CR_LABELS: Record<string, string> = {
+    hi: 'करोड़',
+    ta: 'கோடி',
+    te: 'కోట్లు',
+    kn: 'ಕೋಟಿ',
+    ml: 'കോടി',
+    en: 'Cr',
+  };
+  const LAKH_LABELS: Record<string, string> = {
+    hi: 'लाख',
+    ta: 'லட்சம்',
+    te: 'లక్షలు',
+    kn: 'ಲಕ್ಷ',
+    ml: 'ലക്ഷം',
+    en: 'Lakh',
+  };
+
+  const crLabel = CR_LABELS[lang] || CR_LABELS.en;
+  const lakhLabel = LAKH_LABELS[lang] || LAKH_LABELS.en;
 
   if (clean >= 10000000) {
     const cr = (clean / 10000000).toFixed(2).replace(/\.00$/, '');
-    return lang === 'hi' ? `₹${cr} करोड़` : `₹${cr} Cr`;
+    return `₹${cr} ${crLabel}`;
   }
 
   if (clean >= 100000) {
     const lakh = (clean / 100000).toFixed(2).replace(/\.00$/, '');
-    return lang === 'hi' ? `₹${lakh} लाख` : `₹${lakh} Lakh`;
+    return `₹${lakh} ${lakhLabel}`;
   }
 
   return `₹${clean.toLocaleString('en-IN')}`;

@@ -163,9 +163,9 @@ export const colors = {
 // ── Typography Tokens ────────────────────────────────────────────────────────
 export const typography = {
   fonts: {
-    primary: "'Plus Jakarta Sans', 'Inter', 'Noto Sans Devanagari', -apple-system, sans-serif",
+    primary: "'Plus Jakarta Sans', 'Inter', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Noto Sans Malayalam', -apple-system, sans-serif",
     hindi: "'Noto Sans Devanagari', 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif",
-    mono: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+    mono: "monospace",
   },
   sizes: {
     '2xs': '10px',

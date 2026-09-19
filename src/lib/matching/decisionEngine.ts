@@ -12,15 +12,22 @@ export type NextActionType =
   | 'CONFIRM_REGISTRATION'
   | 'EXPLORE_PRIMARY_NEED';
 
-export interface NextBestAction {
+export type NextBestAction = import('../../i18n/decisionActionI18n').LocalizedNextBestAction;
+
+export interface SemanticNextBestAction {
   actionType: NextActionType;
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
+  badgeKey: string;
+  ctaKey: string;
   priority: 'high' | 'medium' | 'low';
-  badgeText: string;
-  buttonLabel: string;
   actionTarget: 'portal' | 'checklist' | 'alternatives' | 'form' | 'details' | 'compare';
   actionUrl?: string;
+}
+
+function semanticAction(actionType: NextActionType, priority: SemanticNextBestAction['priority'], actionTarget: SemanticNextBestAction['actionTarget'], actionUrl?: string): SemanticNextBestAction {
+  const keyBase = `nextAction.${actionType}`;
+  return { actionType, titleKey: `${keyBase}.title`, descriptionKey: `${keyBase}.description`, badgeKey: `${keyBase}.badge`, ctaKey: `${keyBase}.cta`, priority, actionTarget, actionUrl };
 }
 
 /**
@@ -28,49 +35,26 @@ export interface NextBestAction {
  * Evaluates the authoritative MatchResult, statutory audit, and business-need intelligence
  * to synthesize the exact, highest-utility Next Best Action for the entrepreneur.
  */
-export function getNextBestAction(
+export function deriveNextBestAction(
   matchResult: MatchResult,
-  profile: UserProfile,
-  lang: 'hi' | 'en' = 'en'
-): NextBestAction {
-  const isHi = lang === 'hi';
+  profile: UserProfile
+): SemanticNextBestAction {
   const { scheme, isEligible, matchPercentage, confirmedBlockers, unknownCriteria, businessRelevance } = matchResult;
 
-  const hasBlockers = (confirmedBlockers && confirmedBlockers.length > 0);
-  const hasUnknowns = (unknownCriteria && unknownCriteria.length > 0);
+  const hasBlockers = Boolean(confirmedBlockers && confirmedBlockers.length > 0);
+  const hasUnknowns = Boolean(unknownCriteria && unknownCriteria.length > 0);
   const isTrustOutdated =
     scheme.trustProfile?.freshness.status === 'OUTDATED' ||
     scheme.trustProfile?.freshness.status === 'DUE_FOR_REVIEW';
 
   // 1. Confirmed Statutory Blocker -> Recommend Alternatives
   if (hasBlockers || matchResult.eligibilityClassification === 'BLOCKED') {
-    return {
-      actionType: 'EXPLORE_ALTERNATIVES',
-      title: isHi ? 'वैकल्पिक योजनाएं खोजें' : 'Explore Qualified Alternatives',
-      description: isHi
-        ? 'इस योजना में वैधानिक प्रतिबंध हैं। अपनी प्रोफ़ाइल के अनुकूल अन्य योजनाएं देखें।'
-        : 'Statutory criteria not met for this scheme. Explore tailored schemes suited for your business.',
-      priority: 'high',
-      badgeText: isHi ? 'विकल्प उपलब्ध' : 'Alternatives Ready',
-      buttonLabel: isHi ? 'विकल्प देखें' : 'View Alternatives',
-      actionTarget: 'alternatives',
-      actionUrl: `#alternatives-${scheme.id}`,
-    };
+    return semanticAction('EXPLORE_ALTERNATIVES', 'high', 'alternatives', `#alternatives-${scheme.id}`);
   }
 
   // 2. Missing Core Statutory Information -> Complete Profile
   if (hasUnknowns || matchResult.eligibilityClassification === 'NEEDS_INFORMATION') {
-    return {
-      actionType: 'COMPLETE_PROFILE',
-      title: isHi ? 'प्रोफ़ाइल विवरण पूर्ण करें' : 'Complete Profile Verification',
-      description: isHi
-        ? 'अनिर्दिष्ट जानकारी प्रदान करके निश्चित पात्रता स्थिति जानें।'
-        : 'Provide unspecified details (e.g. registration, turnover) to confirm statutory qualification.',
-      priority: 'high',
-      badgeText: isHi ? 'जानकारी आवश्यक' : 'Info Needed',
-      buttonLabel: isHi ? 'विवरण भरें' : 'Update Profile',
-      actionTarget: 'form',
-    };
+    return semanticAction('COMPLETE_PROFILE', 'high', 'form');
   }
 
   // 3. Phase 4.1 Business Intelligence Refinements
@@ -90,134 +74,44 @@ export function getNextBestAction(
     );
 
   if (profile.registrationStatus === 'UNKNOWN' && requiresRegistration) {
-    return {
-      actionType: 'CONFIRM_REGISTRATION',
-      title: isHi ? 'व्यवसाय पंजीकरण स्थिति की पुष्टि करें' : 'Confirm Business Registration',
-      description: isHi
-        ? 'यह योजना औपचारिक पंजीकरण (MSME/Udyam) मांगती है। अपनी पंजीकरण स्थिति स्पष्ट करें।'
-        : 'This scheme requires formal registration. Confirm your Udyam/trade status.',
-      priority: 'medium',
-      badgeText: isHi ? 'पंजीकरण जांच' : 'Registration Check',
-      buttonLabel: isHi ? 'स्थिति अपडेट करें' : 'Update Registration',
-      actionTarget: 'form',
-    };
+    return semanticAction('CONFIRM_REGISTRATION', 'medium', 'form');
   }
 
   // 3b. If user has no business details at all
   if (!hasBusinessDetails) {
-    return {
-      actionType: 'COMPLETE_BUSINESS_PROFILE',
-      title: isHi ? 'व्यवसाय प्रोफ़ाइल पूर्ण करें' : 'Complete Your Business Profile',
-      description: isHi
-        ? 'परियोजना लागत, चरण और सहायता आवश्यकताएं जोड़कर सटीक सिफारिशें प्राप्त करें।'
-        : 'Add project cost, stage, and support needs to unlock tailored scheme relevance.',
-      priority: 'medium',
-      badgeText: isHi ? 'व्यवसाय विवरण शेष' : 'Profile Incomplete',
-      buttonLabel: isHi ? 'व्यवसाय विवरण जोड़ें' : 'Add Business Details',
-      actionTarget: 'form',
-    };
+    return semanticAction('COMPLETE_BUSINESS_PROFILE', 'medium', 'form');
   }
 
   // 3c. If business defined but funding requirement is missing
   if (profile.totalProjectCost === undefined && profile.fundingGap === undefined) {
-    return {
-      actionType: 'ADD_FUNDING_REQUIREMENT',
-      title: isHi ? 'वित्तीय आवश्यकता दर्ज करें' : 'Add Your Funding Requirement',
-      description: isHi
-        ? 'परियोजना लागत और निवेश जोड़ें ताकि वित्तीय अंतर (Funding Gap) का सटीक मिलान हो सके।'
-        : 'Provide project cost and existing investment to compute accurate funding gap alignment.',
-      priority: 'medium',
-      badgeText: isHi ? 'फंडिंग विवरण शेष' : 'Funding Needed',
-      buttonLabel: isHi ? 'फंडिंग जोड़ें' : 'Add Funding Cost',
-      actionTarget: 'form',
-    };
+    return semanticAction('ADD_FUNDING_REQUIREMENT', 'medium', 'form');
   }
 
   // 3d. Weak business relevance despite statutory eligibility
   if (isEligible && businessRelevance && businessRelevance.relevanceLevel === 'LOW') {
-    return {
-      actionType: 'EXPLORE_PRIMARY_NEED',
-      title: isHi ? 'प्राथमिक आवश्यकता के अनुकूल योजनाएं देखें' : 'Explore Schemes For Your Need',
-      description: isHi
-        ? 'आप इस योजना के लिए पात्र हैं, परंतु यह आपकी मुख्य सहायता आवश्यकता को पूरा नहीं करती।'
-        : 'You qualify statutorily, but this scheme does not directly fulfill your primary business need.',
-      priority: 'medium',
-      badgeText: isHi ? 'कम प्रासंगिकता' : 'Low Need Alignment',
-      buttonLabel: isHi ? 'अन्य योजनाएं खोजें' : 'Explore Other Schemes',
-      actionTarget: 'alternatives',
-    };
+    return semanticAction('EXPLORE_PRIMARY_NEED', 'medium', 'alternatives');
   }
 
   // 4. Scheme trust profile indicates outdated information -> Verify Guidelines
   if (isTrustOutdated) {
-    return {
-      actionType: 'VERIFY_INFORMATION',
-      title: isHi ? 'नवीनतम दिशानिर्देश जांचें' : 'Verify Current Notification',
-      description: isHi
-        ? 'आवेदन से पूर्व विभाग की आधिकारिक अधिसूचना एवं दिशानिर्देश अवश्य जांचें।'
-        : 'Check the official ministry notification for recent amendments or quota revisions.',
-      priority: 'medium',
-      badgeText: isHi ? 'पुष्टि आवश्यक' : 'Review Due',
-      buttonLabel: isHi ? 'अधिसूचना देखें' : 'Check Portal',
-      actionTarget: 'portal',
-      actionUrl: scheme.officialPortalUrl,
-    };
+    return semanticAction('VERIFY_INFORMATION', 'medium', 'portal', scheme.officialPortalUrl);
   }
 
   // 5. Strong Eligible Match + High Business Need Fit -> Prepare Documents & Apply
   if (isEligible && matchPercentage >= 80) {
     if (businessRelevance && businessRelevance.relevanceLevel === 'HIGH') {
-      return {
-        actionType: 'PREPARE_DOCUMENTS',
-        title: isHi ? 'दस्तावेज तैयार करें एवं आवेदन करें' : 'Review Documents & Prepare to Apply',
-        description: isHi
-          ? 'यह योजना आपकी प्रोफ़ाइल और व्यावसायिक आवश्यकता दोनों के पूर्णतः अनुकूल है। दस्तावेज तैयार करें।'
-          : 'High statutory match and high business-need alignment. Review document checklist and prepare application.',
-        priority: 'high',
-        badgeText: isHi ? 'उच्च व्यावसायिक उपयुक्तता' : 'High Priority Fit',
-        buttonLabel: isHi ? 'दस्तावेज चेकलिस्ट' : 'Review Documents',
-        actionTarget: 'checklist',
-      };
+      return semanticAction('PREPARE_DOCUMENTS', 'high', 'checklist');
     }
 
     if (scheme.requiredDocuments && scheme.requiredDocuments.length >= 4) {
-      return {
-        actionType: 'PREPARE_DOCUMENTS',
-        title: isHi ? 'दस्तावेज चेकलिस्ट तैयार करें' : 'Prepare Statutory Checklist',
-        description: isHi
-          ? `योजना हेतु आवश्यक ${scheme.requiredDocuments.length} दस्तावेज तैयार रखें ताकि आवेदन में विलंब न हो।`
-          : `Prepare all ${scheme.requiredDocuments.length} required verification documents before applying.`,
-        priority: 'high',
-        badgeText: isHi ? 'आवेदन तैयार' : 'Ready to Apply',
-        buttonLabel: isHi ? 'चेकलिस्ट देखें' : 'View Checklist',
-        actionTarget: 'checklist',
-      };
+      return semanticAction('PREPARE_DOCUMENTS', 'high', 'checklist');
     }
 
-    return {
-      actionType: 'VISIT_OFFICIAL_PORTAL',
-      title: isHi ? 'आधिकारिक पोर्टल पर आवेदन करें' : 'Apply on Official Portal',
-      description: isHi
-        ? 'आपकी प्रोफ़ाइल पूर्णतः अनुकूल है। सीधे सरकारी पोर्टल पर आवेदन आरंभ करें।'
-        : 'Your profile satisfies all core statutory criteria. Proceed directly to the government portal.',
-      priority: 'high',
-      badgeText: isHi ? 'पात्र - सीधे आवेदन' : 'Eligible to Apply',
-      buttonLabel: isHi ? 'पोर्टल पर जाएं' : 'Open Portal',
-      actionTarget: 'portal',
-      actionUrl: scheme.officialPortalUrl,
-    };
+    return semanticAction('VISIT_OFFICIAL_PORTAL', 'high', 'portal', scheme.officialPortalUrl);
   }
 
   // 6. Near Match -> Review specific gap and prepare
-  return {
-    actionType: 'CHECK_ELIGIBILITY',
-    title: isHi ? 'पात्रता अंतर की समीक्षा करें' : 'Review Eligibility Requirements',
-    description: isHi
-      ? 'समीप मिलान: मामूली शर्तों को पूरा करके पात्रता प्राप्त की जा सकती है।'
-      : 'Near match: Review statutory details to determine compliance pathway.',
-    priority: 'medium',
-    badgeText: isHi ? 'समीक्षा योग्य' : 'Review Gap',
-    buttonLabel: isHi ? 'शर्तें देखें' : 'Review Criteria',
-    actionTarget: 'details',
-  };
+  return semanticAction('CHECK_ELIGIBILITY', 'medium', 'details');
 }
+
+export { getLocalizedNextBestAction as getNextBestAction } from '../../i18n/decisionActionI18n';

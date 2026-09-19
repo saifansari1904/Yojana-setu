@@ -1,4 +1,5 @@
 import React from 'react';
+import { resolveLocalizedPair } from '../../i18n/resolveLocalized';
 import { Compass, Globe, Building2, Phone, CheckCircle2, ChevronRight } from 'lucide-react';
 import type { Scheme } from '../../types/scheme';
 import { useTranslation } from '../../i18n';
@@ -10,7 +11,7 @@ interface SubmissionProcessSectionProps {
 
 export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> = ({ scheme }) => {
   const { t, lang } = useTranslation();
-  const instructions = getStepByStepApplicationGuide(scheme, lang);
+  const instructions = getStepByStepApplicationGuide(scheme);
   const mode = scheme.applicationMode || 'ONLINE';
 
   return (
@@ -80,7 +81,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
               <div className="flex-1">
                 <div className="flex items-center justify-between gap-2">
                   <h5 className="text-sm font-semibold text-[#1F2421] dark:text-[#F0F4F2]">
-                    {lang === 'hi' ? inst.titleHi : inst.titleEn}
+                    {resolveLocalizedPair(inst.titleEn, inst.titleHi, lang)}
                   </h5>
                   {inst.agency && (
                     <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#F4F7F5] dark:bg-[#1A2520] text-[#5A6561] dark:text-[#97A7A0]">
@@ -89,7 +90,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
                   )}
                 </div>
                 <p className="text-xs text-[#5A6561] dark:text-[#97A7A0] mt-1 leading-relaxed">
-                  {lang === 'hi' ? inst.descHi : inst.descEn}
+                  {resolveLocalizedPair(inst.descEn, inst.descHi, lang)}
                 </p>
               </div>
             </div>

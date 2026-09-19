@@ -4,8 +4,10 @@
  */
 
 import React from 'react';
+import { resolveLocalizedPair } from '../../../i18n/resolveLocalized';
 import { OpportunityItem } from '../types';
 import { useTranslation } from '../i18n';
+import { useTranslation as useAppTranslation } from '../../../i18n';
 import { AnimatedCounter } from '../../../animations';
 import { VerificationBadge } from '../../../components/ui';
 import { BookmarkButton } from '../../../components/ui';
@@ -25,6 +27,7 @@ export const TopOpportunitiesList: React.FC<TopOpportunitiesListProps> = ({
   id = 'top-opportunities-list',
 }) => {
   const { t, language } = useTranslation();
+  const { getLocalizedScheme } = useAppTranslation();
 
   if (opportunities.length === 0) return null;
 
@@ -42,7 +45,8 @@ export const TopOpportunitiesList: React.FC<TopOpportunitiesListProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {opportunities.map((opp, idx) => {
           const { scheme, matchResult, actionPriority, documentReadiness, isSaved, nextBestAction } = opp;
-          const schemeTitle = language === 'hi' ? scheme.nameHi : scheme.name;
+          const locScheme = getLocalizedScheme(scheme);
+          const schemeTitle = locScheme.name || scheme.name;
 
           const priorityBadgeConfig = {
             ACTION_NOW: { label: t('actionNowBadge'), cls: 'bg-[#16A34A] text-white' },
@@ -100,7 +104,8 @@ export const TopOpportunitiesList: React.FC<TopOpportunitiesListProps> = ({
 
               <div className="pt-3 border-t border-[#EAECEB] dark:border-[#24342D] flex items-center justify-between text-xs text-[#0F6B4C] dark:text-[#4ADE80] font-semibold group-hover:text-[#14453D] dark:group-hover:text-[#86EFAC]">
                 <span className="truncate pr-2">
-                  {language === 'hi' ? nextBestAction.actionTextHi : nextBestAction.actionText}
+                  {nextBestAction.actionLocalized?.[language] ||
+                    (resolveLocalizedPair(nextBestAction.actionText, nextBestAction.actionTextHi, language))}
                 </span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform shrink-0" />
               </div>

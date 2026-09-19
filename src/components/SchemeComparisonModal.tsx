@@ -15,7 +15,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { MatchResult, UserProfile } from '../types';
-import { useTranslation } from '../i18n';
+import { useTranslation, Language } from '../i18n';
 import { compareSchemes, SchemeComparisonResult } from '../lib/matching/comparisonEngine';
 import { MatchGauge } from './MatchGauge';
 import { VerificationBadge } from './ui';
@@ -30,6 +30,179 @@ interface SchemeComparisonModalProps {
   onRemoveScheme?: (schemeId: string) => void;
 }
 
+const COMPARISON_MODAL_I18N: Record<
+  Language,
+  {
+    title: string;
+    schemes: string;
+    closeAria: string;
+    topMatch: string;
+    remove: string;
+    matchScore: string;
+    potentiallyEligible: string;
+    nearMatch: string;
+    blockedLowMatch: string;
+    fundingQuantum: string;
+    capitalSubsidy: string;
+    interestTenure: string;
+    geographicScope: string;
+    targetCategories: string;
+    eligibleDomains: string;
+    requiredDocs: string;
+    statutoryDocs: string;
+    applicationMode: string;
+    nextBestAction: string;
+    viewFullDetails: string;
+    engineCertified: string;
+    closeBtn: string;
+  }
+> = {
+  en: {
+    title: 'Statutory Scheme Comparison',
+    schemes: 'Schemes',
+    closeAria: 'Close comparison',
+    topMatch: 'Top Match',
+    remove: 'Remove',
+    matchScore: 'Engine Match Score',
+    potentiallyEligible: 'Potentially Eligible',
+    nearMatch: 'Near Match',
+    blockedLowMatch: 'Blocked / Low Match',
+    fundingQuantum: 'Funding Quantum',
+    capitalSubsidy: 'Capital Subsidy',
+    interestTenure: 'Interest Rate & Tenure',
+    geographicScope: 'Geographic Scope',
+    targetCategories: 'Target Categories',
+    eligibleDomains: 'Eligible Domains',
+    requiredDocs: 'Required Documents',
+    statutoryDocs: 'statutory documents',
+    applicationMode: 'Application Mode',
+    nextBestAction: 'Next Best Action:',
+    viewFullDetails: 'View Full Details',
+    engineCertified: 'All scores and statutory criteria are certified by Yojana Setu matching engine.',
+    closeBtn: 'Close Comparison',
+  },
+  hi: {
+    title: 'योजनाओं की आधिकारिक तुलना',
+    schemes: 'योजनाएं',
+    closeAria: 'तुलना बंद करें',
+    topMatch: 'शीर्ष मिलान',
+    remove: 'हटाएं',
+    matchScore: 'आधिकारिक स्कोर',
+    potentiallyEligible: 'संभावित रूप से पात्र',
+    nearMatch: 'समीप मिलान',
+    blockedLowMatch: 'प्रतिबंधित / कम मिलान',
+    fundingQuantum: 'ऋण / सहायता राशि',
+    capitalSubsidy: 'पूंजीगत सब्सिडी',
+    interestTenure: 'ब्याज एवं अवधि',
+    geographicScope: 'भौगोलिक दायरा',
+    targetCategories: 'लक्षित सामाजिक वर्ग',
+    eligibleDomains: 'स्वीकार्य कार्यक्षेत्र',
+    requiredDocs: 'आवश्यक दस्तावेज',
+    statutoryDocs: 'वैधानिक दस्तावेज',
+    applicationMode: 'आवेदन प्रक्रिया',
+    nextBestAction: 'सर्वोत्तम अगला कदम:',
+    viewFullDetails: 'विवरण देखें',
+    engineCertified: 'सभी मानदंड एवं स्कोर योजना सेतु के केंद्रीय मिलान इंजन द्वारा मूल्यांकित हैं।',
+    closeBtn: 'बंद करें',
+  },
+  ta: {
+    title: 'திட்டங்களின் அதிகாரப்பூர்வ ஒப்பீடு',
+    schemes: 'திட்டங்கள்',
+    closeAria: 'ஒப்பீட்டை மூடுக',
+    topMatch: 'முதன்மைப் பொருத்தம்',
+    remove: 'நீக்கு',
+    matchScore: 'இயந்திரப் பொருத்த மதிப்பெண்',
+    potentiallyEligible: 'தகுதியுடைய வாய்ப்பு',
+    nearMatch: 'நெருங்கிய பொருத்தம்',
+    blockedLowMatch: 'தடைபட்டது / குறைந்த பொருத்தம்',
+    fundingQuantum: 'நிதி அளவு',
+    capitalSubsidy: 'மூலதன மானியம்',
+    interestTenure: 'வட்டி மற்றும் காலம்',
+    geographicScope: 'புவியியல் வரம்பு',
+    targetCategories: 'இலக்கு சமூகப் பிரிவுகள்',
+    eligibleDomains: 'தகுதியான துறைகள்',
+    requiredDocs: 'தேவையான ஆவணங்கள்',
+    statutoryDocs: 'சட்டப்பூர்வ ஆவணங்கள்',
+    applicationMode: 'விண்ணப்ப முறை',
+    nextBestAction: 'அடுத்த சிறந்த நடவடிக்கை:',
+    viewFullDetails: 'முழு விவரங்களைப் பார்க்க',
+    engineCertified: 'அனைத்து மதிப்பெண்களும் விதிகளும் யோஜனா சேது இயந்திரத்தால் சரிபார்க்கப்பட்டவை.',
+    closeBtn: 'ஒப்பீட்டை மூடுக',
+  },
+  te: {
+    title: 'పథకాల అధికారిక పోలిక',
+    schemes: 'పథకాలు',
+    closeAria: 'పోలికను మూసివేయి',
+    topMatch: 'టాప్ మ్యాచ్',
+    remove: 'తొలగించు',
+    matchScore: 'ఇంజిన్ మ్యాచ్ స్కోర్',
+    potentiallyEligible: 'అర్హత కలిగిన అవకాశం',
+    nearMatch: 'సమీప మ్యాచ్',
+    blockedLowMatch: 'నిరోధించబడింది / తక్కువ మ్యాచ్',
+    fundingQuantum: 'నిధుల పరిమాణం',
+    capitalSubsidy: 'మూలధన సబ్సిడీ',
+    interestTenure: 'వడ్డీ & కాలపరిమితి',
+    geographicScope: 'భౌగోళిక పరిధి',
+    targetCategories: 'లక్ష్య వర్గాలు',
+    eligibleDomains: 'అర్హతగల రంగాలు',
+    requiredDocs: 'అవసరమైన పత్రాలు',
+    statutoryDocs: 'చట్టబద్ధమైన పత్రాలు',
+    applicationMode: 'దరఖాస్తు విధానం',
+    nextBestAction: 'తదుపరి ఉత్తమ చర్య:',
+    viewFullDetails: 'పూర్తి వివరాలు చూడండి',
+    engineCertified: 'అన్ని స్కోర్‌లు మరియు ప్రమాణాలు యోజన సేతు ఇంజిన్ ద్వారా ధృవీకరించబడ్డాయి.',
+    closeBtn: 'పోలికను మూసివేయి',
+  },
+  kn: {
+    title: 'ಯೋಜನೆಗಳ ಅಧಿಕೃತ ಹೋಲಿಕೆ',
+    schemes: 'ಯೋಜನೆಗಳು',
+    closeAria: 'ಹೋಲಿಕೆಯನ್ನು ಮುಚ್ಚಿ',
+    topMatch: 'ಉನ್ನತ ಹೊಂದಾಣಿಕೆ',
+    remove: 'ತೆಗೆದುಹಾಕಿ',
+    matchScore: 'ಇಂಜಿನ್ ಹೊಂದಾಣಿಕೆ ಸ್ಕೋರ್',
+    potentiallyEligible: 'ಅರ್ಹತೆಯ ಸಾಧ್ಯತೆ',
+    nearMatch: 'ಹತ್ತಿರದ ಹೊಂದಾಣಿಕೆ',
+    blockedLowMatch: 'ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ / ಕಡಿಮೆ ಹೊಂದಾಣಿಕೆ',
+    fundingQuantum: 'ಹಣಕಾಸು ಪ್ರಮಾಣ',
+    capitalSubsidy: 'ಬಂಡವಾಳ ಸಬ್ಸಿಡಿ',
+    interestTenure: 'ಬಡ್ಡಿ ಮತ್ತು ಅವಧಿ',
+    geographicScope: 'ಭೌಗೋಳಿಕ ವ್ಯಾಪ್ತಿ',
+    targetCategories: 'ಗುರಿ ವರ್ಗಗಳು',
+    eligibleDomains: 'ಅರ್ಹ ಕ್ಷೇತ್ರಗಳು',
+    requiredDocs: 'ಅಗತ್ಯ ದಾಖಲೆಗಳು',
+    statutoryDocs: 'ಶಾಸನಬದ್ಧ ದಾಖಲೆಗಳು',
+    applicationMode: 'ಅರ್ಜಿ ವಿಧಾನ',
+    nextBestAction: 'ಮುಂದಿನ ಉತ್ತಮ ಕ್ರಮ:',
+    viewFullDetails: 'ಪೂರ್ಣ ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಿ',
+    engineCertified: 'ಎಲ್ಲಾ ಸ್ಕೋರ್‌ಗಳು ಮತ್ತು ಮಾನದಂಡಗಳನ್ನು ಯೋಜನಾ ಸೇತು ಇಂಜಿನ್ ದೃಢೀಕರಿಸಿದೆ.',
+    closeBtn: 'ಹೋಲಿಕೆಯನ್ನು ಮುಚ್ಚಿ',
+  },
+  ml: {
+    title: 'പദ്ധതികളുടെ ഔദ്യോഗിക താരതമ്യം',
+    schemes: 'പദ്ധതികൾ',
+    closeAria: 'താരതമ്യം അവസാനിപ്പിക്കുക',
+    topMatch: 'ടോപ്പ് മാച്ച്',
+    remove: 'ഒഴിവാക്കുക',
+    matchScore: 'മാച്ച് സ്കോർ',
+    potentiallyEligible: 'സാധ്യമായ യോഗ്യത',
+    nearMatch: 'ഏറെക്കുറെ യോജിച്ചത്',
+    blockedLowMatch: 'തടസ്സപ്പെട്ടു / കുറഞ്ഞ പൊരുത്തം',
+    fundingQuantum: 'ഫണ്ടിംഗ് തുക',
+    capitalSubsidy: 'മൂലധന സബ്‌സിഡി',
+    interestTenure: 'പലിശയും കാലാവധിയും',
+    geographicScope: 'ഭൂമിശാസ്ത്രപരമായ പരിധി',
+    targetCategories: 'ലക്ഷ്യ വിഭാഗങ്ങൾ',
+    eligibleDomains: 'അനുയോജ്യമായ മേഖലകൾ',
+    requiredDocs: 'ആവശ്യമായ രേഖകൾ',
+    statutoryDocs: 'നിയമാനുസൃത രേഖകൾ',
+    applicationMode: 'അപേക്ഷാ രീതി',
+    nextBestAction: 'അടുത്ത മികച്ച നടപടി:',
+    viewFullDetails: 'മുഴുവൻ വിവരങ്ങളും കാണുക',
+    engineCertified: 'എല്ലാ സ്കോറുകളും മാനദണ്ഡങ്ങളും യോജന സേതു എഞ്ചിൻ സാക്ഷ്യപ്പെടുത്തിയതാണ്.',
+    closeBtn: 'താരതമ്യം അവസാനിപ്പിക്കുക',
+  },
+};
+
 export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
   isOpen,
   selectedMatches,
@@ -39,9 +212,9 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
   onRemoveScheme,
 }) => {
   const { lang, t } = useTranslation();
-  const isHi = lang === 'hi';
   const modalId = useId();
   const shouldReduceMotion = useReducedMotion();
+  const ui = COMPARISON_MODAL_I18N[lang] || COMPARISON_MODAL_I18N.en;
 
   if (!isOpen || selectedMatches.length < 2) return null;
 
@@ -78,10 +251,10 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                   id="comparison-modal-title"
                   className="text-base sm:text-lg font-bold text-[#14453D] dark:text-[#34D399]"
                 >
-                  {isHi ? 'योजनाओं की आधिकारिक तुलना' : 'Statutory Scheme Comparison'}
+                  {ui.title}
                 </h2>
                 <span className="text-xs bg-[#E2EAE6] dark:bg-[#1E2E26] text-[#14453D] dark:text-[#4ADE80] px-2 py-0.5 rounded font-semibold">
-                  {columns.length} / 3 {isHi ? 'योजनाएं' : 'Schemes'}
+                  {columns.length} / 3 {ui.schemes}
                 </span>
               </div>
               <p className="text-xs text-[#516A5F] dark:text-[#8E9F97] mt-0.5">
@@ -93,7 +266,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
               id="close-comparison-modal-btn"
               onClick={onClose}
               className="p-1.5 rounded-md text-[#516A5F] hover:text-[#1A1C1B] dark:text-[#8E9F97] dark:hover:text-[#F0F4F2] hover:bg-[#EAECEB] dark:hover:bg-[#202D26] transition-colors cursor-pointer"
-              aria-label={isHi ? 'तुलना बंद करें' : 'Close comparison'}
+              aria-label={ui.closeAria}
             >
               <X className="w-5 h-5" />
             </button>
@@ -129,7 +302,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                           {isBestMatch && (
                             <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider bg-[#14453D] text-white dark:bg-[#34D399] dark:text-[#0B251F] px-2 py-0.5 rounded">
                               <Award className="w-3 h-3" />
-                              {isHi ? 'शीर्ष मिलान' : 'Top Match'}
+                              {ui.topMatch}
                             </span>
                           )}
                           <span className="text-[10px] font-semibold bg-[#EAECEB] dark:bg-[#223129] px-2 py-0.5 rounded text-[#516A5F] dark:text-[#A0B0A7]">
@@ -141,7 +314,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                           <button
                             onClick={() => onRemoveScheme(col.schemeId)}
                             className="text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 p-1 rounded transition-colors cursor-pointer"
-                            title={isHi ? 'हटाएं' : 'Remove'}
+                            title={ui.remove}
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -166,7 +339,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         <MatchGauge percentage={col.matchPercentage} size={54} strokeWidth={5} />
                         <div>
                           <span className="text-[10px] uppercase font-bold text-[#6F7A73] dark:text-[#8E9F97] block">
-                            {isHi ? 'आधिकारिक स्कोर' : 'Engine Match Score'}
+                            {ui.matchScore}
                           </span>
                           <span className="text-lg font-bold text-[#14453D] dark:text-[#34D399]">
                             {Math.round(col.matchPercentage)}%
@@ -175,17 +348,17 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                             {col.isEligible ? (
                               <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/70 px-1.5 py-0.2 rounded">
                                 <CheckCircle2 className="w-3 h-3" />
-                                {isHi ? 'संभावित रूप से पात्र' : 'Potentially Eligible'}
+                                {ui.potentiallyEligible}
                               </span>
                             ) : col.matchStatus === 'near-match' ? (
                               <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/70 px-1.5 py-0.2 rounded">
                                 <AlertTriangle className="w-3 h-3" />
-                                {isHi ? 'समीप मिलान' : 'Near Match'}
+                                {ui.nearMatch}
                               </span>
                             ) : (
                               <span className="inline-flex items-center gap-1 text-[10px] font-bold text-rose-700 dark:text-rose-300 bg-rose-100 dark:bg-rose-950/70 px-1.5 py-0.2 rounded">
                                 <Info className="w-3 h-3" />
-                                {isHi ? 'प्रतिबंधित / कम मिलान' : 'Blocked / Low Match'}
+                                {ui.blockedLowMatch}
                               </span>
                             )}
                           </div>
@@ -211,7 +384,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         {/* Funding Quantum */}
                         <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
                           <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase font-semibold">
-                            {isHi ? 'ऋण / सहायता राशि' : 'Funding Quantum'}
+                            {ui.fundingQuantum}
                           </span>
                           <span className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
                             {col.fundingRangeText}
@@ -221,7 +394,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         {/* Capital Subsidy */}
                         <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
                           <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase font-semibold">
-                            {isHi ? 'पूंजीगत सब्सिडी' : 'Capital Subsidy'}
+                            {ui.capitalSubsidy}
                           </span>
                           <span className="font-semibold text-emerald-700 dark:text-emerald-400">
                             {col.subsidyText}
@@ -231,7 +404,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         {/* Interest & Tenure */}
                         <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
                           <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase font-semibold">
-                            {isHi ? 'ब्याज एवं अवधि' : 'Interest Rate & Tenure'}
+                            {ui.interestTenure}
                           </span>
                           <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2] block">
                             {col.interestRateText} · {col.tenureText}
@@ -241,7 +414,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         {/* Geographic Scope */}
                         <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
                           <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase font-semibold">
-                            {isHi ? 'भौगोलिक दायरा' : 'Geographic Scope'}
+                            {ui.geographicScope}
                           </span>
                           <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2]">
                             {col.applicableStatesText}
@@ -251,7 +424,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         {/* Target Categories */}
                         <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
                           <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase font-semibold">
-                            {isHi ? 'लक्षित सामाजिक वर्ग' : 'Target Categories'}
+                            {ui.targetCategories}
                           </span>
                           <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2]">
                             {col.targetCategoriesText}
@@ -261,7 +434,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         {/* Target Sectors */}
                         <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
                           <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase font-semibold">
-                            {isHi ? 'स्वीकार्य कार्यक्षेत्र' : 'Eligible Domains'}
+                            {ui.eligibleDomains}
                           </span>
                           <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2]">
                             {col.targetBusinessTypesText}
@@ -271,10 +444,10 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         {/* Required Documents */}
                         <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
                           <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase font-semibold">
-                            {isHi ? 'आवश्यक दस्तावेज' : 'Required Documents'}
+                            {ui.requiredDocs}
                           </span>
                           <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2]">
-                            {col.documentsCount} {isHi ? 'वैधानिक दस्तावेज' : 'statutory documents'}
+                            {col.documentsCount} {ui.statutoryDocs}
                           </span>
                           <div className="flex flex-wrap gap-1 mt-1">
                             {col.keyDocuments.map((doc, dIdx) => (
@@ -291,7 +464,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         {/* Application Mode */}
                         <div>
                           <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase font-semibold">
-                            {isHi ? 'आवेदन प्रक्रिया' : 'Application Mode'}
+                            {ui.applicationMode}
                           </span>
                           <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2] capitalize">
                             {col.applicationMode}
@@ -304,7 +477,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                     <div className="mt-5 pt-3 border-t border-[#EAECEB] dark:border-[#223129]">
                       <div className="mb-2.5">
                         <span className="text-[10px] font-bold text-[#14453D] dark:text-[#4ADE80] uppercase tracking-wider block">
-                          {isHi ? 'सर्वोत्तम अगला कदम:' : 'Next Best Action:'}
+                          {ui.nextBestAction}
                         </span>
                         <p className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] font-medium mt-0.5">
                           {col.nextBestAction.description}
@@ -320,7 +493,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                             }}
                             className="flex-1 bg-[#14453D] hover:bg-[#0E352E] dark:bg-[#34D399] dark:hover:bg-[#28B781] text-white dark:text-[#0B251F] text-xs font-bold py-2 px-3 rounded text-center transition-colors cursor-pointer flex items-center justify-center gap-1"
                           >
-                            <span>{isHi ? 'विवरण देखें' : 'View Full Details'}</span>
+                            <span>{ui.viewFullDetails}</span>
                             <ArrowRight className="w-3.5 h-3.5" />
                           </button>
                         )}
@@ -348,9 +521,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>
-                {isHi
-                  ? 'सभी मानदंड एवं स्कोर योजना सेतु के केंद्रीय मिलान इंजन द्वारा मूल्यांकित हैं।'
-                  : 'All scores and statutory criteria are certified by Yojana Setu matching engine.'}
+                {ui.engineCertified}
               </span>
             </div>
 
@@ -358,7 +529,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
               onClick={onClose}
               className="px-4 py-1.5 rounded text-xs font-bold text-[#14453D] dark:text-[#4ADE80] bg-white dark:bg-[#1B2720] border border-[#D5DDD8] dark:border-[#2B3E33] hover:bg-[#EAECEB] dark:hover:bg-[#23332A] transition-colors cursor-pointer"
             >
-              {isHi ? 'बंद करें' : 'Close Comparison'}
+              {ui.closeBtn}
             </button>
           </div>
         </motion.div>

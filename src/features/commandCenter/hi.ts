@@ -21,7 +21,7 @@ export const hi = {
   headerSubtitleEmpty: 'यहां आपकी व्यवसाय सहायता यात्रा की स्थिति है।',
 
   // Next Best Action
-  nextBestActionTitle: 'अगला सर्वोत्तम कदम (NEXT BEST ACTION)',
+  nextBestActionTitle: 'अगला सर्वोत्तम कदम',
   continueAction: 'आगे बढ़ें →',
   exploreAction: 'देखें →',
 
@@ -35,7 +35,7 @@ export const hi = {
   exploreCategory: 'देखें',
 
   // Opportunities
-  topOpportunitiesTitle: 'शीर्ष अवसर (TOP OPPORTUNITIES)',
+  topOpportunitiesTitle: 'शीर्ष अवसर',
   topOpportunityHeading: 'शीर्ष अवसर',
   matchScoreLabel: 'मैच',
   actionNowBadge: 'अभी कदम उठाएं',

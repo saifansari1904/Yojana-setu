@@ -22,6 +22,10 @@ import {
   evaluateFollowUp,
   evaluateSchemeFreshness,
   followUpUrgencyRank,
+  getLocalizedFreshness,
+  getLocalizedFollowUp,
+  getLocalizedJourneyEvent,
+  getLocalizedPathwaySnapshot,
 } from '../lib/tracker/schemeFreshness';
 import { EmptyState } from './common/EmptyState';
 import { AnimatedCounter } from '../animations/AnimatedCounter';
@@ -68,7 +72,6 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
 }) => {
   const { lang, t, getLocalizedScheme } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
-  const isHi = lang === 'hi';
 
   const [openNoteFor, setOpenNoteFor] = useState<string | null>(null);
 
@@ -281,23 +284,26 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                   )}
 
                   {/* Phase 4.3 — data freshness (never a claim about scheme validity) */}
-                  {freshness && freshness.shouldRecheckOfficialSource && (
-                    <div className="mb-3 flex items-start gap-2 rounded border border-[#FCD34D] dark:border-[#5B4718] bg-[#FEF3C7]/70 dark:bg-[#3B2F14]/60 px-3 py-2">
-                      <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#92610A] dark:text-[#FCD34D]" />
-                      <p className="text-[11px] text-[#92610A] dark:text-[#FCD34D]">
-                        <span className="font-bold">
-                          {isHi ? freshness.labelHi : freshness.labelEn}
-                        </span>
-                        {' — '}
-                        {isHi ? freshness.adviceHi : freshness.adviceEn}
-                      </p>
-                    </div>
-                  )}
+                  {freshness && freshness.shouldRecheckOfficialSource && (() => {
+                    const locFreshness = getLocalizedFreshness(freshness, lang);
+                    return (
+                      <div className="mb-3 flex items-start gap-2 rounded border border-[#FCD34D] dark:border-[#5B4718] bg-[#FEF3C7]/70 dark:bg-[#3B2F14]/60 px-3 py-2">
+                        <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#92610A] dark:text-[#FCD34D]" />
+                        <p className="text-[11px] text-[#92610A] dark:text-[#FCD34D]">
+                          <span className="font-bold">
+                            {locFreshness.label}
+                          </span>
+                          {' — '}
+                          {locFreshness.advice}
+                        </p>
+                      </div>
+                    );
+                  })()}
                   {freshness && !freshness.shouldRecheckOfficialSource && freshness.lastVerifiedDate && (
                     <p className="mb-3 text-[10px] font-semibold text-[#6F7A73] dark:text-[#8E9F97]">
                       {t('tracker.verified')}: {freshness.lastVerifiedDate}
                       {' · '}
-                      {isHi ? freshness.labelHi : freshness.labelEn}
+                      {getLocalizedFreshness(freshness, lang).label}
                     </p>
                   )}
 
@@ -323,7 +329,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         />
                         {app.followUp?.dueOn && (
                           <span className="text-[11px] font-semibold">
-                            {isHi ? followUp.labelHi : followUp.labelEn}
+                            {getLocalizedFollowUp(followUp, lang)}
                           </span>
                         )}
                         {app.followUp?.dueOn && !app.followUp.completedOn && onCompleteFollowUp && (
@@ -356,22 +362,21 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                             className="text-[11px] text-[#3F4943] dark:text-[#C5D5CC]"
                           >
                             <span className="font-semibold">{event.at.slice(0, 10)}</span>{' '}
-                            {isHi ? event.labelHi : event.labelEn}
+                            {getLocalizedJourneyEvent(event, lang)}
                           </li>
                         ))}
                       </ol>
-                      {app.pathwaySnapshot && (
-                        <p className="mt-2 text-[10px] text-[#6F7A73] dark:text-[#8E9F97]">
-                          {t('tracker.pathwayStage')}:{' '}
-                          {isHi
-                            ? app.pathwaySnapshot.stageLabelHi
-                            : app.pathwaySnapshot.stageLabelEn}{' '}
-                          ·{' '}
-                          {isHi
-                            ? app.pathwaySnapshot.readinessLabelHi
-                            : app.pathwaySnapshot.readinessLabelEn}
-                        </p>
-                      )}
+                      {app.pathwaySnapshot && (() => {
+                        const snapshot = getLocalizedPathwaySnapshot(app.pathwaySnapshot, lang);
+                        return (
+                          <p className="mt-2 text-[10px] text-[#6F7A73] dark:text-[#8E9F97]">
+                            {t('tracker.pathwayStage')}:{' '}
+                            {snapshot.stageLabel}{' '}
+                            ·{' '}
+                            {snapshot.readinessLabel}
+                          </p>
+                        );
+                      })()}
                     </details>
                   )}
 
@@ -413,7 +418,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         onClick={() => onOpenWorkspace(match)}
                         className="inline-flex items-center gap-1.5 bg-[#0F6B4C]/10 hover:bg-[#0F6B4C]/20 dark:bg-[#4ADE80]/15 dark:hover:bg-[#4ADE80]/25 text-[#0F6B4C] dark:text-[#4ADE80] border border-[#0F6B4C]/30 dark:border-[#4ADE80]/30 px-3 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#16A34A]"
                       >
-                        <span>{isHi ? 'तैयारी कार्यक्षेत्र' : 'Workspace'}</span>
+                        <span>{t('workspace.badge') || 'Workspace'}</span>
                       </button>
                     )}
 

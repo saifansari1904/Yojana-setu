@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, animate, useReducedMotion } from 'motion/react';
 import { useTranslation } from '../i18n';
+import { Language } from '../i18n/types';
 import { useTheme } from '../theme/ThemeContext';
 import { glowPulse } from '../animations/variants';
 
@@ -94,7 +95,17 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
     ? '#E2E2E0'
     : '#FFDAD6';
 
-  const matchLabelText = lang === 'hi' ? 'पात्रता' : 'Match';
+  const MATCH_LABELS: Record<Language, { label: string; high: string; medium: string; low: string }> = {
+    en: { label: 'Match', high: 'High Eligibility', medium: 'Partial Match', low: 'Gap Criteria' },
+    hi: { label: 'पात्रता', high: 'उत्कृष्ट पात्रता', medium: 'आंशिक मिलान', low: 'शर्त शेष' },
+    ta: { label: 'பொருத்தம்', high: 'அதிக தகுதி', medium: 'பகுதி பொருத்தம்', low: 'இடைவெளி நிபந்தனை' },
+    te: { label: 'సరిపోలిక', high: 'అధిక అర్హత', medium: 'పాక్షిక సరిపోలిక', low: 'వ్యత్యాస ప్రమాణాలు' },
+    kn: { label: 'ಹೊಂದಾಣಿಕೆ', high: 'ಉನ್ನತ ಅರ್ಹತೆ', medium: 'ಭಾಗಶಃ ಹೊಂದಾಣಿಕೆ', low: 'ಅಂತರ ಮಾನದಂಡ' },
+    ml: { label: 'പൊരുത്തം', high: 'ഉയർന്ന യോഗ്യത', medium: 'ഭാഗിക പൊരുത്തം', low: 'അന്തര മാനദണ്ഡം' },
+  };
+
+  const localizedGauge = MATCH_LABELS[lang] || MATCH_LABELS.en;
+  const matchLabelText = localizedGauge.label;
 
   return (
     <div
@@ -192,16 +203,10 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
           }`}
         >
           {isHighMatch
-            ? lang === 'hi'
-              ? 'उत्कृष्ट पात्रता'
-              : 'High Eligibility'
+            ? localizedGauge.high
             : isMediumMatch
-            ? lang === 'hi'
-              ? 'आंशिक मिलान'
-              : 'Partial Match'
-            : lang === 'hi'
-            ? 'शर्त शेष'
-            : 'Gap Criteria'}
+            ? localizedGauge.medium
+            : localizedGauge.low}
         </span>
       )}
     </div>

@@ -41,6 +41,10 @@ export type ReadinessPillarKey =
 
 export interface WorkspaceReadinessPillar {
   key: ReadinessPillarKey;
+  labelKey?: string;
+  summaryKey?: string;
+  detailKey?: string;
+  /** @deprecated Compatibility display snapshots. */
   labelEn: string;
   labelHi: string;
   /** Percentage score 0-100 */
@@ -56,6 +60,9 @@ export interface WorkspaceReadiness {
   /** Weighted aggregate score 0-100 */
   overallScore: number;
   state: WorkspaceReadinessState;
+  labelKey?: string;
+  summaryKey?: string;
+  /** @deprecated Compatibility display snapshots. */
   labelEn: string;
   labelHi: string;
   summaryEn: string;
@@ -67,6 +74,9 @@ export interface WorkspaceReadiness {
 
 export interface PreparationStep {
   key: PreparationStepKey;
+  labelKey?: string;
+  descriptionKey?: string;
+  /** @deprecated Compatibility display snapshots. */
   labelEn: string;
   labelHi: string;
   descriptionEn: string;
@@ -77,6 +87,8 @@ export interface PreparationStep {
 
 export interface StepInstruction {
   stepNumber: number;
+  titleKey?: string;
+  descriptionKey?: string;
   titleEn: string;
   titleHi: string;
   descEn: string;

@@ -5,6 +5,7 @@ import {
   UserProfile,
   EligibilityClassification,
 } from '../../types';
+import type { Language } from '../../i18n/types';
 
 export interface PrioritizedGap {
   priority: 1 | 2 | 3 | 4 | 5;
@@ -29,6 +30,8 @@ export interface MatchExplanation {
   recommendationReason: string;
 }
 
+import { MANDATORY_REQUIREMENT_LABELS, RECOMMENDATION_TEMPLATES } from '../../i18n/matchExplanationI18n';
+
 /**
  * Builds a structured, explainable breakdown from an authoritative MatchResult.
  * Ensures complete mathematical consistency between score, criteria states, and summary.
@@ -36,10 +39,10 @@ export interface MatchExplanation {
 export function buildMatchExplanation(
   matchResult: MatchResult,
   profile: UserProfile,
-  lang: 'hi' | 'en' = 'en'
+  lang: Language = 'en'
 ): MatchExplanation {
-  const isHi = lang === 'hi';
-  const { scheme, breakdown, matchPercentage, isEligible, primaryGap } = matchResult;
+  const l: Language = (lang in RECOMMENDATION_TEMPLATES.NEAR_MATCH) ? lang : 'en';
+  const { breakdown, matchPercentage, isEligible, primaryGap } = matchResult;
 
   // 1. Classify factors into Matched, Unknown, and Blockers
   const strongestFactors = (matchResult.strongestFactors && matchResult.strongestFactors.length > 0)
@@ -109,24 +112,26 @@ export function buildMatchExplanation(
   prioritizedGaps.sort((a, b) => a.priority - b.priority);
 
   // 3. Calibrated plain-language summary without false certainty
-  let plainLanguageSummary = matchResult.plainLanguageExplanation;
+  const plainLanguageSummary = matchResult.plainLanguageExplanation;
   const overallStatus = matchResult.eligibilityClassification ||
     (blockers.length > 0 ? 'BLOCKED' : unknownRequirements.length > 0 ? 'NEEDS_INFORMATION' : isEligible ? 'POTENTIALLY_ELIGIBLE' : 'NEEDS_INFORMATION');
 
   let recommendationReason = '';
   if (overallStatus === 'POTENTIALLY_ELIGIBLE') {
-    recommendationReason = isHi
-      ? `आपकी प्रोफ़ाइल सामाजिक वर्ग (${profile.category}), व्यवसाय क्षेत्र (${profile.businessType}) एवं राज्य आवश्यकताओं को पूरी तरह संतुष्ट करती है।`
-      : `Your profile fully satisfies social category (${profile.category}), business domain (${profile.businessType}), and state requirements.`;
+    recommendationReason = RECOMMENDATION_TEMPLATES.POTENTIALLY_ELIGIBLE[l](
+      profile.category,
+      profile.businessType
+    );
   } else if (overallStatus === 'BLOCKED') {
     const firstBlocker = blockers[0];
-    recommendationReason = isHi
-      ? `वैधानिक प्रतिबंध: ${firstBlocker ? firstBlocker.factorLabel : 'अनिवार्य शर्त'} (${firstBlocker ? firstBlocker.userValue : ''} बनाम ${firstBlocker ? firstBlocker.statutoryRequirement : ''})।`
-      : `Statutory restriction: ${firstBlocker ? firstBlocker.factorLabel : 'Mandatory requirement'} (${firstBlocker ? firstBlocker.userValue : ''} vs ${firstBlocker ? firstBlocker.statutoryRequirement : ''}).`;
+    const defaultLabel = MANDATORY_REQUIREMENT_LABELS[l] || MANDATORY_REQUIREMENT_LABELS.en;
+    recommendationReason = RECOMMENDATION_TEMPLATES.BLOCKED[l](
+      firstBlocker ? firstBlocker.factorLabel : defaultLabel,
+      firstBlocker ? firstBlocker.userValue : '',
+      firstBlocker ? firstBlocker.statutoryRequirement : ''
+    );
   } else {
-    recommendationReason = isHi
-      ? `समीप मिलान (${matchPercentage}% स्कोर): कृपया अतिरिक्त आवश्यक विवरण सत्यापित करें।`
-      : `Near match (${matchPercentage}% score): Please confirm additional profile details or check alternatives.`;
+    recommendationReason = RECOMMENDATION_TEMPLATES.NEAR_MATCH[l](matchPercentage);
   }
 
   return {

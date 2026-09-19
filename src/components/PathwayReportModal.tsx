@@ -6,6 +6,7 @@ import type { UserProfile } from '../types/user';
 import type { SupportPathway } from '../types/supportPathway';
 import type { TrackedApplication } from '../types/tracker';
 import { buildPathwayReport } from '../lib/report/pathwayReport';
+import { getLocalizedCombinabilityNotice } from '../lib/business/supportPathway';
 import { useTranslation } from '../i18n';
 
 interface PathwayReportModalProps {
@@ -32,7 +33,6 @@ export const PathwayReportModal: React.FC<PathwayReportModalProps> = ({
 }) => {
   const { lang, t } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
-  const isHi = lang === 'hi';
 
   const report = useMemo(
     () =>
@@ -41,9 +41,9 @@ export const PathwayReportModal: React.FC<PathwayReportModalProps> = ({
         pathway,
         matchResults,
         applications,
-        lang: isHi ? 'hi' : 'en',
+        lang,
       }),
-    [userProfile, pathway, matchResults, applications, isHi],
+    [userProfile, pathway, matchResults, applications, lang],
   );
 
   useEffect(() => {
@@ -134,7 +134,7 @@ export const PathwayReportModal: React.FC<PathwayReportModalProps> = ({
 
           <section className="mb-5 rounded-xl border border-[#B2CDBF] bg-[#F4F8F6] p-4">
             <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-[#14453D]">
-              {isHi ? 'अगला सर्वोत्तम कदम' : 'Next best action'}
+              {t('report.nextAction')}
             </h2>
             <p className="text-base font-semibold">{report.nextAction.title}</p>
             <p className="mt-1 text-sm text-[#3F4943]">{report.nextAction.reason}</p>
@@ -142,7 +142,7 @@ export const PathwayReportModal: React.FC<PathwayReportModalProps> = ({
 
           <section className="mb-5 grid gap-x-6 gap-y-1 sm:grid-cols-2">
             <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-[#14453D] sm:col-span-2">
-              {isHi ? 'प्रोमाइल सारांश' : 'Profile summary'}
+              {t('report.profileSummary')}
             </h2>
             {report.profileLines.map((line) => (
               <div key={line.label} className="flex justify-between gap-3 text-sm">
@@ -155,7 +155,7 @@ export const PathwayReportModal: React.FC<PathwayReportModalProps> = ({
           {report.fundingLines.length > 0 && (
             <section className="mb-5">
               <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-[#14453D]">
-                {isHi ? 'वित्तीय आवश्यकता' : 'Funding requirement'}
+                {t('report.fundingRequirement')}
               </h2>
               {report.fundingLines.map((line) => (
                 <div key={line.label} className="flex justify-between gap-3 text-sm">
@@ -168,11 +168,11 @@ export const PathwayReportModal: React.FC<PathwayReportModalProps> = ({
 
           <section className="mb-5">
             <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-[#14453D]">
-              {isHi ? 'सहायता स्टैक' : 'Support stack'}
+              {t('report.supportStack')}
             </h2>
             {report.schemes.length === 0 ? (
               <p className="text-sm text-[#6F7A73]">
-                {isHi ? 'अभी कोई योजना सूचीबद्ध नहीं।' : 'No schemes listed yet.'}
+                {t('report.noSchemes')}
               </p>
             ) : (
               <ul className="space-y-2">
@@ -202,13 +202,13 @@ export const PathwayReportModal: React.FC<PathwayReportModalProps> = ({
               </ul>
             )}
             <p className="mt-2 text-xs text-[#6F7A73]">
-              {isHi ? pathway.combinabilityNoticeHi : pathway.combinabilityNoticeEn}
+              {getLocalizedCombinabilityNotice(pathway, lang)}
             </p>
           </section>
 
           <section className="mb-5">
             <h2 className="mb-1 text-sm font-bold uppercase tracking-wide text-[#14453D]">
-              {isHi ? 'आवेदन तैयारी' : 'Application readiness'}
+              {t('report.readiness')}
             </h2>
             <p className="text-sm font-semibold">{report.readiness.stateLabel}</p>
             <p className="mb-2 text-sm text-[#3F4943]">{report.readiness.summary}</p>
@@ -225,7 +225,7 @@ export const PathwayReportModal: React.FC<PathwayReportModalProps> = ({
           {report.checklist.length > 0 && (
             <section className="mb-5">
               <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-[#14453D]">
-                {isHi ? 'तैयारी चेकलिस्ट' : 'Preparation checklist'}
+                {t('report.checklist')}
               </h2>
               <ul className="space-y-1 text-sm">
                 {report.checklist.map((item, index) => (
@@ -244,7 +244,7 @@ export const PathwayReportModal: React.FC<PathwayReportModalProps> = ({
           {report.trackedLines.length > 0 && (
             <section className="mb-5">
               <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-[#14453D]">
-                {isHi ? 'ट्रैक किए जा रहे आवेदन' : 'Applications being tracked'}
+                {t('report.trackedApps')}
               </h2>
               <ul className="space-y-1 text-sm">
                 {report.trackedLines.map((line) => (

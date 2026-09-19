@@ -11,7 +11,12 @@ import {
 import type { MatchResult, UserProfile } from '../types';
 import type { TrackedApplication } from '../types/tracker';
 import { summariseByStatus } from '../lib/tracker/applicationTracker';
-import { evaluateFollowUp, evaluateSchemeFreshness } from '../lib/tracker/schemeFreshness';
+import {
+  evaluateFollowUp,
+  evaluateSchemeFreshness,
+  getLocalizedFollowUp,
+  getLocalizedFreshness,
+} from '../lib/tracker/schemeFreshness';
 import { staggerContainer, staggerItem } from '../animations/variants';
 import { AnimatedCounter } from '../animations/AnimatedCounter';
 import { EmptyState } from './common/EmptyState';
@@ -57,7 +62,6 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
 }) => {
   const { lang, t, getLocalizedScheme } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
-  const isHi = lang === 'hi';
 
   const summary = useMemo(() => summariseByStatus(applications), [applications]);
   const inProgress = summary.interested + summary['docs-ready'] + summary.applied;
@@ -98,7 +102,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
         items.push({
           id: `followup-${app.schemeId}`,
           schemeName,
-          message: `${t('dashboard.attentionFollowUp')} — ${isHi ? followUp.labelHi : followUp.labelEn}`,
+          message: `${t('dashboard.attentionFollowUp')} — ${getLocalizedFollowUp(followUp, lang)}`,
           match,
           tone: 'urgent',
         });
@@ -110,7 +114,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
           items.push({
             id: `freshness-${app.schemeId}`,
             schemeName,
-            message: `${t('dashboard.attentionFreshness')} — ${isHi ? freshness.labelHi : freshness.labelEn}`,
+            message: `${t('dashboard.attentionFreshness')} — ${getLocalizedFreshness(freshness, lang).label}`,
             match,
             tone: 'caution',
           });
@@ -123,7 +127,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
       if (a.tone !== b.tone) return a.tone === 'urgent' ? -1 : 1;
       return a.schemeName.localeCompare(b.schemeName);
     });
-  }, [applications, matchResults, getLocalizedScheme, t, isHi]);
+  }, [applications, matchResults, getLocalizedScheme, t, lang]);
 
   const topMatch = eligibleMatches[0] || matchResults[0] || null;
 

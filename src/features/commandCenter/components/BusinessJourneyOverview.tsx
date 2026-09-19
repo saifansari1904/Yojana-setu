@@ -7,8 +7,52 @@ import React from 'react';
 import { BusinessStage } from '../types';
 import { JOURNEY_STAGES } from '../lib/business/businessIntelligence';
 import { useTranslation } from '../i18n';
+import { Language } from '../../../i18n/types';
 import { ArrowFillButton } from '../../../components/ui';
 import { Check } from 'lucide-react';
+
+const STAGE_TITLES: Record<BusinessStage, Partial<Record<Language, string>>> = {
+  IDEA: {
+    en: 'Idea',
+    hi: 'विचार',
+    ta: 'சிந்தனை',
+    te: 'ఆలోచన',
+    kn: 'ಕಲ್ಪನೆ',
+    ml: 'ആശയം',
+  },
+  REGISTRATION: {
+    en: 'Registration',
+    hi: 'पंजीकरण',
+    ta: 'பதிவு',
+    te: 'నమోదు',
+    kn: 'ನೋಂದಣಿ',
+    ml: 'രജിസ്ട്രേഷൻ',
+  },
+  FUNDING: {
+    en: 'Funding',
+    hi: 'वित्तपोषण',
+    ta: 'நிதி உதவி',
+    te: 'నిధులు',
+    kn: 'ಹಣಕಾಸು',
+    ml: 'ധനസഹായം',
+  },
+  MARKET_ACCESS: {
+    en: 'Market Access',
+    hi: 'बाजार पहुंच',
+    ta: 'சந்தை அணுகல்',
+    te: 'మార్కెట్ సదుపాయం',
+    kn: 'ಮಾರುಕಟ್ಟೆ ಪ್ರವೇಶ',
+    ml: 'വിപണി പ്രവേശനം',
+  },
+  EXPANSION: {
+    en: 'Expansion',
+    hi: 'विस्तार',
+    ta: 'விரிவாக்கம்',
+    te: 'విస్తరణ',
+    kn: 'ವಿಸ್ತರಣೆ',
+    ml: 'വിപുലീകരണം',
+  },
+};
 
 interface BusinessJourneyOverviewProps {
   currentStage: BusinessStage;
@@ -79,7 +123,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
                   >
                     {isCompleted ? <Check className="w-3 h-3 stroke-[3]" /> : idx + 1}
                   </div>
-                  <span>{language === 'hi' ? s.titleHi : s.title}</span>
+                  <span>{STAGE_TITLES[s.stage]?.[language] || STAGE_TITLES[s.stage]?.en || s.title}</span>
                 </div>
 
                 <div>
@@ -104,7 +148,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
           {t('currentFocus')}
         </div>
         <div className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mb-2">
-          {language === 'hi' ? activeStageInfo.titleHi : activeStageInfo.title}
+          {STAGE_TITLES[currentStage]?.[language] || STAGE_TITLES[currentStage]?.en || activeStageInfo.title}
         </div>
 
         <div className="space-y-1 text-xs text-[#516A5F] dark:text-[#9EB0A7] mb-4">
@@ -137,7 +181,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
           onClick={() => onExploreStage(currentStage)}
           className="w-full"
         >
-          {`${t('exploreCategory')} ${language === 'hi' ? activeStageInfo.titleHi : activeStageInfo.title}`}
+          {`${t('exploreCategory')} ${STAGE_TITLES[currentStage]?.[language] || STAGE_TITLES[currentStage]?.en || activeStageInfo.title}`}
         </ArrowFillButton>
       </div>
     </div>

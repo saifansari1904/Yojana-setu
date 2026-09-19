@@ -93,8 +93,9 @@ export const gradients = {
 
 export const typography = {
   fontFamily: {
-    sans: "'Inter', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    sans: "'Inter', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Noto Sans Malayalam', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     hindi: "'Noto Sans Devanagari', 'Inter', -apple-system, sans-serif",
+    mono: "monospace",
   },
   /** Fluid ramp: mobile → desktop, expressed as clamp() in index.css. */
   scale: {

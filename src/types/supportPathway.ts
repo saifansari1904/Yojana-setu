@@ -46,6 +46,9 @@ export interface RecommendedSupportArea {
   /** 1 = highest priority. Deterministic. */
   rank: number;
   source: SupportAreaSource;
+  labelKey?: string;
+  reasonKey?: string;
+  /** @deprecated Compatibility snapshots for existing reports. */
   labelEn: string;
   labelHi: string;
   /** Data-derived justification, never generative. */
@@ -89,6 +92,11 @@ export type PathwayActionTarget =
 export interface PathwayAction {
   id: string;
   actionType: PathwayActionType;
+  titleKey?: string;
+  descriptionKey?: string;
+  reasonKey?: string;
+  ctaKey?: string;
+  /** @deprecated Compatibility snapshots for tracker history and tests. */
   titleEn: string;
   titleHi: string;
   descriptionEn: string;

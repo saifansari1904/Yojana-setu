@@ -28,9 +28,29 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
     });
   };
 
+  const defaultUsernames: Record<string, string> = {
+    en: 'Citizen Entrepreneur',
+    hi: 'नागरिक उद्यमी',
+    ta: 'குடிமகன் தொழில்முனைவோர்',
+    te: 'పౌర పారిశ్రామికవేత్త',
+    kn: 'ನಾಗರಿಕ ಉದ್ಯಮಿ',
+    ml: 'പൗര സംരംഭകൻ',
+  };
+
+  const loginMetrics: Record<string, { verified: string; states: string; rules: string }> = {
+    en: { verified: 'Verified Schemes', states: 'South States & Central', rules: 'Deterministic Rules' },
+    hi: { verified: 'सत्यापित योजनाएं', states: 'दक्षिण राज्य व केंद्र', rules: 'सटीक नियम गणना' },
+    ta: { verified: 'சரிபார்க்கப்பட்ட திட்டங்கள்', states: 'தென் மாநிலங்கள் & மத்திய', rules: 'துல்லியமான விதி மதிப்பீடு' },
+    te: { verified: 'ధృవీకరించబడిన పథకాలు', states: 'దక్షిణ రాష్ట్రాలు & కేంద్రం', rules: 'ఖచ్చితమైన నియమ లెక్కింపు' },
+    kn: { verified: 'ಪರಿಶೀಲಿಸಿದ ಯೋಜನೆಗಳು', states: 'ದಕ್ಷಿಣ ರಾಜ್ಯಗಳು & ಕೇಂದ್ರ', rules: 'ನಿಖರ ನಿಯಮ ಲೆಕ್ಕಾಚಾರ' },
+    ml: { verified: 'സ്ഥിരീകരിച്ച പദ്ധതികൾ', states: 'ദക്ഷിണേന്ത്യൻ സംസ്ഥാനങ്ങളും കേന്ദ്രവും', rules: 'കൃത്യമായ ചട്ട വിശകലനം' },
+  };
+
+  const currentMetrics = loginMetrics[lang] || loginMetrics.en;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onLogin(username.trim() || (lang === 'hi' ? 'नागरिक उद्यमी' : 'Citizen Entrepreneur'));
+    onLogin(username.trim() || defaultUsernames[lang] || defaultUsernames.en);
   };
 
   return (
@@ -183,7 +203,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
               <AnimatedScore value={39} suffix="+" />
             </div>
             <div className="text-[10px] text-[#516A5F] dark:text-[#8FA197] font-medium leading-tight">
-              {lang === 'hi' ? 'सत्यापित योजनाएं' : 'Verified Schemes'}
+              {currentMetrics.verified}
             </div>
           </div>
 
@@ -195,7 +215,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
               <AnimatedScore value={6} suffix="" />
             </div>
             <div className="text-[10px] text-[#516A5F] dark:text-[#8FA197] font-medium leading-tight">
-              {lang === 'hi' ? 'दक्षिण राज्य व केंद्र' : 'South States & Central'}
+              {currentMetrics.states}
             </div>
           </div>
 
@@ -207,7 +227,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
               <AnimatedScore value={100} suffix="%" />
             </div>
             <div className="text-[10px] text-[#516A5F] dark:text-[#8FA197] font-medium leading-tight">
-              {lang === 'hi' ? 'सटीक नियम गणना' : 'Deterministic Rules'}
+              {currentMetrics.rules}
             </div>
           </div>
         </motion.div>

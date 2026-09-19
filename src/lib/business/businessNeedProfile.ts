@@ -16,7 +16,8 @@ import { calculateBusinessProfileCompleteness } from './businessProfileCompleten
 /**
  * Normalizes user registration status, strictly respecting UNKNOWN != NOT_REGISTERED.
  */
-export function normalizeRegistrationStatus(profile: Partial<UserProfile>): RegistrationStatus {
+export function normalizeRegistrationStatus(profile?: Partial<UserProfile> | null): RegistrationStatus {
+  if (!profile) return 'NOT_REGISTERED';
   if (profile.registrationStatus) {
     return profile.registrationStatus;
   }
@@ -44,7 +45,8 @@ export function normalizeRegistrationStatus(profile: Partial<UserProfile>): Regi
 /**
  * Normalizes operational status.
  */
-export function normalizeOperationalStatus(profile: Partial<UserProfile>): OperationalStatus {
+export function normalizeOperationalStatus(profile?: Partial<UserProfile> | null): OperationalStatus {
+  if (!profile) return 'UNKNOWN';
   if (profile.operationalStatus) {
     return profile.operationalStatus;
   }
@@ -75,7 +77,8 @@ export function normalizeOperationalStatus(profile: Partial<UserProfile>): Opera
 /**
  * Normalizes legal entity type.
  */
-export function normalizeBusinessEntityType(profile: Partial<UserProfile>): BusinessEntityType {
+export function normalizeBusinessEntityType(profile?: Partial<UserProfile> | null): BusinessEntityType {
+  if (!profile) return 'NOT_REGISTERED';
   if (profile.businessEntityType) {
     return profile.businessEntityType;
   }
@@ -94,47 +97,48 @@ export function normalizeBusinessEntityType(profile: Partial<UserProfile>): Busi
 /**
  * Derives a full structured BusinessProfile from a UserProfile.
  */
-export function deriveBusinessProfile(profile: UserProfile): BusinessProfile {
-  const { stage: currentStage, source: stageSource } = deriveBusinessStage(profile);
-  const regStatus = normalizeRegistrationStatus(profile);
-  const opStatus = normalizeOperationalStatus(profile);
-  const entityType = normalizeBusinessEntityType(profile);
+export function deriveBusinessProfile(profile?: UserProfile | null): BusinessProfile {
+  const safeProfile = profile || ({} as Partial<UserProfile>);
+  const { stage: currentStage, source: stageSource } = deriveBusinessStage(safeProfile);
+  const regStatus = normalizeRegistrationStatus(safeProfile);
+  const opStatus = normalizeOperationalStatus(safeProfile);
+  const entityType = normalizeBusinessEntityType(safeProfile);
 
-  const residenceState = profile.residenceState || profile.state || '';
-  const businessState = profile.businessState || profile.state || '';
+  const residenceState = safeProfile.residenceState || safeProfile.state || '';
+  const businessState = safeProfile.businessState || safeProfile.state || '';
   const isInterstate = Boolean(
     residenceState && businessState && residenceState.trim() !== businessState.trim()
   );
 
   const fundingGap = calculateFundingGap(
-    profile.totalProjectCost,
-    profile.existingInvestment,
-    profile.fundingRequired
+    safeProfile.totalProjectCost,
+    safeProfile.existingInvestment,
+    safeProfile.fundingRequired
   );
 
   return {
-    businessIdea: profile.businessIdea?.trim() || undefined,
-    businessName: profile.businessName?.trim() || undefined,
+    businessIdea: safeProfile.businessIdea?.trim() || undefined,
+    businessName: safeProfile.businessName?.trim() || undefined,
     businessStage: currentStage,
     businessStageSource: stageSource,
-    businessType: profile.businessType,
+    businessType: safeProfile.businessType,
     businessEntityType: entityType,
-    sector: profile.sector,
-    subSector: profile.subSector,
+    sector: safeProfile.sector,
+    subSector: safeProfile.subSector,
     residenceState,
     businessState,
-    district: profile.district,
+    district: safeProfile.district,
     isInterstate,
     operationalStatus: opStatus,
     registrationStatus: regStatus,
-    entrepreneurExperienceYears: profile.entrepreneurExperienceYears,
-    totalProjectCost: profile.totalProjectCost,
-    existingInvestment: profile.existingInvestment,
+    entrepreneurExperienceYears: safeProfile.entrepreneurExperienceYears,
+    totalProjectCost: safeProfile.totalProjectCost,
+    existingInvestment: safeProfile.existingInvestment,
     additionalFundingRequired: fundingGap,
     fundingGap,
     supportNeeds: {
-      primaryNeed: profile.primarySupportNeed,
-      secondaryNeeds: profile.secondarySupportNeeds || [],
+      primaryNeed: safeProfile.primarySupportNeed,
+      secondaryNeeds: safeProfile.secondarySupportNeeds || [],
     },
   };
 }
@@ -145,32 +149,33 @@ export function deriveBusinessProfile(profile: UserProfile): BusinessProfile {
  * Keeps statutory inputs separate from derived needs,
  * tracks field provenance, and produces clean intelligence for downstream layers.
  */
-export function deriveBusinessNeedProfile(profile: UserProfile): BusinessNeedProfile {
-  const { stage: currentStage, source: stageSource } = deriveBusinessStage(profile);
-  const regStatus = normalizeRegistrationStatus(profile);
-  const opStatus = normalizeOperationalStatus(profile);
-  const entityType = normalizeBusinessEntityType(profile);
+export function deriveBusinessNeedProfile(profile?: UserProfile | null): BusinessNeedProfile {
+  const safeProfile = profile || ({} as Partial<UserProfile>);
+  const { stage: currentStage, source: stageSource } = deriveBusinessStage(safeProfile);
+  const regStatus = normalizeRegistrationStatus(safeProfile);
+  const opStatus = normalizeOperationalStatus(safeProfile);
+  const entityType = normalizeBusinessEntityType(safeProfile);
 
-  const residenceState = profile.residenceState || profile.state || '';
-  const businessState = profile.businessState || profile.state || '';
+  const residenceState = safeProfile.residenceState || safeProfile.state || '';
+  const businessState = safeProfile.businessState || safeProfile.state || '';
   const isInterstate = Boolean(
     residenceState && businessState && residenceState.trim() !== businessState.trim()
   );
 
   const fundingGap = calculateFundingGap(
-    profile.totalProjectCost,
-    profile.existingInvestment,
-    profile.fundingRequired
+    safeProfile.totalProjectCost,
+    safeProfile.existingInvestment,
+    safeProfile.fundingRequired
   );
 
   const hasFundingDetails = Boolean(
-    (profile.totalProjectCost && profile.totalProjectCost > 0) ||
-      (profile.fundingRequired && profile.fundingRequired > 0) ||
-      profile.fundingRangeId
+    (safeProfile.totalProjectCost && safeProfile.totalProjectCost > 0) ||
+      (safeProfile.fundingRequired && safeProfile.fundingRequired > 0) ||
+      safeProfile.fundingRangeId
   );
 
-  const readiness = deriveBusinessReadiness(profile, fundingGap);
-  const completeness = calculateBusinessProfileCompleteness(profile);
+  const readiness = deriveBusinessReadiness(safeProfile, fundingGap);
+  const completeness = calculateBusinessProfileCompleteness(safeProfile);
 
   // Field-level data provenance tracking
   const provenance: Record<string, DataProvenanceSource> = {

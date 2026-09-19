@@ -3,6 +3,7 @@ import type {
   FollowUpReminder,
   TrackedApplication,
 } from '../../types/tracker';
+import type { Language } from '../../i18n/types';
 import {
   loadDocumentProgress,
   summariseDocumentProgress,
@@ -27,17 +28,20 @@ export interface StatusMeta {
   dotClass: string;
 }
 
+import { STATUS_COPY } from '../../i18n/trackerI18n';
+
+
+
 export const getStatusMeta = (status: ApplicationStatus, lang: string): StatusMeta => {
-  const isHi = lang === 'hi';
+  const language: Language = (lang in STATUS_COPY.interested) ? (lang as Language) : 'en';
+  const copy = STATUS_COPY[status]?.[language] || STATUS_COPY[status]?.en || STATUS_COPY.interested.en;
 
   switch (status) {
     case 'docs-ready':
       return {
         status,
-        label: isHi ? 'दस्तावेज़ तैयार' : 'Docs Ready',
-        description: isHi
-          ? 'आवश्यक दस्तावेज़ एकत्र कर लिए गए हैं।'
-          : 'Required documents gathered.',
+        label: copy.label,
+        description: copy.description,
         pillClass:
           'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] border-[#C1E2D0] dark:border-[#22503E]',
         dotClass: 'bg-[#16A34A]',
@@ -45,10 +49,8 @@ export const getStatusMeta = (status: ApplicationStatus, lang: string): StatusMe
     case 'applied':
       return {
         status,
-        label: isHi ? 'आवेदन किया' : 'Applied',
-        description: isHi
-          ? 'आवेदन जमा किया गया, निर्णय प्रतीक्षित।'
-          : 'Submitted and awaiting a decision.',
+        label: copy.label,
+        description: copy.description,
         pillClass:
           'bg-blue-50 dark:bg-blue-950/40 text-blue-800 dark:text-blue-300 border-blue-200 dark:border-blue-900/70',
         dotClass: 'bg-blue-500',
@@ -56,8 +58,8 @@ export const getStatusMeta = (status: ApplicationStatus, lang: string): StatusMe
     case 'approved':
       return {
         status,
-        label: isHi ? 'स्वीकृत' : 'Approved',
-        description: isHi ? 'आवेदन स्वीकृत हुआ।' : 'Application approved.',
+        label: copy.label,
+        description: copy.description,
         pillClass:
           'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-900',
         dotClass: 'bg-emerald-600',
@@ -65,10 +67,8 @@ export const getStatusMeta = (status: ApplicationStatus, lang: string): StatusMe
     case 'rejected':
       return {
         status,
-        label: isHi ? 'अस्वीकृत' : 'Rejected',
-        description: isHi
-          ? 'आवेदन अस्वीकृत — विकल्प देखें।'
-          : 'Not approved — review alternatives.',
+        label: copy.label,
+        description: copy.description,
         pillClass:
           'bg-[#FFDAD6]/60 dark:bg-[#3D1A14]/60 text-[#7C2C0F] dark:text-[#F87171] border-[#FFCCBD] dark:border-[#5A2B20]',
         dotClass: 'bg-[#C2603F]',
@@ -77,10 +77,8 @@ export const getStatusMeta = (status: ApplicationStatus, lang: string): StatusMe
     default:
       return {
         status: 'interested',
-        label: isHi ? 'रुचि है' : 'Interested',
-        description: isHi
-          ? 'सहेजा गया — अभी दस्तावेज़ एकत्र करने हैं।'
-          : 'Saved — documents still to gather.',
+        label: copy.label,
+        description: copy.description,
         pillClass:
           'bg-[#F3F4F3] dark:bg-[#1E2723] text-[#3F4943] dark:text-[#9EB0A7] border-[#E2E2E0] dark:border-[#2A3C34]',
         dotClass: 'bg-[#6F7A73]',

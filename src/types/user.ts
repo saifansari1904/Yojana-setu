@@ -44,6 +44,7 @@ export interface UserProfile {
   district?: string;
   gender?: 'male' | 'female' | 'other';
   applicantName?: string;
+  photoUrl?: string;
   isRegistered?: boolean;
   hasExistingBusiness?: boolean;
 

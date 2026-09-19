@@ -66,7 +66,15 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { YojanaSetuLogo } from './YojanaSetuLogo';
-import { useTranslation } from '../i18n';
+import {
+  useTranslation,
+  FORM_I18N,
+  SUPPORT_NEEDS_LOCALIZED,
+  LIFECYCLE_PHASES_LOCALIZED,
+  OPERATIONAL_STATUS_LOCALIZED,
+  REGISTRATION_STATUS_LOCALIZED,
+  BUSINESS_ENTITY_LOCALIZED,
+} from '../i18n';
 import { AnimatedCounter } from '../animations/AnimatedCounter';
 import { questionVariants, errorShakeVariants, validationTick } from '../animations/variants';
 import { ArrowFillButton } from './ui';
@@ -91,6 +99,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     getLocalizedState,
     lang,
   } = useTranslation();
+  const eui = FORM_I18N[lang] || FORM_I18N.en;
   const shouldReduceMotion = useReducedMotion();
   const [slideDirection, setSlideDirection] = useState<number>(1);
 
@@ -317,87 +326,47 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     setValidationError(null);
     if (currentStage.id === 'about_you') {
       if (!category) {
-        setValidationError(
-          lang === 'hi'
-            ? 'कृपया आगे बढ़ने के लिए अपना सामाजिक वर्ग चुनें।'
-            : 'Please select your Social Category to proceed.'
-        );
+        setValidationError(eui.valCategory);
         return false;
       }
       if (age === '' || isNaN(Number(age)) || Number(age) < 18 || Number(age) > 100) {
-        setValidationError(
-          lang === 'hi'
-            ? 'कृपया एक मान्य आयु दर्ज करें (न्यूनतम 18 वर्ष)।'
-            : 'Please enter a valid age (minimum 18 years).'
-        );
+        setValidationError(eui.valAge);
         return false;
       }
       if (!state) {
-        setValidationError(
-          lang === 'hi'
-            ? 'कृपया अपना व्यवसाय राज्य अथवा केंद्र शासित प्रदेश चुनें।'
-            : 'Please select your Business State or Union Territory.'
-        );
+        setValidationError(eui.valState);
         return false;
       }
       if (!ruralUrban) {
-        setValidationError(
-          lang === 'hi'
-            ? 'कृपया अपना उद्यम क्षेत्र (ग्रामीण अथवा शहरी) चुनें।'
-            : 'Please select your Enterprise Location (Rural or Urban).'
-        );
+        setValidationError(eui.valLocation);
         return false;
       }
       if (annualIncome === '' || isNaN(Number(annualIncome)) || Number(annualIncome) < 0) {
-        setValidationError(
-          lang === 'hi'
-            ? 'कृपया परिवार की अनुमानित वार्षिक आय दर्ज करें।'
-            : 'Please enter your approximate Annual Household Income.'
-        );
+        setValidationError(eui.valIncome);
         return false;
       }
     } else if (currentStage.id === 'business_stage') {
       if (!businessStage) {
-        setValidationError(
-          lang === 'hi'
-            ? 'कृपया अपने व्यवसाय का वर्तमान चरण चुनें।'
-            : 'Please select your Business Planning Stage.'
-        );
+        setValidationError(eui.valBizStage);
         return false;
       }
     } else if (currentStage.id === 'business_type') {
       if (!businessType) {
-        setValidationError(
-          lang === 'hi'
-            ? 'कृपया अपने व्यवसाय का क्षेत्र (उद्योग/व्यापार) चुनें।'
-            : 'Please select your primary Business Sector.'
-        );
+        setValidationError(eui.valBizSector);
         return false;
       }
     } else if (currentStage.id === 'funding') {
       if (!fundingRangeId && (fundingRequired === '' || Number(fundingRequired) <= 0)) {
-        setValidationError(
-          lang === 'hi'
-            ? 'कृपया अपेक्षित ऋण राशि अथवा सीमा चुनें।'
-            : 'Please select your funding or credit requirement range.'
-        );
+        setValidationError(eui.valFunding);
         return false;
       }
     } else if (currentStage.id === 'existing_biz') {
       if (!businessRegistration) {
-        setValidationError(
-          lang === 'hi'
-            ? 'कृपया अपने व्यवसाय का पंजीकरण प्रकार चुनें।'
-            : 'Please select your Business Registration status.'
-        );
+        setValidationError(eui.valRegistration);
         return false;
       }
       if (!turnoverRangeId) {
-        setValidationError(
-          lang === 'hi'
-            ? 'कृपया अपने व्यवसाय का वार्षिक टर्नओवर सीमा चुनें।'
-            : 'Please select your Annual Business Turnover range.'
-        );
+        setValidationError(eui.valTurnover);
         return false;
       }
     }
@@ -435,11 +404,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
   const handleFinalSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!category || !businessType || !state || !ruralUrban || !businessStage) {
-      setValidationError(
-        lang === 'hi'
-          ? 'कृपया सभी आवश्यक प्रश्न पूर्ण करें।'
-          : 'Please complete all required questions.'
-      );
+      setValidationError(eui.valCompleteAll);
       return;
     }
 
@@ -558,13 +523,11 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       <div className="yj-card p-4 sm:p-5 mb-6">
         {/* Journey framing: the assessment reads as a guided profile journey. */}
         <p className="yj-eyebrow text-[#6F7A73] dark:text-[#8E9F97] mb-2">
-          {lang === 'hi' ? 'आपकी व्यवसाय प्रोफ़ाइल यात्रा' : 'Your Business Profile Journey'}
+          {eui.journeyEyebrow}
         </p>
         <div className="flex items-center justify-between mb-3 text-xs">
           <span className="font-bold text-[#0B5D4B] dark:text-[#34D399]">
-            {lang === 'hi'
-              ? `चरण ${currentStageIdx + 1} / ${activeStages.length}: ${t(currentStage.stageShortKey as any)}`
-              : `Step ${currentStageIdx + 1} of ${activeStages.length}: ${t(currentStage.stageShortKey as any)}`}
+            {eui.stepIndicator(currentStageIdx + 1, activeStages.length, t(currentStage.stageShortKey as any))}
           </span>
           <div className="flex items-center gap-3">
             <button
@@ -572,16 +535,16 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               id="reset-form-btn"
               onClick={handleResetForm}
               className="text-[#6F7A73] dark:text-[#8E9F97] hover:text-[#C2603F] dark:hover:text-[#F87171] text-[11px] font-medium flex items-center gap-1 transition-colors cursor-pointer"
-              title={lang === 'hi' ? 'सभी फ़ील्ड साफ़ करें' : 'Clear all fields'}
+              title={eui.clearAllFields}
             >
               <RotateCcw className="w-3 h-3" />
-              <span>{lang === 'hi' ? 'रीसेट करें' : 'Reset Form'}</span>
+              <span>{eui.resetForm}</span>
             </button>
             <span className="text-[#6F7A73] dark:text-[#8E9F97] font-medium flex items-center gap-1">
               <AnimatedCounter
                 value={Math.round(((currentStageIdx + 1) / activeStages.length) * 100)}
               />
-              <span>% Completed</span>
+              <span>% {eui.completedPercent}</span>
             </span>
           </div>
         </div>
@@ -790,7 +753,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   <span className="text-red-500">*</span>
                 </label>
                 <span className="text-xs font-bold text-[#14453D] dark:text-[#34D399]">
-                  {age !== '' ? `${age} ${t('common.years')}` : (lang === 'hi' ? 'आयु चुनें (18–70)' : 'Not set (18–70)')}
+                  {age !== '' ? `${age} ${t('common.years')}` : eui.notSetAge}
                 </span>
               </div>
 
@@ -800,7 +763,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   type="number"
                   min="18"
                   max="70"
-                  placeholder={lang === 'hi' ? 'उदा. 28' : 'e.g. 28'}
+                  placeholder={eui.agePlaceholder}
                   value={age}
                   onChange={(e) => {
                     const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
@@ -879,9 +842,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 className="w-full p-2.5 text-xs font-semibold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
               >
                 <option value="" disabled>
-                  {lang === 'hi'
-                    ? '-- अपना राज्य या केंद्र शासित प्रदेश चुनें --'
-                    : '-- Select your State or Union Territory --'}
+                  {eui.selectStatePlaceholder}
                 </option>
                 {INDIAN_STATES.map((st) => (
                   <option key={st} value={st}>
@@ -931,11 +892,11 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                   <div className="w-full sm:w-1/2">
                     <label className="text-[11px] font-semibold text-[#516A5F] dark:text-[#8E9F97] block mb-1">
-                      {lang === 'hi' ? 'ज़िला / शहर (वैकल्पिक):' : 'District / City (Optional):'}
+                      {eui.districtLabel}
                     </label>
                     <input
                       type="text"
-                      placeholder={lang === 'hi' ? 'उदा. मैसूर, पुणे, वाराणसी' : 'e.g. Mysuru, Pune, Varanasi'}
+                      placeholder={eui.districtPlaceholder}
                       value={district}
                       onChange={(e) => setDistrict(e.target.value)}
                       className="w-full p-2 text-xs border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
@@ -958,9 +919,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                         className="rounded border-[#C2C8C3] text-[#14453D] focus:ring-[#14453D] accent-[#14453D] dark:accent-[#34D399]"
                       />
                       <span>
-                        {lang === 'hi'
-                          ? 'व्यवसाय किसी अन्य राज्य में है (आवासीय राज्य भिन्न)'
-                          : 'Business is in a different state from residence'}
+                        {eui.diffStateCheckbox}
                       </span>
                     </label>
                   </div>
@@ -970,10 +929,10 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   <div className="p-3 bg-[#F4F8F6] dark:bg-[#15231B] border border-[#CDE3D7] dark:border-[#203D2E] rounded text-xs space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-[#14453D] dark:text-[#34D399]">
-                        {lang === 'hi' ? 'स्थायी निवास / अधिवास राज्य (Domicile State):' : 'Permanent Residence / Domicile State:'}
+                        {eui.domicileStateLabel}
                       </span>
                       <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97]">
-                        {lang === 'hi' ? 'योजना पात्रता हेतु' : 'For state domicile quotas'}
+                        {eui.domicileQuotaHint}
                       </span>
                     </div>
                     <select
@@ -982,7 +941,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       className="w-full p-2 text-xs font-semibold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
                     >
                       <option value="" disabled>
-                        {lang === 'hi' ? '-- अपना निवास राज्य चुनें --' : '-- Select your Home / Domicile State --'}
+                        {eui.selectHomeStatePlaceholder}
                       </option>
                       {INDIAN_STATES.map((st) => (
                         <option key={st} value={st}>
@@ -1050,7 +1009,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 </label>
                 <span className="text-xs font-bold text-[#14453D] dark:text-[#34D399]">
                   {t('form.incomeFormatted')}{' '}
-                  {annualIncome !== '' ? formatCurrency(Number(annualIncome)) : (lang === 'hi' ? 'दर्ज नहीं किया गया' : 'Not entered')}
+                  {annualIncome !== '' ? formatCurrency(Number(annualIncome)) : eui.notEnteredIncome}
                 </span>
               </div>
 
@@ -1063,7 +1022,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   type="number"
                   step="50000"
                   min="0"
-                  placeholder={lang === 'hi' ? 'उदा. 250000' : 'e.g. 250000'}
+                  placeholder={eui.incomePlaceholder}
                   value={annualIncome}
                   onChange={(e) => {
                     const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
@@ -1115,9 +1074,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
         {currentStage.id === 'business_stage' && (
           <div className="space-y-4">
             <p className="text-xs sm:text-sm font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] mb-3">
-              {lang === 'hi'
-                ? 'आप अपने उद्यम के लिए वर्तमान में क्या योजना बना रहे हैं?'
-                : 'What are you currently planning for your business enterprise?'}
+              {eui.planningPrompt}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -1192,10 +1149,10 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="text-xs font-bold text-[#14453D] dark:text-[#34D399]">
-                      {lang === 'hi' ? 'विस्तृत व्यावसायिक चरण (वैकल्पिक):' : 'Specific Lifecycle Phase (Optional):'}
+                      {eui.lifecyclePhaseLabel}
                     </label>
                     <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97]">
-                      {lang === 'hi' ? 'सटीक योजना मिलान हेतु' : 'Refines grant vs credit matching'}
+                      {eui.lifecyclePhaseHint}
                     </span>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -1227,7 +1184,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                               : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
                           }`}
                         >
-                          {lang === 'hi' ? stage.labelHi : stage.labelEn}
+                          {LIFECYCLE_PHASES_LOCALIZED[stage.id]?.[lang] || stage.labelEn}
                         </button>
                       );
                     })}
@@ -1237,7 +1194,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 <div className="pt-2 border-t border-[#CDE3D7]/60 dark:border-[#203D2E]/60">
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="text-xs font-bold text-[#14453D] dark:text-[#34D399]">
-                      {lang === 'hi' ? 'वर्तमान परिचालन स्थिति (Operational Status):' : 'Current Operational Status (Optional):'}
+                      {eui.operationalStatusLabel}
                     </label>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -1261,7 +1218,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                               : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
                           }`}
                         >
-                          {lang === 'hi' ? status.labelHi : status.labelEn}
+                          {OPERATIONAL_STATUS_LOCALIZED[status.id]?.[lang] || status.labelEn}
                         </button>
                       );
                     })}
@@ -1359,10 +1316,10 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <label className="text-xs font-bold text-[#14453D] dark:text-[#34D399]">
-                    {lang === 'hi' ? 'कानूनी संरचना / व्यावसायिक स्वरूप (वैकल्पिक):' : 'Legal Entity Structure (Optional):'}
+                    {eui.legalEntityLabel}
                   </label>
                   <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97]">
-                    {lang === 'hi' ? 'कंपनी / स्वामित्व / समूह' : 'Sole prop, Pvt Ltd, SHG, etc.'}
+                    {eui.legalEntityHint}
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -1392,7 +1349,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                             : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
                         }`}
                       >
-                        {lang === 'hi' ? entityInfo.hi : entityInfo.en}
+                        {BUSINESS_ENTITY_LOCALIZED[typeKey]?.[lang] || entityInfo.en}
                       </button>
                     );
                   })}
@@ -1402,15 +1359,11 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2.5 border-t border-[#CDE3D7]/60 dark:border-[#203D2E]/60">
                 <div>
                   <label className="text-xs font-bold text-[#14453D] dark:text-[#34D399] block mb-1">
-                    {lang === 'hi' ? 'विशिष्ट उप-क्षेत्र / गतिविधि (वैकल्पिक):' : 'Specific Sub-Sector / Trade (Optional):'}
+                    {eui.subSectorLabel}
                   </label>
                   <input
                     type="text"
-                    placeholder={
-                      lang === 'hi'
-                        ? 'उदा. डेयरी चिलिंग, वस्त्र नि��्���ाण, सोलर उपकरण'
-                        : 'e.g. Dairy Chilling, Readymade Garments, Solar Equipment'
-                    }
+                    placeholder={eui.subSectorPlaceholder}
                     value={subSector}
                     onChange={(e) => setSubSector(e.target.value)}
                     className="w-full p-2 text-xs border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
@@ -1419,7 +1372,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
 
                 <div>
                   <label className="text-xs font-bold text-[#14453D] dark:text-[#34D399] block mb-1">
-                    {lang === 'hi' ? 'उद्यमिता / उद्योग अनुभव (वर्ष):' : 'Industry Experience (Years):'}
+                    {eui.experienceLabel}
                   </label>
                   <div className="flex items-center gap-1.5">
                     <input
@@ -1469,9 +1422,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
         {currentStage.id === 'funding' && (
           <div className="space-y-5">
             <p className="text-xs sm:text-sm font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] mb-1">
-              {lang === 'hi'
-                ? 'आपके व्यवसाय को शुरू करने अथवा संचालित करने के लिए कितनी पूंजी या ऋण चाहिए?'
-                : 'How much funding or loan assistance does your enterprise require?'}
+              {eui.fundingPrompt}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1511,9 +1462,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
             {/* Custom Exact Amount Input */}
             <div className="pt-4 border-t border-[#E2E2E0] dark:border-[#24342D]">
               <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1.5">
-                {lang === 'hi'
-                  ? 'अथवा सट���क राशि दर्ज करें (वैकल्पिक):'
-                  : 'Or specify an exact loan / funding requirement:'}
+                {eui.exactFundingLabel}
               </label>
               <div className="flex items-center gap-3">
                 <div className="relative w-full max-w-sm">
@@ -1524,7 +1473,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     type="number"
                     step="50000"
                     min="10000"
-                    placeholder={lang === 'hi' ? 'उदा. 300000' : 'e.g. 300000'}
+                    placeholder={eui.exactFundingPlaceholder}
                     value={fundingRequired}
                     onChange={(e) => {
                       const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
@@ -1545,9 +1494,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-[#14453D] dark:text-[#34D399]" />
                 <h3 className="text-xs sm:text-sm font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
-                  {lang === 'hi'
-                    ? 'परियोजना लागत, वित्तीय अंतर एवं सहायता आवश्यकता'
-                    : 'Project Cost, Funding Gap & Business Needs'}
+                  {eui.costAndGapTitle}
                 </h3>
               </div>
 
@@ -1555,7 +1502,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1">
-                    {lang === 'hi' ? 'कुल अनुमानित परियोजना लागत:' : 'Total Estimated Project Cost:'}
+                    {eui.totalCostLabel}
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#516A5F] dark:text-[#8E9F97] font-bold text-xs">
@@ -1565,13 +1512,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       type="number"
                       step="50000"
                       min="0"
-                      placeholder={
-                        fundingRequired
-                          ? String(fundingRequired)
-                          : lang === 'hi'
-                          ? 'उदा. 500000'
-                          : 'e.g. 500000'
-                      }
+                      placeholder={fundingRequired ? String(fundingRequired) : eui.totalCostPlaceholder}
                       value={totalProjectCost}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
@@ -1584,7 +1525,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
 
                 <div>
                   <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1">
-                    {lang === 'hi' ? 'प्रवर्तक का स्वयं का निवेश / योगदान:' : 'Your Own Investment / Contribution:'}
+                    {eui.ownInvestmentLabel}
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#516A5F] dark:text-[#8E9F97] font-bold text-xs">
@@ -1594,7 +1535,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       type="number"
                       step="25000"
                       min="0"
-                      placeholder={lang === 'hi' ? 'उदा. 100000' : 'e.g. 100000'}
+                      placeholder={eui.ownInvestmentPlaceholder}
                       value={existingInvestment}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
@@ -1610,25 +1551,21 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               <div className="p-3 rounded-lg bg-[#F4F8F6] dark:bg-[#16231C] border border-[#CDE3D7] dark:border-[#223F30] flex items-center justify-between">
                 <div>
                   <span className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] block">
-                    {lang === 'hi'
-                      ? 'अनुमानित वित्तीय अंतर (Funding Gap):'
-                      : 'Calculated Funding Gap:'}
+                    {eui.fundingGapLabel}
                   </span>
                   <span className="text-sm font-extrabold text-[#14453D] dark:text-[#34D399]">
                     {formatCurrency(calculatedFundingGap)}
                   </span>
                 </div>
                 <span className="text-[10px] text-[#516A5F] dark:text-[#9EB0A7] text-right font-medium">
-                  {lang === 'hi'
-                    ? 'परियोजना लागत − स्वयं का निवेश'
-                    : 'Project Cost − Own Investment'}
+                  {eui.gapFormulaHint}
                 </span>
               </div>
 
               {/* Primary Support Need Selection */}
               <div>
                 <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1.5">
-                  {lang === 'hi' ? 'आपकी मुख्य व्यावसायिक सहायता आवश्यकता:' : 'Primary Support Need:'}
+                  {eui.primaryNeedLabel}
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {(
@@ -1658,7 +1595,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                             : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
                         }`}
                       >
-                        {lang === 'hi' ? need.labelHi : need.labelEn}
+                        {SUPPORT_NEEDS_LOCALIZED[need.id]?.[lang] || need.labelEn}
                       </button>
                     );
                   })}
@@ -1669,18 +1606,16 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               <div className="pt-2.5 border-t border-[#CDE3D7]/60 dark:border-[#203D2E]/60">
                 <div className="flex items-center justify-between mb-1.5">
                   <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
-                    {lang === 'hi' ? 'अतिरिक्त / द्वितीयक आवश्यकताएँ (बहु-चयन):' : 'Secondary Support Needs (Multi-select, Optional):'}
+                    {eui.secondaryNeedsLabel}
                   </label>
                   {secondarySupportNeeds.length > 0 && (
                     <span className="text-[10px] font-bold text-[#14453D] dark:text-[#34D399] bg-[#D4EFE1]/60 dark:bg-[#1A382D] px-2 py-0.5 rounded-full">
-                      {secondarySupportNeeds.length} {lang === 'hi' ? 'चयनित' : 'selected'}
+                      {eui.selectedCount(secondarySupportNeeds.length)}
                     </span>
                   )}
                 </div>
                 <p className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] mb-2">
-                  {lang === 'hi'
-                    ? 'मुख्य आवश्यकता के अतिरिक्त अन्य किन क्षेत्रों में सरकारी सहायता चाहिए? (मुख्य आवश्यकता यहाँ नहीं चुनी जा सकती)'
-                    : 'Select any complementary support required (primary need is excluded from secondary selection).'}
+                  {eui.secondaryNeedsHint}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {(
@@ -1711,7 +1646,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                           }`}
                         >
                           {isSelected && <Check className="w-3 h-3 text-white" />}
-                          <span>{lang === 'hi' ? need.labelHi : need.labelEn}</span>
+                          <span>{SUPPORT_NEEDS_LOCALIZED[need.id]?.[lang] || need.labelEn}</span>
                         </button>
                       );
                     })}
@@ -1721,17 +1656,11 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               {/* Business Idea / Activity Description */}
               <div>
                 <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1">
-                  {lang === 'hi'
-                    ? 'व्यवसाय गतिविधि / विचार संक्षेप (वैकल्पिक):'
-                    : 'Business Idea / Activity Summary (Optional):'}
+                  {eui.bizIdeaLabel}
                 </label>
                 <input
                   type="text"
-                  placeholder={
-                    lang === 'hi'
-                      ? 'उदा. सोलर संचालित कोल्ड स्टोरेज इकाई या बेकरी उत्पाद'
-                      : 'e.g. Solar-powered micro cold storage unit or eco-friendly packaging'
-                  }
+                  placeholder={eui.bizIdeaPlaceholder}
                   value={businessIdea}
                   onChange={(e) => setBusinessIdea(e.target.value)}
                   className="w-full px-3 py-2 text-xs border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#34D399]"
@@ -1800,7 +1729,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               {/* Optional Registration Status override (e.g., In Process) */}
               <div className="mt-3 flex items-center justify-between">
                 <span className="text-xs text-[#516A5F] dark:text-[#8E9F97]">
-                  {lang === 'hi' ? 'पंजीकरण वर्तमान स्थिति:' : 'Registration lifecycle state:'}
+                  {eui.regStatusLabel}
                 </span>
                 <div className="flex gap-1.5">
                   {(
@@ -1820,7 +1749,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                           : 'bg-white dark:bg-[#101613] text-[#516A5F] dark:text-[#8E9F97] border-[#D1D5D2] dark:border-[#2A3C34]'
                       }`}
                     >
-                      {lang === 'hi' ? st.labelHi : st.labelEn}
+                      {REGISTRATION_STATUS_LOCALIZED[st.id]?.[lang] || st.labelEn}
                     </button>
                   ))}
                 </div>
@@ -2006,7 +1935,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   {totalProjectCost !== '' && (
                     <div className="flex justify-between">
                       <dt className="text-[#6F7A73] dark:text-[#8E9F97]">
-                        {lang === 'hi' ? 'परियोजना लागत / वित्तीय अंतर:' : 'Project Cost / Gap:'}
+                        {eui.reviewProjectCostGap}
                       </dt>
                       <dd className="font-bold text-[#14453D] dark:text-[#34D399]">
                         {formatCurrency(Number(totalProjectCost))} (Gap: {formatCurrency(calculatedFundingGap)})
@@ -2017,10 +1946,10 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   {primarySupportNeed && (
                     <div className="flex justify-between">
                       <dt className="text-[#6F7A73] dark:text-[#8E9F97]">
-                        {lang === 'hi' ? 'मुख्य आवश्यकता:' : 'Primary Need:'}
+                        {eui.reviewPrimaryNeed}
                       </dt>
                       <dd className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
-                        {primarySupportNeed.replace(/_/g, ' ')}
+                        {SUPPORT_NEEDS_LOCALIZED[primarySupportNeed]?.[lang] || primarySupportNeed.replace(/_/g, " ")}
                       </dd>
                     </div>
                   )}
@@ -2028,10 +1957,10 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   {secondarySupportNeeds.length > 0 && (
                     <div className="flex justify-between">
                       <dt className="text-[#6F7A73] dark:text-[#8E9F97]">
-                        {lang === 'hi' ? 'अतिरिक्त आवश्यकताएँ:' : 'Secondary Needs:'}
+                        {eui.reviewSecondaryNeeds}
                       </dt>
                       <dd className="font-medium text-[#516A5F] dark:text-[#8E9F97] text-right">
-                        {secondarySupportNeeds.map((s) => s.replace(/_/g, ' ')).join(', ')}
+                        {secondarySupportNeeds.map((s) => SUPPORT_NEEDS_LOCALIZED[s]?.[lang] || s.replace(/_/g, " ")).join(", ")}
                       </dd>
                     </div>
                   )}
@@ -2039,12 +1968,10 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   {businessEntityType && (
                     <div className="flex justify-between">
                       <dt className="text-[#6F7A73] dark:text-[#8E9F97]">
-                        {lang === 'hi' ? 'कानूनी संरचना:' : 'Entity Structure:'}
+                        {eui.reviewEntityStructure}
                       </dt>
                       <dd className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
-                        {lang === 'hi'
-                          ? BUSINESS_ENTITY_LABELS[businessEntityType]?.hi || businessEntityType
-                          : BUSINESS_ENTITY_LABELS[businessEntityType]?.en || businessEntityType}
+                        {BUSINESS_ENTITY_LOCALIZED[businessEntityType]?.[lang] || BUSINESS_ENTITY_LABELS[businessEntityType]?.en || businessEntityType}
                       </dd>
                     </div>
                   )}
@@ -2052,7 +1979,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   {subSector && (
                     <div className="flex justify-between">
                       <dt className="text-[#6F7A73] dark:text-[#8E9F97]">
-                        {lang === 'hi' ? 'उप-क्षेत्र:' : 'Sub-Sector:'}
+                        {eui.reviewSubSector}
                       </dt>
                       <dd className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2]">
                         {subSector}

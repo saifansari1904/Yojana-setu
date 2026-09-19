@@ -1,0 +1,129 @@
+import type { Language } from './types';
+
+export const VALIDATION_MESSAGES: Record<Language, {
+  ageRequired: string;
+  ageMin: string;
+  ageMax: string;
+  incomeRequired: string;
+  incomeNegative: string;
+  stateRequired: string;
+  stateInvalid: string;
+  categoryRequired: string;
+  categoryInvalid: string;
+  businessStageRequired: string;
+  businessTypeRequired: string;
+  businessTypeInvalid: string;
+  fundingRequired: string;
+  fundingNegative: string;
+  turnoverRequired: string;
+  profileMissing: string;
+}> = {
+  en: {
+    ageRequired: 'Please enter your age.',
+    ageMin: 'Minimum statutory entrepreneurial age for government schemes is 18 years.',
+    ageMax: 'Maximum eligible age threshold is 75 years.',
+    incomeRequired: 'Please enter your annual household income.',
+    incomeNegative: 'Annual income cannot be a negative amount.',
+    stateRequired: 'Please select your business state or Union Territory.',
+    stateInvalid: 'Please select a valid Indian state or Union Territory from the list.',
+    categoryRequired: 'Please select your social category.',
+    categoryInvalid: 'Invalid social category selected.',
+    businessStageRequired: 'Please select your current business stage.',
+    businessTypeRequired: 'Please select your primary business domain.',
+    businessTypeInvalid: 'Invalid business domain selected.',
+    fundingRequired: 'Please select your required financial assistance range.',
+    fundingNegative: 'Funding amount must be a positive number.',
+    turnoverRequired: 'Please indicate your current annual turnover.',
+    profileMissing: 'User profile data is missing.',
+  },
+  hi: {
+    ageRequired: 'कृपया अपनी आयु दर्ज करें।',
+    ageMin: 'सरकारी योजनाओं हेतु न्यूनतम कानूनी आयु 18 वर्ष है।',
+    ageMax: 'योजना पात्रता हेतु अधिकतम अनुमत आयु 75 वर्ष है।',
+    incomeRequired: 'कृपया वार्षिक पारिवारिक आय दर्ज करें।',
+    incomeNegative: 'वार्षिक आय ऋणात्मक नहीं हो सकती।',
+    stateRequired: 'कृपया अपने व्यवसाय का राज्य या केंद्र शासित प्रदेश चुनें।',
+    stateInvalid: 'कृपया सूची से एक मान्य भारतीय राज्य चुनें।',
+    categoryRequired: 'कृपया अपना सामाजिक वर्ग चुनें।',
+    categoryInvalid: 'अमान्य सामाजिक वर्ग।',
+    businessStageRequired: 'कृपया अपने व्यवसाय की वर्तमान स्थिति चुनें।',
+    businessTypeRequired: 'कृपया अपने व्यवसाय का प्राथमिक कार्यक्षेत्र चुनें।',
+    businessTypeInvalid: 'अमान्य कार्यक्षेत्र।',
+    fundingRequired: 'कृपया आवश्यक पूंजीगत वित्तीय सहायता का दायरा चुनें।',
+    fundingNegative: 'वित्तीय सहायता राशि धनात्मक होनी चाहिए।',
+    turnoverRequired: 'कृपया अपने व्यवसाय का वार्षिक कारोबार चुनें।',
+    profileMissing: 'प्रोफ़ाइल डेटा अनुपलब्ध है।',
+  },
+  ta: {
+    ageRequired: 'தயவுசெய்து உங்கள் வயதை உள்ளிடவும்.',
+    ageMin: 'அரசு திட்டங்களுக்கான குறைந்தபட்ச சட்டப்பூர்வ வயது 18 ஆண்டுகள்.',
+    ageMax: 'அதிகபட்ச தகுதியான வயது வரம்பு 75 ஆண்டுகள்.',
+    incomeRequired: 'தயவுசெய்து உங்கள் ஆண்டு குடும்ப வருமானத்தை உள்ளிடவும்.',
+    incomeNegative: 'ஆண்டு வருமானம் எதிர்மறையாக இருக்க முடியாது.',
+    stateRequired: 'உங்கள் வணிக மாநிலம் அல்லது யூனியன் பிரதேசத்தைத் தேர்ந்தெடுக்கவும்.',
+    stateInvalid: 'பட்டியலிலிருந்து செல்லுபடியாகும் இந்திய மாநிலத்தைத் தேர்ந்தெடுக்கவும்.',
+    categoryRequired: 'தயவுசெய்து உங்கள் சமூகப் பிரிவைத் தேர்ந்தெடுக்கவும்.',
+    categoryInvalid: 'தவறான சமூகப் பிரிவு தேர்ந்தெடுக்கப்பட்டது.',
+    businessStageRequired: 'உங்கள் தற்போதைய வணிக நிலையைத் தேர்ந்தெடுக்கவும்.',
+    businessTypeRequired: 'உங்கள் முதன்மை வணிகத் துறையைத் தேர்ந்தெடுக்கவும்.',
+    businessTypeInvalid: 'தவறான வணிகத் துறை தேர்ந்தெடுக்கப்பட்டது.',
+    fundingRequired: 'தேவையான நிதி உதவி வரம்பைத் தேர்ந்தெடுக்கவும்.',
+    fundingNegative: 'நிதி உதவித் தொகை நேர்மறையாக இருக்க வேண்டும்.',
+    turnoverRequired: 'உங்கள் தற்போதைய வருடாந்திர விற்றுமுதலைக் குறிப்பிடவும்.',
+    profileMissing: 'சுயவிவரத் தரவு கிடைக்கவில்லை.',
+  },
+  te: {
+    ageRequired: 'దయచేసి మీ వయస్సును నమోదు చేయండి.',
+    ageMin: 'ప్రభుత్వ పథకాలకు కనీస చట్టబద్ధమైన వయస్సు 18 సంవత్సరాలు.',
+    ageMax: 'గరిష్ట అర్హత వయస్సు పరిమితి 75 సంవత్సరాలు.',
+    incomeRequired: 'దయచేసి మీ వార్షిక కుటుంబ ఆదాయాన్ని నమోదు చేయండి.',
+    incomeNegative: 'వార్షిక ఆదాయం ప్రతికూలంగా ఉండకూడదు.',
+    stateRequired: 'మీ వ్యాపార రాష్ట్రం లేదా కేంద్రపాలిత ప్రాంతాన్ని ఎంచుకోండి.',
+    stateInvalid: 'జాబితా నుండి చెల్లుబాటు అయ్యే భారతీయ రాష్ట్రాన్ని ఎంచుకోండి.',
+    categoryRequired: 'దయచేసి మీ సామాజిక వర్గాన్ని ఎంచుకోండి.',
+    categoryInvalid: 'చెల్లని సామాజిక వర్గం ఎంచుకోబడింది.',
+    businessStageRequired: 'మీ ప్రస్తుత వ్యాపార దశను ఎంచుకోండి.',
+    businessTypeRequired: 'మీ ప్రాథమిక వ్యాపార రంగాన్ని ఎంచుకోండి.',
+    businessTypeInvalid: 'చెల్లని వ్యాపార రంగం ఎంచుకోబడింది.',
+    fundingRequired: 'అవసరమైన ఆర్థిక సహాయ పరిధిని ఎంచుకోండి.',
+    fundingNegative: 'నిధుల మొత్తం సానుకూల సంఖ్య అయి ఉండాలి.',
+    turnoverRequired: 'మీ ప్రస్తుత వార్షిక టర్నోవర్‌ను సూచించండి.',
+    profileMissing: 'ప్రొఫైల్ సమాచారం అందుబాటులో లేదు.',
+  },
+  kn: {
+    ageRequired: 'ದಯವಿಟ್ಟು ನಿಮ್ಮ ವಯಸ್ಸನ್ನು ನಮೂದಿಸಿ.',
+    ageMin: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳಿಗೆ ಕನಿಷ್ಠ ಶಾಸನಬದ್ಧ ವಯಸ್ಸು 18 ವರ್ಷಗಳು.',
+    ageMax: 'ಗರಿಷ್ಠ ಅರ್ಹತಾ ವಯಸ್ಸಿನ ಮಿತಿ 75 ವರ್ಷಗಳು.',
+    incomeRequired: 'ದಯವಿಟ್ಟು ನಿಮ್ಮ ವಾರ್ಷಿಕ ಕುಟುಂಬ ಆದಾಯವನ್ನು ನಮೂದಿಸಿ.',
+    incomeNegative: 'ವಾರ್ಷಿಕ ಆದಾಯ ಋಣಾತ್ಮಕವಾಗಿರಲು ಸಾಧ್ಯವಿಲ್ಲ.',
+    stateRequired: 'ನಿಮ್ಮ ವ್ಯವಹಾರ ರಾಜ್ಯ ಅಥವಾ ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+    stateInvalid: 'ಪಟ್ಟಿಯಿಂದ ಮಾನ್ಯವಾದ ಭಾರತೀಯ ರಾಜ್ಯವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+    categoryRequired: 'ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸಾಮಾಜಿಕ ವರ್ಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+    categoryInvalid: 'ಅಮಾನ್ಯ ಸಾಮಾಜಿಕ ವರ್ಗವನ್ನು ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ.',
+    businessStageRequired: 'ನಿಮ್ಮ ಪ್ರಸ್ತುತ ವ್ಯಾಪಾರ ಹಂತವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+    businessTypeRequired: 'ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ವ್ಯವಹಾರ ಕ್ಷೇತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+    businessTypeInvalid: 'ಅಮಾನ್ಯ ವ್ಯಾಪಾರ ಕ್ಷೇತ್ರವನ್ನು ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ.',
+    fundingRequired: 'ಅಗತ್ಯವಿರುವ ಹಣಕಾಸು ನೆರವಿನ ಶ್ರೇಣಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+    fundingNegative: 'ನಿಧಿಯ ಮೊತ್ತವು ಧನಾತ್ಮಕ ಸಂಖ್ಯೆಯಾಗಿರಬೇಕು.',
+    turnoverRequired: 'ನಿಮ್ಮ ಪ್ರಸ್ತುತ ವಾರ್ಷಿಕ ವಹಿವಾಟನ್ನು ಸೂಚಿಸಿ.',
+    profileMissing: 'ಪ್ರೊಫೈಲ್ ಡೇಟಾ ಲಭ್ಯವಿಲ್ಲ.',
+  },
+  ml: {
+    ageRequired: 'ദയവായി നിങ്ങളുടെ പ്രായം നൽകുക.',
+    ageMin: 'സർക്കാർ പദ്ധതികൾക്കുള്ള ഏറ്റവും കുറഞ്ഞ നിയമാനുസൃത പ്രായം 18 വയസ്സാണ്.',
+    ageMax: 'പരമാവധി യോഗ്യതാ പ്രായപരിധി 75 വയസ്സാണ്.',
+    incomeRequired: 'ദയവായി നിങ്ങളുടെ വാർഷിക കുടുംബ വരുമാനം നൽകുക.',
+    incomeNegative: 'വാർഷിക വരുമാനം നെഗറ്റീവ് ആകാൻ പാടില്ല.',
+    stateRequired: 'നിങ്ങളുടെ ബിസിനസ്സ് സംസ്ഥാനം അല്ലെങ്കിൽ കേന്ദ്രഭരണ പ്രദേശം തിരഞ്ഞെടുക്കുക.',
+    stateInvalid: 'പട്ടികയിൽ നിന്ന് സാധുവായ ഇന്ത്യൻ സംസ്ഥാനം തിരഞ്ഞെടുക്കുക.',
+    categoryRequired: 'ദയവായി നിങ്ങളുടെ സാമൂഹിക വിഭാഗം തിരഞ്ഞെടുക്കുക.',
+    categoryInvalid: 'അസാധുവായ സാമൂഹിക വിഭാഗം തിരഞ്ഞെടുത്തു.',
+    businessStageRequired: 'നിങ്ങളുടെ നിലവിലെ ബിസിനസ്സ് ഘട്ടം തിരഞ്ഞെടുക്കുക.',
+    businessTypeRequired: 'നിങ്ങളുടെ പ്രധാന ബിസിനസ്സ് മേഖല തിരഞ്ഞെടുക്കുക.',
+    businessTypeInvalid: 'അസാധുവായ ബിസിനസ്സ് മേഖല തിരഞ്ഞെടുത്തു.',
+    fundingRequired: 'ആവശ്യമായ സാമ്പത്തിക സഹായ പരിധി തിരഞ്ഞെടുക്കുക.',
+    fundingNegative: 'ധനസഹായ തുക പോസിറ്റീവ് സംഖ്യയായിരിക്കണം.',
+    turnoverRequired: 'നിങ്ങളുടെ നിലവിലെ വാർഷിക വിറ്റുവരവ് വ്യക്തമാക്കുക.',
+    profileMissing: 'പ്രൊഫൈൽ വിവരങ്ങൾ ലഭ്യമല്ല.',
+  },
+};

@@ -56,8 +56,12 @@ export function mapKeyToLegacyStage(key: BusinessStageKey): BusinessStage {
  * User-selected explicit stage is strictly prioritized over inferred signals.
  */
 export function deriveBusinessStage(
-  profile: Partial<UserProfile>
+  profile?: Partial<UserProfile> | null
 ): { stage: BusinessStageKey; source: 'EXPLICIT' | 'INFERRED' | 'UNKNOWN' } {
+  if (!profile) {
+    return { stage: 'IDEA', source: 'UNKNOWN' };
+  }
+
   // 1. Highest precedence: Explicit Phase 4.1 businessStageKey
   if (profile.businessStageKey) {
     return { stage: profile.businessStageKey, source: 'EXPLICIT' };

@@ -1,6 +1,9 @@
 import { MatchResult, UserProfile } from '../../types';
-import { getNextBestAction, NextBestAction } from './decisionEngine';
+import { getNextBestAction, NextBestAction } from '../../i18n/decisionActionI18n';
 import { evaluateFundingFit, FundingFitAnalysis } from './fundingFit';
+import { Language } from '../../i18n/types';
+import { allLocalizedSchemes } from '../../i18n/schemesData';
+import { getComparisonPhrases } from '../../i18n/comparisonI18n';
 
 export interface SchemeComparisonColumn {
   schemeId: string;
@@ -43,14 +46,16 @@ export interface SchemeComparisonResult {
 export function compareSchemes(
   selectedMatches: MatchResult[],
   profile: UserProfile,
-  lang: 'hi' | 'en' = 'en'
+  lang: Language = 'en'
 ): SchemeComparisonResult {
   if (!selectedMatches || selectedMatches.length < 2) {
     throw new Error('Comparison requires at least 2 schemes.');
   }
 
-  const isHi = lang === 'hi';
   const boundedMatches = selectedMatches.slice(0, 3);
+  const locMap = allLocalizedSchemes[lang] || {};
+
+  const phrases = getComparisonPhrases(lang);
 
   // Identify standout metrics
   let bestScore = -1;
@@ -71,30 +76,33 @@ export function compareSchemes(
 
   const columns: SchemeComparisonColumn[] = boundedMatches.map((result) => {
     const { scheme } = result;
+    const loc = locMap[scheme.id];
+    const schemeName = loc?.name || scheme.name;
+    const sponsoringMinistry = loc?.sponsoringMinistry || scheme.sponsoringMinistry;
     const nextBestAction = getNextBestAction(result, profile, lang);
     const fundingFit = evaluateFundingFit(scheme, profile, lang);
 
     const applicableStatesText = scheme.applicableStates.length === 0
-      ? (isHi ? 'अखिल भारतीय (सभी राज्य)' : 'All-India (National)')
+      ? phrases.allIndia
       : scheme.applicableStates.join(', ');
 
     const targetCategoriesText = scheme.targetCategories.includes('General')
-      ? (isHi ? 'सभी सामाजिक वर्ग' : 'All Social Categories')
+      ? phrases.allCategories
       : scheme.targetCategories.join(' / ');
 
     const targetBusinessTypesText = scheme.targetBusinessTypes.join(', ');
 
     const subsidyText = scheme.subsidyRatePercent && scheme.subsidyRatePercent > 0
-      ? `${scheme.subsidyRatePercent}% ${isHi ? 'सरकारी अनुदान' : 'Capital Subsidy'}${scheme.subsidyCap ? ` (Max ₹${(scheme.subsidyCap / 100000).toFixed(1)}L)` : ''}`
-      : (isHi ? 'कोई पूंजीगत अनुदान नहीं' : 'No direct subsidy');
+      ? `${scheme.subsidyRatePercent}% ${phrases.capitalSubsidy}${scheme.subsidyCap ? ` (Max ₹${(scheme.subsidyCap / 100000).toFixed(1)}L)` : ''}`
+      : phrases.noSubsidy;
 
     const interestRateText = scheme.baseInterestRate
-      ? `${scheme.baseInterestRate}% ${isHi ? 'वार्षिक' : 'p.a.'}`
-      : (isHi ? 'संबंधित बैंक नियमानुसार' : 'Bank standard terms');
+      ? `${scheme.baseInterestRate}% ${phrases.pa}`
+      : phrases.bankTerms;
 
     const tenureText = scheme.standardTenureYears
-      ? `${scheme.standardTenureYears} ${isHi ? 'वर्ष' : 'Years'}${scheme.moratoriumPeriodMonths ? ` (+${scheme.moratoriumPeriodMonths}m moratorium)` : ''}`
-      : (isHi ? 'बैंक नियमानुसार' : 'Standard bank tenure');
+      ? `${scheme.standardTenureYears} ${phrases.years}${scheme.moratoriumPeriodMonths ? ` (+${scheme.moratoriumPeriodMonths}m moratorium)` : ''}`
+      : phrases.standardTenure;
 
     const sourceVerificationText = scheme.trustProfile
       ? `${scheme.trustProfile.verification.status} (${scheme.trustProfile.freshness.status})`
@@ -103,23 +111,23 @@ export function compareSchemes(
     // Highlights
     const standoutHighlights: string[] = [];
     if (scheme.id === bestScoreId) {
-      standoutHighlights.push(isHi ? 'सर्वोच्च मिलान स्कोर' : 'Highest Match Score');
+      standoutHighlights.push(phrases.highestScore);
     }
     if (scheme.id === highestSubsidyId && highestSubsidy > 0) {
-      standoutHighlights.push(isHi ? 'अधिकतम पूंजीगत सब्सिडी' : 'Highest Capital Subsidy');
+      standoutHighlights.push(phrases.highestSubsidy);
     }
     if (scheme.applicableStates.length === 0) {
-      standoutHighlights.push(isHi ? 'राष्ट्रीय स्वीकार्यता' : 'All-India Coverage');
+      standoutHighlights.push(phrases.allIndiaCoverage);
     }
     if (scheme.schemeType === 'Credit Guarantee') {
-      standoutHighlights.push(isHi ? 'बिना संपार्श्विक (कोलेटरल मुक्त)' : 'Collateral-Free');
+      standoutHighlights.push(phrases.collateralFree);
     }
 
     return {
       schemeId: scheme.id,
-      schemeName: scheme.name,
-      sponsoringMinistry: scheme.sponsoringMinistry,
-      schemeType: scheme.schemeType,
+      schemeName,
+      sponsoringMinistry,
+      schemeType: loc?.schemeType || scheme.schemeType,
       matchPercentage: result.matchPercentage,
       isEligible: result.isEligible,
       matchStatus: result.matchStatus,
@@ -127,12 +135,12 @@ export function compareSchemes(
       applicableStatesText,
       targetCategoriesText,
       targetBusinessTypesText,
-      fundingRangeText: scheme.fundingRangeText,
+      fundingRangeText: loc?.fundingRangeText || scheme.fundingRangeText,
       subsidyText,
       interestRateText,
       tenureText,
-      documentsCount: scheme.requiredDocuments.length,
-      keyDocuments: scheme.requiredDocuments.slice(0, 4),
+      documentsCount: (loc?.requiredDocuments || scheme.requiredDocuments).length,
+      keyDocuments: (loc?.requiredDocuments || scheme.requiredDocuments).slice(0, 4),
       applicationMode: scheme.applicationMode,
       sourceVerificationText,
       nextBestAction,
@@ -141,9 +149,7 @@ export function compareSchemes(
     };
   });
 
-  const summaryNote = isHi
-    ? `${columns.length} चयनित योजनाओं की तुलना पूरी हो चुकी है। सभी स्कोर आधिकारिक इंजन द्वारा सत्यापित हैं।`
-    : `Side-by-side comparison for ${columns.length} schemes evaluated with identical statutory criteria.`;
+  const summaryNote = phrases.summaryNote(columns.length);
 
   return {
     columns,

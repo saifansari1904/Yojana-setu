@@ -2,6 +2,29 @@ import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Check, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useTranslation } from '../i18n';
+import type { Language } from '../i18n/types';
+
+const STATUS_HINTS: {
+  ready: Record<Language, string>;
+  markReady: Record<Language, string>;
+} = {
+  ready: {
+    en: '✓ Ready for application',
+    hi: '✓ आवेदन हेतु तैयार',
+    ta: '✓ விண்ணப்பத்திற்கு தயார்',
+    te: '✓ దరఖాస్తుకు సిద్ధం',
+    kn: '✓ ಅರ್ಜಿಗೆ ಸಿದ್ಧವಾಗಿದೆ',
+    ml: '✓ അപേക്ഷിക്കാൻ തയ്യാറാണ്',
+  },
+  markReady: {
+    en: 'Click to mark as ready',
+    hi: 'क्लिक करके तैयार चिह्नित करें',
+    ta: 'தயாராகக் குறிக்க கிளிக் செய்யவும்',
+    te: 'సిద్ధంగా గుర్తించడానికి క్లిక్ చేయండి',
+    kn: 'ಸಿದ್ಧ ಎಂದು ಗುರುತಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ',
+    ml: 'തയ്യാറായതായി അടയാളപ്പെടുത്താൻ ക്ലിക്ക് ചെയ്യുക',
+  },
+};
 
 interface SchemeDocumentChecklistProps {
   documents: string[];
@@ -174,12 +197,8 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
                 </span>
                 <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97]">
                   {isChecked
-                    ? lang === 'hi'
-                      ? '✓ आवेदन हेतु तैयार'
-                      : '✓ Ready for application'
-                    : lang === 'hi'
-                    ? 'क्लिक करके तैयार चिह्नित करें'
-                    : 'Click to mark as ready'}
+                    ? STATUS_HINTS.ready[lang] || STATUS_HINTS.ready.en
+                    : STATUS_HINTS.markReady[lang] || STATUS_HINTS.markReady.en}
                 </span>
               </div>
             </div>

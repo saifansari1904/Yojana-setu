@@ -4,9 +4,88 @@
  */
 
 import React, { useState } from 'react';
+import { resolveLocalizedPair } from '../../../i18n/resolveLocalized';
+import type { Language } from '../../../i18n/types';
 import { DocumentStatus } from '../types';
 import { useTranslation } from '../i18n';
 import { FileCheck, AlertCircle, HelpCircle, ShieldCheck, ArrowRight } from 'lucide-react';
+
+const COMMON_DOC_LOCALIZED: Record<string, Record<string, string>> = {
+  aadhaar: {
+    en: 'Aadhaar Card',
+    hi: 'आधार कार्ड',
+    ta: 'ஆதார் அட்டை',
+    te: 'ఆధార్ కార్డు',
+    kn: 'ಆಧಾರ್ ಕಾರ್ಡ್',
+    ml: 'ആധാർ കാർഡ്',
+  },
+  pan: {
+    en: 'PAN Card',
+    hi: 'पैन कार्ड',
+    ta: 'பான் அட்டை',
+    te: 'పాన్ కార్డు',
+    kn: 'ಪ್ಯಾನ್ ಕಾರ್ಡ್',
+    ml: 'പാൻ കാർഡ്',
+  },
+  photo: {
+    en: 'Passport Photograph',
+    hi: 'पासपोर्ट फोटो',
+    ta: 'பாஸ்போர்ட் புகைப்படம்',
+    te: 'పాస్‌పోర్ట్ ఫోటో',
+    kn: 'ಪಾಸ್‌ಪೋರ್ಟ್ ಭಾವಚಿತ್ರ',
+    ml: 'പാസ്‌പോർട്ട് ഫോട്ടോ',
+  },
+  bank: {
+    en: 'Bank Passbook / Statement',
+    hi: 'बैंक पासबुक / विवरण',
+    ta: 'வங்கி கணக்கு புத்தகம் / அறிக்கை',
+    te: 'బ్యాంక్ పాస్‌బుక్ / స్టేట్‌మెంట్',
+    kn: 'ಬ್ಯಾಂಕ್ ಪಾಸ್‌ಬುಕ್ / ಸ್ಟೇಟ್‌ಮೆಂಟ್',
+    ml: 'ബാങ്ക് പാസ്ബുക്ക് / സ്റ്റേറ്റ്മെന്റ്',
+  },
+  caste: {
+    en: 'Caste Certificate',
+    hi: 'जाति प्रमाण पत्र',
+    ta: 'சாதிச் சான்றிதழ்',
+    te: 'కుల ధృవీకరణ పత్రం',
+    kn: 'ಜಾತಿ ಪ್ರಮಾಣಪತ್ರ',
+    ml: 'ജാതി സർട്ടിഫിക്കറ്റ്',
+  },
+  income: {
+    en: 'Income Certificate',
+    hi: 'आय प्रमाण पत्र',
+    ta: 'வருமானச் சான்றிதழ்',
+    te: 'ఆదాయ ధృవీకరణ పత్రం',
+    kn: 'ಆದಾಯ ಪ್ರಮಾಣಪತ್ರ',
+    ml: 'വരുമാന സർട്ടിഫിക്കറ്റ്',
+  },
+  address: {
+    en: 'Address Proof / Domicile',
+    hi: 'निवास / पते का प्रमाण',
+    ta: 'முகவரிச் சான்று / இருப்பிடச் சான்று',
+    te: 'చిరునామా రుజువు / నివాస ధృవీకరణ పత్రం',
+    kn: 'ವಿಳಾಸ ಪುರಾವೆ / ನಿವಾಸ ಪ್ರಮಾಣಪತ್ರ',
+    ml: 'മേൽവിലാസ രേഖ / സ്ഥിരതാമസ സർട്ടിഫിക്കറ്റ്',
+  },
+  signature: {
+    en: 'Specimen Signature',
+    hi: 'हस्ताक्षर नमूना',
+    ta: 'மாதிரி கையொப்பம்',
+    te: 'సంతకం నమూనా',
+    kn: 'ಮಾದರಿ ಸಹಿ',
+    ml: 'മാതൃകാ ഒപ്പ്',
+  },
+};
+
+function getLocalizedDocName(doc: { name: string; nameHi?: string }, lang: Language): string {
+  const lower = doc.name.toLowerCase();
+  for (const [key, mapping] of Object.entries(COMMON_DOC_LOCALIZED)) {
+    if (lower.includes(key)) {
+      return mapping[lang] || mapping.en;
+    }
+  }
+  return resolveLocalizedPair(doc.name, doc.nameHi, lang);
+}
 
 interface DocumentOverviewProps {
   summary: {
@@ -127,7 +206,7 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
                   className="flex items-center justify-between p-2 rounded-lg bg-[#FAFAF9] dark:bg-[#1A2420] text-xs border border-[#EAECEB] dark:border-[#24342D]"
                 >
                   <span className="font-medium text-[#14453D] dark:text-[#E8EFEA] truncate pr-2">
-                    {language === 'hi' ? doc.nameHi : doc.name}
+                    {getLocalizedDocName(doc, language)}
                   </span>
                   {statusBadge(doc.status)}
                 </div>
@@ -144,7 +223,7 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
                 <div className="truncate pr-2">
                   <span className="font-bold text-[#516A5F] dark:text-[#9EB0A7] mr-1.5">[{doc.schemeCode}]</span>
                   <span className="font-medium text-[#14453D] dark:text-[#E8EFEA]">
-                    {language === 'hi' ? doc.nameHi : doc.name}
+                    {getLocalizedDocName(doc, language)}
                   </span>
                 </div>
                 {statusBadge(doc.status)}

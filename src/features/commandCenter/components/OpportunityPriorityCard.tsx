@@ -4,8 +4,10 @@
  */
 
 import React from 'react';
+import { resolveLocalizedPair } from '../../../i18n/resolveLocalized';
 import { OpportunityItem } from '../types';
 import { useTranslation } from '../i18n';
+import { useTranslation as useAppTranslation } from '../../../i18n';
 import { AnimatedCounter } from '../../../animations';
 import { VerificationBadge } from '../../../components/ui';
 import { ArrowFillButton } from '../../../components/ui';
@@ -29,6 +31,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
   id = 'top-opportunity-card',
 }) => {
   const { t, language } = useTranslation();
+  const { getLocalizedScheme } = useAppTranslation();
   const { scheme, matchResult, actionPriority, nextBestAction, documentReadiness, whyThisScheme, isSaved } = opportunity;
 
   // Badge configuration based on deterministic action priority
@@ -55,8 +58,9 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
     },
   }[actionPriority];
 
-  const schemeTitle = language === 'hi' ? scheme.nameHi : scheme.name;
-  const deptTitle = language === 'hi' ? scheme.departmentHi : scheme.department;
+  const locScheme = getLocalizedScheme(scheme);
+  const schemeTitle = locScheme.name || scheme.name;
+  const deptTitle = locScheme.department || scheme.department;
 
   return (
     <div
@@ -144,7 +148,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
               {pt.type === 'positive' && <span className="text-[#16A34A] dark:text-[#34D399] font-bold shrink-0">✓</span>}
               {pt.type === 'attention' && <AlertCircle className="w-3.5 h-3.5 text-[#92610A] dark:text-[#FCD34D] mt-0.5 shrink-0" />}
               {pt.type === 'neutral' && <span className="text-[#8E9F97] dark:text-[#6F7A73] font-bold shrink-0">•</span>}
-              <span>{language === 'hi' ? pt.textHi : pt.text}</span>
+              <span>{resolveLocalizedPair(pt.text, pt.textHi, language)}</span>
             </div>
           ))}
         </div>
@@ -157,10 +161,12 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
             {t('nextBestActionTitle')}
           </span>
           <div className="text-sm font-semibold text-[#1A1C1B] dark:text-[#F0F4F2]">
-            {language === 'hi' ? nextBestAction.actionTextHi : nextBestAction.actionText}
+            {nextBestAction.actionLocalized?.[language] ||
+              (resolveLocalizedPair(nextBestAction.actionText, nextBestAction.actionTextHi, language))}
           </div>
           <div className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mt-0.5">
-            {language === 'hi' ? nextBestAction.reasonTextHi : nextBestAction.reasonText}
+            {nextBestAction.reasonLocalized?.[language] ||
+              (resolveLocalizedPair(nextBestAction.reasonText, nextBestAction.reasonTextHi, language))}
           </div>
         </div>
 

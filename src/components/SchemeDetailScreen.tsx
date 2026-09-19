@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { resolveLocalizedPair } from '../i18n/resolveLocalized';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { MatchResult, UserProfile, Scheme } from '../types';
 import { MatchGauge } from './MatchGauge';
@@ -32,16 +33,22 @@ import {
   FileCheck2,
   Globe,
 } from 'lucide-react';
-import { useTranslation } from '../i18n';
+import { useTranslation, Language } from '../i18n';
 import { getSchemeCategories, getSchemeProvenance } from '../lib/data/normalization';
 import { deriveSchemeTrustProfile } from '../lib/data/trustEngine';
-import { getNextBestAction } from '../lib/matching/decisionEngine';
+import { getNextBestAction } from '../i18n/decisionActionI18n';
 import { evaluateFundingFit } from '../lib/matching/fundingFit';
 import {
   deriveBusinessNeedProfile,
   BUSINESS_STAGE_TAXONOMY,
   SUPPORT_NEEDS_TAXONOMY,
 } from '../lib/business';
+import { getLocalizedBusinessRelevance } from '../lib/business/businessRelevanceEngine';
+import {
+  SCHEME_DETAIL_I18N,
+  getLocalizedStageLabel,
+  getLocalizedNeedLabel,
+} from '../i18n/schemeDetailI18n';
 import {
   fadeIn,
   fadeSlideUp,
@@ -76,6 +83,15 @@ interface SchemeDetailScreenProps {
   onOpenWorkspace?: (match: MatchResult) => void;
 }
 
+const ALTERNATIVE_REASON_TEMPLATES: Record<Language, (pct: number) => string> = {
+  en: (pct) => `Recommended alternative with ${pct}% enterprise match score.`,
+  hi: (pct) => `${pct}% मिलान स्कोर के साथ अनुशंसित विकल्प।`,
+  ta: (pct) => `${pct}% பொருத்த மதிப்பெண்ணுடன் பரிந்துரைக்கப்பட்ட மாற்று.`,
+  te: (pct) => `${pct}% సరిపోలిక స్కోరుతో సిఫార్సు చేయబడిన ప్రత్యామ్నాయం.`,
+  kn: (pct) => `${pct}% ಹೊಂದಾಣಿಕೆ ಸ್ಕೋರ್‌ನೊಂದಿಗೆ ಶಿಫಾರಸು ಮಾಡಲಾದ ಪರ್ಯಾಯ.`,
+  ml: (pct) => `${pct}% പൊരുത്ത സ്കോറോടെ ശുപാർಶ ചെയ്യുന്ന ബദൽ.`,
+};
+
 export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
   matchResult,
   allMatches,
@@ -101,6 +117,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
   const shouldReduceMotion = useReducedMotion();
 
   const locScheme = getLocalizedScheme(matchResult.scheme);
+  const sdui = SCHEME_DETAIL_I18N[lang] || SCHEME_DETAIL_I18N.en;
   const isEligible = matchResult.matchStatus === 'eligible';
   const isNearMatch = matchResult.matchStatus === 'near-match';
   const isSaved = savedSchemeIds.has(locScheme.id);
@@ -178,6 +195,12 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
     }
   }, [locScheme.officialPortalUrl]);
 
+  const localizedRelevance = useMemo(() => {
+    return matchResult.businessRelevance
+      ? getLocalizedBusinessRelevance(matchResult.businessRelevance, lang)
+      : null;
+  }, [matchResult.businessRelevance, lang]);
+
   // Alternative recommendations: use engine's recommendations or fallback to compatible matches
   const alternativeItems = useMemo(() => {
     if (
@@ -193,14 +216,12 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
       .slice(0, 3)
       .map((m) => {
         const altLoc = getLocalizedScheme(m.scheme);
+        const reasonFn = ALTERNATIVE_REASON_TEMPLATES[lang] || ALTERNATIVE_REASON_TEMPLATES.en;
         return {
           scheme: m.scheme,
           matchPercentage: m.matchPercentage,
           matchStatus: m.matchStatus,
-          reason:
-            lang === 'hi'
-              ? `${m.matchPercentage}% मिलान स्कोर के साथ अनुशंसित विकल्प।`
-              : `Recommended alternative with ${m.matchPercentage}% enterprise match score.`,
+          reason: reasonFn(m.matchPercentage),
         };
       });
   }, [matchResult, allMatches, locScheme.id, lang, getLocalizedScheme]);
@@ -441,7 +462,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold border border-[#0F6B4C] dark:border-[#4ADE80] text-[#0F6B4C] dark:text-[#4ADE80] bg-[#0F6B4C]/5 hover:bg-[#0F6B4C]/10 transition-colors cursor-pointer"
                 >
                   <FileCheck2 className="w-3.5 h-3.5" />
-                  <span>{lang === 'hi' ? 'आवेदन तैयारी कार्यक्षेत्र' : 'Preparation Workspace'}</span>
+                  <span>{sdui.prepWorkspace}</span>
                 </button>
               )}
 
@@ -484,7 +505,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 <div>
                   <div className="flex items-center gap-2 mb-0.5">
                     <span className="text-[10px] font-extrabold uppercase tracking-wider bg-[#14453D] dark:bg-[#34D399] text-white dark:text-[#0B251F] px-2 py-0.5 rounded">
-                      {lang === 'hi' ? 'सर्वोत्तम अगला कदम' : 'Next Best Action'}
+                      {sdui.nextBestAction}
                     </span>
                     <span className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80]">
                       {nextAction.badgeText}
@@ -613,7 +634,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                     <Briefcase className="w-3.5 h-3.5" />
                   </div>
                   <h2 className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2]">
-                    {lang === 'hi' ? 'यह आपके व्यवसाय के लिए क्य��ं उपयोगी है' : 'Why This May Help Your Business'}
+                    {sdui.whyHelpBiz}
                   </h2>
                 </div>
                 {matchResult.businessRelevance && (
@@ -626,9 +647,9 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                         : 'bg-stone-500 text-white'
                     }`}
                   >
-                    {lang === 'hi'
-                      ? matchResult.businessRelevance.badgeLabelHi
-                      : matchResult.businessRelevance.badgeLabelEn}
+                    {sdui.relevanceLevels[matchResult.businessRelevance.relevanceLevel] ||
+                      localizedRelevance?.badgeLabel ||
+                      matchResult.businessRelevance.badgeLabelEn}
                   </span>
                 )}
               </div>
@@ -636,37 +657,27 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4 p-3.5 rounded bg-[#FAFAF9] dark:bg-[#101613] border border-[#E2E2E0] dark:border-[#24342D]">
                 <div>
                   <span className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] block font-medium">
-                    {lang === 'hi' ? 'व्यवसाय चरण:' : 'Business Stage:'}
+                    {sdui.businessStage}
                   </span>
                   <strong className="text-xs text-[#1A1C1B] dark:text-[#F0F4F2] font-bold">
                     {effectiveNeedProfile?.currentStage
-                      ? lang === 'hi'
-                        ? BUSINESS_STAGE_TAXONOMY[effectiveNeedProfile.currentStage]?.labelHi ||
-                          effectiveNeedProfile.currentStage
-                        : BUSINESS_STAGE_TAXONOMY[effectiveNeedProfile.currentStage]?.labelEn ||
-                          effectiveNeedProfile.currentStage
-                      : userProfile.businessStage || (lang === 'hi' ? 'सामान्य उद्यम' : 'General Setup')}
+                      ? getLocalizedStageLabel(effectiveNeedProfile.currentStage, lang)
+                      : userProfile.businessStage || sdui.generalSetup}
                   </strong>
                 </div>
                 <div>
                   <span className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] block font-medium">
-                    {lang === 'hi' ? 'प्राथमिक आवश्यकता:' : 'Primary Need:'}
+                    {sdui.primaryNeed}
                   </span>
                   <strong className="text-xs text-[#1A1C1B] dark:text-[#F0F4F2] font-bold">
                     {effectiveNeedProfile?.primaryNeed
-                      ? lang === 'hi'
-                        ? SUPPORT_NEEDS_TAXONOMY[effectiveNeedProfile.primaryNeed]?.labelHi ||
-                          effectiveNeedProfile.primaryNeed
-                        : SUPPORT_NEEDS_TAXONOMY[effectiveNeedProfile.primaryNeed]?.labelEn ||
-                          effectiveNeedProfile.primaryNeed
-                      : lang === 'hi'
-                      ? 'पूंजी / ऋण सहायता'
-                      : 'Capital / Loan Assistance'}
+                      ? getLocalizedNeedLabel(effectiveNeedProfile.primaryNeed, lang)
+                      : sdui.capitalAssistance}
                   </strong>
                 </div>
                 <div>
                   <span className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] block font-medium">
-                    {lang === 'hi' ? 'अनुमानित वित्तीय अंतर:' : 'Funding Gap:'}
+                    {sdui.fundingGap}
                   </span>
                   <strong className="text-xs text-[#14453D] dark:text-[#4ADE80] font-bold">
                     {effectiveNeedProfile?.fundingGap !== undefined &&
@@ -676,9 +687,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                       ? formatCurrency(userProfile.fundingGap)
                       : userProfile.fundingRequired
                       ? formatCurrency(userProfile.fundingRequired)
-                      : lang === 'hi'
-                      ? 'अनिर्दिष्ट'
-                      : 'Not specified'}
+                      : sdui.notSpecified}
                   </strong>
                 </div>
               </div>
@@ -689,7 +698,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   <CheckCircle2 className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80] shrink-0 mt-0.5" />
                   <p className="text-[#3F4943] dark:text-[#C5D5CC]">
                     <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">
-                      {lang === 'hi' ? 'सत्यापित योजना लाभ: ' : 'Verified Scheme Benefit: '}
+                      {sdui.verifiedBenefit}
                     </strong>
                     {locScheme.benefitSummary}
                   </p>
@@ -699,25 +708,23 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                     <Sparkles className="w-4 h-4 text-[#14453D] dark:text-[#34D399] shrink-0 mt-0.5" />
                     <p className="text-[#3F4943] dark:text-[#C5D5CC]">
                       <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">
-                        {lang === 'hi' ? 'प्रासंगिकता विश्लेषण: ' : 'Relevance Rationale: '}
+                        {sdui.relevanceRationale}
                       </strong>
-                      {lang === 'hi'
-                        ? matchResult.businessRelevance.explanationHi
-                        : matchResult.businessRelevance.explanationEn}
+                      {localizedRelevance?.explanation || matchResult.businessRelevance.explanationEn}
                     </p>
                   </div>
                 )}
                 {matchResult.businessRelevance?.matchedNeeds && matchResult.businessRelevance.matchedNeeds.length > 0 && (
                   <div className="pt-2 mt-2 border-t border-[#E2E2E0] dark:border-[#24342D] flex flex-wrap items-center gap-1.5">
                     <span className="text-[11px] font-medium text-[#6F7A73] dark:text-[#8E9F97]">
-                      {lang === 'hi' ? 'समर्थ���त व्यावसायिक जरूरतें:' : 'Supported Needs:'}
+                      {sdui.supportedNeeds}
                     </span>
                     {matchResult.businessRelevance.matchedNeeds.map((n) => (
                       <span
                         key={n.needType}
                         className="text-[10px] font-bold bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] px-2 py-0.5 rounded"
                       >
-                        ✓ {lang === 'hi' ? n.labelHi : n.labelEn}
+                        ✓ {getLocalizedNeedLabel(n.needType, lang) || resolveLocalizedPair(n.labelEn, n.labelHi, lang) || n.labelEn}
                       </span>
                     ))}
                   </div>
@@ -851,7 +858,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             {locScheme.purpose && (
               <div className="mb-5 p-3.5 bg-[#F3F4F3] dark:bg-[#1B2420] rounded border border-[#E2E2E0] dark:border-[#26382F]">
                 <span className="text-[11px] uppercase font-bold text-[#6F7A73] dark:text-[#8E9F97] block mb-1">
-                  {lang === 'hi' ? 'उद्देश्य एवं कार्यक्षेत्र' : 'Purpose & Core Focus'}
+                  {sdui.purposeCoreFocus}
                 </span>
                 <p className="text-xs text-[#1A1C1B] dark:text-[#F0F4F2] leading-relaxed font-medium">
                   {locScheme.purpose}
@@ -997,7 +1004,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                         ) : row.state === 'UNKNOWN' ? (
                           <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 dark:text-amber-300">
                             <HelpCircle className="w-3.5 h-3.5" />
-                            <span>{lang === 'hi' ? 'विवरण आवश्यक' : 'Needed'}</span>
+                            <span>{sdui.needed}</span>
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#C2603F] dark:text-[#F87171]">
@@ -1254,14 +1261,14 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-[10px] font-bold uppercase tracking-wider">
-                        {lang === 'hi' ? 'वित्तीय आवश्यकता अनुकूलता' : 'Funding Fit Analysis'}
+                        {sdui.fundingFitAnalysis}
                       </span>
                       <span className="text-[10px] font-extrabold px-1.5 py-0.2 rounded bg-white/70 dark:bg-black/40">
                         {isWithin
-                          ? (lang === 'hi' ? 'दायरे में' : 'Within Range')
+                          ? sdui.withinRange
                           : isAbove
-                          ? (lang === 'hi' ? 'अधिकतम सीमा से अधिक' : 'Exceeds Cap')
-                          : (lang === 'hi' ? 'विवरण' : 'Info')}
+                          ? sdui.exceedsCap
+                          : sdui.info}
                       </span>
                     </div>
                     <p className="text-[11px] leading-relaxed mb-1.5 font-medium">
@@ -1312,9 +1319,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                     {t('schemeDetail.subsidyRate')}
                   </span>
                   <span className="text-lg font-bold text-amber-900 dark:text-amber-200">
-                    {lang === 'hi'
-                      ? `${locScheme.subsidyRatePercent}% तक सब्सिडी`
-                      : `Up to ${locScheme.subsidyRatePercent}% Subsidy`}
+                    {sdui.upToSubsidy(locScheme.subsidyRatePercent)}
                   </span>
                   {locScheme.subsidyCap && locScheme.subsidyCap > 0 && (
                     <span className="text-[11px] text-amber-700 dark:text-amber-400 block mt-0.5">
@@ -1348,7 +1353,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   {locScheme.moratoriumPeriodMonths > 0 && (
                     <span className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] block mt-0.5">
                       {t('schemeDetail.moratorium')}: {locScheme.moratoriumPeriodMonths}{' '}
-                      {lang === 'hi' ? 'महीने' : 'Months'}
+                      {sdui.months}
                     </span>
                   )}
                 </div>
@@ -1430,7 +1435,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                           {altLoc.shortCode}
                         </span>
                         <span className="text-[11px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D4EFE1] dark:bg-[#1A382D] px-2 py-0.2 rounded">
-                          {Math.round(alt.matchPercentage)}% {lang === 'hi' ? 'मिलान' : 'Match'}
+                          {Math.round(alt.matchPercentage)}% {sdui.match}
                         </span>
                       </div>
 
@@ -1499,7 +1504,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               onClick={() => onOpenWorkspace(matchResult)}
               className="yj-tap px-3 py-2 rounded-[var(--yj-radius-md)] text-xs font-bold border border-[#0F6B4C] dark:border-[#4ADE80] text-[#0F6B4C] dark:text-[#4ADE80] bg-[#0F6B4C]/5 hover:bg-[#0F6B4C]/10 transition-colors yj-focus-ring"
             >
-              {lang === 'hi' ? 'तैयारी' : 'Prepare'}
+              {sdui.prepare}
             </button>
           )}
 

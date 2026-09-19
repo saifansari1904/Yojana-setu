@@ -29,7 +29,6 @@ export interface DerivePathwayActionInput {
   checklist: PreparationChecklistResult;
   readiness: ApplicationReadiness;
   supportStack: SupportStackGroup[];
-  lang?: 'en' | 'hi';
 }
 
 interface ActionSeed {
@@ -57,6 +56,10 @@ function toAction(seed: ActionSeed): PathwayAction {
   return {
     id: seed.id,
     actionType: seed.actionType,
+    titleKey: `nextBestAction.${seed.id}.title`,
+    descriptionKey: `nextBestAction.${seed.id}.description`,
+    reasonKey: `nextBestAction.${seed.id}.reason`,
+    ctaKey: `nextBestAction.${seed.id}.cta`,
     titleEn: seed.titleEn,
     titleHi: seed.titleHi,
     descriptionEn: seed.descriptionEn,
@@ -468,3 +471,5 @@ export function derivePathwayNextBestAction(
 
   return { primary, secondary, blocked, completed };
 }
+
+export { getLocalizedPathwayAction, PATHWAY_ACTION_LOCALIZED } from '../../i18n/pathwayActionI18n';

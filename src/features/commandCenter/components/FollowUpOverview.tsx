@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { resolveLocalizedPair } from '../../../i18n/resolveLocalized';
 import { FollowUpItem } from '../types';
 import { useTranslation } from '../i18n';
 import { Calendar, Bell, ShieldAlert, CheckCircle2, ArrowRight, Plus } from 'lucide-react';
@@ -80,7 +81,7 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
                     </button>
                     <div>
                       <div className="font-semibold text-[#1A1C1B] dark:text-[#F0F4F2]">
-                        {language === 'hi' ? item.titleHi : item.title}
+                        {resolveLocalizedPair(item.title, item.titleHi, language)}
                       </div>
                       <div className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] mt-0.5">
                         {item.schemeName}

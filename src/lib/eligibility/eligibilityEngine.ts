@@ -149,76 +149,66 @@ export function determineEligibility(
 /**
  * Calculates numerical distance or explicit explanation for the primary gap.
  */
-export function identifyPrimaryGap(
+export function identifyPrimaryGapCore(
   scheme: Scheme,
   profile: UserProfile,
   unmet: SchemeRuleBreakdown[],
-  failedMandatory: SchemeFactorKey[],
-  isHi: boolean
+  failedMandatory: SchemeFactorKey[]
 ): PrimaryGap | undefined {
   if (unmet.length === 0) return undefined;
 
-  // Prioritize failed mandatory criteria first, then by factor weight
+  // Prioritize failed mandatory criteria first, then by stable factor priority.
   const priorityOrder: SchemeFactorKey[] = ['state', 'income', 'businessType', 'category', 'age'];
-
   let chosen: SchemeRuleBreakdown | undefined;
   for (const key of priorityOrder) {
     if (failedMandatory.includes(key)) {
-      chosen = unmet.find((u) => u.factorKey === key);
+      chosen = unmet.find((item) => item.factorKey === key);
       if (chosen) break;
     }
   }
-
   if (!chosen) {
     for (const key of priorityOrder) {
-      chosen = unmet.find((u) => u.factorKey === key);
+      chosen = unmet.find((item) => item.factorKey === key);
       if (chosen) break;
     }
   }
-
   if (!chosen) chosen = unmet[0];
 
-  let gapDistance: string | undefined;
+  let code: PrimaryGap['code'];
+  let gapValue: number | string | undefined;
   let isActionable = false;
 
   if (chosen.factorKey === 'income' && scheme.maxAnnualIncomeCap > 0) {
-    const diff = profile.annualIncome - scheme.maxAnnualIncomeCap;
-    if (diff > 0) {
-      gapDistance = isHi
-        ? `सीमा से ${formatCurrency(diff)} अधिक`
-        : `${formatCurrency(diff)} above ceiling`;
-      isActionable = false;
+    const difference = profile.annualIncome - scheme.maxAnnualIncomeCap;
+    if (difference > 0) {
+      code = 'INCOME_ABOVE_LIMIT';
+      gapValue = difference;
     }
   } else if (chosen.factorKey === 'age') {
     if (profile.age < scheme.minAge) {
-      const diff = scheme.minAge - profile.age;
-      gapDistance = isHi
-        ? `न्यूनतम आयु से ${diff} वर्ष कम`
-        : `${diff} yr${diff > 1 ? 's' : ''} below minimum`;
+      code = 'AGE_BELOW_MINIMUM';
+      gapValue = scheme.minAge - profile.age;
     } else if (profile.age > scheme.maxAge) {
-      const diff = profile.age - scheme.maxAge;
-      gapDistance = isHi
-        ? `अधिकतम आयु से ${diff} वर्ष अधिक`
-        : `${diff} yr${diff > 1 ? 's' : ''} above maximum`;
+      code = 'AGE_ABOVE_MAXIMUM';
+      gapValue = profile.age - scheme.maxAge;
     }
   } else if (chosen.factorKey === 'state') {
-    gapDistance = isHi
-      ? `केवल ${scheme.applicableStates.join(', ')} में मान्य`
-      : `Restricted to ${scheme.applicableStates.join(', ')}`;
-    isActionable = false;
+    code = 'STATE_NOT_SUPPORTED';
+    gapValue = scheme.applicableStates.join(', ');
   } else if (chosen.factorKey === 'businessType') {
-    gapDistance = isHi ? `कार्यक्षेत्र भिन्नता` : `Different trade domain`;
+    code = 'BUSINESS_TYPE_MISMATCH';
   } else if (chosen.factorKey === 'category') {
-    gapDistance = isHi ? `विशिष्ट आरक्षित वर्ग` : `Reserved target group`;
+    code = 'CATEGORY_MISMATCH';
   }
 
   return {
+    code,
+    gapValue,
     factorKey: chosen.factorKey,
     factorLabel: chosen.factorLabel,
     userValue: chosen.userValue,
     statutoryRequirement: chosen.statutoryRequirement,
     explanation: chosen.explanation,
-    gapDistance,
     isActionable,
   };
 }

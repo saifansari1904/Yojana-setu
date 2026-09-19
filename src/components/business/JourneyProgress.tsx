@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { BUSINESS_JOURNEY_STAGES, BusinessJourneyStage } from '../../types/business';
+import { transitions } from '../../animations';
+import { BusinessJourneyStage, BUSINESS_JOURNEY_STAGES } from '../../types/business';
 import { useTranslation } from '../../i18n';
-import { transitions } from '../../animations/transitions';
+import type { Language } from '../../i18n/types';
 
 interface JourneyProgressProps {
   currentStage: BusinessJourneyStage;
@@ -10,8 +11,102 @@ interface JourneyProgressProps {
   className?: string;
 }
 
+const COPY = {
+  sectionTitle: {
+    en: 'Your business journey',
+    hi: 'आपकी व्यावसायिक यात्रा',
+    ta: 'உங்கள் வணிகப் பயணம்',
+    te: 'మీ వ్యాపార ప్రయాణం',
+    kn: 'ನಿಮ್ಮ ವ್ಯವಹಾರ ಪಯಣ',
+    ml: 'നിങ്ങളുടെ ബിസിനസ്സ് യാത്ര',
+  },
+  youAreHere: {
+    en: '← You are here',
+    hi: '← आप यहां हैं',
+    ta: '← நீங்கள் இங்கே உள்ளீர்கள்',
+    te: '← మీరు ఇక్కడ ఉన్నారు',
+    kn: '← ನೀವು ಇಲ್ಲಿದ್ದೀರಿ',
+    ml: '← നിങ്ങൾ ഇവിടെയാണ്',
+  },
+  completed: {
+    en: 'completed',
+    hi: 'पूर्ण',
+    ta: 'முடிந்தது',
+    te: 'పూర్తయింది',
+    kn: 'ಪೂರ್ಣಗೊಂಡಿದೆ',
+    ml: 'പൂർത്തിയായി',
+  },
+};
+
+const STAGE_LABELS: Record<BusinessJourneyStage, Record<Language, string>> = {
+  IDEA: {
+    en: 'Conceive Idea',
+    hi: 'विचार निर्माण',
+    ta: 'யோசனை உருவாக்கம்',
+    te: 'ఆలోచన సృష్టి',
+    kn: 'ಯೋಜನೆ ಕಲ್ಪನೆ',
+    ml: 'ആശയം രൂപീകരിക്കൽ',
+  },
+  VALIDATE: {
+    en: 'Validate Market',
+    hi: 'बाजार सत्यापन',
+    ta: 'சந்தை சரிபார்ப்பு',
+    te: 'మార్కెట్ ధృవీకరణ',
+    kn: 'ಮಾರುಕಟ್ಟೆ ಪರಿಶೀಲನೆ',
+    ml: 'വിപണി സാധൂകരണം',
+  },
+  REGISTER: {
+    en: 'Formalize Entity',
+    hi: 'पंजीकरण',
+    ta: 'பதிவு செய்தல்',
+    te: 'నమోదు',
+    kn: 'ನೋಂದಣಿ',
+    ml: 'രജിസ്ട്രേഷൻ',
+  },
+  FUND: {
+    en: 'Secure Funding',
+    hi: 'पूंजी व्यवस्था',
+    ta: 'நிதி திரட்டுதல்',
+    te: 'నిధుల సేకరణ',
+    kn: 'ನಿಧಿ ಸಂಗ್ರಹ',
+    ml: 'ഫണ്ട് സമാഹരണം',
+  },
+  LAUNCH: {
+    en: 'Launch Enterprise',
+    hi: 'उद्यम शुरुआत',
+    ta: 'தொழில் தொடங்குதல்',
+    te: 'ప్రారంభం',
+    kn: 'ಉದ್ಯಮ ಪ್ರಾರಂಭ',
+    ml: 'ആരംഭം',
+  },
+  OPERATE: {
+    en: 'Daily Operations',
+    hi: 'दैनिक संचालन',
+    ta: 'தினசரி செயல்பாடுகள்',
+    te: 'రోజువారీ కార్యకలాపాలు',
+    kn: 'ದೈನಂದಿನ ಕಾರ್ಯಾಚರಣೆ',
+    ml: 'പ്രവർത്തനങ്ങൾ',
+  },
+  GROW: {
+    en: 'Revenue Growth',
+    hi: 'व्यवसाय वृद्धि',
+    ta: 'வருவாய் வளர்ச்சி',
+    te: 'ఆదాయ వృద్ధి',
+    kn: 'ಆದಾಯ ಬೆಳವಣಿಗೆ',
+    ml: 'വളർച്ച',
+  },
+  EXPAND: {
+    en: 'Scale & Expand',
+    hi: 'बृहद विस्तार',
+    ta: 'விரிவாக்கம்',
+    te: 'విస్తరణ',
+    kn: 'ವಿಸ್ತರಣೆ',
+    ml: 'വിപുಲീകരണം',
+  },
+};
+
 /**
- * Phase 4.2 — Business journey rail.
+ * Phase 4.2 — Visual business journey tracker.
  * Renders the existing canonical journey (Idea → Expand) and emphasises the
  * entrepreneur's current position. No new stage model is introduced here.
  */
@@ -21,8 +116,12 @@ export const JourneyProgress: React.FC<JourneyProgressProps> = ({
   className = '',
 }) => {
   const { lang } = useTranslation();
-  const isHi = lang === 'hi';
+  const l: Language = (lang in COPY.sectionTitle) ? lang : 'en';
   const shouldReduceMotion = useReducedMotion();
+
+  const title = COPY.sectionTitle[l];
+  const youAreHereText = COPY.youAreHere[l];
+  const completedText = COPY.completed[l];
 
   const currentIndex = BUSINESS_JOURNEY_STAGES.findIndex((s) => s.stage === currentStage);
   const safeIndex = currentIndex >= 0 ? currentIndex : 0;
@@ -32,11 +131,11 @@ export const JourneyProgress: React.FC<JourneyProgressProps> = ({
   return (
     <section
       id={id}
-      aria-label={isHi ? 'आपकी व्यावसायिक यात्रा' : 'Your business journey'}
+      aria-label={title}
       className={`rounded-2xl border border-[#E2E2E0] dark:border-[#24342D] bg-white dark:bg-[#132720] p-4 sm:p-5 ${className}`}
     >
       <h3 className="text-xs font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[#9EB0A7] mb-4">
-        {isHi ? 'आपकी व्यावसायिक यात्रा' : 'Your business journey'}
+        {title}
       </h3>
 
       {/* Progress rail */}
@@ -54,7 +153,7 @@ export const JourneyProgress: React.FC<JourneyProgressProps> = ({
         {BUSINESS_JOURNEY_STAGES.map((stage, index) => {
           const isCurrent = stage.stage === currentStage;
           const isPast = index < safeIndex;
-          const label = isHi ? stage.labelHi : stage.labelEn;
+          const label = STAGE_LABELS[stage.stage]?.[l] || (l === 'hi' ? stage.labelHi : stage.labelEn);
 
           return (
             <li key={stage.stage}>
@@ -73,10 +172,10 @@ export const JourneyProgress: React.FC<JourneyProgressProps> = ({
                 {/* Status is never conveyed by colour alone. */}
                 {isCurrent && (
                   <span className="text-[10px] font-semibold uppercase tracking-wide">
-                    {isHi ? '← आप यहां हैं' : '← You are here'}
+                    {youAreHereText}
                   </span>
                 )}
-                {isPast && <span className="sr-only">{isHi ? 'पूर्ण' : 'completed'}</span>}
+                {isPast && <span className="sr-only">{completedText}</span>}
               </span>
             </li>
           );

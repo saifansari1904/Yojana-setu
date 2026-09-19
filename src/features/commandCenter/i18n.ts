@@ -7,24 +7,35 @@
  */
 
 import { useTranslation as useAppTranslation } from '../../i18n';
+import { Language } from '../../i18n/types';
 import { en } from './en';
 import { hi } from './hi';
+import { ta } from './ta';
+import { te } from './te';
+import { kn } from './kn';
+import { ml } from './ml';
 
 export type CommandCenterKey = keyof typeof en;
 
+const commandCenterTranslations: Record<Language, typeof en> = {
+  en,
+  hi,
+  ta,
+  te,
+  kn,
+  ml,
+};
+
 export function useTranslation(): {
-  language: 'en' | 'hi';
+  language: Language;
   t: (key: CommandCenterKey) => string;
 } {
   const { lang } = useAppTranslation();
-  const language: 'en' | 'hi' = lang === 'hi' ? 'hi' : 'en';
+  const currentTable = commandCenterTranslations[lang] || en;
 
   const t = (key: CommandCenterKey): string => {
-    if (language === 'hi') {
-      return (hi as Record<string, string>)[key] || (en as Record<string, string>)[key] || key;
-    }
-    return (en as Record<string, string>)[key] || key;
+    return currentTable[key] || en[key] || key;
   };
 
-  return { language, t };
+  return { language: lang, t };
 }

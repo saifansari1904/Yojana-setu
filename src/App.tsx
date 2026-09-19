@@ -14,6 +14,8 @@ import { SchemeDetailScreen } from './components/SchemeDetailScreen';
 import { ApplicationTrackerScreen } from './components/ApplicationTrackerScreen';
 import { CommandCenterScreen } from './features/commandCenter/CommandCenterScreen';
 import { ApplicationWorkspaceScreen } from './components/application';
+import { EntrepreneurProfileScreen } from './components/profile/EntrepreneurProfileScreen';
+import { loadStoredProfile, saveStoredProfile } from './lib/profile/profileStorage';
 import {
   completeFollowUpReminder,
   createTrackedApplication,
@@ -47,13 +49,23 @@ function YojanaSetuMain() {
     if (typeof window === 'undefined') return false;
     return !sessionStorage.getItem('yojana_setu_splash_seen');
   });
-  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('login');
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [applicantName, setApplicantName] = useState<string>('');
+  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>(() => {
+    if (typeof window === 'undefined') return 'login';
+    const stored = loadStoredProfile();
+    return stored ? 'dashboard' : 'login';
+  });
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return !!loadStoredProfile();
+  });
+  const [applicantName, setApplicantName] = useState<string>(() => {
+    if (typeof window === 'undefined') return '';
+    return loadStoredProfile()?.applicantName || '';
+  });
   const [isMatching, setIsMatching] = useState<boolean>(false);
 
-  // User profile starts as null (no pre-selected default profile)
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  // User profile loaded from authoritative persistent storage
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(() => loadStoredProfile());
 
   // Modal / Slide-over state for "Why this match?"
   const [whyMatchTarget, setWhyMatchTarget] = useState<MatchResult | null>(null);
@@ -66,6 +78,9 @@ function YojanaSetuMain() {
 
   // Target match for Phase 5 Application Preparation Workspace
   const [workspaceTarget, setWorkspaceTarget] = useState<MatchResult | null>(null);
+
+  // Target profile section for direct deep linking from Account Menu
+  const [targetProfileSection, setTargetProfileSection] = useState<string | null>(null);
 
   // Saved scheme IDs (persisted in localStorage)
   const [savedSchemeIds, setSavedSchemeIds] = useState<Set<string>>(() => {
@@ -171,19 +186,35 @@ function YojanaSetuMain() {
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUserProfile(null);
+    saveStoredProfile(null);
     setApplicantName('');
     navigateTo('login');
   };
 
+  const handleUpdateProfile = (updatedProfile: UserProfile) => {
+    saveStoredProfile(updatedProfile);
+    setUserProfile(updatedProfile);
+  };
+
   const handleFormSubmit = (newProfile: UserProfile) => {
-    const needProfile = newProfile.businessNeedProfile || deriveBusinessNeedProfile(newProfile);
-    const businessProfile = newProfile.businessProfile || deriveBusinessProfile(newProfile);
-    setUserProfile({
+    const needProfile = newProfile?.businessNeedProfile || deriveBusinessNeedProfile(newProfile);
+    const businessProfile = newProfile?.businessProfile || deriveBusinessProfile(newProfile);
+    const defaultCitizenName: Record<string, string> = {
+      en: 'Citizen Entrepreneur',
+      hi: 'नागरिक उद्यमी',
+      ta: 'குடிமகன் தொழில்முனைவோர்',
+      te: 'పౌర పారిశ్రామికవేత్త',
+      kn: 'ನಾಗರಿಕ ಉದ್ಯಮಿ',
+      ml: 'പൗര സംരംഭകൻ',
+    };
+    const fullProfile: UserProfile = {
       ...newProfile,
-      applicantName: applicantName || newProfile.applicantName || (lang === 'hi' ? 'नागरिक उद्यमी' : 'Citizen Entrepreneur'),
+      applicantName: applicantName || newProfile.applicantName || (defaultCitizenName[lang] || 'Citizen Entrepreneur'),
       businessNeedProfile: needProfile,
       businessProfile: businessProfile,
-    });
+    };
+    saveStoredProfile(fullProfile);
+    setUserProfile(fullProfile);
     setIsAuthenticated(true);
     setIsMatching(true);
   };
@@ -323,6 +354,11 @@ function YojanaSetuMain() {
     commitTrackedApplications((current) => completeFollowUpReminder(current, schemeId));
   };
 
+  const handleHeaderNavigate = (screen: ActiveScreen, targetSectionId?: string) => {
+    setTargetProfileSection(targetSectionId || null);
+    navigateTo(screen);
+  };
+
   return (
     <div className="relative min-h-screen flex flex-col bg-[#FAFAF9] dark:bg-[#0E1311] text-[#1A1C1B] dark:text-[#F0F4F2] font-sans antialiased selection:bg-[#D4EFE1] dark:selection:bg-[#1A382D] selection:text-[#14453D] dark:selection:text-[#4ADE80] transition-colors duration-200 overflow-x-hidden">
       {/* Ambient background subtle lighting gradient */}
@@ -351,12 +387,15 @@ function YojanaSetuMain() {
       {/* App Navigation Header */}
       <Header
         currentScreen={currentScreen}
-        onNavigate={(screen) => navigateTo(screen)}
+        onNavigate={handleHeaderNavigate}
         userProfile={userProfile}
         applicantName={applicantName}
         isAuthenticated={isAuthenticated}
         onLogout={handleLogout}
         trackedCount={trackedApplications.length}
+        savedCount={savedSchemeIds.size}
+        matchResults={matchResults}
+        onUpdateProfile={handleUpdateProfile}
       />
 
       {/* Main View Area with Direction & Transition-Aware Pages */}
@@ -386,6 +425,7 @@ function YojanaSetuMain() {
                   onStartCheck={() => navigateTo('form')}
                   onOpenResults={() => navigateTo('results')}
                   onOpenTracker={() => navigateTo('tracker')}
+                  onOpenProfile={() => navigateTo('profile')}
                   onSelectScheme={handleSelectScheme}
                   onToggleSave={handleToggleSaveScheme}
                 />
@@ -408,7 +448,7 @@ function YojanaSetuMain() {
                   userProfile={userProfile}
                   onOpenWhyMatch={handleOpenWhyMatch}
                   onOpenWhyNotEligible={handleOpenWhyNotEligible}
-                  onEditProfile={() => navigateTo('form')}
+                  onEditProfile={() => navigateTo('profile')}
                   onSelectScheme={handleSelectScheme}
                   savedSchemeIds={savedSchemeIds}
                   onToggleSaveScheme={handleToggleSaveScheme}
@@ -486,6 +526,36 @@ function YojanaSetuMain() {
                   onOpenTracker={() => navigateTo('tracker')}
                   onUpdateApplications={(updated) => {
                     commitTrackedApplications(() => updated);
+                  }}
+                />
+              </AnimatedPage>
+            )}
+
+            {currentScreen === 'profile' && (
+              <AnimatedPage key="profile">
+                <EntrepreneurProfileScreen
+                  userProfile={userProfile}
+                  matchResults={matchResults}
+                  onUpdateProfile={handleUpdateProfile}
+                  onRetakeAssessment={() => navigateTo('form')}
+                  onViewMatches={() => navigateTo('results')}
+                  onViewDashboard={() => navigateTo('dashboard')}
+                  onViewTracker={() => navigateTo('tracker')}
+                  targetSectionId={targetProfileSection}
+                  onSelectScheme={(scheme) => {
+                    const match = matchResults.find((m) => m.scheme.id === scheme.id) || {
+                      scheme,
+                      matchScore: 85,
+                      matchPercentage: 85,
+                      isEligible: true,
+                      reasons: [],
+                      disqualifyingFactors: [],
+                      breakdown: { categoryScore: 20, stateScore: 20, businessTypeScore: 20, investmentScore: 20, ageScore: 5 },
+                      potentialSubsidyAmount: 250000,
+                      calculatedSubsidyText: '25% - 35% Capital Subsidy',
+                      priorityRank: 1,
+                    };
+                    handleSelectScheme(match as MatchResult);
                   }}
                 />
               </AnimatedPage>

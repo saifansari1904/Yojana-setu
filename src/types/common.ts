@@ -6,7 +6,8 @@ export type ActiveScreen =
   | 'alternatives'
   | 'scheme-detail'
   | 'tracker'
-  | 'workspace';
+  | 'workspace'
+  | 'profile';
 
 export interface RepaymentCalculation {
   principalAmount: number;

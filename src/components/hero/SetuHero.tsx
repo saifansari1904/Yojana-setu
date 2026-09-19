@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { ArrowFillButton } from '../ui';
 import { YojanaSetuLogo } from '../YojanaSetuLogo';
-import { useTranslation } from '../../i18n';
+import { useTranslation, Language } from '../../i18n';
 import { transitions, reducedMotionTransition } from '../../animations/transitions';
 
 interface SetuHeroProps {
@@ -26,13 +26,227 @@ interface SetuHeroProps {
   compact?: boolean;
 }
 
+const HERO_LOCALIZED: Record<
+  Language,
+  {
+    compactTitle1: string;
+    compactHighlight: string;
+    compactTitle2: string;
+    compactDesc: string;
+    fullEyebrow: string;
+    fullTitle1: string;
+    fullHighlight: string;
+    fullTitle2: string;
+    fullDesc: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    journeyAria: string;
+    steps: { label: string; hint: string }[];
+    pillars: { title: string; body: string }[];
+  }
+> = {
+  en: {
+    compactTitle1: 'The Intelligent Bridge Between Entrepreneurs & ',
+    compactHighlight: 'Government Schemes',
+    compactTitle2: '',
+    compactDesc:
+      'Empowering micro, small, and rural entrepreneurs with deterministic eligibility verification, real-time funding calculations, and guided application assistance.',
+    fullEyebrow: 'Yojana Setu Intelligence',
+    fullTitle1: 'Discover the right ',
+    fullHighlight: 'government support',
+    fullTitle2: ' for your business.',
+    fullDesc:
+      'Answer a short profile, then see which schemes match you, exactly why they match, and what to do next — every recommendation traced to a verified government source.',
+    ctaPrimary: 'Find My Schemes',
+    ctaSecondary: 'Explore How It Works',
+    journeyAria: 'Yojana Setu journey',
+    steps: [
+      { label: 'Entrepreneur', hint: 'You and your business' },
+      { label: 'Profile', hint: 'Structured details' },
+      { label: 'Intelligence', hint: 'Deterministic rules' },
+      { label: 'Government schemes', hint: 'Verified sources' },
+      { label: 'Action', hint: 'Prepare and apply' },
+    ],
+    pillars: [
+      {
+        title: 'Gazette-Verified Rules Engine',
+        body: 'Zero AI hallucinations. Matching is computed strictly from official ministry criteria.',
+      },
+      {
+        title: 'Privacy-First Architecture',
+        body: 'Your details stay in your browser session. No sensitive identifiers are stored.',
+      },
+    ],
+  },
+  hi: {
+    compactTitle1: 'उद्यमियों और ',
+    compactHighlight: 'सरकारी योजनाओं',
+    compactTitle2: ' के बीच बुद्धिमान सेतु',
+    compactDesc:
+      'सूक्ष्म, लघु और ग्रामीण उद्यमियों को निश्चित पात्रता सत्यापन, वास्तविक-समय वित्तीय गणना और मार्गदर्शित आवेदन सहायता के साथ सशक्त बनाना।',
+    fullEyebrow: 'योजना सेतु इंटेलिजेंस',
+    fullTitle1: 'अपने व्यवसाय के लिए ',
+    fullHighlight: 'सही सरकारी सहायता',
+    fullTitle2: ' खोजें।',
+    fullDesc:
+      'अपनी प्रोफाइल भरें और देखें कि कौन सी योजनाएं आपसे मेल खाती हैं, क्यों मेल खाती हैं, और आगे क्या करना है — सब सत्यापित सरकारी स्रोतों से।',
+    ctaPrimary: 'मेरी योजनाएं खोजें',
+    ctaSecondary: 'यह कैसे काम करता है',
+    journeyAria: 'योजना सेतु यात्रा',
+    steps: [
+      { label: 'उद्यमी', hint: 'आपका व्यवसाय' },
+      { label: 'प्रोफाइल', hint: 'संरचित जानकारी' },
+      { label: 'इंटेलिजेंस', hint: 'निश्चित नियम गणना' },
+      { label: 'सरकारी योजनाएं', hint: 'सत्यापित स्रोत' },
+      { label: 'अगला कदम', hint: 'तैयारी और आवेदन' },
+    ],
+    pillars: [
+      {
+        title: 'गजट-सत्यापित नियम इंजन',
+        body: 'कोई AI अनुमान नहीं। मेल केवल आधिकारिक मंत्रालय मानदंडों से गणना होता है।',
+      },
+      {
+        title: 'गोपनीयता-प्रथम संरचना',
+        body: 'आपकी जानकारी आपके ब्राउज़र सत्र में रहती है; कोई संवेदनशील पहचान संग्रहित नहीं होती।',
+      },
+    ],
+  },
+  ta: {
+    compactTitle1: 'தொழில்முனைவோர் மற்றும் ',
+    compactHighlight: 'அரசு திட்டங்களுக்கு',
+    compactTitle2: ' இடையேயான அறிவார்ந்த பாலம்',
+    compactDesc:
+      'நுண், சிறு மற்றும் கிராமப்புற தொழில்முனைவோருக்கு வெளிப்படையான தகுதி சரிபார்ப்பு, உடனடி நிதியுதவி கணக்கீடு மற்றும் வழிகாட்டப்பட்ட விண்ணப்ப உதவி.',
+    fullEyebrow: 'யோஜனா சேது நுண்ணறிவு',
+    fullTitle1: 'உங்கள் வணிகத்திற்கான ',
+    fullHighlight: 'சரியான அரசு ஆதரவை',
+    fullTitle2: ' கண்டறியுங்கள்.',
+    fullDesc:
+      'சுயவிவரத்தை நிரப்பி, உங்களுக்கு ஏற்ற திட்டங்கள் எவை, ஏன் பொருந்துகின்றன, அடுத்த கட்ட நடவடிக்கை என்ன என்பதை தெரிந்து கொள்ளுங்கள்.',
+    ctaPrimary: 'திட்டங்களை கண்டறிக',
+    ctaSecondary: 'செயல்முறை விளக்கம்',
+    journeyAria: 'யோஜனா சேது பயணம்',
+    steps: [
+      { label: 'தொழில்முனைவோர்', hint: 'உங்கள் வணிகம்' },
+      { label: 'சுயவிவரம்', hint: 'கட்டமைக்கப்பட்ட விவரங்கள்' },
+      { label: 'நுண்ணறிவு', hint: 'துல்லிய விதி கணக்கீடு' },
+      { label: 'அரசு திட்டங்கள்', hint: 'சரிபார்க்கப்பட்ட ஆதாரங்கள்' },
+      { label: 'அடுத்த நடவடிக்கை', hint: 'தயாரித்து விண்ணப்பிக்க' },
+    ],
+    pillars: [
+      {
+        title: 'அரசிதழ் சரிபார்க்கப்பட்ட விதி இயந்திரம்',
+        body: 'AI யூகங்கள் இல்லை. மத்திய & மாநில அமைச்சகத்தின் அதிகாரப்பூர்வ விதிகளின் அடிப்படையில் மட்டுமே தகுதி கணக்கிடப்படுகிறது.',
+      },
+      {
+        title: 'தனியுரிமைக்கு முன்னுரிமை',
+        body: 'உங்கள் விவரங்கள் உங்கள் உலாவியில் மட்டுமே இருக்கும்; எந்தவொரு முக்கியமான அடையாளமும் சேமிக்கப்படுவதில்லை.',
+      },
+    ],
+  },
+  te: {
+    compactTitle1: 'వ్యవస్థాపకులు మరియు ',
+    compactHighlight: 'ప్రభుత్వ పథకాల',
+    compactTitle2: ' మధ్య తెలివైన వారధి',
+    compactDesc:
+      'సూక్ష్మ, చిన్న మరియు గ్రామీణ వ్యవస్థాపకులకు చట్టబద్ధమైన అర్హత ధృవీకరణ, నిజ-సమయ ఆర్థిక లెక్కింపు మరియు మార్గదర్శక దరఖాస్తు సహాయం.',
+    fullEyebrow: 'యోజన సేతు ఇంటెలిజెన్స్',
+    fullTitle1: 'మీ వ్యాపారానికి ',
+    fullHighlight: 'సరైన ప్రభుత్వ మద్దతును',
+    fullTitle2: ' కనుగొనండి.',
+    fullDesc:
+      'మీ ప్రొఫైల్ వివరాలను పూరించి, ఏ పథకాలు మీకు సరిపోతాయి, ఎందుకు సరిపోతాయి మరియు తదుపరి ఏమి చేయాలో సులభంగా తెలుసుకోండి.',
+    ctaPrimary: 'పథకాలను కనుగొనండి',
+    ctaSecondary: 'ఇది ఎలా పనిచేస్తుంది',
+    journeyAria: 'యోజన సేతు ప్రయాణం',
+    steps: [
+      { label: 'వ్యవస్థాపకుడు', hint: 'మీ వ్యాపారం' },
+      { label: 'ప్రొఫైల్', hint: 'నిర్మాణాత్మక వివరాలు' },
+      { label: 'ఇంటెలిజెన్స్', hint: 'ఖచ్చితమైన నియమ లెక్కింపు' },
+      { label: 'ప్రభుత్వ పథకాలు', hint: 'ధృవీకరించబడిన వనరులు' },
+      { label: 'తదుపరి చర్య', hint: 'సిద్ధం చేసి దరఖాస్తు చేయండి' },
+    ],
+    pillars: [
+      {
+        title: 'గెజిట్-ధృవీకరించబడిన నిబంధనల ఇంజిన్',
+        body: 'ఎటువంటి AI ఊహాగానాలు లేవు. అధికారిక మంత్రిత్వ ప్రమాణాల ఆధారంగా మాత్రమే లెక్కింపు.',
+      },
+      {
+        title: 'గోప్యత-మొదటి రూపకల్పన',
+        body: 'మీ వివరాలు మీ బ్రౌజర్ సెషన్‌లో మాత్రమే ఉంటాయి. సున్నితమైన డేటా ఏదీ నిల్వ చేయబడదు.',
+      },
+    ],
+  },
+  kn: {
+    compactTitle1: 'ಉದ್ಯಮಿಗಳು ಮತ್ತು ',
+    compactHighlight: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ',
+    compactTitle2: ' ನಡುವಿನ ಬುದ್ಧಿವಂತ ಸೇತು',
+    compactDesc:
+      'ಸೂಕ್ಷ್ಮ, ಸಣ್ಣ ಮತ್ತು ಗ್ರಾಮೀಣ ಉದ್ಯಮಿಗಳಿಗೆ ನಿಖರ ಅರ್ಹತಾ ಪರಿಶೀಲನೆ, ನೈಜ-ಸಮಯದ ಹಣಕಾಸು ಲೆಕ್ಕಾಚಾರ ಮತ್ತು ಮಾರ್ಗದರ್ಶಿತ ಅರ್ಜಿ ನೆರವು.',
+    fullEyebrow: 'ಯೋಜನಾ ಸೇತು ಇಂಟೆಲಿಜೆನ್ಸ್',
+    fullTitle1: 'ನಿಮ್ಮ ವ್ಯವಹಾರಕ್ಕೆ ',
+    fullHighlight: 'ಸರಿಯಾದ ಸರ್ಕಾರಿ ನೆರವನ್ನು',
+    fullTitle2: ' ಕಂಡುಕೊಳ್ಳಿ.',
+    fullDesc:
+      'ಸರಳ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ, ಯಾವ ಯೋಜನೆಗಳು ನಿಮಗೆ ಹೊಂದಾಣಿಕೆಯಾಗುತ್ತವೆ, ಏಕೆ ಹೊಂದುತ್ತವೆ ಮತ್ತು ಮುಂದೇನು ಮಾಡಬೇಕೆಂದು ತಿಳಿಯಿರಿ.',
+    ctaPrimary: 'ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ',
+    ctaSecondary: 'ಇದು ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ',
+    journeyAria: 'ಯೋಜನಾ ಸೇತು ಪ್ರಯಾಣ',
+    steps: [
+      { label: 'ಉದ್ಯಮಿ', hint: 'ನಿಮ್ಮ ವ್ಯವಹಾರ' },
+      { label: 'ಪ್ರೊಫೈಲ್', hint: 'ರಚನಾತ್ಮಕ ವಿವರಗಳು' },
+      { label: 'ಇಂಟೆಲಿಜೆನ್ಸ್', hint: 'ಖಚಿತ ನಿಯಮ ಲೆಕ್ಕಾಚಾರ' },
+      { label: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು', hint: 'ದೃಢೀಕೃತ ಮೂಲಗಳು' },
+      { label: 'ಮುಂದಿನ ಕ್ರಮ', hint: 'ಸಿದ್ಧತೆ ಮತ್ತು ಅರ್ಜಿ' },
+    ],
+    pillars: [
+      {
+        title: 'ಗೆಜೆಟ್-ದೃಢೀಕೃತ ನಿಯಮ ಎಂಜಿನ್',
+        body: 'ಯಾವುದೇ AI ಊಹೆಗಳಿಲ್ಲ. ಅಧಿಕೃತ ಸಚಿವಾಲಯದ ಮಾನದಂಡಗಳಿಂದ ಮಾತ್ರ ಹೊಂದಾಣಿಕೆ ಲೆಕ್ಕಹಾಕಲಾಗುತ್ತದೆ.',
+      },
+      {
+        title: 'ಗೌಪ್ಯತೆಗೆ ಮೊದಲ ಆದ್ಯತೆ',
+        body: 'ನಿಮ್ಮ ವಿವರಗಳು ನಿಮ್ಮ ಬ್ರೌಸರ್ ಸೆಷನ್‌ನಲ್ಲಿ ಮಾತ್ರ ಇರುತ್ತವೆ; ಯಾವುದೇ ಸೂಕ್ಷ್ಮ ಗುರುತನ್ನು ಸಂಗ್ರಹಿಸಲಾಗುವುದಿಲ್ಲ.',
+      },
+    ],
+  },
+  ml: {
+    compactTitle1: 'സംരംഭകരും ',
+    compactHighlight: 'സർക്കാർ പദ്ധതികളും',
+    compactTitle2: ' തമ്മിലുള്ള വിവേകപൂർണ്ണമായ സേതു',
+    compactDesc:
+      'സൂക്ഷ്മ, ചെറുകിട, ഗ്രാമീണ സംരംഭകർക്ക് കൃത്യമായ യോഗ്യതാ പരിശോധന, തത്സമയ സാമ്പത്തിക കണക്കുകൂട്ടൽ, മാർഗ്ഗനിർദ്ദേശ അപേക്ഷാ സഹായം.',
+    fullEyebrow: 'യോജന സേതു ഇന്റലിജൻസ്',
+    fullTitle1: 'നിങ്ങളുടെ ബിസിനസ്സിന് ',
+    fullHighlight: 'ശരിയായ സർക്കാർ സഹായം',
+    fullTitle2: ' കണ്ടെത്തുക.',
+    fullDesc:
+      'പ്രൊഫൈൽ പൂർത്തിയാക്കി, ഏതൊക്കെ പദ്ധതികളാണ് യോജിക്കുന്നത്, എന്തുകൊണ്ട് യോജിക്കുന്നു, അടുത്ത നടപടി എന്താണെന്ന് പരിശോധിക്കുക.',
+    ctaPrimary: 'പദ്ധതികൾ കണ്ടെത്തുക',
+    ctaSecondary: 'പ്രവർത്തന രീതി',
+    journeyAria: 'യോജന സേതു യാത്ര',
+    steps: [
+      { label: 'സംരംഭകൻ', hint: 'നിങ്ങളുടെ ബിസിനസ്സ്' },
+      { label: 'പ്രൊഫൈൽ', hint: 'വിശദാംശങ്ങൾ' },
+      { label: 'ഇന്റലിജൻസ്', hint: 'കൃത്യമായ നിയമ കണക്കുകൂട്ടൽ' },
+      { label: 'സർക്കാർ പദ്ധതികൾ', hint: 'പരിശോധിച്ച വിവരങ്ങൾ' },
+      { label: 'അടുത്ത നടപടി', hint: 'തയ്യാറെടുപ്പും അപേക്ഷയും' },
+    ],
+    pillars: [
+      {
+        title: 'ഗസറ്റ്-സ്ഥിരീകരിച്ച റൂൾസ് എഞ്ചിൻ',
+        body: 'AI അനുമാനങ്ങളില്ല. ഔദ്യോഗിക മന്ത്രാലയ മാനദണ്ഡങ്ങൾ അനുസരിച്ച് മാത്രം യോഗ്യത കണക്കാക്കുന്നു.',
+      },
+      {
+        title: 'സ്വകാര്യതയ്ക്ക് പ്രഥമ പരിഗണന',
+        body: 'വിവരങ്ങൾ നിങ്ങളുടെ ബ്രൗസർ സെഷനിൽ മാത്രം നിലനിൽക്കുന്നു; രഹസ്യ വിവരങ്ങൾ സൂക്ഷിക്കുന്നില്ല.',
+      },
+    ],
+  },
+};
+
 /**
  * Landing hero — "Premium Government Intelligence".
- *
- * Presentation only: both CTAs call handlers owned by the parent screen, so no
- * routing or assessment behaviour changes here. The five-step rail renders the
- * Setu (bridge) metaphor as a connected journey rather than a decorative
- * illustration, and collapses to a horizontal strip on mobile.
  */
 export const SetuHero: React.FC<SetuHeroProps> = ({
   onFindSchemes,
@@ -41,53 +255,28 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
 }) => {
   const { lang } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
-  const isHindi = lang === 'hi';
+  const content = HERO_LOCALIZED[lang] || HERO_LOCALIZED.en;
+  const isRegional = lang !== 'en';
 
-  const steps = [
-    {
-      icon: UserRound,
-      label: isHindi ? 'उद्यमी' : 'Entrepreneur',
-      hint: isHindi ? 'आपका व्यवसाय' : 'You and your business',
-    },
-    {
-      icon: ClipboardList,
-      label: isHindi ? 'प्रोफाइल' : 'Profile',
-      hint: isHindi ? 'संरभित जानकारी' : 'Structured details',
-    },
-    {
-      icon: BrainCircuit,
-      label: isHindi ? 'इंटेलिजेंस' : 'Intelligence',
-      hint: isHindi ? 'निश्चित नियम गणना' : 'Deterministic rules',
-    },
-    {
-      icon: Landmark,
-      label: isHindi ? 'सरकारी योजनां' : 'Government schemes',
-      hint: isHindi ? 'सत्यापित स्रोत' : 'Verified sources',
-    },
-    {
-      icon: Rocket,
-      label: isHindi ? 'अगला कदम' : 'Action',
-      hint: isHindi ? 'तैयारी और आवेदन' : 'Prepare and apply',
-    },
-  ];
+  const stepIcons = [UserRound, ClipboardList, BrainCircuit, Landmark, Rocket];
+  const steps = content.steps.map((step, idx) => ({
+    icon: stepIcons[idx] || Rocket,
+    label: step.label,
+    hint: step.hint,
+  }));
 
-  /** Trust pillars shown beside the sign-in card in compact mode. */
-  const pillars = [
+  const pillarConfigs = [
     {
       icon: ShieldCheck,
       tile: 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#0B5D4B] dark:text-[#4ADE80]',
-      title: isHindi ? 'गजट-सत्यापित नियम इंजन' : 'Gazette-Verified Rules Engine',
-      body: isHindi
-        ? 'कोई AI अनुमान नहीं। मेल केवल आधिकारिक मंत्रालय मानदंडों से गणना होता है।'
-        : 'Zero AI hallucinations. Matching is computed strictly from official ministry criteria.',
+      title: content.pillars[0].title,
+      body: content.pillars[0].body,
     },
     {
       icon: Lock,
       tile: 'bg-[#FEF3C7] dark:bg-[#3B2F14] text-[#92610A] dark:text-[#FCD34D]',
-      title: isHindi ? 'गोपनीयता-प्रथम संरचना' : 'Privacy-First Architecture',
-      body: isHindi
-        ? 'आपकी जानकारी आपके ब्राउज़र सत्र में रहती है; कोई संवेदनशील पहचान संग्रहित नहीं होती।'
-        : 'Your details stay in your browser session. No sensitive identifiers are stored.',
+      title: content.pillars[1].title,
+      body: content.pillars[1].body,
     },
   ];
 
@@ -110,40 +299,25 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
           <h1
             id="landing-hero-heading"
             className={`yj-h1 mt-5 text-center lg:text-left text-[#0F1512] dark:text-[#F0F4F2] ${
-              isHindi ? 'font-hindi' : ''
+              isRegional ? 'font-medium leading-snug' : ''
             }`}
           >
-            {isHindi ? (
-              <>
-                उद्यमियों और{' '}
-                <span className="text-[#0B5D4B] dark:text-[#4ADE80] border-b-2 border-[#D99A2B] dark:border-[#E3A83B]">
-                  सरकारी योजनाओं
-                </span>{' '}
-                के बीच बुद्धिमान सेतु
-              </>
-            ) : (
-              <>
-                The Intelligent Bridge Between Entrepreneurs &amp;{' '}
-                <span className="text-[#0B5D4B] dark:text-[#4ADE80] border-b-2 border-[#D99A2B] dark:border-[#E3A83B]">
-                  Government Schemes
-                </span>
-              </>
-            )}
+            {content.compactTitle1}
+            <span className="text-[#0B5D4B] dark:text-[#4ADE80] border-b-2 border-[#D99A2B] dark:border-[#E3A83B]">
+              {content.compactHighlight}
+            </span>
+            {content.compactTitle2}
           </h1>
 
           <p
-            className={`yj-body yj-measure mt-4 mx-auto lg:mx-0 text-center lg:text-left text-[#42544C] dark:text-[#A9BDB3] ${
-              isHindi ? 'font-hindi' : ''
-            }`}
+            className={`yj-body yj-measure mt-4 mx-auto lg:mx-0 text-center lg:text-left text-[#42544C] dark:text-[#A9BDB3]`}
           >
-            {isHindi
-              ? 'सूक्ष्म, लघु और ग्रामीण उद्यमियों को निश्चित पात्रता सत्यापन, वास्तविक-समय वित्तीय गणना और मार्गदर्शित आवेदन सहायता के साथ सशक्त बनाना।'
-              : 'Empowering micro, small, and rural entrepreneurs with deterministic eligibility verification, real-time funding calculations, and guided application assistance.'}
+            {content.compactDesc}
           </p>
 
           <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
             <ArrowFillButton id="hero-find-schemes-btn" onClick={onFindSchemes} variant="primary" size="md">
-              {isHindi ? 'मेरी योजनाएं खोजें' : 'Find My Schemes'}
+              {content.ctaPrimary}
             </ArrowFillButton>
             <ArrowFillButton
               id="hero-how-it-works-btn"
@@ -151,12 +325,12 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
               variant="secondary"
               size="md"
             >
-              {isHindi ? 'यह कैसे काम करता है' : 'Explore How It Works'}
+              {content.ctaSecondary}
             </ArrowFillButton>
           </div>
 
           <ul className="mt-6 space-y-3">
-            {pillars.map((pillar) => {
+            {pillarConfigs.map((pillar) => {
               const Icon = pillar.icon;
               return (
                 <li
@@ -171,16 +345,12 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
                   </span>
                   <span>
                     <span
-                      className={`block yj-support font-bold text-[#0F1512] dark:text-[#F0F4F2] ${
-                        isHindi ? 'font-hindi' : ''
-                      }`}
+                      className={`block yj-support font-bold text-[#0F1512] dark:text-[#F0F4F2]`}
                     >
                       {pillar.title}
                     </span>
                     <span
-                      className={`block yj-caption text-[#6F7A73] dark:text-[#8E9F97] ${
-                        isHindi ? 'font-hindi' : ''
-                      }`}
+                      className={`block yj-caption text-[#6F7A73] dark:text-[#8E9F97]`}
                     >
                       {pillar.body}
                     </span>
@@ -209,30 +379,20 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
         >
           <span className="yj-eyebrow inline-flex items-center gap-2 text-[#0B5D4B] dark:text-[#4ADE80]">
             <span className="w-6 h-px yj-gradient-highlight inline-block" aria-hidden="true" />
-            {isHindi ? 'योजना सेतु इंटेलिजेंस' : 'Yojana Setu Intelligence'}
+            {content.fullEyebrow}
           </span>
 
           <h1
             id="landing-hero-heading"
-            className={`yj-display mt-3 text-[#0F1512] dark:text-[#F0F4F2] ${isHindi ? 'font-hindi' : ''}`}
+            className={`yj-display mt-3 text-[#0F1512] dark:text-[#F0F4F2]`}
           >
-            {isHindi ? (
-              <>
-                अपने व्यवसाय के लिए{' '}
-                <span className="text-[#0B5D4B] dark:text-[#4ADE80]">सही सरकारी सहायता</span> खोजें।
-              </>
-            ) : (
-              <>
-                Discover the right{' '}
-                <span className="text-[#0B5D4B] dark:text-[#4ADE80]">government support</span> for your business.
-              </>
-            )}
+            {content.fullTitle1}
+            <span className="text-[#0B5D4B] dark:text-[#4ADE80]">{content.fullHighlight}</span>
+            {content.fullTitle2}
           </h1>
 
-          <p className={`yj-body-lg yj-measure mt-4 text-[#42544C] dark:text-[#A9BDB3] ${isHindi ? 'font-hindi' : ''}`}>
-            {isHindi
-              ? 'अपनी प्रोफाइल भरें और देखें कि कौन सी योजनाएं आपसे मेल खाती हैं, क्यों मेल खाती हैं, और आगे क्या करना है — सब सत्यापित सरकारी स्रोतों से।'
-              : 'Answer a short profile, then see which schemes match you, exactly why they match, and what to do next — every recommendation traced to a verified government source.'}
+          <p className={`yj-body-lg yj-measure mt-4 text-[#42544C] dark:text-[#A9BDB3]`}>
+            {content.fullDesc}
           </p>
 
           <div className="mt-7 flex flex-col sm:flex-row gap-3">
@@ -242,7 +402,7 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
               variant="primary"
               size="lg"
             >
-              {isHindi ? 'मेरी योजनाएं खोजें' : 'Find My Schemes'}
+              {content.ctaPrimary}
             </ArrowFillButton>
             <ArrowFillButton
               id="hero-how-it-works-btn"
@@ -250,14 +410,14 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
               variant="secondary"
               size="lg"
             >
-              {isHindi ? 'यह कैसे काम करता है' : 'Explore How It Works'}
+              {content.ctaSecondary}
             </ArrowFillButton>
           </div>
         </motion.div>
 
         {/* Setu rail — the bridge metaphor as a connected journey */}
         <motion.ol
-          aria-label={isHindi ? 'योजना सेतु यात्रा' : 'Yojana Setu journey'}
+          aria-label={content.journeyAria}
           initial={shouldReduceMotion ? undefined : 'hidden'}
           animate={shouldReduceMotion ? undefined : 'visible'}
           variants={
@@ -296,14 +456,12 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
                 </span>
                 <span className="pt-1">
                   <span
-                    className={`block yj-support font-semibold text-[#0F1512] dark:text-[#F0F4F2] ${
-                      isHindi ? 'font-hindi' : ''
-                    }`}
+                    className={`block yj-support font-semibold text-[#0F1512] dark:text-[#F0F4F2]`}
                   >
                     {step.label}
                   </span>
                   <span
-                    className={`block yj-caption text-[#6F7A73] dark:text-[#8E9F97] ${isHindi ? 'font-hindi' : ''}`}
+                    className={`block yj-caption text-[#6F7A73] dark:text-[#8E9F97]`}
                   >
                     {step.hint}
                   </span>
@@ -316,3 +474,4 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
     </section>
   );
 };
+

@@ -1,38 +1,102 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
-import { Compass, X, FileText, FileCheck2 } from 'lucide-react';
-import type { SupportPathway as SupportPathwayModel, PathwayAction } from '../../types/supportPathway';
+import { X, FileText, Compass, FileCheck2 } from 'lucide-react';
 import { SupportPathway } from './SupportPathway';
+import { SupportPathway as SupportPathwayModel } from '../../types/supportPathway';
+import { PathwayAction } from '../../types/supportPathway';
 import { useTranslation } from '../../i18n';
+import type { Language } from '../../i18n/types';
 
 interface SupportPathwayModalProps {
   isOpen: boolean;
   onClose: () => void;
   pathway: SupportPathwayModel;
+  isTopMatchTracked?: boolean;
   onAction?: (action: PathwayAction) => void;
   onSelectScheme?: (schemeId: string) => void;
-  onToggleChecklistItem?: (itemId: string) => void;
   onStartPathwayApplication?: () => void;
-  isTopMatchTracked?: boolean;
+  onToggleChecklistItem?: (itemId: string) => void;
   onOpenReport?: () => void;
   id?: string;
 }
 
+const COPY = {
+  modalTitle: {
+    en: 'Enterprise Support Pathway',
+    hi: 'उद्यम सहायता मार्ग',
+    ta: 'நிறுவன உதவிப் பாதை',
+    te: 'సంస్థ మద్దతు మార్గం',
+    kn: 'ಉದ್ಯಮ ಬೆಂಬಲ ಮಾರ್ಗ',
+    ml: 'സംരംഭക സഹായ മാർഗ്ഗം',
+  },
+  modalSubtitle: {
+    en: 'Personalized next steps, support priorities, and complementary schemes.',
+    hi: 'आपकी व्यावसायिक स्थिति के अनुसार अनुशंसित कदम और योजना समूह।',
+    ta: 'தனிப்பயனாக்கப்பட்ட அடுத்த படிகள், உதவி முன்னுரிமைகள் மற்றும் கூடுதல் திட்டங்கள்.',
+    te: 'వ్యక్తిగతీకరించిన తదుపరి దశలు, మద్దతు ప్రాధాన్యతలు మరియు అనుబంధ పథకాలు.',
+    kn: 'ವೈಯಕ್ತೀಕರಿಸಿದ ಮುಂದಿನ ಹಂತಗಳು, ಬೆಂಬಲ ಆದ್ಯತೆಗಳು ಮತ್ತು ಪೂರಕ ಯೋಜನೆಗಳು.',
+    ml: 'വ്യക്തിഗതമാക്കിയ അടുത്ത ഘട്ടങ്ങൾ, മുൻഗണനകൾ, അനുബന്ധ പദ്ധതികൾ.',
+  },
+  reportPdf: {
+    en: 'Report (PDF)',
+    hi: 'रिपोर्ट (PDF)',
+    ta: 'அறிக்கை (PDF)',
+    te: 'నివేదిక (PDF)',
+    kn: 'ವರದಿ (PDF)',
+    ml: 'റിപ്പോർട്ട് (PDF)',
+  },
+  updateInTracker: {
+    en: 'Update in tracker',
+    hi: 'ट्रैकर में अपडेट करें',
+    ta: 'டிராக்கரில் புதுப்பிக்கவும்',
+    te: 'ట్రాకర్‌లో నవీకరించండి',
+    kn: 'ಟ್ರಾಕರ್‌ನಲ್ಲಿ ನವೀಕರಿಸಿ',
+    ml: 'ട്രാക്കറിൽ അപ്‌ഡേറ്റ് ചെയ്യുക',
+  },
+  startTracking: {
+    en: 'Start tracking this pathway',
+    hi: 'इस मार्ग को ट्रैक करना शुरू करें',
+    ta: 'இப்பாதையை கண்காணிக்கத் தொடங்குங்கள்',
+    te: 'ఈ మార్గాన్ని ట్రాక్ చేయడం ప్రారంభించండి',
+    kn: 'ಈ ಮಾರ್ಗವನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲು ಪ್ರಾರಂಭಿಸಿ',
+    ml: 'ഈ പാത ട്രാക്ക് ചെയ്യാൻ ആരംഭിക്കുക',
+  },
+  close: {
+    en: 'Close',
+    hi: 'बंद करें',
+    ta: 'மூடு',
+    te: 'మూసివేయి',
+    kn: 'ಮುಚ್ಚಿ',
+    ml: 'അടയ്ക്കുക',
+  },
+};
+
+/**
+ * Phase 4.2 — Support Pathway Modal.
+ *
+ * Dedicated modal that presents the entrepreneur's personalized Support Pathway:
+ *   - Current stage & journey rail
+ *   - Next Best Action (single prioritized recommendation)
+ *   - Support Priorities (ranked areas)
+ *   - Multi-Scheme Support Stack (credit, skill, marketing, compliance)
+ *   - Readiness indicators
+ *   - Action to launch application tracker or open printable PDF report
+ */
 export const SupportPathwayModal: React.FC<SupportPathwayModalProps> = ({
   isOpen,
   onClose,
   pathway,
+  isTopMatchTracked = false,
   onAction,
   onSelectScheme,
-  onToggleChecklistItem,
   onStartPathwayApplication,
-  isTopMatchTracked = false,
+  onToggleChecklistItem,
   onOpenReport,
   id = 'support-pathway-modal',
 }) => {
   const { lang } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
-  const isHi = lang === 'hi';
+  const l: Language = (lang in COPY.modalTitle) ? lang : 'en';
 
   useEffect(() => {
     if (!isOpen) return;
@@ -88,12 +152,10 @@ export const SupportPathwayModal: React.FC<SupportPathwayModalProps> = ({
                   id={`${id}-title`}
                   className="text-base sm:text-lg font-bold text-[#14453D] dark:text-[#F0F4F2]"
                 >
-                  {isHi ? 'उद्यम सहायता मार्ग' : 'Enterprise Support Pathway'}
+                  {COPY.modalTitle[l]}
                 </h2>
                 <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7]">
-                  {isHi
-                    ? 'आपकी व्यावसायिक स्थिति के अनुसार अनुशंसित कदम और योजना समूह।'
-                    : 'Personalized next steps, support priorities, and complementary schemes.'}
+                  {COPY.modalSubtitle[l]}
                 </p>
               </div>
             </div>
@@ -106,14 +168,14 @@ export const SupportPathwayModal: React.FC<SupportPathwayModalProps> = ({
                   className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#B2CDBF] dark:border-[#285743] bg-white dark:bg-[#182C24] text-xs font-bold text-[#14453D] dark:text-[#C7D6CE] hover:bg-[#F4F8F6] dark:hover:bg-[#20362C] transition-colors cursor-pointer"
                 >
                   <FileText className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>{isHi ? 'रिपोर्ट (PDF)' : 'Report (PDF)'}</span>
+                  <span>{COPY.reportPdf[l]}</span>
                 </button>
               )}
 
               <button
                 type="button"
                 onClick={onClose}
-                aria-label={isHi ? 'बंद करें' : 'Close modal'}
+                aria-label={COPY.close[l]}
                 className="w-8 h-8 rounded-lg flex items-center justify-center text-[#516A5F] dark:text-[#9EB0A7] hover:bg-[#E2E2E0]/50 dark:hover:bg-[#20362C] transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" aria-hidden="true" />
@@ -125,7 +187,7 @@ export const SupportPathwayModal: React.FC<SupportPathwayModalProps> = ({
           <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
             <SupportPathway
               pathway={pathway}
-              lang={lang === 'hi' ? 'hi' : 'en'}
+              lang={l}
               onAction={(action) => {
                 onClose();
                 if (onAction) onAction(action);
@@ -153,13 +215,7 @@ export const SupportPathwayModal: React.FC<SupportPathwayModalProps> = ({
                   className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-xl bg-[#14453D] dark:bg-[#1C5045] px-4 text-xs sm:text-sm font-bold text-white transition-colors hover:bg-[#0F3730] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16A34A] cursor-pointer"
                 >
                   <FileCheck2 className="h-4 w-4" aria-hidden="true" />
-                  {isTopMatchTracked
-                    ? isHi
-                      ? 'ट्रैकर में अपडेट करें'
-                      : 'Update in tracker'
-                    : isHi
-                      ? 'इस मार्ग को ट्रैक करना शुरू करें'
-                      : 'Start tracking this pathway'}
+                  {isTopMatchTracked ? COPY.updateInTracker[l] : COPY.startTracking[l]}
                 </button>
               )}
 
@@ -170,7 +226,7 @@ export const SupportPathwayModal: React.FC<SupportPathwayModalProps> = ({
                   className="sm:hidden inline-flex min-h-[40px] items-center justify-center gap-2 rounded-xl border border-[#B2CDBF] dark:border-[#285743] bg-white dark:bg-[#182C24] px-3.5 text-xs font-bold text-[#14453D] dark:text-[#C7D6CE] hover:bg-[#F4F8F6] dark:hover:bg-[#20362C] transition-colors cursor-pointer"
                 >
                   <FileText className="h-4 w-4" aria-hidden="true" />
-                  {isHi ? 'रिपोर्ट (PDF)' : 'Report (PDF)'}
+                  {COPY.reportPdf[l]}
                 </button>
               )}
             </div>
@@ -180,7 +236,7 @@ export const SupportPathwayModal: React.FC<SupportPathwayModalProps> = ({
               onClick={onClose}
               className="inline-flex min-h-[40px] items-center justify-center rounded-xl border border-[#E2E2E0] dark:border-[#2A3C34] bg-white dark:bg-[#182C24] px-4 text-xs font-semibold text-[#3F4943] dark:text-[#C5D5CC] hover:bg-[#EEEEED] dark:hover:bg-[#20362C] transition-colors cursor-pointer"
             >
-              {isHi ? 'बंद करें' : 'Close'}
+              {COPY.close[l]}
             </button>
           </div>
         </motion.div>

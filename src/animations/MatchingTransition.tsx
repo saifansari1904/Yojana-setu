@@ -10,10 +10,18 @@ interface MatchingTransitionProps {
 
 interface StepItem {
   id: string;
-  labelEn: string;
-  labelHi: string;
+  labels: Record<string, string>;
   icon: React.ElementType;
 }
+
+const TRANSITION_I18N: Record<string, { title: string; subtitle: string }> = {
+  en: { title: 'Matching schemes for you', subtitle: 'Deterministic, verified sources' },
+  hi: { title: 'योजना सेतु मिलान इंजन', subtitle: 'नियम-आधारित, सत्यापित स्रोत' },
+  ta: { title: 'உங்களுக்கான திட்டங்கள் பொருந்துகின்றன', subtitle: 'விதிமுறை சார்ந்த, சரிபார்க்கப்பட்ட ஆதாரங்கள்' },
+  te: { title: 'మీ కోసం పథకాల సరిపోలిక', subtitle: 'నియమాల ఆధారిత, ధృవీకరించబడిన వనరులు' },
+  kn: { title: 'ನಿಮಗಾಗಿ ಯೋಜನೆಗಳ ಹೊಂದಾಣಿಕೆ', subtitle: 'ನಿಯಮ-ಆಧಾರಿತ, ಪರಿಶೀಲಿಸಿದ ಮೂಲಗಳು' },
+  ml: { title: 'നിങ്ങൾക്കായുള്ള പദ്ധതികൾ കണ്ടെത്തുന്നു', subtitle: 'നിയമാധിഷ്ഠിത, സ്ഥിരീകരിച്ച വിവരങ്ങൾ' },
+};
 
 /**
  * Signature matching sequence.
@@ -31,43 +39,79 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
 }) => {
   const { lang } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
-  const isHindi = lang === 'hi';
+  const headerText = TRANSITION_I18N[lang] || TRANSITION_I18N.en;
 
   const steps: StepItem[] = [
     {
       id: 'location',
-      labelEn: 'Analyzing your location…',
-      labelHi: 'आपके राज्य का विश्लेषण…',
+      labels: {
+        en: 'Analyzing your location…',
+        hi: 'आपके राज्य का विश्लेषण…',
+        ta: 'உங்கள் இருப்பிடத்தை பகுப்பாய்வு செய்கிறது…',
+        te: 'మీ స్థానాన్ని విశ్లేషిస్తోంది…',
+        kn: 'ನಿಮ್ಮ ಸ್ಥಳವನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ…',
+        ml: 'നിങ്ങളുടെ പ്രദേശം വിശകലനം ചെയ്യുന്നു…',
+      },
       icon: MapPin,
     },
     {
       id: 'business',
-      labelEn: 'Understanding your business…',
-      labelHi: 'आपके व्यवसाय को समझा जा रहा है…',
+      labels: {
+        en: 'Understanding your business…',
+        hi: 'आपके व्यवसाय को समझा जा रहा है…',
+        ta: 'உங்கள் தொழிலைப் புரிந்துகொள்கிறது…',
+        te: 'మీ వ్యాపారాన్ని అర్థం చేసుకుంటోంది…',
+        kn: 'ನಿಮ್ಮ ವ್ಯವಹಾರವನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲಾಗುತ್ತಿದೆ…',
+        ml: 'നിങ്ങളുടെ ബിസിനസ്സ് മനസ്സിലാക്കുന്നു…',
+      },
       icon: Building2,
     },
     {
       id: 'eligibility',
-      labelEn: 'Checking eligibility signals…',
-      labelHi: 'पात्रता संकेतों की जांच…',
+      labels: {
+        en: 'Checking eligibility signals…',
+        hi: 'पात्रता संकेतों की जांच…',
+        ta: 'தகுதி அளவுகோல்களை சரிபார்க்கிறது…',
+        te: 'అర్హత సంకేతాలను తనిఖీ చేస్తోంది…',
+        kn: 'ಅರ್ಹತಾ ನಿಯಮಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ…',
+        ml: 'അർഹതാ മാനദണ്ഡങ്ങൾ പരിശോധിക്കുന്നു…',
+      },
       icon: Users,
     },
     {
       id: 'financial',
-      labelEn: 'Evaluating financial fit…',
-      labelHi: 'वित्तीय अनुकूलता का मूल्यांकन…',
+      labels: {
+        en: 'Evaluating financial fit…',
+        hi: 'वित्तीय अनुकूलता का मूल्यांकन…',
+        ta: 'நிதி பொருத்தத்தை மதிப்பிடுகிறது…',
+        te: 'ఆర్థిక అనుకూలతను అంచనా వేస్తోంది…',
+        kn: 'ಹಣಕಾಸು ಹೊಂದಾಣಿಕೆಯನ್ನು ಮೌಲ್ಯಮಾಪನ ಮಾಡಲಾಗುತ್ತಿದೆ…',
+        ml: 'സാമ്പത്തിക അനുയോജ്യത വിലയിരുത്തുന്നു…',
+      },
       icon: Wallet,
     },
     {
       id: 'relevance',
-      labelEn: `Calculating relevance across ${totalSchemesCount} schemes…`,
-      labelHi: `${totalSchemesCount} योजनाओं में प्रासंगिकता की गणना…`,
+      labels: {
+        en: `Calculating relevance across ${totalSchemesCount} schemes…`,
+        hi: `${totalSchemesCount} योजनाओं में प्रासंगिकता की गणना…`,
+        ta: `${totalSchemesCount} திட்டங்களின் பொருத்தத்தைக் கணக்கிடுகிறது…`,
+        te: `${totalSchemesCount} పథకాలలో ప్రాధాన్యతను లెక్కిస్తోంది…`,
+        kn: `${totalSchemesCount} ಯೋಜನೆಗಳಲ್ಲಿ ಪ್ರಸ್ತುತತೆಯನ್ನು ಲೆಕ್ಕಹಾಕಲಾಗುತ್ತಿದೆ…`,
+        ml: `${totalSchemesCount} പദ്ധതികളിൽ അനുയോജ്യത കണക്കാക്കുന്നു…`,
+      },
       icon: Gauge,
     },
     {
       id: 'ready',
-      labelEn: 'Preparing recommendations…',
-      labelHi: 'अनुशंसाएं तैयार की जा रही हैं…',
+      labels: {
+        en: 'Preparing recommendations…',
+        hi: 'अनुशंसाएं तैयार की जा रही हैं…',
+        ta: 'பரிந்துரைகள் தயாராகின்றன…',
+        te: 'సిఫార్సులను సిద్ధం చేస్తోంది…',
+        kn: 'ಶಿಫಾರಸುಗಳನ್ನು ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ…',
+        ml: 'ശുപാർശകൾ തയ്യാറാക്കുന്നു…',
+      },
       icon: Sparkles,
     },
   ];
@@ -122,13 +166,11 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
               </span>
             </div>
             <div className="text-left">
-              <h2 className={`yj-h3 text-[#0F1512] dark:text-[#F0F4F2] ${isHindi ? 'font-hindi' : ''}`}>
-                {isHindi ? 'योजना सेतु मिलान इंजन' : 'Matching schemes for you'}
+              <h2 className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2]">
+                {headerText.title}
               </h2>
-              <p className={`yj-caption text-[#6F7A73] dark:text-[#8E9F97] ${isHindi ? 'font-hindi' : ''}`}>
-                {isHindi
-                  ? 'नियम-आधारित, सत्यापित स्रोत'
-                  : 'Deterministic, verified sources'}
+              <p className="yj-caption text-[#6F7A73] dark:text-[#8E9F97]">
+                {headerText.subtitle}
               </p>
             </div>
           </div>
@@ -204,7 +246,7 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
                 </span>
 
                 <span
-                  className={`pt-1 yj-support transition-colors duration-200 ${isHindi ? 'font-hindi' : ''} ${
+                  className={`pt-1 yj-support transition-colors duration-200 ${
                     isCurrent
                       ? 'text-[#0F1512] dark:text-[#F0F4F2] font-semibold'
                       : isDone
@@ -212,7 +254,7 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
                       : 'text-[#9EB0A7] dark:text-[#5C6F66]'
                   }`}
                 >
-                  {isHindi ? step.labelHi : step.labelEn}
+                  {step.labels[lang] || step.labels.en}
                 </span>
               </li>
             );

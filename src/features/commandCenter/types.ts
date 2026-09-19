@@ -66,9 +66,7 @@ export interface Scheme {
   id: string;
   code: string;
   name: string;
-  nameHi: string;
   department: string;
-  departmentHi: string;
   ministry: string;
   level: 'central' | 'state';
   state?: string; // empty if central
@@ -147,9 +145,11 @@ export interface OpportunityItem {
   };
   nextBestAction: {
     actionText: string;
-    actionTextHi: string;
+    actionTextHi?: string;
     reasonText: string;
-    reasonTextHi: string;
+    reasonTextHi?: string;
+    actionLocalized?: Record<string, string>;
+    reasonLocalized?: Record<string, string>;
     targetWorkspace: 'WORKSPACE' | 'TRACKER' | 'PROFILE' | 'OFFICIAL_PORTAL';
   };
   whyThisScheme: {

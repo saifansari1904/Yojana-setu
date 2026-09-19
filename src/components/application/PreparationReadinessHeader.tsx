@@ -1,9 +1,89 @@
 import React from 'react';
+import { resolveLocalizedPair } from '../../i18n/resolveLocalized';
 import { motion, useReducedMotion } from 'motion/react';
 import { ShieldCheck, FileCheck2, Scale, Compass, AlertCircle, CheckCircle2 } from 'lucide-react';
 import type { WorkspaceReadiness } from '../../types/application';
 import { useTranslation } from '../../i18n';
+import type { Language } from '../../i18n/types';
 import { AnimatedScore } from '../ui/AnimatedScore';
+
+const PILLAR_NAMES: Record<string, Record<Language, string>> = {
+  profile: {
+    en: 'Profile Alignment',
+    hi: 'प्रोफ़ाइल अनुकूलता',
+    ta: 'சுயவிவர பொருத்தம்',
+    te: 'ప్రొఫైల్ సమలేఖనం',
+    kn: 'ಪ್ರೊಫೈಲ್ ಹೊಂದಾಣಿಕೆ',
+    ml: 'പ്രൊഫൈൽ അനുയോജ്യത',
+  },
+  eligibility: {
+    en: 'Eligibility Rules',
+    hi: 'पात्रता नियम',
+    ta: 'தகுதி விதிகள்',
+    te: 'అర్హత నిబంధనలు',
+    kn: 'ಅರ್ಹತಾ ನಿಯಮಗಳು',
+    ml: 'യോഗ്യതാ മാനദണ്ഡങ്ങൾ',
+  },
+  documents: {
+    en: 'Mandatory Documents',
+    hi: 'अनिवार्य दस्तावेज',
+    ta: 'கட்டாய ஆவணங்கள்',
+    te: 'తప్పనిసరి పత్రాలు',
+    kn: 'ಕಡ್ಡಾಯ ದಾಖಲೆಗಳು',
+    ml: 'നിർബന്ധിത രേഖകൾ',
+  },
+  financial: {
+    en: 'Financial Alignment',
+    hi: 'वित्तीय अनुकूलता',
+    ta: 'நிதி பொருத்தம்',
+    te: 'ఆర్థిక సమలేఖనం',
+    kn: 'ಹಣಕಾಸು ಹೊಂದಾಣಿಕೆ',
+    ml: 'സാമ്പത്തിക അനുയോജ്യത',
+  },
+  process: {
+    en: 'Official Channel & Mode',
+    hi: 'आधिकारिक माध्यम एवं प्रक्रिया',
+    ta: 'அதிகாரப்பூர்வ வழிமுறை',
+    te: 'అధికారిక విధానం & మాధ్యమం',
+    kn: 'ಅಧಿಕೃತ ಚಾನಲ್ ಮತ್ತು ವಿಧಾನ',
+    ml: 'ഔദ്യോഗിക രീതിയും മാധ്യമവും',
+  },
+};
+
+const READINESS_STATE_LABELS: Record<string, Record<Language, string>> = {
+  READY_TO_APPLY: {
+    en: 'Ready to Apply',
+    hi: 'आवेदन हेतु तैयार',
+    ta: 'விண்ணப்பிக்க தயார்',
+    te: 'దరఖాస్తుకు సిద్ధం',
+    kn: 'ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಿದ್ಧ',
+    ml: 'അപേക്ഷിക്കാൻ തയ്യാറാണ്',
+  },
+  READY_TO_REVIEW: {
+    en: 'Ready for Review',
+    hi: 'समीक्षा हेतु तैयार',
+    ta: 'மதிப்பாய்வுக்கு தயார்',
+    te: 'సమీక్షకు సిద్ధం',
+    kn: 'ಪರಿಶೀಲನೆಗೆ ಸಿದ್ಧ',
+    ml: 'പരിಶോധനയ്ക്ക് തയ്യാറാണ്',
+  },
+  PARTIAL: {
+    en: 'Preparation In Progress',
+    hi: 'तैयारी प्रगति पर है',
+    ta: 'தயாரிப்பு செயல்பாட்டில் உள்ளது',
+    te: 'తయారీ పురోగతిలో ఉంది',
+    kn: 'ಸಿದ್ಧತೆ ಪ್ರಗತಿಯಲ್ಲಿದೆ',
+    ml: 'തയ്യാറെടുപ്പ് പുരോഗമിക്കുന്നു',
+  },
+  NOT_READY: {
+    en: 'Action Required',
+    hi: 'कार्रवाई आवश्यक',
+    ta: 'நடவடிக்கை தேவை',
+    te: 'చర్య అవసరం',
+    kn: 'ಕ್ರಮ ಅಗತ್ಯವಿದೆ',
+    ml: 'നടപടി ആവശ്യമാണ്',
+  },
+};
 
 interface PreparationReadinessHeaderProps {
   readiness: WorkspaceReadiness;
@@ -79,11 +159,11 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
               ) : readiness.state === 'NOT_READY' ? (
                 <AlertCircle className="w-3.5 h-3.5" />
               ) : null}
-              {lang === 'hi' ? readiness.labelHi : readiness.labelEn}
+              {READINESS_STATE_LABELS[readiness.state]?.[lang] || resolveLocalizedPair(readiness.labelEn, readiness.labelHi, lang)}
             </span>
           </div>
           <p className="yj-body text-[#42544C] dark:text-[#97A7A0] yj-measure">
-            {lang === 'hi' ? readiness.summaryHi : readiness.summaryEn}
+            {resolveLocalizedPair(readiness.summaryEn, readiness.summaryHi, lang)}
           </p>
 
           {/* Readiness progress: the same score, shown as a calm linear track */}
@@ -140,7 +220,7 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
                   {getPillarIcon(pillar.key)}
                 </span>
                 <span className="text-xs font-bold text-[#1F2421] dark:text-[#F0F4F2]">
-                  {lang === 'hi' ? pillar.labelHi : pillar.labelEn}
+                  {PILLAR_NAMES[pillar.key]?.[lang] || resolveLocalizedPair(pillar.labelEn, pillar.labelHi, lang)}
                 </span>
               </div>
               <span
@@ -153,7 +233,7 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
             </div>
 
             <p className="text-xs text-[#5A6561] dark:text-[#97A7A0] leading-snug line-clamp-2">
-              {lang === 'hi' ? pillar.summaryHi : pillar.summaryEn}
+              {resolveLocalizedPair(pillar.summaryEn, pillar.summaryHi, lang)}
             </p>
           </button>
         ))}
