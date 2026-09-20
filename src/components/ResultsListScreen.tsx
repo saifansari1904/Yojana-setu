@@ -624,7 +624,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
       >
         {isTopPick && (
           <div className="bg-[#14453D] dark:bg-[#1C5045] text-white px-4 py-1 text-[11px] font-bold flex items-center gap-1.5 border-b border-[#0B302B]/30">
-            <Sparkles className="w-3.5 h-3.5 text-[#1E6A50]" />
+            <Sparkles className="w-3.5 h-3.5 text-[#4ADE80]" />
             <span>{rui.topRecommendation}</span>
           </div>
         )}
@@ -1671,10 +1671,10 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-[#14453D] text-white px-4 sm:px-6 py-3 rounded-full shadow-2xl border border-[#1E6A50]/50 flex items-center gap-3 sm:gap-5 backdrop-blur-md"
           >
             <div className="flex items-center gap-2">
-              <Scale className="w-4 h-4 sm:w-5 sm:h-5 text-[#1E6A50]" />
+              <Scale className="w-4 h-4 sm:w-5 sm:h-5 text-[#4ADE80]" />
               <div className="text-xs sm:text-sm font-bold whitespace-nowrap">
                 <span>{selectedForCompareIds.length} / 3 </span>
-                <span className="text-[#1E6A50]">
+                <span className="text-[#4ADE80]">
                   {rui.schemesSelected}
                 </span>
               </div>
@@ -1685,7 +1685,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 id="open-comparison-dialog-btn"
                 type="button"
                 onClick={() => setIsComparisonOpen(true)}
-                className="bg-[#1E6A50] hover:bg-[#28B781] text-[#0B251F] text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full transition-colors cursor-pointer flex items-center gap-1.5 shadow-md"
+                className="bg-[#4ADE80] hover:bg-[#28B781] text-[#0B251F] text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full transition-colors cursor-pointer flex items-center gap-1.5 shadow-md"
               >
                 <span>{rui.compareNow}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -1738,7 +1738,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             title={rui.scrollToTopTitle}
             aria-label="Scroll to top"
           >
-            <ArrowUp className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform text-[#1E6A50]" />
+            <ArrowUp className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform text-[#4ADE80]" />
             <span className="text-xs font-bold pr-1">
               {rui.top}
             </span>
