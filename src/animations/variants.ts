@@ -271,3 +271,63 @@ export const validationTick: Variants = {
   visible: { opacity: 1, scale: 1, transition: transitions.spring },
   exit: { opacity: 0, scale: 0.6, transition: transitions.micro },
 };
+
+// Direction-aware page variants. Forward navigation slides in from the right,
+// back navigation slides in from the left — the classic native-app feel.
+// Receives the direction (-1 | 0 | 1) via the `custom` prop. Direction 0
+// (including the results <-> scheme-detail shared-layout morph) keeps the
+// neutral fade from pageVariants so the two systems never fight.
+export const directionalPageVariants: Variants = {
+  initial: (direction: number) => ({
+    opacity: 0,
+    x: direction === 0 ? 0 : 40 * direction,
+    y: direction === 0 ? 8 : 0,
+  }),
+  animate: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    transition: transitions.page,
+  },
+  exit: (direction: number) => ({
+    opacity: 0,
+    x: direction === 0 ? 0 : -40 * direction,
+    y: direction === 0 ? -8 : 0,
+    transition: { duration: 0.22, ease: 'easeOut' },
+  }),
+};
+
+// Scheme detail hero entrance choreography. The hero arrives as a sequence —
+// badges, then title block, then the gauge/actions column — instead of one
+// flat fade.
+export const heroContainer: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.09, delayChildren: 0.05 },
+  },
+};
+
+export const heroItem: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+// Nested stagger container for the hero's left column: fades up as one item
+// of the hero sequence while cascading its own children.
+export const heroNested: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.16, 1, 0.3, 1],
+      staggerChildren: 0.07,
+      delayChildren: 0.05,
+    },
+  },
+};

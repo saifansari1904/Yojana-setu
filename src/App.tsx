@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { AnimatePresence, LayoutGroup, MotionConfig } from 'motion/react';
 import { ActiveScreen, ApplicationStatus, MatchResult, TrackedApplication, UserProfile } from './types';
 import { getAllSchemes } from './lib/data';
@@ -149,6 +149,38 @@ function YojanaSetuMain() {
   // Smoothly scroll to the top of the portal when transitioning between screens
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentScreen]);
+
+  // Direction-aware page transitions: derive forward/back from screen order so
+  // AnimatedPage can slide in the natural direction. Shared-layout morph
+  // transitions (results <-> scheme-detail) stay neutral (0) so the morph
+  // owns the motion. Tracks via effect so every navigation path — navigateTo
+  // and direct setCurrentScreen calls alike — is covered.
+  const SCREEN_ORDER: Record<ActiveScreen, number> = {
+    login: 0,
+    dashboard: 1,
+    form: 2,
+    results: 3,
+    alternatives: 4,
+    'scheme-detail': 5,
+    tracker: 6,
+    workspace: 7,
+    profile: 8,
+  };
+  const prevScreenRef = useRef<ActiveScreen>(currentScreen);
+  const [navDirection, setNavDirection] = useState<number>(0);
+  useEffect(() => {
+    const prev = prevScreenRef.current;
+    if (prev !== currentScreen) {
+      const usesSharedLayout =
+        currentScreen === 'scheme-detail' || prev === 'scheme-detail';
+      const direction = usesSharedLayout
+        ? 0
+        : Math.sign((SCREEN_ORDER[currentScreen] ?? 0) - (SCREEN_ORDER[prev] ?? 0));
+      setNavDirection(direction);
+      prevScreenRef.current = currentScreen;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentScreen]);
 
   // Synchronize profile state across multi-tab sessions and local storage events
@@ -414,7 +446,7 @@ function YojanaSetuMain() {
           <LayoutGroup id="yojana-setu-screens">
           <AnimatePresence mode="wait">
             {currentScreen === 'login' && (
-              <AnimatedPage key="login">
+              <AnimatedPage key="login" direction={navDirection}>
                 <LoginScreen
                   onLogin={handleLogin}
                   onSkipToForm={() => {
@@ -426,7 +458,7 @@ function YojanaSetuMain() {
             )}
 
             {currentScreen === 'dashboard' && (
-              <AnimatedPage key="dashboard">
+              <AnimatedPage key="dashboard" direction={navDirection}>
                 <CommandCenterScreen
                   userProfile={userProfile}
                   matchResults={matchResults}
@@ -443,7 +475,7 @@ function YojanaSetuMain() {
             )}
 
             {currentScreen === 'form' && (
-              <AnimatedPage key="form">
+              <AnimatedPage key="form" direction={navDirection}>
                 <EligibilityFormScreen
                   initialProfile={userProfile}
                   onSubmit={handleFormSubmit}
@@ -452,7 +484,7 @@ function YojanaSetuMain() {
             )}
 
             {currentScreen === 'results' && (
-              <AnimatedPage key="results">
+              <AnimatedPage key="results" direction={navDirection}>
                 <ResultsListScreen
                   matchResults={matchResults}
                   userProfile={userProfile}
@@ -471,7 +503,7 @@ function YojanaSetuMain() {
             )}
 
             {currentScreen === 'alternatives' && (
-              <AnimatedPage key="alternatives">
+              <AnimatedPage key="alternatives" direction={navDirection}>
                 <WhyNotEligibleView
                   targetMatch={
                     currentWhyNotEligibleTarget ||
@@ -489,7 +521,7 @@ function YojanaSetuMain() {
             )}
 
             {currentScreen === 'scheme-detail' && currentSelectedSchemeMatch && (
-              <AnimatedPage key="scheme-detail">
+              <AnimatedPage key="scheme-detail" direction={navDirection}>
                 <SchemeDetailScreen
                   matchResult={currentSelectedSchemeMatch}
                   allMatches={matchResults}
@@ -507,7 +539,7 @@ function YojanaSetuMain() {
             )}
 
             {currentScreen === 'tracker' && (
-              <AnimatedPage key="tracker">
+              <AnimatedPage key="tracker" direction={navDirection}>
                 <ApplicationTrackerScreen
                   applications={trackedApplications}
                   matchResults={matchResults}
@@ -525,7 +557,7 @@ function YojanaSetuMain() {
             )}
 
             {currentScreen === 'workspace' && currentWorkspaceTarget && userProfile && (
-              <AnimatedPage key="workspace">
+              <AnimatedPage key="workspace" direction={navDirection}>
                 <ApplicationWorkspaceScreen
                   matchResult={currentWorkspaceTarget}
                   userProfile={userProfile}
@@ -542,7 +574,7 @@ function YojanaSetuMain() {
             )}
 
             {currentScreen === 'profile' && (
-              <AnimatedPage key="profile">
+              <AnimatedPage key="profile" direction={navDirection}>
                 <EntrepreneurProfileScreen
                   userProfile={userProfile}
                   matchResults={matchResults}

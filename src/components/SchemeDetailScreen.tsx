@@ -56,6 +56,9 @@ import {
   staggerContainer,
   staggerItem,
   scaleIn,
+  heroContainer,
+  heroNested,
+  heroItem,
 } from '../animations/variants';
 import {
   getPreparedDocIds,
@@ -318,16 +321,22 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
       {/* 2. TOP SECTION — SCHEME HERO */}
       <motion.section
         id="scheme-hero-section"
-        variants={shouldReduceMotion ? undefined : fadeSlideUp}
+        variants={shouldReduceMotion ? undefined : heroContainer}
         initial="hidden"
         animate="visible"
         className="yj-card yj-card-lg p-5 sm:p-7 mb-6"
       >
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
           {/* Main Title & Authority */}
-          <div className="flex-1 min-w-0">
+          <motion.div
+            className="flex-1 min-w-0"
+            variants={shouldReduceMotion ? undefined : heroNested}
+          >
             {/* Badges Bar */}
-            <div className="flex flex-wrap items-center gap-2 mb-3">
+            <motion.div
+              className="flex flex-wrap items-center gap-2 mb-3"
+              variants={shouldReduceMotion ? undefined : heroItem}
+            >
               <span className="bg-[#14453D] dark:bg-[#1C5045] text-white text-xs font-bold px-2.5 py-0.5 rounded">
                 {locScheme.shortCode}
               </span>
@@ -351,14 +360,17 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 <ShieldCheck className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
                 <span>{t('schemeDetail.verifiedSource')}</span>
               </span>
-            </div>
+            </motion.div>
 
             {/* Normalized Category Tags */}
             {(() => {
               const categories = getSchemeCategories(matchResult.scheme);
               if (!categories || categories.length === 0) return null;
               return (
-                <div className="flex flex-wrap items-center gap-1.5 mb-3">
+                <motion.div
+                  className="flex flex-wrap items-center gap-1.5 mb-3"
+                  variants={shouldReduceMotion ? undefined : heroItem}
+                >
                   {categories.map((cat) => (
                     <span
                       key={cat}
@@ -367,11 +379,14 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                       {cat}
                     </span>
                   ))}
-                </div>
+                </motion.div>
               );
             })()}
 
-            {/* Scheme Full Name */}
+            {/* Scheme Full Name + Authority — staggered as one hero beat.
+                The h1 keeps its layoutId so the shared morph from the
+                results card is unaffected by the wrapper. */}
+            <motion.div variants={shouldReduceMotion ? undefined : heroItem}>
             <motion.h1
               layoutId={`scheme-title-${locScheme.id}`}
               className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] tracking-tight leading-snug mb-2"
@@ -425,10 +440,14 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 </span>
               </div>
             </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Gauge & Top Action Buttons */}
-          <div className="flex flex-row md:flex-col items-center md:items-end justify-between gap-4 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-[#E2E2E0] dark:border-[#24342D]">
+          <motion.div
+            className="flex flex-row md:flex-col items-center md:items-end justify-between gap-4 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-[#E2E2E0] dark:border-[#24342D]"
+            variants={shouldReduceMotion ? undefined : heroItem}
+          >
             {/* Match Gauge */}
             <div className="flex items-center gap-3">
               <MatchGauge
@@ -517,7 +536,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 </span>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </motion.section>
 
