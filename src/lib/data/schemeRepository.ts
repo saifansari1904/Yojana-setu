@@ -11,6 +11,29 @@ import type {
   DataQualityAuditReport,
 } from '../../types/scheme';
 import { SCHEMES_DATABASE } from '../../data/schemes';
+
+/**
+ * PHASE 1 BACKEND — swappable dataset.
+ *
+ * `activeDataset` starts as the bundled SCHEMES_DATABASE. When the remote
+ * Schemes API is enabled (see lib/data/schemeSync.ts), boot hydrates it with
+ * the server dataset before first render. All repository queries read from
+ * `activeDataset`, so every consumer keeps working unchanged — sync or not.
+ */
+let activeDataset: Scheme[] = SCHEMES_DATABASE;
+
+/**
+ * Replaces the dataset backing every repository query (Phase 1 remote sync).
+ * Pass the bundled SCHEMES_DATABASE to revert.
+ */
+export function setActiveDataset(schemes: Scheme[]): void {
+  activeDataset = schemes;
+}
+
+/** Returns whichever dataset is currently active (bundled or remote). */
+export function getActiveDataset(): Scheme[] {
+  return activeDataset;
+}
 import { SOUTH_INDIA_SCHEMES } from '../../data/southIndiaSchemes';
 import {
   getSchemeScope,
@@ -50,14 +73,14 @@ interface SchemeSearchFilters {
  * Retrieves all registered schemes in the database.
  */
 export function getAllSchemes(): Scheme[] {
-  return SCHEMES_DATABASE;
+  return activeDataset;
 }
 
 /**
  * Finds a single scheme by its unique identifier.
  */
 export function getSchemeById(id: string): Scheme | undefined {
-  return SCHEMES_DATABASE.find((s) => s.id === id);
+  return activeDataset.find((s) => s.id === id);
 }
 
 /**
@@ -66,9 +89,9 @@ export function getSchemeById(id: string): Scheme | undefined {
  */
 export function getSchemesByState(state: string): Scheme[] {
   if (!state || state === 'All States & UTs') {
-    return SCHEMES_DATABASE;
+    return activeDataset;
   }
-  return SCHEMES_DATABASE.filter(
+  return activeDataset.filter(
     (s) => s.applicableStates.length === 0 || s.applicableStates.includes(state)
   );
 }
@@ -77,7 +100,7 @@ export function getSchemesByState(state: string): Scheme[] {
  * Retrieves only Central / National schemes that apply across all states and Union Territories.
  */
 export function getNationalSchemes(): Scheme[] {
-  return SCHEMES_DATABASE.filter((s) => s.applicableStates.length === 0);
+  return activeDataset.filter((s) => s.applicableStates.length === 0);
 }
 
 /**
@@ -86,9 +109,9 @@ export function getNationalSchemes(): Scheme[] {
  */
 export function getStateSpecificSchemes(state?: string): Scheme[] {
   if (state && state !== 'All States & UTs') {
-    return SCHEMES_DATABASE.filter((s) => s.applicableStates.includes(state));
+    return activeDataset.filter((s) => s.applicableStates.includes(state));
   }
-  return SCHEMES_DATABASE.filter((s) => s.applicableStates.length > 0);
+  return activeDataset.filter((s) => s.applicableStates.length > 0);
 }
 
 /**
@@ -101,7 +124,7 @@ export function getSouthIndiaSchemes(): Scheme[] {
 /**
  * Retrieves schemes by operational scope: 'NATIONAL' or 'STATE_SPECIFIC'.
  */
-export function getSchemesByScope(scope: SchemeScope, schemesPool: Scheme[] = SCHEMES_DATABASE): Scheme[] {
+export function getSchemesByScope(scope: SchemeScope, schemesPool: Scheme[] = activeDataset): Scheme[] {
   return schemesPool.filter((s) => getSchemeScope(s) === scope);
 }
 
@@ -110,7 +133,7 @@ export function getSchemesByScope(scope: SchemeScope, schemesPool: Scheme[] = SC
  */
 export function getSchemesByNormalizedCategory(
   category: NormalizedSchemeCategory,
-  schemesPool: Scheme[] = SCHEMES_DATABASE
+  schemesPool: Scheme[] = activeDataset
 ): Scheme[] {
   return schemesPool.filter((s) => getSchemeCategories(s).includes(category));
 }
@@ -120,7 +143,7 @@ export function getSchemesByNormalizedCategory(
  */
 export function getSchemesByFundingType(
   type: SchemeType,
-  schemesPool: Scheme[] = SCHEMES_DATABASE
+  schemesPool: Scheme[] = activeDataset
 ): Scheme[] {
   return schemesPool.filter((s) => s.schemeType === type);
 }
@@ -130,7 +153,7 @@ export function getSchemesByFundingType(
  */
 export function getSchemesByVerificationStatus(
   status: SchemeVerificationStatus,
-  schemesPool: Scheme[] = SCHEMES_DATABASE
+  schemesPool: Scheme[] = activeDataset
 ): Scheme[] {
   const target = String(status).toUpperCase();
   return schemesPool.filter((s) => {
@@ -154,7 +177,7 @@ export function getSchemesByVerificationStatus(
 /**
  * Case-insensitive search across scheme name, short code, ministry, tags, categories, and description.
  */
-export function searchSchemes(query: string, schemesPool: Scheme[] = SCHEMES_DATABASE): Scheme[] {
+export function searchSchemes(query: string, schemesPool: Scheme[] = activeDataset): Scheme[] {
   const trimmed = query.trim().toLowerCase();
   if (!trimmed) return schemesPool;
 
@@ -176,7 +199,7 @@ export function searchSchemes(query: string, schemesPool: Scheme[] = SCHEMES_DAT
  */
 export function searchSchemesAdvanced(
   filters: SchemeSearchFilters,
-  schemesPool: Scheme[] = SCHEMES_DATABASE
+  schemesPool: Scheme[] = activeDataset
 ): Scheme[] {
   let results = schemesPool;
 
@@ -231,14 +254,14 @@ export function searchSchemesAdvanced(
  * Returns comprehensive Phase 2 dataset metadata.
  */
 export function getDatasetMetadata(): DatasetMetadata {
-  return calculateDatasetMetadata(SCHEMES_DATABASE);
+  return calculateDatasetMetadata(activeDataset);
 }
 
 /**
  * Returns automated data completeness metrics report across all active schemes.
  */
 export function getCompletenessReport(): CompletenessReport {
-  return generateCompletenessReport(SCHEMES_DATABASE);
+  return generateCompletenessReport(activeDataset);
 }
 
 // ==========================================
@@ -248,7 +271,7 @@ export function getCompletenessReport(): CompletenessReport {
 /**
  * Retrieves schemes with full official government verification.
  */
-export function getVerifiedSchemes(schemesPool: Scheme[] = SCHEMES_DATABASE): Scheme[] {
+export function getVerifiedSchemes(schemesPool: Scheme[] = activeDataset): Scheme[] {
   return schemesPool.filter((s) => {
     const profile = s.trustProfile || deriveSchemeTrustProfile(s);
     return profile.verification.status === 'VERIFIED';
@@ -258,7 +281,7 @@ export function getVerifiedSchemes(schemesPool: Scheme[] = SCHEMES_DATABASE): Sc
 /**
  * Retrieves schemes whose verification is DUE_FOR_REVIEW or OUTDATED (historical > 1 year).
  */
-export function getSchemesNeedingReview(schemesPool: Scheme[] = SCHEMES_DATABASE): Scheme[] {
+export function getSchemesNeedingReview(schemesPool: Scheme[] = activeDataset): Scheme[] {
   return schemesPool.filter((s) => {
     const profile = s.trustProfile || deriveSchemeTrustProfile(s);
     return profile.freshness.status === 'DUE_FOR_REVIEW' || profile.freshness.status === 'OUTDATED';
@@ -277,14 +300,14 @@ export function getSchemesNeedingReview(schemesPool: Scheme[] = SCHEMES_DATABASE
  * Returns the active machine-readable data review queue for content auditors.
  */
 export function getReviewQueue(): ReviewQueueItem[] {
-  return generateReviewQueue(SCHEMES_DATABASE);
+  return generateReviewQueue(activeDataset);
 }
 
 /**
  * Generates the complete programmatic Data Quality & Trust Audit Report.
  */
 export function getDataQualityAudit(): DataQualityAuditReport {
-  return generateDataQualityAuditReport(SCHEMES_DATABASE);
+  return generateDataQualityAuditReport(activeDataset);
 }
 
 

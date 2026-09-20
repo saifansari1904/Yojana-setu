@@ -1,0 +1,31 @@
+# Yojana Setu — Supabase project (Phase 1: Schemes API)
+
+[api]
+enabled = true
+# PortgREST schema exposure; keep tight.
+schemas = ["public"]
+max_rows = 1000
+
+[db]
+port = 54322
+
+[db.seed]
+# Seed data lives in seed.sql (generated — see below).
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[studio]
+enabled = true
+port = 54323
+
+# --- Data workflow -----------------------------------------------------------
+# The bundled dataset (src/data, src/i18n/schemesData.ts) is the source of
+# truth for the initial seed. Regenerate after changing it:
+#
+#   npx tsx supabase/scripts/export-schemes.ts
+#
+# Then apply in the Supabase dashboard (SQL editor) or via:
+#   supabase db reset        # local — applies migrations + seed.sql
+#
+# Content updates AFTER launch go straight to the DB (dashboard / SQL),
+# which is the whole point of Phase 1: no app release needed.

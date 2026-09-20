@@ -558,3 +558,19 @@ export const allLocalizedSchemes: Partial<Record<string, Record<string, Localize
   ml: mlSchemesData,
 };
 
+
+/**
+ * PHASE 1 BACKEND — merges scheme translations fetched from the remote
+ * Schemes API into the bundled dictionaries. Remote entries win per
+ * (lang, schemeId), so content updates ship without an app release.
+ * `getLocalizedScheme` in LanguageContext reads this object at call time,
+ * so merging before first render is enough — no other changes needed.
+ */
+export function mergeRemoteSchemeTranslations(
+  remote: Partial<Record<string, Record<string, LocalizedSchemeData>>>
+): void {
+  for (const [lang, dict] of Object.entries(remote)) {
+    if (!dict) continue;
+    allLocalizedSchemes[lang] = { ...(allLocalizedSchemes[lang] ?? {}), ...dict };
+  }
+}
