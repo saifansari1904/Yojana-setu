@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { ShieldCheck, Lock, HardDrive, EyeOff, X, CheckCircle2, UserCheck } from 'lucide-react';
 import { useTranslation } from '../../i18n';
@@ -24,7 +25,11 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
 
   if (!isOpen) return null;
 
-  return (
+  // Render via portal to document.body so the fixed overlay is always
+  // positioned relative to the viewport. Ancestors with transform/filter
+  // (e.g. the motion-animated identity pod) otherwise become the containing
+  // block for `fixed` descendants, which pushes the dialog upward.
+  return createPortal(
     <AnimatePresence>
       <div
         id="account-privacy-dialog"
@@ -127,6 +132,7 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
