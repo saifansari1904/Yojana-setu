@@ -58,15 +58,15 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
     { bg: string; text: string; border: string; icon: React.ElementType; defaultLabel: string }
   > = {
     gazetted: {
-      bg: 'bg-[#D4EFE1] dark:bg-[#1A382D]',
-      text: 'text-[#0F6B4C] dark:text-[#4ADE80]',
+      bg: 'bg-[#D9E8DF] dark:bg-[#1A382D]',
+      text: 'text-[#1E6A50] dark:text-[#4ADE80]',
       border: 'border-[#B2CDBF] dark:border-[#285743]',
       icon: ShieldCheck,
       defaultLabel: 'Gazette Verified',
     },
     verified: {
-      bg: 'bg-[#D4EFE1] dark:bg-[#1A382D]',
-      text: 'text-[#0F6B4C] dark:text-[#4ADE80]',
+      bg: 'bg-[#D9E8DF] dark:bg-[#1A382D]',
+      text: 'text-[#1E6A50] dark:text-[#4ADE80]',
       border: 'border-[#B2CDBF] dark:border-[#285743]',
       icon: CheckCircle2,
       defaultLabel: 'Official Gov Scheme',
@@ -118,7 +118,7 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
       {hasProvenance && (
         <span
           role="note"
-          className="pointer-events-none absolute left-0 top-full z-20 mt-1.5 w-max max-w-[240px] whitespace-normal rounded-[var(--yj-radius-md)] border border-[#E2E2E0] dark:border-[#24342D] bg-white dark:bg-[#151C19] px-2.5 py-1.5 text-left text-[10px] font-normal leading-snug text-[#42544C] dark:text-[#A9BDB3] opacity-0 translate-y-0.5 shadow-[var(--yj-shadow-2)] transition-all duration-150 group-hover/provenance:opacity-100 group-hover/provenance:translate-y-0 group-focus-visible/provenance:opacity-100 group-focus-visible/provenance:translate-y-0"
+          className="pointer-events-none absolute left-0 top-full z-20 mt-1.5 w-max max-w-[240px] whitespace-normal rounded-[var(--yj-radius-md)] border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#151C19] px-2.5 py-1.5 text-left text-[10px] font-normal leading-snug text-[#42544C] dark:text-[#A9BDB3] opacity-0 translate-y-0.5 shadow-[var(--yj-shadow-2)] transition-all duration-150 group-hover/provenance:opacity-100 group-hover/provenance:translate-y-0 group-focus-visible/provenance:opacity-100 group-focus-visible/provenance:translate-y-0"
         >
           {sourceText}
         </span>

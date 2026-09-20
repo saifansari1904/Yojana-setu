@@ -37,10 +37,10 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
     >
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[#6F7A73] dark:text-[#8E9F97]">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-[#516A5F] dark:text-[#8E9F97]">
             YOUR SUPPORT STACK
           </h3>
-          <span className="text-xs text-[#6F7A73] dark:text-[#8E9F97] font-medium">5 Areas</span>
+          <span className="text-xs text-[#516A5F] dark:text-[#8E9F97] font-medium">5 Areas</span>
         </div>
 
         <div className="divide-y divide-slate-100 dark:divide-[#24342D]">
@@ -69,7 +69,7 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
                   <span className="text-sm font-bold text-[#1A1C1B] dark:text-[#F0F4F2] tabular-nums">
                     {count}
                   </span>
-                  <ChevronRight className="w-4 h-4 text-[#8E9F97] dark:text-[#6F7A73] group-hover:translate-x-0.5 transition-transform" />
+                  <ChevronRight className="w-4 h-4 text-[#516A5F] dark:text-[#6F7A73] group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </button>
             );
@@ -77,7 +77,7 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
         </div>
       </div>
 
-      <div className="mt-4 pt-3 border-t border-[#EAECEB] dark:border-[#24342D] text-[11px] text-[#6F7A73] dark:text-[#8E9F97] text-center">
+      <div className="mt-4 pt-3 border-t border-[#EAECEB] dark:border-[#24342D] text-[11px] text-[#516A5F] dark:text-[#8E9F97] text-center">
         Click any pillar to view filtered matching opportunities.
       </div>
     </div>

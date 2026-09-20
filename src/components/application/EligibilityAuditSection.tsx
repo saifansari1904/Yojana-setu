@@ -24,7 +24,7 @@ export const EligibilityAuditSection: React.FC<EligibilityAuditSectionProps> = (
       <div className="flex items-center justify-between pb-4 border-b border-[#E5E9E7] dark:border-[#22332A]">
         <div>
           <h3 className="text-base font-bold text-[#1F2421] dark:text-[#F0F4F2] flex items-center gap-2">
-            <Scale className="w-5 h-5 text-[#0F6B4C] dark:text-[#4ADE80]" />
+            <Scale className="w-5 h-5 text-[#1E6A50] dark:text-[#4ADE80]" />
             {t('workspace.eligibilityTitle')}
           </h3>
           <p className="text-xs text-[#5A6561] dark:text-[#97A7A0] mt-1">

@@ -27,22 +27,22 @@ export const ProfileCompletenessCard: React.FC<ProfileCompletenessCardProps> = (
   return (
     <div
       id="profile-completeness-card"
-      className="bg-white dark:bg-[#151C19] border border-[#CDE3D7] dark:border-[#223F30] rounded-xl p-5 shadow-xs transition-all"
+      className="bg-white dark:bg-[#151C19] border border-[#D9E8DF] dark:border-[#223F30] rounded-xl p-5 shadow-xs transition-all"
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <div>
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-bold text-[#14453D] dark:text-[#4ADE80] uppercase tracking-wider flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
+              <Sparkles className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80]" />
               {strings.completenessTitle}
             </h3>
             {isComplete ? (
-              <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]">
-                <CheckCircle className="w-3 h-3 text-[#16A34A] dark:text-[#4ADE80]" />
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]">
+                <CheckCircle className="w-3 h-3 text-[#1E6A50] dark:text-[#4ADE80]" />
                 {strings.fullyCompleteBadge}
               </span>
             ) : (
-              <span className="text-xs font-extrabold text-[#14453D] dark:text-[#4ADE80] bg-[#EAF5F0] dark:bg-[#162B22] px-2.5 py-0.5 rounded-full">
+              <span className="text-xs font-extrabold text-[#14453D] dark:text-[#4ADE80] bg-[#D9E8DF] dark:bg-[#162B22] px-2.5 py-0.5 rounded-full">
                 {completeness.percentage}% {strings.completenessScore}
               </span>
             )}
@@ -64,10 +64,10 @@ export const ProfileCompletenessCard: React.FC<ProfileCompletenessCardProps> = (
         <div
           className={`h-full transition-all duration-500 rounded-full ${
             isComplete
-              ? 'bg-gradient-to-r from-[#16A34A] to-[#10B981]'
+              ? 'bg-gradient-to-r from-[#1E6A50] to-[#10B981]'
               : completeness.percentage >= 70
-              ? 'bg-gradient-to-r from-[#14453D] to-[#16A34A]'
-              : 'bg-gradient-to-r from-amber-500 to-[#16A34A]'
+              ? 'bg-gradient-to-r from-[#14453D] to-[#1E6A50]'
+              : 'bg-gradient-to-r from-amber-500 to-[#1E6A50]'
           }`}
           style={{ width: `${Math.max(completeness.percentage, 8)}%` }}
         />
@@ -87,14 +87,14 @@ export const ProfileCompletenessCard: React.FC<ProfileCompletenessCardProps> = (
               return (
                 <div
                   key={item.fieldKey}
-                  className="bg-[#F8FAF9] dark:bg-[#101714] border border-[#DEE7E2] dark:border-[#1E2E27] rounded-lg p-2.5 flex items-center justify-between gap-2 hover:border-[#16A34A] transition-colors"
+                  className="bg-[#F8FAF9] dark:bg-[#101714] border border-[#DEE7E2] dark:border-[#1E2E27] rounded-lg p-2.5 flex items-center justify-between gap-2 hover:border-[#1E6A50] transition-colors"
                 >
                   <div className="min-w-0">
                     <span className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] block truncate">
                       {label}
                     </span>
                     {helper && (
-                      <span className="text-[10px] text-[#6F7A73] dark:text-[#9EB0A7] block truncate">
+                      <span className="text-[10px] text-[#516A5F] dark:text-[#9EB0A7] block truncate">
                         {helper}
                       </span>
                     )}
@@ -103,7 +103,7 @@ export const ProfileCompletenessCard: React.FC<ProfileCompletenessCardProps> = (
                     <button
                       type="button"
                       onClick={() => onCompleteField(item.fieldKey)}
-                      className="shrink-0 text-[11px] font-bold text-[#14453D] dark:text-[#4ADE80] hover:bg-[#D4EFE1] dark:hover:bg-[#1A382D] px-2 py-1 rounded transition-colors flex items-center gap-0.5 cursor-pointer"
+                      className="shrink-0 text-[11px] font-bold text-[#14453D] dark:text-[#4ADE80] hover:bg-[#D9E8DF] dark:hover:bg-[#1A382D] px-2 py-1 rounded transition-colors flex items-center gap-0.5 cursor-pointer"
                     >
                       <span>{strings.completeFieldBtn}</span>
                       <ArrowRight className="w-3 h-3" />

@@ -122,7 +122,7 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
         onClick={onBackToResults}
         whileHover={shouldReduceMotion ? undefined : { x: -3 }}
         whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:text-[#16A34A] dark:hover:text-[#6EE7B7] mb-6 cursor-pointer transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:text-[#1E6A50] dark:hover:text-[#6EE7B7] mb-6 cursor-pointer transition-colors"
       >
         <ChevronLeft className="w-4 h-4" />
         <span>{t('whyNotEligible.backBtn')}</span>
@@ -163,7 +163,7 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
                 <span className="text-xs font-bold text-[#C2603F] dark:text-[#F87171] block">
                   {unmetCriteria.length} {t('whyNotEligible.conditionsUnmet')}
                 </span>
-                <span className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97]">{t('whyNotEligible.transparentAudit')}</span>
+                <span className="text-[11px] text-[#516A5F] dark:text-[#8E9F97]">{t('whyNotEligible.transparentAudit')}</span>
               </div>
             </div>
           </div>
@@ -174,11 +174,11 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
             return (
               <div
                 id="gap-next-action-card"
-                className="mb-6 p-4 rounded-md bg-[#F4F8F6] dark:bg-[#16241D] border border-[#CDE3D7] dark:border-[#223F30] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                className="mb-6 p-4 rounded-md bg-[#F4F8F6] dark:bg-[#16241D] border border-[#D9E8DF] dark:border-[#223F30] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
               >
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider bg-[#14453D] text-white dark:bg-[#34D399] dark:text-[#0B251F] px-1.5 py-0.5 rounded">
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-[#14453D] text-white dark:bg-[#4ADE80] dark:text-[#0B251F] px-1.5 py-0.5 rounded">
                       {getWhyNotEligibleText('actionableNextStep', lang)}
                     </span>
                     <span className="text-[11px] font-bold text-[#14453D] dark:text-[#4ADE80]">
@@ -197,7 +197,7 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
                     href={nextAction.actionUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-[#14453D] hover:bg-[#0E352E] dark:bg-[#34D399] dark:hover:bg-[#28B781] text-white dark:text-[#0B251F] font-bold px-4 py-2 rounded transition-colors flex items-center gap-1.5 shrink-0 self-start sm:self-center"
+                    className="bg-[#14453D] hover:bg-[#0E352E] dark:bg-[#4ADE80] dark:hover:bg-[#28B781] text-white dark:text-[#0B251F] font-bold px-4 py-2 rounded transition-colors flex items-center gap-1.5 shrink-0 self-start sm:self-center"
                   >
                     <span>{nextAction.buttonLabel}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -228,13 +228,13 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 p-2.5 bg-white dark:bg-[#151C19] border border-amber-200 dark:border-amber-900/60 rounded text-xs">
                     <div>
-                      <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase font-semibold">
+                      <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase font-semibold">
                         {t('whyNotEligible.yourProfileValue')}
                       </span>
                       <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">{primaryGap.userValue}</strong>
                     </div>
                     <div>
-                      <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase font-semibold">
+                      <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase font-semibold">
                         {t('modal.statutoryReqLabel')}
                       </span>
                       <strong className="text-amber-800 dark:text-amber-300">{primaryGap.statutoryRequirement}</strong>
@@ -291,15 +291,15 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
                       {t('common.statutoryLimitation')}
                     </span>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#3F4943] dark:text-[#9EB0A7] bg-white dark:bg-[#18221E] p-2.5 rounded border border-[#E2E2E0] dark:border-[#293B33]">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#3F4943] dark:text-[#9EB0A7] bg-white dark:bg-[#18221E] p-2.5 rounded border border-[#E4E8E4] dark:border-[#293B33]">
                     <div>
-                      <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase tracking-wider">
+                      <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase tracking-wider">
                         {t('whyNotEligible.yourProfileValue')}
                       </span>
                       <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">{item.userValue}</strong>
                     </div>
                     <div>
-                      <span className="text-[10px] text-[#6F7A73] dark:text-[#8E9F97] block uppercase tracking-wider">
+                      <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase tracking-wider">
                         {t('whyNotEligible.statutoryLimit')}
                       </span>
                       <strong className="text-[#7C2C0F] dark:text-[#FCA5A5]">{item.statutoryRequirement}</strong>
@@ -315,7 +315,7 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
 
           {/* Matched Criteria (Positive acknowledgement) */}
           {metCriteria.length > 0 && (
-            <div className="pt-4 border-t border-[#E2E2E0] dark:border-[#24342D]">
+            <div className="pt-4 border-t border-[#E4E8E4] dark:border-[#24342D]">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#14453D] dark:text-[#4ADE80] block mb-2">
                 {t('whyNotEligible.matchedCriteriaTitle')} ({metCriteria.length}):
               </span>
@@ -329,10 +329,10 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
                   <motion.span
                     key={item.factorKey}
                     variants={shouldReduceMotion ? undefined : staggerItem}
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] text-xs font-semibold"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] text-xs font-semibold"
                   >
                     <motion.span variants={shouldReduceMotion ? undefined : popIn}>
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
                     </motion.span>
                     <span>
                       {item.factorLabel}: {item.userValue}
@@ -354,7 +354,7 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-[#16A34A] dark:text-[#4ADE80]" />
+            <Sparkles className="w-5 h-5 text-[#1E6A50] dark:text-[#4ADE80]" />
             <h2 className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
               {t('whyNotEligible.alternativesTitle')}
             </h2>
@@ -376,11 +376,11 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
                 variants={shouldReduceMotion ? undefined : staggerItem}
                 whileHover={shouldReduceMotion ? undefined : { y: -2 }}
                 transition={transitions.fast}
-                className="yj-card p-5 shadow-xs flex flex-col justify-between hover:border-[#14453D] dark:hover:border-[#34D399] transition-colors"
+                className="yj-card p-5 shadow-xs flex flex-col justify-between hover:border-[#14453D] dark:hover:border-[#4ADE80] transition-colors"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D4EFE1] dark:bg-[#1A382D] px-2 py-0.5 rounded">
+                    <span className="text-[10px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.5 rounded">
                       {locAlt.schemeType}
                     </span>
                     <MatchGauge percentage={alt.matchPercentage} size={48} strokeWidth={5} />
@@ -394,18 +394,18 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
 
                   {/* Why this alternative is recommended */}
                   {reason && (
-                    <div className="p-2 mb-2.5 bg-[#D4EFE1]/50 dark:bg-[#1A382D]/50 border border-[#D4EFE1] dark:border-[#285743] rounded text-[11px] text-[#14453D] dark:text-[#4ADE80] font-medium leading-tight">
+                    <div className="p-2 mb-2.5 bg-[#D9E8DF]/50 dark:bg-[#1A382D]/50 border border-[#D9E8DF] dark:border-[#285743] rounded text-[11px] text-[#14453D] dark:text-[#4ADE80] font-medium leading-tight">
                       ✓ {reason}
                     </div>
                   )}
 
-                  <div className="bg-[#FAFAF9] dark:bg-[#101613] p-2 rounded border border-[#E2E2E0] dark:border-[#24342D] text-[11px] mb-3">
-                    <span className="text-[#6F7A73] dark:text-[#8E9F97] block text-[10px]">{t('whyNotEligible.fundingRange')}</span>
+                  <div className="bg-[#FAFAF9] dark:bg-[#101613] p-2 rounded border border-[#E4E8E4] dark:border-[#24342D] text-[11px] mb-3">
+                    <span className="text-[#516A5F] dark:text-[#8E9F97] block text-[10px]">{t('whyNotEligible.fundingRange')}</span>
                     <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] font-bold">{locAlt.fundingRangeText}</strong>
                   </div>
                 </div>
 
-                <div className="space-y-2 pt-2 border-t border-[#E2E2E0] dark:border-[#24342D]">
+                <div className="space-y-2 pt-2 border-t border-[#E4E8E4] dark:border-[#24342D]">
                   <motion.button
                     id={`select-alt-${alt.scheme.id}`}
                     onClick={() => onSelectAlternative(alt)}
@@ -420,7 +420,7 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
                     href={locAlt.officialPortalUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full bg-[#FAFAF9] dark:bg-[#101613] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924] text-[#1A1C1B] dark:text-[#F0F4F2] border border-[#E2E2E0] dark:border-[#2A3C34] py-1.5 rounded text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"
+                    className="w-full bg-[#FAFAF9] dark:bg-[#101613] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924] text-[#1A1C1B] dark:text-[#F0F4F2] border border-[#E4E8E4] dark:border-[#2A3C34] py-1.5 rounded text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"
                   >
                     <span>{t('whyNotEligible.officialPortalBtn')}</span>
                     <ExternalLink className="w-3 h-3" />

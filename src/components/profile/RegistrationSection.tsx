@@ -64,7 +64,7 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
         <button
           type="button"
           onClick={() => onEditSection('registration')}
-          className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:bg-[#EAF5F0] dark:hover:bg-[#162B22] px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
+          className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:bg-[#D9E8DF] dark:hover:bg-[#162B22] px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
         >
           <Edit2 className="w-3.5 h-3.5" />
           <span>{strings.editProfileBtn}</span>
@@ -74,12 +74,12 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
         {/* Overall Status */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
             {strings.registrationStatus}
           </span>
           <div className="flex items-center gap-1.5 mt-0.5">
             {regStatus === 'REGISTERED' ? (
-              <CheckCircle2 className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
+              <CheckCircle2 className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80]" />
             ) : (
               <HelpCircle className="w-4 h-4 text-amber-500" />
             )}
@@ -91,14 +91,14 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
 
         {/* Udyam MSME */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
             {strings.udyam}
           </span>
           <div className="flex items-center justify-between">
             <span
               className={`text-xs font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 ${
                 isUdyam
-                  ? 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
+                  ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
                   : 'bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300'
               }`}
             >
@@ -110,14 +110,14 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
 
         {/* GSTIN */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
             {strings.gst}
           </span>
           <div>
             <span
               className={`text-xs font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 ${
                 isGst
-                  ? 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
+                  ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
               }`}
             >
@@ -129,20 +129,20 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
 
         {/* MSME Classification */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
             {strings.msmeCategory}
           </span>
           <span className="text-sm font-bold text-[#14453D] dark:text-[#4ADE80] block">
             {msmeTier}
           </span>
-          <span className="text-[10px] text-[#6F7A73] dark:text-[#9EB0A7] block">
+          <span className="text-[10px] text-[#516A5F] dark:text-[#9EB0A7] block">
             Composite MSMED Criteria
           </span>
         </div>
       </div>
 
       {/* Udyam Registration Direct Nodal Gateway */}
-      <div className="p-4 rounded-xl bg-[#F4F8F5] dark:bg-[#101D17] border border-[#CDE3D7] dark:border-[#1E3E2E] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="p-4 rounded-xl bg-[#F4F8F5] dark:bg-[#101D17] border border-[#D9E8DF] dark:border-[#1E3E2E] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <Building className="w-5 h-5 text-[#14453D] dark:text-[#4ADE80] shrink-0" />
           <div>
@@ -159,7 +159,7 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
           href="https://udyamregistration.gov.in"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#14453D] hover:bg-[#0F352E] dark:bg-[#16A34A] dark:hover:bg-[#15803D] text-white text-xs font-bold shrink-0 transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#14453D] hover:bg-[#0F352E] dark:bg-[#1E6A50] dark:hover:bg-[#15803D] text-white text-xs font-bold shrink-0 transition-colors"
         >
           <span>{strings.udyamPortal}</span>
           <ExternalLink className="w-3.5 h-3.5" />

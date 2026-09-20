@@ -109,10 +109,10 @@ export const SupportStack: React.FC<SupportStackProps> = ({
             <motion.article
               key={group.area}
               variants={shouldReduceMotion ? undefined : staggerItem}
-              className="rounded-2xl border border-[#E2E2E0] dark:border-[#24342D] bg-white dark:bg-[#132720] p-4"
+              className="rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#132720] p-4"
             >
               <header className="flex items-center gap-2 mb-3">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-[#D4EFE1] dark:bg-[#1A382D] text-[#0F6B4C] dark:text-[#4ADE80]">
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[#4ADE80]">
                   <AreaIcon className="w-4 h-4" aria-hidden="true" />
                 </span>
                 <h4 className="text-sm font-semibold text-[#14453D] dark:text-[#F0F4F2]">
@@ -128,7 +128,7 @@ export const SupportStack: React.FC<SupportStackProps> = ({
                       <button
                         type="button"
                         onClick={() => onSelectScheme?.(scheme.schemeId)}
-                        className="w-full text-left rounded-xl border border-[#E2E2E0] dark:border-[#24342D] px-3 py-2.5 min-h-[44px] hover:border-[#B2CDBF] dark:hover:border-[#285743] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16A34A]"
+                        className="w-full text-left rounded-xl border border-[#E4E8E4] dark:border-[#24342D] px-3 py-2.5 min-h-[44px] hover:border-[#B2CDBF] dark:hover:border-[#285743] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
                         aria-label={`${scheme.schemeName} — ${relationNote}`}
                       >
                         <span className="block text-sm font-medium text-[#14453D] dark:text-[#F0F4F2]">
@@ -163,7 +163,7 @@ export const SupportStack: React.FC<SupportStackProps> = ({
       </motion.div>
 
       {combinabilityNotice && (
-        <p className="mt-3 text-xs text-[#3F4943] dark:text-[#9EB0A7] bg-[#F0F4F2] dark:bg-[#1A2B24] rounded-xl p-3 border border-[#E2E2E0] dark:border-[#24342D]">
+        <p className="mt-3 text-xs text-[#3F4943] dark:text-[#9EB0A7] bg-[#EFF5F1] dark:bg-[#1A2B24] rounded-xl p-3 border border-[#E4E8E4] dark:border-[#24342D]">
           {combinabilityNotice}
         </p>
       )}

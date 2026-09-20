@@ -47,7 +47,7 @@ export const ScrollProgressBar: React.FC<ScrollProgressBarProps> = ({
       id="scroll-progress-bar"
       aria-hidden="true"
       style={{ scaleX }}
-      className={`fixed top-0 left-0 right-0 z-50 h-[3px] origin-left bg-gradient-to-r from-[#14453D] via-[#16A34A] to-[#34D399] ${className}`}
+      className={`fixed top-0 left-0 right-0 z-50 h-[3px] origin-left bg-gradient-to-r from-[#14453D] via-[#1E6A50] to-[#1E6A50] ${className}`}
     />
   );
 };

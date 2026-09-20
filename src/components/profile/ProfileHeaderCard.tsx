@@ -50,7 +50,7 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
       className="bg-white dark:bg-[#151C19] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-6 sm:p-7 shadow-xs relative overflow-hidden transition-all"
     >
       {/* Decorative subtle ambient backdrop */}
-      <div className="absolute top-0 right-0 w-80 h-80 bg-radial from-[#D4EFE1]/40 to-transparent dark:from-[#1A382D]/30 pointer-events-none rounded-full blur-2xl -mr-20 -mt-20" />
+      <div className="absolute top-0 right-0 w-80 h-80 bg-radial from-[#D9E8DF]/40 to-transparent dark:from-[#1A382D]/30 pointer-events-none rounded-full blur-2xl -mr-20 -mt-20" />
 
       <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
         {/* Left: Avatar & Identity details */}
@@ -80,10 +80,10 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
 
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2 mb-1.5">
-              <span className="text-[11px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-[#EAF5F0] dark:bg-[#162B22] text-[#14453D] dark:text-[#4ADE80] border border-[#CDE3D7] dark:border-[#1E3E2E]">
+              <span className="text-[11px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-[#D9E8DF] dark:bg-[#162B22] text-[#14453D] dark:text-[#4ADE80] border border-[#D9E8DF] dark:border-[#1E3E2E]">
                 {strings.pageBadge}
               </span>
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#16A34A] dark:text-[#4ADE80]">
+              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#1E6A50] dark:text-[#4ADE80]">
                 <ShieldCheck className="w-3.5 h-3.5" />
                 {strings.gazetteVerified}
               </span>
@@ -118,7 +118,7 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
               </span>
 
               {profile.ruralUrban && (
-                <span className="inline-flex items-center gap-1 bg-[#EAF5F0] dark:bg-[#162B22] px-2.5 py-1 rounded-md border border-[#CDE3D7] dark:border-[#1E3E2E] font-semibold text-[#14453D] dark:text-[#4ADE80]">
+                <span className="inline-flex items-center gap-1 bg-[#D9E8DF] dark:bg-[#162B22] px-2.5 py-1 rounded-md border border-[#D9E8DF] dark:border-[#1E3E2E] font-semibold text-[#14453D] dark:text-[#4ADE80]">
                   <Award className="w-3.5 h-3.5" />
                   {profile.ruralUrban === 'rural' ? strings.rural : strings.urban}
                 </span>
@@ -133,7 +133,7 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
             type="button"
             id="profile-edit-btn"
             onClick={onEdit}
-            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#14453D] hover:bg-[#0F352E] dark:bg-[#16A34A] dark:hover:bg-[#15803D] text-white font-bold text-sm shadow-xs transition-all cursor-pointer"
+            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#14453D] hover:bg-[#0F352E] dark:bg-[#1E6A50] dark:hover:bg-[#15803D] text-white font-bold text-sm shadow-xs transition-all cursor-pointer"
           >
             <Edit3 className="w-4 h-4" />
             <span>{strings.editProfileBtn}</span>
@@ -143,7 +143,7 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
             type="button"
             id="profile-print-btn"
             onClick={onPrint}
-            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#1C2621] hover:bg-[#F4F7F5] dark:hover:bg-[#22332A] text-[#1F2421] dark:text-[#E0E9E4] border border-[#CDE3D7] dark:border-[#223F30] font-semibold text-sm transition-all cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#1C2621] hover:bg-[#F4F7F5] dark:hover:bg-[#22332A] text-[#1F2421] dark:text-[#E0E9E4] border border-[#D9E8DF] dark:border-[#223F30] font-semibold text-sm transition-all cursor-pointer"
             title={strings.printSummaryBtn}
           >
             <Printer className="w-4 h-4 text-[#516A5F] dark:text-[#9EB0A7]" />

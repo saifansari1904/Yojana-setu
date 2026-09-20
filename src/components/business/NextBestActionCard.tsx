@@ -72,7 +72,7 @@ const STATUS_META: Record<
       kn: 'ಪೂರ್ಣಗೊಂಡಿದೆ',
       ml: 'പൂർത്തിയായി',
     },
-    chip: 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#0F6B4C] dark:text-[#4ADE80] border-[#B2CDBF] dark:border-[#285743]',
+    chip: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[#4ADE80] border-[#B2CDBF] dark:border-[#285743]',
   },
   READY: {
     icon: CheckCircle2,
@@ -84,7 +84,7 @@ const STATUS_META: Record<
       kn: 'ಸಿದ್ಧವಾಗಿದೆ',
       ml: 'തയ്യാറാണ്',
     },
-    chip: 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#0F6B4C] dark:text-[#4ADE80] border-[#B2CDBF] dark:border-[#285743]',
+    chip: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[#4ADE80] border-[#B2CDBF] dark:border-[#285743]',
   },
   RECOMMENDED: {
     icon: Compass,
@@ -96,7 +96,7 @@ const STATUS_META: Record<
       kn: 'ಶಿಫಾರಸು ಮಾಡಲಾಗಿದೆ',
       ml: 'ശുപാർശ ചെയ്യുന്നത്',
     },
-    chip: 'bg-[#F0F4F2] dark:bg-[#1A2B24] text-[#3F4943] dark:text-[#9EB0A7] border-[#E2E2E0] dark:border-[#24342D]',
+    chip: 'bg-[#EFF5F1] dark:bg-[#1A2B24] text-[#3F4943] dark:text-[#9EB0A7] border-[#E4E8E4] dark:border-[#24342D]',
   },
   BLOCKED: {
     icon: AlertTriangle,
@@ -132,7 +132,7 @@ const STATUS_META: Record<
       kn: 'ಅಪ್ರಸ್ತುತ',
       ml: 'പ്രസക്തമല്ല',
     },
-    chip: 'bg-[#F0F4F2] dark:bg-[#1A2B24] text-[#3F4943] dark:text-[#9EB0A7] border-[#E2E2E0] dark:border-[#24342D]',
+    chip: 'bg-[#EFF5F1] dark:bg-[#1A2B24] text-[#3F4943] dark:text-[#9EB0A7] border-[#E4E8E4] dark:border-[#24342D]',
   },
 };
 
@@ -188,7 +188,7 @@ export const NextBestActionCard: React.FC<NextBestActionCardProps> = ({
       <p className="text-sm text-[#3F4943] dark:text-[#9EB0A7] mb-3">{description}</p>
 
       {!compact && (
-        <div className="rounded-xl border border-[#E2E2E0] dark:border-[#24342D] bg-white dark:bg-[#0F1F1A] p-3 mb-4">
+        <div className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#0F1F1A] p-3 mb-4">
           <p className="text-[11px] font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[#9EB0A7] mb-1">
             {COPY.whyRecommended[l]}
           </p>
@@ -208,7 +208,7 @@ export const NextBestActionCard: React.FC<NextBestActionCardProps> = ({
       </ArrowFillButton>
 
       {secondaryActions.length > 0 && (
-        <div className="mt-4 pt-3 border-t border-[#E2E2E0] dark:border-[#24342D]">
+        <div className="mt-4 pt-3 border-t border-[#E4E8E4] dark:border-[#24342D]">
           <p className="text-[11px] font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[#9EB0A7] mb-2">
             {COPY.afterThat[l]}
           </p>
@@ -220,7 +220,7 @@ export const NextBestActionCard: React.FC<NextBestActionCardProps> = ({
                   <button
                     type="button"
                     onClick={() => onAction?.(secondary)}
-                    className="w-full text-left rounded-xl border border-[#E2E2E0] dark:border-[#24342D] bg-white dark:bg-[#0F1F1A] px-3 py-2.5 min-h-[44px] text-sm text-[#3F4943] dark:text-[#C7D6CE] hover:border-[#B2CDBF] dark:hover:border-[#285743] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16A34A]"
+                    className="w-full text-left rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#0F1F1A] px-3 py-2.5 min-h-[44px] text-sm text-[#3F4943] dark:text-[#C7D6CE] hover:border-[#B2CDBF] dark:hover:border-[#285743] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
                   >
                     <span className="font-medium text-[#14453D] dark:text-[#F0F4F2]">
                       {secTitle}

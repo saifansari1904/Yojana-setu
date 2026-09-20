@@ -61,7 +61,7 @@ export const CitizenConfirmationModal: React.FC<CitizenConfirmationModalProps> =
           {/* Modal Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-[#E5E9E7] dark:border-[#22332A]">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-[#0F6B4C] dark:text-[#4ADE80]" />
+              <ShieldCheck className="w-5 h-5 text-[#1E6A50] dark:text-[#4ADE80]" />
               <h3 className="text-base font-bold text-[#1F2421] dark:text-[#F0F4F2]">
                 {t('workspace.confirmModalTitle')}
               </h3>
@@ -90,7 +90,7 @@ export const CitizenConfirmationModal: React.FC<CitizenConfirmationModalProps> =
                 value={referenceNumber}
                 onChange={(e) => setReferenceNumber(e.target.value)}
                 placeholder={t('workspace.referenceNumberPlaceholder')}
-                className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#1A2520] text-[#1F2421] dark:text-[#F0F4F2] focus:outline-hidden focus:ring-2 focus:ring-[#0F6B4C]"
+                className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#1A2520] text-[#1F2421] dark:text-[#F0F4F2] focus:outline-hidden focus:ring-2 focus:ring-[#1E6A50]"
               />
             </div>
 
@@ -102,7 +102,7 @@ export const CitizenConfirmationModal: React.FC<CitizenConfirmationModalProps> =
                 type="date"
                 value={submissionDate}
                 onChange={(e) => setSubmissionDate(e.target.value)}
-                className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#1A2520] text-[#1F2421] dark:text-[#F0F4F2] focus:outline-hidden focus:ring-2 focus:ring-[#0F6B4C]"
+                className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#1A2520] text-[#1F2421] dark:text-[#F0F4F2] focus:outline-hidden focus:ring-2 focus:ring-[#1E6A50]"
               />
             </div>
 
@@ -115,7 +115,7 @@ export const CitizenConfirmationModal: React.FC<CitizenConfirmationModalProps> =
                 value={submissionNotes}
                 onChange={(e) => setSubmissionNotes(e.target.value)}
                 placeholder={t('workspace.notesPlaceholder')}
-                className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#1A2520] text-[#1F2421] dark:text-[#F0F4F2] focus:outline-hidden focus:ring-2 focus:ring-[#0F6B4C]"
+                className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#1A2520] text-[#1F2421] dark:text-[#F0F4F2] focus:outline-hidden focus:ring-2 focus:ring-[#1E6A50]"
               />
             </div>
 
@@ -129,7 +129,7 @@ export const CitizenConfirmationModal: React.FC<CitizenConfirmationModalProps> =
                     setIsDisclaimerChecked(e.target.checked);
                     if (e.target.checked) setErrorMessage('');
                   }}
-                  className="mt-0.5 rounded-sm text-[#0F6B4C] focus:ring-[#0F6B4C]"
+                  className="mt-0.5 rounded-sm text-[#1E6A50] focus:ring-[#1E6A50]"
                 />
                 <span className="text-xs text-[#1F2421] dark:text-[#F0F4F2] leading-snug">
                   {t('workspace.confirmCheckbox')}
@@ -155,7 +155,7 @@ export const CitizenConfirmationModal: React.FC<CitizenConfirmationModalProps> =
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 text-xs font-semibold text-white bg-[#0F6B4C] hover:bg-[#0D5B41] dark:bg-[#4ADE80] dark:text-[#0E1311] dark:hover:bg-[#22C55E] rounded-xl transition-colors shadow-sm"
+                className="px-4 py-2 text-xs font-semibold text-white bg-[#1E6A50] hover:bg-[#0D5B41] dark:bg-[#4ADE80] dark:text-[#0E1311] dark:hover:bg-[#22C55E] rounded-xl transition-colors shadow-sm"
               >
                 {t('workspace.submitConfirmBtn')}
               </button>

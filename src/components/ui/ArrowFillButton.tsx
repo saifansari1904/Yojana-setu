@@ -49,12 +49,12 @@ export const ArrowFillButton: React.FC<ArrowFillButtonProps> = ({
       badge: 'bg-white/15 dark:bg-white/10 text-white',
     },
     emerald: {
-      btn: 'bg-[#16A34A] hover:bg-[#15803D] active:bg-[#166534] text-white border border-[#16A34A]',
+      btn: 'bg-[#175741] hover:bg-[#15803D] active:bg-[#166534] text-white border border-[#1E6A50]',
       badge: 'bg-black/15 text-white',
     },
     secondary: {
-      btn: 'bg-white dark:bg-[#1E2924] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#14453D] dark:text-[#4ADE80] border border-[#E2E2E0] dark:border-[#2E4137]',
-      badge: 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]',
+      btn: 'bg-white dark:bg-[#1E2924] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#14453D] dark:text-[#4ADE80] border border-[#E4E8E4] dark:border-[#2E4137]',
+      badge: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]',
     },
     outline: {
       btn: 'bg-transparent hover:bg-[#14453D]/5 dark:hover:bg-[#4ADE80]/10 text-[#14453D] dark:text-[#4ADE80] border border-[#14453D]/30 dark:border-[#4ADE80]/30',
@@ -62,7 +62,7 @@ export const ArrowFillButton: React.FC<ArrowFillButtonProps> = ({
     },
     ghost: {
       btn: 'bg-transparent hover:bg-[#EEEEED] dark:hover:bg-[#1E2723] text-[#3F4943] dark:text-[#C5D5CC] border border-transparent',
-      badge: 'bg-[#E2E2E0] dark:bg-[#2A3C34] text-[#14453D] dark:text-[#4ADE80]',
+      badge: 'bg-[#E4E8E4] dark:bg-[#2A3C34] text-[#14453D] dark:text-[#4ADE80]',
     },
     destructive: {
       btn: 'bg-white dark:bg-[#2A1512] hover:bg-[#FFF5F3] dark:hover:bg-[#3D1A14] text-[#B3261E] dark:text-[#FCA5A5] border border-[#F3C6BE] dark:border-[#5A2B20]',
@@ -70,7 +70,7 @@ export const ArrowFillButton: React.FC<ArrowFillButtonProps> = ({
     },
     // Square, label-less control. Pass `ariaLabel` for an accessible name.
     icon: {
-      btn: 'bg-white dark:bg-[#1E2924] hover:bg-[#F1F5F3] dark:hover:bg-[#26352E] text-[#0B5D4B] dark:text-[#4ADE80] border border-[#E2E2E0] dark:border-[#2E4137]',
+      btn: 'bg-white dark:bg-[#1E2924] hover:bg-[#F1F5F3] dark:hover:bg-[#26352E] text-[#0B5D4B] dark:text-[#4ADE80] border border-[#E4E8E4] dark:border-[#2E4137]',
       badge: 'bg-transparent text-current',
     },
   };

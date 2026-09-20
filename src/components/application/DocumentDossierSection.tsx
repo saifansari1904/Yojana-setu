@@ -110,14 +110,14 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
                 className={`p-4 rounded-xl border transition-all cursor-pointer flex items-start justify-between gap-4 ${
                   isPrepared
                     ? 'border-emerald-300 dark:border-emerald-800 bg-emerald-50/40 dark:bg-emerald-950/20'
-                    : 'border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#151D19] hover:border-[#0F6B4C]/40'
+                    : 'border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#151D19] hover:border-[#1E6A50]/40'
                 }`}
               >
                 <div className="flex items-start gap-3">
                   <button
                     type="button"
                     aria-label={doc}
-                    className="mt-0.5 text-[#0F6B4C] dark:text-[#4ADE80] shrink-0"
+                    className="mt-0.5 text-[#1E6A50] dark:text-[#4ADE80] shrink-0"
                   >
                     {isPrepared ? (
                       <CheckSquare className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />

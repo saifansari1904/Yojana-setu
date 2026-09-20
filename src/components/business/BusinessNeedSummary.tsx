@@ -294,11 +294,11 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
   return (
     <div
       id="business-need-summary"
-      className="p-4 rounded-md border border-[#C1E2D0] dark:border-[#22503E] bg-[#D4EFE1]/30 dark:bg-[#143327]/40 mb-6 transition-all duration-200"
+      className="p-4 rounded-md border border-[#C1E2D0] dark:border-[#22503E] bg-[#D9E8DF]/30 dark:bg-[#143327]/40 mb-6 transition-all duration-200"
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-start gap-2.5">
-          <div className="p-1.5 rounded-full bg-[#14453D] text-white dark:bg-[#34D399] dark:text-[#0B251F] shrink-0 mt-0.5">
+          <div className="p-1.5 rounded-full bg-[#14453D] text-white dark:bg-[#4ADE80] dark:text-[#0B251F] shrink-0 mt-0.5">
             <Sparkles className="w-4 h-4" />
           </div>
           <div>

@@ -38,7 +38,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
   const priorityBadgeConfig = {
     ACTION_NOW: {
       label: t('actionNowBadge'),
-      classes: 'bg-[#16A34A] text-white font-semibold shadow-xs',
+      classes: 'bg-[#175741] text-white font-semibold shadow-xs',
     },
     HIGH_PRIORITY: {
       label: t('highPriorityBadge'),
@@ -71,7 +71,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
           <div className="flex flex-wrap items-center gap-2 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#6F7A73] dark:text-[#8E9F97]">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#516A5F] dark:text-[#8E9F97]">
               {t('topOpportunityHeading')}
             </span>
             <span className={`text-xs px-2.5 py-0.5 rounded-full ${priorityBadgeConfig.classes}`}>
@@ -82,11 +82,11 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
 
           <h3
             onClick={() => onOpenSchemeDetail(opportunity)}
-            className="text-xl sm:text-xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] cursor-pointer hover:text-[#0F6B4C] dark:hover:text-[#4ADE80] transition-colors"
+            className="text-xl sm:text-xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] cursor-pointer hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors"
           >
             {scheme.code} — {schemeTitle}
           </h3>
-          <p className="text-xs text-[#6F7A73] dark:text-[#8E9F97] mt-1">{deptTitle}</p>
+          <p className="text-xs text-[#516A5F] dark:text-[#8E9F97] mt-1">{deptTitle}</p>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
@@ -96,12 +96,12 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
             onToggle={() => onToggleSave(scheme.id)}
           />
           {/* Match Score Badge (Authoritative Phase 3.1 Score) */}
-          <div className="text-right bg-[#FAFAF9] dark:bg-[#1A2420] px-3.5 py-2 rounded-lg border border-[#E2E2E0] dark:border-[#24342D]">
+          <div className="text-right bg-[#FAFAF9] dark:bg-[#1A2420] px-3.5 py-2 rounded-lg border border-[#E4E8E4] dark:border-[#24342D]">
             <div className="text-xl sm:text-xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] leading-tight">
               <AnimatedCounter value={matchResult.totalMatchScore} id={`match-counter-${scheme.id}`} />
-              <span className="text-xs font-normal text-[#6F7A73] dark:text-[#8E9F97] ml-0.5">/100</span>
+              <span className="text-xs font-normal text-[#516A5F] dark:text-[#8E9F97] ml-0.5">/100</span>
             </div>
-            <div className="text-[11px] font-medium text-[#6F7A73] dark:text-[#8E9F97] uppercase tracking-wide">
+            <div className="text-[11px] font-medium text-[#516A5F] dark:text-[#8E9F97] uppercase tracking-wide">
               {t('matchScoreLabel')}
             </div>
           </div>
@@ -128,7 +128,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
           )}
         </div>
         <div className="flex items-center gap-2.5 text-xs text-[#3F4943] dark:text-[#C5D5CC]">
-          <FileText className="w-4 h-4 text-[#6F7A73] dark:text-[#8E9F97] shrink-0" />
+          <FileText className="w-4 h-4 text-[#516A5F] dark:text-[#8E9F97] shrink-0" />
           <span>
             <strong className="font-semibold text-[#1A1C1B] dark:text-[#F0F4F2]">{documentReadiness.prepared}</strong>
             {' '}/ {documentReadiness.total} {t('documentsPrepared')}
@@ -145,9 +145,9 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
         <div className="space-y-1.5">
           {whyThisScheme.points.map((pt, idx) => (
             <div key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-[#3F4943] dark:text-[#C5D5CC]">
-              {pt.type === 'positive' && <span className="text-[#16A34A] dark:text-[#34D399] font-bold shrink-0">✓</span>}
+              {pt.type === 'positive' && <span className="text-[#1E6A50] dark:text-[#4ADE80] font-bold shrink-0">✓</span>}
               {pt.type === 'attention' && <AlertCircle className="w-3.5 h-3.5 text-[#92610A] dark:text-[#FCD34D] mt-0.5 shrink-0" />}
-              {pt.type === 'neutral' && <span className="text-[#8E9F97] dark:text-[#6F7A73] font-bold shrink-0">•</span>}
+              {pt.type === 'neutral' && <span className="text-[#516A5F] dark:text-[#6F7A73] font-bold shrink-0">•</span>}
               <span>{resolveLocalizedPair(pt.text, pt.textHi, language)}</span>
             </div>
           ))}

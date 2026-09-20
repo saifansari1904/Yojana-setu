@@ -46,7 +46,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
         <button
           type="button"
           onClick={() => onEditSection('personal')}
-          className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:bg-[#EAF5F0] dark:hover:bg-[#162B22] px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
+          className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:bg-[#D9E8DF] dark:hover:bg-[#162B22] px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
         >
           <Edit2 className="w-3.5 h-3.5" />
           <span>{strings.editProfileBtn}</span>
@@ -56,7 +56,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Full Name */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.applicantName}
           </span>
           <span className="text-sm font-bold text-[#1F2421] dark:text-[#F0F4F2] mt-1 block">
@@ -66,7 +66,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
 
         {/* Social Category */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.category}
           </span>
           <div className="flex items-center gap-2 mt-1">
@@ -74,7 +74,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
               {categoryLabel}
             </span>
             {isSpecialCategory && (
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]">
                 Special Concession
               </span>
             )}
@@ -83,7 +83,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
 
         {/* Age & Bracket */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.age} / {strings.ageBracket}
           </span>
           <div className="flex items-center gap-2 mt-1">
@@ -104,7 +104,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
 
         {/* Gender */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.gender}
           </span>
           <span className="text-sm font-bold text-[#1F2421] dark:text-[#F0F4F2] mt-1 block capitalize">
@@ -114,7 +114,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
 
         {/* Annual Income */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.annualIncome}
           </span>
           <span className="text-sm font-bold text-[#14453D] dark:text-[#4ADE80] mt-1 block">
@@ -124,7 +124,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
 
         {/* State & District */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.state} / {strings.district}
           </span>
           <span className="text-sm font-bold text-[#1F2421] dark:text-[#F0F4F2] mt-1 block">
@@ -134,8 +134,8 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
       </div>
 
       {/* Statutory Concession Callout Strip */}
-      <div className="mt-4 p-3 rounded-xl bg-[#EAF5F0] dark:bg-[#162B22] border border-[#CDE3D7] dark:border-[#1E3E2E] flex items-start gap-2.5">
-        <CheckCircle2 className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80] shrink-0 mt-0.5" />
+      <div className="mt-4 p-3 rounded-xl bg-[#D9E8DF] dark:bg-[#162B22] border border-[#D9E8DF] dark:border-[#1E3E2E] flex items-start gap-2.5">
+        <CheckCircle2 className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80] shrink-0 mt-0.5" />
         <div className="text-xs text-[#14453D] dark:text-[#4ADE80]">
           <span className="font-bold">Statutory Reservation Notice: </span>
           {isSpecialCategory ? (

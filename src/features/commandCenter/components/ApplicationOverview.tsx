@@ -37,7 +37,7 @@ export const ApplicationOverview: React.FC<ApplicationOverviewProps> = ({
     >
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[#6F7A73] dark:text-[#8E9F97]">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-[#516A5F] dark:text-[#8E9F97]">
             {t('applicationsTitle')}
           </h3>
           <span className="text-xs font-semibold text-[#3F4943] dark:text-[#C5D5CC] bg-[#F3F4F3] dark:bg-[#1E2924] px-2 py-0.5 rounded-full">
@@ -47,9 +47,9 @@ export const ApplicationOverview: React.FC<ApplicationOverviewProps> = ({
 
         {/* Status Count Bars */}
         <div className="grid grid-cols-3 gap-2.5 mb-5">
-          <div className="p-3 rounded-lg bg-[#D4EFE1] dark:bg-[#1A382D] border border-[#D4EFE1] dark:border-[#22503E] text-center">
+          <div className="p-3 rounded-lg bg-[#D9E8DF] dark:bg-[#1A382D] border border-[#D9E8DF] dark:border-[#22503E] text-center">
             <div className="text-xs font-semibold text-[#14453D] dark:text-[#4ADE80]">{t('readyToApply')}</div>
-            <div className="text-xl font-bold text-[#0B302B] dark:text-[#D4EFE1] mt-1 tabular-nums">
+            <div className="text-xl font-bold text-[#0B302B] dark:text-[#D9E8DF] mt-1 tabular-nums">
               {summary.readyToApply}
             </div>
           </div>
@@ -74,7 +74,7 @@ export const ApplicationOverview: React.FC<ApplicationOverviewProps> = ({
           <div className="space-y-2 mb-4">
             {summary.records.slice(0, 3).map(({ scheme, record }) => {
               const statusConfig = {
-                'docs-ready': { label: t('readyToApply'), color: 'text-[#0F6B4C] dark:text-[#4ADE80] bg-[#C1E2D0] dark:bg-[#22503E]', icon: CheckCircle2 },
+                'docs-ready': { label: t('readyToApply'), color: 'text-[#1E6A50] dark:text-[#4ADE80] bg-[#C1E2D0] dark:bg-[#22503E]', icon: CheckCircle2 },
                 'preparing': { label: t('preparing'), color: 'text-[#92610A] dark:text-[#FCD34D] bg-[#FEF3C7] dark:bg-[#3B2F14]', icon: Clock },
                 'applied': { label: t('applied'), color: 'text-sky-700 dark:text-sky-300 bg-sky-100 dark:bg-[#0E2A38]', icon: Send },
                 'approved': { label: t('approved'), color: 'text-purple-700 dark:text-purple-300 bg-purple-100 dark:bg-[#2A163B]', icon: CheckCircle2 },
@@ -87,13 +87,13 @@ export const ApplicationOverview: React.FC<ApplicationOverviewProps> = ({
                 <div
                   key={record.id}
                   onClick={() => onOpenWorkspace(scheme.id)}
-                  className="p-2.5 rounded-lg border border-[#EAECEB] dark:border-[#24342D] hover:border-[#E2E2E0] dark:hover:border-[#2A3C34] hover:bg-[#FAFAF9] dark:hover:bg-[#1E2924] transition-all cursor-pointer flex items-center justify-between gap-3 text-xs"
+                  className="p-2.5 rounded-lg border border-[#EAECEB] dark:border-[#24342D] hover:border-[#E4E8E4] dark:hover:border-[#2A3C34] hover:bg-[#FAFAF9] dark:hover:bg-[#1E2924] transition-all cursor-pointer flex items-center justify-between gap-3 text-xs"
                 >
                   <div className="min-w-0">
                     <div className="font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] truncate">
                       {scheme.code}
                     </div>
-                    <div className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] truncate">
+                    <div className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] truncate">
                       {scheme.name}
                     </div>
                   </div>
@@ -109,7 +109,7 @@ export const ApplicationOverview: React.FC<ApplicationOverviewProps> = ({
             })}
           </div>
         ) : (
-          <div className="py-6 text-center text-xs text-[#6F7A73] dark:text-[#8E9F97]">
+          <div className="py-6 text-center text-xs text-[#516A5F] dark:text-[#8E9F97]">
             {t('noApplicationsYet')}
           </div>
         )}
@@ -119,7 +119,7 @@ export const ApplicationOverview: React.FC<ApplicationOverviewProps> = ({
         id="view-all-applications-btn"
         type="button"
         onClick={onOpenTracker}
-        className="w-full mt-2 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg text-xs font-semibold text-[#3F4943] dark:text-[#C5D5CC] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] bg-[#FAFAF9] dark:bg-[#1A2420] hover:bg-[#F3F4F3] dark:hover:bg-[#22302A] border border-[#E2E2E0] dark:border-[#24342D] transition-colors min-h-[44px]"
+        className="w-full mt-2 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg text-xs font-semibold text-[#3F4943] dark:text-[#C5D5CC] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] bg-[#FAFAF9] dark:bg-[#1A2420] hover:bg-[#F3F4F3] dark:hover:bg-[#22302A] border border-[#E4E8E4] dark:border-[#24342D] transition-colors min-h-[44px]"
       >
         <span>{t('viewApplications')}</span>
         <ArrowRight className="w-3.5 h-3.5" />

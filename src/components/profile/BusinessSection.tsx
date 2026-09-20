@@ -55,7 +55,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
         <button
           type="button"
           onClick={() => onEditSection('business')}
-          className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:bg-[#EAF5F0] dark:hover:bg-[#162B22] px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
+          className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:bg-[#D9E8DF] dark:hover:bg-[#162B22] px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
         >
           <Edit2 className="w-3.5 h-3.5" />
           <span>{strings.editProfileBtn}</span>
@@ -65,7 +65,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Enterprise Name */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.businessName}
           </span>
           <span className="text-sm font-bold text-[#1F2421] dark:text-[#F0F4F2] mt-1 block">
@@ -75,7 +75,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
 
         {/* Industry Sector */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.sector}
           </span>
           <div className="flex items-center gap-2 mt-1">
@@ -92,11 +92,11 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
 
         {/* Enterprise Stage */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.businessStage}
           </span>
           <div className="mt-1">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#EAF5F0] dark:bg-[#162B22] text-[#14453D] dark:text-[#4ADE80] border border-[#CDE3D7] dark:border-[#1E3E2E]">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#D9E8DF] dark:bg-[#162B22] text-[#14453D] dark:text-[#4ADE80] border border-[#D9E8DF] dark:border-[#1E3E2E]">
               <Layers className="w-3 h-3" />
               {stageLabel}
             </span>
@@ -105,7 +105,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
 
         {/* Legal Structure */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.entityType}
           </span>
           <span className="text-sm font-bold text-[#1F2421] dark:text-[#F0F4F2] mt-1 block">
@@ -115,7 +115,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
 
         {/* Operating Location */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.businessLocation}
           </span>
           <div className="flex items-center gap-2 mt-1">
@@ -132,11 +132,11 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
 
         {/* Experience */}
         <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#6F7A73] dark:text-[#9EB0A7] block uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.experienceYears}
           </span>
           <span className="text-sm font-bold text-[#1F2421] dark:text-[#F0F4F2] mt-1 block flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-[#6F7A73]" />
+            <Clock className="w-3.5 h-3.5 text-[#516A5F]" />
             {profile.entrepreneurExperienceYears != null
               ? `${profile.entrepreneurExperienceYears} Years`
               : strings.notSpecified}

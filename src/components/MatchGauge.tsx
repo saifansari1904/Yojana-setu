@@ -125,7 +125,7 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
             variants={glowPulse}
             initial="hidden"
             animate="visible"
-            className="absolute inset-0 rounded-full bg-[#16A34A]/30 dark:bg-[#34D399]/25 blur-md"
+            className="absolute inset-0 rounded-full bg-[#175741]/30 dark:bg-[#4ADE80]/25 blur-md"
           />
         )}
 
@@ -196,9 +196,9 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
         <span
           className={`mt-2 text-xs font-semibold px-2 py-0.5 rounded ${
             isHighMatch
-              ? 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#0F6B4C] dark:text-[#34D399]'
+              ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[#4ADE80]'
               : isMediumMatch
-              ? 'bg-[#E2E2E0] dark:bg-[#24342D] text-[#3F4943] dark:text-[#C5D5CC]'
+              ? 'bg-[#E4E8E4] dark:bg-[#24342D] text-[#3F4943] dark:text-[#C5D5CC]'
               : 'bg-[#FFDAD6] dark:bg-[#3D1A14] text-[#C2603F] dark:text-[#F87171]'
           }`}
         >

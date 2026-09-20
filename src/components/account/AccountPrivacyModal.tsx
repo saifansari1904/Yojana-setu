@@ -45,7 +45,7 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
           {/* Top Decorative Header */}
           <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#E8EFEA] dark:border-[#223F30]">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#EAF5F0] dark:bg-[#162B22] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[#D9E8DF] dark:bg-[#162B22] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
@@ -74,7 +74,7 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
           {/* Privacy Guarantees */}
           <div className="space-y-4 py-5 text-xs sm:text-sm text-[#3F4943] dark:text-[#CBD8D2]">
             <div className="flex items-start gap-3 p-3.5 rounded-xl bg-[#F4F9F6] dark:bg-[#101D18] border border-[#D5E8DF] dark:border-[#1E3B2E]">
-              <HardDrive className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80] shrink-0 mt-0.5" />
+              <HardDrive className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80] shrink-0 mt-0.5" />
               <div>
                 <span className="font-bold text-[#14453D] dark:text-[#4ADE80] block mb-0.5">
                   100% On-Device Local Storage
@@ -113,14 +113,14 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
           {/* Footer Action */}
           <div className="pt-3 border-t border-[#E8EFEA] dark:border-[#223F30] flex items-center justify-between">
             <span className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
               Digital Personal Data Protection (DPDP) Standard
             </span>
             <button
               type="button"
               id="privacy-modal-done-btn"
               onClick={onClose}
-              className="px-4 py-2 bg-[#14453D] hover:bg-[#0E352E] dark:bg-[#16A34A] dark:hover:bg-[#15803D] text-white text-xs font-bold rounded-xl transition-all cursor-pointer shadow-xs"
+              className="px-4 py-2 bg-[#14453D] hover:bg-[#0E352E] dark:bg-[#1E6A50] dark:hover:bg-[#15803D] text-white text-xs font-bold rounded-xl transition-all cursor-pointer shadow-xs"
             >
               {t('account.close')}
             </button>

@@ -70,7 +70,7 @@ export const ProfilePrintView: React.FC<ProfilePrintViewProps> = ({
             <button
               type="button"
               onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-[#16A34A] hover:bg-[#15803D] text-white text-xs font-bold transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-[#175741] hover:bg-[#15803D] text-white text-xs font-bold transition-colors cursor-pointer"
             >
               <Printer className="w-4 h-4" />
               <span>{strings.printActionBtn}</span>
@@ -194,7 +194,7 @@ export const ProfilePrintView: React.FC<ProfilePrintViewProps> = ({
               </div>
               <div>
                 <span className="text-gray-500 block font-semibold">{strings.fundingGap}:</span>
-                <span className="font-bold text-[#16A34A] block mt-0.5">
+                <span className="font-bold text-[#1E6A50] block mt-0.5">
                   {formatCurrency(fundingGap)}
                 </span>
               </div>
@@ -256,7 +256,7 @@ export const ProfilePrintView: React.FC<ProfilePrintViewProps> = ({
                   className="flex items-center justify-between p-2 rounded bg-gray-50 border border-gray-200 text-xs"
                 >
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#16A34A]" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#1E6A50]" />
                     <span className="font-bold text-gray-900">{m.scheme.name}</span>
                     <span className="text-[10px] text-gray-500">
                       ({m.scheme.sponsoringMinistry || m.scheme.department})

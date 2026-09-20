@@ -31,7 +31,7 @@ export const AmbientBackground: React.FC = () => {
       {/* 3 — Ambient emerald glows */}
       {shouldReduceMotion ? (
         <>
-          <div className="absolute -top-40 -right-40 w-[32rem] h-[32rem] rounded-full bg-[#D4EFE1]/35 dark:bg-[#12463A]/20 blur-3xl" />
+          <div className="absolute -top-40 -right-40 w-[32rem] h-[32rem] rounded-full bg-[#D9E8DF]/35 dark:bg-[#12463A]/20 blur-3xl" />
           <div className="absolute top-1/3 -left-40 w-[28rem] h-[28rem] rounded-full bg-[#E2F0EA]/30 dark:bg-[#0F3329]/15 blur-3xl" />
         </>
       ) : (
@@ -39,7 +39,7 @@ export const AmbientBackground: React.FC = () => {
           <motion.div
             animate={{ x: [0, 24, 0, -18, 0], y: [0, -18, 14, 0], opacity: [0.32, 0.42, 0.32] }}
             transition={{ repeat: Infinity, duration: 20, ease: 'easeInOut' }}
-            className="absolute -top-32 -right-32 w-[32rem] h-[32rem] rounded-full bg-radial from-[#D4EFE1]/50 to-transparent dark:from-[#12463A]/22 dark:to-transparent blur-3xl"
+            className="absolute -top-32 -right-32 w-[32rem] h-[32rem] rounded-full bg-radial from-[#D9E8DF]/50 to-transparent dark:from-[#12463A]/22 dark:to-transparent blur-3xl"
           />
           <motion.div
             animate={{ x: [0, -18, 14, 0], y: [0, 22, -14, 0], opacity: [0.22, 0.32, 0.22] }}

@@ -146,7 +146,7 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-[#E5E9E7] dark:border-[#22332A]">
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <span className="yj-eyebrow text-[#0F6B4C] dark:text-[#4ADE80]">
+            <span className="yj-eyebrow text-[#1E6A50] dark:text-[#4ADE80]">
               {t('workspace.readinessTitle')}
             </span>
             <span
@@ -212,7 +212,7 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
             key={pillar.key}
             type="button"
             onClick={() => onSelectPillar?.(pillar.key)}
-            className="flex flex-col text-left p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1A2520]/60 hover:border-[#0F6B4C]/40 dark:hover:border-[#4ADE80]/40 transition-colors group"
+            className="flex flex-col text-left p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1A2520]/60 hover:border-[#1E6A50]/40 dark:hover:border-[#4ADE80]/40 transition-colors group"
           >
             <div className="flex items-center justify-between gap-2 mb-2">
               <div className="flex items-center gap-2">

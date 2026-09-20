@@ -43,7 +43,7 @@ export const NoMatchState: React.FC<NoMatchStateProps> = ({
           id="review-profile-nomatch-btn"
           type="button"
           onClick={onReviewProfile}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-semibold bg-[#14453D] text-white hover:bg-[#1C5045] transition-colors min-h-[44px]"
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-semibold bg-[#14453D] text-white hover:bg-[#14453D] transition-colors min-h-[44px]"
         >
           <UserCheck className="w-4 h-4" />
           <span>{t('reviewProfileBtn')}</span>
@@ -53,7 +53,7 @@ export const NoMatchState: React.FC<NoMatchStateProps> = ({
           id="explore-support-nomatch-btn"
           type="button"
           onClick={onExploreSupport}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-semibold bg-white dark:bg-[#151C19] text-[#3F4943] dark:text-[#C5D5CC] border border-[#E2E2E0] dark:border-[#2A3C34] hover:bg-[#FAFAF9] dark:hover:bg-[#1E2924] transition-colors min-h-[44px]"
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-semibold bg-white dark:bg-[#151C19] text-[#3F4943] dark:text-[#C5D5CC] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#FAFAF9] dark:hover:bg-[#1E2924] transition-colors min-h-[44px]"
         >
           <Layers className="w-4 h-4" />
           <span>{t('exploreSupportBtn')}</span>

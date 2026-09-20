@@ -281,7 +281,7 @@ export const YojanaSetuLogo: React.FC<LogoProps> = ({
             <span className={`font-black tracking-tight text-[#14453D] dark:text-[#F0F4F2] ${horizontalConfig.titleText}`}>
               YOJANA
             </span>
-            <span className={`font-black tracking-tight text-[#16A34A] dark:text-[#4ADE80] ${horizontalConfig.titleText}`}>
+            <span className={`font-black tracking-tight text-[#1E6A50] dark:text-[#4ADE80] ${horizontalConfig.titleText}`}>
               SETU
             </span>
           </div>
@@ -314,7 +314,7 @@ export const YojanaSetuLogo: React.FC<LogoProps> = ({
         <span className={`${stackedConfig.titleText} text-[#14453D] dark:text-[#F0F4F2] font-extrabold`}>
           YOJANA
         </span>
-        <span className={`${stackedConfig.titleText} text-[#16A34A] dark:text-[#4ADE80] font-extrabold`}>
+        <span className={`${stackedConfig.titleText} text-[#1E6A50] dark:text-[#4ADE80] font-extrabold`}>
           SETU
         </span>
       </div>
@@ -323,7 +323,7 @@ export const YojanaSetuLogo: React.FC<LogoProps> = ({
       <div className="w-full flex items-center justify-center my-1.5 px-2">
         <div className="h-[2px] flex-1 bg-[#14453D] dark:bg-[#2A7567] rounded-full" />
         <div className={`${stackedConfig.dotSize} mx-1.5 rounded-full bg-[#14453D] dark:bg-[#4ADE80] shrink-0`} />
-        <div className="h-[2px] flex-1 bg-[#16A34A] dark:bg-[#4ADE80] rounded-full" />
+        <div className="h-[2px] flex-1 bg-[#175741] dark:bg-[#4ADE80] rounded-full" />
       </div>
 
       {/* 4. Tagline in Hindi */}
@@ -332,8 +332,8 @@ export const YojanaSetuLogo: React.FC<LogoProps> = ({
           className={`${stackedConfig.taglineText} font-bold text-[#14453D] dark:text-[#9EB0A7] tracking-normal whitespace-nowrap`}
           style={{ fontFamily: "'Noto Sans Devanagari', 'Segoe UI', system-ui, sans-serif" }}
         >
-          सही योजना <span className="text-[#16A34A] dark:text-[#4ADE80] mx-0.5">•</span> सही सहायता{' '}
-          <span className="text-[#16A34A] dark:text-[#4ADE80] mx-0.5">•</span> सही रास्ता
+          सही योजना <span className="text-[#1E6A50] dark:text-[#4ADE80] mx-0.5">•</span> सही सहायता{' '}
+          <span className="text-[#1E6A50] dark:text-[#4ADE80] mx-0.5">•</span> सही रास्ता
         </div>
       )}
 

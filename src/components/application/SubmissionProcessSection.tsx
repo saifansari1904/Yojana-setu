@@ -56,7 +56,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
           <span className="text-[11px] text-[#5A6561] dark:text-[#97A7A0] block mb-1">
             {t('workspace.helplineLabel')}
           </span>
-          <span className="text-xs font-semibold text-[#0F6B4C] dark:text-[#4ADE80] flex items-center gap-1">
+          <span className="text-xs font-semibold text-[#1E6A50] dark:text-[#4ADE80] flex items-center gap-1">
             <Phone className="w-3.5 h-3.5" />
             {scheme.intelligence?.application?.helplineInformation || 'National MSME Helpline: 1800-180-6763'}
           </span>
@@ -75,7 +75,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
               key={inst.stepNumber}
               className="p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#151D19] flex items-start gap-4"
             >
-              <div className="w-7 h-7 rounded-full bg-[#0F6B4C] dark:bg-[#4ADE80] text-white dark:text-[#0E1311] flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+              <div className="w-7 h-7 rounded-full bg-[#1E6A50] dark:bg-[#4ADE80] text-white dark:text-[#0E1311] flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
                 {inst.stepNumber}
               </div>
               <div className="flex-1">

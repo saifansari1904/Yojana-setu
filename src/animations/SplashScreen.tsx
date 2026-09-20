@@ -90,7 +90,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDurat
           aria-label="Yojana Setu Gateway Initializing"
         >
           {/* Subtle Ambient Radial Center Glow */}
-          <div className="absolute w-72 h-72 rounded-full bg-[#D4EFE1]/50 dark:bg-[#16A34A]/10 blur-3xl pointer-events-none" />
+          <div className="absolute w-72 h-72 rounded-full bg-[#D9E8DF]/50 dark:bg-[#1E6A50]/10 blur-3xl pointer-events-none" />
 
           <div className="relative z-10 flex flex-col items-center text-center max-w-sm">
             {/* 1. Logo fades & scales in */}
@@ -105,7 +105,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDurat
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: [0, 0.6, 0.3], scale: [0.9, 1.15, 1] }}
                 transition={{ duration: 1.2, delay: 0.15, ease: 'easeOut' }}
-                className="absolute inset-0 rounded-full bg-[#34D399]/20 blur-xl"
+                className="absolute inset-0 rounded-full bg-[#1E6A50]/20 blur-xl"
               />
               <YojanaSetuLogo size="lg" showTaglines={false} showEnglishPill={false} />
             </motion.div>
@@ -117,7 +117,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDurat
               transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
               className="space-y-1"
             >
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#D4EFE1] dark:bg-[#153428] text-[#14453D] dark:text-[#34D399] text-[11px] font-bold tracking-wider uppercase">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#D9E8DF] dark:bg-[#153428] text-[#14453D] dark:text-[#4ADE80] text-[11px] font-bold tracking-wider uppercase">
                 <span>{t('common.citizenPortal')}</span>
               </div>
 
@@ -134,7 +134,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDurat
               initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.45 }}
-              className="w-48 h-1 bg-[#E2E2E0] dark:bg-[#1E2E27] rounded-full overflow-hidden mt-6 relative"
+              className="w-48 h-1 bg-[#E4E8E4] dark:bg-[#1E2E27] rounded-full overflow-hidden mt-6 relative"
             >
               <motion.div
                 initial={{ x: '-100%' }}
@@ -144,11 +144,11 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDurat
                   duration: 1.1,
                   ease: 'easeInOut',
                 }}
-                className="w-1/2 h-full bg-gradient-to-r from-transparent via-[#16A34A] to-transparent"
+                className="w-1/2 h-full bg-gradient-to-r from-transparent via-[#1E6A50] to-transparent"
               />
             </motion.div>
 
-            <span className="text-[10px] text-[#6F7A73] dark:text-[#6C7E76] mt-3 font-medium">
+            <span className="text-[10px] text-[#516A5F] dark:text-[#6C7E76] mt-3 font-medium">
               {copy.loading}
             </span>
           </div>

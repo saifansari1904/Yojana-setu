@@ -43,15 +43,15 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
       <div>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-[#6F7A73] dark:text-[#8E9F97]" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[#6F7A73] dark:text-[#8E9F97]">
+            <Calendar className="w-4 h-4 text-[#516A5F] dark:text-[#8E9F97]" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#516A5F] dark:text-[#8E9F97]">
               {t('followUpsTitle')}
             </h3>
           </div>
           <button
             type="button"
             onClick={onAddReminder}
-            className="text-xs font-semibold text-[#0F6B4C] dark:text-[#4ADE80] hover:text-[#14453D] dark:hover:text-[#86EFAC] transition-colors p-1"
+            className="text-xs font-semibold text-[#1E6A50] dark:text-[#4ADE80] hover:text-[#14453D] dark:hover:text-[#86EFAC] transition-colors p-1"
           >
             {t('addReminder')}
           </button>
@@ -64,18 +64,18 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
               return (
                 <div
                   key={item.id}
-                  className="flex items-start justify-between p-3 rounded-lg border border-[#EAECEB] dark:border-[#24342D] hover:border-[#E2E2E0] dark:hover:border-[#2A3C34] bg-slate-50/70 dark:bg-[#1A2420] transition-colors gap-3 text-xs"
+                  className="flex items-start justify-between p-3 rounded-lg border border-[#EAECEB] dark:border-[#24342D] hover:border-[#E4E8E4] dark:hover:border-[#2A3C34] bg-slate-50/70 dark:bg-[#1A2420] transition-colors gap-3 text-xs"
                 >
                   <div className="flex items-start gap-2.5">
                     <button
                       type="button"
                       onClick={() => onToggleComplete(item.id)}
-                      className="mt-0.5 text-[#8E9F97] dark:text-[#6F7A73] hover:text-[#16A34A] dark:hover:text-[#34D399] transition-colors"
+                      className="mt-0.5 text-[#516A5F] dark:text-[#6F7A73] hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors"
                       aria-label="Toggle completed"
                     >
                       <CheckCircle2
                         className={`w-4 h-4 ${
-                          item.completed ? 'text-[#16A34A] dark:text-[#34D399] fill-emerald-100 dark:fill-emerald-950/60' : 'text-[#C5D5CC] dark:text-[#516A5F]'
+                          item.completed ? 'text-[#1E6A50] dark:text-[#4ADE80] fill-emerald-100 dark:fill-emerald-950/60' : 'text-[#C5D5CC] dark:text-[#516A5F]'
                         }`}
                       />
                     </button>
@@ -83,7 +83,7 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
                       <div className="font-semibold text-[#1A1C1B] dark:text-[#F0F4F2]">
                         {resolveLocalizedPair(item.title, item.titleHi, language)}
                       </div>
-                      <div className="text-[11px] text-[#6F7A73] dark:text-[#8E9F97] mt-0.5">
+                      <div className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] mt-0.5">
                         {item.schemeName}
                       </div>
                     </div>
@@ -109,7 +109,7 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
             })}
           </div>
         ) : (
-          <div className="py-8 text-center text-xs text-[#6F7A73] dark:text-[#8E9F97]">
+          <div className="py-8 text-center text-xs text-[#516A5F] dark:text-[#8E9F97]">
             {t('noFollowUps')}
           </div>
         )}
@@ -119,7 +119,7 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
         id="view-all-follow-ups-btn"
         type="button"
         onClick={onViewAll}
-        className="w-full mt-2 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg text-xs font-semibold text-[#3F4943] dark:text-[#C5D5CC] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] bg-[#FAFAF9] dark:bg-[#1A2420] hover:bg-[#F3F4F3] dark:hover:bg-[#22302A] border border-[#E2E2E0] dark:border-[#24342D] transition-colors min-h-[44px]"
+        className="w-full mt-2 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg text-xs font-semibold text-[#3F4943] dark:text-[#C5D5CC] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] bg-[#FAFAF9] dark:bg-[#1A2420] hover:bg-[#F3F4F3] dark:hover:bg-[#22302A] border border-[#E4E8E4] dark:border-[#24342D] transition-colors min-h-[44px]"
       >
         <span>{t('viewAllFollowUps')}</span>
         <ArrowRight className="w-3.5 h-3.5" />

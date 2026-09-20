@@ -29,7 +29,7 @@ export const SetuLoader: React.FC<SetuLoaderProps> = ({
     >
       <div className={`relative flex items-center justify-center ${dimensions.container}`}>
         {/* Subtle Outer Glowing Ring Track */}
-        <div className="absolute inset-0 rounded-full border border-[#D4EFE1] dark:border-[#1A382D]" />
+        <div className="absolute inset-0 rounded-full border border-[#D9E8DF] dark:border-[#1A382D]" />
 
         {/* Animated Rotating Green Accent Arc */}
         <motion.div
@@ -43,7 +43,7 @@ export const SetuLoader: React.FC<SetuLoaderProps> = ({
                   ease: 'linear',
                 }
           }
-          className="absolute inset-0 rounded-full border-t-2 border-r-2 border-[#16A34A] dark:border-[#4ADE80] opacity-90"
+          className="absolute inset-0 rounded-full border-t-2 border-r-2 border-[#1E6A50] dark:border-[#4ADE80] opacity-90"
         />
 
         {/* Center Setu Emblem */}

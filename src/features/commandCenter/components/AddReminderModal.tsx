@@ -60,10 +60,10 @@ export const AddReminderModal: React.FC<AddReminderModalProps> = ({
       aria-labelledby="add-reminder-title"
       className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
     >
-      <div className="bg-white dark:bg-[#151C19] rounded-2xl shadow-xl border border-[#E2E2E0] dark:border-[#24342D] w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-white dark:bg-[#151C19] rounded-2xl shadow-xl border border-[#E4E8E4] dark:border-[#24342D] w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#EAECEB] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#151C19]">
           <div className="flex items-center gap-2">
-            <Bell className="w-4 h-4 text-[#16A34A] dark:text-[#34D399]" />
+            <Bell className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80]" />
             <h3 id="add-reminder-title" className="text-sm font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
               Add Business Follow-up
             </h3>
@@ -72,7 +72,7 @@ export const AddReminderModal: React.FC<AddReminderModalProps> = ({
             type="button"
             onClick={onClose}
             aria-label={t('close')}
-            className="p-1 text-[#8E9F97] dark:text-[#6F7A73] hover:text-[#3F4943] dark:text-[#C5D5CC]"
+            className="p-1 text-[#516A5F] dark:text-[#6F7A73] hover:text-[#3F4943] dark:text-[#C5D5CC]"
           >
             <X className="w-5 h-5" />
           </button>
@@ -90,7 +90,7 @@ export const AddReminderModal: React.FC<AddReminderModalProps> = ({
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="e.g. Gather updated quotation for machinery"
-              className="w-full text-xs border border-[#E2E2E0] dark:border-[#2A3C34] rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white dark:bg-[#1A2420] text-[#1A1C1B] dark:text-[#F0F4F2]"
+              className="w-full text-xs border border-[#E4E8E4] dark:border-[#2A3C34] rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white dark:bg-[#1A2420] text-[#1A1C1B] dark:text-[#F0F4F2]"
             />
           </div>
 
@@ -102,7 +102,7 @@ export const AddReminderModal: React.FC<AddReminderModalProps> = ({
               id="reminder-scheme-select"
               value={schemeId}
               onChange={e => setSchemeId(e.target.value)}
-              className="w-full text-xs border border-[#E2E2E0] dark:border-[#2A3C34] rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white dark:bg-[#1A2420] text-[#1A1C1B] dark:text-[#F0F4F2]"
+              className="w-full text-xs border border-[#E4E8E4] dark:border-[#2A3C34] rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white dark:bg-[#1A2420] text-[#1A1C1B] dark:text-[#F0F4F2]"
             >
               <option value="">General / Independent</option>
               {schemes.map(s => (
@@ -123,7 +123,7 @@ export const AddReminderModal: React.FC<AddReminderModalProps> = ({
               required
               value={date}
               onChange={e => setDate(e.target.value)}
-              className="w-full text-xs border border-[#E2E2E0] dark:border-[#2A3C34] rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white dark:bg-[#1A2420] text-[#1A1C1B] dark:text-[#F0F4F2]"
+              className="w-full text-xs border border-[#E4E8E4] dark:border-[#2A3C34] rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white dark:bg-[#1A2420] text-[#1A1C1B] dark:text-[#F0F4F2]"
             />
           </div>
 
@@ -138,7 +138,7 @@ export const AddReminderModal: React.FC<AddReminderModalProps> = ({
             <button
               id="save-reminder-btn"
               type="submit"
-              className="px-5 py-2 text-xs font-bold bg-[#14453D] text-white hover:bg-[#1C5045] rounded-lg min-h-[44px]"
+              className="px-5 py-2 text-xs font-bold bg-[#14453D] text-white hover:bg-[#14453D] rounded-lg min-h-[44px]"
             >
               Save Reminder
             </button>

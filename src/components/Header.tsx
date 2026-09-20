@@ -78,12 +78,12 @@ export const Header: React.FC<HeaderProps> = ({
   const trackerShortLabel = t('tracker.navShort');
 
   return (
-    <header id="main-header" className="sticky top-0 z-40 bg-[#FAFAF9]/95 dark:bg-[#151C19]/95 backdrop-blur-sm border-b border-[#E2E2E0] dark:border-[#24342D] transition-colors duration-200">
+    <header id="main-header" className="sticky top-0 z-40 bg-[#FAFAF9]/95 dark:bg-[#151C19]/95 backdrop-blur-sm border-b border-[#E4E8E4] dark:border-[#24342D] transition-colors duration-200">
       {/* Top micro-bar: Official Taglines, Multilingual Language Switcher & Quick Theme */}
-      <div className="bg-[#14453D] dark:bg-[#0B2A24] text-white px-4 py-1.5 text-[11px] font-medium border-b border-[#1E6156] dark:border-[#164239]">
+      <div className="bg-[#14453D] dark:bg-[#0B2A24] text-white px-4 py-1.5 text-[11px] font-medium border-b border-[#1E6A50] dark:border-[#164239]">
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="bg-[#16A34A] text-white text-[10px] font-bold px-1.5 py-0.2 rounded">
+            <span className="bg-[#175741] text-white text-[10px] font-bold px-1.5 py-0.2 rounded">
               {t('common.citizenPortal')}
             </span>
             <span className="font-hindi hidden sm:inline text-white/90">
@@ -143,7 +143,7 @@ export const Header: React.FC<HeaderProps> = ({
                           }}
                           className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left text-xs transition-colors cursor-pointer ${
                             isSelected
-                              ? 'bg-[#16A34A] text-white font-bold'
+                              ? 'bg-[#175741] text-white font-bold'
                               : 'hover:bg-[#17463D] text-white/90 hover:text-white'
                           }`}
                         >
@@ -182,7 +182,7 @@ export const Header: React.FC<HeaderProps> = ({
               )}
             </motion.button>
 
-            <span className="text-[#16A34A] hidden sm:inline">•</span>
+            <span className="text-[#1E6A50] hidden sm:inline">•</span>
             <span className="text-white/90 font-semibold hidden sm:inline">
               {t('common.gazetteVerified')}
             </span>
@@ -191,7 +191,7 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Sovereign Tricolor Gold & Emerald Hairline Accent */}
-      <div className="h-[2px] w-full bg-gradient-to-r from-amber-500 via-[#16A34A] to-[#0F766E] opacity-80" />
+      <div className="h-[2px] w-full bg-gradient-to-r from-amber-500 via-[#1E6A50] to-[#0F766E] opacity-80" />
 
       {/* Main Navigation Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -227,7 +227,7 @@ export const Header: React.FC<HeaderProps> = ({
                   transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                 />
               )}
-              <FileCheck2 className={`w-4 h-4 ${isFormActive ? 'text-[#4ADE80]' : 'text-[#16A34A] dark:text-[#4ADE80]'}`} />
+              <FileCheck2 className={`w-4 h-4 ${isFormActive ? 'text-[#4ADE80]' : 'text-[#1E6A50] dark:text-[#4ADE80]'}`} />
               <span>{t('header.navEligibilityCheck')}</span>
             </motion.button>
 
@@ -249,7 +249,7 @@ export const Header: React.FC<HeaderProps> = ({
                   transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                 />
               )}
-              <LayoutDashboard className={`w-4 h-4 ${isDashboardActive ? 'text-[#4ADE80]' : 'text-[#16A34A] dark:text-[#4ADE80]'}`} />
+              <LayoutDashboard className={`w-4 h-4 ${isDashboardActive ? 'text-[#4ADE80]' : 'text-[#1E6A50] dark:text-[#4ADE80]'}`} />
               <span>{t('dashboard.navLabel')}</span>
             </motion.button>
 
@@ -271,7 +271,7 @@ export const Header: React.FC<HeaderProps> = ({
                   transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                 />
               )}
-              <Sparkles className={`w-4 h-4 ${isResultsActive ? 'text-[#4ADE80]' : 'text-[#16A34A] dark:text-[#4ADE80]'}`} />
+              <Sparkles className={`w-4 h-4 ${isResultsActive ? 'text-[#4ADE80]' : 'text-[#1E6A50] dark:text-[#4ADE80]'}`} />
               <span>{t('header.navMatchedSchemes')}</span>
             </motion.button>
 
@@ -293,14 +293,14 @@ export const Header: React.FC<HeaderProps> = ({
                   transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                 />
               )}
-              <ClipboardList className={`w-4 h-4 ${isTrackerActive ? 'text-[#4ADE80]' : 'text-[#16A34A] dark:text-[#4ADE80]'}`} />
+              <ClipboardList className={`w-4 h-4 ${isTrackerActive ? 'text-[#4ADE80]' : 'text-[#1E6A50] dark:text-[#4ADE80]'}`} />
               <span>{trackerLabel}</span>
               {trackedCount > 0 && (
                 <span
                   className={`min-w-4 px-1 py-0.5 rounded-full text-[10px] font-bold leading-none ${
                     isTrackerActive
                       ? 'bg-white/25 text-white'
-                      : 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
+                      : 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
                   }`}
                 >
                   {trackedCount}
@@ -338,7 +338,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Mobile secondary tab bar */}
-        <div className="flex md:hidden items-center overflow-x-auto scrollbar-none border-t border-[#E2E2E0] dark:border-[#24342D] py-2 px-1">
+        <div className="flex md:hidden items-center overflow-x-auto scrollbar-none border-t border-[#E4E8E4] dark:border-[#24342D] py-2 px-1">
           <div className="flex items-center gap-1.5 shrink-0">
             <motion.button
               id="mobile-nav-form-btn"
@@ -348,7 +348,7 @@ export const Header: React.FC<HeaderProps> = ({
                 isFormActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
               }`}
             >
-              <FileCheck2 className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
+              <FileCheck2 className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
               <span>{t('header.navFormShort')}</span>
             </motion.button>
             <motion.button
@@ -359,7 +359,7 @@ export const Header: React.FC<HeaderProps> = ({
                 isDashboardActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
               }`}
             >
-              <LayoutDashboard className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
+              <LayoutDashboard className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
               <span>{t('dashboard.navShort')}</span>
             </motion.button>
             <motion.button
@@ -370,7 +370,7 @@ export const Header: React.FC<HeaderProps> = ({
                 isResultsActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
               <span>{t('header.navSchemesShort')}</span>
             </motion.button>
             <motion.button
@@ -381,14 +381,14 @@ export const Header: React.FC<HeaderProps> = ({
                 isTrackerActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
               }`}
             >
-              <ClipboardList className="w-3.5 h-3.5 text-[#16A34A] dark:text-[#4ADE80]" />
+              <ClipboardList className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
               <span>{trackerShortLabel}</span>
               {trackedCount > 0 && (
                 <span
                   className={`min-w-4 px-1 rounded-full text-[10px] font-bold leading-none ${
                     isTrackerActive
                       ? 'bg-white/20 text-white'
-                      : 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
+                      : 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
                   }`}
                 >
                   {trackedCount}

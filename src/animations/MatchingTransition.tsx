@@ -157,7 +157,7 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
             <div className="relative w-11 h-11 flex items-center justify-center">
               <motion.span
                 aria-hidden="true"
-                className="absolute inset-0 rounded-full bg-[#16A34A]/18 dark:bg-[#4ADE80]/18"
+                className="absolute inset-0 rounded-full bg-[#175741]/18 dark:bg-[#4ADE80]/18"
                 animate={shouldReduceMotion ? undefined : { scale: [1, 1.22, 1], opacity: [0.6, 0.2, 0.6] }}
                 transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
               />
@@ -169,7 +169,7 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
               <h2 className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2]">
                 {headerText.title}
               </h2>
-              <p className="yj-caption text-[#6F7A73] dark:text-[#8E9F97]">
+              <p className="yj-caption text-[#516A5F] dark:text-[#8E9F97]">
                 {headerText.subtitle}
               </p>
             </div>
@@ -210,7 +210,7 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
                   <span
                     aria-hidden="true"
                     className={`absolute left-[13px] top-7 bottom-0 w-0.5 rounded-full transition-colors duration-300 ${
-                      isDone ? 'bg-[#16A34A]/60 dark:bg-[#4ADE80]/50' : 'bg-[#E2E2E0] dark:bg-[#24342D]'
+                      isDone ? 'bg-[#175741]/60 dark:bg-[#4ADE80]/50' : 'bg-[#E4E8E4] dark:bg-[#24342D]'
                     }`}
                   />
                 )}
@@ -219,10 +219,10 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
                   aria-hidden="true"
                   className={`relative z-10 w-[27px] h-[27px] shrink-0 rounded-full border flex items-center justify-center transition-colors duration-200 ${
                     isDone
-                      ? 'bg-[#D4EFE1] dark:bg-[#12352B] border-[#16A34A]/45 text-[#0F6B4C] dark:text-[#4ADE80]'
+                      ? 'bg-[#D9E8DF] dark:bg-[#12352B] border-[#1E6A50]/45 text-[#1E6A50] dark:text-[#4ADE80]'
                       : isCurrent
-                      ? 'bg-[#F1F5F3] dark:bg-[#102E29] border-[#16A34A]/45 text-[#0B5D4B] dark:text-[#4ADE80]'
-                      : 'bg-transparent border-[#E2E2E0] dark:border-[#24342D] text-[#9EB0A7] dark:text-[#4A5D54]'
+                      ? 'bg-[#F1F5F3] dark:bg-[#102E29] border-[#1E6A50]/45 text-[#0B5D4B] dark:text-[#4ADE80]'
+                      : 'bg-transparent border-[#E4E8E4] dark:border-[#24342D] text-[#9EB0A7] dark:text-[#4A5D54]'
                   }`}
                 >
                   {isDone ? (

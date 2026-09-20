@@ -43,8 +43,8 @@ export const getStatusMeta = (status: ApplicationStatus, lang: string): StatusMe
         label: copy.label,
         description: copy.description,
         pillClass:
-          'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] border-[#C1E2D0] dark:border-[#22503E]',
-        dotClass: 'bg-[#16A34A]',
+          'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] border-[#C1E2D0] dark:border-[#22503E]',
+        dotClass: 'bg-[#175741]',
       };
     case 'applied':
       return {
@@ -80,8 +80,8 @@ export const getStatusMeta = (status: ApplicationStatus, lang: string): StatusMe
         label: copy.label,
         description: copy.description,
         pillClass:
-          'bg-[#F3F4F3] dark:bg-[#1E2723] text-[#3F4943] dark:text-[#9EB0A7] border-[#E2E2E0] dark:border-[#2A3C34]',
-        dotClass: 'bg-[#6F7A73]',
+          'bg-[#F3F4F3] dark:bg-[#1E2723] text-[#3F4943] dark:text-[#9EB0A7] border-[#E4E8E4] dark:border-[#2A3C34]',
+        dotClass: 'bg-[#6E7971]',
       };
   }
 };

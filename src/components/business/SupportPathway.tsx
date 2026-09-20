@@ -145,7 +145,7 @@ export const SupportPathway: React.FC<SupportPathwayProps> = ({
       {topPriorities.length > 0 && (
         <section
           aria-label={COPY.currentPriorities[l]}
-          className="rounded-2xl border border-[#E2E2E0] dark:border-[#24342D] bg-white dark:bg-[#132720] p-4 sm:p-5"
+          className="rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#132720] p-4 sm:p-5"
         >
           <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[#9EB0A7] mb-3">
             <ListOrdered className="w-3.5 h-3.5" aria-hidden="true" />
@@ -165,7 +165,7 @@ export const SupportPathway: React.FC<SupportPathwayProps> = ({
                 <motion.li
                   key={area.area}
                   variants={shouldReduceMotion ? undefined : staggerItem}
-                  className="relative flex items-start gap-3 rounded-xl border border-[#E2E2E0] dark:border-[#24342D] px-3 py-2.5 yj-hoverable"
+                  className="relative flex items-start gap-3 rounded-xl border border-[#E4E8E4] dark:border-[#24342D] px-3 py-2.5 yj-hoverable"
                 >
                   {/* Setu connector: draws downward as each step enters the viewport */}
                   {stepIdx < topPriorities.length - 1 && (
@@ -179,7 +179,7 @@ export const SupportPathway: React.FC<SupportPathwayProps> = ({
                       transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                     />
                   )}
-                  <span className="relative z-10 inline-flex items-center justify-center w-6 h-6 shrink-0 rounded-lg bg-[#D4EFE1] dark:bg-[#1A382D] text-[11px] font-semibold text-[#0F6B4C] dark:text-[#4ADE80]">
+                  <span className="relative z-10 inline-flex items-center justify-center w-6 h-6 shrink-0 rounded-lg bg-[#D9E8DF] dark:bg-[#1A382D] text-[11px] font-semibold text-[#1E6A50] dark:text-[#4ADE80]">
                     {area.rank}
                   </span>
                   <span>
@@ -197,7 +197,7 @@ export const SupportPathway: React.FC<SupportPathwayProps> = ({
 
           {/* Funding context — requirement, never an entitlement */}
           {pathway.funding.hasFundingDetails && pathway.funding.fundingGap > 0 && (
-            <div className="mt-3 rounded-xl border border-[#E2E2E0] dark:border-[#24342D] bg-[#F0F4F2] dark:bg-[#1A2B24] p-3">
+            <div className="mt-3 rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-[#EFF5F1] dark:bg-[#1A2B24] p-3">
               <p className="flex items-center gap-2 text-sm font-medium text-[#14453D] dark:text-[#F0F4F2]">
                 <Coins className="w-4 h-4" aria-hidden="true" />
                 {COPY.estFundingReq[l]}: {formatLakhCrore(pathway.funding.fundingGap, l)}
@@ -227,13 +227,13 @@ export const SupportPathway: React.FC<SupportPathwayProps> = ({
       {/* 5. Readiness */}
       <section
         aria-label={COPY.appReadiness[l]}
-        className="rounded-2xl border border-[#E2E2E0] dark:border-[#24342D] bg-white dark:bg-[#132720] p-4 sm:p-5"
+        className="rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#132720] p-4 sm:p-5"
       >
         <div className="flex items-center justify-between gap-3 mb-3">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[#9EB0A7]">
             {COPY.appReadiness[l]}
           </h3>
-          <span className="rounded-full border border-[#B2CDBF] dark:border-[#285743] bg-[#D4EFE1] dark:bg-[#1A382D] px-2.5 py-1 text-[11px] font-semibold text-[#0F6B4C] dark:text-[#4ADE80]">
+          <span className="rounded-full border border-[#B2CDBF] dark:border-[#285743] bg-[#D9E8DF] dark:bg-[#1A382D] px-2.5 py-1 text-[11px] font-semibold text-[#1E6A50] dark:text-[#4ADE80]">
             {getLocalizedReadiness(pathway.readiness, l).label}
           </span>
         </div>
@@ -248,7 +248,7 @@ export const SupportPathway: React.FC<SupportPathwayProps> = ({
             return (
               <li
                 key={check.key}
-                className="flex items-start justify-between gap-3 rounded-xl border border-[#E2E2E0] dark:border-[#24342D] px-3 py-2"
+                className="flex items-start justify-between gap-3 rounded-xl border border-[#E4E8E4] dark:border-[#24342D] px-3 py-2"
               >
                 <span className="text-sm text-[#14453D] dark:text-[#F0F4F2]">
                   {checkLabel}

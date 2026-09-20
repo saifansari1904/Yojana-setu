@@ -5,19 +5,73 @@
 
 @layer base {
   :root {
+    /* Brand green ramp · anchor #14453D (unchanged) */
+    --brand-50: #EFF5F1;
+    --brand-100: #D9E8DF;
+    --brand-200: #B3D1C2;
+    --brand-300: #86B3A0;
+    --brand-400: #57937E;
+    --brand-500: #2E7B61;
+    --brand-600: #1E6A50;
+    --brand-700: #175741;
+    --brand-800: #14453D;
+    --brand-900: #0F352D;
+    --brand-950: #0A2420;
+    /* Warm accent ramp · anchor #F59E0B */
+    --accent-50: #FFFBEB;
+    --accent-100: #FEF3C7;
+    --accent-200: #FDE68A;
+    --accent-300: #FCD34D;
+    --accent-400: #FBBF24;
+    --accent-500: #F59E0B;
+    --accent-600: #D97706;
+    --accent-700: #B45309;
+    --accent-800: #92400E;
+    --accent-900: #78350F;
+    /* Neutrals · warm gray, green undertone */
+    --neutral-50: #FAFAF9;
+    --neutral-100: #F1F3F1;
+    --neutral-200: #E4E8E4;
+    --neutral-300: #D3D9D3;
+    --neutral-400: #A3AEA5;
+    --neutral-500: #6E7971;
+    --neutral-600: #516A5F;
+    --neutral-700: #3D4A43;
+    --neutral-800: #232A26;
+    --neutral-900: #1A1C1B;
+    --neutral-950: #0F1210;
+    /* Semantic tokens · light */
     --bg-page: #FAFAF9;
     --bg-card: #FFFFFF;
-    --border-subtle: #E2E2E0;
-    --text-main: #1A1C1B;
-    --text-muted: #516A5F;
+    --bg-tint: var(--brand-50);
+    --bg-accent-tint: var(--accent-50);
+    --border-subtle: var(--neutral-200);
+    --text-main: var(--neutral-900);
+    --text-muted: var(--neutral-600);
+    --text-brand: var(--brand-600);
+    --text-accent: var(--accent-700);
+    --brand-solid: var(--brand-800);
+    --brand-solid-hover: var(--brand-900);
+    --on-brand: #FFFFFF;
+    --accent-solid: var(--accent-500);
+    --on-accent: var(--neutral-900);
   }
 
   .dark {
-    --bg-page: #0E1311;
-    --bg-card: #151C19;
-    --border-subtle: #24342D;
+    --bg-page: #0C120F;
+    --bg-card: #131A16;
+    --bg-tint: #122019;
+    --bg-accent-tint: #221A08;
+    --border-subtle: #223129;
     --text-main: #F0F4F2;
     --text-muted: #9EB0A7;
+    --text-brand: #4ADE80;
+    --text-accent: #FCD34D;
+    --brand-solid: var(--brand-600);
+    --brand-solid-hover: var(--brand-500);
+    --on-brand: #FFFFFF;
+    --accent-solid: var(--accent-400);
+    --on-accent: var(--neutral-950);
   }
 
   body {

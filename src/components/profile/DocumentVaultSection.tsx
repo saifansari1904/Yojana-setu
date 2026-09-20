@@ -150,7 +150,7 @@ export const DocumentVaultSection: React.FC<DocumentVaultSectionProps> = ({ prof
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <span className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#EAF5F0] dark:bg-[#162B22] px-3 py-1 rounded-full border border-[#CDE3D7] dark:border-[#1E3E2E]">
+          <span className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D9E8DF] dark:bg-[#162B22] px-3 py-1 rounded-full border border-[#D9E8DF] dark:border-[#1E3E2E]">
             {preparedCount} / {totalCount} {strings.docPrepared} ({readinessPercent}%)
           </span>
         </div>
@@ -158,12 +158,12 @@ export const DocumentVaultSection: React.FC<DocumentVaultSectionProps> = ({ prof
 
       <div className="w-full bg-[#E8EFEA] dark:bg-[#1C2822] h-2 rounded-full overflow-hidden mb-5">
         <div
-          className="h-full bg-gradient-to-r from-[#14453D] to-[#16A34A] rounded-full transition-all duration-300"
+          className="h-full bg-gradient-to-r from-[#14453D] to-[#1E6A50] rounded-full transition-all duration-300"
           style={{ width: `${readinessPercent}%` }}
         />
       </div>
 
-      <p className="text-[11px] text-[#6F7A73] dark:text-[#9EB0A7] mb-3 italic">
+      <p className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] mb-3 italic">
         {strings.toggleHelp}
       </p>
 
@@ -182,7 +182,7 @@ export const DocumentVaultSection: React.FC<DocumentVaultSectionProps> = ({ prof
               className={`p-3.5 rounded-xl border text-left transition-all flex items-start justify-between gap-3 cursor-pointer ${
                 isPrepared
                   ? 'bg-[#F4F8F5] dark:bg-[#111F18] border-[#A8D5BC] dark:border-[#224A37]'
-                  : 'bg-[#F9FAF9] dark:bg-[#121915] border-[#E8EFEA] dark:border-[#1E2E27] hover:border-[#16A34A]'
+                  : 'bg-[#F9FAF9] dark:bg-[#121915] border-[#E8EFEA] dark:border-[#1E2E27] hover:border-[#1E6A50]'
               }`}
             >
               <div className="min-w-0 flex-1">
@@ -204,7 +204,7 @@ export const DocumentVaultSection: React.FC<DocumentVaultSectionProps> = ({ prof
 
               <div className="shrink-0 mt-0.5">
                 {isPrepared ? (
-                  <CheckCircle2 className="w-5 h-5 text-[#16A34A] dark:text-[#4ADE80]" />
+                  <CheckCircle2 className="w-5 h-5 text-[#1E6A50] dark:text-[#4ADE80]" />
                 ) : (
                   <Circle className="w-5 h-5 text-[#CBD5E1] dark:text-[#334155]" />
                 )}

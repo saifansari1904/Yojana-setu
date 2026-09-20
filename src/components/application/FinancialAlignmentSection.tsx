@@ -75,7 +75,7 @@ export const FinancialAlignmentSection: React.FC<FinancialAlignmentSectionProps>
           <span className="text-[11px] font-semibold text-[#5A6561] dark:text-[#97A7A0] uppercase tracking-wider block mb-1">
             {t('workspace.promoterMarginLabel')}
           </span>
-          <div className="text-lg font-bold text-[#0F6B4C] dark:text-[#4ADE80]">
+          <div className="text-lg font-bold text-[#1E6A50] dark:text-[#4ADE80]">
             ~{formatCurrency(estimatedMargin)}
           </div>
           <span className="text-[11px] text-[#5A6561] dark:text-[#97A7A0] mt-1 block">

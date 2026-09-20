@@ -27,7 +27,7 @@ export const PortalHandoffSection: React.FC<PortalHandoffSectionProps> = ({
       <div className="flex items-center justify-between pb-4 border-b border-[#E5E9E7] dark:border-[#22332A]">
         <div>
           <h3 className="text-base font-bold text-[#1F2421] dark:text-[#F0F4F2] flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-[#0F6B4C] dark:text-[#4ADE80]" />
+            <ShieldCheck className="w-5 h-5 text-[#1E6A50] dark:text-[#4ADE80]" />
             {t('workspace.handoffTitle')}
           </h3>
           <p className="text-xs text-[#5A6561] dark:text-[#97A7A0] mt-1">
@@ -87,7 +87,7 @@ export const PortalHandoffSection: React.FC<PortalHandoffSectionProps> = ({
               href={scheme.officialPortalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-xs text-white bg-[#0F6B4C] hover:bg-[#0D5B41] dark:bg-[#4ADE80] dark:text-[#0E1311] dark:hover:bg-[#22C55E] transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-xs text-white bg-[#1E6A50] hover:bg-[#0D5B41] dark:bg-[#4ADE80] dark:text-[#0E1311] dark:hover:bg-[#22C55E] transition-colors shadow-sm"
             >
               <span>{t('workspace.openOfficialPortal')}</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -112,7 +112,7 @@ export const PortalHandoffSection: React.FC<PortalHandoffSectionProps> = ({
           <button
             type="button"
             onClick={onOpenConfirmationModal}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border border-[#0F6B4C] dark:border-[#4ADE80] text-[#0F6B4C] dark:text-[#4ADE80] bg-[#0F6B4C]/5 hover:bg-[#0F6B4C]/10 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border border-[#1E6A50] dark:border-[#4ADE80] text-[#1E6A50] dark:text-[#4ADE80] bg-[#1E6A50]/5 hover:bg-[#1E6A50]/10 transition-colors"
           >
             <FileCheck className="w-4 h-4" />
             <span>{isApplied ? 'Update Submission Details' : t('workspace.confirmSubmissionBtn')}</span>

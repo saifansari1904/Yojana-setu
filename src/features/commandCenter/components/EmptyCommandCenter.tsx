@@ -22,11 +22,11 @@ export const EmptyCommandCenter: React.FC<EmptyCommandCenterProps> = ({
   return (
     <div id={id} className="max-w-4xl mx-auto py-10 sm:py-16 px-4">
       <div className="yj-card yj-card-lg p-8 sm:p-12 text-center">
-        <div className="w-16 h-16 rounded-2xl bg-[#D4EFE1] dark:bg-[#1A382D] border border-[#D4EFE1] dark:border-[#22503E] flex items-center justify-center text-[#0F6B4C] dark:text-[#4ADE80] mx-auto mb-6">
+        <div className="w-16 h-16 rounded-2xl bg-[#D9E8DF] dark:bg-[#1A382D] border border-[#D9E8DF] dark:border-[#22503E] flex items-center justify-center text-[#1E6A50] dark:text-[#4ADE80] mx-auto mb-6">
           <Compass className="w-8 h-8" />
         </div>
 
-        <span className="text-xs font-bold uppercase tracking-widest text-[#14453D] dark:text-[#4ADE80] bg-[#D4EFE1] dark:bg-[#1A382D] px-3 py-1 rounded-full border border-[#C1E2D0] dark:border-[#22503E] inline-block mb-3">
+        <span className="text-xs font-bold uppercase tracking-widest text-[#14453D] dark:text-[#4ADE80] bg-[#D9E8DF] dark:bg-[#1A382D] px-3 py-1 rounded-full border border-[#C1E2D0] dark:border-[#22503E] inline-block mb-3">
           YOJANA SETU
         </span>
 
@@ -45,7 +45,7 @@ export const EmptyCommandCenter: React.FC<EmptyCommandCenterProps> = ({
             <h4 className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] uppercase tracking-wide">
               Deterministic Matching
             </h4>
-            <p className="text-xs text-[#6F7A73] dark:text-[#8E9F97] mt-1">
+            <p className="text-xs text-[#516A5F] dark:text-[#8E9F97] mt-1">
               Statutory 5-vector evaluation with zero arbitrary guessing.
             </p>
           </div>
@@ -55,17 +55,17 @@ export const EmptyCommandCenter: React.FC<EmptyCommandCenterProps> = ({
             <h4 className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] uppercase tracking-wide">
               Support Pathways
             </h4>
-            <p className="text-xs text-[#6F7A73] dark:text-[#8E9F97] mt-1">
+            <p className="text-xs text-[#516A5F] dark:text-[#8E9F97] mt-1">
               Funding, registration, skills, and market access structured by stage.
             </p>
           </div>
 
           <div className="p-4 rounded-xl bg-[#FAFAF9] dark:bg-[#151C19] border border-[#EAECEB] dark:border-[#24342D]">
-            <ShieldCheck className="w-5 h-5 text-[#16A34A] dark:text-[#34D399] mb-2" />
+            <ShieldCheck className="w-5 h-5 text-[#1E6A50] dark:text-[#4ADE80] mb-2" />
             <h4 className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] uppercase tracking-wide">
               Verified Trust
             </h4>
-            <p className="text-xs text-[#6F7A73] dark:text-[#8E9F97] mt-1">
+            <p className="text-xs text-[#516A5F] dark:text-[#8E9F97] mt-1">
               Direct connection to official .gov.in and nodal portals.
             </p>
           </div>

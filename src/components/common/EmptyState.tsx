@@ -33,7 +33,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 
   return (
     <div className="yj-card p-8 text-center max-w-lg mx-auto my-6">
-      <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#FAFAF9] dark:bg-[#1E2924] flex items-center justify-center border border-[#E2E2E0] dark:border-[#2A3C34]">
+      <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#FAFAF9] dark:bg-[#1E2924] flex items-center justify-center border border-[#E4E8E4] dark:border-[#2A3C34]">
         {getIcon()}
       </div>
       <h3 className="yj-h3 text-[#0B5D4B] dark:text-[#E8EFEA] mb-1.5">

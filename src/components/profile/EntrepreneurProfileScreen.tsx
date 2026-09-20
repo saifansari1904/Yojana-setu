@@ -70,9 +70,9 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
       const el = document.getElementById(targetSectionId);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        el.classList.add('ring-2', 'ring-[#16A34A]', 'transition-all');
+        el.classList.add('ring-2', 'ring-[#1E6A50]', 'transition-all');
         const unhighlight = setTimeout(() => {
-          el.classList.remove('ring-2', 'ring-[#16A34A]');
+          el.classList.remove('ring-2', 'ring-[#1E6A50]');
         }, 2200);
         return () => clearTimeout(unhighlight);
       }
@@ -85,7 +85,7 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
     return (
       <main id="profile-empty-screen" className="max-w-4xl mx-auto px-4 py-16 text-center">
         <div className="bg-white dark:bg-[#151C19] border border-[#DEE7E2] dark:border-[#223F30] rounded-3xl p-8 sm:p-12 shadow-sm">
-          <div className="w-16 h-16 rounded-2xl bg-[#EAF5F0] dark:bg-[#162B22] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 rounded-2xl bg-[#D9E8DF] dark:bg-[#162B22] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center mx-auto mb-4">
             <User className="w-8 h-8" />
           </div>
           <h2 className="text-xl sm:text-2xl font-black text-[#1F2421] dark:text-[#F0F4F2] tracking-tight">
@@ -99,7 +99,7 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
               type="button"
               id="profile-start-assessment-btn"
               onClick={onRetakeAssessment}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#14453D] hover:bg-[#0F352E] dark:bg-[#16A34A] dark:hover:bg-[#15803D] text-white font-bold text-sm shadow-md transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#14453D] hover:bg-[#0F352E] dark:bg-[#1E6A50] dark:hover:bg-[#15803D] text-white font-bold text-sm shadow-md transition-all cursor-pointer"
             >
               <span>{strings.startAssessmentBtn}</span>
               <ArrowRight className="w-4 h-4" />
@@ -158,10 +158,10 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
       {/* Persistent Source of Truth Notice Banner */}
       <div
         id="profile-truth-banner"
-        className="bg-[#EAF5F0] dark:bg-[#12241C] border border-[#CDE3D7] dark:border-[#1E3E2E] rounded-xl px-4 py-3 flex items-center justify-between gap-3 text-xs text-[#14453D] dark:text-[#4ADE80]"
+        className="bg-[#D9E8DF] dark:bg-[#12241C] border border-[#D9E8DF] dark:border-[#1E3E2E] rounded-xl px-4 py-3 flex items-center justify-between gap-3 text-xs text-[#14453D] dark:text-[#4ADE80]"
       >
         <div className="flex items-center gap-2.5">
-          <ShieldCheck className="w-4 h-4 shrink-0 text-[#16A34A] dark:text-[#4ADE80]" />
+          <ShieldCheck className="w-4 h-4 shrink-0 text-[#1E6A50] dark:text-[#4ADE80]" />
           <span className="font-medium">
             <strong>Persistent Source of Truth: </strong>
             {strings.sourceOfTruthNotice}
@@ -190,7 +190,7 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
           <button
             type="button"
             onClick={() => scrollToSection('profile-demographics-section')}
-            className="px-3 py-1.5 rounded-lg hover:bg-[#EAF5F0] dark:hover:bg-[#162B22] hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors shrink-0 cursor-pointer"
+            className="px-3 py-1.5 rounded-lg hover:bg-[#D9E8DF] dark:hover:bg-[#162B22] hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors shrink-0 cursor-pointer"
           >
             Personal & Demographics
           </button>
@@ -198,7 +198,7 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
           <button
             type="button"
             onClick={() => scrollToSection('profile-business-section')}
-            className="px-3 py-1.5 rounded-lg hover:bg-[#EAF5F0] dark:hover:bg-[#162B22] hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors shrink-0 cursor-pointer"
+            className="px-3 py-1.5 rounded-lg hover:bg-[#D9E8DF] dark:hover:bg-[#162B22] hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors shrink-0 cursor-pointer"
           >
             Business & Enterprise
           </button>
@@ -206,7 +206,7 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
           <button
             type="button"
             onClick={() => scrollToSection('profile-financial-section')}
-            className="px-3 py-1.5 rounded-lg hover:bg-[#EAF5F0] dark:hover:bg-[#162B22] hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors shrink-0 cursor-pointer"
+            className="px-3 py-1.5 rounded-lg hover:bg-[#D9E8DF] dark:hover:bg-[#162B22] hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors shrink-0 cursor-pointer"
           >
             Financial & Capital
           </button>
@@ -214,7 +214,7 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
           <button
             type="button"
             onClick={() => scrollToSection('profile-registration-section')}
-            className="px-3 py-1.5 rounded-lg hover:bg-[#EAF5F0] dark:hover:bg-[#162B22] hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors shrink-0 cursor-pointer"
+            className="px-3 py-1.5 rounded-lg hover:bg-[#D9E8DF] dark:hover:bg-[#162B22] hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors shrink-0 cursor-pointer"
           >
             Registrations & MSME
           </button>
@@ -222,7 +222,7 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
           <button
             type="button"
             onClick={() => scrollToSection('profile-document-vault-section')}
-            className="px-3 py-1.5 rounded-lg hover:bg-[#EAF5F0] dark:hover:bg-[#162B22] hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors shrink-0 cursor-pointer"
+            className="px-3 py-1.5 rounded-lg hover:bg-[#D9E8DF] dark:hover:bg-[#162B22] hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors shrink-0 cursor-pointer"
           >
             Document Vault
           </button>
@@ -230,7 +230,7 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
           <button
             type="button"
             onClick={() => scrollToSection('profile-scheme-impact-section')}
-            className="px-3 py-1.5 rounded-lg hover:bg-[#EAF5F0] dark:hover:bg-[#162B22] hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors shrink-0 cursor-pointer"
+            className="px-3 py-1.5 rounded-lg hover:bg-[#D9E8DF] dark:hover:bg-[#162B22] hover:text-[#14453D] dark:hover:text-[#4ADE80] transition-colors shrink-0 cursor-pointer"
           >
             Scheme Impact
           </button>

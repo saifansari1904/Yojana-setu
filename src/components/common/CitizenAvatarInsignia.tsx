@@ -123,8 +123,8 @@ export const CitizenAvatarInsignia: React.FC<CitizenAvatarInsigniaProps> = ({
 
   const colorStyles =
     variant === 'soft'
-      ? 'bg-[#EAF5F0] text-[#14453D] dark:bg-[#162D24] dark:text-[#4ADE80] border border-[#C5DDD0] dark:border-[#224A3A]'
-      : 'bg-[#14453D] text-white dark:bg-[#165043] dark:text-[#F0FDF4] border border-[#1E6156] dark:border-[#246B5A] shadow-xs';
+      ? 'bg-[#D9E8DF] text-[#14453D] dark:bg-[#162D24] dark:text-[#4ADE80] border border-[#C5DDD0] dark:border-[#224A3A]'
+      : 'bg-[#14453D] text-white dark:bg-[#165043] dark:text-[#F0FDF4] border border-[#1E6A50] dark:border-[#246B5A] shadow-xs';
 
   const defaultLabel = displayName
     ? `Citizen avatar: ${displayName}${hasPhoto ? ' (Photo)' : initial ? ` (${initial})` : ''}`
@@ -190,7 +190,7 @@ export const CitizenAvatarInsignia: React.FC<CitizenAvatarInsigniaProps> = ({
       {/* Active Profile Status Badge */}
       {isVerified && (
         <span
-          className={`absolute ${config.badge} rounded-full bg-[#16A34A] text-white flex items-center justify-center ring-2 ring-white dark:ring-[#121815] shadow-xs pointer-events-none`}
+          className={`absolute ${config.badge} rounded-full bg-[#175741] text-white flex items-center justify-center ring-2 ring-white dark:ring-[#121815] shadow-xs pointer-events-none`}
           title="Active Citizen Profile"
           aria-hidden="true"
         >

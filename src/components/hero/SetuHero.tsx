@@ -268,7 +268,7 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
   const pillarConfigs = [
     {
       icon: ShieldCheck,
-      tile: 'bg-[#D4EFE1] dark:bg-[#1A382D] text-[#0B5D4B] dark:text-[#4ADE80]',
+      tile: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#0B5D4B] dark:text-[#4ADE80]',
       title: content.pillars[0].title,
       body: content.pillars[0].body,
     },
@@ -350,7 +350,7 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
                       {pillar.title}
                     </span>
                     <span
-                      className={`block yj-caption text-[#6F7A73] dark:text-[#8E9F97]`}
+                      className={`block yj-caption text-[#516A5F] dark:text-[#8E9F97]`}
                     >
                       {pillar.body}
                     </span>
@@ -461,7 +461,7 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
                     {step.label}
                   </span>
                   <span
-                    className={`block yj-caption text-[#6F7A73] dark:text-[#8E9F97]`}
+                    className={`block yj-caption text-[#516A5F] dark:text-[#8E9F97]`}
                   >
                     {step.hint}
                   </span>

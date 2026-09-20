@@ -233,8 +233,8 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
         aria-label={`Entrepreneur Profile: ${displayName}, ${readinessPercent}% Profile Readiness`}
         className={`group relative flex items-center gap-2.5 pl-1.5 pr-3 sm:pr-3.5 py-1.5 rounded-full border transition-all cursor-pointer select-none ${
           isOpen
-            ? 'bg-[#EBF5F0] dark:bg-[#152820] border-[#16A34A] dark:border-[#22C55E] shadow-sm'
-            : 'bg-white dark:bg-[#121A16] border-[#DEE7E2] dark:border-[#24342D] hover:border-[#16A34A]/60 dark:hover:border-[#22C55E]/60 hover:bg-[#F7FAF8] dark:hover:bg-[#16231D] shadow-xs'
+            ? 'bg-[#EBF5F0] dark:bg-[#152820] border-[#1E6A50] dark:border-[#22C55E] shadow-sm'
+            : 'bg-white dark:bg-[#121A16] border-[#DEE7E2] dark:border-[#24342D] hover:border-[#1E6A50]/60 dark:hover:border-[#22C55E]/60 hover:bg-[#F7FAF8] dark:hover:bg-[#16231D] shadow-xs'
         }`}
       >
         {/* Clean Modern Avatar */}
@@ -253,8 +253,8 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
             </span>
           </div>
           <div className="flex items-center gap-1.5 text-[11px] leading-none text-[#5A6860] dark:text-[#9EB0A7] mt-0.5">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#16A34A] dark:bg-[#4ADE80]" />
-            <span className="font-medium text-[#16A34A] dark:text-[#4ADE80]">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#175741] dark:bg-[#4ADE80]" />
+            <span className="font-medium text-[#1E6A50] dark:text-[#4ADE80]">
               {t('account.entrepreneurRole')}
             </span>
             <span className="text-[#B5C5BD] dark:text-[#3B4D44]">•</span>
@@ -304,8 +304,8 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                     ? t('account.podTitle')
                     : 'Entrepreneur Identity'}
                 </span>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#EAF5F0] dark:bg-[#162D22] text-[#14453D] dark:text-[#4ADE80]">
-                  <ShieldCheck className="w-3 h-3 text-[#16A34A] dark:text-[#4ADE80]" />
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#D9E8DF] dark:bg-[#162D22] text-[#14453D] dark:text-[#4ADE80]">
+                  <ShieldCheck className="w-3 h-3 text-[#1E6A50] dark:text-[#4ADE80]" />
                   <span>Verified</span>
                 </span>
               </div>
@@ -335,7 +335,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                 <button
                   type="button"
                   onClick={() => setIsPhotoModalOpen(true)}
-                  className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-[#14453D] dark:text-[#5EEAD4] hover:text-[#0F352E] dark:hover:text-[#4ADE80] transition-colors py-0.5 px-2 rounded-md hover:bg-[#EAF5F0] dark:hover:bg-[#1A2E25] cursor-pointer"
+                  className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-[#14453D] dark:text-[#5EEAD4] hover:text-[#0F352E] dark:hover:text-[#4ADE80] transition-colors py-0.5 px-2 rounded-md hover:bg-[#D9E8DF] dark:hover:bg-[#1A2E25] cursor-pointer"
                 >
                   <Camera className="w-3 h-3" />
                   <span>{userProfile?.photoUrl ? 'Change Photo' : 'Upload Photo'}</span>
@@ -348,12 +348,12 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
               </h2>
               <div className="mt-1 flex items-center gap-1.5 justify-center">
                 <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-0.5 rounded-full bg-[#E8F5EE] dark:bg-[#152E22] text-[#14453D] dark:text-[#4ADE80] border border-[#B9E3CB] dark:border-[#1E4D37]">
-                  <CheckCircle2 className="w-3 h-3 text-[#16A34A] dark:text-[#4ADE80]" />
+                  <CheckCircle2 className="w-3 h-3 text-[#1E6A50] dark:text-[#4ADE80]" />
                   <span>{t('account.entrepreneurRole')}</span>
                 </span>
               </div>
               <p className="mt-1.5 text-xs text-[#5A6860] dark:text-[#9EB0A7] flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-[#16A34A] shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-[#1E6A50] shrink-0" />
                 <span>{locationLabel}</span>
               </p>
 
@@ -361,7 +361,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
               <button
                 type="button"
                 onClick={() => handleAction('profile')}
-                className="w-full mt-4 p-3 rounded-2xl bg-[#F6FAF8] dark:bg-[#16221D] border border-[#DEE9E3] dark:border-[#243A2F] text-left hover:border-[#16A34A]/60 dark:hover:border-[#22C55E]/60 transition-all cursor-pointer group"
+                className="w-full mt-4 p-3 rounded-2xl bg-[#F6FAF8] dark:bg-[#16221D] border border-[#DEE9E3] dark:border-[#243A2F] text-left hover:border-[#1E6A50]/60 dark:hover:border-[#22C55E]/60 transition-all cursor-pointer group"
                 title={t('account.profileReadiness')}
               >
                 <div className="flex items-center justify-between text-xs mb-1.5">
@@ -377,7 +377,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                   <motion.div
                     className={`h-full rounded-full ${
                       readinessPercent >= 80
-                        ? 'bg-gradient-to-r from-[#16A34A] to-[#22C55E]'
+                        ? 'bg-gradient-to-r from-[#1E6A50] to-[#22C55E]'
                         : readinessPercent >= 50
                           ? 'bg-gradient-to-r from-amber-500 to-emerald-500'
                           : 'bg-gradient-to-r from-rose-500 to-amber-500'
@@ -389,7 +389,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                 </div>
                 <div className="mt-1.5 flex items-center justify-between text-[11px] text-[#5A6860] dark:text-[#9EB0A7]">
                   <span className="truncate">{readinessStatus}</span>
-                  <span className="font-semibold text-[#16A34A] dark:text-[#4ADE80] shrink-0 ml-1 group-hover:translate-x-0.5 transition-transform">
+                  <span className="font-semibold text-[#1E6A50] dark:text-[#4ADE80] shrink-0 ml-1 group-hover:translate-x-0.5 transition-transform">
                     →
                   </span>
                 </div>
@@ -470,7 +470,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                 whileHover={shouldReduceMotion ? undefined : { scale: 1.01 }}
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                 onClick={() => handleAction('profile')}
-                className="w-full mt-4 bg-[#16A34A] hover:bg-[#15803D] active:bg-[#166534] text-white font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer text-sm"
+                className="w-full mt-4 bg-[#175741] hover:bg-[#15803D] active:bg-[#166534] text-white font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer text-sm"
               >
                 <span>{t('account.manageProfile')}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -488,61 +488,61 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                   <button
                     type="button"
                     onClick={() => handleAction('profile', 'profile-demographics-section')}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#16A34A] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <User className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#16A34A] dark:group-hover:text-[#4ADE80] transition-colors" />
+                      <User className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
                       <span>{t('account.personalDetails')}</span>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#16A34A] dark:text-[#4ADE80]" />
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[#4ADE80]" />
                   </button>
 
                   <button
                     type="button"
                     onClick={() => handleAction('profile', 'profile-business-section')}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#16A34A] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <Building2 className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#16A34A] dark:group-hover:text-[#4ADE80] transition-colors" />
+                      <Building2 className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
                       <span>{t('account.businessProfile')}</span>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#16A34A] dark:text-[#4ADE80]" />
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[#4ADE80]" />
                   </button>
 
                   <button
                     type="button"
                     onClick={() => handleAction('profile', 'profile-financial-section')}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#16A34A] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <IndianRupee className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#16A34A] dark:group-hover:text-[#4ADE80] transition-colors" />
+                      <IndianRupee className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
                       <span>{t('account.financialProfile')}</span>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#16A34A] dark:text-[#4ADE80]" />
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[#4ADE80]" />
                   </button>
 
                   <button
                     type="button"
                     onClick={() => handleAction('profile', 'profile-document-vault-section')}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#16A34A] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <FolderLock className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#16A34A] dark:group-hover:text-[#4ADE80] transition-colors" />
+                      <FolderLock className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
                       <span>{t('account.documents')}</span>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#16A34A] dark:text-[#4ADE80]" />
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[#4ADE80]" />
                   </button>
 
                   <button
                     type="button"
                     onClick={() => handleAction('profile', 'profile-registration-section')}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#16A34A] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <FileCheck2 className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#16A34A] dark:group-hover:text-[#4ADE80] transition-colors" />
+                      <FileCheck2 className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
                       <span>{t('account.registrations')}</span>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#16A34A] dark:text-[#4ADE80]" />
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[#4ADE80]" />
                   </button>
                 </div>
               </div>
@@ -575,11 +575,11 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                     className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <ClipboardList className="w-4 h-4 text-[#16A34A] dark:text-[#4ADE80]" />
+                      <ClipboardList className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80]" />
                       <span>{t('account.applications')}</span>
                     </div>
                     {trackedCount > 0 && (
-                      <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#D4EFE1] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]">
+                      <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]">
                         {trackedCount}
                       </span>
                     )}
@@ -605,7 +605,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                       <ShieldCheck className="w-4 h-4 text-[#5A6860] dark:text-[#889B91]" />
                       <span>{t('account.accountPrivacy')}</span>
                     </div>
-                    <span className="text-[10px] font-bold text-[#16A34A] dark:text-[#4ADE80] bg-[#E8F7EE] dark:bg-[#133020] px-1.5 py-0.5 rounded-md">
+                    <span className="text-[10px] font-bold text-[#1E6A50] dark:text-[#4ADE80] bg-[#E8F7EE] dark:bg-[#133020] px-1.5 py-0.5 rounded-md">
                       DPDP 2023
                     </span>
                   </button>
@@ -709,7 +709,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
 
             {/* Sovereign Privacy Footnote */}
             <div className="px-4 py-2.5 bg-[#F7FAF8] dark:bg-[#0E1512] text-[10px] text-[#6A7B72] dark:text-[#82968B] text-center border-t border-[#EDF3EF] dark:border-[#1E3027] flex items-center justify-center gap-1.5">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#16A34A]" />
+              <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50]" />
               <span>DPDP Act 2023 · 100% On-Device Storage Sovereignty</span>
             </div>
           </motion.div>
