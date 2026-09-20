@@ -1,0 +1,446 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   Yojana Setu — "Premium Government Intelligence"
+   Presentation layer only: design tokens, typography ramp, surface/elevation
+   system, ambient background, hover language and Setu (bridge) motifs.
+   Mirrors src/theme/designTokens.ts. No business logic depends on this file.
+   ────────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    /* Primary — deep emerald / Indian green */
+    --yj-primary-900: #07221e;
+    --yj-primary-800: #0b302b;
+    --yj-primary-700: #0b5d4b;
+    --yj-primary-600: #0f766e;
+    --yj-primary-500: #047857;
+    --yj-primary-400: #16a34a;
+    --yj-primary-300: #34d399;
+    --yj-primary-200: #4ade80;
+    --yj-primary-100: #c1e2d0;
+    --yj-primary-50: #d4efe1;
+
+    /* Restrained saffron/gold — verified marks, milestones, premium accents */
+    --yj-gold-600: #b9801f;
+    --yj-gold-500: #d99a2b;
+    --yj-gold-400: #e3a83b;
+    --yj-gold-100: #fbefd6;
+
+    /* Surfaces */
+    --yj-surface-page: #f7faf8;
+    --yj-surface-card: #ffffff;
+    --yj-surface-subtle: #f1f5f3;
+    --yj-surface-sunken: #edf1ef;
+    --yj-border-subtle: #e2e2e0;
+    --yj-border-strong: #d3dad6;
+
+    /* Text */
+    --yj-text-primary: #0f1512;
+    --yj-text-secondary: #42544c;
+    --yj-text-tertiary: #6f7a73;
+
+    /* Semantic status */
+    --yj-success-fg: #0f6b4c;
+    --yj-success-bg: #d4efe1;
+    --yj-warning-fg: #92610a;
+    --yj-warning-bg: #fef3c7;
+    --yj-danger-fg: #a6412a;
+    --yj-danger-bg: #ffdad6;
+    --yj-info-fg: #0f766e;
+    --yj-info-bg: #dcf1ee;
+    --yj-unknown-fg: #516a5f;
+    --yj-unknown-bg: #f1f5f3;
+    --yj-verified-fg: #b9801f;
+    --yj-verified-bg: #fbefd6;
+    --yj-pending-fg: #42544c;
+    --yj-pending-bg: #edf1ef;
+
+    /* Gradients */
+    --yj-gradient-hero: linear-gradient(135deg, #0b5d4b 0%, #0f766e 55%, #14453d 100%);
+    --yj-gradient-page: linear-gradient(180deg, #f7faf8 0%, #f1f5f3 100%);
+    --yj-gradient-accent: linear-gradient(90deg, #047857 0%, #0f766e 100%);
+    --yj-gradient-highlight: linear-gradient(90deg, #d99a2b 0%, #e3a83b 100%);
+
+    /* Radius */
+    --yj-radius-sm: 6px;
+    --yj-radius-md: 10px;
+    --yj-radius-lg: 16px;
+    --yj-radius-xl: 20px;
+    --yj-radius-2xl: 24px;
+
+    /* Elevation — green-tinted, never heavy black */
+    --yj-shadow-1: 0 1px 2px rgba(7, 26, 23, 0.05), 0 1px 3px rgba(7, 26, 23, 0.04);
+    --yj-shadow-2: 0 2px 4px rgba(7, 26, 23, 0.05), 0 6px 16px rgba(7, 26, 23, 0.06);
+    --yj-shadow-3: 0 6px 12px rgba(7, 26, 23, 0.07), 0 16px 32px rgba(7, 26, 23, 0.08);
+    --yj-shadow-4: 0 12px 24px rgba(7, 26, 23, 0.1), 0 32px 64px rgba(7, 26, 23, 0.12);
+
+    /* Motion */
+    --yj-duration-micro: 120ms;
+    --yj-duration-fast: 180ms;
+    --yj-duration-normal: 240ms;
+    --yj-duration-page: 320ms;
+    --yj-duration-reveal: 480ms;
+    --yj-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --yj-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --yj-ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+    /* Z-index scale */
+    --yj-z-background: 0;
+    --yj-z-content: 10;
+    --yj-z-sticky-action: 30;
+    --yj-z-header: 40;
+    --yj-z-overlay: 50;
+    --yj-z-modal: 60;
+    --yj-z-toast: 70;
+  }
+
+  .dark {
+    /* Dark surfaces: deep green-black, never pure black */
+    --yj-surface-page: #071a17;
+    --yj-surface-card: #0b2420;
+    --yj-surface-subtle: #102e29;
+    --yj-surface-sunken: #0a1f1b;
+    --yj-border-subtle: #24342d;
+    --yj-border-strong: #2e4137;
+
+    --yj-text-primary: #f0f4f2;
+    --yj-text-secondary: #a9bdb3;
+    --yj-text-tertiary: #8e9f97;
+
+    --yj-success-fg: #4ade80;
+    --yj-success-bg: #12352b;
+    --yj-warning-fg: #fcd34d;
+    --yj-warning-bg: #3b2f14;
+    --yj-danger-fg: #f87171;
+    --yj-danger-bg: #3d1a14;
+    --yj-info-fg: #5eead4;
+    --yj-info-bg: #0f3330;
+    --yj-unknown-fg: #9eb0a7;
+    --yj-unknown-bg: #1e2723;
+    --yj-verified-fg: #e3a83b;
+    --yj-verified-bg: #3b2f14;
+    --yj-pending-fg: #a9bdb3;
+    --yj-pending-bg: #1b2720;
+
+    --yj-gradient-hero: linear-gradient(135deg, #071a17 0%, #0b2420 55%, #102e29 100%);
+    --yj-gradient-page: linear-gradient(180deg, #071a17 0%, #0b2420 100%);
+
+    /* Shadows read as depth-plus-glow on dark surfaces */
+    --yj-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --yj-shadow-2: 0 2px 6px rgba(0, 0, 0, 0.45), 0 8px 20px rgba(0, 0, 0, 0.3);
+    --yj-shadow-3: 0 8px 18px rgba(0, 0, 0, 0.5), 0 18px 36px rgba(0, 0, 0, 0.35);
+    --yj-shadow-4: 0 14px 28px rgba(0, 0, 0, 0.55), 0 36px 68px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* ── Typography ramp ─────────────────────────────────────────────────────── */
+/* Fluid clamp() sizes: mobile → desktop without breakpoint jumps.           */
+
+.yj-display {
+  font-size: clamp(2rem, 1.2rem + 3.6vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+.yj-h1 {
+  font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+.yj-h2 {
+  font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+.yj-h3 {
+  font-size: clamp(1.1875rem, 1.1rem + 0.4vw, 1.5rem);
+  line-height: 1.28;
+  letter-spacing: -0.012em;
+  font-weight: 600;
+}
+
+.yj-body-lg {
+  font-size: clamp(1rem, 0.98rem + 0.12vw, 1.0625rem);
+  line-height: 1.6;
+}
+
+.yj-body {
+  font-size: clamp(0.9375rem, 0.92rem + 0.1vw, 1rem);
+  line-height: 1.6;
+}
+
+.yj-support {
+  font-size: clamp(0.8125rem, 0.8rem + 0.08vw, 0.875rem);
+  line-height: 1.5;
+}
+
+.yj-caption {
+  font-size: clamp(0.6875rem, 0.68rem + 0.06vw, 0.75rem);
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+/* Eyebrow / overline label above headings */
+.yj-eyebrow {
+  font-size: clamp(0.625rem, 0.62rem + 0.05vw, 0.6875rem);
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* Reading measure for prose blocks */
+.yj-measure {
+  max-width: 64ch;
+}
+.yj-measure-narrow {
+  max-width: 46ch;
+}
+
+/* Tabular figures keep animated counters from jittering */
+.yj-numeric {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* ── Surfaces & elevation ────────────────────────────────────────────────── */
+
+.yj-surface {
+  background-color: var(--yj-surface-card);
+  border: 1px solid var(--yj-border-subtle);
+  border-radius: var(--yj-radius-lg);
+}
+
+.yj-card {
+  background-color: var(--yj-surface-card);
+  border: 1px solid var(--yj-border-subtle);
+  border-radius: var(--yj-radius-lg);
+  box-shadow: var(--yj-shadow-1);
+  transition:
+    transform var(--yj-duration-normal) var(--yj-ease-out),
+    box-shadow var(--yj-duration-normal) var(--yj-ease-out),
+    border-color var(--yj-duration-normal) var(--yj-ease-out),
+    background-color var(--yj-duration-normal) var(--yj-ease-out);
+}
+
+.yj-card-lg {
+  border-radius: var(--yj-radius-2xl);
+}
+
+/* Consistent hover language: lift 2px + one elevation step + border emphasis */
+.yj-hoverable:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--yj-shadow-2);
+  border-color: var(--yj-border-strong);
+}
+
+.yj-hoverable:active {
+  transform: translateY(-1px);
+}
+
+.yj-elev-1 {
+  box-shadow: var(--yj-shadow-1);
+}
+.yj-elev-2 {
+  box-shadow: var(--yj-shadow-2);
+}
+.yj-elev-3 {
+  box-shadow: var(--yj-shadow-3);
+}
+.yj-elev-4 {
+  box-shadow: var(--yj-shadow-4);
+}
+
+/* Glass is reserved for sticky chrome, floating controls and modal surfaces */
+.yj-glass {
+  background-color: color-mix(in srgb, var(--yj-surface-page) 78%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .yj-glass {
+    background-color: var(--yj-surface-page);
+  }
+}
+
+/* Sticky header gains depth only once the page has scrolled */
+.yj-header-scrolled {
+  box-shadow: var(--yj-shadow-2);
+  border-bottom-color: var(--yj-border-strong);
+}
+
+/* Active nav item: gold hairline that grows out from the centre */
+.yj-nav-active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: 60%;
+  height: 2px;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  border-radius: 2px;
+  background-image: var(--yj-gradient-highlight);
+  animation: yj-nav-underline var(--yj-duration-normal) var(--yj-ease-out) forwards;
+}
+
+@keyframes yj-nav-underline {
+  to {
+    transform: translateX(-50%) scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yj-nav-active::after {
+    animation: none;
+    transform: translateX(-50%) scaleX(1);
+  }
+}
+
+/* ── Gradients ───────────────────────────────────────────────────────────── */
+
+.yj-gradient-hero {
+  background-image: var(--yj-gradient-hero);
+}
+.yj-gradient-accent {
+  background-image: var(--yj-gradient-accent);
+}
+.yj-gradient-highlight {
+  background-image: var(--yj-gradient-highlight);
+}
+
+/* Gold-on-emerald text accent for milestones and verified emphasis */
+.yj-text-gradient-gold {
+  background-image: var(--yj-gradient-highlight);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ── Ambient background system ───────────────────────────────────────────── */
+/* Layer 1 page gradient, layer 2 faint grid, layer 3 extremely subtle grain. */
+
+.yj-ambient-page {
+  background-image: var(--yj-gradient-page);
+}
+
+.yj-ambient-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--yj-primary-700) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--yj-primary-700) 7%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+}
+
+.dark .yj-ambient-grid {
+  background-image:
+    linear-gradient(to right, rgba(74, 222, 128, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(74, 222, 128, 0.06) 1px, transparent 1px);
+}
+
+/* SVG fractal noise, ~2.5% opacity: adds paper-like depth, costs one tile */
+.yj-ambient-grain {
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.dark .yj-ambient-grain {
+  opacity: 0.04;
+}
+
+/* ── Setu (bridge) motifs ────────────────────────────────────────────────── */
+
+/* Vertical connector used by journey / pathway steps */
+.yj-setu-connector {
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--yj-primary-400) 55%, transparent),
+    color-mix(in srgb, var(--yj-primary-400) 12%, transparent)
+  );
+}
+
+/* Hairline section divider with a soft emerald centre — a subtle span */
+.yj-setu-divider {
+  height: 1px;
+  border: 0;
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--yj-primary-400) 35%, transparent) 30%,
+    color-mix(in srgb, var(--yj-primary-400) 35%, transparent) 70%,
+    transparent
+  );
+}
+
+/* Animated dash flow along a connector; reveals direction of travel */
+.yj-setu-flow {
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--yj-primary-400) 60%, transparent) 0 6px,
+    transparent 6px 14px
+  );
+  background-size: 100% 14px;
+  animation: yj-setu-flow 1.6s linear infinite;
+}
+
+@keyframes yj-setu-flow {
+  to {
+    background-position-y: 14px;
+  }
+}
+
+/* ── Focus & touch targets ───────────────────────────────────────────────── */
+
+.yj-focus-ring:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--yj-surface-card),
+    0 0 0 4px color-mix(in srgb, var(--yj-primary-400) 70%, transparent);
+  border-radius: var(--yj-radius-sm);
+}
+
+/* Minimum comfortable touch target (WCAG 2.5.5) */
+.yj-tap {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Sticky mobile action bar for primary screen actions */
+.yj-sticky-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--yj-z-sticky-action);
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  background-color: color-mix(in srgb, var(--yj-surface-page) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--yj-border-subtle);
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+/* Remove spatial movement and looping effects; keep opacity/colour changes.  */
+
+@media (prefers-reduced-motion: reduce) {
+  .yj-card,
+  .yj-hoverable {
+    transition-property: box-shadow, border-color, background-color;
+  }
+
+  .yj-hoverable:hover,
+  .yj-hoverable:active {
+    transform: none;
+  }
+
+  .yj-setu-flow {
+    animation: none;
+  }
+}
