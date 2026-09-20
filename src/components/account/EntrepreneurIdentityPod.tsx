@@ -268,7 +268,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
-          className="text-[#6C7B73] dark:text-[#889B91] shrink-0 ml-0.5"
+          className="text-[#516A5F] dark:text-[#889B91] shrink-0 ml-0.5"
         >
           <ChevronDown className="w-4 h-4" />
         </motion.div>
@@ -659,7 +659,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                         className={`px-2 py-1 rounded-md text-[10px] font-bold transition-all cursor-pointer ${
                           !isDark
                             ? 'bg-white text-[#14453D] shadow-xs'
-                            : 'text-[#6A7B72] dark:text-[#889B91]'
+                            : 'text-[#516A5F] dark:text-[#889B91]'
                         }`}
                       >
                         {t('account.themeLight')}
@@ -670,7 +670,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                         className={`px-2 py-1 rounded-md text-[10px] font-bold transition-all cursor-pointer ${
                           isDark
                             ? 'bg-[#14453D] text-white shadow-xs'
-                            : 'text-[#6A7B72] dark:text-[#889B91]'
+                            : 'text-[#516A5F] dark:text-[#889B91]'
                         }`}
                       >
                         {t('account.themeDark')}
@@ -708,7 +708,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
             </div>
 
             {/* Sovereign Privacy Footnote */}
-            <div className="px-4 py-2.5 bg-[#F7FAF8] dark:bg-[#0E1512] text-[10px] text-[#6A7B72] dark:text-[#82968B] text-center border-t border-[#EDF3EF] dark:border-[#1E3027] flex items-center justify-center gap-1.5">
+            <div className="px-4 py-2.5 bg-[#F7FAF8] dark:bg-[#0E1512] text-[10px] text-[#516A5F] dark:text-[#82968B] text-center border-t border-[#EDF3EF] dark:border-[#1E3027] flex items-center justify-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50]" />
               <span>DPDP Act 2023 · 100% On-Device Storage Sovereignty</span>
             </div>
