@@ -9,6 +9,7 @@ import {
   ChevronLeft,
   Heart,
   Share2,
+  MessageCircle,
   ExternalLink,
   CheckCircle2,
   AlertTriangle,
@@ -182,6 +183,26 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
         // Clipboard write failed
       }
     }
+  };
+
+  // WhatsApp share — opens wa.me with a localized, prefilled message.
+  // No deadline is included: the dataset carries no verified application windows.
+  const handleWhatsAppShare = () => {
+    const link = locScheme.officialPortalUrl || window.location.href;
+    const lines = [
+      `*${locScheme.name}*`,
+      locScheme.benefitSummary,
+      '',
+      `✅ ${t('schemeDetail.whatsappMatchLine')}: ${Math.round(matchResult.matchPercentage)}%`,
+      `🔗 ${t('schemeDetail.whatsappApplyLine')}: ${link}`,
+      '',
+      t('schemeDetail.whatsappSharedVia'),
+    ];
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(lines.join('\n'))}`,
+      '_blank',
+      'noopener,noreferrer'
+    );
   };
 
   // Extract domain for official source display
@@ -449,6 +470,20 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 title={t('schemeDetail.share')}
               >
                 <Share2 className="w-3.5 h-3.5" />
+              </motion.button>
+
+              {/* WhatsApp Share Button */}
+              <motion.button
+                id={`whatsapp-share-scheme-btn-${locScheme.id}`}
+                type="button"
+                whileHover={shouldReduceMotion ? undefined : { y: -1 }}
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.94 }}
+                onClick={handleWhatsAppShare}
+                aria-label={t('schemeDetail.shareOnWhatsApp')}
+                className="p-2 rounded text-xs font-bold bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#128C4B] dark:text-[#25D366] border border-[#25D366]/30 transition-colors cursor-pointer"
+                title={t('schemeDetail.shareOnWhatsApp')}
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
               </motion.button>
             </div>
 

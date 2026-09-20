@@ -422,6 +422,10 @@ interface SchemeDetailTranslations {
   saved: string;
   share: string;
   shareSuccess: string;
+  shareOnWhatsApp: string;
+  whatsappMatchLine: string;
+  whatsappApplyLine: string;
+  whatsappSharedVia: string;
   applyOfficial: string;
   officialUnavailable: string;
   verifiedSource: string;
