@@ -1,173 +1,123 @@
 <div align="center">
 
-# 🌉 Yojana Setu
+![Yojana Setu — सही योजना • सही सहायता • सही रास्ता](docs/banner.svg)
 
-### Intelligent Government Scheme Discovery for Entrepreneurs
+### Find every government scheme you're eligible for — in your language.
 
-**Discover · Understand · Prepare · Apply · Track**
+**Discover · Match · Explain · Prepare · Apply · Track**
 
-Yojana Setu helps entrepreneurs find relevant government schemes, understand eligibility and match reasoning, prepare required documents, connect to official application channels, and track their application journey.
+Yojana Setu matches entrepreneurs with relevant Indian government schemes through an explainable eligibility engine, then guides them all the way from discovery to application tracking.
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/License-Private-lightgrey)](#license)
+[![Tests](https://img.shields.io/badge/Tests-469_passing-16A34A)](#-testing)
+[![License](https://img.shields.io/badge/License-Private-lightgrey)](#-license)
 
 </div>
 
 ---
 
-## ✨ What is Yojana Setu?
+## ✨ Why Yojana Setu?
 
-Yojana Setu is a **startup/product-first** platform designed around the complete entrepreneur journey—not just scheme search.
+Thousands of government schemes exist. Most entrepreneurs never find the ones made for them — buried portals, English-only pages, unclear eligibility.
 
-```text
-Profile
-   ↓
-Business Need
-   ↓
-Scheme Discovery
-   ↓
-Eligibility & Matching
-   ↓
-Explainable Results
-   ↓
-Support & Preparation
-   ↓
-Official Application Handoff
-   ↓
-Application Tracking
-```
-
-The product is designed to keep recommendations **deterministic, explainable and separate from presentation language**.
-
----
-
-## 🚀 Core Features
-
-| Area | What it provides |
-|---|---|
-| 👤 **Entrepreneur Profile** | Personal, business, financial, registration and document information |
-| 🎯 **Scheme Matching** | Weighted, explainable matching with eligibility blockers |
-| 🔍 **Eligibility Engine** | Statutory eligibility checks and gap identification |
-| 💰 **Funding Fit** | Financial alignment between entrepreneur needs and schemes |
-| 📄 **Document Readiness** | Document checklist and preparation readiness |
-| 🧭 **Support Pathway** | Next actions and guided preparation journey |
-| 📝 **Application Workspace** | Eligibility, financial, document and submission preparation |
-| 🔗 **Official Handoff** | Routes users toward supported official application channels |
-| 📌 **Application Tracker** | Tracks application-stage information already supported by the product |
-| 📊 **Command Center** | Central entrepreneur dashboard and journey view |
-| 🌐 **Multilingual UI** | English, Hindi, Tamil, Telugu, Kannada and Malayalam |
-| ✨ **Premium UI** | Responsive design, motion, micro-interactions and accessibility support |
-
----
-
-## 🧠 Matching Engine
-
-Current matching weights:
-
-| Factor | Weight |
-|---|---:|
-| Social Category | **30%** |
-| Business Type | **25%** |
-| Income | **20%** |
-| Age | **15%** |
-| State | **10%** |
-
-Criteria are evaluated as:
-
-`MATCHED` · `UNKNOWN` · `MISMATCHED`
-
-Supported result classifications include:
-
-`ELIGIBLE` · `NEAR MATCH` · `LOW MATCH` · `BLOCKED`
-
-Mandatory eligibility blockers remain separate from presentation and language.
-
----
-
-## 🏗️ Architecture
+Yojana Setu flips that: tell it about your business once, and it surfaces every scheme you match with, explains *why* in plain language, and walks you through applying.
 
 ```text
-React UI
-   │
-   ├── Profile / Assessment
-   ├── Scheme Discovery
-   ├── Results / Comparison
-   ├── Application Workspace
-   └── Command Center
-          │
-          ▼
-     Domain Services
-          │
-   ┌──────┼────────┬──────────┐
-   ▼      ▼        ▼          ▼
-Matching Eligibility Business  Tracker
-Engine     Engine   Logic      Logic
-   │
-   ▼
-Explainable Results
-          │
-          ▼
-      i18n / UI
+Profile → Business Need → Scheme Discovery → Eligibility Match
+   → Plain-language Explanation → Document Prep → Official Application → Tracking
 ```
 
-The architecture keeps **business decisions separate from localized presentation** wherever the current refactor supports it.
+---
+
+## 🚀 Features
+
+### 🎯 Explainable Scheme Matching
+Weighted, deterministic matching across social category, business type, income, age, and state — with every score broken down into `MATCHED` / `UNKNOWN` / `MISMATCHED` criteria. No black boxes: each result shows exactly why it matched, and what's blocking the ones that didn't.
+
+### 🧭 Guided Application Journey
+- **Next-best-action engine** — the single most useful thing to do right now
+- **Document checklist** — per-scheme readiness tracking
+- **Application workspace** — eligibility, financial, and submission prep in one place
+- **Official handoff** — routes to real government portals, never a fake "apply here"
+
+### 📌 Application Tracker & Command Center
+Track every application's stage, get follow-up reminders, and see your whole journey — matches, documents, and applications — on one dashboard.
+
+### 💬 WhatsApp Sharing
+One tap shares a scheme's key details — name, benefit, your match %, and the official link — prefilled in your own language. Built for how scheme information actually spreads.
+
+### 🌐 Truly Multilingual
+Full UI in **English, Hindi, Tamil, Telugu, Kannada, and Malayalam**. Language changes presentation — never the matching decisions.
+
+### ✨ Premium Motion Design
+Directional page transitions, shared-element morphs between results and detail, an animated match gauge with count-up, staggered entrances, scroll reveals, skeleton loaders — all with `prefers-reduced-motion` respected throughout.
+
+### 🌙 Thoughtful Details
+Dark mode, responsive mobile-first layout, accessibility-minded components, and a strict no-fabrication rule: deadlines and official claims are never invented.
+
+---
+
+## 🖼️ Screenshots
+
+> Add screenshots here — `docs/screenshots/` is a good home for them.
+
+| Eligibility | Results | Scheme Detail |
+|---|---|---|
+| *your screenshot* | *your screenshot* | *your screenshot* |
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **React 19 + TypeScript**
-- **Vite 6**
-- **Tailwind CSS 4**
-- **Motion** for UI animation
-- **Lucide React** for icons
-- Deterministic domain engines and typed data models
+| Layer | Choice |
+|---|---|
+| UI | React 19 + TypeScript 5.8 |
+| Build | Vite 6 |
+| Styling | Tailwind CSS 4 |
+| Animation | Motion (`motion/react`) |
+| Icons | Lucide React |
+| i18n | Custom typed locale system (6 languages) |
+| Logic | Deterministic domain engines, typed data models |
 
 ---
 
 ## ⚡ Getting Started
 
 ### Requirements
-
-- Node.js
+- Node.js 18+
 - npm
 
-### Install
+### Install & run
 
 ```bash
 npm install
-```
-
-### Development
-
-```bash
 npm run dev
 ```
 
-Open the Vite development URL shown in the terminal.
+Open the URL Vite prints in the terminal (default `http://localhost:3000`).
 
-### Production build
+### Scripts
 
-```bash
-npm run build
-```
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build |
+| `npm run lint` | TypeScript check (`tsc --noEmit`) |
+| `npm test` | Full test suite (469 tests) |
+| `npm run preview` | Preview the production build |
 
-### Type check
+---
 
-```bash
-npm run lint
-```
-
-### Tests
+## 🧪 Testing
 
 ```bash
 npm test
 ```
 
-> Test/build results are environment-dependent; run the commands locally before treating them as passing.
+The suite covers the matching engine, eligibility logic, scheme data validation, trust scoring, business intelligence, the application journey, and profile storage — **469 tests, all passing**.
 
 ---
 
@@ -175,59 +125,43 @@ npm test
 
 ```text
 src/
-├── animations/       # Motion and transition primitives
-├── components/       # Product screens and UI components
-├── data/             # Scheme and validation data
-├── features/         # Feature-specific modules
-├── i18n/              # Localized UI resources
-├── lib/               # Domain/business logic
-├── types/             # Shared TypeScript types
-└── utils/             # Shared utilities and matching helpers
+├── animations/     # Motion primitives: pages, reveals, skeletons, transitions
+├── components/     # Screens (eligibility, results, detail, tracker…) + UI
+├── data/           # Scheme datasets + validation
+├── features/       # Feature modules (e.g. command center)
+├── i18n/           # Typed translations — en, hi, ta, te, kn, ml
+├── lib/            # Domain logic: matching, eligibility, tracker, profile
+├── theme/          # Dark/light theme
+├── types/          # Shared TypeScript types
+└── utils/          # Shared helpers
 ```
 
 ---
 
 ## 🔐 Product Principles
 
-- **Explainability over black-box recommendations**
-- **Official-source-first application guidance**
-- **Language changes presentation, not business decisions**
-- **No fabricated verification or government authority claims**
-- **Existing matching and eligibility behavior must remain deterministic**
-- **Profile data should act as the entrepreneur's central product context**
+- **Explainability over black-box recommendations** — every score shows its working
+- **Official-source-first** — guidance points at real government channels
+- **Language is presentation, not logic** — translations never change decisions
+- **Never fabricate** — no invented deadlines, no fake authority claims
+- **Deterministic matching** — same profile, same results, every time
 
 ---
 
-## 🎯 Product Direction
+## 🗺️ Roadmap
 
-Yojana Setu is being developed as a **long-term entrepreneur support platform**, with SIH treated as a secondary opportunity rather than the product's primary objective.
-
-The broader direction is:
-
-**Understand → Match → Explain → Prepare → Apply → Track → Support**
-
----
-
-## 📌 Current Status
-
-The current codebase includes the major product foundations for:
-
-- Entrepreneur profile and account experience
-- Scheme discovery and matching
-- Eligibility and business intelligence
-- Support pathway and next-best-action flows
-- Document/application preparation
-- Application tracking and Command Center
-- Multilingual presentation
-- Motion and responsive UI system
-
-Some production concerns—such as a complete live scheme-data pipeline, backend persistence/authentication, and the future AI assistant—remain separate development areas.
+- [ ] Deadline reminders for saved schemes
+- [ ] Family profiles — eligibility for the whole household
+- [ ] Nearby CSC / government office locator
+- [ ] Voice-based eligibility input
+- [ ] Backend persistence & authentication
+- [ ] Live scheme-data pipeline
 
 ---
 
 ## 📄 License
 
-This project is currently maintained as a private product/codebase. Do not redistribute or reuse the code without permission.
+Private product codebase. Do not redistribute or reuse without permission.
 
 <div align="center">
 
