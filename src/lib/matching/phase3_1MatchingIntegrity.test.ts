@@ -1,6 +1,6 @@
 import { SCHEMES_DATABASE } from '../../data/schemes';
 import { UserProfile } from '../../types';
-import { calculateMatchScore } from './matchingEngine';
+import { evaluateSchemeEligibility } from './matchingEngine';
 import { buildMatchExplanation } from './explanationBuilder';
 import { getNextBestAction } from './decisionEngine';
 import { evaluateFundingFit } from './fundingFit';
@@ -48,7 +48,7 @@ const generalMale: UserProfile = {
 
 // 1. Authoritative Engine Integrity & Mathematical Consistency
 const standUpIndia = SCHEMES_DATABASE.find((s) => s.id === 'standup-india')!;
-const resultQualifying = calculateMatchScore(qualifyingSCFemale, standUpIndia);
+const resultQualifying = evaluateSchemeEligibility(standUpIndia, qualifyingSCFemale);
 
 assert(resultQualifying.mathematicalIntegrityVerified === true, 'T1: Mathematical integrity audit flag is true');
 assert(resultQualifying.matchPercentage >= 90, 'T2: Qualifying entrepreneur achieves high score');
@@ -69,7 +69,7 @@ assert(weights['age'] === 15, 'T9: Age weight is authoritative 15%');
 assert(weights['state'] === 10, 'T10: State weight is authoritative 10%');
 
 // 2. Mandatory Blocker Detection
-const resultGeneralMale = calculateMatchScore(generalMale, standUpIndia);
+const resultGeneralMale = evaluateSchemeEligibility(standUpIndia, generalMale);
 assert(resultGeneralMale.eligibilityClassification === 'BLOCKED', 'T11: Ineligible category classified as BLOCKED');
 assert(resultGeneralMale.confirmedBlockers.length > 0, 'T12: Confirmed blockers recorded');
 assert(resultGeneralMale.isEligible === false, 'T13: Blocked scheme has isEligible = false');
@@ -122,7 +122,7 @@ assert(docReadiness1.items.some((i) => i.name === firstDoc && i.state === 'PROVI
 
 // 8. Scheme Comparison Engine
 const vishwakarma = SCHEMES_DATABASE.find((s) => s.id === 'pm-vishwakarma')!;
-const resultVishwakarma = calculateMatchScore(qualifyingSCFemale, vishwakarma);
+const resultVishwakarma = evaluateSchemeEligibility(vishwakarma, qualifyingSCFemale);
 const comparison = compareSchemes([resultQualifying, resultVishwakarma], qualifyingSCFemale, 'en');
 
 assert(comparison.columns.length === 2, 'T34: Comparison contains exactly 2 scheme columns');

@@ -38,8 +38,6 @@ export const fadeUp: Variants = {
 };
 export const fadeSlideUp = fadeUp;
 
-// Subtle Fade Down
-
 // Subtle Scale In (for logos, icons, badges)
 export const scaleIn: Variants = {
   hidden: {
@@ -151,17 +149,6 @@ export const staggerItem: Variants = {
     transition: transitions.normal,
   },
 };
-
-// Micro-interaction presets (hover, tap)
-
-
-
-
-
-// Badge entrance (animates once, no loop)
-
-// Heart micro-bounce on bookmarking
-
 
 // Modal Backdrop Overlay
 export const modalOverlayVariants: Variants = {

@@ -2,6 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert';
 import { SCHEMES_DATABASE } from '../../data/schemes';
 import { UserProfile } from '../../types/user';
+import { evaluateSchemeEligibility } from '../matching/matchingEngine';
 import {
   calculateFundingGap,
   deriveBusinessStage,
@@ -108,7 +109,6 @@ assert.strictEqual(evaluatedCount, SCHEMES_DATABASE.length, 'All production sche
 console.log(`✅ PASS: All ${evaluatedCount} production schemes evaluated safely without error`);
 
 // Test 6: UNKNOWN states — unknown registration, unknown business stage, unknown funding, unknown support need do NOT create false ineligibility
-import { calculateMatchScore } from '../matching/matchingEngine';
 
 const baseProfile: UserProfile = {
   category: 'OBC',
@@ -130,8 +130,8 @@ const unknownProfile: UserProfile = {
 };
 
 const pmegpScheme = SCHEMES_DATABASE.find(s => s.id === 'pmegp-msme')!;
-const baseScore = calculateMatchScore(baseProfile, pmegpScheme);
-const unknownScore = calculateMatchScore(unknownProfile, pmegpScheme);
+const baseScore = evaluateSchemeEligibility(pmegpScheme, baseProfile);
+const unknownScore = evaluateSchemeEligibility(pmegpScheme, unknownProfile);
 
 assert.strictEqual(unknownScore.matchPercentage, baseScore.matchPercentage, 'UNKNOWN business fields must not reduce statutory match percentage');
 assert.strictEqual(unknownScore.isEligible, baseScore.isEligible, 'UNKNOWN business fields must not create false ineligibility');
@@ -153,8 +153,8 @@ const richBusinessProfile: UserProfile = {
 };
 
 for (const scheme of SCHEMES_DATABASE) {
-  const scoreBefore = calculateMatchScore(baseProfile, scheme);
-  const scoreAfter = calculateMatchScore(richBusinessProfile, scheme);
+  const scoreBefore = evaluateSchemeEligibility(scheme, baseProfile);
+  const scoreAfter = evaluateSchemeEligibility(scheme, richBusinessProfile);
   
   // The authoritative 5-factor matching score MUST remain 100% identical
   assert.strictEqual(

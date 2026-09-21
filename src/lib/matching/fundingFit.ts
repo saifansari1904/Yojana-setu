@@ -2,19 +2,9 @@ import type { Scheme } from '../../types';
 import type { UserProfile } from '../../types/user';
 import type { FundingFitAnalysis, FundingFitStatus } from '../../types/matching';
 import type { Language } from '../../i18n/types';
+import { formatCurrency } from '../eligibility/eligibilityEngine';
 
 export type { FundingFitAnalysis, FundingFitStatus };
-
-/**
- * Currency formatter for Indian Rupees
- */
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
 
 const STATED_RANGE_FALLBACK: Record<Language, string> = {
   en: 'As per scheme guidelines',

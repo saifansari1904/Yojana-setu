@@ -6,16 +6,12 @@ import {
   evaluateSchemeEligibilityCore,
   findAlternativeSchemesCore,
   rankSchemesForProfileCore,
-  getNearMissResults,
-  getEligibleResults,
 } from './matchingCore';
 
 export {
   evaluateSchemeEligibilityCore,
   findAlternativeSchemesCore,
   rankSchemesForProfileCore,
-  getNearMissResults,
-  getEligibleResults,
 } from './matchingCore';
 export { formatCurrency, checkMandatoryCriteria, determineEligibility, identifyPrimaryGapCore, classifyMatchStatus } from '../eligibility/eligibilityEngine';
 export { BUSINESS_TYPE_LABELS, BUSINESS_TYPE_LABELS_HI, CATEGORY_LABELS, CATEGORY_LABELS_HI } from '../../constants/business';
@@ -44,6 +40,3 @@ export function rankSchemesForProfile(schemes: Scheme[], profile: UserProfile, l
   return rankSchemesForProfileCore(schemes, profile, getMatchingPresentation(lang)).map((result) => presentMatchResult(result, lang));
 }
 
-export function calculateMatchScore(profile: UserProfile, scheme: Scheme, lang: Language = 'en'): MatchResult {
-  return evaluateSchemeEligibility(scheme, profile, lang);
-}
