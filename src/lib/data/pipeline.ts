@@ -48,3 +48,8 @@ export function runSchemeImportPipeline(rawSchemes: Partial<Scheme>[]): Pipeline
     processedSchemes: deduplicatedSchemes,
   };
 }
+
+export { runCandidateSchemeImportPipeline, type CandidateImportReport } from './candidatePipeline';
+export { parseSchemeCandidateCSV } from './csvParser';
+export { normalizeCandidateScheme } from './candidateNormalizer';
+export { deduplicateCandidateSchemes } from './candidateDeduplication';

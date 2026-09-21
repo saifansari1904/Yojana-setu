@@ -1,0 +1,197 @@
+{
+  "manifestVersion": "1.0.0",
+  "generatedAt": "2026-09-21T18:40:36.592Z",
+  "sourceFile": "yojana_setu_scheme_extraction.csv",
+  "sourceProject": "Yojana Sahay Candidate Extraction",
+  "provenance": {
+    "datasetType": "CANDIDATE_DISCOVERY",
+    "isAuthoritativeGovernmentData": false,
+    "sourceHierarchyLevel": 6,
+    "defaultTrustStatus": "UNVERIFIED",
+    "defaultFreshnessStatus": "UNKNOWN",
+    "defaultConfidenceLevel": "LOW"
+  },
+  "statistics": {
+    "totalRawRecords": 220,
+    "successfullyNormalized": 220,
+    "validRecords": 220,
+    "quarantinedRecords": 0,
+    "potentialDuplicatesCount": 16,
+    "scopes": {
+      "national": 25,
+      "stateSpecific": 195
+    },
+    "relevanceTiers": {
+      "tierA_directEnterprise": 140,
+      "tierB_livelihoodAgri": 79,
+      "tierC_capabilityEnabling": 1
+    }
+  },
+  "stateDistribution": {
+    "Andaman & Nicobar": 4,
+    "Andhra Pradesh": 6,
+    "Arunachal Pradesh": 4,
+    "Assam": 11,
+    "Bihar": 5,
+    "Chandigarh": 1,
+    "Chhattisgarh": 8,
+    "Delhi": 13,
+    "Goa": 1,
+    "Gujarat": 11,
+    "Haryana": 4,
+    "Himachal Pradesh": 7,
+    "Jammu & Kashmir": 1,
+    "Jharkhand": 5,
+    "Karnataka": 15,
+    "Kerala": 6,
+    "Ladakh": 2,
+    "Madhya Pradesh": 3,
+    "Maharashtra": 18,
+    "Manipur": 4,
+    "Meghalaya": 3,
+    "Mizoram": 4,
+    "Nagaland": 3,
+    "National": 25,
+    "Odisha": 1,
+    "Puducherry": 3,
+    "Punjab": 11,
+    "Rajasthan": 6,
+    "Sikkim": 9,
+    "Tamil Nadu": 8,
+    "Telangana": 9,
+    "Tripura": 3,
+    "Uttar Pradesh": 2,
+    "Uttarakhand": 2,
+    "West Bengal": 2
+  },
+  "duplicateAudits": [
+    {
+      "candidateId": "candidate-ap-jagananna-thodu",
+      "existingSchemeId": "ap-jagananna-thodu",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'ap-jagananna-thodu'. Candidate ID prefixed to prevent clobbering."
+    },
+    {
+      "candidateId": "candidate-ap-ysr-cheyutha",
+      "existingSchemeId": "ap-ysr-cheyutha",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'ap-ysr-cheyutha'. Candidate ID prefixed to prevent clobbering."
+    },
+    {
+      "candidateId": "ap-ysr-pension-kanuka",
+      "existingSchemeId": "ap-ysr-cheyutha",
+      "isDuplicate": true,
+      "duplicateType": "OFFICIAL_URL",
+      "confidenceScore": 0.8,
+      "notes": "Portal URL matches existing scheme 'YSR Cheyutha (Women Sustainable Livelihood & Micro-Enterprise Scheme)' (ap-ysr-cheyutha)."
+    },
+    {
+      "candidateId": "candidate-karnataka-devaraj-urs-loan",
+      "existingSchemeId": "karnataka-devaraj-urs-loan",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'karnataka-devaraj-urs-loan'. Candidate ID prefixed to prevent clobbering."
+    },
+    {
+      "candidateId": "candidate-karnataka-msme-subsidy",
+      "existingSchemeId": "karnataka-msme-subsidy",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'karnataka-msme-subsidy'. Candidate ID prefixed to prevent clobbering."
+    },
+    {
+      "candidateId": "candidate-karnataka-sanjeevini-shg",
+      "existingSchemeId": "karnataka-sanjeevini-shg",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'karnataka-sanjeevini-shg'. Candidate ID prefixed to prevent clobbering."
+    },
+    {
+      "candidateId": "candidate-karnataka-udyogini",
+      "existingSchemeId": "karnataka-udyogini",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'karnataka-udyogini'. Candidate ID prefixed to prevent clobbering."
+    },
+    {
+      "candidateId": "candidate-kerala-startup-mission",
+      "existingSchemeId": "kerala-startup-mission",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'kerala-startup-mission'. Candidate ID prefixed to prevent clobbering."
+    },
+    {
+      "candidateId": "kerala-kswdc-loan",
+      "existingSchemeId": "kerala-kswdc-vanitha",
+      "isDuplicate": true,
+      "duplicateType": "OFFICIAL_URL",
+      "confidenceScore": 0.8,
+      "notes": "Portal URL matches existing scheme 'KSWDC Vanitha Mithra Women Entrepreneurship Loan' (kerala-kswdc-vanitha)."
+    },
+    {
+      "candidateId": "kerala-kudumbashree",
+      "existingSchemeId": "kerala-kudumbashree-kmed",
+      "isDuplicate": true,
+      "duplicateType": "OFFICIAL_URL",
+      "confidenceScore": 0.8,
+      "notes": "Portal URL matches existing scheme 'Kudumbashree Micro-Enterprise Development (KMED) Scheme' (kerala-kudumbashree-kmed)."
+    },
+    {
+      "candidateId": "candidate-standup-india",
+      "existingSchemeId": "standup-india",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'standup-india'. Candidate ID prefixed to prevent clobbering."
+    },
+    {
+      "candidateId": "candidate-tn-agri-value-addition",
+      "existingSchemeId": "tn-agri-value-addition",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'tn-agri-value-addition'. Candidate ID prefixed to prevent clobbering."
+    },
+    {
+      "candidateId": "candidate-tn-handloom-weavers",
+      "existingSchemeId": "tn-handloom-weavers",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'tn-handloom-weavers'. Candidate ID prefixed to prevent clobbering."
+    },
+    {
+      "candidateId": "candidate-ts-bc-welfare-loan",
+      "existingSchemeId": "ts-bc-welfare-loan",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'ts-bc-welfare-loan'. Candidate ID prefixed to prevent clobbering."
+    },
+    {
+      "candidateId": "candidate-ts-chenetha-mitra",
+      "existingSchemeId": "ts-chenetha-mitra",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'ts-chenetha-mitra'. Candidate ID prefixed to prevent clobbering."
+    },
+    {
+      "candidateId": "candidate-ts-stree-nidhi",
+      "existingSchemeId": "ts-stree-nidhi",
+      "isDuplicate": true,
+      "duplicateType": "EXACT_ID",
+      "confidenceScore": 1,
+      "notes": "Exact match with authoritative scheme ID 'ts-stree-nidhi'. Candidate ID prefixed to prevent clobbering."
+    }
+  ]
+}

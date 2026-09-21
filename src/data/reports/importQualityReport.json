@@ -1,0 +1,64 @@
+{
+  "title": "Yojana Setu Candidate Scheme Import Quality Audit Report",
+  "generatedAt": "2026-09-21T18:40:36.592Z",
+  "healthMetrics": {
+    "totalEvaluated": 220,
+    "normalizationSuccessRate": "100%",
+    "schemaValidationPassRate": "100%",
+    "unverifiedRecordRate": "100%",
+    "zeroFalseAuthorityAssurance": true
+  },
+  "relevanceTierBreakdown": {
+    "Tier A (Direct Enterprise / Finance)": 140,
+    "Tier B (Livelihood / Agriculture / Capability)": 79,
+    "Tier C (Capability / Enabling)": 1
+  },
+  "dataCompleteness": {
+    "schemesWithExtractedPortals": 220,
+    "schemesWithParsedFundingCaps": 220,
+    "schemesWithDemographicTargeting": 220,
+    "schemesWithMandatoryCriteria": 0
+  },
+  "duplicateAnalysis": {
+    "totalPotentialDuplicatesDetected": 16,
+    "reconciledWithPrefix": 13,
+    "urlCrossMatches": 3
+  },
+  "stateCoverageSummary": {
+    "Andaman & Nicobar": 4,
+    "Andhra Pradesh": 6,
+    "Arunachal Pradesh": 4,
+    "Assam": 11,
+    "Bihar": 5,
+    "Chandigarh": 1,
+    "Chhattisgarh": 8,
+    "Delhi": 13,
+    "Goa": 1,
+    "Gujarat": 11,
+    "Haryana": 4,
+    "Himachal Pradesh": 7,
+    "Jammu & Kashmir": 1,
+    "Jharkhand": 5,
+    "Karnataka": 15,
+    "Kerala": 6,
+    "Ladakh": 2,
+    "Madhya Pradesh": 3,
+    "Maharashtra": 18,
+    "Manipur": 4,
+    "Meghalaya": 3,
+    "Mizoram": 4,
+    "Nagaland": 3,
+    "National": 25,
+    "Odisha": 1,
+    "Puducherry": 3,
+    "Punjab": 11,
+    "Rajasthan": 6,
+    "Sikkim": 9,
+    "Tamil Nadu": 8,
+    "Telangana": 9,
+    "Tripura": 3,
+    "Uttar Pradesh": 2,
+    "Uttarakhand": 2,
+    "West Bengal": 2
+  }
+}

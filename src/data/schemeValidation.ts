@@ -64,9 +64,11 @@ const VALID_VERIFICATION_STATUSES = new Set([
   'outdated',
   'inactive',
   'unknown',
+  'candidate',
   'VERIFIED',
   'PARTIALLY_VERIFIED',
   'UNVERIFIED',
+  'CANDIDATE',
 ]);
 
 const VALID_SCOPES = new Set(['NATIONAL', 'STATE_SPECIFIC']);

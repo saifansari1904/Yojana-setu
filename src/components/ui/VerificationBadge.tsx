@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { ShieldCheck, AlertTriangle, Info, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, AlertTriangle, Info, CheckCircle2, HelpCircle } from 'lucide-react';
 
-type VerificationTier = 'verified' | 'partially-verified' | 'in-review' | 'gazetted';
-export type PortalDomainClass = 'VERIFIED_OFFICIAL' | 'KNOWN_NODAL' | 'UNVERIFIED_EXTERNAL' | 'INVALID';
+type VerificationTier = 'verified' | 'partially-verified' | 'in-review' | 'gazetted' | 'candidate';
+export type PortalDomainClass = 'VERIFIED_OFFICIAL' | 'KNOWN_NODAL' | 'UNVERIFIED_EXTERNAL' | 'INVALID' | 'CANDIDATE';
 
 interface VerificationBadgeProps {
   tier?: VerificationTier;
@@ -48,6 +48,10 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
         derivedTier = 'in-review';
         derivedLabel = label || 'Invalid Domain';
         break;
+      case 'CANDIDATE':
+        derivedTier = 'candidate';
+        derivedLabel = label || 'Candidate Scheme';
+        break;
     }
   }
 
@@ -85,15 +89,28 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
       icon: Info,
       defaultLabel: 'Review In Progress',
     },
+    candidate: {
+      bg: 'bg-amber-50/90 dark:bg-amber-950/50',
+      text: 'text-amber-900 dark:text-amber-300',
+      border: 'border-amber-300 dark:border-amber-700/60',
+      icon: HelpCircle,
+      defaultLabel: 'Candidate Scheme',
+    },
   };
 
   const current = configs[tier] || configs.verified;
   const IconComponent = current.icon;
   const displayLabel = label || current.defaultLabel;
+  const resolvedSourceText =
+    sourceText !== undefined
+      ? sourceText
+      : tier === 'candidate'
+      ? 'Source verification pending'
+      : undefined;
 
   // Provenance disclosure: where this status comes from, revealed on hover/focus.
   // Only shown when we actually have a source; never invented.
-  const hasProvenance = Boolean(sourceText);
+  const hasProvenance = Boolean(resolvedSourceText);
 
   return (
     <motion.span
@@ -101,7 +118,7 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
       initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95 }}
       animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
       transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-      title={hasProvenance ? `${displayLabel} — ${sourceText}` : displayLabel}
+      title={hasProvenance ? `${displayLabel} — ${resolvedSourceText}` : displayLabel}
       tabIndex={hasProvenance ? 0 : undefined}
       className={`group/provenance relative inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-semibold border select-none ${
         hasProvenance ? 'yj-focus-ring cursor-help' : ''
@@ -109,9 +126,9 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
     >
       <IconComponent className="w-3 h-3 shrink-0" />
       {showText && <span>{displayLabel}</span>}
-      {showText && sourceText && (
+      {showText && resolvedSourceText && (
         <span className="opacity-70 font-normal border-l border-current/30 pl-1 ml-0.5">
-          {sourceText}
+          {resolvedSourceText}
         </span>
       )}
 
@@ -120,7 +137,7 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
           role="note"
           className="pointer-events-none absolute left-0 top-full z-20 mt-1.5 w-max max-w-[240px] whitespace-normal rounded-[var(--yj-radius-md)] border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#151C19] px-2.5 py-1.5 text-left text-[10px] font-normal leading-snug text-[#42544C] dark:text-[#A9BDB3] opacity-0 translate-y-0.5 shadow-[var(--yj-shadow-2)] transition-all duration-150 group-hover/provenance:opacity-100 group-hover/provenance:translate-y-0 group-focus-visible/provenance:opacity-100 group-focus-visible/provenance:translate-y-0"
         >
-          {sourceText}
+          {resolvedSourceText}
         </span>
       )}
     </motion.span>

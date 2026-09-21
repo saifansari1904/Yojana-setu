@@ -21,6 +21,7 @@ import {
   Info,
   FileCheck2,
   ShieldCheck,
+  ShieldAlert,
   Building2,
   Globe,
   MapPin,
@@ -45,6 +46,7 @@ import { getLocalizedPathwayAction } from '../i18n/pathwayActionI18n';
 import type { PathwayAction } from '../types/supportPathway';
 import { PathwayReportModal } from './PathwayReportModal';
 import type { TrackedApplication } from '../types/tracker';
+import { INDIAN_STATES } from '../constants/geography';
 
 const RESULTS_SCREEN_I18N: Record<
   Language,
@@ -92,6 +94,14 @@ const RESULTS_SCREEN_I18N: Record<
     profileRequiredTitle: string;
     profileRequiredDesc: string;
     completeProfileBtn: string;
+    trustFilterLabel: string;
+    allTrustTiers: string;
+    authoritativeShort: string;
+    candidateShort: string;
+    candidateBadge: string;
+    candidateSourcePending: string;
+    candidateCardNotice: string;
+    selectStatePrompt: string;
   }
 > = {
   en: {
@@ -138,6 +148,14 @@ const RESULTS_SCREEN_I18N: Record<
     profileRequiredTitle: 'Eligibility Profile Required',
     profileRequiredDesc: 'Please enter your profile details to evaluate exact statutory criteria, compute match scores, and discover tailored schemes.',
     completeProfileBtn: 'Complete Eligibility Form',
+    trustFilterLabel: 'Data Trust Layer:',
+    allTrustTiers: 'All Schemes',
+    authoritativeShort: 'Gazette Verified',
+    candidateShort: 'Candidate Discovery',
+    candidateBadge: 'Candidate Scheme',
+    candidateSourcePending: 'Source verification pending',
+    candidateCardNotice: 'Candidate scheme from discovery extraction · Source verification pending with nodal department',
+    selectStatePrompt: 'All 36 States & UTs…',
   },
   hi: {
     foundCount: (count) => `आपकी प्रोफ़ाइल के आधार पर ${count} योजनाएं मिलीं।`,
@@ -183,6 +201,14 @@ const RESULTS_SCREEN_I18N: Record<
     profileRequiredTitle: 'पात्रता प्रोफ़ाइल आवश्यक है',
     profileRequiredDesc: 'सटीक सरकारी योजनाओं की पात्रता, स्कोर और शर्त विश्लेषण प्राप्त करने के लिए कृपया अपनी प्रोफ़ाइल विवरण भरें।',
     completeProfileBtn: 'पात्रता फॉर्म भरें',
+    trustFilterLabel: 'डेटा विश्वास स्तर:',
+    allTrustTiers: 'सभी योजनाएं',
+    authoritativeShort: 'राजपत्र सत्यापित',
+    candidateShort: 'उम्मीदवार खोज',
+    candidateBadge: 'उम्मीदवार योजना',
+    candidateSourcePending: 'स्रोत सत्यापन लंबित',
+    candidateCardNotice: 'खोज निष्कर्षण से उम्मीदवार योजना · नोडल विभाग द्वारा स्रोत सत्यापन लंबित',
+    selectStatePrompt: 'सभी 36 राज्य और संघ राज्य क्षेत्र…',
   },
   ta: {
     foundCount: (count) => `உங்கள் விவரங்களின் அடிப்படையில் ${count} திட்டங்கள் கண்டறியப்பட்டன.`,
@@ -228,6 +254,14 @@ const RESULTS_SCREEN_I18N: Record<
     profileRequiredTitle: 'தகுதி சுயவிவரம் தேவை',
     profileRequiredDesc: 'சரியான அரசு திட்டங்களின் தகுதி மற்றும் மதிப்பெண் பெற உங்கள் விவரங்களை உள்ளிடவும்.',
     completeProfileBtn: 'தகுதி படிவத்தை நிரப்பவும்',
+    trustFilterLabel: 'தரவு நம்பகத்தன்மை நிலை:',
+    allTrustTiers: 'அனைத்து திட்டங்கள்',
+    authoritativeShort: 'அரசிதழ் சரிபார்க்கப்பட்டது',
+    candidateShort: 'வேட்பாளர் கண்டுபிடிப்பு',
+    candidateBadge: 'வேட்பாளர் திட்டம்',
+    candidateSourcePending: 'மூல சரிபார்ப்பு நிலுவையில் உள்ளது',
+    candidateCardNotice: 'கண்டுபிடிப்பிலிருந்து பெறப்பட்ட வேட்பாளர் திட்டம் · நோடல் துறையின் மூல சரிபார்ப்பு நிலுவையில் உள்ளது',
+    selectStatePrompt: 'அனைத்து 36 மாநிலங்கள் & யூனியன் பிரதேசங்கள்…',
   },
   te: {
     foundCount: (count) => `మీ ప్రొఫైల్ ఆధారంగా ${count} పథకాలు కనుగొనబడ్డాయి.`,
@@ -273,6 +307,14 @@ const RESULTS_SCREEN_I18N: Record<
     profileRequiredTitle: 'అర్హత ప్రొఫైల్ అవసరం',
     profileRequiredDesc: 'ఖచ్చితమైన ప్రభుత్వ పథకాల అర్హత మరియు స్కోరు పొందడానికి దయచేసి మీ వివరాలను నమోదు చేయండి.',
     completeProfileBtn: 'అర్హత ఫారమ్‌ను పూర్తి చేయండి',
+    trustFilterLabel: 'డేటా విశ్వసనీయత స్థాయి:',
+    allTrustTiers: 'అన్ని పథకాలు',
+    authoritativeShort: 'గెజిట్ ధృవీకరించబడింది',
+    candidateShort: 'అభ్యర్థి ఆవిష్కరణ',
+    candidateBadge: 'అభ్యర్థి పథకం',
+    candidateSourcePending: 'మూల ధృవీకరణ పెండింగ్‌లో ఉంది',
+    candidateCardNotice: 'ఆవిష్కరణ వెలికితీత నుండి అభ్యర్థి పథకం · నోడల్ విభాగం ద్వారా మూల ధృవీకరణ పెండింగ్‌లో ఉంది',
+    selectStatePrompt: 'అన్ని 36 రాష్ట్రాలు & కేంద్రపాలిత ప్రాంతాలు…',
   },
   kn: {
     foundCount: (count) => `ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಆಧಾರದ ಮೇಲೆ ${count} ಯೋಜನೆಗಳು ಕಂಡುಬಂದಿವೆ.`,
@@ -318,6 +360,14 @@ const RESULTS_SCREEN_I18N: Record<
     profileRequiredTitle: 'ಅರ್ಹತಾ ಪ್ರೊಫೈಲ್ ಅಗತ್ಯವಿದೆ',
     profileRequiredDesc: 'ನಿಖರವಾದ ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಅರ್ಹತೆ ಮತ್ತು ಸ್ಕೋರ್ ಪಡೆಯಲು ದಯವಿಟ್ಟು ನಿಮ್ಮ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.',
     completeProfileBtn: 'ಅರ್ಹತಾ ಫಾರ್ಮ್ ಭರ್ತಿ ಮಾಡಿ',
+    trustFilterLabel: 'ಡೇಟಾ ವಿಶ್ವಾಸಾರ್ಹತೆ ಹಂತ:',
+    allTrustTiers: 'ಎಲ್ಲಾ ಯೋಜನೆಗಳು',
+    authoritativeShort: 'ಗೆಜೆಟ್ ಪರಿಶೀಲಿಸಲಾಗಿದೆ',
+    candidateShort: 'ಅಭ್ಯರ್ಥಿ ಶೋಧನೆ',
+    candidateBadge: 'ಅಭ್ಯರ್ಥಿ ಯೋಜನೆ',
+    candidateSourcePending: 'ಮೂಲ ಪರಿಶೀಲನೆ ಬಾಕಿ ಇದೆ',
+    candidateCardNotice: 'ಶೋಧನೆಯಿಂದ ಪಡೆದ ಅಭ್ಯರ್ಥಿ ಯೋಜನೆ · ನೋಡಲ್ ಇಲಾಖೆಯಿಂದ ಮೂಲ ಪರಿಶೀಲನೆ ಬಾಕಿ ಇದೆ',
+    selectStatePrompt: 'ಎಲ್ಲಾ 36 ರಾಜ್ಯಗಳು & ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶಗಳು…',
   },
   ml: {
     foundCount: (count) => `നിങ്ങളുടെ പ്രൊഫൈലിനെ അടിസ്ഥാനമാക്കി ${count} പദ്ധതികൾ കണ്ടെത്തി.`,
@@ -363,6 +413,14 @@ const RESULTS_SCREEN_I18N: Record<
     profileRequiredTitle: 'യോഗ്യതാ പ്രൊഫൈൽ ആവശ്യമാണ്',
     profileRequiredDesc: 'കൃത്യമായ സർക്കാർ പദ്ധതി യോഗ്യതയും സ്കോറും കണ്ടെത്താൻ നിങ്ങളുടെ പ്രൊഫൈൽ വിവരങ്ങൾ നൽകുക.',
     completeProfileBtn: 'യോഗ്യതാ ഫോം പൂരിപ്പിക്കുക',
+    trustFilterLabel: 'ഡാറ്റ വിശ്വാസ്യത തലം:',
+    allTrustTiers: 'എല്ലാ പദ്ധതികളും',
+    authoritativeShort: 'ഗസറ്റ് പരിശോധിച്ചു',
+    candidateShort: 'സ്ഥാനാർത്ഥി കണ്ടെത്തൽ',
+    candidateBadge: 'സ്ഥാനാർത്ഥി പദ്ധതി',
+    candidateSourcePending: 'ഉറവിട പരിശോധന ബാക്കി',
+    candidateCardNotice: 'കണ്ടെത്തലിൽ നിന്നുള്ള സ്ഥാനാർത്ഥി പദ്ധതി · നോഡൽ വകുപ്പിൽ നിന്നുള്ള ഉറവിട പരിശോധന ബാക്കി',
+    selectStatePrompt: 'എല്ലാ 36 സംസ്ഥാനങ്ങളും കേന്ദ്രഭരണ പ്രദേശങ്ങളും…',
   },
 };
 import {
@@ -425,6 +483,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
 
   const [activeTab, setActiveTab] = useState<'all' | 'eligible' | 'near' | 'subsidized'>('all');
   const [selectedRegion, setSelectedRegion] = useState<string>('all');
+  const [trustFilter, setTrustFilter] = useState<'all' | 'authoritative' | 'candidate'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -462,8 +521,26 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
     typeof window === 'undefined' ? {} : migrateLegacyDocumentProgress(),
   );
 
-  const topMatch = matchResults.length > 0 ? matchResults[0] : null;
+  // Ensure top recommendation prioritizes an authoritative scheme so official support pathway remains grounded
+  const topMatch = useMemo(() => {
+    return (
+      matchResults.find((m) => !m.scheme.isCandidateScheme && m.matchStatus === 'eligible') ||
+      matchResults.find((m) => !m.scheme.isCandidateScheme) ||
+      matchResults[0] ||
+      null
+    );
+  }, [matchResults]);
+
   const preparedDocIds = topMatch ? getPreparedDocIds(docProgress, topMatch.scheme.id) : [];
+
+  const authoritativeCount = useMemo(
+    () => matchResults.filter((m) => !m.scheme.isCandidateScheme).length,
+    [matchResults]
+  );
+  const candidateCount = useMemo(
+    () => matchResults.filter((m) => m.scheme.isCandidateScheme).length,
+    [matchResults]
+  );
 
   /** Deterministic Phase 4.2 engine output — memoized, never recomputed per render. */
   const supportPathway = useMemo(() => {
@@ -583,6 +660,13 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         if (!result.scheme.applicableStates.includes(selectedRegion)) return false;
       }
 
+      if (trustFilter === 'authoritative' && result.scheme.isCandidateScheme) {
+        return false;
+      }
+      if (trustFilter === 'candidate' && !result.scheme.isCandidateScheme) {
+        return false;
+      }
+
       if (activeTab === 'subsidized') {
         return (locScheme.subsidyRatePercent && locScheme.subsidyRatePercent > 0) || false;
       }
@@ -605,6 +689,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
     const locScheme = getLocalizedScheme(result.scheme);
     const isEligible = result.matchStatus === 'eligible';
     const isNearMatch = result.matchStatus === 'near-match';
+    const isCandidate = Boolean(result.scheme.isCandidateScheme);
 
     return (
       <motion.article
@@ -615,14 +700,16 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         whileTap={shouldReduceMotion ? undefined : { scale: 0.995 }}
         transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
         className={`yj-card yj-card-lg overflow-hidden hover:yj-elev-2 hover:border-[#0B5D4B] dark:hover:border-[#4ADE80] ${
-          isNearMatch
+          isCandidate
+            ? 'border-amber-300/80 dark:border-amber-800/60 bg-gradient-to-r from-amber-50/20 to-transparent dark:from-amber-950/15'
+            : isNearMatch
             ? 'border-amber-300 dark:border-amber-800/60 bg-gradient-to-r from-amber-50/20 to-transparent dark:from-amber-950/10'
             : isEligible
             ? 'border-[#C1E2D0] dark:border-[#22503E]'
             : 'border-[#E4E8E4] dark:border-[#24342D]'
         }`}
       >
-        {isTopPick && (
+        {isTopPick && !isCandidate && (
           <div className="bg-[#14453D] dark:bg-[#1C5045] text-white px-4 py-1 text-[11px] font-bold flex items-center gap-1.5 border-b border-[#0B302B]/30">
             <Sparkles className="w-3.5 h-3.5 text-[#4ADE80]" />
             <span>{rui.topRecommendation}</span>
@@ -673,9 +760,16 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             {/* Scheme Information & Details */}
             <div className="flex-1 w-full">
               <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
-                <span className="text-[11px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.5 rounded uppercase tracking-wider">
-                  {locScheme.schemeType}
-                </span>
+                {isCandidate ? (
+                  <span className="text-[10px] font-bold text-amber-900 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/70 border border-amber-300 dark:border-amber-700/80 px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1">
+                    <AlertTriangle className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+                    {rui.candidateBadge}
+                  </span>
+                ) : (
+                  <span className="text-[11px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.5 rounded uppercase tracking-wider">
+                    {locScheme.schemeType}
+                  </span>
+                )}
 
                 {locScheme.applicableStates.length === 0 ? (
                   <span className="text-[10px] font-semibold text-blue-800 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/60 px-1.5 py-0.5 rounded flex items-center gap-1">
@@ -690,7 +784,13 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 )}
 
                 {/* Phase 2.5 Dynamic Data Trust Badge */}
-                {(() => {
+                {isCandidate ? (
+                  <VerificationBadge
+                    tier="candidate"
+                    label={rui.candidateBadge}
+                    sourceText={rui.candidateSourcePending}
+                  />
+                ) : (() => {
                   const trust = result.scheme.trustProfile || deriveSchemeTrustProfile(result.scheme);
                   const tier =
                     trust.verification.status === 'VERIFIED'
@@ -736,6 +836,19 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               <p className="text-xs text-[#3F4943] dark:text-[#9EB0A7] mt-1.5 leading-relaxed font-medium">
                 {locScheme.benefitSummary}
               </p>
+
+              {/* Candidate Scheme Advisory Box */}
+              {isCandidate && (
+                <div className="mt-2.5 px-3 py-1.5 rounded bg-amber-50/90 dark:bg-amber-950/40 border border-amber-200/90 dark:border-amber-800/60 flex items-center justify-between gap-2 text-[11px] text-amber-900 dark:text-amber-300">
+                  <div className="flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+                    <span>{rui.candidateCardNotice}</span>
+                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-200 shrink-0">
+                    Unverified
+                  </span>
+                </div>
+              )}
 
               {/* Progressive disclosure: collapsed match reasoning, expanded on demand.
                   Uses only factors already computed by the matching engine. */}
@@ -1182,7 +1295,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               <span>{t('results.tabAll').toLowerCase()}</span>
             </strong>{' '}
             <span className="text-xs text-[#516A5F] dark:text-[#8E9F97]">
-              ({rui.highEligibleNearMatches(eligibleMatches.length, nearMatches.length)})
+              ({rui.highEligibleNearMatches(eligibleMatches.length, nearMatches.length)}) · {authoritativeCount} {rui.authoritativeShort} + {candidateCount} {rui.candidateShort}
             </span>
           </p>
         </div>
@@ -1466,8 +1579,8 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         </div>
       </div>
 
-      {/* South India Regional Jurisdiction Filter */}
-      <div className="flex flex-wrap items-center gap-1.5 mb-6 py-2 px-3 bg-[#F3F4F3] dark:bg-[#1A2520] rounded border border-[#E4E8E4] dark:border-[#24342D] text-xs">
+      {/* Regional Jurisdiction Filter + Pan-India State/UT Dropdown */}
+      <div className="flex flex-wrap items-center gap-1.5 mb-3 py-2 px-3 bg-[#F3F4F3] dark:bg-[#1A2520] rounded border border-[#E4E8E4] dark:border-[#24342D] text-xs">
         <span className="text-[#516A5F] dark:text-[#9EB0A7] font-semibold flex items-center gap-1 mr-1">
           <MapPin className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
           <span>{rui.jurisdiction}</span>
@@ -1480,6 +1593,8 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           { id: 'Tamil Nadu', label: getLocalizedState('Tamil Nadu') },
           { id: 'Telangana', label: getLocalizedState('Telangana') },
           { id: 'Andhra Pradesh', label: getLocalizedState('Andhra Pradesh') },
+          { id: 'Maharashtra', label: getLocalizedState('Maharashtra') },
+          { id: 'Gujarat', label: getLocalizedState('Gujarat') },
         ].map((reg) => (
           <button
             key={reg.id}
@@ -1493,6 +1608,80 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             {reg.label}
           </button>
         ))}
+
+        {/* Pan-India 36 States/UTs Selector */}
+        <select
+          id="jurisdiction-state-dropdown"
+          value={INDIAN_STATES.includes(selectedRegion) ? selectedRegion : ''}
+          onChange={(e) => {
+            if (e.target.value) setSelectedRegion(e.target.value);
+          }}
+          className="ml-auto px-2.5 py-1 text-[11px] font-semibold rounded bg-white dark:bg-[#151C19] border border-[#E4E8E4] dark:border-[#2A3C34] text-[#14453D] dark:text-[#4ADE80] focus:outline-none cursor-pointer"
+        >
+          <option value="">{rui.selectStatePrompt}</option>
+          {INDIAN_STATES.map((state) => (
+            <option key={state} value={state}>
+              {getLocalizedState(state)}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Trust Classification Filter Bar: Gazette Verified vs Candidate Discovery */}
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-6 py-2 px-3 bg-white dark:bg-[#121B16] rounded border border-[#E4E8E4] dark:border-[#24342D] text-xs">
+        <div className="flex items-center gap-1.5 text-[#516A5F] dark:text-[#9EB0A7] font-semibold">
+          <ShieldAlert className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
+          <span>{rui.trustFilterLabel}</span>
+        </div>
+
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <button
+            type="button"
+            id="trust-filter-all"
+            onClick={() => setTrustFilter('all')}
+            className={`px-2.5 py-1 rounded text-[11px] font-bold transition-all cursor-pointer ${
+              trustFilter === 'all'
+                ? 'bg-[#14453D] text-white dark:bg-[#4ADE80] dark:text-[#0B251F]'
+                : 'bg-[#F3F4F3] dark:bg-[#1A2520] text-[#516A5F] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EAEAEA]'
+            }`}
+          >
+            {rui.allTrustTiers} ({matchResults.length})
+          </button>
+
+          <button
+            type="button"
+            id="trust-filter-authoritative"
+            onClick={() => setTrustFilter('authoritative')}
+            className={`px-2.5 py-1 rounded text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+              trustFilter === 'authoritative'
+                ? 'bg-[#175741] text-white dark:bg-[#4ADE80] dark:text-[#0B251F]'
+                : 'bg-[#EBF5EF] dark:bg-[#143327]/60 text-[#175741] dark:text-[#4ADE80] border border-[#C1E2D0] dark:border-[#285743] hover:bg-[#E1EFE7]'
+            }`}
+          >
+            <ShieldCheck className="w-3 h-3 text-[#1E6A50] dark:text-[#4ADE80]" />
+            <span>{rui.authoritativeShort}</span>
+            <span className="ml-0.5 px-1.5 py-0.2 rounded text-[10px] bg-white/70 dark:bg-black/40 font-mono">
+              {authoritativeCount}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            id="trust-filter-candidate"
+            onClick={() => setTrustFilter('candidate')}
+            className={`px-2.5 py-1 rounded text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+              trustFilter === 'candidate'
+                ? 'bg-amber-600 text-white dark:bg-amber-500 dark:text-black'
+                : 'bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800 hover:bg-amber-100'
+            }`}
+          >
+            <AlertTriangle className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+            <span>{rui.candidateShort}</span>
+            <span className="ml-0.5 px-1.5 py-0.2 rounded text-[10px] bg-amber-100 dark:bg-amber-900/60 font-mono">
+              {candidateCount}
+            </span>
+          </button>
+        </div>
       </div>
 
       {totalFilteredCount === 0 && (
@@ -1511,6 +1700,8 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           actionLabel={rui.resetSearch}
           onAction={() => {
             setSearchQuery('');
+            setSelectedRegion('all');
+            setTrustFilter('all');
             setActiveTab('all');
           }}
         />

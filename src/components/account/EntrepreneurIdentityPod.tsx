@@ -357,6 +357,12 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                 <span>{locationLabel}</span>
               </p>
 
+              {/* Local Device Session */}
+              <div className="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#E8F5EE] dark:bg-[#152E22] text-[#14453D] dark:text-[#4ADE80] border border-[#B9E3CB] dark:border-[#1E4D37]">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
+                <span>{t('account.localSessionActive') || 'Local Device Session'}</span>
+              </div>
+
               {/* Profile Readiness Bar (Clickable -> /profile) */}
               <button
                 type="button"

@@ -122,6 +122,20 @@ export interface Translations {
     altSectionTitle: string;
     altSectionDesc: string;
     altSectionBtn: string;
+    candidate: {
+      badge: string;
+      discovery: string;
+      sourcePending: string;
+      notice: string;
+      unverified: string;
+      reviewRequired: string;
+      recordNotice: string;
+      advisoryDetail: string;
+      confidenceExtraction: string;
+      filterAll: string;
+      filterAuthoritative: string;
+      filterCandidate: string;
+    };
   };
   whyNotEligible: {
     backBtn: string;
@@ -146,6 +160,9 @@ export interface Translations {
     source: string;
     lastVerified: string;
     ruleChecked: string;
+    discoverySource: string;
+    sourcePending: string;
+    candidateRecord: string;
   };
   questionnaire: {
     stageAboutTitle: string;
@@ -323,6 +340,7 @@ export interface Translations {
     applications: string;
     accountPrivacy: string;
     signOut: string;
+    localSessionActive: string;
     entrepreneurRole: string;
     profileReadiness: string;
     sectionsNeedAttention: string;
@@ -479,4 +497,9 @@ interface SchemeDetailTranslations {
   alternativesSubtitle: string;
   viewAlternativeBtn: string;
   noAlternatives: string;
+  candidateNoticeTitle: string;
+  candidateNoticeDesc: string;
+  candidateStatusBadge: string;
+  candidateConfidenceExtraction: string;
+  candidateDisclaimer: string;
 }

@@ -25,7 +25,8 @@ export type TrustVerificationStatus =
   | 'VERIFIED'
   | 'PARTIALLY_VERIFIED'
   | 'UNVERIFIED'
-  | 'OUTDATED';
+  | 'OUTDATED'
+  | 'CANDIDATE';
 
 export type FreshnessStatus =
   | 'CURRENT'

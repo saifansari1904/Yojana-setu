@@ -356,11 +356,38 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 </span>
               )}
 
-              <span className="bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] text-xs font-bold px-2.5 py-0.5 rounded flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
-                <span>{t('schemeDetail.verifiedSource')}</span>
-              </span>
+              {matchResult.scheme.isCandidateScheme ? (
+                <span className="bg-amber-100 dark:bg-amber-950/70 border border-amber-300 dark:border-amber-700/60 text-amber-900 dark:text-amber-300 text-xs font-bold px-2.5 py-0.5 rounded flex items-center gap-1">
+                  <AlertCircle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                  <span>Candidate Scheme · Source verification pending</span>
+                </span>
+              ) : (
+                <span className="bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] text-xs font-bold px-2.5 py-0.5 rounded flex items-center gap-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
+                  <span>{t('schemeDetail.verifiedSource')}</span>
+                </span>
+              )}
             </motion.div>
+
+            {/* Candidate Scheme Discovery Warning Banner */}
+            {matchResult.scheme.isCandidateScheme && (
+              <motion.div
+                variants={shouldReduceMotion ? undefined : heroItem}
+                className="mb-4 p-3.5 rounded-lg bg-amber-50/90 dark:bg-amber-950/40 border border-amber-300/80 dark:border-amber-700/60 text-amber-950 dark:text-amber-200 text-xs leading-relaxed"
+              >
+                <div className="flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="font-bold text-amber-900 dark:text-amber-100 block mb-0.5">
+                      {t('schemeDetail.candidateNoticeTitle')}
+                    </strong>
+                    <p className="text-[11px] text-amber-800 dark:text-amber-300">
+                      {t('schemeDetail.candidateNoticeDesc')}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
 
             {/* Normalized Category Tags */}
             {(() => {
@@ -1223,18 +1250,33 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                       Government Data Trust & Provenance
                     </span>
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
-                        Status: {trust.verification.status}
-                      </span>
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                        {trust.confidence} Confidence
-                      </span>
+                      {matchResult.scheme.isCandidateScheme ? (
+                        <>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
+                            {t('schemeDetail.candidateStatusBadge')}
+                          </span>
+                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+                            {t('schemeDetail.candidateConfidenceExtraction')}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                            Status: {trust.verification.status}
+                          </span>
+                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                            {trust.confidence} Confidence
+                          </span>
+                        </>
+                      )}
                     </div>
                   </div>
 
                   {/* Responsible Statutory Disclaimer */}
                   <p className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] mb-3 leading-relaxed">
-                    Yojana Setu provides verified government scheme intelligence to help entrepreneurs identify potential funding. Final eligibility, sanction amounts, and current guidelines are determined solely by the sponsoring government authority upon submission of statutory application.
+                    {matchResult.scheme.isCandidateScheme
+                      ? t('schemeDetail.candidateDisclaimer')
+                      : 'Yojana Setu provides verified government scheme intelligence to help entrepreneurs identify potential funding. Final eligibility, sanction amounts, and current guidelines are determined solely by the sponsoring government authority upon submission of statutory application.'}
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] pt-2 border-t border-[#E4E8E4] dark:border-[#24342D]">
@@ -1525,6 +1567,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
         <TrustFooterStrip
           sourceMinistry={locScheme.sponsoringMinistry}
           verifiedDate={locScheme.lastVerifiedDate}
+          isCandidate={matchResult.scheme.isCandidateScheme}
         />
       </div>
 

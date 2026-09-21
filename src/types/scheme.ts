@@ -204,4 +204,10 @@ export interface Scheme {
 
   // Phase 2.5 — Government Data Trust Model
   trustProfile?: SchemeTrustProfile;
+
+  // Candidate Scheme Discovery & Provenance Metadata
+  relevanceTier?: string;
+  isCandidateScheme?: boolean;
+  candidateSourceFile?: string;
+  rawCandidateId?: string;
 }

@@ -130,6 +130,7 @@ export type SchemeVerificationStatus =
   | 'VERIFIED'
   | 'PARTIALLY_VERIFIED'
   | 'UNVERIFIED'
+  | 'CANDIDATE'
   | 'verified'
   | 'needs_review'
   | 'unknown';

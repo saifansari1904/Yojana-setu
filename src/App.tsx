@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { AnimatePresence, LayoutGroup, MotionConfig } from 'motion/react';
 import { ActiveScreen, ApplicationStatus, MatchResult, TrackedApplication, UserProfile } from './types';
-import { getAllSchemes } from './lib/data';
+import { getAllSchemes, getAllRepositorySchemes } from './lib/data';
 import { rankSchemesForProfile } from './utils/matchingEngine';
 import { deriveBusinessNeedProfile, deriveBusinessProfile } from './lib/business';
 import { Header } from './components/Header';
@@ -36,6 +36,7 @@ import type { SupportPathway as SupportPathwayModel } from './types/supportPathw
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { LanguageProvider, useTranslation } from './i18n';
 import { ThemeProvider } from './theme/ThemeContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { AnimatedPage } from './animations/AnimatedPage';
 import { AmbientBackground } from './animations/AmbientBackground';
 import { SplashScreen } from './animations/SplashScreen';
@@ -45,6 +46,7 @@ import { startScreenTransition } from './animations/viewTransition';
 
 function YojanaSetuMain() {
   const { lang } = useTranslation();
+  const { signOutUser } = useAuth();
   const [showSplash, setShowSplash] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return !sessionStorage.getItem('yojana_setu_splash_seen');
@@ -109,10 +111,10 @@ function YojanaSetuMain() {
     });
   };
 
-  // Compute matched schemes reactively with active language
+  // Compute matched schemes reactively with active language across authoritative and candidate repository schemes
   const matchResults = useMemo(() => {
     if (!userProfile) return [];
-    const schemes = getAllSchemes();
+    const schemes = getAllRepositorySchemes();
     return rankSchemesForProfile(schemes, userProfile, lang);
   }, [userProfile, lang]);
 
@@ -225,7 +227,12 @@ function YojanaSetuMain() {
     navigateTo('form');
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await signOutUser();
+    } catch (err) {
+      console.warn('[Auth] Error signing out:', err);
+    }
     setIsAuthenticated(false);
     setUserProfile(null);
     clearStoredProfile();
@@ -421,7 +428,7 @@ function YojanaSetuMain() {
         {isMatching && (
           <MatchingTransition
             onComplete={handleMatchingComplete}
-            totalSchemesCount={getAllSchemes().length}
+            totalSchemesCount={getAllRepositorySchemes().length}
           />
         )}
       </AnimatePresence>
@@ -623,10 +630,12 @@ export default function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        {/* Honour the OS "reduce motion" setting globally, in one place */}
-        <MotionConfig reducedMotion="user">
-          <YojanaSetuMain />
-        </MotionConfig>
+        <AuthProvider>
+          {/* Honour the OS "reduce motion" setting globally, in one place */}
+          <MotionConfig reducedMotion="user">
+            <YojanaSetuMain />
+          </MotionConfig>
+        </AuthProvider>
       </LanguageProvider>
     </ThemeProvider>
   );

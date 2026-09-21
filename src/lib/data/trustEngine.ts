@@ -23,6 +23,7 @@ import {
   DataQualityAuditReport,
 } from '../../types/trust';
 import { INDIAN_STATES } from '../../constants';
+import { findAuthorityByDomain } from '../../data/governmentAuthorities';
 
 export const SYSTEM_REFERENCE_DATE = '2026-09-13'; // Default baseline reference date for deterministic testing
 
@@ -172,14 +173,29 @@ export function classifyUrlSafety(url?: string | null): UrlSafetyClassification 
     return 'SUSPICIOUS_OR_INVALID';
   }
 
-  // Tier 1: Official Indian government domain extensions
+  // Consult Government Authority Registry first
+  const registeredAuthority = findAuthorityByDomain(hostname);
+  if (registeredAuthority) {
+    if (registeredAuthority.authorityType === 'AGGREGATOR') {
+      return 'SECONDARY_AGGREGATOR';
+    }
+    if (registeredAuthority.authorityType === 'ACADEMIC_INSTITUTION') {
+      // General academic domains (.ac.in) are not government authorities.
+      // Only designated state knowledge partners (e.g., TNAU Agritech portal) are recognized.
+      if (registeredAuthority.isOfficialGovernment) {
+        return 'OFFICIAL_GOVERNMENT';
+      }
+      return 'SECONDARY_AGGREGATOR';
+    }
+  }
+
+  // Tier 1: Official Indian government domain extensions (.gov.in, .nic.in)
+  // Note: .ac.in is NOT automatically classified as official government
   if (
     hostname === 'gov.in' ||
     hostname.endsWith('.gov.in') ||
     hostname === 'nic.in' ||
-    hostname.endsWith('.nic.in') ||
-    hostname === 'ac.in' ||
-    hostname.endsWith('.ac.in')
+    hostname.endsWith('.nic.in')
   ) {
     return 'OFFICIAL_GOVERNMENT';
   }

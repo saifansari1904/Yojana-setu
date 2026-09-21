@@ -12,6 +12,7 @@ import type {
 } from '../../types/scheme';
 import { SCHEMES_DATABASE } from '../../data/schemes';
 import { SOUTH_INDIA_SCHEMES } from '../../data/southIndiaSchemes';
+import { CANDIDATE_SCHEMES_DATABASE } from '../../data/candidateSchemes';
 import {
   getSchemeScope,
   getSchemeCategories,
@@ -32,7 +33,7 @@ import {
  *
  * Centralized data access abstraction separating UI components from raw scheme arrays.
  * Provides query methods for retrieving, filtering, searching, and isolating schemes.
- * Ready for future extension to REST API / Cloud Firestore / relational database backends.
+ * Ready for future extension to REST API / backend services.
  */
 
 interface SchemeSearchFilters {
@@ -47,17 +48,65 @@ interface SchemeSearchFilters {
 }
 
 /**
- * Retrieves all registered schemes in the database.
+ * Retrieves all registered authoritative schemes in the database (39 core verified schemes).
+ * Maintained for backward-compatibility and strict trust isolation.
  */
 export function getAllSchemes(): Scheme[] {
   return SCHEMES_DATABASE;
 }
 
 /**
- * Finds a single scheme by its unique identifier.
+ * Retrieves all unverified candidate schemes ingested from discovery datasets.
+ */
+export function getCandidateSchemes(): Scheme[] {
+  return CANDIDATE_SCHEMES_DATABASE;
+}
+
+/**
+ * Retrieves the full combined repository of authoritative AND candidate schemes.
+ */
+export function getAllRepositorySchemes(): Scheme[] {
+  return [...SCHEMES_DATABASE, ...CANDIDATE_SCHEMES_DATABASE];
+}
+
+/**
+ * Finds a single scheme by its unique identifier across both authoritative
+ * and candidate collections.
  */
 export function getSchemeById(id: string): Scheme | undefined {
-  return SCHEMES_DATABASE.find((s) => s.id === id);
+  return SCHEMES_DATABASE.find((s) => s.id === id) || CANDIDATE_SCHEMES_DATABASE.find((s) => s.id === id);
+}
+
+/**
+ * Finds a candidate scheme by its identifier.
+ */
+export function getCandidateSchemeById(id: string): Scheme | undefined {
+  return CANDIDATE_SCHEMES_DATABASE.find((s) => s.id === id);
+}
+
+/**
+ * Retrieves candidate schemes for a specific state or UT.
+ */
+export function getCandidatesByState(state: string): Scheme[] {
+  if (!state || state === 'All States & UTs' || state === 'National') {
+    return CANDIDATE_SCHEMES_DATABASE;
+  }
+  const cleanState = state.toLowerCase().trim();
+  return CANDIDATE_SCHEMES_DATABASE.filter(
+    (s) =>
+      s.applicableStates.length === 0 ||
+      s.applicableStates.some((st) => st.toLowerCase().trim() === cleanState)
+  );
+}
+
+/**
+ * Retrieves candidate schemes by relevance tier (e.g. 'A', 'B', 'C').
+ */
+export function getCandidatesByRelevanceTier(tierPrefix: string): Scheme[] {
+  const clean = tierPrefix.toUpperCase().trim();
+  return CANDIDATE_SCHEMES_DATABASE.filter(
+    (s) => s.relevanceTier && s.relevanceTier.toUpperCase().startsWith(clean)
+  );
 }
 
 /**
