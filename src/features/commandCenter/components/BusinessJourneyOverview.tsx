@@ -19,6 +19,7 @@ const STAGE_TITLES: Record<BusinessStage, Partial<Record<Language, string>>> = {
     te: 'ఆలోచన',
     kn: 'ಕಲ್ಪನೆ',
     ml: 'ആശയം',
+    mr: 'कल्पना',
   },
   REGISTRATION: {
     en: 'Registration',
@@ -27,6 +28,7 @@ const STAGE_TITLES: Record<BusinessStage, Partial<Record<Language, string>>> = {
     te: 'నమోదు',
     kn: 'ನೋಂದಣಿ',
     ml: 'രജിസ്ട്രേഷൻ',
+    mr: 'नोंदणी',
   },
   FUNDING: {
     en: 'Funding',
@@ -35,6 +37,7 @@ const STAGE_TITLES: Record<BusinessStage, Partial<Record<Language, string>>> = {
     te: 'నిధులు',
     kn: 'ಹಣಕಾಸು',
     ml: 'ധനസഹായം',
+    mr: 'निधी',
   },
   MARKET_ACCESS: {
     en: 'Market Access',
@@ -43,6 +46,7 @@ const STAGE_TITLES: Record<BusinessStage, Partial<Record<Language, string>>> = {
     te: 'మార్కెట్ సదుపాయం',
     kn: 'ಮಾರುಕಟ್ಟೆ ಪ್ರವೇಶ',
     ml: 'വിപണി പ്രവേശനം',
+    mr: 'बाजार प्रवेश',
   },
   EXPANSION: {
     en: 'Expansion',
@@ -51,6 +55,7 @@ const STAGE_TITLES: Record<BusinessStage, Partial<Record<Language, string>>> = {
     te: 'విస్తరణ',
     kn: 'ವಿಸ್ತರಣೆ',
     ml: 'വിപുലീകരണം',
+    mr: 'विस्तार',
   },
 };
 

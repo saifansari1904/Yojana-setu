@@ -16,6 +16,7 @@ const FIELD_TRANSLATIONS: Record<string, Partial<Record<Language, string>>> = {
     te: 'వ్యాపార పేరు',
     kn: 'ವ್ಯಾಪಾರದ ಹೆಸರು',
     ml: 'ബിസിനസ്സ് നാമം',
+    mr: 'व्यवसायाचे नाव',
   },
   'Business Type': {
     en: 'Business Type',
@@ -24,6 +25,7 @@ const FIELD_TRANSLATIONS: Record<string, Partial<Record<Language, string>>> = {
     te: 'వ్యాపార రకం',
     kn: 'ವ್ಯಾಪಾರದ ಪ್ರಕಾರ',
     ml: 'ബിസിനസ്സ് തരം',
+    mr: 'व्यवसायाचा प्रकार',
   },
   'Business Stage': {
     en: 'Business Stage',
@@ -32,6 +34,7 @@ const FIELD_TRANSLATIONS: Record<string, Partial<Record<Language, string>>> = {
     te: 'వ్యాపార దశ',
     kn: 'ವ್ಯಾಪಾರ ಹಂತ',
     ml: 'ബിസിനസ്സ് ഘട്ടം',
+    mr: 'व्यवसाय टप्पा',
   },
   'State / Location': {
     en: 'State / Location',
@@ -40,6 +43,7 @@ const FIELD_TRANSLATIONS: Record<string, Partial<Record<Language, string>>> = {
     te: 'రాష్ట్రం / ప్రాంతం',
     kn: 'ರಾಜ್ಯ / ಸ್ಥಳ',
     ml: 'സംസ്ഥാനം / പ്രദേശം',
+    mr: 'राज्य / स्थान',
   },
   'Social Category': {
     en: 'Social Category',
@@ -48,6 +52,7 @@ const FIELD_TRANSLATIONS: Record<string, Partial<Record<Language, string>>> = {
     te: 'సామాజిక వర్గం',
     kn: 'ಸಾಮಾಜಿಕ ವರ್ಗ',
     ml: 'സാമൂഹിക വിഭാഗം',
+    mr: 'सामाजिक प्रवर्ग',
   },
   'Age': {
     en: 'Age',
@@ -56,6 +61,7 @@ const FIELD_TRANSLATIONS: Record<string, Partial<Record<Language, string>>> = {
     te: 'వయస్సు',
     kn: 'ವಯಸ್ಸು',
     ml: 'പ്രായം',
+    mr: 'वय',
   },
   'Annual Income': {
     en: 'Annual Income',
@@ -64,6 +70,7 @@ const FIELD_TRANSLATIONS: Record<string, Partial<Record<Language, string>>> = {
     te: 'వార్షిక ఆదాయం',
     kn: 'ವಾರ್ಷಿಕ ಆದಾಯ',
     ml: 'വാർഷിക വരുമാനം',
+    mr: 'वार्षिक उत्पन्न',
   },
   'Investment Requirement': {
     en: 'Investment Requirement',
@@ -72,6 +79,7 @@ const FIELD_TRANSLATIONS: Record<string, Partial<Record<Language, string>>> = {
     te: 'పెట్టుబడి అవసరం',
     kn: 'ಹೂಡಿಕೆ ಅಗತ್ಯತೆ',
     ml: 'നിക്ഷേപ ആവശ്യം',
+    mr: 'गुंतवणूक गरज',
   },
 };
 

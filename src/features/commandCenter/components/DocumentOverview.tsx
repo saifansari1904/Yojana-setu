@@ -18,6 +18,7 @@ const COMMON_DOC_LOCALIZED: Record<string, Record<string, string>> = {
     te: 'ఆధార్ కార్డు',
     kn: 'ಆಧಾರ್ ಕಾರ್ಡ್',
     ml: 'ആധാർ കാർഡ്',
+    mr: 'आधार कार्ड',
   },
   pan: {
     en: 'PAN Card',
@@ -26,6 +27,7 @@ const COMMON_DOC_LOCALIZED: Record<string, Record<string, string>> = {
     te: 'పాన్ కార్డు',
     kn: 'ಪ್ಯಾನ್ ಕಾರ್ಡ್',
     ml: 'പാൻ കാർഡ്',
+    mr: 'पॅन कार्ड',
   },
   photo: {
     en: 'Passport Photograph',
@@ -34,6 +36,7 @@ const COMMON_DOC_LOCALIZED: Record<string, Record<string, string>> = {
     te: 'పాస్‌పోర్ట్ ఫోటో',
     kn: 'ಪಾಸ್‌ಪೋರ್ಟ್ ಭಾವಚಿತ್ರ',
     ml: 'പാസ്‌പോർട്ട് ഫോട്ടോ',
+    mr: 'पासपोर्ट छायाचित्र',
   },
   bank: {
     en: 'Bank Passbook / Statement',
@@ -42,6 +45,7 @@ const COMMON_DOC_LOCALIZED: Record<string, Record<string, string>> = {
     te: 'బ్యాంక్ పాస్‌బుక్ / స్టేట్‌మెంట్',
     kn: 'ಬ್ಯಾಂಕ್ ಪಾಸ್‌ಬುಕ್ / ಸ್ಟೇಟ್‌ಮೆಂಟ್',
     ml: 'ബാങ്ക് പാസ്ബുക്ക് / സ്റ്റേറ്റ്മെന്റ്',
+    mr: 'बँक पासबुक / विवरणपत्र',
   },
   caste: {
     en: 'Caste Certificate',
@@ -50,6 +54,7 @@ const COMMON_DOC_LOCALIZED: Record<string, Record<string, string>> = {
     te: 'కుల ధృవీకరణ పత్రం',
     kn: 'ಜಾತಿ ಪ್ರಮಾಣಪತ್ರ',
     ml: 'ജാതി സർട്ടിഫിക്കറ്റ്',
+    mr: 'जात प्रमाणपत्र',
   },
   income: {
     en: 'Income Certificate',
@@ -58,6 +63,7 @@ const COMMON_DOC_LOCALIZED: Record<string, Record<string, string>> = {
     te: 'ఆదాయ ధృవీకరణ పత్రం',
     kn: 'ಆದಾಯ ಪ್ರಮಾಣಪತ್ರ',
     ml: 'വരുമാന സർട്ടിഫിക്കറ്റ്',
+    mr: 'उत्पन्न प्रमाणपत्र',
   },
   address: {
     en: 'Address Proof / Domicile',
@@ -66,6 +72,7 @@ const COMMON_DOC_LOCALIZED: Record<string, Record<string, string>> = {
     te: 'చిరునామా రుజువు / నివాస ధృవీకరణ పత్రం',
     kn: 'ವಿಳಾಸ ಪುರಾವೆ / ನಿವಾಸ ಪ್ರಮಾಣಪತ್ರ',
     ml: 'മേൽവിലാസ രേഖ / സ്ഥിരതാമസ സർട്ടിഫിക്കറ്റ്',
+    mr: 'पत्ता पुरावा / रहिवासी प्रमाणपत्र',
   },
   signature: {
     en: 'Specimen Signature',
@@ -74,6 +81,7 @@ const COMMON_DOC_LOCALIZED: Record<string, Record<string, string>> = {
     te: 'సంతకం నమూనా',
     kn: 'ಮಾದರಿ ಸಹಿ',
     ml: 'മാതൃകാ ഒപ്പ്',
+    mr: 'नमुना स्वाक्षरी',
   },
 };
 

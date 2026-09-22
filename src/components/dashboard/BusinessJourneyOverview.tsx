@@ -11,18 +11,19 @@ import {
 } from 'lucide-react';
 import type { BusinessStageInsights } from '../../types/commandCenter';
 import { BUSINESS_STAGE_TAXONOMY, type BusinessStageKey } from '../../types/business';
+import { useTranslation } from '../../i18n';
+import { resolveLocalizedPair } from '../../i18n/resolveLocalized';
 
 interface BusinessJourneyOverviewProps {
   insights: BusinessStageInsights;
   onModifyProfile?: () => void;
-  isHi?: boolean;
 }
 
 export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = ({
   insights,
   onModifyProfile,
-  isHi = false,
 }) => {
+  const { lang } = useTranslation();
   const [isUpcomingExpanded, setIsUpcomingExpanded] = useState(false);
   const currentStageInfo =
     BUSINESS_STAGE_TAXONOMY[insights.stage as BusinessStageKey] || BUSINESS_STAGE_TAXONOMY.IDEA;
@@ -40,12 +41,10 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
           </div>
           <div>
             <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
-              {isHi ? 'व्यावसायिक जीवनचक्र चरण' : 'Business Lifecycle Stage'}
+              {resolveLocalizedPair('Business Lifecycle Stage', 'व्यावसायिक जीवनचक्र चरण', lang)}
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              {isHi
-                ? 'आपकी वर्तमान स्थिति के आधार पर योजना प्राथमिकता'
-                : 'Scheme prioritization aligned with enterprise maturity'}
+              {resolveLocalizedPair('Scheme prioritization aligned with enterprise maturity', 'आपकी वर्तमान स्थिति के आधार पर योजना प्राथमिकता', lang)}
             </p>
           </div>
         </div>
@@ -56,7 +55,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
             onClick={onModifyProfile}
             className="text-xs font-semibold text-[#0F6B4C] dark:text-[#4ADE80] hover:underline px-2 py-1 min-h-[44px] flex items-center"
           >
-            {isHi ? 'चरण बदलें' : 'Update Stage'}
+            {resolveLocalizedPair('Update Stage', 'चरण बदलें', lang)}
           </button>
         )}
       </div>
@@ -65,19 +64,19 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
       <div className="bg-gradient-to-br from-[#F4F9F6] to-[#EBF4EF] dark:from-[#172620] dark:to-[#12201A] border border-[#D5E6DC] dark:border-[#1E362C] rounded-lg p-4 flex flex-col gap-2">
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <span className="text-xs font-semibold text-[#0F6B4C] dark:text-[#4ADE80] uppercase tracking-wider">
-            {isHi ? 'वर्तमान सक्रिय चरण' : 'Current Active Stage'}
+            {resolveLocalizedPair('Current Active Stage', 'वर्तमान सक्रिय चरण', lang)}
           </span>
           <span className="inline-flex items-center gap-1 text-xs font-bold bg-white dark:bg-[#1C2C25] text-slate-800 dark:text-white px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700">
             <Sparkles className="w-3 h-3 text-amber-500" />
-            {insights.currentFocusCount} {isHi ? 'सक्रिय अवसर' : 'Active Opportunities'}
+            {insights.currentFocusCount} {resolveLocalizedPair('Active Opportunities', 'सक्रिय अवसर', lang)}
           </span>
         </div>
 
         <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-          {isHi ? currentStageInfo.labelHi : currentStageInfo.labelEn}
+          {resolveLocalizedPair(currentStageInfo.labelEn, currentStageInfo.labelHi, lang)}
         </div>
         <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-          {isHi ? currentStageInfo.descHi : currentStageInfo.descEn}
+          {resolveLocalizedPair(currentStageInfo.descEn, currentStageInfo.descHi, lang)}
         </p>
       </div>
 
@@ -85,7 +84,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
       <div className="pt-2 border-t border-slate-100 dark:border-[#283530]">
         <div className="flex items-center justify-between gap-2 mb-2">
           <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-            {isHi ? 'जीवनचक्र प्रगति' : 'Lifecycle Milestones'}
+            {resolveLocalizedPair('Lifecycle Milestones', 'जीवनचक्र प्रगति', lang)}
           </div>
 
           {insights.upcomingStages.length > 0 && (
@@ -96,12 +95,8 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
             >
               <span>
                 {isUpcomingExpanded
-                  ? isHi
-                    ? 'संक्षिप्त करें'
-                    : 'Show Less'
-                  : isHi
-                    ? `आगामी चरण (${insights.upcomingStages.length})`
-                    : `Upcoming Stages (${insights.upcomingStages.length})`}
+                  ? resolveLocalizedPair('Show Less', 'संक्षिप्त करें', lang)
+                  : resolveLocalizedPair(`Upcoming Stages (${insights.upcomingStages.length})`, `आगामी चरण (${insights.upcomingStages.length})`, lang)}
               </span>
               {isUpcomingExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
             </button>
@@ -118,14 +113,14 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
                 className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
               >
                 <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
-                <span>{isHi ? info?.labelHi || stageKey : info?.labelEn || stageKey}</span>
+                <span>{resolveLocalizedPair(info?.labelEn || stageKey, info?.labelHi || stageKey, lang)}</span>
               </span>
             );
           })}
 
           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#0F6B4C] text-white font-semibold">
             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-            <span>{isHi ? currentStageInfo.labelHi : currentStageInfo.labelEn}</span>
+            <span>{resolveLocalizedPair(currentStageInfo.labelEn, currentStageInfo.labelHi, lang)}</span>
           </span>
         </div>
 
@@ -140,7 +135,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
             >
               <div className="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-800 space-y-2">
                 <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                  {isHi ? 'भविष्य के विस्तार चरण' : 'Future Expansion Milestones'}
+                  {resolveLocalizedPair('Future Expansion Milestones', 'भविष्य के विस्तार चरण', lang)}
                 </div>
                 <div className="space-y-1.5">
                   {insights.upcomingStages.map((stageKey) => {
@@ -152,10 +147,10 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
                       >
                         <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                         <span className="font-medium">
-                          {isHi ? info?.labelHi || stageKey : info?.labelEn || stageKey}:
+                          {resolveLocalizedPair(info?.labelEn || stageKey, info?.labelHi || stageKey, lang)}:
                         </span>
                         <span className="text-slate-500 dark:text-slate-400">
-                          {isHi ? info?.descHi : info?.descEn}
+                          {resolveLocalizedPair(info?.descEn, info?.descHi, lang)}
                         </span>
                       </div>
                     );

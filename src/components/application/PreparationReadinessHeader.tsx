@@ -92,6 +92,15 @@ const READINESS_STATE_LABELS: Record<string, Record<Language, string>> = {
     ml: 'നടപടി ആവശ്യമാണ്',
     mr: 'कृती आवश्यक',
   },
+  STATUTORY_CLEARED: {
+    en: 'Statutory Cleared',
+    hi: 'वैधानिक मंज़ूरी प्राप्त',
+    ta: 'சட்டப்பூர்வ அனுமதி பெறப்பட்டது',
+    te: 'చట్టబద్ధమైన అనుమతి పొందబడింది',
+    kn: 'ಶಾಸನಬದ್ಧ ಅನುಮತಿ ಪಡೆಯಲಾಗಿದೆ',
+    ml: 'നിയമപരമായ അനുമതി ലഭിച്ചു',
+    mr: 'वैधानिक मंजुरी मिळाली',
+  },
 };
 
 interface PreparationReadinessHeaderProps {
@@ -202,7 +211,9 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
               {t('workspace.overallReadiness')}
             </div>
             <div className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
-              {readiness.canProceedToOfficialPortal ? 'Statutory Cleared' : 'Action Required'}
+              {readiness.canProceedToOfficialPortal
+                ? READINESS_STATE_LABELS.STATUTORY_CLEARED?.[lang] || 'Statutory Cleared'
+                : READINESS_STATE_LABELS.NOT_READY?.[lang] || 'Action Required'}
             </div>
           </div>
           <div className="w-14 h-14 flex items-center justify-center rounded-full bg-white dark:bg-[#151D19] border-2 border-emerald-500 shadow-sm">

@@ -26,6 +26,7 @@ const COPY = {
     te: 'అర్థం చేసుకున్న వ్యాపార అవసరం',
     kn: 'ಅರ್ಥಮಾಡಿಕೊಂಡ ವ್ಯಾಪಾರ ಅಗತ್ಯ',
     ml: 'മനസ്സിലാക്കിയ ബിസിനസ്സ് ആവശ്യം',
+    mr: 'समजून घेतलेली व्यावसायिक गरज',
   },
   profileCompleteness: {
     en: (pct: number) => `Profile Completeness: ${pct}%`,
@@ -34,6 +35,7 @@ const COPY = {
     te: (pct: number) => `ప్రొఫైల్ సంపూర్ణత: ${pct}%`,
     kn: (pct: number) => `ಪ್ರೊಫೈಲ್ ಪೂರ್ಣತೆ: ${pct}%`,
     ml: (pct: number) => `പ്രൊഫൈൽ പൂർണ്ണത: ${pct}%`,
+    mr: (pct: number) => `प्रोफाइल पूर्णता: ${pct}%`,
   },
   refine: {
     en: 'Refine',
@@ -42,6 +44,7 @@ const COPY = {
     te: 'సరిదిద్దండి',
     kn: 'ವಿವರ ಸೇರಿಸಿ',
     ml: 'വിശദാംശങ്ങൾ ചേർക്കുക',
+    mr: 'परिष्कृत करा',
   },
   labels: {
     business: {
@@ -51,6 +54,7 @@ const COPY = {
       te: 'వ్యాపారం',
       kn: 'ವ್ಯವಹಾರ',
       ml: 'ബിസിനസ്സ്',
+      mr: 'व्यवसाय',
     },
     stage: {
       en: 'Stage',
@@ -59,6 +63,7 @@ const COPY = {
       te: 'దశ',
       kn: 'ಹಂತ',
       ml: 'ഘട്ടം',
+      mr: 'टप्पा',
     },
     sector: {
       en: 'Sector',
@@ -67,6 +72,7 @@ const COPY = {
       te: 'రంగం',
       kn: 'ಕ್ಷೇತ್ರ',
       ml: 'മേഖല',
+      mr: 'क्षेत्र',
     },
     location: {
       en: 'Location',
@@ -75,6 +81,7 @@ const COPY = {
       te: 'స్థానం',
       kn: 'ಸ್ಥಳ',
       ml: 'സ്ഥലം',
+      mr: 'स्थान',
     },
     origin: {
       en: 'Origin',
@@ -83,6 +90,7 @@ const COPY = {
       te: 'స్వస్థలం',
       kn: 'ಮೂಲ ನಿವಾಸ',
       ml: 'സ്വദേശം',
+      mr: 'मूळ निवास',
     },
     projectCost: {
       en: 'Project Cost',
@@ -91,6 +99,7 @@ const COPY = {
       te: 'ప్రాజెక్ట్ వ్యయం',
       kn: 'ಯೋಜನಾ ವೆಚ್ಚ',
       ml: 'പദ്ധതി ചെലവ്',
+      mr: 'प्रकल्प खर्च',
     },
     fundingGap: {
       en: 'Funding Gap',
@@ -99,6 +108,7 @@ const COPY = {
       te: 'నిధుల వ్యత్యాసం',
       kn: 'ಹಣಕಾಸಿನ ಅಂತರ',
       ml: 'ഫണ്ടിംഗ് ഗ്യാപ്പ്',
+      mr: 'निधी तफावत',
     },
     primaryNeed: {
       en: 'Primary Need',
@@ -107,6 +117,7 @@ const COPY = {
       te: 'ప్రాథమిక అవసరం',
       kn: 'ಮುಖ್ಯ ಅಗತ್ಯ',
       ml: 'പ്രധാന ആവശ്യം',
+      mr: 'मुख्य गरज',
     },
     additionalNeeds: {
       en: 'Additional Needs',
@@ -115,6 +126,7 @@ const COPY = {
       te: 'అదనపు అవసరాలు',
       kn: 'ಹೆಚ್ಚುವರಿ ಅಗತ್ಯಗಳು',
       ml: 'കൂടുതൽ ആവശ്യങ്ങൾ',
+      mr: 'अतिरिक्त गरजा',
     },
   },
   stages: {
@@ -125,6 +137,7 @@ const COPY = {
       te: 'కొత్త వ్యాపార ప్రణాళికను రచిస్తున్నారు',
       kn: 'ಹೊಸ ಉದ್ಯಮವನ್ನು ಯೋಜಿಸುತ್ತಿದ್ದೀರಿ',
       ml: 'പുതിയ സംരംഭം ആസൂത്രണം ചെയ്യുന്നു',
+      mr: 'नवीन उपक्रमाचे नियोजन करत आहात',
     },
     PRE_LAUNCH: {
       en: 'setting up a new enterprise',
@@ -133,6 +146,7 @@ const COPY = {
       te: 'కొత్త సంస్థను ప్రారంభించే సన్నాహాల్లో ఉన్నారు',
       kn: 'ಹೊಸ ಉದ್ಯಮ ಸ್ಥಾಪಿಸಲು ಸಿದ್ಧತೆ ನಡೆಸುತ್ತಿದ್ದೀರಿ',
       ml: 'പുതിയ സംരംഭം ആരംഭിക്കാൻ തയ്യാറെടുക്കുന്നു',
+      mr: 'नवीन उपक्रम सुरू करण्याच्या तयारीत आहात',
     },
     NEW_BUSINESS: {
       en: 'operating a recently launched enterprise',
@@ -141,6 +155,7 @@ const COPY = {
       te: 'ఇటీవల ప్రారంభించిన కొత్త సంస్థను నిర్వహిస్తున్నారు',
       kn: 'ಇತ್ತೀಚೆಗೆ ಪ್ರಾರಂಭಿಸಿದ ಉದ್ಯಮವನ್ನು ನಡೆಸುತ್ತಿದ್ದೀರಿ',
       ml: 'സമീപകാലത്ത് ആരംഭിച്ച സംരംഭം നടത്തുന്നു',
+      mr: 'अलीकडेच सुरू केलेला नवीन उपक्रम चालवत आहात',
     },
     EARLY_OPERATION: {
       en: 'operating an active business',
@@ -149,6 +164,7 @@ const COPY = {
       te: 'చురుకైన వ్యాపారాన్ని నిర్వహిస్తున్నారు',
       kn: 'ಸಕ್ರಿಯ ವ್ಯವಹಾರವನ್ನು ನಡೆಸುತ್ತಿದ್ದೀರಿ',
       ml: 'സജീവ ബിസിനസ്സ് നടത്തുന്നു',
+      mr: 'सक्रिय व्यवसाय चालवत आहात',
     },
     EXPANSION: {
       en: 'expanding an existing facility',
@@ -157,6 +173,7 @@ const COPY = {
       te: 'ప్రస్తుత వ్యాపారాన్ని విస్తరిస్తున్నారు',
       kn: 'ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಸೌಲಭ್ಯವನ್ನು ವಿಸ್ತರಿಸುತ್ತಿದ್ದೀರಿ',
       ml: 'നിലവിലുള്ള സൗകര്യം വിപുലീകരിക്കുന്നു',
+      mr: 'अस्तित्वातील सुविधा विस्तारत आहात',
     },
     DEFAULT: {
       en: 'scaling your enterprise',
@@ -165,6 +182,7 @@ const COPY = {
       te: 'వ్యాపార వృద్ధి కోసం కృషి చేస్తున్నారు',
       kn: 'ಉದ್ಯಮದ ಬೆಳವಣಿಗೆಗೆ ಶ್ರಮಿಸುತ್ತಿದ್ದೀರಿ',
       ml: 'സംരംഭം വളർത്താൻ ശ്രമിക്കുന്നു',
+      mr: 'आपला उपक्रम वाढवण्याचा प्रयत्न करत आहात',
     },
   },
   fundingGap: {
@@ -174,6 +192,7 @@ const COPY = {
     te: (gap: string) => `సుమారు ${gap} అదనపు నిధుల అవసరం ఉంది`,
     kn: (gap: string) => `ಅಂದಾಜು ${gap} ಹೆಚ್ಚುವರಿ ಹಣಕಾಸು ಅಗತ್ಯವಿದೆ`,
     ml: (gap: string) => `ഏകദേശം ${gap} അധിക ഫണ്ടിംഗ് ആവശ്യമാണ്`,
+    mr: (gap: string) => `सुमारे ${gap} अतिरिक्त निधीची आवश्यकता आहे`,
   },
   totalCost: {
     en: (cost: string) => `with an estimated project cost of ${cost}`,
@@ -182,6 +201,7 @@ const COPY = {
     te: (cost: string) => `అంచనా వేసిన ప్రాజెక్ట్ వ్యయం ${cost}`,
     kn: (cost: string) => `ಅಂದಾಜು ಯೋಜನಾ ವೆಚ್ಚ ${cost}`,
     ml: (cost: string) => `കണക്കാക്കിയ പദ്ധതി ചെലവ് ${cost}`,
+    mr: (cost: string) => `अंदाजे प्रकल्प खर्च ${cost}`,
   },
   fundingDefault: {
     en: 'seeking tailored government credit support',
@@ -190,6 +210,7 @@ const COPY = {
     te: 'తగిన ప్రభుత్వ రుణ మద్దతును కోరుతున్నారు',
     kn: 'ಸೂಕ್ತ ಸರ್ಕಾರಿ ಸಾಲ ಬೆಂಬಲವನ್ನು ಹುಡುಕುತ್ತಿದ್ದೀರಿ',
     ml: 'അനുയോജ്യമായ സർക്കാർ വായ്പാ സഹായം തേടുന്നു',
+    mr: 'योग्य सरकारी कर्ज सहाय्य शोधत आहात',
   },
   primaryNeedSuffix: {
     en: (need: string) => `, prioritizing ${need} support.`,
@@ -198,6 +219,7 @@ const COPY = {
     te: (need: string) => `, మరియు మీ ముఖ్య ప్రాధాన్యత "${need}".`,
     kn: (need: string) => `, ಮತ್ತು ನಿಮ್ಮ ಮುಖ್ಯ ಆದ್ಯತೆ "${need}".`,
     ml: (need: string) => `, പ്രധാന മുൻഗണന "${need}" ആണ്.`,
+    mr: (need: string) => `, मुख्य प्राधान्य "${need}" आहे.`,
   },
   fullNarrative: {
     en: (domain: string, stage: string, funding: string, need: string) =>
@@ -212,6 +234,8 @@ const COPY = {
       `ನೀವು ${domain} ಕ್ಷೇತ್ರದಲ್ಲಿ ${stage}, ${funding}${need}`,
     ml: (domain: string, stage: string, funding: string, need: string) =>
       `നിങ്ങൾ ${domain} മേഖലയിൽ ${stage}, ${funding}${need}`,
+    mr: (domain: string, stage: string, funding: string, need: string) =>
+      `आपण ${domain} क्षेत्रात ${stage}, ${funding}${need}`,
   },
 };
 

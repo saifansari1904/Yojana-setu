@@ -36,6 +36,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
     te: 'పౌర పారిశ్రామికవేత్త',
     kn: 'ನಾಗರಿಕ ಉದ್ಯಮಿ',
     ml: 'പൗര സംരംഭകൻ',
+    mr: 'नागरिक उद्योजक',
   };
 
   const loginMetrics: Record<string, { verified: string; states: string; rules: string }> = {
@@ -45,6 +46,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
     te: { verified: 'ధృవీకరించబడిన పథకాలు', states: 'దక్షిణ రాష్ట్రాలు & కేంద్రం', rules: 'ఖచ్చితమైన నియమ లెక్కింపు' },
     kn: { verified: 'ಪರಿಶೀಲಿಸಿದ ಯೋಜನೆಗಳು', states: 'ದಕ್ಷಿಣ ರಾಜ್ಯಗಳು & ಕೇಂದ್ರ', rules: 'ನಿಖರ ನಿಯಮ ಲೆಕ್ಕಾಚಾರ' },
     ml: { verified: 'സ്ഥിരീകരിച്ച പദ്ധതികൾ', states: 'ദക്ഷിണേന്ത്യൻ സംസ്ഥാനങ്ങളും കേന്ദ്രവും', rules: 'കൃത്യമായ ചട്ട വിശകലനം' },
+    mr: { verified: 'सत्यापित योजना', states: 'दक्षिण राज्ये व केंद्र', rules: 'अचूक नियम गणना' },
   };
 
   const currentMetrics = loginMetrics[lang] || loginMetrics.en;
