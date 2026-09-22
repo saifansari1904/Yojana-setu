@@ -516,4 +516,11 @@ interface SchemeDetailTranslations {
   candidateStatusBadge: string;
   candidateConfidenceExtraction: string;
   candidateDisclaimer: string;
+  provenanceTitle: string;
+  provenanceLevel1: string;
+  provenanceLevel2: string;
+  provenanceLevel3: string;
+  provenanceLevel4: string;
+  provenanceLevel5: string;
+  provenanceLevel6: string;
 }

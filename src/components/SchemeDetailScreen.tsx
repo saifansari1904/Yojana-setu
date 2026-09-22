@@ -1235,12 +1235,12 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               const prov = getSchemeProvenance(matchResult.scheme);
               const trust = matchResult.scheme.trustProfile || deriveSchemeTrustProfile(matchResult.scheme);
               const hierarchyLabels: Record<number, string> = {
-                1: 'Level 1 · Central Government Portal',
-                2: 'Level 2 · State Government Portal',
-                3: 'Level 3 · Sponsoring Ministry / Department',
-                4: 'Level 4 · Statutory Implementing Agency',
-                5: 'Level 5 · Govt-backed Enterprise / Corporation',
-                6: 'Level 6 · Secondary Aggregator',
+                1: t('schemeDetail.provenanceLevel1'),
+                2: t('schemeDetail.provenanceLevel2'),
+                3: t('schemeDetail.provenanceLevel3'),
+                4: t('schemeDetail.provenanceLevel4'),
+                5: t('schemeDetail.provenanceLevel5'),
+                6: t('schemeDetail.provenanceLevel6'),
               };
 
               return (
@@ -1248,7 +1248,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
                     <span className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2] flex items-center gap-1.5 text-sm">
                       <ShieldCheck className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80]" />
-                      Government Data Trust & Provenance
+                      {t('schemeDetail.provenanceTitle')}
                     </span>
                     <div className="flex items-center gap-1.5 flex-wrap">
                       {matchResult.scheme.isCandidateScheme ? (

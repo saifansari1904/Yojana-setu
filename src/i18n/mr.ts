@@ -527,5 +527,12 @@ export const mrTranslations: Translations = {
     candidateStatusBadge: 'स्थिती: उमेदवार (अपडताळलेली)',
     candidateConfidenceExtraction: 'विश्वास · शोध निष्कर्षण',
     candidateDisclaimer: 'ही योजना उमेदवार शोध भांडारातून आयात केली आहे. प्राथमिक नोडल अधिसूचना किंवा राजपत्रांविरुद्ध स्रोत पडताळणी प्रलंबित आहे. अंतिम पात्रता, मंजूर रकमा व सध्याची मार्गदर्शक तत्त्वे थेट विभागीय पोर्टलवर पडताळली पाहिजेत.',
+    provenanceTitle: 'शासकीय डेटा विश्वास व उगम',
+    provenanceLevel1: 'स्तर 1 · केंद्र शासन पोर्टल',
+    provenanceLevel2: 'स्तर 2 · राज्य शासन पोर्टल',
+    provenanceLevel3: 'स्तर 3 · प्रायोजक मंत्रालय / विभाग',
+    provenanceLevel4: 'स्तर 4 · वैधानिक अंमलबजावणी संस्था',
+    provenanceLevel5: 'स्तर 5 · शासन-समर्थित उद्योग / महामंडळ',
+    provenanceLevel6: 'स्तर 6 · दुय्यम संकलक',
   },
 };

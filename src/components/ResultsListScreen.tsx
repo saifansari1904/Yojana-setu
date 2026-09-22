@@ -55,7 +55,8 @@ const RESULTS_SCREEN_I18N: Record<
     personalizedSub: string;
     analyzedSchemes: string;
     highEligibleNearMatches: (high: number, near: number) => string;
-    statutoryVerified: string;
+    authoritativeVerifiedCount: (count: number) => string;
+    candidateNeedsVerification: (count: number) => string;
     rural: string;
     urban: string;
     newSetup: string;
@@ -109,7 +110,8 @@ const RESULTS_SCREEN_I18N: Record<
     personalizedSub: 'Personalized statutory evaluation of central and state credit and subsidy schemes tailored to your entrepreneurial profile',
     analyzedSchemes: 'Analyzed Schemes: ',
     highEligibleNearMatches: (high, near) => `High Eligibility: ${high} | Near Matches: ${near}`,
-    statutoryVerified: '100% Statutory Criteria Verified',
+    authoritativeVerifiedCount: (count) => `Authoritative criteria verified for ${count} schemes`,
+    candidateNeedsVerification: (count) => `${count} candidate discovery records require source verification`,
     rural: 'Rural',
     urban: 'Urban',
     newSetup: 'New Setup',
@@ -162,7 +164,8 @@ const RESULTS_SCREEN_I18N: Record<
     personalizedSub: 'आपकी व्यक्तिगत प्रोफ़ाइल एवं आवश्यकता के आधार पर सत्यापित सरकारी ऋण व सब्सिडी योजनाएं',
     analyzedSchemes: 'सफलतापूर्वक विश्लेषित योजनाएं: ',
     highEligibleNearMatches: (high, near) => `उच्च पात्रता: ${high} | आंशिक पात्रता: ${near}`,
-    statutoryVerified: '100% वैधानिक नियम सत्यापित',
+    authoritativeVerifiedCount: (count) => `${count} योजनाओं हेतु आधिकारिक मानदंड सत्यापित`,
+    candidateNeedsVerification: (count) => `${count} उम्मीदवार खोज रिकॉर्ड हेतु स्रोत सत्यापन आवश्यक`,
     rural: 'ग्रामीण',
     urban: 'शहरी',
     newSetup: 'नया उद्यम',
@@ -215,7 +218,8 @@ const RESULTS_SCREEN_I18N: Record<
     personalizedSub: 'உங்கள் தொழில்முனைவு சுயவிவரத்திற்கு ஏற்ப மத்திய மற்றும் மாநில கடன் மற்றும் மானியத் திட்டங்களின் சட்டப்பூர்வ மதிப்பீடு',
     analyzedSchemes: 'பகுப்பாய்வு செய்யப்பட்ட திட்டங்கள்: ',
     highEligibleNearMatches: (high, near) => `அதிக தகுதி: ${high} | நெருங்கிய பொருத்தம்: ${near}`,
-    statutoryVerified: '100% சட்டப்பூர்வ விதிகள் சரிபார்க்கப்பட்டது',
+    authoritativeVerifiedCount: (count) => `${count} திட்டங்களுக்கான அதிகாரப்பூர்வ அளவுகோல்கள் சரிபார்க்கப்பட்டன`,
+    candidateNeedsVerification: (count) => `${count} வேட்பாளர் கண்டுபிடிப்பு பதிவுகளுக்கு மூல சரிபார்ப்பு தேவை`,
     rural: 'கிராமப்புறம்',
     urban: 'நகர்ப்புறம்',
     newSetup: 'புதிய தொடக்கம்',
@@ -268,7 +272,8 @@ const RESULTS_SCREEN_I18N: Record<
     personalizedSub: 'మీ వ్యాపార ప్రొఫైల్‌కు అనుగుణంగా కేంద్ర మరియు రాష్ట్ర రుణాలు మరియు సబ్సిడీ పథకాల వ్యక్తిగతీకరించిన చట్టబద్ధమైన మూల్యాంకనం',
     analyzedSchemes: 'విశ్లేషించబడిన పథకాలు: ',
     highEligibleNearMatches: (high, near) => `అధిక అర్హత: ${high} | సమీప సరిపోలిక: ${near}`,
-    statutoryVerified: '100% చట్టబద్ధమైన నిబంధనలు ధృవీకరించబడ్డాయి',
+    authoritativeVerifiedCount: (count) => `${count} పథకాలకు అధికారిక ప్రమాణాలు ధృవీకరించబడ్డాయి`,
+    candidateNeedsVerification: (count) => `${count} అభ్యర్థి ఆవిష్కరణ రికార్డులకు మూల ధృవీకరణ అవసరం`,
     rural: 'గ్రామీణ',
     urban: 'పట్టణ',
     newSetup: 'కొత్త ఏర్పాటు',
@@ -321,7 +326,8 @@ const RESULTS_SCREEN_I18N: Record<
     personalizedSub: 'ನಿಮ್ಮ ಉದ್ಯಮಶೀಲತೆಯ ಪ್ರೊಫೈಲ್‌ಗೆ ಅನುಗುಣವಾಗಿ ಕೇಂದ್ರ ಮತ್ತು ರಾಜ್ಯ ಸಾಲ ಹಾಗೂ ಸಬ್ಸಿಡಿ ಯೋಜನೆಗಳ ವೈಯಕ್ತಿಕ ಶಾಸನಬದ್ಧ ಮೌಲ್ಯಮಾಪನ',
     analyzedSchemes: 'ವಿಶ್ಲೇಷಿಸಲಾದ ಯೋಜನೆಗಳು: ',
     highEligibleNearMatches: (high, near) => `ಹೆಚ್ಚಿನ ಅರ್ಹತೆ: ${high} | ಹತ್ತಿರದ ಹೊಂದಾಣಿಕೆ: ${near}`,
-    statutoryVerified: '100% ಶಾಸನಬದ್ಧ ಮಾನದಂಡಗಳು ದೃಢೀಕರಿಸಲ್ಪಟ್ಟಿವೆ',
+    authoritativeVerifiedCount: (count) => `${count} ಯೋಜನೆಗಳಿಗೆ ಅಧಿಕೃತ ಮಾನದಂಡಗಳು ಪರಿಶೀಲಿಸಲ್ಪಟ್ಟಿವೆ`,
+    candidateNeedsVerification: (count) => `${count} ಅಭ್ಯರ್ಥಿ ಶೋಧನೆ ದಾಖಲೆಗಳಿಗೆ ಮೂಲ ಪರಿಶೀಲನೆ ಅಗತ್ಯವಿದೆ`,
     rural: 'ಗ್ರಾಮೀಣ',
     urban: 'ನಗರ',
     newSetup: 'ಹೊಸ ಉದ್ಯಮ',
@@ -374,7 +380,8 @@ const RESULTS_SCREEN_I18N: Record<
     personalizedSub: 'നിങ്ങളുടെ സംരംഭക പ്രൊഫൈലിന് അനുയോജ്യമായ കേന്ദ്ര-സംസ്ഥാന വായ്പാ-സബ്‌സിഡി പദ്ധതികളുടെ നിയമാനുസൃത വിലയിരുത്തൽ',
     analyzedSchemes: 'വിശകലനം ചെയ്ത പദ്ധതികൾ: ',
     highEligibleNearMatches: (high, near) => `ഉയർന്ന യോഗ്യത: ${high} | സാമീപ്യമുള്ളവ: ${near}`,
-    statutoryVerified: '100% നിയമാനുസൃത വ്യവസ്ഥകൾ പരിശോധിച്ചു',
+    authoritativeVerifiedCount: (count) => `${count} പദ്ധതികൾക്കുള്ള ആധികാരിക മാനദണ്ഡങ്ങൾ പരിശോധിച്ചു`,
+    candidateNeedsVerification: (count) => `${count} സ്ഥാനാർത്ഥി കണ്ടെത്തൽ രേഖകൾക്ക് ഉറവിട പരിശോധന ആവശ്യമാണ്`,
     rural: 'ഗ്രാമീണ',
     urban: 'നഗരം',
     newSetup: 'പുതിയ സംരംഭം',
@@ -427,7 +434,8 @@ const RESULTS_SCREEN_I18N: Record<
     personalizedSub: 'आपल्या उद्योजक प्रोफाइलसाठी केंद्र आणि राज्यांच्या कर्ज व अनुदान योजनांचे वैयक्तिकृत वैधानिक मूल्यांकन',
     analyzedSchemes: 'विश्लेषित योजना: ',
     highEligibleNearMatches: (high, near) => `उच्च पात्रता: ${high} | समीप जुळणी: ${near}`,
-    statutoryVerified: '100% वैधानिक निकष तपासले',
+    authoritativeVerifiedCount: (count) => `${count} योजनांसाठी अधिकृत निकष तपासले`,
+    candidateNeedsVerification: (count) => `${count} उमेदवार शोध नोंदींसाठी स्रोत पडताळणी आवश्यक`,
     rural: 'ग्रामीण',
     urban: 'शहरी',
     newSetup: 'नवीन उद्योग',
@@ -898,7 +906,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                     <span>{rui.candidateCardNotice}</span>
                   </div>
                   <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-200 shrink-0">
-                    Unverified
+                    {t('results.candidate.unverified')}
                   </span>
                 </div>
               )}
@@ -1352,10 +1360,20 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             </span>
           </p>
         </div>
-        <span className="text-[11px] font-semibold text-[#14453D] dark:text-[#4ADE80] bg-white/80 dark:bg-[#101613]/80 px-2.5 py-1 rounded border border-[#C1E2D0] dark:border-[#24342D] whitespace-nowrap flex items-center gap-1.5">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
-          <span>{rui.statutoryVerified}</span>
-        </span>
+        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2">
+          {authoritativeCount > 0 && (
+            <span className="text-[11px] font-semibold text-[#14453D] dark:text-[#4ADE80] bg-white/80 dark:bg-[#101613]/80 px-2.5 py-1 rounded border border-[#C1E2D0] dark:border-[#24342D] whitespace-nowrap flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
+              <span>{rui.authoritativeVerifiedCount(authoritativeCount)}</span>
+            </span>
+          )}
+          {candidateCount > 0 && (
+            <span className="text-[11px] font-semibold text-amber-900 dark:text-amber-300 bg-amber-50/90 dark:bg-amber-950/40 px-2.5 py-1 rounded border border-amber-200/90 dark:border-amber-800/60 flex items-center gap-1.5">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+              <span>{rui.candidateNeedsVerification(candidateCount)}</span>
+            </span>
+          )}
+        </div>
       </motion.div>
 
       {/* Top Banner: Profile snapshot + Match summary */}

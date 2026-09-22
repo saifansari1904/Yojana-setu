@@ -527,5 +527,12 @@ export const knTranslations: Translations = {
     candidateStatusBadge: 'ಸ್ಥಿತಿ: ಅಭ್ಯರ್ಥಿ (ಪರಿಶೀಲಿಸಿಲ್ಲ)',
     candidateConfidenceExtraction: 'ವಿಶ್ವಾಸಾರ್ಹತೆ · ಶೋಧನಾ ಹೊರತೆಗೆಯುವಿಕೆ',
     candidateDisclaimer: 'ಈ ಯೋಜನೆಯನ್ನು ಅಭ್ಯರ್ಥಿ ಶೋಧನಾ ಭಂಡಾರದಿಂದ ಪಡೆಯಲಾಗಿದೆ. ಅಧಿಕೃತ ಅಧಿಸೂಚನೆಗಳು ಅಥವಾ ಗೆಜೆಟ್‌ಗಳೊಂದಿಗೆ ಮೂಲ ಪರಿಶೀಲನೆ ಬಾಕಿ ಇದೆ. ಅಂತಿಮ ಅರ್ಹತೆ ಮತ್ತು ಮಾರ್ಗಸೂಚಿಗಳನ್ನು ಇಲಾಖಾ ಪೋರ್ಟಲ್‌ನಲ್ಲಿ ನೇರವಾಗಿ ಪರಿಶೀಲಿಸಬೇಕು.',
+    provenanceTitle: 'ಸರ್ಕಾರಿ ಡೇಟಾ ವಿಶ್ವಾಸ & ಮೂಲ',
+    provenanceLevel1: 'ಹಂತ 1 · ಕೇಂದ್ರ ಸರ್ಕಾರಿ ಪೋರ್ಟಲ್',
+    provenanceLevel2: 'ಹಂತ 2 · ರಾಜ್ಯ ಸರ್ಕಾರಿ ಪೋರ್ಟಲ್',
+    provenanceLevel3: 'ಹಂತ 3 · ಪ್ರಾಯೋಜಕ ಸಚಿವಾಲಯ / ಇಲಾಖೆ',
+    provenanceLevel4: 'ಹಂತ 4 · ಶಾಸನಬದ್ಧ ಅನುಷ್ಠಾನ ಸಂಸ್ಥೆ',
+    provenanceLevel5: 'ಹಂತ 5 · ಸರ್ಕಾರಿ ಬೆಂಬಲಿತ ಉದ್ಯಮ / ನಿಗಮ',
+    provenanceLevel6: 'ಹಂತ 6 · ದ್ವಿತೀಯ ಅಗ್ರಿಗೇಟರ್',
   },
 };

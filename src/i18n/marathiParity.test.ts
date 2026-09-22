@@ -174,20 +174,70 @@ assert(
 // used by LanguageContext when restoring yojana_setu_language.
 assert('mr' in translationsMap, "D: 'mr' passes persistence validation (saved in translationsMap)");
 assert(!('xx' in translationsMap), 'D: unknown language codes still rejected by persistence validation');
-// Document language tag follows the active language (set in LanguageContext effect).
+// Document language tag: LanguageContext writes the raw Language code verbatim
+// (document.documentElement.lang = lang), so for Marathi <html lang> is exactly
+// 'mr'. No DOM exists in this tsx/Node test environment, so instead of faking a
+// DOM assertion we verify the state contract that drives the effect: the
+// canonical Marathi code round-trips as exactly 'mr' through the same
+// persistence/registry validation (translationsMap + SUPPORTED_LANGUAGES)
+// that gates LanguageContext state.
+const mrLangEntry = SUPPORTED_LANGUAGES.find((l) => l.code === 'mr');
 assert(
-  true,
-  'D: document.documentElement.lang is driven by LanguageContext (manual: switch to mr and inspect <html lang>)'
+  mrLangEntry !== undefined && mrLangEntry.code === 'mr',
+  "D: Marathi registry code is exactly 'mr' (verbatim value LanguageContext writes to <html lang>)"
+);
+assert(
+  'mr' in translationsMap && translationsMap.mr === mrTranslations,
+  "D: translationsMap['mr'] resolves to the Marathi resource (drives LanguageContext state)"
+);
+// en still resolves to 'en' — the effect writes each language's own code.
+const enLangEntry = SUPPORTED_LANGUAGES.find((l) => l.code === 'en');
+assert(
+  enLangEntry !== undefined && enLangEntry.code === 'en',
+  "D: English registry code is exactly 'en' (verbatim value LanguageContext writes to <html lang>)"
 );
 
-// mr-IN currency formatting: localized digits, same numeric value, INR currency
-const mrFmt = new Intl.NumberFormat('mr-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(250000);
-assert(/₹/.test(mrFmt) || /र/.test(mrFmt), 'D: mr-IN formats INR currency', `got ${mrFmt}`);
-const mrDigits = new Intl.NumberFormat('mr-IN', { maximumFractionDigits: 0 }).format(250000);
+// mr-IN number formatting: runtime-independent checks. Devanagari digit glyphs
+// vary by ICU build (full-ICU vs small-ICU), so we must NOT require
+// mr-IN digits to differ from en-IN digits. Instead verify: formatting does
+// not throw, the locale is passed through as mr-IN, currency stays INR, and
+// the numeric value is unchanged (same Unicode decimal-digit count).
+let mrCurrencyFmt: Intl.NumberFormat | undefined;
+let mrCurrencyThrew = false;
+try {
+  mrCurrencyFmt = new Intl.NumberFormat('mr-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0,
+  });
+} catch {
+  mrCurrencyThrew = true;
+}
+assert(!mrCurrencyThrew && mrCurrencyFmt !== undefined, 'D: mr-IN currency formatting does not throw');
+const mrResolved = mrCurrencyFmt?.resolvedOptions();
 assert(
-  mrDigits !== new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(250000),
-  'D: mr-IN digit shaping differs from en-IN (localized display, numeric value unchanged)',
-  `mr=${mrDigits}`
+  mrResolved !== undefined && mrResolved.currency === 'INR',
+  'D: mr-IN resolved currency is INR',
+  `got ${mrResolved?.currency}`
+);
+assert(
+  mrResolved !== undefined && mrResolved.locale.toLowerCase().startsWith('mr'),
+  'D: mr-IN locale is passed through as mr-IN',
+  `got ${mrResolved?.locale}`
+);
+const mrFormatted = mrCurrencyFmt?.format(250000) ?? '';
+assert(
+  /₹/.test(mrFormatted) || /र/.test(mrFormatted),
+  'D: mr-IN formats INR currency',
+  `got ${mrFormatted}`
+);
+const countDecimalDigits = (s: string): number => (s.match(/\p{Nd}/gu) ?? []).length;
+const mrPlain = new Intl.NumberFormat('mr-IN', { maximumFractionDigits: 0 }).format(250000);
+const enPlain = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(250000);
+assert(
+  countDecimalDigits(mrPlain) === countDecimalDigits(enPlain) && countDecimalDigits(mrPlain) === 6,
+  'D: mr-IN numeric value unchanged vs en-IN (same digit count)',
+  `mr=${mrPlain} en=${enPlain}`
 );
 
 console.log(`\n--- RESULTS: ${passed} passed, ${failed} failed ---\n`);

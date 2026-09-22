@@ -34,6 +34,8 @@ const getLocalizedDocNotes = (isProvided: boolean, lang: Language): string => {
         return 'ಸಿದ್ಧ / ಲಭ್ಯವಿದೆ';
       case 'ml':
         return 'തയ്യാറാണ് / ലഭ്യമാണ്';
+      case 'mr':
+        return 'तयार / उपलब्ध';
       default:
         return 'Prepared / Available';
     }
@@ -49,6 +51,8 @@ const getLocalizedDocNotes = (isProvided: boolean, lang: Language): string => {
         return 'ಸಿದ್ಧಪಡಿಸಬೇಕಾಗಿದೆ';
       case 'ml':
         return 'തയ്യാറാക്കേണ്ടതുണ്ട്';
+      case 'mr':
+        return 'तयार करणे आवश्यक';
       default:
         return 'To be prepared';
     }
@@ -73,6 +77,8 @@ const getLocalizedDocStatusMessage = (
         return 'ಈ ಯೋಜನೆಗೆ ಯಾವುದೇ ಪೂರ್ವ ಅಗತ್ಯ ಶಾಸನಬದ್ಧ ದಾಖಲೆಗಳನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಿಲ್ಲ.';
       case 'ml':
         return 'ഈ പദ്ധതിക്ക് മുൻവ്യവസ്ഥയുള്ള നിയമാനുസൃത രേഖകളൊന്നും വ്യക്തമാക്കിയിട്ടില്ല.';
+      case 'mr':
+        return 'या योजनेसाठी कोणतीही पूर्व-अट वैधानिक कागदपत्रे निर्दिष्ट केलेली नाहीत.';
       default:
         return 'No pre-requisite statutory documents specified for this scheme.';
     }
@@ -90,6 +96,8 @@ const getLocalizedDocStatusMessage = (
         return `ಅಗತ್ಯವಿರುವ ಎಲ್ಲಾ ${totalRequired} ದಾಖಲೆಗಳು ಸಿದ್ಧವಾಗಿವೆ. ನೀವು ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಿದ್ಧರಾಗಿದ್ದೀರಿ!`;
       case 'ml':
         return `ആവശ്യമായ എല്ലാ ${totalRequired} രേഖകളും തയ്യാറാണ്. നിങ്ങൾക്ക് അപേക്ഷിക്കാൻ കഴിയും!`;
+      case 'mr':
+        return `सर्व ${totalRequired} आवश्यक कागदपत्रे तयार आहेत. तुम्ही अर्ज करण्यासाठी सज्ज आहात!`;
       default:
         return `All ${totalRequired} required documents are ready. You are prepared to apply!`;
     }
@@ -107,6 +115,8 @@ const getLocalizedDocStatusMessage = (
         return `${totalRequired} ರಲ್ಲಿ ${preparedCount} ದಾಖಲೆಗಳು ಸಿದ್ಧವಾಗಿವೆ (${missingCount} ಬಾಕಿ ಉಳಿದಿವೆ).`;
       case 'ml':
         return `${totalRequired}-ൽ ${preparedCount} രേഖകൾ തയ്യാറാണ് (${missingCount} ബാക്കിയുണ്ട്).`;
+      case 'mr':
+        return `${totalRequired} पैकी ${preparedCount} कागदपत्रे तयार आहेत (${missingCount} शिल्लक).`;
       default:
         return `${preparedCount} of ${totalRequired} documents prepared (${missingCount} pending).`;
     }
@@ -123,6 +133,8 @@ const getLocalizedDocStatusMessage = (
       return `ಒಟ್ಟು ${totalRequired} ಶಾಸನಬದ್ಧ ದಾಖಲೆಗಳು ಅಗತ್ಯವಿದೆ. ಸಲ್ಲಿಸುವ ಮೊದಲು ಇವುಗಳನ್ನು ಸಿದ್ಧಪಡಿಸಿ.`;
     case 'ml':
       return `ആകെ ${totalRequired} നിയമാനുസൃത രേഖകൾ ആവശ്യമാണ്. സമർപ്പിക്കുന്നതിന് മുമ്പ് ഇവ തയ്യാറാക്കുക.`;
+    case 'mr':
+      return `एकूण ${totalRequired} वैधानिक कागदपत्रे आवश्यक आहेत. अर्ज सादर करण्यापूर्वी ती तयार करा.`;
     default:
       return `${totalRequired} statutory documents required. Prepare these before submitting.`;
   }

@@ -527,5 +527,12 @@ export const enTranslations: Translations = {
     candidateStatusBadge: 'Status: CANDIDATE (UNVERIFIED)',
     candidateConfidenceExtraction: 'Confidence · Discovery Extraction',
     candidateDisclaimer: 'This scheme was imported from the candidate discovery repository. Source verification against primary nodal notifications or gazettes is pending. Final eligibility, sanction amounts, and current guidelines must be verified directly with the department portal.',
+    provenanceTitle: 'Government Data Trust & Provenance',
+    provenanceLevel1: 'Level 1 · Central Government Portal',
+    provenanceLevel2: 'Level 2 · State Government Portal',
+    provenanceLevel3: 'Level 3 · Sponsoring Ministry / Department',
+    provenanceLevel4: 'Level 4 · Statutory Implementing Agency',
+    provenanceLevel5: 'Level 5 · Govt-backed Enterprise / Corporation',
+    provenanceLevel6: 'Level 6 · Secondary Aggregator',
   },
 };
