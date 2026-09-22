@@ -534,5 +534,11 @@ export const mlTranslations: Translations = {
     provenanceLevel4: 'തലം 4 · നിയമാനുസൃത നടപ്പാക്കൽ ഏജൻസി',
     provenanceLevel5: 'തലം 5 · സർക്കാർ പിന്തുണയുള്ള സംരംഭം / കോർപ്പറേഷൻ',
     provenanceLevel6: 'തലം 6 · ദ്വിതീയ അഗ്രിഗേറ്റർ',
+    provenanceStatusLabel: 'നില:',
+    provenanceConfidenceSuffix: 'ആത്മവിശ്വാസം',
+    provenanceDisclaimer: 'സംരംഭകർക്ക് സാധ്യതയുള്ള ധനസഹായം തിരിച്ചറിയാൻ സഹായിക്കുന്നതിന് യോജന സേതു പരിശോധിച്ച സർക്കാർ പദ്ധതി വിവരങ്ങൾ നൽകുന്നു. അന്തിമ യോഗ്യത, അനുവദിച്ച തുകകൾ, നിലവിലെ മാർഗ്ഗനിർദ്ദേശങ്ങൾ എന്നിവ നിയമാനുസൃത അപേക്ഷ സമർപ്പിക്കുമ്പോൾ സ്പോൺസർ ചെയ്യുന്ന സർക്കാർ അതോറിറ്റി മാത്രമാണ് നിശ്ചയിക്കുന്നത്.',
+    provenanceSponsoringBody: 'ഔദ്യോഗിക സ്പോൺസർ സ്ഥാപനം:',
+    provenanceDataFreshness: 'ഡാറ്റാ പുതുമ:',
+    provenanceSourceHierarchy: 'ഉറവിട ശ്രേണി:',
   },
 };

@@ -1263,10 +1263,10 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                       ) : (
                         <>
                           <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
-                            Status: {trust.verification.status}
+                            {t('schemeDetail.provenanceStatusLabel')} {trust.verification.status}
                           </span>
                           <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                            {trust.confidence} Confidence
+                            {trust.confidence} {t('schemeDetail.provenanceConfidenceSuffix')}
                           </span>
                         </>
                       )}
@@ -1277,24 +1277,24 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   <p className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] mb-3 leading-relaxed">
                     {matchResult.scheme.isCandidateScheme
                       ? t('schemeDetail.candidateDisclaimer')
-                      : 'Yojana Setu provides verified government scheme intelligence to help entrepreneurs identify potential funding. Final eligibility, sanction amounts, and current guidelines are determined solely by the sponsoring government authority upon submission of statutory application.'}
+                      : t('schemeDetail.provenanceDisclaimer')}
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] pt-2 border-t border-[#E4E8E4] dark:border-[#24342D]">
                     <div>
-                      <span className="text-[#516A5F] dark:text-[#8E9F97]">Official Sponsoring Body: </span>
+                      <span className="text-[#516A5F] dark:text-[#8E9F97]">{t('schemeDetail.provenanceSponsoringBody')} </span>
                       <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] block sm:inline">
                         {prov.sourceName}
                       </strong>
                     </div>
                     <div>
-                      <span className="text-[#516A5F] dark:text-[#8E9F97]">Data Freshness: </span>
+                      <span className="text-[#516A5F] dark:text-[#8E9F97]">{t('schemeDetail.provenanceDataFreshness')} </span>
                       <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">
                         {trust.freshness.freshnessLabel}
                       </strong>
                     </div>
                     <div>
-                      <span className="text-[#516A5F] dark:text-[#8E9F97]">Source Hierarchy: </span>
+                      <span className="text-[#516A5F] dark:text-[#8E9F97]">{t('schemeDetail.provenanceSourceHierarchy')} </span>
                       <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">
                         {hierarchyLabels[trust.source.hierarchyLevel] || prov.sourceType}
                       </strong>

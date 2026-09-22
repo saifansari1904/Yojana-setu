@@ -534,5 +534,11 @@ export const mrTranslations: Translations = {
     provenanceLevel4: 'स्तर 4 · वैधानिक अंमलबजावणी संस्था',
     provenanceLevel5: 'स्तर 5 · शासन-समर्थित उद्योग / महामंडळ',
     provenanceLevel6: 'स्तर 6 · दुय्यम संकलक',
+    provenanceStatusLabel: 'स्थिती:',
+    provenanceConfidenceSuffix: 'विश्वास',
+    provenanceDisclaimer: 'योजना सेतू उद्योजकांना संभाव्य निधी ओळखण्यास मदत करण्यासाठी पडताळलेली शासकीय योजना माहिती पुरवते. अंतिम पात्रता, मंजूर रकमा व सध्याची मार्गदर्शक तत्त्वे वैधानिक अर्ज सादर केल्यावर प्रायोजक शासकीय प्राधिकरणाकडूनच निश्चित केली जातात.',
+    provenanceSponsoringBody: 'अधिकृत प्रायोजक संस्था:',
+    provenanceDataFreshness: 'डेटा ताजेपणा:',
+    provenanceSourceHierarchy: 'स्रोत श्रेणी:',
   },
 };

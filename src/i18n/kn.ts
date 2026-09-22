@@ -534,5 +534,11 @@ export const knTranslations: Translations = {
     provenanceLevel4: 'ಹಂತ 4 · ಶಾಸನಬದ್ಧ ಅನುಷ್ಠಾನ ಸಂಸ್ಥೆ',
     provenanceLevel5: 'ಹಂತ 5 · ಸರ್ಕಾರಿ ಬೆಂಬಲಿತ ಉದ್ಯಮ / ನಿಗಮ',
     provenanceLevel6: 'ಹಂತ 6 · ದ್ವಿತೀಯ ಅಗ್ರಿಗೇಟರ್',
+    provenanceStatusLabel: 'ಸ್ಥಿತಿ:',
+    provenanceConfidenceSuffix: 'ವಿಶ್ವಾಸ',
+    provenanceDisclaimer: 'ಯೋಜನಾ ಸೇತುವು ಉದ್ಯಮಿಗಳು ಸಂಭಾವ್ಯ ಹಣಕಾಸು ಗುರುತಿಸಲು ಸಹಾಯ ಮಾಡಲು ಪರಿಶೀಲಿಸಿದ ಸರ್ಕಾರಿ ಯೋಜನಾ ಮಾಹಿತಿಯನ್ನು ಒದಗಿಸುತ್ತದೆ. ಅಂತಿಮ ಅರ್ಹತೆ, ಮಂಜೂರಾತಿ ಮೊತ್ತಗಳು ಮತ್ತು ಪ್ರಸ್ತುತ ಮಾರ್ಗಸೂಚಿಗಳನ್ನು ಶಾಸನಬದ್ಧ ಅರ್ಜಿ ಸಲ್ಲಿಕೆಯ ಮೇರೆಗೆ ಪ್ರಾಯೋಜಕ ಸರ್ಕಾರಿ ಪ್ರಾಧಿಕಾರ ಮಾತ್ರ ನಿರ್ಧರಿಸುತ್ತದೆ.',
+    provenanceSponsoringBody: 'ಅಧಿಕೃತ ಪ್ರಾಯೋಜಕ ಸಂಸ್ಥೆ:',
+    provenanceDataFreshness: 'ಡೇಟಾ ತಾಜಾತನ:',
+    provenanceSourceHierarchy: 'ಮೂಲ ಶ್ರೇಣಿ:',
   },
 };

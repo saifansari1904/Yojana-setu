@@ -523,4 +523,10 @@ interface SchemeDetailTranslations {
   provenanceLevel4: string;
   provenanceLevel5: string;
   provenanceLevel6: string;
+  provenanceStatusLabel: string;
+  provenanceConfidenceSuffix: string;
+  provenanceDisclaimer: string;
+  provenanceSponsoringBody: string;
+  provenanceDataFreshness: string;
+  provenanceSourceHierarchy: string;
 }

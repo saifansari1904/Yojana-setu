@@ -534,5 +534,11 @@ export const taTranslations: Translations = {
     provenanceLevel4: 'நிலை 4 · சட்டப்பூர்வ செயல்படுத்தும் முகமை',
     provenanceLevel5: 'நிலை 5 · அரசு ஆதரவு நிறுவனம் / கழகம்',
     provenanceLevel6: 'நிலை 6 · இரண்டாம் நிலை திரட்டி',
+    provenanceStatusLabel: 'நிலை:',
+    provenanceConfidenceSuffix: 'நம்பிக்கை',
+    provenanceDisclaimer: 'யோஜனா சேது தொழில்முனைவோர் சாத்தியமான நிதியை அடையாளம் காண உதவ சரிபார்க்கப்பட்ட அரசு திட்டத் தகவல்களை வழங்குகிறது. இறுதி தகுதி, ஒப்புதல் தொகைகள் மற்றும் தற்போதைய வழிகாட்டுதல்கள் சட்டப்பூர்வ விண்ணப்பம் சமர்ப்பிக்கப்பட்டதும் நிதியுதவி அரசு அதிகாரத்தால் மட்டுமே தீர்மானிக்கப்படும்.',
+    provenanceSponsoringBody: 'அதிகாரப்பூர்வ நிதியுதவி அமைப்பு:',
+    provenanceDataFreshness: 'தரவு புத்துணர்வு:',
+    provenanceSourceHierarchy: 'மூல படிநிலை:',
   },
 };

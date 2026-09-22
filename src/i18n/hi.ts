@@ -534,5 +534,11 @@ export const hiTranslations: Translations = {
     provenanceLevel4: 'स्तर 4 · वैधानिक कार्यान्वयन एजेंसी',
     provenanceLevel5: 'स्तर 5 · सरकार-समर्थित उद्यम / निगम',
     provenanceLevel6: 'स्तर 6 · द्वितीयक एग्रीगेटर',
+    provenanceStatusLabel: 'स्थिति:',
+    provenanceConfidenceSuffix: 'विश्वास',
+    provenanceDisclaimer: 'योजना सेतु उद्यमियों को संभावित वित्तपोषण की पहचान में सहायता हेतु सत्यापित सरकारी योजना जानकारी प्रदान करता है। अंतिम पात्रता, स्वीकृति राशि एवं वर्तमान दिशानिर्देश वैधानिक आवेदन प्रस्तुत करने पर पूर्णतः प्रायोजक सरकारी प्राधिकरण द्वारा निर्धारित किए जाते हैं।',
+    provenanceSponsoringBody: 'आधिकारिक प्रायोजक निकाय:',
+    provenanceDataFreshness: 'डेटा ताजगी:',
+    provenanceSourceHierarchy: 'स्रोत पदानुक्रम:',
   },
 };

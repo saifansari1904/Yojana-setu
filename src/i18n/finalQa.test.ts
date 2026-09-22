@@ -91,6 +91,12 @@ const candidateKeys = [
   'schemeDetail.provenanceTitle',
   'schemeDetail.provenanceLevel1',
   'schemeDetail.provenanceLevel6',
+  'schemeDetail.provenanceStatusLabel',
+  'schemeDetail.provenanceConfidenceSuffix',
+  'schemeDetail.provenanceDisclaimer',
+  'schemeDetail.provenanceSponsoringBody',
+  'schemeDetail.provenanceDataFreshness',
+  'schemeDetail.provenanceSourceHierarchy',
 ];
 for (const key of candidateKeys) {
   const missing = langs.filter((l) => {

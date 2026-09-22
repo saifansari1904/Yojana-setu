@@ -534,5 +534,11 @@ export const enTranslations: Translations = {
     provenanceLevel4: 'Level 4 · Statutory Implementing Agency',
     provenanceLevel5: 'Level 5 · Govt-backed Enterprise / Corporation',
     provenanceLevel6: 'Level 6 · Secondary Aggregator',
+    provenanceStatusLabel: 'Status:',
+    provenanceConfidenceSuffix: 'Confidence',
+    provenanceDisclaimer: 'Yojana Setu provides verified government scheme intelligence to help entrepreneurs identify potential funding. Final eligibility, sanction amounts, and current guidelines are determined solely by the sponsoring government authority upon submission of statutory application.',
+    provenanceSponsoringBody: 'Official Sponsoring Body:',
+    provenanceDataFreshness: 'Data Freshness:',
+    provenanceSourceHierarchy: 'Source Hierarchy:',
   },
 };
