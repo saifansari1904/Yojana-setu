@@ -42,11 +42,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Andaman & Nicobar"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://fisheries.and.nic.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -151,11 +147,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://fisheries.and.nic.in",
         "bankChannelInformation": "fisheries.and.nic.in / District Fisheries Office, Port Blair"
@@ -248,12 +240,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Andaman & Nicobar"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://andaman.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -268,7 +256,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://andaman.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -359,17 +347,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://andaman.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "Block Development Office (BDO), Port Blair / Rangat / Car Nicobar / nearest Panchayat"
       },
       "governance": {
-        "officialSourceUrl": "https://andaman.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -391,8 +375,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "A&N Rural Development Dept. / NRLM — DAY-NRLM Mission",
         "implementingAgency": "Block Development Office (BDO), Port Blair",
-        "officialPortalUrl": "https://andaman.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -416,7 +400,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -453,12 +437,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Andaman & Nicobar"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://andaman.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -473,7 +453,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://andaman.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -558,17 +538,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://andaman.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "District Fisheries Office, Port Blair / Mayabunder / Car Nicobar (offline registration)"
       },
       "governance": {
-        "officialSourceUrl": "https://andaman.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -590,8 +566,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "A&N Fisheries Dept. / National Fisheries Development Board",
         "implementingAgency": "District Fisheries Office, Port Blair",
-        "officialPortalUrl": "https://andaman.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -615,7 +591,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -653,12 +629,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Andaman & Nicobar"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://andaman.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -673,7 +645,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://andaman.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -760,17 +732,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://andaman.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "AAJVS Headquarters, Port Blair — administered automatically; tribal members need not apply individually"
       },
       "governance": {
-        "officialSourceUrl": "https://andaman.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -791,8 +759,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "officialSource": {
         "ministryOrDepartment": "A&N Tribal Welfare Dept. / Ministry of Tribal Affairs (GoI) — Andaman Adim Janjati Vikas Samiti (AAJVS)",
-        "officialPortalUrl": "https://andaman.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -816,7 +784,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -854,11 +822,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Andhra Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://apscorporation.ap.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -962,11 +926,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://apscorporation.ap.gov.in",
         "bankChannelInformation": "apscorporation.ap.gov.in / tricor.ap.gov.in / District Welfare Officer (offline)"
@@ -1057,11 +1017,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Andhra Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://jaganannathodu.ap.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -1164,11 +1120,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://jaganannathodu.ap.gov.in",
         "bankChannelInformation": "jaganannathodu.ap.gov.in / Ward/Village Secretariat (offline)"
@@ -1260,11 +1212,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Andhra Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://serp.ap.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -1369,11 +1317,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://serp.ap.gov.in",
         "bankChannelInformation": "serp.ap.gov.in / Village Organisation (VO) / Mandal Samakhya (offline)"
@@ -1464,11 +1408,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Andhra Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://jaganannaaasara.ap.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -1571,11 +1511,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://jaganannaaasara.ap.gov.in",
         "bankChannelInformation": "jaganannaaasara.ap.gov.in / Ward/Village Secretariat (offline)"
@@ -1665,11 +1601,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Andhra Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://navasakam.ap.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -1770,11 +1702,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://navasakam.ap.gov.in",
         "bankChannelInformation": "navasakam.ap.gov.in / Ward/Village Secretariat (offline)"
@@ -1866,11 +1794,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Andhra Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://navasakam.ap.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -1976,11 +1900,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://navasakam.ap.gov.in",
         "bankChannelInformation": "navasakam.ap.gov.in / Ward/Village Secretariat or Village Volunteer (offline)"
@@ -2073,12 +1993,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Arunachal Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://arunachalpradesh.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -2094,7 +2010,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://arunachalpradesh.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -2185,17 +2101,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://arunachalpradesh.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "arunachalpradesh.gov.in/rural / Block Development Officer (offline)"
       },
       "governance": {
-        "officialSourceUrl": "https://arunachalpradesh.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -2217,8 +2129,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Arunachal Pradesh State Livelihoods & Rural Management Society (APSLRMS) / Rural Development Dept.",
         "implementingAgency": "arunachalpradesh.gov.in",
-        "officialPortalUrl": "https://arunachalpradesh.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -2242,7 +2154,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -2283,12 +2195,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Arunachal Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://arunachalpradesh.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -2303,7 +2211,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://arunachalpradesh.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -2396,17 +2304,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://arunachalpradesh.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "arunachalpradesh.gov.in/industries / District Industries Centre (DIC) (offline)"
       },
       "governance": {
-        "officialSourceUrl": "https://arunachalpradesh.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -2428,8 +2332,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Arunachal Pradesh Industries Dept. / Chief Minister's Self Employment Scheme (CMSES)",
         "implementingAgency": "arunachalpradesh.gov.in",
-        "officialPortalUrl": "https://arunachalpradesh.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -2453,7 +2357,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -2490,12 +2394,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Arunachal Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://arunachalpradesh.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -2511,7 +2411,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://arunachalpradesh.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -2596,17 +2496,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://arunachalpradesh.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "arunachalpradesh.gov.in/tribal / District Welfare Officer (offline)"
       },
       "governance": {
-        "officialSourceUrl": "https://arunachalpradesh.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -2628,8 +2524,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Arunachal Pradesh Welfare of ST & BC Dept. / Tribal Research Institute (TRI)",
         "implementingAgency": "arunachalpradesh.gov.in",
-        "officialPortalUrl": "https://arunachalpradesh.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -2653,7 +2549,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -2692,12 +2588,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Arunachal Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://arunachalpradesh.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -2712,7 +2604,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://arunachalpradesh.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -2801,17 +2693,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://arunachalpradesh.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "arunachalpradesh.gov.in/horticulture / District Horticulture Officer (offline)"
       },
       "governance": {
-        "officialSourceUrl": "https://arunachalpradesh.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -2833,8 +2721,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Arunachal Pradesh Horticulture Dept. / State Horticulture Mission (SHM)",
         "implementingAgency": "arunachalpradesh.gov.in",
-        "officialPortalUrl": "https://arunachalpradesh.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -2858,7 +2746,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -2895,11 +2783,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Assam"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://handloom.assam.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -2999,11 +2883,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://handloom.assam.gov.in",
         "bankChannelInformation": "handloom.assam.gov.in"
@@ -3094,11 +2974,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Assam"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.govtschemes.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -3202,11 +3078,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.govtschemes.in",
         "bankChannelInformation": "https://www.govtschemes.in/mukhyamantri-atmanirbhar-asom-scheme"
@@ -3298,11 +3170,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Assam"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.govtschemes.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -3407,11 +3275,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.govtschemes.in",
         "bankChannelInformation": "https://www.govtschemes.in/assam-mukhyamantri-mahila-udyamita-abhiyan"
@@ -3503,11 +3367,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Assam"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://industriescom.assam.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -3611,11 +3471,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://industriescom.assam.gov.in",
         "bankChannelInformation": "https://industriescom.assam.gov.in"
@@ -3705,11 +3561,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Assam"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://industriescom.assam.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -3809,11 +3661,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://industriescom.assam.gov.in",
         "bankChannelInformation": "https://industriescom.assam.gov.in"
@@ -3905,11 +3753,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Assam"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -4013,11 +3857,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/naari"
@@ -4107,11 +3947,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Assam"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://fisheries.assam.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -4211,11 +4047,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://fisheries.assam.gov.in",
         "bankChannelInformation": "fisheries.assam.gov.in"
@@ -4304,11 +4136,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Assam"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://asrlms.assam.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -4409,11 +4237,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://asrlms.assam.gov.in",
         "bankChannelInformation": "asrlms.assam.gov.in"
@@ -4504,11 +4328,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Assam"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://assamcmaaa.com",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -4612,11 +4432,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://assamcmaaa.com",
         "bankChannelInformation": "https://assamcmaaa.com/lakhpati-baideo-scheme"
@@ -4707,11 +4523,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Assam"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://ahvassam.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -4813,11 +4625,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://ahvassam.gov.in",
         "bankChannelInformation": "ahvassam.gov.in"
@@ -4906,11 +4714,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Assam"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://ahvassam.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -5010,11 +4814,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://ahvassam.gov.in",
         "bankChannelInformation": "ahvassam.gov.in"
@@ -5103,11 +4903,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Bihar"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://udyami.bihar.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -5207,11 +5003,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://udyami.bihar.gov.in",
         "bankChannelInformation": "https://udyami.bihar.gov.in"
@@ -5303,11 +5095,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Bihar"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -5411,11 +5199,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/bsccs"
@@ -5506,11 +5290,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Bihar"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://udyami.bihar.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -5612,11 +5392,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://udyami.bihar.gov.in",
         "bankChannelInformation": "https://udyami.bihar.gov.in"
@@ -5708,11 +5484,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Bihar"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://udyami.bihar.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -5817,11 +5589,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://udyami.bihar.gov.in",
         "bankChannelInformation": "https://udyami.bihar.gov.in"
@@ -5912,11 +5680,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Bihar"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://udyami.bihar.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -6018,11 +5782,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://udyami.bihar.gov.in",
         "bankChannelInformation": "https://udyami.bihar.gov.in"
@@ -6112,12 +5872,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Chandigarh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://chandigarh.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
     "isWomenSpecific": false,
@@ -6132,7 +5888,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://chandigarh.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -6217,17 +5973,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
-        "officialApplicationUrl": "https://chandigarh.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "chandigarh.gov.in/skill or nearest ITI, Chandigarh"
       },
       "governance": {
-        "officialSourceUrl": "https://chandigarh.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -6249,8 +6001,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Chandigarh UT Administration — Dept. of Technical Education & Industrial Training",
         "implementingAgency": "chandigarh.gov.in",
-        "officialPortalUrl": "https://chandigarh.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -6274,7 +6026,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "C — capability/enabling",
     "isCandidateScheme": true,
@@ -6311,11 +6063,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Chhattisgarh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://invest.cg.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -6414,11 +6162,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://invest.cg.gov.in",
         "bankChannelInformation": "https://invest.cg.gov.in/policy-notifications"
@@ -6508,11 +6252,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Chhattisgarh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://invest.cg.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -6611,11 +6351,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://invest.cg.gov.in",
         "bankChannelInformation": "https://invest.cg.gov.in/startup/policy-guidelines"
@@ -6705,11 +6441,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Chhattisgarh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://cghandicraft.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -6808,11 +6540,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://cghandicraft.gov.in",
         "bankChannelInformation": "cghandicraft.gov.in"
@@ -6903,11 +6631,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Chhattisgarh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://cgstate.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -7010,11 +6734,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://cgstate.gov.in",
         "bankChannelInformation": "cgstate.gov.in"
@@ -7105,11 +6825,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Chhattisgarh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://cgrlm.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -7212,11 +6928,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://cgrlm.gov.in",
         "bankChannelInformation": "cgrlm.gov.in"
@@ -7306,12 +7018,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Chhattisgarh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://cgtourism.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -7324,7 +7032,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://cgtourism.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -7411,17 +7119,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://cgtourism.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "cgtourism.in"
       },
       "governance": {
-        "officialSourceUrl": "https://cgtourism.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -7442,7 +7146,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "officialSource": {
         "ministryOrDepartment": "Chhattisgarh Forest Dept. / Tourism Board",
-        "officialPortalUrl": "https://cgtourism.in",
+        "officialPortalUrl": "",
         "isGovernmentDomain": false
       },
       "verification": {
@@ -7467,7 +7171,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "SECONDARY_AGGREGATOR"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -7504,11 +7208,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Chhattisgarh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://fisheries.cg.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -7607,11 +7307,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://fisheries.cg.gov.in",
         "bankChannelInformation": "fisheries.cg.gov.in"
@@ -7700,11 +7396,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Chhattisgarh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://ahvs.cg.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -7803,11 +7495,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://ahvs.cg.gov.in",
         "bankChannelInformation": "ahvs.cg.gov.in"
@@ -7897,11 +7585,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://dkvib.delhi.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -8002,11 +7686,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://dkvib.delhi.gov.in",
         "bankChannelInformation": "dkvib.delhi.gov.in"
@@ -8097,11 +7777,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://nulm.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -8204,11 +7880,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://nulm.gov.in",
         "bankChannelInformation": "nulm.gov.in / urban.delhi.gov.in"
@@ -8298,11 +7970,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://minorities.delhi.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -8401,11 +8069,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://minorities.delhi.gov.in",
         "bankChannelInformation": "minorities.delhi.gov.in"
@@ -8496,11 +8160,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://dscstfdc.delhi.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -8603,11 +8263,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://dscstfdc.delhi.gov.in",
         "bankChannelInformation": "dscstfdc.delhi.gov.in / DSCSTFDC head office, New Delhi"
@@ -8697,11 +8353,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://seedfund.startupindia.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -8800,11 +8452,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://seedfund.startupindia.gov.in",
         "bankChannelInformation": "https://seedfund.startupindia.gov.in"
@@ -8896,11 +8544,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://dseu.ac.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -9003,11 +8647,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://dseu.ac.in",
         "bankChannelInformation": "https://dseu.ac.in/muva"
@@ -9099,11 +8739,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://dbcfdc.delhi.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -9206,11 +8842,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://dbcfdc.delhi.gov.in",
         "bankChannelInformation": "dbcfdc.delhi.gov.in"
@@ -9300,11 +8932,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://web.umang.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -9405,11 +9033,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://web.umang.gov.in",
         "bankChannelInformation": "https://web.umang.gov.in/landing/scheme/detail/pm-street-vendors-atmanirbhar-nidhi-pm-svanidhi_pm-svanidhi.html"
@@ -9500,11 +9124,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -9605,11 +9225,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/pm-svanidhi"
@@ -9700,11 +9316,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -9805,11 +9417,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/pmv"
@@ -9901,11 +9509,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://pmay-urban.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -10008,11 +9612,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://pmay-urban.gov.in",
         "bankChannelInformation": "https://pmay-urban.gov.in/credit-linked-subsidy-scheme"
@@ -10104,11 +9704,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -10211,11 +9807,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/sui"
@@ -10305,11 +9897,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Delhi"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://transport.delhi.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -10408,11 +9996,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://transport.delhi.gov.in",
         "bankChannelInformation": "transport.delhi.gov.in / ev.delhi.gov.in"
@@ -10504,11 +10088,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Goa"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://labour.goa.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -10613,11 +10193,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://labour.goa.gov.in",
         "bankChannelInformation": "labour.goa.gov.in / District Employment Exchange"
@@ -10709,11 +10285,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Gujarat"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://msmeloans.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -10817,11 +10389,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://msmeloans.in",
         "bankChannelInformation": "https://msmeloans.in/aif-agriculture-infrastructure-fund-for-cold-storage"
@@ -10911,11 +10479,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Gujarat"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -11015,11 +10579,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/sesg"
@@ -11110,11 +10670,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Gujarat"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://nulm.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -11216,11 +10772,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://nulm.gov.in",
         "bankChannelInformation": "nulm.gov.in / local ULB office"
@@ -11310,11 +10862,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Gujarat"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -11414,11 +10962,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/mgy"
@@ -11508,11 +11052,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Gujarat"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -11612,11 +11152,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/elgmfdcl"
@@ -11706,11 +11242,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Gujarat"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://seedfund.startupindia.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -11810,11 +11342,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://seedfund.startupindia.gov.in",
         "bankChannelInformation": "https://seedfund.startupindia.gov.in/portfolio"
@@ -11906,11 +11434,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Gujarat"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://glpc.gujarat.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -12014,11 +11538,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://glpc.gujarat.gov.in",
         "bankChannelInformation": "glpc.gujarat.gov.in"
@@ -12107,11 +11627,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Gujarat"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://industries.gujarat.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -12211,11 +11727,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://industries.gujarat.gov.in",
         "bankChannelInformation": "industries.gujarat.gov.in"
@@ -12304,11 +11816,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Gujarat"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -12408,11 +11916,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/ascfsrguj"
@@ -12504,11 +12008,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Gujarat"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://sje.gujarat.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -12612,11 +12112,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://sje.gujarat.gov.in",
         "bankChannelInformation": "https://sje.gujarat.gov.in/gntdnt/Women-affluence-scheme"
@@ -12707,11 +12203,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Gujarat"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://macrofinance.nipfp.org.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -12813,11 +12305,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://macrofinance.nipfp.org.in",
         "bankChannelInformation": "https://macrofinance.nipfp.org.in/PDF/10_Sugoor_Micro_Irrigation_in_Gujarat.pdf"
@@ -12909,12 +12397,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Haryana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://hsfdc.org.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -12928,7 +12412,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://hsfdc.org.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -13017,17 +12501,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://hsfdc.org.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "hsfdc.org.in"
       },
       "governance": {
-        "officialSourceUrl": "https://hsfdc.org.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -13048,7 +12528,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "officialSource": {
         "ministryOrDepartment": "Haryana SC & BC Finance & Dev. Corp. (HSFDC)",
-        "officialPortalUrl": "https://hsfdc.org.in",
+        "officialPortalUrl": "",
         "isGovernmentDomain": false
       },
       "verification": {
@@ -13073,7 +12553,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "SECONDARY_AGGREGATOR"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -13110,11 +12590,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Haryana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://pashudhanharyana.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -13214,11 +12690,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://pashudhanharyana.gov.in",
         "bankChannelInformation": "pashudhanharyana.gov.in"
@@ -13307,11 +12779,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Haryana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://haryanascbc.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -13411,11 +12879,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://haryanascbc.gov.in",
         "bankChannelInformation": "haryanascbc.gov.in"
@@ -13504,11 +12968,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Haryana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://pashudhanharyana.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -13608,11 +13068,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://pashudhanharyana.gov.in",
         "bankChannelInformation": "pashudhanharyana.gov.in"
@@ -13701,11 +13157,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Himachal Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://hpkvib.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -13804,11 +13256,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://hpkvib.gov.in",
         "bankChannelInformation": "hpkvib.gov.in"
@@ -13897,12 +13345,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Himachal Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://hptdc.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -13915,7 +13359,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://hptdc.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -14000,17 +13444,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://hptdc.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "hptdc.in"
       },
       "governance": {
-        "officialSourceUrl": "https://hptdc.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -14031,7 +13471,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "officialSource": {
         "ministryOrDepartment": "HP Tourism & Civil Aviation Dept.",
-        "officialPortalUrl": "https://hptdc.in",
+        "officialPortalUrl": "",
         "isGovernmentDomain": false
       },
       "verification": {
@@ -14056,7 +13496,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "SECONDARY_AGGREGATOR"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -14093,11 +13533,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Himachal Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://emerginghimachal.hp.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -14196,11 +13632,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://emerginghimachal.hp.gov.in",
         "bankChannelInformation": "https://emerginghimachal.hp.gov.in/startup"
@@ -14290,11 +13722,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Himachal Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://mmsy.hp.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -14393,11 +13821,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://mmsy.hp.gov.in",
         "bankChannelInformation": "https://mmsy.hp.gov.in"
@@ -14487,11 +13911,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Himachal Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -14590,11 +14010,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/pm-svanidhi"
@@ -14684,11 +14100,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Himachal Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://hpfisheries.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -14787,11 +14199,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://hpfisheries.gov.in",
         "bankChannelInformation": "hpfisheries.gov.in"
@@ -14882,11 +14290,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Himachal Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://himachal.nic.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -14989,11 +14393,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://himachal.nic.in",
         "bankChannelInformation": "himachal.nic.in"
@@ -15084,11 +14484,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Jammu & Kashmir"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://jkrlm.nic.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -15193,11 +14589,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://jkrlm.nic.in",
         "bankChannelInformation": "https://jkrlm.nic.in"
@@ -15289,11 +14681,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Jharkhand"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://jharkhand.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -15397,11 +14785,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://jharkhand.gov.in",
         "bankChannelInformation": "https://jharkhand.gov.in"
@@ -15491,11 +14875,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Jharkhand"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://jharkhand.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -15595,11 +14975,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://jharkhand.gov.in",
         "bankChannelInformation": "jharkhand.gov.in"
@@ -15688,11 +15064,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Jharkhand"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://jharkhand.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -15792,11 +15164,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://jharkhand.gov.in",
         "bankChannelInformation": "jharkhand.gov.in"
@@ -15885,11 +15253,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Jharkhand"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://jslps.jharkhand.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -15989,11 +15353,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://jslps.jharkhand.gov.in",
         "bankChannelInformation": "jslps.jharkhand.gov.in"
@@ -16082,11 +15442,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Jharkhand"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://jharkhand.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -16186,11 +15542,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://jharkhand.gov.in",
         "bankChannelInformation": "jharkhand.gov.in"
@@ -16281,11 +15633,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://tumkur.nic.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -16388,11 +15736,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://tumkur.nic.in",
         "bankChannelInformation": "https://tumkur.nic.in/en/d-devaraju-urs-backward-classes-development-corporation-ltd"
@@ -16484,11 +15828,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -16591,11 +15931,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/dssmp"
@@ -16685,11 +16021,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -16788,11 +16120,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/nhdpccwms"
@@ -16882,11 +16210,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://investkarnataka.co.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -16985,11 +16309,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://investkarnataka.co.in",
         "bankChannelInformation": "https://investkarnataka.co.in/wp-content/uploads/2026/04/Karnataka.pdf"
@@ -17079,11 +16399,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://karnatakatourism.org",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -17182,11 +16498,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://karnatakatourism.org",
         "bankChannelInformation": "https://karnatakatourism.org"
@@ -17276,11 +16588,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.startupindia.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -17379,11 +16687,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.startupindia.gov.in",
         "bankChannelInformation": "https://www.startupindia.gov.in/srf/portal/SRF_2026_Result_page/Karnataka_State_Report.pdf"
@@ -17474,11 +16778,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://web.umang.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -17579,11 +16879,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://web.umang.gov.in",
         "bankChannelInformation": "https://web.umang.gov.in/landing/scheme/detail/pm-street-vendors-atmanirbhar-nidhi-pm-svanidhi_pm-svanidhi.html"
@@ -17673,11 +16969,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -17776,11 +17068,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/pmv"
@@ -17870,11 +17158,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://aajeevika.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -17973,11 +17257,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://aajeevika.gov.in",
         "bankChannelInformation": "aajeevika.gov.in / Nearest NRLM Block Mission Management Unit"
@@ -18069,11 +17349,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.govtschemes.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -18176,11 +17452,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.govtschemes.in",
         "bankChannelInformation": "https://www.govtschemes.in/karnataka-gruha-lakshmi-scheme"
@@ -18272,11 +17544,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://web.umang.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -18379,11 +17647,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://web.umang.gov.in",
         "bankChannelInformation": "https://web.umang.gov.in/landing/scheme/detail/udyogini-scheme_us.html"
@@ -18473,11 +17737,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://fisheries.karnataka.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -18576,11 +17836,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://fisheries.karnataka.gov.in",
         "bankChannelInformation": "fisheries.karnataka.gov.in"
@@ -18669,12 +17925,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://kmfnandini.coop",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -18687,7 +17939,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://kmfnandini.coop",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -18772,17 +18024,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://kmfnandini.coop",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "kmfnandini.coop / Nearest KMF Cooperative Society"
       },
       "governance": {
-        "officialSourceUrl": "https://kmfnandini.coop",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -18804,7 +18052,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Karnataka Milk Federation (KMF) / Dept. of Animal Husbandry",
         "implementingAgency": "kmfnandini.coop",
-        "officialPortalUrl": "https://kmfnandini.coop",
+        "officialPortalUrl": "",
         "isGovernmentDomain": false
       },
       "verification": {
@@ -18829,7 +18077,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "SECONDARY_AGGREGATOR"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -18866,11 +18114,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://fisheries.kerala.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -18969,11 +18213,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://fisheries.kerala.gov.in",
         "bankChannelInformation": "https://fisheries.kerala.gov.in/sites/default/files/inline-files/4%20KARNATAKA.pdf"
@@ -19063,11 +18303,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Karnataka"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.manage.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -19166,11 +18402,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.manage.gov.in",
         "bankChannelInformation": "https://www.manage.gov.in/fpoacademy/SGSchemes/karnataka.pdf"
@@ -19262,12 +18494,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Kerala"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://kscdc.net",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -19280,7 +18508,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://kscdc.net",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -19369,17 +18597,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://kscdc.net",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "kscdc.net"
       },
       "governance": {
-        "officialSourceUrl": "https://kscdc.net",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -19400,7 +18624,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "officialSource": {
         "ministryOrDepartment": "Kerala State SC / ST Development Corp (KSCDC)",
-        "officialPortalUrl": "https://kscdc.net",
+        "officialPortalUrl": "",
         "isGovernmentDomain": false
       },
       "verification": {
@@ -19425,7 +18649,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "SECONDARY_AGGREGATOR"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -19462,11 +18686,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Kerala"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://startupmission.kerala.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -19565,11 +18785,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://startupmission.kerala.gov.in",
         "bankChannelInformation": "https://startupmission.kerala.gov.in"
@@ -19661,12 +18877,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Kerala"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://kswdc.org",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -19679,7 +18891,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://kswdc.org",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -19768,17 +18980,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://kswdc.org",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "kswdc.org"
       },
       "governance": {
-        "officialSourceUrl": "https://kswdc.org",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -19799,7 +19007,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "officialSource": {
         "ministryOrDepartment": "Kerala State Women's Dev. Corp (KSWDC)",
-        "officialPortalUrl": "https://kswdc.org",
+        "officialPortalUrl": "",
         "isGovernmentDomain": false
       },
       "verification": {
@@ -19813,7 +19021,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
           "documentChecklist",
           "guidelines"
         ],
-        "notes": "Imported as candidate discovery scheme. Authoritative primary government verification required before official certification. [AUDIT: Potential duplicate of authoritative scheme 'kerala-kswdc-vanitha']."
+        "notes": "Imported as candidate discovery scheme. Authoritative primary government verification required before official certification."
       },
       "freshness": {
         "status": "UNKNOWN",
@@ -19824,7 +19032,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "GOVERNMENT_BACKED"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -19861,11 +19069,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Kerala"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://kvib.kerala.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -19964,11 +19168,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://kvib.kerala.gov.in",
         "bankChannelInformation": "kvib.kerala.gov.in"
@@ -20057,12 +19257,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Kerala"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://kudumbashree.org",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -20075,7 +19271,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://kudumbashree.org",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -20160,17 +19356,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://kudumbashree.org",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "kudumbashree.org"
       },
       "governance": {
-        "officialSourceUrl": "https://kudumbashree.org",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -20191,7 +19383,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "officialSource": {
         "ministryOrDepartment": "Kudumbashree Mission, Kerala",
-        "officialPortalUrl": "https://kudumbashree.org",
+        "officialPortalUrl": "",
         "isGovernmentDomain": false
       },
       "verification": {
@@ -20205,7 +19397,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
           "documentChecklist",
           "guidelines"
         ],
-        "notes": "Imported as candidate discovery scheme. Authoritative primary government verification required before official certification. [AUDIT: Potential duplicate of authoritative scheme 'kerala-kudumbashree-kmed']."
+        "notes": "Imported as candidate discovery scheme. Authoritative primary government verification required before official certification."
       },
       "freshness": {
         "status": "UNKNOWN",
@@ -20216,7 +19408,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "GOVERNMENT_BACKED"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -20253,11 +19445,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Kerala"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://fisheries.kerala.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -20356,11 +19544,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://fisheries.kerala.gov.in",
         "bankChannelInformation": "fisheries.kerala.gov.in"
@@ -20450,12 +19634,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Ladakh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://ladakh.nic.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -20470,7 +19650,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://ladakh.nic.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -20557,17 +19737,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://ladakh.nic.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "Nearest Block Development Office (BDO) or Umeed CRP / SHG facilitator in village"
       },
       "governance": {
-        "officialSourceUrl": "https://ladakh.nic.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -20589,8 +19765,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Ladakh UT Rural Development Dept. / National Rural Livelihoods Mission (NRLM)",
         "implementingAgency": "Nearest Block Development Office (BDO) or Umeed CRP",
-        "officialPortalUrl": "https://ladakh.nic.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -20614,7 +19790,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -20653,12 +19829,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Ladakh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://ladakh.nic.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -20673,7 +19845,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://ladakh.nic.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -20762,17 +19934,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://ladakh.nic.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "Ladakh UT Animal Husbandry Dept. / LAHDC office, Leh or Kargil"
       },
       "governance": {
-        "officialSourceUrl": "https://ladakh.nic.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -20794,8 +19962,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Ladakh UT Animal Husbandry & Sheep Husbandry Dept.",
         "implementingAgency": "Ladakh UT Animal Husbandry Dept.",
-        "officialPortalUrl": "https://ladakh.nic.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -20819,7 +19987,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -20858,11 +20026,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Madhya Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://msme.mponline.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -20966,11 +20130,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://msme.mponline.gov.in",
         "bankChannelInformation": "https://msme.mponline.gov.in"
@@ -21060,11 +20220,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Madhya Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://msme.mponline.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -21164,11 +20320,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://msme.mponline.gov.in",
         "bankChannelInformation": "https://msme.mponline.gov.in"
@@ -21260,11 +20412,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Madhya Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://msme.mponline.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -21368,11 +20516,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://msme.mponline.gov.in",
         "bankChannelInformation": "https://msme.mponline.gov.in"
@@ -21464,11 +20608,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://agriinfra.dac.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -21573,11 +20713,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://agriinfra.dac.gov.in",
         "bankChannelInformation": "https://agriinfra.dac.gov.in"
@@ -21669,11 +20805,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://udyog.mahaswayam.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -21777,11 +20909,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://udyog.mahaswayam.gov.in",
         "bankChannelInformation": "https://udyog.mahaswayam.gov.in/public/index.php"
@@ -21872,11 +21000,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://bhandara.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -21979,11 +21103,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://bhandara.gov.in",
         "bankChannelInformation": "https://bhandara.gov.in/department-of-skills-employment-entrepreneurship-and-innovation"
@@ -22073,11 +21193,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://sfacindia.com",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -22178,11 +21294,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://sfacindia.com",
         "bankChannelInformation": "https://sfacindia.com"
@@ -22274,11 +21386,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://sjsa.maharashtra.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -22383,11 +21491,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://sjsa.maharashtra.gov.in",
         "bankChannelInformation": "https://sjsa.maharashtra.gov.in"
@@ -22479,11 +21583,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://msdfc.maharashtra.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -22588,11 +21688,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://msdfc.maharashtra.gov.in",
         "bankChannelInformation": "msdfc.maharashtra.gov.in / District Minority Welfare Office"
@@ -22684,12 +21780,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://mavim.org.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -22704,7 +21796,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://mavim.org.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -22793,17 +21885,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://mavim.org.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "mavim.org.in"
       },
       "governance": {
-        "officialSourceUrl": "https://mavim.org.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -22824,7 +21912,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "officialSource": {
         "ministryOrDepartment": "Maharashtra Women & Child Development Dept.",
-        "officialPortalUrl": "https://mavim.org.in",
+        "officialPortalUrl": "",
         "isGovernmentDomain": false
       },
       "verification": {
@@ -22849,7 +21937,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "SECONDARY_AGGREGATOR"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -22887,11 +21975,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -22994,11 +22078,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/cmegp"
@@ -23089,11 +22169,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://nmcnagpur.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -23196,11 +22272,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://nmcnagpur.gov.in",
         "bankChannelInformation": "https://nmcnagpur.gov.in/assets/300/2025/09/Public-Notices/Scheme_Guidelines_-_6925_(1)_250916_155553.pdf"
@@ -23290,11 +22362,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://jalgaon.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -23395,11 +22463,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://jalgaon.gov.in",
         "bankChannelInformation": "https://jalgaon.gov.in/en/scheme/punyashlok-ahilya-devi-holkar-mahila-startup-yojana"
@@ -23490,11 +22554,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://mahasamajkalyan.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -23596,11 +22656,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://mahasamajkalyan.gov.in",
         "bankChannelInformation": "mahasamajkalyan.gov.in"
@@ -23690,11 +22746,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://ahdmaharashtra.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -23798,11 +22850,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://ahdmaharashtra.gov.in",
         "bankChannelInformation": "ahdmaharashtra.gov.in / Zilla Parishad Animal Husbandry Office"
@@ -23892,11 +22940,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://handloom.maharashtra.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -23997,11 +23041,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://handloom.maharashtra.gov.in",
         "bankChannelInformation": "handloom.maharashtra.gov.in / nearest District Handloom Office"
@@ -24091,11 +23131,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://fisheries.maharashtra.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -24195,11 +23231,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://fisheries.maharashtra.gov.in",
         "bankChannelInformation": "https://fisheries.maharashtra.gov.in"
@@ -24289,11 +23321,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://fisheries.maharashtra.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -24393,11 +23421,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://fisheries.maharashtra.gov.in",
         "bankChannelInformation": "fisheries.maharashtra.gov.in"
@@ -24486,11 +23510,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://dahd.maharashtra.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -24591,11 +23611,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://dahd.maharashtra.gov.in",
         "bankChannelInformation": "https://dahd.maharashtra.gov.in/en/scheme/national-livestock-mission"
@@ -24687,11 +23703,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://silkmmaharashtra.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -24796,11 +23808,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://silkmmaharashtra.gov.in",
         "bankChannelInformation": "silkmMaharashtra.gov.in / District Sericulture Officer"
@@ -24891,11 +23899,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Maharashtra"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://ahdmaharashtra.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -24998,11 +24002,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://ahdmaharashtra.gov.in",
         "bankChannelInformation": "ahdmaharashtra.gov.in / Zilla Parishad Animal Husbandry Office"
@@ -25093,12 +24093,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Manipur"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://manipur.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -25113,7 +24109,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://manipur.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -25200,17 +24196,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://manipur.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "Manipur Commerce & Industries Dept. / Ima Keithel Management Committee (offline)"
       },
       "governance": {
-        "officialSourceUrl": "https://manipur.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -25232,8 +24224,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Manipur Commerce & Industries Dept.",
         "implementingAgency": "Manipur Commerce & Industries Dept.",
-        "officialPortalUrl": "https://manipur.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -25257,7 +24249,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -25296,11 +24288,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Manipur"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://msrlm.manipur.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -25405,11 +24393,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://msrlm.manipur.gov.in",
         "bankChannelInformation": "msrlm.manipur.gov.in / Block MSRLM office (offline)"
@@ -25502,11 +24486,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Manipur"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -25613,11 +24593,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/strtupmpr"
@@ -25708,11 +24684,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Manipur"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://hillareas.manipur.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -25816,11 +24788,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://hillareas.manipur.gov.in",
         "bankChannelInformation": "hillareas.manipur.gov.in / nearest Sub-Divisional Office in hill district"
@@ -25913,11 +24881,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Meghalaya"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://mbda.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -26024,11 +24988,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://mbda.gov.in",
         "bankChannelInformation": "https://mbda.gov.in"
@@ -26121,11 +25081,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Meghalaya"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://msrls.meghalaya.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -26232,11 +25188,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://msrls.meghalaya.gov.in",
         "bankChannelInformation": "msrls.meghalaya.gov.in / Block MSRLS office (offline)"
@@ -26327,11 +25279,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Meghalaya"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://khadc.nic.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -26435,11 +25383,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://khadc.nic.in",
         "bankChannelInformation": "khadc.nic.in / jhadc.nic.in / ghadc.nic.in — respective ADC office"
@@ -26531,11 +25475,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Mizoram"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://msrlm.mizoram.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -26640,11 +25580,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://msrlm.mizoram.gov.in",
         "bankChannelInformation": "msrlm.mizoram.gov.in / Block Development Office (offline)"
@@ -26737,11 +25673,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Mizoram"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://industries.mizoram.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -26848,11 +25780,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://industries.mizoram.gov.in",
         "bankChannelInformation": "industries.mizoram.gov.in / District Industries Centre (DIC) office"
@@ -26944,12 +25872,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Mizoram"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://mizoram.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -26964,7 +25888,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://mizoram.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -27053,17 +25977,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://mizoram.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "mizoram.gov.in/tribal / nearest District Council Office (offline)"
       },
       "governance": {
-        "officialSourceUrl": "https://mizoram.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -27085,8 +26005,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Mizoram Tribal Welfare Dept. / District Council (LADC / CADC / MDC)",
         "implementingAgency": "mizoram.gov.in",
-        "officialPortalUrl": "https://mizoram.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -27110,7 +26030,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -27149,12 +26069,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Mizoram"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://mizoram.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -27169,7 +26085,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://mizoram.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -27258,17 +26174,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://mizoram.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "mizoram.gov.in/nlup / District NLUP Implementation Unit (offline)"
       },
       "governance": {
-        "officialSourceUrl": "https://mizoram.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -27290,8 +26202,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Mizoram New Land Use Policy (NLUP) Board / Agriculture Dept.",
         "implementingAgency": "mizoram.gov.in",
-        "officialPortalUrl": "https://mizoram.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -27315,7 +26227,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -27355,11 +26267,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Nagaland"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://industries.nagaland.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -27466,11 +26374,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://industries.nagaland.gov.in",
         "bankChannelInformation": "industries.nagaland.gov.in / District Industries Centre (DIC) (offline)"
@@ -27562,11 +26466,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Nagaland"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://nsrlm.nagaland.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -27671,11 +26571,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://nsrlm.nagaland.gov.in",
         "bankChannelInformation": "nsrlm.nagaland.gov.in / Block Development Office (offline)"
@@ -27766,12 +26662,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Nagaland"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://nagaland.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -27787,7 +26679,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://nagaland.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -27874,17 +26766,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://nagaland.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "nagaland.gov.in/rural / Village Council or VDB Secretary (offline)"
       },
       "governance": {
-        "officialSourceUrl": "https://nagaland.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -27906,8 +26794,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Nagaland Rural Development Dept. / Village Development Boards (VDB)",
         "implementingAgency": "nagaland.gov.in",
-        "officialPortalUrl": "https://nagaland.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -27931,7 +26819,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -27968,11 +26856,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://nulm.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -28072,11 +26956,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://nulm.gov.in",
         "bankChannelInformation": "https://nulm.gov.in"
@@ -28164,12 +27044,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "agri"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://myscheme.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -28182,7 +27058,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://myscheme.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -28263,17 +27139,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://myscheme.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "Nearest bank branch"
       },
       "governance": {
-        "officialSourceUrl": "https://myscheme.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -28294,8 +27166,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "officialSource": {
         "ministryOrDepartment": "Ministry of Agriculture",
-        "officialPortalUrl": "https://myscheme.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -28319,7 +27191,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -28356,11 +27228,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.airtel.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -28459,11 +27327,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.airtel.in",
         "bankChannelInformation": "https://www.airtel.in/blog/personal-loan/pmegp-loan-scheme-your-complete-guide"
@@ -28552,11 +27416,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "manufacturing"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -28653,11 +27513,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/pmfmpe"
@@ -28745,11 +27601,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.govtschemes.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -28844,11 +27696,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.govtschemes.in",
         "bankChannelInformation": "https://www.govtschemes.in/pradhan-mantri-laghu-vyapari-mandhan-yojanapmlvmy"
@@ -28938,11 +27786,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -29041,11 +27885,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/pmmy"
@@ -29133,11 +27973,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "manufacturing"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://grants-msje.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -29232,11 +28068,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://grants-msje.gov.in",
         "bankChannelInformation": "https://grants-msje.gov.in/display-smile-guidelines"
@@ -29324,11 +28156,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://web.umang.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -29423,11 +28251,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://web.umang.gov.in",
         "bankChannelInformation": "https://web.umang.gov.in/landing/scheme/detail/pm-street-vendors-atmanirbhar-nidhi-pm-svanidhi_pm-svanidhi.html"
@@ -29515,11 +28339,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "handicraft"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -29615,11 +28435,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/pmv"
@@ -29709,11 +28525,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -29813,11 +28625,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/sui"
@@ -29905,11 +28713,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "tech"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.startupindia.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -30005,11 +28809,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.startupindia.gov.in",
         "bankChannelInformation": "https://www.startupindia.gov.in/content/sih/en/home-page.html"
@@ -30097,11 +28897,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "handicraft"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://usttad.amitsha.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -30197,11 +28993,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://usttad.amitsha.gov.in",
         "bankChannelInformation": "usttad.amitsha.gov.in / State Minorities Commission / Nearest empanelled NGO or Training Centre"
@@ -30290,11 +29082,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "food"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://agriinfra.dac.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -30392,11 +29180,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://agriinfra.dac.gov.in",
         "bankChannelInformation": "https://agriinfra.dac.gov.in"
@@ -30486,11 +29270,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -30590,11 +29370,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/day-nrlm"
@@ -30684,11 +29460,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://haryanadp.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -30788,11 +29560,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://haryanadp.gov.in",
         "bankChannelInformation": "https://haryanadp.gov.in/wp-content/uploads/2025/06/2023021741-second.pdf"
@@ -30882,11 +29650,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://naimanzil.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -30986,11 +29750,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://naimanzil.gov.in",
         "bankChannelInformation": "naimanzil.gov.in / Nearest empanelled NGO or Training Centre"
@@ -31078,11 +29838,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -31178,11 +29934,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/naps"
@@ -31271,11 +30023,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "manufacturing"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://nbm.nic.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -31373,11 +30121,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://nbm.nic.in",
         "bankChannelInformation": "nbm.nic.in / State Nodal Agency / Local Krishi Vigyan Kendra (KVK)"
@@ -31466,11 +30210,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "manufacturing"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.dahd.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -31568,11 +30308,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.dahd.gov.in",
         "bankChannelInformation": "https://www.dahd.gov.in/en/schemes/programmes/national_livestock_mission"
@@ -31662,11 +30398,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://nbcfdc.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -31766,11 +30498,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://nbcfdc.gov.in",
         "bankChannelInformation": "https://nbcfdc.gov.in/nbcfdc/web/skills-schemes-flyer"
@@ -31860,11 +30588,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://skillindiadigital.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -31964,11 +30688,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://skillindiadigital.gov.in",
         "bankChannelInformation": "https://skillindiadigital.gov.in"
@@ -32056,11 +30776,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "agri"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://pmkisan.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -32155,11 +30871,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://pmkisan.gov.in",
         "bankChannelInformation": "https://pmkisan.gov.in"
@@ -32247,11 +30959,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "agri"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://pmksy.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -32346,11 +31054,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://pmksy.gov.in",
         "bankChannelInformation": "https://pmksy.gov.in"
@@ -32439,11 +31143,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "manufacturing"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://pmmsy.dof.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -32541,11 +31241,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://pmmsy.dof.gov.in",
         "bankChannelInformation": "https://pmmsy.dof.gov.in"
@@ -32635,11 +31331,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "trading"
     ],
     "applicableStates": [],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://my.msme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -32739,11 +31431,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://my.msme.gov.in",
         "bankChannelInformation": "https://my.msme.gov.in/MyMsmeMob/MsmeScheme/Pages/8_2.html"
@@ -32835,11 +31523,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Odisha"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://missionshakti.odisha.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -32944,11 +31628,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://missionshakti.odisha.gov.in",
         "bankChannelInformation": "https://missionshakti.odisha.gov.in/en/programme/mission-shakti-loan-state-interest-subvention"
@@ -33041,12 +31721,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Puducherry"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://py.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -33061,7 +31737,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://py.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -33152,17 +31828,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://py.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "Dept. of Industries & Commerce, Puducherry / nearest DRDA office"
       },
       "governance": {
-        "officialSourceUrl": "https://py.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -33184,8 +31856,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Puducherry Dept. of Industries & Commerce / AAJEEVIKA",
         "implementingAgency": "Dept. of Industries & Commerce, Puducherry",
-        "officialPortalUrl": "https://py.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -33209,7 +31881,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -33246,12 +31918,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Puducherry"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://py.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -33266,7 +31934,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://py.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -33351,17 +32019,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://py.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "Dept. of Agriculture, Puducherry / nearest Krishi Vigyan Kendra"
       },
       "governance": {
-        "officialSourceUrl": "https://py.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -33383,8 +32047,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Puducherry Dept. of Agriculture",
         "implementingAgency": "Dept. of Agriculture, Puducherry",
-        "officialPortalUrl": "https://py.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -33408,7 +32072,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -33446,12 +32110,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Puducherry"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://py.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -33466,7 +32126,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://py.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -33553,17 +32213,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://py.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "Dept. of Labour & Employment, Puducherry / nearest ITI, Puducherry"
       },
       "governance": {
-        "officialSourceUrl": "https://py.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -33585,8 +32241,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Puducherry Dept. of Labour & Employment / AAJEEVIKA",
         "implementingAgency": "Dept. of Labour & Employment, Puducherry",
-        "officialPortalUrl": "https://py.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -33610,7 +32266,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -33647,11 +32303,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Punjab"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://punjabindustries.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -33751,11 +32403,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://punjabindustries.gov.in",
         "bankChannelInformation": "punjabindustries.gov.in"
@@ -33846,11 +32494,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Punjab"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://hortpb.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -33954,11 +32598,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://hortpb.gov.in",
         "bankChannelInformation": "hortpb.gov.in / Punjab Agro Industries Corp."
@@ -34048,11 +32688,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Punjab"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://transport.punjab.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -34152,11 +32788,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://transport.punjab.gov.in",
         "bankChannelInformation": "transport.punjab.gov.in"
@@ -34247,11 +32879,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Punjab"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://swd.punjab.gov.pk",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -34355,11 +32983,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://swd.punjab.gov.pk",
         "bankChannelInformation": "https://swd.punjab.gov.pk/himmatcard"
@@ -34449,11 +33073,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Punjab"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://web.umang.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -34553,11 +33173,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://web.umang.gov.in",
         "bankChannelInformation": "https://web.umang.gov.in/landing/scheme/detail/pm-street-vendors-atmanirbhar-nidhi-pm-svanidhi_pm-svanidhi.html"
@@ -34649,11 +33265,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Punjab"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://scsbc.punjab.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -34757,11 +33369,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://scsbc.punjab.gov.in",
         "bankChannelInformation": "scsbc.punjab.gov.in"
@@ -34852,12 +33460,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Punjab"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://pwdc.co.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -34871,7 +33475,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://pwdc.co.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -34960,17 +33564,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://pwdc.co.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "pwdc.co.in"
       },
       "governance": {
-        "officialSourceUrl": "https://pwdc.co.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -34991,7 +33591,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "officialSource": {
         "ministryOrDepartment": "Punjab Women Development Corporation",
-        "officialPortalUrl": "https://pwdc.co.in",
+        "officialPortalUrl": "",
         "isGovernmentDomain": false
       },
       "verification": {
@@ -35016,7 +33616,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "SECONDARY_AGGREGATOR"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -35053,11 +33653,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Punjab"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.startupindia.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -35157,11 +33753,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.startupindia.gov.in",
         "bankChannelInformation": "https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Punjab-state-policy.html"
@@ -35251,11 +33843,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Punjab"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://milkfed.punjab.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -35355,11 +33943,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://milkfed.punjab.gov.in",
         "bankChannelInformation": "milkfed.punjab.gov.in"
@@ -35448,11 +34032,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Punjab"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://punjabfisheries.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -35552,11 +34132,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://punjabfisheries.gov.in",
         "bankChannelInformation": "punjabfisheries.gov.in"
@@ -35647,11 +34223,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Punjab"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://ruraldevelopment.punjab.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -35755,11 +34327,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://ruraldevelopment.punjab.gov.in",
         "bankChannelInformation": "ruraldevelopment.punjab.gov.in"
@@ -35849,11 +34417,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Rajasthan"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://industries.rajasthan.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -35955,11 +34519,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://industries.rajasthan.gov.in",
         "bankChannelInformation": "https://industries.rajasthan.gov.in"
@@ -36050,11 +34610,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Rajasthan"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://industries.rajasthan.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -36156,11 +34712,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://industries.rajasthan.gov.in",
         "bankChannelInformation": "https://industries.rajasthan.gov.in"
@@ -36252,11 +34804,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Rajasthan"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://sje.rajasthan.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -36360,11 +34908,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://sje.rajasthan.gov.in",
         "bankChannelInformation": "https://sje.rajasthan.gov.in"
@@ -36456,12 +35000,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Rajasthan"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://rajmahilanidhi.org",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -36476,7 +35016,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://rajmahilanidhi.org",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -36565,17 +35105,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://rajmahilanidhi.org",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "rajmahilanidhi.org"
       },
       "governance": {
-        "officialSourceUrl": "https://rajmahilanidhi.org",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -36596,7 +35132,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "officialSource": {
         "ministryOrDepartment": "Rajasthan State Rural Livelihoods Mission (RSLM)",
-        "officialPortalUrl": "https://rajmahilanidhi.org",
+        "officialPortalUrl": "",
         "isGovernmentDomain": false
       },
       "verification": {
@@ -36621,7 +35157,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "SECONDARY_AGGREGATOR"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -36658,11 +35194,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Rajasthan"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://industries.rajasthan.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -36762,11 +35294,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://industries.rajasthan.gov.in",
         "bankChannelInformation": "https://industries.rajasthan.gov.in/order/detail/946/0/106608"
@@ -36856,11 +35384,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Rajasthan"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://government.economictimes.indiatimes.com",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -36960,11 +35484,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://government.economictimes.indiatimes.com",
         "bankChannelInformation": "https://government.economictimes.indiatimes.com/news/economy/rajasthan-budget-2026-major-investments-in-dairy-and-animal-husbandry-to-benefit-livestock-owners/128211291"
@@ -37055,11 +35575,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Sikkim"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://sikkimagrisnet.nic.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -37162,11 +35678,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://sikkimagrisnet.nic.in",
         "bankChannelInformation": "sikkimagrisnet.nic.in / District Horticulture Officer (offline)"
@@ -37259,11 +35771,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Sikkim"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://industries.sikkim.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -37370,11 +35878,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://industries.sikkim.gov.in",
         "bankChannelInformation": "industries.sikkim.gov.in / District Industries Centre (DIC) (offline)"
@@ -37465,11 +35969,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Sikkim"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://ssdma.sikkim.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -37573,11 +36073,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://ssdma.sikkim.gov.in",
         "bankChannelInformation": "ssdma.sikkim.gov.in / District Collector / Sub-Divisional Magistrate (SDM) (offline)"
@@ -37668,11 +36164,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Sikkim"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://socialwelfare.sikkim.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -37776,11 +36268,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://socialwelfare.sikkim.gov.in",
         "bankChannelInformation": "socialwelfare.sikkim.gov.in / District Social Welfare Office (offline)"
@@ -37872,11 +36360,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Sikkim"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://rmd.sikkim.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -37981,11 +36465,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://rmd.sikkim.gov.in",
         "bankChannelInformation": "rmd.sikkim.gov.in / Block Development Office (offline)"
@@ -38077,11 +36557,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Sikkim"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://ahvs.sikkim.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -38187,11 +36663,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://ahvs.sikkim.gov.in",
         "bankChannelInformation": "ahvs.sikkim.gov.in / District Veterinary Officer (offline)"
@@ -38282,11 +36754,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Sikkim"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://ahvs.sikkim.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -38389,11 +36857,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://ahvs.sikkim.gov.in",
         "bankChannelInformation": "ahvs.sikkim.gov.in / District Fisheries Development Officer (offline)"
@@ -38487,11 +36951,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Sikkim"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://sikkimtourism.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -38600,11 +37060,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://sikkimtourism.gov.in",
         "bankChannelInformation": "sikkimtourism.gov.in / District Tourism Office (offline)"
@@ -38695,11 +37151,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Sikkim"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://sikkimtribalwelfare.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -38803,11 +37255,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://sikkimtribalwelfare.gov.in",
         "bankChannelInformation": "sikkimtribalwelfare.gov.in / District Tribal Welfare Officer (offline)"
@@ -38898,11 +37346,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Tamil Nadu"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://agri.tn.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -39003,11 +37447,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://agri.tn.gov.in",
         "bankChannelInformation": "agri.tn.gov.in"
@@ -39096,11 +37536,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Tamil Nadu"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://tiruvarur.nic.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -39199,11 +37635,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://tiruvarur.nic.in",
         "bankChannelInformation": "https://tiruvarur.nic.in/mudhalvarin-kaakkum-karangal-scheme"
@@ -39295,11 +37727,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Tamil Nadu"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://tiic.org",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -39402,11 +37830,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://tiic.org",
         "bankChannelInformation": "https://tiic.org"
@@ -39496,11 +37920,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Tamil Nadu"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://tnulb.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -39599,11 +38019,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://tnulb.gov.in",
         "bankChannelInformation": "tnulb.gov.in"
@@ -39694,11 +38110,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Tamil Nadu"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://agri.tn.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -39801,11 +38213,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://agri.tn.gov.in",
         "bankChannelInformation": "agri.tn.gov.in"
@@ -39895,11 +38303,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Tamil Nadu"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://tnvfa.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -40000,11 +38404,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://tnvfa.gov.in",
         "bankChannelInformation": "tnvfa.gov.in"
@@ -40093,11 +38493,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Tamil Nadu"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://handlooms.tn.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -40197,11 +38593,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://handlooms.tn.gov.in",
         "bankChannelInformation": "handlooms.tn.gov.in"
@@ -40290,11 +38682,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Tamil Nadu"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://fisheries.tn.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -40393,11 +38781,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://fisheries.tn.gov.in",
         "bankChannelInformation": "fisheries.tn.gov.in"
@@ -40486,11 +38870,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Telangana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://bcwelfare.telangana.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -40590,11 +38970,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://bcwelfare.telangana.gov.in",
         "bankChannelInformation": "bcwelfare.telangana.gov.in / Nearest Dist. BC Welfare Office"
@@ -40684,11 +39060,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Telangana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://handlooms.telangana.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -40788,11 +39160,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://handlooms.telangana.gov.in",
         "bankChannelInformation": "handlooms.telangana.gov.in / Nearest Weavers Co-op / District Office"
@@ -40882,12 +39250,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Telangana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://tsscfdc.com",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -40901,7 +39265,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://tsscfdc.com",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -40986,17 +39350,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://tsscfdc.com",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "tsscfdc.com / Nearest DRDA / ITDA Office"
       },
       "governance": {
-        "officialSourceUrl": "https://tsscfdc.com",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -41018,7 +39378,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Telangana SC Development & Tribal Welfare Dept.",
         "implementingAgency": "tsscfdc.com",
-        "officialPortalUrl": "https://tsscfdc.com",
+        "officialPortalUrl": "",
         "isGovernmentDomain": false
       },
       "verification": {
@@ -41043,7 +39403,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "SECONDARY_AGGREGATOR"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -41082,11 +39442,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Telangana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://ibpsreg.ibps.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -41190,11 +39546,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://ibpsreg.ibps.in",
         "bankChannelInformation": "https://ibpsreg.ibps.in/snccflapr26/uploads/loadpdf.php?file=k7m5p+fQ15e7yM7Wx9XG2tuYoJS+pdGTpaeV6Kqlcg%3D%3D&t=xa3HneXVzdutx9Dh1ZfVzs8%3D"
@@ -41286,11 +39638,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Telangana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://schemesinindia.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -41394,11 +39742,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://schemesinindia.in",
         "bankChannelInformation": "https://schemesinindia.in/schemes/telangana/telangana-t-pride-bc-entrepreneur-loan"
@@ -41488,12 +39832,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Telangana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://telangana.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -41507,7 +39847,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://telangana.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -41592,17 +39932,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://telangana.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "Distributed via MeeSeva / Fair Price Shop — no separate application"
       },
       "governance": {
-        "officialSourceUrl": "https://telangana.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -41624,8 +39960,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Telangana Women Development & Child Welfare Dept.",
         "implementingAgency": "Distributed via MeeSeva",
-        "officialPortalUrl": "https://telangana.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -41649,7 +39985,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -41687,12 +40023,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Telangana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://telangana.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -41706,7 +40038,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://telangana.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -41793,17 +40125,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://telangana.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "Nearest District Animal Husbandry / DRDA Office"
       },
       "governance": {
-        "officialSourceUrl": "https://telangana.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -41825,8 +40153,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       "officialSource": {
         "ministryOrDepartment": "Telangana Animal Husbandry / SC Development Dept.",
         "implementingAgency": "Nearest District Animal Husbandry",
-        "officialPortalUrl": "https://telangana.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -41850,7 +40178,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "B — livelihood/agri/capability",
     "isCandidateScheme": true,
@@ -41888,11 +40216,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Telangana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://rythubandhu.telangana.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -41994,11 +40318,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://rythubandhu.telangana.gov.in",
         "bankChannelInformation": "rythubandhu.telangana.gov.in / Nearest Cooperative Bank / Agriculture Dept."
@@ -42088,11 +40408,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Telangana"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://fisheries.telangana.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -42191,11 +40507,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://fisheries.telangana.gov.in",
         "bankChannelInformation": "fisheries.telangana.gov.in / Nearest Fisheries Extension Officer"
@@ -42286,11 +40598,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Tripura"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://industry.tripura.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -42393,11 +40701,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://industry.tripura.gov.in",
         "bankChannelInformation": "industry.tripura.gov.in / District Industries Centre (DIC) office"
@@ -42490,11 +40794,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Tripura"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://trlm.tripura.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -42601,11 +40901,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://trlm.tripura.gov.in",
         "bankChannelInformation": "trlm.tripura.gov.in / Block TRLM office (offline)"
@@ -42696,11 +40992,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Tripura"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://ttaadc.nic.in",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
@@ -42803,11 +41095,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
         "officialApplicationUrl": "https://ttaadc.nic.in",
         "bankChannelInformation": "ttaadc.nic.in / nearest TTAADC Block Development Office"
@@ -42899,11 +41187,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Uttar Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -43008,11 +41292,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/myuyb"
@@ -43103,11 +41383,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Uttar Pradesh"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "http://msme1connect.up.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -43210,11 +41486,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "http://msme1connect.up.gov.in",
         "bankChannelInformation": "http://msme1connect.up.gov.in"
@@ -43305,11 +41577,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Uttarakhand"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://ureda.uk.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -43412,11 +41680,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://ureda.uk.gov.in",
         "bankChannelInformation": "https://ureda.uk.gov.in"
@@ -43509,11 +41773,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "Uttarakhand"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://msme1connect.up.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -43620,11 +41880,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://msme1connect.up.gov.in",
         "bankChannelInformation": "https://msme1connect.up.gov.in/Home/SchemesList/5"
@@ -43715,12 +41971,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "West Bengal"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
-    "officialPortalUrl": "https://wb.gov.in",
+    "requiredDocuments": [],
+    "officialPortalUrl": "",
     "lastVerifiedDate": "",
     "applicationMode": "District Industry Center (DIC)",
     "isWomenSpecific": false,
@@ -43736,7 +41988,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "sourceProvenance": {
       "sourceName": "Yojana Sahay Candidate Dataset",
       "sourceType": "secondary_aggregator",
-      "officialSourceUrl": "https://wb.gov.in",
+      "officialSourceUrl": "",
       "isOfficialGovernmentSource": false,
       "priorityLevel": 5,
       "verificationStatus": "UNVERIFIED",
@@ -43823,17 +42075,13 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "District Industry Center (DIC)",
-        "officialApplicationUrl": "https://wb.gov.in",
+        "officialApplicationUrl": "",
         "bankChannelInformation": "Apply at nearest bank (nationalized) with WB Backward Classes Welfare Dept. referral"
       },
       "governance": {
-        "officialSourceUrl": "https://wb.gov.in",
+        "officialSourceUrl": "",
         "sourceName": "Yojana Sahay Candidate Extraction",
         "sourceType": "secondary_aggregator",
         "lastVerifiedDate": "",
@@ -43854,8 +42102,8 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "officialSource": {
         "ministryOrDepartment": "West Bengal Finance Dept. / Backward Classes Welfare Dept.",
-        "officialPortalUrl": "https://wb.gov.in",
-        "isGovernmentDomain": true
+        "officialPortalUrl": "",
+        "isGovernmentDomain": false
       },
       "verification": {
         "status": "UNVERIFIED",
@@ -43879,7 +42127,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
       },
       "confidence": "LOW",
       "entrepreneurRelevance": "CORE_ENTREPRENEUR",
-      "urlSafety": "OFFICIAL_GOVERNMENT"
+      "urlSafety": "SUSPICIOUS_OR_INVALID"
     },
     "relevanceTier": "A — direct enterprise/finance",
     "isCandidateScheme": true,
@@ -43918,11 +42166,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
     "applicableStates": [
       "West Bengal"
     ],
-    "requiredDocuments": [
-      "Aadhaar Card",
-      "Identity Proof",
-      "Address Proof"
-    ],
+    "requiredDocuments": [],
     "officialPortalUrl": "https://www.myscheme.gov.in",
     "lastVerifiedDate": "",
     "applicationMode": "Online via Portal",
@@ -44026,11 +42270,7 @@ export const CANDIDATE_SCHEMES_DATABASE: Scheme[] = [
         "mandatoryCriteria": []
       },
       "application": {
-        "requiredDocuments": [
-          "Aadhaar Card",
-          "Identity Proof",
-          "Address Proof"
-        ],
+        "requiredDocuments": [],
         "applicationMode": "Online via Portal",
         "officialApplicationUrl": "https://www.myscheme.gov.in",
         "bankChannelInformation": "https://www.myscheme.gov.in/schemes/wbsccs"

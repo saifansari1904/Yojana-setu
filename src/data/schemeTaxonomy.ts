@@ -100,7 +100,8 @@ export type ApplicationMode =
   | 'Online via Portal'
   | 'Nodal Bank Branch'
   | 'District Industry Center (DIC)'
-  | 'Hybrid';
+  | 'Hybrid'
+  | 'Unknown';
 
 // ==========================================
 // 8. DATA GOVERNANCE & SOURCE VERIFICATION

@@ -119,14 +119,50 @@ const zeroInventedBlockers = allCandidates.every(
 assert(zeroInventedBlockers, 'C16: Zero candidate schemes have invented mandatory criteria blockers');
 
 const validFundingRanges = allCandidates.every(
-  (c) => c.maxAmount > 0 && c.minAmount >= 0 && typeof c.fundingRangeText === 'string'
+  (c) =>
+    typeof c.maxAmount === 'number' &&
+    c.maxAmount >= 0 &&
+    c.minAmount >= 0 &&
+    typeof c.fundingRangeText === 'string' &&
+    // Unknown funding stays unknown: maxAmount 0 must pair with empty range text,
+    // never with an invented "Up to ₹1.0 Lakh".
+    (c.maxAmount > 0 || c.fundingRangeText === '')
 );
-assert(validFundingRanges, 'C17: All candidate schemes have positive funding maxAmount and range text');
+assert(validFundingRanges, 'C17: Candidate funding is either positive or honestly unknown (never invented)');
+
+// Behavioral proof: a candidate with no source funding keeps unknown funding
+// (never the old invented ₹1,00,000 baseline).
+const unfundedRaw = { ...rawCandidates[0], annual: undefined, benefit: 'General enterprise support.' };
+const unfundedNorm = normalizeCandidateScheme(unfundedRaw as any);
+assert(
+  unfundedNorm.maxAmount === 0 && unfundedNorm.fundingRangeText === '',
+  'C17b: Candidate with missing source funding normalizes to maxAmount 0 + empty range text (no ₹1,00,000 invention)'
+);
 
 const validPortalUrls = allCandidates.every((c) => {
-  return typeof c.officialPortalUrl === 'string' && /^https?:\/\/.+/i.test(c.officialPortalUrl);
+  // Honest unknown ('') is valid; a present URL must be well-formed HTTP/HTTPS.
+  // myScheme must never appear as an invented fallback.
+  return (
+    typeof c.officialPortalUrl === 'string' &&
+    (c.officialPortalUrl === '' || /^https?:\/\/.+/i.test(c.officialPortalUrl))
+  );
 });
-assert(validPortalUrls, 'C18: All candidate schemes have valid HTTP/HTTPS portal URLs');
+assert(validPortalUrls, 'C18: Candidate portal URLs are either explicit or honestly unknown');
+
+const noMyschemeFallback = allCandidates.every(
+  (c) => c.officialPortalUrl !== 'https://myscheme.gov.in'
+);
+assert(noMyschemeFallback, 'C18b: myScheme.gov.in is never assigned as an invented fallback URL');
+
+// Behavioral proof: a candidate with no source URL keeps unknown URLs.
+const urlessRaw = { ...rawCandidates[0], application_url: undefined };
+const urlessNorm = normalizeCandidateScheme(urlessRaw as any);
+assert(
+  urlessNorm.officialPortalUrl === '' &&
+    urlessNorm.intelligence.application.officialApplicationUrl === '' &&
+    urlessNorm.intelligence.governance.officialSourceUrl === '',
+  'C18c: Candidate with missing source URL keeps all portal URL fields unknown'
+);
 
 // -------------------------------------------------------------
 // SECTION 5: RELEVANCE TIERS & SCOPE DISTRIBUTION
@@ -245,6 +281,83 @@ assert(pmegpResult.matchedCount === 5, `C40: All 5 factors evaluated identically
 const sampleCandidate = repoCandidates[0];
 const candResult = evaluateSchemeEligibility(sampleCandidate, testProfile, 'en');
 assert(typeof candResult.matchPercentage === 'number' && candResult.matchPercentage >= 0, 'C41: Candidate scheme evaluated by matching engine without errors');
+
+// -------------------------------------------------------------
+// SECTION 10: CANDIDATE INTEGRITY REGRESSION TESTS
+// -------------------------------------------------------------
+
+// C42: No fabricated document requirements on candidates.
+const noFabricatedDocs = allCandidates.every(
+  (c) =>
+    Array.isArray(c.requiredDocuments) &&
+    c.requiredDocuments.length === 0 &&
+    Array.isArray(c.intelligence.application.requiredDocuments) &&
+    c.intelligence.application.requiredDocuments.length === 0
+);
+assert(noFabricatedDocs, 'C42: Candidate requiredDocuments are empty (no invented Aadhaar/Identity/Address)');
+
+// C43: Application mode is explicit or honestly Unknown — never defaulted to DIC.
+const honestModes = allCandidates.every((c) => {
+  const mode = c.applicationMode;
+  return (
+    mode === 'Online via Portal' ||
+    mode === 'Hybrid' ||
+    mode === 'Nodal Bank Branch' ||
+    mode === 'District Industry Center (DIC)' ||
+    mode === 'Unknown'
+  );
+});
+assert(honestModes, 'C43: All candidate application modes are explicit or Unknown');
+const modelessRaw = { ...rawCandidates[0], application_type: undefined };
+const modelessNorm = normalizeCandidateScheme(modelessRaw as any);
+assert(
+  modelessNorm.applicationMode === 'Unknown',
+  'C43b: Candidate with missing application_type normalizes to Unknown (never DIC)'
+);
+
+// C44: Generic TLDs are not treated as official portal evidence.
+const genericUrlRaw = { ...rawCandidates[0], application_url: 'Visit example.org for details' };
+const genericUrlNorm = normalizeCandidateScheme(genericUrlRaw as any);
+assert(
+  genericUrlNorm.officialPortalUrl === '',
+  'C44: Generic .org mention does not become a synthesized official portal URL'
+);
+assert(
+  classifyUrlSafety('https://example.org') !== 'OFFICIAL_GOVERNMENT' &&
+    classifyUrlSafety('https://example.in') !== 'OFFICIAL_GOVERNMENT' &&
+    classifyUrlSafety('https://example.com') !== 'OFFICIAL_GOVERNMENT' &&
+    classifyUrlSafety('https://example.net') !== 'OFFICIAL_GOVERNMENT',
+  'C44b: Generic TLDs are never classified as OFFICIAL_GOVERNMENT'
+);
+
+// C45: A candidate can NEVER become authoritative ELIGIBLE, even with a perfect profile.
+const perfectCandidate = normalizeCandidateScheme({
+  ...rawCandidates[0],
+  tag: 'manufacturing, general',
+  benefit: 'Financial assistance for manufacturing enterprises.',
+});
+const perfectProfile = {
+  age: 30,
+  gender: 'male' as const,
+  category: 'General' as any,
+  businessType: 'manufacturing' as any,
+  state: (perfectCandidate.applicableStates[0] || 'Karnataka') as string,
+  annualIncome: 100000,
+};
+const perfectResult = evaluateSchemeEligibility(perfectCandidate, perfectProfile, 'en');
+assert(
+  perfectResult.isEligible === false && perfectResult.matchStatus !== 'eligible',
+  `C45: Candidate cannot become authoritative ELIGIBLE (isEligible=${perfectResult.isEligible}, matchStatus=${perfectResult.matchStatus})`
+);
+
+// C46: Candidate trust posture stays UNVERIFIED / Level 6 after normalization.
+assert(
+  perfectCandidate.isCandidateScheme === true &&
+    perfectCandidate.trustProfile.verification.status === 'UNVERIFIED' &&
+    perfectCandidate.trustProfile.source.hierarchyLevel === 6 &&
+    perfectCandidate.trustProfile.confidence === 'LOW',
+  'C46: Candidate remains UNVERIFIED / Level 6 / LOW confidence'
+);
 
 console.log('------------------------------------------------------');
 console.log(`CANDIDATE SCHEME INGESTION RESULTS: ${passed} PASSED, ${failed} FAILED`);

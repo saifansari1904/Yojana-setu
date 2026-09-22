@@ -137,13 +137,20 @@ export function validateScheme(scheme: Scheme): SchemeValidationResult {
   }
 
   // 2. Official Portal URL & Verification Source
-  if (!scheme.officialPortalUrl || typeof scheme.officialPortalUrl !== 'string') {
-    errors.push({
+  // Candidate discovery records may honestly have no known portal URL —
+  // that is a warning, not a validation error. Never require a fabricated URL.
+  if (!scheme.officialPortalUrl || typeof scheme.officialPortalUrl !== 'string' || scheme.officialPortalUrl.trim() === '') {
+    const missingPortalIssue = {
       schemeId,
       field: 'officialPortalUrl',
       message: 'Official portal URL is missing',
       code: 'ERR_MISSING_PORTAL_URL',
-    });
+    };
+    if (scheme.isCandidateScheme === true) {
+      warnings.push({ ...missingPortalIssue, code: 'WARN_MISSING_PORTAL_URL' });
+    } else {
+      errors.push(missingPortalIssue);
+    }
   } else if (!URL_PATTERN.test(scheme.officialPortalUrl.trim())) {
     errors.push({
       schemeId,
@@ -163,7 +170,14 @@ export function validateScheme(scheme: Scheme): SchemeValidationResult {
     });
   }
 
-  if (typeof scheme.maxAmount !== 'number' || isNaN(scheme.maxAmount) || scheme.maxAmount <= 0) {
+  // Candidate discovery records may honestly have unknown funding (maxAmount 0).
+  // That is valid — never require an invented funding amount.
+  const maxAmountInvalid =
+    typeof scheme.maxAmount !== 'number' ||
+    isNaN(scheme.maxAmount) ||
+    scheme.maxAmount < 0 ||
+    (scheme.maxAmount <= 0 && scheme.isCandidateScheme !== true);
+  if (maxAmountInvalid) {
     errors.push({
       schemeId,
       field: 'maxAmount',
@@ -175,6 +189,7 @@ export function validateScheme(scheme: Scheme): SchemeValidationResult {
   if (
     typeof scheme.minAmount === 'number' &&
     typeof scheme.maxAmount === 'number' &&
+    scheme.maxAmount > 0 &&
     scheme.minAmount > scheme.maxAmount
   ) {
     errors.push({
@@ -354,12 +369,18 @@ export function validateScheme(scheme: Scheme): SchemeValidationResult {
       });
     }
     if (!gov.officialSourceUrl || !URL_PATTERN.test(gov.officialSourceUrl)) {
-      errors.push({
+      const sourceUrlIssue = {
         schemeId,
         field: 'intelligence.governance.officialSourceUrl',
         message: `Governance officialSourceUrl '${gov.officialSourceUrl}' is invalid`,
         code: 'ERR_INVALID_SOURCE_URL',
-      });
+      };
+      // Candidate discovery records may honestly have no known official source URL.
+      if (scheme.isCandidateScheme === true) {
+        warnings.push({ ...sourceUrlIssue, code: 'WARN_INVALID_SOURCE_URL' });
+      } else {
+        errors.push(sourceUrlIssue);
+      }
     }
     if (!gov.sourceName || gov.sourceName.trim() === '') {
       warnings.push({
@@ -392,12 +413,18 @@ export function validateScheme(scheme: Scheme): SchemeValidationResult {
       });
     }
     if (!prov.officialSourceUrl || !URL_PATTERN.test(prov.officialSourceUrl)) {
-      errors.push({
+      const provUrlIssue = {
         schemeId,
         field: 'sourceProvenance.officialSourceUrl',
         message: `sourceProvenance officialSourceUrl '${prov.officialSourceUrl}' is invalid`,
         code: 'ERR_INVALID_PROVENANCE_URL',
-      });
+      };
+      // Candidate discovery records may honestly have no known official source URL.
+      if (scheme.isCandidateScheme === true) {
+        warnings.push({ ...provUrlIssue, code: 'WARN_INVALID_PROVENANCE_URL' });
+      } else {
+        errors.push(provUrlIssue);
+      }
     }
     if (prov.priorityLevel < 1 || prov.priorityLevel > 5) {
       errors.push({

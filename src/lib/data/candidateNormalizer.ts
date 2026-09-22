@@ -125,9 +125,11 @@ export function parseFundingAmounts(annualRaw?: string | number, benefitText: st
     }
   }
 
-  // Fallback discovery baseline if entirely unmentioned
+  // No fabricated fallback: when the source provides no funding amount,
+  // the candidate record must preserve unknown (0 + empty range text).
+  // Never invent a funding amount for a discovery record.
   if (maxAmount <= 0) {
-    maxAmount = 100000; // ₹1,00,000 baseline discovery placeholder
+    return { minAmount: 0, maxAmount: 0, rangeText: '' };
   }
 
   const rangeText = maxAmount >= 10000000
@@ -144,88 +146,40 @@ export function parseFundingAmounts(annualRaw?: string | number, benefitText: st
 }
 
 /**
- * Extracts or sanitizes an official/valid portal URL from raw text.
+ * Extracts an explicitly-stated portal URL from raw source text.
+ * Returns '' (unknown) when the source does not provide one.
+ * Never invents a portal URL and never falls back to myScheme or state portals.
  */
-export function sanitizePortalUrl(rawUrl?: string, stateOrUt?: string, ministry?: string): string {
+export function sanitizePortalUrl(rawUrl?: string): string {
   if (!rawUrl || typeof rawUrl !== 'string') {
-    return resolveDefaultPortal(stateOrUt);
+    return '';
   }
 
   const clean = rawUrl.trim();
 
-  // 1. Direct valid HTTP/HTTPS URL
+  // 1. Direct valid HTTP/HTTPS URL explicitly stated in the source
   const httpMatch = clean.match(/https?:\/\/[^\s,/]+/i);
   if (httpMatch) {
     return httpMatch[0];
   }
 
-  // 2. Domain pattern in text (e.g. "fisheries.and.nic.in / District Office")
+  // 2. Explicit government domain token in text (e.g. "fisheries.and.nic.in").
+  // Only genuine government domains (.gov.in / .nic.in) are accepted here.
+  // Generic TLDs (.in, .org, .org.in, .com, .net, .coop) are NEVER treated
+  // as evidence of an official portal — they stay unknown.
   const domainMatch = clean.match(/([a-z0-9-]+(?:\.[a-z0-9-]+)+(?:\/[a-z0-9_-]+)*)/i);
   if (domainMatch && domainMatch[1] && domainMatch[1].includes('.')) {
     const candidateDomain = domainMatch[1].toLowerCase();
-    // Verify it's a plausible domain (has a recognized TLD or structure)
     if (
       candidateDomain.endsWith('.gov.in') ||
-      candidateDomain.endsWith('.nic.in') ||
-      candidateDomain.endsWith('.in') ||
-      candidateDomain.endsWith('.org') ||
-      candidateDomain.endsWith('.org.in') ||
-      candidateDomain.endsWith('.coop') ||
-      candidateDomain.endsWith('.com') ||
-      candidateDomain.endsWith('.net')
+      candidateDomain.endsWith('.nic.in')
     ) {
       return `https://${candidateDomain}`;
     }
   }
 
-  // 3. Fallback to state or central government portal
-  return resolveDefaultPortal(stateOrUt);
-}
-
-function resolveDefaultPortal(stateOrUt?: string): string {
-  if (!stateOrUt || stateOrUt.toLowerCase() === 'national') {
-    return 'https://myscheme.gov.in';
-  }
-
-  const stateSlugs: { [key: string]: string } = {
-    'andaman & nicobar': 'https://andaman.gov.in',
-    'andhra pradesh': 'https://ap.gov.in',
-    'arunachal pradesh': 'https://arunachalpradesh.gov.in',
-    'assam': 'https://assam.gov.in',
-    'bihar': 'https://bihar.gov.in',
-    'chandigarh': 'https://chandigarh.gov.in',
-    'chhattisgarh': 'https://cgstate.gov.in',
-    'delhi': 'https://delhi.gov.in',
-    'goa': 'https://goa.gov.in',
-    'gujarat': 'https://gujarat.gov.in',
-    'haryana': 'https://haryana.gov.in',
-    'himachal pradesh': 'https://himachal.nic.in',
-    'jammu & kashmir': 'https://jk.gov.in',
-    'jharkhand': 'https://jharkhand.gov.in',
-    'karnataka': 'https://karnataka.gov.in',
-    'kerala': 'https://kerala.gov.in',
-    'ladakh': 'https://ladakh.nic.in',
-    'madhya pradesh': 'https://mp.gov.in',
-    'maharashtra': 'https://maharashtra.gov.in',
-    'manipur': 'https://manipur.gov.in',
-    'meghalaya': 'https://meghalaya.gov.in',
-    'mizoram': 'https://mizoram.gov.in',
-    'nagaland': 'https://nagaland.gov.in',
-    'odisha': 'https://odisha.gov.in',
-    'puducherry': 'https://py.gov.in',
-    'punjab': 'https://punjab.gov.in',
-    'rajasthan': 'https://rajasthan.gov.in',
-    'sikkim': 'https://sikkim.gov.in',
-    'tamil nadu': 'https://tn.gov.in',
-    'telangana': 'https://telangana.gov.in',
-    'tripura': 'https://tripura.gov.in',
-    'uttar pradesh': 'https://up.gov.in',
-    'uttarakhand': 'https://uk.gov.in',
-    'west bengal': 'https://wb.gov.in',
-  };
-
-  const key = stateOrUt.trim().toLowerCase();
-  return stateSlugs[key] || 'https://myscheme.gov.in';
+  // 3. Unknown — do not synthesize a portal URL.
+  return '';
 }
 
 /**
@@ -339,11 +293,19 @@ export function normalizeCandidateScheme(raw: RawSchemeCandidate): Scheme {
   const funding = parseFundingAmounts(raw.annual, benefitSummary);
   const schemeType = inferSchemeType(benefitSummary, raw.tag);
 
-  // Portal & Application URL
-  const portalUrl = sanitizePortalUrl(raw.application_url, raw.state_or_ut, raw.ministry);
-  const applicationMode: ApplicationMode = raw.application_type?.trim().toLowerCase() === 'online'
-    ? 'Online via Portal'
-    : 'District Industry Center (DIC)';
+  // Portal URL: only when explicitly stated in the source, else unknown ('').
+  // Never fall back to myScheme, state portals, or synthesized generic domains.
+  const portalUrl = sanitizePortalUrl(raw.application_url);
+
+  // Application mode: only the explicitly stated mode is used.
+  // Unknown / missing source values stay 'Unknown' — never infer DIC.
+  const rawMode = raw.application_type?.trim().toLowerCase() || '';
+  const applicationMode: ApplicationMode =
+    rawMode.includes('online') ? 'Online via Portal'
+    : rawMode.includes('hybrid') ? 'Hybrid'
+    : rawMode.includes('bank') ? 'Nodal Bank Branch'
+    : rawMode.includes('district industry') || rawMode === 'dic' ? 'District Industry Center (DIC)'
+    : 'Unknown';
 
   // Demographics & Targeting (inclusive, non-blocking)
   const targetCategories = inferTargetCategories(raw.tag, benefitSummary, cleanName);
@@ -430,10 +392,12 @@ export function normalizeCandidateScheme(raw: RawSchemeCandidate): Scheme {
       mandatoryCriteria: [], // INVARIANT: No invented mandatory criteria!
     },
     application: {
-      requiredDocuments: ['Aadhaar Card', 'Identity Proof', 'Address Proof'],
+      // Never invent document requirements for a discovery record.
+      // Empty here lets documentReadiness honestly report requirementsUnverified.
+      requiredDocuments: [],
       applicationMode,
       officialApplicationUrl: portalUrl,
-      bankChannelInformation: raw.application_url || 'Nearest designated implementing agency / bank branch',
+      bankChannelInformation: raw.application_url || '',
     },
     governance: {
       officialSourceUrl: portalUrl,
@@ -467,7 +431,7 @@ export function normalizeCandidateScheme(raw: RawSchemeCandidate): Scheme {
     maxAnnualIncomeCap: 0,
     targetBusinessTypes,
     applicableStates,
-    requiredDocuments: ['Aadhaar Card', 'Identity Proof', 'Address Proof'],
+    requiredDocuments: [],
     officialPortalUrl: portalUrl,
     lastVerifiedDate: '',
     applicationMode,

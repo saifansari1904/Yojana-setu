@@ -122,7 +122,12 @@ export function determineEligibility(
   // 1. All mandatory criteria must be satisfied
   // 2. At least 4 of the 5 criteria must match
   // 3. Match score must be >= 75%
-  const isEligible = mandatorySatisfied && matchedCount >= 4 && score >= 75;
+  // 4. The scheme must NOT be a candidate discovery record — candidates can
+  //    never be presented as authoritative statutory ELIGIBLE. Their scores,
+  //    factors, and ranking are preserved; only the authoritative-eligibility
+  //    presentation is withheld (they surface as NEEDS_INFORMATION).
+  const isCandidate = scheme.isCandidateScheme === true;
+  const isEligible = mandatorySatisfied && matchedCount >= 4 && score >= 75 && !isCandidate;
 
   let classification: EligibilityClassification;
   if (hasConfirmedBlocker) {

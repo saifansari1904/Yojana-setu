@@ -250,9 +250,12 @@ export function classifySourceHierarchy(scheme?: Scheme | null): SourceHierarchy
   const ministry = (scheme.sponsoringMinistry || '').toLowerCase();
   const applicableStates = scheme.applicableStates || [];
 
+  // Candidate discovery records must never be elevated to Level 1 on the
+  // strength of a portal URL alone — they stay Level 6 (Secondary Aggregator).
+  const isCandidate = scheme.isCandidateScheme === true;
   if (
     url.includes('india.gov.in') ||
-    url.includes('myscheme.gov.in') ||
+    (!isCandidate && url.includes('myscheme.gov.in')) ||
     url.includes('msme.gov.in') ||
     url.includes('standupmitra.in') ||
     (applicableStates.length === 0 && url.includes('.gov.in'))
