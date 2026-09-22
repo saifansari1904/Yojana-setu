@@ -496,22 +496,28 @@ export function findAlternativeSchemesCore(
 export function rankSchemesForProfileCore(
   schemes: Scheme[],
   profile: UserProfile,
-  presentation: MatchingPresentation
+  presentation: MatchingPresentation,
+  options?: { skipAlternatives?: boolean },
 ): MatchResult[] {
   // First evaluate all schemes
   const evaluated = schemes.map((scheme) => evaluateSchemeEligibilityCore(scheme, profile, presentation));
 
-  // Populate recommended alternatives for near-match and low-match schemes
-  const enriched = evaluated.map((res) => {
-    if (res.matchStatus !== 'eligible') {
-      const alternatives = findAlternativeSchemesCore(res.scheme, schemes, profile, presentation);
-      return {
-        ...res,
-        recommendedAlternatives: alternatives,
-      };
-    }
-    return res;
-  });
+  // Populate recommended alternatives for near-match and low-match schemes.
+  // This is O(n²) and dominates runtime (~3.7s for 259 schemes); callers that
+  // only need scores/text (e.g. language switches reusing cached alternatives)
+  // can skip it via options.skipAlternatives.
+  const enriched = options?.skipAlternatives
+    ? evaluated
+    : evaluated.map((res) => {
+        if (res.matchStatus !== 'eligible') {
+          const alternatives = findAlternativeSchemesCore(res.scheme, schemes, profile, presentation);
+          return {
+            ...res,
+            recommendedAlternatives: alternatives,
+          };
+        }
+        return res;
+      });
 
   return enriched.sort((a, b) => {
     // 1. Group weight ranking

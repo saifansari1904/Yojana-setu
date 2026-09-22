@@ -36,7 +36,7 @@ export function findAlternativeSchemes(targetScheme: Scheme, allSchemes: Scheme[
   return findAlternativeSchemesCore(targetScheme, allSchemes, profile, getMatchingPresentation(lang));
 }
 
-export function rankSchemesForProfile(schemes: Scheme[], profile: UserProfile, lang: Language = 'en'): MatchResult[] {
-  return rankSchemesForProfileCore(schemes, profile, getMatchingPresentation(lang)).map((result) => presentMatchResult(result, lang));
+export function rankSchemesForProfile(schemes: Scheme[], profile: UserProfile, lang: Language = 'en', options?: { skipAlternatives?: boolean }): MatchResult[] {
+  return rankSchemesForProfileCore(schemes, profile, getMatchingPresentation(lang), options).map((result) => presentMatchResult(result, lang));
 }
 
