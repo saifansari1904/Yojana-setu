@@ -1,7 +1,9 @@
 import React, { useState, useMemo, useEffect, useRef, Suspense, lazy } from 'react';
 import { AnimatePresence, LayoutGroup, MotionConfig } from 'motion/react';
 import { ActiveScreen, ApplicationStatus, MatchResult, TrackedApplication, UserProfile } from './types';
-import { getAllSchemes, getAllRepositorySchemes } from './lib/data';
+import type { Scheme } from './types/scheme';
+// Scheme data (1.5MB candidate dataset) loads asynchronously — never in the initial bundle.
+// See the schemesLoaded effect below.
 import { rankSchemesForProfile } from './utils/matchingEngine';
 import { deriveBusinessNeedProfile, deriveBusinessProfile } from './lib/business';
 import { Header } from './components/Header';
@@ -141,12 +143,34 @@ function YojanaSetuMain() {
     });
   };
 
+  // Scheme dataset loads asynchronously so the 1.5MB candidate data never blocks
+  // the initial bundle. Triggered when the user reaches the form (where matching
+  // begins) or already has a profile. The form chunk is prefetched on login, so
+  // the data chunk is typically already cached by the time it is requested here.
+  const [allSchemes, setAllSchemes] = useState<Scheme[]>([]);
+  const [schemesLoaded, setSchemesLoaded] = useState(false);
+  useEffect(() => {
+    if (schemesLoaded) return;
+    if (currentScreen === 'form' || currentScreen === 'results' || userProfile) {
+      let cancelled = false;
+      import('./lib/data/schemeRepository').then((m) => {
+        if (!cancelled) {
+          setAllSchemes(m.getAllRepositorySchemes());
+          setSchemesLoaded(true);
+        }
+      });
+      return () => {
+        cancelled = true;
+      };
+    }
+    return undefined;
+  }, [currentScreen, userProfile, schemesLoaded]);
+
   // Compute matched schemes reactively with active language across authoritative and candidate repository schemes
   const matchResults = useMemo(() => {
-    if (!userProfile) return [];
-    const schemes = getAllRepositorySchemes();
-    return rankSchemesForProfile(schemes, userProfile, lang);
-  }, [userProfile, lang]);
+    if (!userProfile || !schemesLoaded) return [];
+    return rankSchemesForProfile(allSchemes, userProfile, lang);
+  }, [userProfile, lang, allSchemes, schemesLoaded]);
 
   // Keep modal/alternatives/detail targets in sync when language toggles
   const currentWhyMatchTarget = useMemo(() => {
@@ -466,7 +490,7 @@ function YojanaSetuMain() {
         {isMatching && (
           <MatchingTransition
             onComplete={handleMatchingComplete}
-            totalSchemesCount={getAllRepositorySchemes().length}
+            totalSchemesCount={allSchemes.length}
           />
         )}
       </AnimatePresence>
