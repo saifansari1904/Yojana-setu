@@ -13,6 +13,7 @@ const STATED_RANGE_FALLBACK: Record<Language, string> = {
   te: 'పథకం మార్గదర్శకాల ప్రకారం',
   kn: 'ಯೋಜನೆಯ ಮಾರ್ಗಸೂಚಿಗಳ ಪ್ರಕಾರ',
   ml: 'പദ്ധതി മാർഗ്ഗനിർദ്ദേശങ്ങൾ അനുಸരിച്ച്',
+  mr: 'योजना मार्गदर्शक तत्त्वांनुसार',
 };
 
 const FIT_EXPLANATIONS = {
@@ -23,6 +24,7 @@ const FIT_EXPLANATIONS = {
     te: (range: string) => `పథకం నిధుల మొత్తం ప్రాజెక్ట్ రకాన్ని బట్టి మారుతుంది (${range}).`,
     kn: (range: string) => `ಯೋಜನೆಯ ಹಣಕಾಸಿನ ಪ್ರಮಾಣವು ಯೋಜನೆಯ ಪ್ರಕಾರವನ್ನು ಅವಲಂಬಿಸಿ ಬದಲಾಗುತ್ತದೆ (${range}).`,
     ml: (range: string) => `പദ്ധതി ഫണ്ടിംഗ് തുക പ്രോജക്റ്റ് തരത്തിനനുസരിച്ച് വ്യത്യാസപ്പെടുന്നു (${range}).`,
+    mr: (range: string) => `योजनेचे निधी प्रमाण प्रकल्पाच्या प्रकारानुसार बदलते (${range}).`,
   },
   NOT_SPECIFIED_BY_USER: {
     en: (range: string) => `Funding requirement not specified in profile. Scheme offers ${range}.`,
@@ -31,6 +33,7 @@ const FIT_EXPLANATIONS = {
     te: (range: string) => `ప్రొఫైల్‌లో నిధుల అవసరం పేర్కొనబడలేదు. పథకం పరిమితి: ${range}.`,
     kn: (range: string) => `ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಹಣಕಾಸಿನ ಅಗತ್ಯವನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಿಲ್ಲ. ಯೋಜನೆಯ ಮಿತಿ: ${range}.`,
     ml: (range: string) => `പ്രൊഫൈലിൽ ഫണ്ടിംഗ് ആവശ്യകത വ്യക്തമാക്കിയിട്ടില്ല. പദ്ധതി പരിധി: ${range}.`,
+    mr: (range: string) => `प्रोफाइलमध्ये निधीची गरज नमूद केलेली नाही. योजना मर्यादा: ${range}.`,
   },
   ABOVE_RANGE: {
     en: (userVal: string, maxVal: string, diffVal: string) =>
@@ -45,6 +48,8 @@ const FIT_EXPLANATIONS = {
       `ನಿಮ್ಮ ಅಗತ್ಯವು (${userVal}) ಯೋಜನೆಯ ಗರಿಷ್ಠ ಮಿತಿಗಿಂತ (${maxVal}) ${diffVal} ಹೆಚ್ಚಾಗಿದೆ. ಗರಿಷ್ಠ ಮಿತಿ: ${maxVal}.`,
     ml: (userVal: string, maxVal: string, diffVal: string) =>
       `നിങ്ങളുടെ ആവശ്യകത (${userVal}) പദ്ധതി പരിധിയേക്കാൾ (${maxVal}) ${diffVal} കൂടുതലാണ്. പരമാവധി തുക: ${maxVal}.`,
+    mr: (userVal: string, maxVal: string, diffVal: string) =>
+      `गरज (${userVal}) योजना कमाल मर्यादेपेक्षा (${maxVal}) ${diffVal} ने जास्त आहे. या योजनेअंतर्गत जास्तीत जास्त परवानगीयोग्य रक्कम: ${maxVal}.`,
   },
   BELOW_RANGE: {
     en: (userVal: string, minVal: string, diffVal: string) =>
@@ -59,6 +64,8 @@ const FIT_EXPLANATIONS = {
       `ನಿಮ್ಮ ಅಗತ್ಯವು (${userVal}) ಯೋಜನೆಯ ಕನಿಷ್ಠ ಮಿತಿಗಿಂತ (${minVal}) ${diffVal} ಕಡಿಮೆಯಾಗಿದೆ.`,
     ml: (userVal: string, minVal: string, diffVal: string) =>
       `നിങ്ങളുടെ ആവശ്യകത (${userVal}) പദ്ധതിയുടെ ഏറ്റവും കുറഞ്ഞ പരിധിയേക്കാൾ (${minVal}) ${diffVal} കുറവാണ്.`,
+    mr: (userVal: string, minVal: string, diffVal: string) =>
+      `गरज (${userVal}) किमान मर्यादेपेक्षा (${minVal}) ${diffVal} ने कमी आहे.`,
   },
   WITHIN_RANGE: {
     en: (userVal: string, range: string) =>
@@ -73,6 +80,8 @@ const FIT_EXPLANATIONS = {
       `ನಿಮ್ಮ ಅಗತ್ಯವು (${userVal}) ಯೋಜನೆಯ ವ್ಯಾಪ್ತಿಯೊಳಗೆ (${range}) ಸಂಪೂರ್ಣವಾಗಿ ಹೊಂದಿಕೊಳ್ಳುತ್ತದೆ.`,
     ml: (userVal: string, range: string) =>
       `നിങ്ങളുടെ ആവശ്യകത (${userVal}) പദ്ധതി പരിധിക്കുള്ളിൽ (${range}) പൂർണ്ണമായും പൊരുത്തപ്പെടുന്നു.`,
+    mr: (userVal: string, range: string) =>
+      `तुमची गरज (${userVal}) योजना स्वीकारार्ह मर्यादेत (${range}) पूर्णपणे जुळते.`,
   },
   SUBSIDY: {
     en: (rate: number, amount: string) =>
@@ -87,6 +96,8 @@ const FIT_EXPLANATIONS = {
       `ಅಂದಾಜು ಬಂಡವಾಳ ಸಬ್ಸಿಡಿ (${rate}%): ಸುಮಾರು ${amount} (ಬ್ಯಾಂಕ್/ಏಜೆನ್ಸಿ ಅನುಮೋದನೆಗೆ ಒಳಪಟ್ಟಿರುತ್ತದೆ)`,
     ml: (rate: number, amount: string) =>
       `കണക്കാക്കിയ മൂലധന സബ്‌സിഡി (${rate}%): ഏകദേശം ${amount} (ബാങ്ക്/ഏജൻസി അനുമതിക്ക് വിധേയമായി)`,
+    mr: (rate: number, amount: string) =>
+      `सांकेतिक वैधानिक भांडवली अनुदान (${rate}%): अंदाजे ${amount} (बँक/एजन्सी मंजुरीच्या अधीन)`,
   },
 };
 

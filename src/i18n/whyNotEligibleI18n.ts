@@ -8,6 +8,7 @@ const WHY_NOT_ELIGIBLE_I18N = {
     te: 'చట్టబద్ధమైన అడ్డంకి',
     kn: 'ಶಾಸನಬದ್ಧ ಅಡಚಣೆ',
     ml: 'നിയമപരമായ തടസ്സം',
+    mr: 'वैधानिक अडथळा',
   },
   profileInfoNeeded: {
     en: 'Profile Info Needed',
@@ -16,6 +17,7 @@ const WHY_NOT_ELIGIBLE_I18N = {
     te: 'ప్రొఫైల్ సమాచారం అవసరం',
     kn: 'ಪ್ರೊಫೈಲ್ ಮಾಹಿತಿ ಅಗತ್ಯವಿದೆ',
     ml: 'പ്രൊഫൈൽ വിവരങ്ങൾ ആവശ്യമാണ്',
+    mr: 'प्रोफाइल माहिती आवश्यक',
   },
   actionableNextStep: {
     en: 'Actionable Next Step',
@@ -24,6 +26,7 @@ const WHY_NOT_ELIGIBLE_I18N = {
     te: 'చేయదగిన తదుపరి చర్య',
     kn: 'ಮುಂದಿನ ಕ್ರಮ',
     ml: 'അടുത്ത ഘട്ടം',
+    mr: 'कृतीयोग्य पुढील पाऊल',
   },
 };
 
@@ -38,6 +41,7 @@ export const getProfileCompatibilityReason = (
     te: `మీ ప్రొఫైల్‌కు ${percentage}% మొత్తం సరిపోలిక`,
     kn: `ನಿಮ್ಮ ಪ್ರೊಫೈಲ್‌ಗೆ ${percentage}% ಒಟ್ಟಾರೆ ಹೊಂದಾಣಿಕೆ`,
     ml: `നിങ്ങളുടെ പ്രൊഫൈലിനായി ${percentage}% ആകെ അനുയോജ്യത`,
+    mr: `${percentage}% एकूण प्रोफाइल सुसंगतता`,
   };
   return map[lang] || map.en;
 };

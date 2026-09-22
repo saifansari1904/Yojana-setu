@@ -94,6 +94,7 @@ const ALTERNATIVE_REASON_TEMPLATES: Record<Language, (pct: number) => string> = 
   te: (pct) => `${pct}% సరిపోలిక స్కోరుతో సిఫార్సు చేయబడిన ప్రత్యామ్నాయం.`,
   kn: (pct) => `${pct}% ಹೊಂದಾಣಿಕೆ ಸ್ಕೋರ್‌ನೊಂದಿಗೆ ಶಿಫಾರಸು ಮಾಡಲಾದ ಪರ್ಯಾಯ.`,
   ml: (pct) => `${pct}% പൊരുത്ത സ്കോറോടെ ശുപാർಶ ചെയ്യുന്ന ബദൽ.`,
+  mr: (pct) => `${pct}% जुळणी गुणांसह शिफारस केलेला पर्याय.`,
 };
 
 export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
@@ -359,7 +360,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               {matchResult.scheme.isCandidateScheme ? (
                 <span className="bg-amber-100 dark:bg-amber-950/70 border border-amber-300 dark:border-amber-700/60 text-amber-900 dark:text-amber-300 text-xs font-bold px-2.5 py-0.5 rounded flex items-center gap-1">
                   <AlertCircle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                  <span>Candidate Scheme · Source verification pending</span>
+                  <span>{t('verificationBadge.candidateScheme')} · {t('verificationBadge.sourceVerificationPending')}</span>
                 </span>
               ) : (
                 <span className="bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] text-xs font-bold px-2.5 py-0.5 rounded flex items-center gap-1">

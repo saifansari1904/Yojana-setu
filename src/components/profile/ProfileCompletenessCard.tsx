@@ -8,6 +8,7 @@ import { CheckCircle, AlertCircle, ArrowRight, Sparkles } from 'lucide-react';
 import { UserProfile } from '../../types/user';
 import { calculateBusinessProfileCompleteness, MissingFieldPrompt } from '../../lib/business/businessProfileCompleteness';
 import { useTranslation, PROFILE_I18N } from '../../i18n';
+import { resolveLocalizedPair } from '../../i18n/resolveLocalized';
 
 interface ProfileCompletenessCardProps {
   profile: UserProfile;
@@ -82,8 +83,8 @@ export const ProfileCompletenessCard: React.FC<ProfileCompletenessCardProps> = (
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {completeness.missingHighValueFields.slice(0, 4).map((item: MissingFieldPrompt) => {
-              const label = lang === 'hi' ? item.labelHi : item.labelEn;
-              const helper = lang === 'hi' ? item.helperHi : item.helperEn;
+              const label = resolveLocalizedPair(item.labelEn, item.labelHi, lang);
+              const helper = resolveLocalizedPair(item.helperEn, item.helperHi, lang);
               return (
                 <div
                   key={item.fieldKey}

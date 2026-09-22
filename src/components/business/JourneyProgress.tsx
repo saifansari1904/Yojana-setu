@@ -4,6 +4,7 @@ import { transitions } from '../../animations';
 import { BusinessJourneyStage, BUSINESS_JOURNEY_STAGES } from '../../types/business';
 import { useTranslation } from '../../i18n';
 import type { Language } from '../../i18n/types';
+import { resolveLocalizedPair } from '../../i18n/resolveLocalized';
 
 interface JourneyProgressProps {
   currentStage: BusinessJourneyStage;
@@ -19,6 +20,7 @@ const COPY = {
     te: 'మీ వ్యాపార ప్రయాణం',
     kn: 'ನಿಮ್ಮ ವ್ಯವಹಾರ ಪಯಣ',
     ml: 'നിങ്ങളുടെ ബിസിനസ്സ് യാത്ര',
+    mr: 'तुमचा व्यवसाय प्रवास',
   },
   youAreHere: {
     en: '← You are here',
@@ -27,6 +29,7 @@ const COPY = {
     te: '← మీరు ఇక్కడ ఉన్నారు',
     kn: '← ನೀವು ಇಲ್ಲಿದ್ದೀರಿ',
     ml: '← നിങ്ങൾ ഇവിടെയാണ്',
+    mr: '← तुम्ही येथे आहात',
   },
   completed: {
     en: 'completed',
@@ -35,6 +38,7 @@ const COPY = {
     te: 'పూర్తయింది',
     kn: 'ಪೂರ್ಣಗೊಂಡಿದೆ',
     ml: 'പൂർത്തിയായി',
+    mr: 'पूर्ण',
   },
 };
 
@@ -46,6 +50,7 @@ const STAGE_LABELS: Record<BusinessJourneyStage, Record<Language, string>> = {
     te: 'ఆలోచన సృష్టి',
     kn: 'ಯೋಜನೆ ಕಲ್ಪನೆ',
     ml: 'ആശയം രൂപീകരിക്കൽ',
+    mr: 'कल्पना तयार करा',
   },
   VALIDATE: {
     en: 'Validate Market',
@@ -54,6 +59,7 @@ const STAGE_LABELS: Record<BusinessJourneyStage, Record<Language, string>> = {
     te: 'మార్కెట్ ధృవీకరణ',
     kn: 'ಮಾರುಕಟ್ಟೆ ಪರಿಶೀಲನೆ',
     ml: 'വിപണി സാധൂകരണം',
+    mr: 'बाजारपेठ प्रमाणीकरण',
   },
   REGISTER: {
     en: 'Formalize Entity',
@@ -62,6 +68,7 @@ const STAGE_LABELS: Record<BusinessJourneyStage, Record<Language, string>> = {
     te: 'నమోదు',
     kn: 'ನೋಂದಣಿ',
     ml: 'രജിസ്ട്രേഷൻ',
+    mr: 'नोंदणी',
   },
   FUND: {
     en: 'Secure Funding',
@@ -70,6 +77,7 @@ const STAGE_LABELS: Record<BusinessJourneyStage, Record<Language, string>> = {
     te: 'నిధుల సేకరణ',
     kn: 'ನಿಧಿ ಸಂಗ್ರಹ',
     ml: 'ഫണ്ട് സമാഹരണം',
+    mr: 'भांडवल उभारणी',
   },
   LAUNCH: {
     en: 'Launch Enterprise',
@@ -78,6 +86,7 @@ const STAGE_LABELS: Record<BusinessJourneyStage, Record<Language, string>> = {
     te: 'ప్రారంభం',
     kn: 'ಉದ್ಯಮ ಪ್ರಾರಂಭ',
     ml: 'ആരംഭം',
+    mr: 'उपक्रम प्रारंभ',
   },
   OPERATE: {
     en: 'Daily Operations',
@@ -86,6 +95,7 @@ const STAGE_LABELS: Record<BusinessJourneyStage, Record<Language, string>> = {
     te: 'రోజువారీ కార్యకలాపాలు',
     kn: 'ದೈನಂದಿನ ಕಾರ್ಯಾಚರಣೆ',
     ml: 'പ്രവർത്തനങ്ങൾ',
+    mr: 'दैनंदिन कामकाज',
   },
   GROW: {
     en: 'Revenue Growth',
@@ -94,6 +104,7 @@ const STAGE_LABELS: Record<BusinessJourneyStage, Record<Language, string>> = {
     te: 'ఆదాయ వృద్ధి',
     kn: 'ಆದಾಯ ಬೆಳವಣಿಗೆ',
     ml: 'വളർച്ച',
+    mr: 'व्यवसाय वाढ',
   },
   EXPAND: {
     en: 'Scale & Expand',
@@ -102,6 +113,7 @@ const STAGE_LABELS: Record<BusinessJourneyStage, Record<Language, string>> = {
     te: 'విస్తరణ',
     kn: 'ವಿಸ್ತರಣೆ',
     ml: 'വിപുಲീകരണം',
+    mr: 'विस्तार',
   },
 };
 
@@ -153,7 +165,7 @@ export const JourneyProgress: React.FC<JourneyProgressProps> = ({
         {BUSINESS_JOURNEY_STAGES.map((stage, index) => {
           const isCurrent = stage.stage === currentStage;
           const isPast = index < safeIndex;
-          const label = STAGE_LABELS[stage.stage]?.[l] || (l === 'hi' ? stage.labelHi : stage.labelEn);
+          const label = STAGE_LABELS[stage.stage]?.[l] || resolveLocalizedPair(stage.labelEn, stage.labelHi, l);
 
           return (
             <li key={stage.stage}>

@@ -15,6 +15,7 @@ import {
 import { getLocalizedChecklistSummary } from '../../lib/business/supportPathway';
 import { useTranslation } from '../../i18n';
 import type { Language } from '../../i18n/types';
+import { resolveLocalizedPair } from '../../i18n/resolveLocalized';
 
 interface PreparationChecklistProps {
   checklist: PreparationChecklistModel;
@@ -30,6 +31,7 @@ const SECTION_TITLE: Record<Language, string> = {
   te: 'దరఖాస్తు సన్నద్ధత',
   kn: 'ಅರ್ಜಿ ಸಿದ್ಧತೆ',
   ml: 'അപേക്ഷാ തയ്യാറെടുപ്പ്',
+  mr: 'अर्ज तयारी',
 };
 
 const ITEM_META: Record<
@@ -49,6 +51,7 @@ const ITEM_META: Record<
       te: 'సిద్ధంగా ఉంది',
       kn: 'ಸಿದ್ಧವಾಗಿದೆ',
       ml: 'തയ്യാറാണ്',
+      mr: 'तयार',
     },
     tone: 'text-[#1E6A50] dark:text-[#4ADE80]',
   },
@@ -61,6 +64,7 @@ const ITEM_META: Record<
       te: 'సిద్ధంగా లేదు',
       kn: 'ಸಿದ್ಧವಾಗಿಲ್ಲ',
       ml: 'തയ്യാറല്ല',
+      mr: 'तयार नाही',
     },
     tone: 'text-[#3F4943] dark:text-[#9EB0A7]',
   },
@@ -73,6 +77,7 @@ const ITEM_META: Record<
       te: 'తెలియదు',
       kn: 'ತಿಳಿದಿಲ್ಲ',
       ml: 'അറിയില്ല',
+      mr: 'अज्ञात',
     },
     tone: 'text-[#92610A] dark:text-[#FCD34D]',
   },
@@ -85,6 +90,7 @@ const ITEM_META: Record<
       te: 'అవసరం లేదు',
       kn: 'ಅಗತ್ಯವಿಲ್ಲ',
       ml: 'ആവശ്യമില്ല',
+      mr: 'आवश्यक नाही',
     },
     tone: 'text-[#3F4943] dark:text-[#9EB0A7]',
   },
@@ -136,7 +142,7 @@ export const PreparationChecklist: React.FC<PreparationChecklistProps> = ({
             const meta = ITEM_META[item.state];
             const ItemIcon = meta.icon;
             const stateLabel = meta.labels[l] || meta.labels.en;
-            const itemLabel = l === 'hi' ? item.labelHi : item.labelEn;
+            const itemLabel = resolveLocalizedPair(item.labelEn, item.labelHi, l);
             const isInteractive = Boolean(onToggleItem) && item.state !== 'NOT_REQUIRED';
 
             const inner = (

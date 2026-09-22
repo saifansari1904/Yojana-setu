@@ -102,6 +102,7 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
     te: { label: 'సరిపోలిక', high: 'అధిక అర్హత', medium: 'పాక్షిక సరిపోలిక', low: 'వ్యత్యాస ప్రమాణాలు' },
     kn: { label: 'ಹೊಂದಾಣಿಕೆ', high: 'ಉನ್ನತ ಅರ್ಹತೆ', medium: 'ಭಾಗಶಃ ಹೊಂದಾಣಿಕೆ', low: 'ಅಂತರ ಮಾನದಂಡ' },
     ml: { label: 'പൊരുത്തം', high: 'ഉയർന്ന യോഗ്യത', medium: 'ഭാഗിക പൊരുത്തം', low: 'അന്തര മാനദണ്ഡം' },
+    mr: { label: 'पात्रता', high: 'उत्कृष्ट पात्रता', medium: 'अंशिक जुळणी', low: 'अट शिल्लक' },
   };
 
   const localizedGauge = MATCH_LABELS[lang] || MATCH_LABELS.en;

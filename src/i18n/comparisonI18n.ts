@@ -113,6 +113,22 @@ const COMPARISON_PHRASES: Record<Language, ComparisonPhrases> = {
     summaryNote: (count) =>
       `സമാന നിയമങ്ങൾക്കനുസൃതമായി ${count} പദ്ധതികളുടെ താരതമ്യം പൂർത്തിയായി.`,
   },
+  mr: {
+    allIndia: 'अखिल भारतीय (राष्ट्रीय)',
+    allCategories: 'सर्व सामाजिक वर्ग',
+    capitalSubsidy: 'भांडवली अनुदान',
+    noSubsidy: 'थेट अनुदान नाही',
+    pa: 'वार्षिक',
+    bankTerms: 'बँक नियमानुसार',
+    years: 'वर्षे',
+    standardTenure: 'मानक बँक मुदत',
+    highestScore: 'सर्वोच्च जुळणी गुण',
+    highestSubsidy: 'सर्वोच्च भांडवली अनुदान',
+    allIndiaCoverage: 'अखिल भारतीय व्याप्ती',
+    collateralFree: 'तारणमुक्त',
+    summaryNote: (count) =>
+      `समान वैधानिक निकषांनुसार मूल्यांकन केलेल्या ${count} योजनांची समोरासमोर तुलना.`,
+  },
 };
 
 export const getComparisonPhrases = (lang: Language = 'en'): ComparisonPhrases => {

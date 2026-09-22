@@ -490,6 +490,74 @@ export const FORM_I18N: Record<Language, FormI18nStrings> = {
     reviewEntityStructure: 'സ്ഥാപന ഘടന:',
     reviewSubSector: 'ഉപമേഖല:',
   },
+
+  mr: {
+    journeyEyebrow: 'तुमच्या व्यवसाय प्रोफाइलचा प्रवास',
+    stepIndicator: (curr, total, name) => `चरण ${curr} पैकी ${total}: ${name}`,
+    clearAllFields: 'सर्व फील्ड साफ करा',
+    resetForm: 'फॉर्म रीसेट करा',
+    completedPercent: 'पूर्ण झाले',
+
+    valCategory: 'कृपया पुढे जाण्यासाठी तुमचा सामाजिक प्रवर्ग निवडा.',
+    valAge: 'कृपया वैध वय नमूद करा (किमान १८ वर्षे).',
+    valState: 'कृपया तुमचे व्यवसाय राज्य किंवा केंद्रशासित प्रदेश निवडा.',
+    valLocation: 'कृपया तुमचे उद्योग स्थान (ग्रामीण किंवा शहरी) निवडा.',
+    valIncome: 'कृपया तुमचे अंदाजे वार्षिक कौटुंबिक उत्पन्न नमूद करा.',
+    valBizStage: 'कृपया तुमचा व्यवसाय नियोजन टप्पा निवडा.',
+    valBizSector: 'कृपया तुमचे प्रमुख व्यवसाय क्षेत्र निवडा.',
+    valFunding: 'कृपया तुमची निधी किंवा कर्ज गरजेची श्रेणी निवडा.',
+    valRegistration: 'कृपया तुमच्या व्यवसाय नोंदणीची स्थिती निवडा.',
+    valTurnover: 'कृपया तुमची वार्षिक व्यवसाय उलाढाल श्रेणी निवडा.',
+    valCompleteAll: 'कृपया सर्व आवश्यक प्रश्न पूर्ण करा.',
+
+    notSetAge: 'निर्धारित नाही (१८–७०)',
+    agePlaceholder: 'उदा. २८',
+    selectStatePlaceholder: '-- तुमचे राज्य किंवा केंद्रशासित प्रदेश निवडा --',
+    districtLabel: 'जिल्हा / शहर (ऐच्छिक):',
+    districtPlaceholder: 'उदा. पुणे, नागपूर, नाशिक',
+    diffStateCheckbox: 'व्यवसाय निवासापेक्षा वेगळ्या राज्यात आहे',
+    domicileStateLabel: 'कायमचे निवास / अधिवास राज्य:',
+    domicileQuotaHint: 'राज्य अधिवास कोट्यासाठी',
+    selectHomeStatePlaceholder: '-- तुमचे मूळ / अधिवास राज्य निवडा --',
+    notEnteredIncome: 'नमूद केलेले नाही',
+    incomePlaceholder: 'उदा. २५००००',
+
+    planningPrompt: 'तुम्ही सध्या तुमच्या व्यवसाय उद्योगासाठी काय नियोजन करत आहात?',
+    lifecyclePhaseLabel: 'विशिष्ट जीवनचक्र टप्पा (ऐच्छिक):',
+    lifecyclePhaseHint: 'अनुदान विरुद्ध कर्ज जुळणी सुधारते',
+    operationalStatusLabel: 'सध्याची कार्यरत स्थिती (ऐच्छिक):',
+
+    legalEntityLabel: 'कायदेशीर घटक रचना (ऐच्छिक):',
+    legalEntityHint: 'एकल मालकी, प्रा. लि., बचत गट इ.',
+    subSectorLabel: 'विशिष्ट उप-क्षेत्र / व्यापार (ऐच्छिक):',
+    subSectorPlaceholder: 'उदा. दुग्ध शीतकरण, तयार कपडे, सौर उपकरणे',
+    experienceLabel: 'उद्योग अनुभव (वर्षे):',
+
+    fundingPrompt: 'तुमच्या उद्योगाला किती निधी किंवा कर्ज सहाय्य आवश्यक आहे?',
+    exactFundingLabel: 'किंवा अचूक कर्ज / निधी गरज नमूद करा:',
+    exactFundingPlaceholder: 'उदा. ३०००००',
+    costAndGapTitle: 'प्रकल्प खर्च, निधी तफावत आणि व्यवसाय गरजा',
+    totalCostLabel: 'एकूण अंदाजे प्रकल्प खर्च:',
+    totalCostPlaceholder: 'उदा. ५०००००',
+    ownInvestmentLabel: 'तुमची स्वतःची गुंतवणूक / योगदान:',
+    ownInvestmentPlaceholder: 'उदा. १०००००',
+    fundingGapLabel: 'गणना केलेली निधी तफावत:',
+    gapFormulaHint: 'प्रकल्प खर्च − स्वतःची गुंतवणूक',
+    primaryNeedLabel: 'प्राथमिक सहाय्य गरज:',
+    secondaryNeedsLabel: 'दुय्यम सहाय्य गरजा (बहु-निवड, ऐच्छिक):',
+    selectedCount: (cnt) => `${cnt} निवडले`,
+    secondaryNeedsHint: 'आवश्यक असलेले कोणतेही पूरक सहाय्य निवडा (प्राथमिक गरज दुय्यम निवडीतून वगळली आहे).',
+    bizIdeaLabel: 'व्यवसाय कल्पना / क्रियाकलाप सारांश (ऐच्छिक):',
+    bizIdeaPlaceholder: 'उदा. सौरऊर्जेवर चालणारे सूक्ष्म शीतगृह युनिट किंवा पर्यावरणपूरक पॅकेजिंग',
+
+    regStatusLabel: 'नोंदणी जीवनचक्र स्थिती:',
+
+    reviewProjectCostGap: 'प्रकल्प खर्च / तफावत:',
+    reviewPrimaryNeed: 'प्राथमिक गरज:',
+    reviewSecondaryNeeds: 'दुय्यम गरजा:',
+    reviewEntityStructure: 'घटक रचना:',
+    reviewSubSector: 'उप-क्षेत्र:',
+  },
 };
 
 export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, string>> = {
@@ -500,6 +568,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'ప్రారంభ మూలధనం',
     kn: 'ಆರಂಭಿಕ ಬಂಡವಾಳ',
     ml: 'പ്രാരംഭ മൂലധനം',
+    mr: 'बीज भांडवल',
   },
   WORKING_CAPITAL: {
     en: 'Working Capital',
@@ -508,6 +577,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'వర్కింగ్ క్యాపిటల్',
     kn: 'ದುಡಿಯುವ ಬಂಡವಾಳ',
     ml: 'പ്രവർത്തന മൂലധനം',
+    mr: 'कार्यशील भांडवल',
   },
   EQUIPMENT: {
     en: 'Machinery / Tools',
@@ -516,6 +586,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'యంత్రాలు / పరికరాలు',
     kn: 'ಯಂತ್ರೋಪಕರಣಗಳು / ಉಪಕರಣಗಳು',
     ml: 'മെഷിനറി / ഉപകരണങ്ങൾ',
+    mr: 'यंत्रसामग्री / उपकरणे',
   },
   SUBSIDY: {
     en: 'Govt Subsidy',
@@ -524,6 +595,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'ప్రభుత్వ రాయితీ',
     kn: 'ಸರ್ಕಾರಿ ಸಬ್ಸಿಡಿ',
     ml: 'സർക്കാർ സബ്‌സിഡി',
+    mr: 'शासकीय अनुदान',
   },
   INFRASTRUCTURE: {
     en: 'Work Shed / Infra',
@@ -532,6 +604,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'వర్క్‌షెడ్ / మౌలిక వసతులు',
     kn: 'ವರ್ಕ್‌ಶೆಡ್ / ಮೂಲಸೌಕರ್ಯ',
     ml: 'വർക്ക് ഷെഡ് / ഇൻഫ്രാ',
+    mr: 'कार्यशाळा / पायाभूत सुविधा',
   },
   SKILL_DEVELOPMENT: {
     en: 'Skill Training',
@@ -540,6 +613,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'నైపుణ్య శిక్షణ',
     kn: 'ಕೌಶಲ್ಯ ತರಬೇತಿ',
     ml: 'നൈപുണ്യ പരിശീലനം',
+    mr: 'कौशल्य प्रशिक्षण',
   },
   MARKET_ACCESS: {
     en: 'Market Access',
@@ -548,6 +622,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'మార్కెట్ సదుపాయం',
     kn: 'ಮಾರುಕಟ್ಟೆ ಸಂಪರ್ಕ',
     ml: 'വിപണി പ്രവേശനം',
+    mr: 'बाजारपेठ संपर्क',
   },
   CREDIT: {
     en: 'Collateral-Free Credit',
@@ -556,6 +631,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'హామీ లేని క్రెడిట్',
     kn: 'ಭದ್ರತೆಯಿಲ್ಲದ ಸಾಲ',
     ml: 'ഈടില്ലാത്ത വായ്പ',
+    mr: 'तारणमुक्त बँक कर्ज',
   },
   TRAINING: {
     en: 'Entrepreneurship Training',
@@ -564,6 +640,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'ఎంట్రప్రెన్యూర్‌షిప్ శిక్షణ',
     kn: 'ಉದ್ಯಮಶೀಲತೆ ತರಬೇತಿ',
     ml: 'സംരംഭകത്വ പരിശീലനം',
+    mr: 'उद्योजकता प्रशिक्षण',
   },
   TECHNOLOGY: {
     en: 'Technology & Digital',
@@ -572,6 +649,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'సాంకేతికత & డిజిటల్',
     kn: 'ತಂತ್ರಜ್ಞಾನ ಮತ್ತು ಡಿಜಿಟಲ್',
     ml: 'സാങ്കേതികവിദ്യ & ഡിജിറ്റൽ',
+    mr: 'तंत्रज्ञान आणि डिजिटलीकरण',
   },
   RAW_MATERIAL: {
     en: 'Raw Material Assistance',
@@ -580,6 +658,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'ముడి సరుకు సహాయం',
     kn: 'ಕಚ್ಚಾ ವಸ್ತು ಸಹಾಯ',
     ml: 'അസംസ്കൃത വസ്തു സഹായം',
+    mr: 'कच्चा माल सहाय्य',
   },
   BUSINESS_REGISTRATION: {
     en: 'Compliance / Licenses',
@@ -588,6 +667,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'లైసెన్స్‌లు & అనుమతులు',
     kn: 'ಪರವಾನಗಿಗಳು ಮತ್ತು ಅನುಮೋದನೆಗಳು',
     ml: 'ലൈസൻസുകൾ & അനുമതികൾ',
+    mr: 'अनुपालन / परवाने',
   },
   MENTORSHIP: {
     en: 'Expert Mentorship',
@@ -596,6 +676,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'నిపుణుల మార్గదర్శకత్వం',
     kn: 'ತಜ್ಞರ ಮಾರ್ಗದರ್ಶನ',
     ml: 'വിദഗ്ദ്ധ മാർഗ്ഗനിർദ്ദേശം',
+    mr: 'तज्ज्ञ मार्गदर्शन',
   },
   OTHER: {
     en: 'Other Support',
@@ -604,6 +685,7 @@ export const SUPPORT_NEEDS_LOCALIZED: Record<SupportNeedType, Record<Language, s
     te: 'ఇతర సహాయం',
     kn: 'ಇತರ ಬೆಂಬಲ',
     ml: 'മറ്റ് പിന്തുണ',
+    mr: 'इतर सहाय्य',
   },
 };
 
@@ -615,6 +697,7 @@ export const LIFECYCLE_PHASES_LOCALIZED: Record<BusinessStageKey, Record<Languag
     te: 'ఆలోచన / భావన',
     kn: 'ಕಲ್ಪನೆ / ಪರಿಕಲ್ಪನೆ',
     ml: 'ആശയം / രൂപരേഖ',
+    mr: 'कल्पना / संकल्पना',
   },
   PRE_LAUNCH: {
     en: 'Pre-launch Setup',
@@ -623,6 +706,7 @@ export const LIFECYCLE_PHASES_LOCALIZED: Record<BusinessStageKey, Record<Languag
     te: 'ప్రారంభ పూర్వ సెటప్',
     kn: 'ಪ್ರಾರಂಭ ಪೂರ್ವ ತಯಾರಿ',
     ml: 'ആരംഭത്തിന് മുമ്പുള്ള തയ്യാറെടുപ്പ്',
+    mr: 'प्रारंभपूर्व तयारी',
   },
   NEW_BUSINESS: {
     en: 'Early Setup (< 1 yr)',
@@ -631,6 +715,7 @@ export const LIFECYCLE_PHASES_LOCALIZED: Record<BusinessStageKey, Record<Languag
     te: 'ప్రారంభ యూనిట్ (< 1 సం.)',
     kn: 'ಹೊಸ ಘಟಕ (< 1 ವರ್ಷ)',
     ml: 'ആദ്യകാല സജ്ജീകരണം (< 1 വർഷം)',
+    mr: 'नवीन युनिट (< 1 वर्ष)',
   },
   EARLY_OPERATION: {
     en: 'Established (1–3 yrs)',
@@ -639,6 +724,7 @@ export const LIFECYCLE_PHASES_LOCALIZED: Record<BusinessStageKey, Record<Languag
     te: 'నడుస్తున్న వ్యాపారం (1–3 సం.)',
     kn: 'ಸ್ಥಾಪಿತ (1–3 ವರ್ಷಗಳು)',
     ml: 'പ്രവർത്തനത്തിൽ (1–3 വർഷം)',
+    mr: 'स्थापित (1–3 वर्षे)',
   },
   GROWTH: {
     en: 'Scaling / Growth',
@@ -647,6 +733,7 @@ export const LIFECYCLE_PHASES_LOCALIZED: Record<BusinessStageKey, Record<Languag
     te: 'వ్యాపార విస్తరణ / వృద్ధి',
     kn: 'ಬೆಳವಣಿಗೆ / ವಿಸ್ತರಣೆ',
     ml: 'വളർച്ച / വിപുലീകരണം',
+    mr: 'विस्तार / वाढ',
   },
   EXPANSION: {
     en: 'Plant Expansion',
@@ -655,6 +742,7 @@ export const LIFECYCLE_PHASES_LOCALIZED: Record<BusinessStageKey, Record<Languag
     te: 'ప్లాంట్ విస్తరణ',
     kn: 'ಘಟಕ ವಿಸ್ತರಣೆ',
     ml: 'പ്ലാന്റ് വിപുലീകരണം',
+    mr: 'प्लांट विस्तार',
   },
   DISTRESS_OR_RESTRUCTURING: {
     en: 'Revival / Turnaround',
@@ -663,6 +751,7 @@ export const LIFECYCLE_PHASES_LOCALIZED: Record<BusinessStageKey, Record<Languag
     te: 'పునరుద్ధరణ',
     kn: 'ಪುನರುಜ್ಜೀವನ',
     ml: 'പുനരുജ്ജീവനം',
+    mr: 'पुनरुज्जीवन',
   },
 };
 
@@ -674,6 +763,7 @@ export const OPERATIONAL_STATUS_LOCALIZED: Record<OperationalStatus, Record<Lang
     te: 'కార్యాచరణలో ఉంది',
     kn: 'ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿದೆ',
     ml: 'പ്രവർത്തനക്ഷമമാണ്',
+    mr: 'कार्यरत / सक्रिय',
   },
   NOT_STARTED: {
     en: 'Not Yet Started',
@@ -682,6 +772,7 @@ export const OPERATIONAL_STATUS_LOCALIZED: Record<OperationalStatus, Record<Lang
     te: 'ఇంకా ప్రారంభం కాలేదు',
     kn: 'ಇನ್ನೂ ಪ್ರಾರಂಭವಾಗಿಲ್ಲ',
     ml: 'ഇതുവരെ ആരംഭിച്ചിട്ടില്ല',
+    mr: 'अद्याप सुरू नाही',
   },
   EXPANDING: {
     en: 'Actively Expanding',
@@ -690,6 +781,7 @@ export const OPERATIONAL_STATUS_LOCALIZED: Record<OperationalStatus, Record<Lang
     te: 'చురుగ్గా విస్తరిస్తోంది',
     kn: 'ಸಕ್ರಿಯವಾಗಿ ವಿಸ್ತರಿಸುತ್ತಿದೆ',
     ml: 'സജീവമായി വിപുലീകരിക്കുന്നു',
+    mr: 'विस्तार सुरू आहे',
   },
   TEMPORARILY_INACTIVE: {
     en: 'Temporarily Inactive',
@@ -698,6 +790,7 @@ export const OPERATIONAL_STATUS_LOCALIZED: Record<OperationalStatus, Record<Lang
     te: 'తాత్కాలికంగా నిలిపివేయబడింది',
     kn: 'ತಾತ್ಕಾಲಿಕವಾಗಿ ನಿಷ್ಕ್ರಿಯ',
     ml: 'താൽക്കാലികമായി നിർത്തിവച്ചിരിക്കുന്നു',
+    mr: 'तात्पुरते निष्क्रिय',
   },
   UNKNOWN: {
     en: 'Status Unspecified',
@@ -706,6 +799,7 @@ export const OPERATIONAL_STATUS_LOCALIZED: Record<OperationalStatus, Record<Lang
     te: 'పేర్కొనబడలేదు',
     kn: 'ನಿರ್ದಿಷ್ಟಪಡಿಸಲಾಗಿಲ್ಲ',
     ml: 'വ്യക്തമാക്കിയിട്ടില്ല',
+    mr: 'स्थिती निर्दिष्ट नाही',
   },
 };
 
@@ -717,6 +811,7 @@ export const REGISTRATION_STATUS_LOCALIZED: Record<RegistrationStatus, Record<La
     te: 'నమోదైంది',
     kn: 'ನೋಂದಾಯಿಸಲಾಗಿದೆ',
     ml: 'രജിസ്റ്റർ ചെയ്തത്',
+    mr: 'नोंदणीकृत',
   },
   IN_PROCESS: {
     en: 'In Process / Applied',
@@ -725,6 +820,7 @@ export const REGISTRATION_STATUS_LOCALIZED: Record<RegistrationStatus, Record<La
     te: 'ప్రక్రియలో ఉంది / దరఖాస్తు చేయబడింది',
     kn: 'ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ / ಅರ್ಜಿ ಸಲ್ಲಿಸಲಾಗಿದೆ',
     ml: 'നടപടിക്രമത്തിൽ / അപേക്ഷിച്ചു',
+    mr: 'प्रक्रियेत / अर्ज केला',
   },
   NOT_REGISTERED: {
     en: 'Unregistered',
@@ -733,6 +829,7 @@ export const REGISTRATION_STATUS_LOCALIZED: Record<RegistrationStatus, Record<La
     te: 'నమోదు కాలೇదు',
     kn: 'ನೋಂದಣಿಯಾಗಿಲ್ಲ',
     ml: 'രജിസ്റ്റർ ചെയ്യാത്തത്',
+    mr: 'नोंदणी नाही',
   },
   NOT_APPLICABLE: {
     en: 'Not Applicable',
@@ -741,6 +838,7 @@ export const REGISTRATION_STATUS_LOCALIZED: Record<RegistrationStatus, Record<La
     te: 'వర్తించదు',
     kn: 'ಅನ್ವಯಿಸುವುದಿಲ್ಲ',
     ml: 'ബാಧಕമല്ല',
+    mr: 'लागू नाही',
   },
   UNKNOWN: {
     en: 'Status Unspecified',
@@ -749,6 +847,7 @@ export const REGISTRATION_STATUS_LOCALIZED: Record<RegistrationStatus, Record<La
     te: 'పేర్కొనబడలేదు',
     kn: 'ನಿರ್ದಿಷ್ಟಪಡಿಸಲಾಗಿಲ್ಲ',
     ml: 'വ്യക്തമാക്കിയിട്ടില്ല',
+    mr: 'स्थिती निर्दिष्ट नाही',
   },
 };
 
@@ -760,6 +859,7 @@ export const BUSINESS_ENTITY_LOCALIZED: Record<BusinessEntityType, Record<Langua
     te: 'ఏకైక యాజమాన్యం',
     kn: 'ಏಕಮಾತ್ರ ಮಾಲೀಕತ್ವ',
     ml: 'ഏക ഉടമസ്ഥത',
+    mr: 'एकल मालकी',
   },
   PARTNERSHIP: {
     en: 'Partnership Firm',
@@ -768,6 +868,7 @@ export const BUSINESS_ENTITY_LOCALIZED: Record<BusinessEntityType, Record<Langua
     te: 'భాగస్వామ్య సంస్థ',
     kn: 'ಪಾಲುದಾರಿಕೆ ಸಂಸ್ಥೆ',
     ml: 'പങ്കാളിത്ത സ്ഥാപനം',
+    mr: 'भागीदारी फर्म',
   },
   LLP: {
     en: 'Limited Liability Partnership (LLP)',
@@ -776,6 +877,7 @@ export const BUSINESS_ENTITY_LOCALIZED: Record<BusinessEntityType, Record<Langua
     te: 'పరిమిత బాధ్యత భాగస్వామ్యం (LLP)',
     kn: 'ಸೀಮಿತ ಹೊಣೆಗಾರಿಕೆ ಪಾಲುದಾರಿಕೆ (LLP)',
     ml: 'പരിമിത ബാധ്യത പങ്കാളിത്തം (LLP)',
+    mr: 'मर्यादित दायित्व भागीदारी (LLP)',
   },
   PRIVATE_LIMITED: {
     en: 'Private Limited Company (Pvt Ltd)',
@@ -784,6 +886,7 @@ export const BUSINESS_ENTITY_LOCALIZED: Record<BusinessEntityType, Record<Langua
     te: 'ప్రైవేట్ లిమిటెడ్ కంపెనీ',
     kn: 'ಪ್ರೈವೇಟ್ ಲಿಮಿಟೆಡ್ ಕಂಪನಿ',
     ml: 'പ്രൈവറ്റ് ലിമിറ്റഡ് കമ്പനി',
+    mr: 'प्रायव्हेट लिमिटेड कंपनी (Pvt Ltd)',
   },
   SELF_HELP_GROUP: {
     en: 'Self Help Group (SHG)',
@@ -792,6 +895,7 @@ export const BUSINESS_ENTITY_LOCALIZED: Record<BusinessEntityType, Record<Langua
     te: 'స్వయం సహాయక బృందం (SHG)',
     kn: 'ಸ್ವಸಹಾಯ ಗುಂಪು (SHG)',
     ml: 'സ്വയം സഹായ സംഘം (SHG)',
+    mr: 'स्वयंसहायता गट (SHG)',
   },
   COOPERATIVE: {
     en: 'Cooperative Society',
@@ -800,6 +904,7 @@ export const BUSINESS_ENTITY_LOCALIZED: Record<BusinessEntityType, Record<Langua
     te: 'సహకార సంఘం',
     kn: 'ಸಹಕಾರಿ ಸಂಘ',
     ml: 'സഹകരണ സംഘം',
+    mr: 'सहकारी संस्था',
   },
   INDIVIDUAL: {
     en: 'Individual Artisan / Vendor',
@@ -808,6 +913,7 @@ export const BUSINESS_ENTITY_LOCALIZED: Record<BusinessEntityType, Record<Langua
     te: 'వ్యక్తిగత చేతివృత్తిదారుడు / విక్రేత',
     kn: 'ವೈಯಕ್ತಿಕ ಕುಶಲಕರ್ಮಿ / ಮಾರಾಟಗಾರ',
     ml: 'വ്യക്തിഗത കരകൗശല വിദഗ്ദ്ധൻ / വിൽപ്പനക്കാരൻ',
+    mr: 'वैयक्तिक कारागीर / विक्रेता',
   },
   INFORMAL_BUSINESS: {
     en: 'Informal / Unorganized Enterprise',
@@ -816,6 +922,7 @@ export const BUSINESS_ENTITY_LOCALIZED: Record<BusinessEntityType, Record<Langua
     te: 'అసంఘటిత సంస్థ',
     kn: 'ಅಸಂಘಟಿತ ಉದ್ಯಮ',
     ml: 'അസംഘടിത സംരംഭം',
+    mr: 'अनौपचारिक उद्योग',
   },
   NOT_REGISTERED: {
     en: 'Not Registered / New Proposed Entity',
@@ -824,6 +931,7 @@ export const BUSINESS_ENTITY_LOCALIZED: Record<BusinessEntityType, Record<Langua
     te: 'నమోదు కాలేదు / ప్రతిపాదిత సంస్థ',
     kn: 'ನೋಂದಣಿಯಾಗಿಲ್ಲ / ಪ್ರಸ್ತಾವಿತ ಘಟಕ',
     ml: 'രജിസ്റ്റർ ചെയ്യാത്ത / പുതിയ നിർദ്ദിഷ്ട സ്ഥാപനം',
+    mr: 'नोंदणी नसलेली / नवीन प्रस्तावित घटक',
   },
   OTHER: {
     en: 'Other Entity Structure',
@@ -832,5 +940,6 @@ export const BUSINESS_ENTITY_LOCALIZED: Record<BusinessEntityType, Record<Langua
     te: 'ఇతర సంస్థ',
     kn: 'ಇತರ ರಚನೆ',
     ml: 'മറ്റ് ഘടന',
+    mr: 'इतर घटक रचना',
   },
 };

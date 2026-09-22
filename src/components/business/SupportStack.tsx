@@ -17,6 +17,7 @@ import { getLocalizedNeedLabel } from '../../i18n/schemeDetailI18n';
 import { SupportNeedType } from '../../types/business';
 import { useTranslation } from '../../i18n';
 import type { Language } from '../../i18n/types';
+import { resolveLocalizedPair } from '../../i18n/resolveLocalized';
 
 interface SupportStackProps {
   groups: SupportStackGroup[];
@@ -104,7 +105,7 @@ export const SupportStack: React.FC<SupportStackProps> = ({
       >
         {visibleGroups.map((group) => {
           const AreaIcon = resolveIcon(group.iconName);
-          const groupLabel = getLocalizedNeedLabel(group.area as SupportNeedType, l) || (l === 'hi' ? group.labelHi : group.labelEn);
+          const groupLabel = getLocalizedNeedLabel(group.area as SupportNeedType, l) || resolveLocalizedPair(group.labelEn, group.labelHi, l);
           return (
             <motion.article
               key={group.area}

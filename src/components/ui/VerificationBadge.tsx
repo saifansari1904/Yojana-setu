@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { ShieldCheck, AlertTriangle, Info, CheckCircle2, HelpCircle } from 'lucide-react';
+import { useTranslation } from '../../i18n';
 
 type VerificationTier = 'verified' | 'partially-verified' | 'in-review' | 'gazetted' | 'candidate';
 export type PortalDomainClass = 'VERIFIED_OFFICIAL' | 'KNOWN_NODAL' | 'UNVERIFIED_EXTERNAL' | 'INVALID' | 'CANDIDATE';
@@ -25,6 +26,7 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
   id,
 }) => {
   const shouldReduceMotion = useReducedMotion();
+  const { t } = useTranslation();
 
   // Derive tier and default label from classification if supplied
   let derivedTier: VerificationTier = propTier || 'verified';
@@ -34,23 +36,23 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
     switch (classification) {
       case 'VERIFIED_OFFICIAL':
         derivedTier = 'verified';
-        derivedLabel = label || 'Verified Official';
+        derivedLabel = label || t('verificationBadge.verifiedOfficial');
         break;
       case 'KNOWN_NODAL':
         derivedTier = 'gazetted';
-        derivedLabel = label || 'Nodal Agency';
+        derivedLabel = label || t('verificationBadge.nodalAgency');
         break;
       case 'UNVERIFIED_EXTERNAL':
         derivedTier = 'partially-verified';
-        derivedLabel = label || 'Unverified Source';
+        derivedLabel = label || t('verificationBadge.unverifiedSource');
         break;
       case 'INVALID':
         derivedTier = 'in-review';
-        derivedLabel = label || 'Invalid Domain';
+        derivedLabel = label || t('verificationBadge.invalidDomain');
         break;
       case 'CANDIDATE':
         derivedTier = 'candidate';
-        derivedLabel = label || 'Candidate Scheme';
+        derivedLabel = label || t('verificationBadge.candidateScheme');
         break;
     }
   }
@@ -66,35 +68,35 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
       text: 'text-[#1E6A50] dark:text-[#4ADE80]',
       border: 'border-[#B2CDBF] dark:border-[#285743]',
       icon: ShieldCheck,
-      defaultLabel: 'Gazette Verified',
+      defaultLabel: t('verificationBadge.gazetteVerified'),
     },
     verified: {
       bg: 'bg-[#D9E8DF] dark:bg-[#1A382D]',
       text: 'text-[#1E6A50] dark:text-[#4ADE80]',
       border: 'border-[#B2CDBF] dark:border-[#285743]',
       icon: CheckCircle2,
-      defaultLabel: 'Official Gov Scheme',
+      defaultLabel: t('verificationBadge.officialGovScheme'),
     },
     'partially-verified': {
       bg: 'bg-amber-50 dark:bg-amber-950/60',
       text: 'text-amber-800 dark:text-amber-300',
       border: 'border-amber-200 dark:border-amber-800/60',
       icon: AlertTriangle,
-      defaultLabel: 'Partially Verified',
+      defaultLabel: t('verificationBadge.partiallyVerified'),
     },
     'in-review': {
       bg: 'bg-slate-100 dark:bg-slate-800/60',
       text: 'text-slate-700 dark:text-slate-300',
       border: 'border-slate-200 dark:border-slate-700',
       icon: Info,
-      defaultLabel: 'Review In Progress',
+      defaultLabel: t('verificationBadge.reviewInProgress'),
     },
     candidate: {
       bg: 'bg-amber-50/90 dark:bg-amber-950/50',
       text: 'text-amber-900 dark:text-amber-300',
       border: 'border-amber-300 dark:border-amber-700/60',
       icon: HelpCircle,
-      defaultLabel: 'Candidate Scheme',
+      defaultLabel: t('verificationBadge.candidateScheme'),
     },
   };
 
@@ -105,7 +107,7 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
     sourceText !== undefined
       ? sourceText
       : tier === 'candidate'
-      ? 'Source verification pending'
+      ? t('verificationBadge.sourceVerificationPending')
       : undefined;
 
   // Provenance disclosure: where this status comes from, revealed on hover/focus.

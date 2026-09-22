@@ -5,6 +5,7 @@ export * from './ta';
 export * from './te';
 export * from './kn';
 export * from './ml';
+export * from './mr';
 export * from './schemesData';
 export * from './formI18n';
 export * from './profileI18n';

@@ -24,6 +24,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'వ్యవస్థాపక వ్యాపార ప్రొఫైల్',
     kn: 'ಉದ್ಯಮಿ ವ್ಯಾಪಾರ ಪ್ರೊಫೈಲ್',
     ml: 'സംരംഭക ബിസിനസ്സ് പ്രൊഫൈൽ',
+    mr: 'उद्योजक व्यवसाय प्रोफाइल',
   },
   inferred: {
     en: 'Inferred',
@@ -32,6 +33,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'అంచనా వేయబడింది',
     kn: 'ಅನುಮಾನಿಸಲಾಗಿದೆ',
     ml: 'ഊഹിച്ചത്',
+    mr: 'अंदाजित',
   },
   industryDomain: {
     en: 'Industry Domain',
@@ -40,6 +42,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'పరిశ్రమ రంగం',
     kn: 'ಉದ್ಯಮ ಕ್ಷೇತ್ರ',
     ml: 'വ്യവസായ മേഖല',
+    mr: 'उद्योग क्षेत्र',
   },
   entityStructure: {
     en: 'Entity Structure',
@@ -48,6 +51,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'చట్టపరమైన నిర్మాణం',
     kn: 'ಕಾನೂನು ರಚನೆ',
     ml: 'നിയമപരമായ ഘടന',
+    mr: 'विधिक रचना',
   },
   registration: {
     en: 'Registration',
@@ -56,6 +60,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'నమోదు స్థితి',
     kn: 'ನೋಂದಣಿ ಸ್ಥಿತಿ',
     ml: 'രജിസ്ട്രേഷൻ നില',
+    mr: 'नोंदणी स्थिती',
   },
   businessLocation: {
     en: 'Business Location',
@@ -64,6 +69,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'వ్యాపార ప్రాంతం',
     kn: 'ವ್ಯವಹಾರದ ಸ್ಥಳ',
     ml: 'ബിസിനസ്സ് സ്ഥലം',
+    mr: 'व्यवसायाचे ठिकाण',
   },
   interstateUnit: {
     en: 'Interstate Unit',
@@ -72,6 +78,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'అంతర్రాష్ట్ర విభాగం',
     kn: 'ಅಂತಾರಾಜ್ಯ ಘಟಕ',
     ml: 'അന്തർസംസ്ഥാന യൂണിറ്റ്',
+    mr: 'आंतरराज्यीय उपक्रम',
   },
   totalProjectCost: {
     en: 'Total Project Cost',
@@ -80,6 +87,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'మొత్తం ప్రాజెక్ట్ ఖర్చు',
     kn: 'ಒಟ್ಟು ಯೋಜನಾ ವೆಚ್ಚ',
     ml: 'ആകെ പ്രോജക്ട് ചെലവ്',
+    mr: 'एकूण प्रकल्प खर्च',
   },
   ownInvestment: {
     en: 'Own Investment',
@@ -88,6 +96,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'స్వంత పెట్టుబడి',
     kn: 'ಸ್ವಂತ ಹೂಡಿಕೆ',
     ml: 'സ്വന്തം നിക്ഷേപം',
+    mr: 'स्वतःची गुंतवणूक (स्व-भांडवल)',
   },
   fundingGap: {
     en: 'Estimated Funding Gap',
@@ -96,6 +105,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'అంచనా వేసిన నిధుల అంతరం',
     kn: 'ಅಂದಾಜು ಹಣಕಾಸಿನ ಅಂತರ',
     ml: 'കണക്കാക്കിയ ഫണ്ടിംഗ് വിടവ്',
+    mr: 'अंदाजित निधी गरज',
   },
   selfFunded: {
     en: '₹0 (Self-funded)',
@@ -104,6 +114,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: '₹0 (స్వీయ-నిధులు)',
     kn: '₹0 (ಸ್ವಯಂ-ಹಣಕಾಸು)',
     ml: '₹0 (സ്വയം ഫണ്ട് ചെയ്തത്)',
+    mr: '₹0 (पूर्णतः स्व-वित्तपुरवठा)',
   },
   primaryNeed: {
     en: 'Primary Need',
@@ -112,6 +123,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'ప్రాథమిక అవసరం',
     kn: 'ಪ್ರಾಥಮಿಕ ಅಗತ್ಯ',
     ml: 'പ്രാഥമിക ആവശ്യം',
+    mr: 'प्राथमिक गरज',
   },
   notSpecified: {
     en: 'Not Specified',
@@ -120,6 +132,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'పేర్కొనబడలేదు',
     kn: 'ನಿರ್ದಿಷ್ಟಪಡಿಸಿಲ್ಲ',
     ml: 'വ്യക്തമാക്കിയിട്ടില്ല',
+    mr: 'अनिर्दिष्ट',
   },
   national: {
     en: 'National',
@@ -128,6 +141,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'జాతీయ',
     kn: 'ರಾಷ್ಟ್ರೀಯ',
     ml: 'ദേശീയ',
+    mr: 'राष्ट्रीय',
   },
   additionalNeeds: {
     en: 'Additional Needs:',
@@ -136,6 +150,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'అదనపు అవసరాలు:',
     kn: 'ಹೆಚ್ಚುವರಿ ಅಗತ್ಯಗಳು:',
     ml: 'കൂടുതൽ ആവശ്യങ്ങൾ:',
+    mr: 'अतिरिक्त गरजा:',
   },
   enterprise: {
     en: 'Enterprise',
@@ -144,6 +159,7 @@ const UI_COPY: Record<string, Record<Language, string>> = {
     te: 'ఎంటర్‌ప్రైజ్',
     kn: 'ಉದ್ಯಮ',
     ml: 'സംരംഭം',
+    mr: 'उपक्रम',
   },
 };
 

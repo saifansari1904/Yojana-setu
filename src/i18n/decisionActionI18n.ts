@@ -56,6 +56,12 @@ const ACTION_TEXTS: Record<NextActionType, Record<Language, ActionText>> = {
       badgeText: 'ബദലുകൾ തയ്യാറാണ്',
       buttonLabel: 'ബദൽ പദ്ധതികൾ കാണുക',
     },
+    mr: {
+      title: 'पात्र पर्यायी योजना शोधा',
+      description: 'या योजनेसाठी वैधानिक निकष पूर्ण होत नाहीत. आपल्या व्यवसायासाठी अनुकूल योजना पहा.',
+      badgeText: 'पर्याय तयार',
+      buttonLabel: 'पर्याय पहा',
+    },
   },
   COMPLETE_PROFILE: {
     en: {
@@ -93,6 +99,12 @@ const ACTION_TEXTS: Record<NextActionType, Record<Language, ActionText>> = {
       description: 'നിയമാനുസൃത യോഗ്യത ഉറപ്പാക്കാൻ വ്യക്തമാക്കാത്ത വിവരങ്ങൾ (രജിസ്ട്രേഷൻ, വിറ്റുവരവ് മുതലായവ) നൽകുക.',
       badgeText: 'വിവരം ആവശ്യമാണ്',
       buttonLabel: 'പ്രൊഫൈൽ പുതുക്കുക',
+    },
+    mr: {
+      title: 'प्रोफाइल पडताळणी पूर्ण करा',
+      description: 'वैधानिक पात्रता निश्चित करण्यासाठी निर्दिष्ट न केलेले तपशील (उदा. नोंदणी, उलाढाल) द्या.',
+      badgeText: 'माहिती हवी आहे',
+      buttonLabel: 'प्रोफाइल अद्ययावत करा',
     },
   },
   CONFIRM_REGISTRATION: {
@@ -132,6 +144,12 @@ const ACTION_TEXTS: Record<NextActionType, Record<Language, ActionText>> = {
       badgeText: 'രജിസ്ട്രേഷൻ പരിശോധന',
       buttonLabel: 'രജിസ്ട്രേഷൻ പുതുക്കുക',
     },
+    mr: {
+      title: 'व्यवसाय नोंदणी स्थिती निश्चित करा',
+      description: 'या योजनेसाठी औपचारिक नोंदणी आवश्यक आहे. आपली उद्यम/व्यापार स्थिती निश्चित करा.',
+      badgeText: 'नोंदणी तपासणी',
+      buttonLabel: 'नोंदणी अद्ययावत करा',
+    },
   },
   COMPLETE_BUSINESS_PROFILE: {
     en: {
@@ -169,6 +187,12 @@ const ACTION_TEXTS: Record<NextActionType, Record<Language, ActionText>> = {
       description: 'കൃത്യമായ ശുപാർശകൾ ലഭിക്കാൻ പ്രോജക്റ്റ് ചെലവ്, ഘട്ടം, സഹായ ആവശ്യങ്ങൾ എന്നിവ ചേർക്കുക.',
       badgeText: 'വിവരങ്ങൾ അപൂർണ്ണം',
       buttonLabel: 'ബിസിനസ്സ് വിവരങ്ങൾ ചേർക്കുക',
+    },
+    mr: {
+      title: 'आपले व्यवसाय प्रोफाइल पूर्ण करा',
+      description: 'अचूक शिफारसी मिळवण्यासाठी प्रकल्प खर्च, टप्पा आणि सहाय्याच्या गरजा जोडा.',
+      badgeText: 'तपशील अपूर्ण',
+      buttonLabel: 'व्यवसाय तपशील जोडा',
     },
   },
   ADD_FUNDING_REQUIREMENT: {
@@ -208,6 +232,12 @@ const ACTION_TEXTS: Record<NextActionType, Record<Language, ActionText>> = {
       badgeText: 'ഫണ്ടിംഗ് ആവശ്യമാണ്',
       buttonLabel: 'ഫണ്ടിംഗ് ചെലവ് ചേർക്കുക',
     },
+    mr: {
+      title: 'आपली निधी गरज नोंदवा',
+      description: 'निधीतील तफावत अचूकपणे मोजण्यासाठी प्रकल्प खर्च आणि सध्याची गुंतवणूक द्या.',
+      badgeText: 'निधी तपशील हवे आहेत',
+      buttonLabel: 'निधी खर्च जोडा',
+    },
   },
   EXPLORE_PRIMARY_NEED: {
     en: {
@@ -245,6 +275,12 @@ const ACTION_TEXTS: Record<NextActionType, Record<Language, ActionText>> = {
       description: 'നിങ്ങൾക്ക് നിയമാനുസൃത യോഗ്യതയുണ്ട്, എന്നാൽ ഈ പദ്ധതി നിങ്ങളുടെ പ്രധാന ബിസിനസ്സ് ആവശ്യത്തെ നേരിട്ട് നിറവേറ്റുന്നില്ല.',
       badgeText: 'കുറഞ്ഞ പൊരുത്തം',
       buttonLabel: 'മറ്റ് പദ്ധതികൾ കണ്ടെത്തുക',
+    },
+    mr: {
+      title: 'आपल्या गरजेसाठी योजना शोधा',
+      description: 'आपण वैधानिकरित्या पात्र आहात, परंतु ही योजना आपली मुख्य व्यवसायिक गरज थेट पूर्ण करत नाही.',
+      badgeText: 'कमी जुळवणी',
+      buttonLabel: 'इतर योजना पहा',
     },
   },
   VERIFY_INFORMATION: {
@@ -284,6 +320,12 @@ const ACTION_TEXTS: Record<NextActionType, Record<Language, ActionText>> = {
       badgeText: 'പരിശോധന ആവശ്യമാണ്',
       buttonLabel: 'പോർട്ടൽ പരിശോധിക്കുക',
     },
+    mr: {
+      title: 'सध्याची अधिसूचना पडताळा',
+      description: 'अलीकडील सुधारणा किंवा मार्गदर्शक तत्त्वांसाठी अधिकृत मंत्रालय अधिसूचना तपासा.',
+      badgeText: 'पुनरावलोकन हवे आहे',
+      buttonLabel: 'पोर्टल तपासा',
+    },
   },
   PREPARE_DOCUMENTS: {
     en: {
@@ -321,6 +363,12 @@ const ACTION_TEXTS: Record<NextActionType, Record<Language, ActionText>> = {
       description: 'ഉയർന്ന നിയമപരമായ പൊരുത്തവും ബിസിനസ്സ് ആവശ്യകതയും. രേഖകളുടെ ചെക്ക്‌ലിസ്റ്റ് പരിശോധിച്ച് അപേക്ഷ തയ്യാറാക്കുക.',
       badgeText: 'ഉയർന്ന മുൻഗണന',
       buttonLabel: 'രേഖകൾ പരിശോധിക്കുക',
+    },
+    mr: {
+      title: 'कागदपत्रे तपासा आणि अर्जाची तयारी करा',
+      description: 'उच्च वैधानिक जुळवणी आणि व्यवसायिक गरज. कागदपत्रांची यादी तपासा आणि अर्ज तयार करा.',
+      badgeText: 'उच्च प्राधान्य जुळवणी',
+      buttonLabel: 'कागदपत्रे तपासा',
     },
   },
   VISIT_OFFICIAL_PORTAL: {
@@ -360,6 +408,12 @@ const ACTION_TEXTS: Record<NextActionType, Record<Language, ActionText>> = {
       badgeText: 'അപേക്ഷിക്കാൻ യോഗ്യത',
       buttonLabel: 'പോർട്ടൽ തുറക്കുക',
     },
+    mr: {
+      title: 'अधिकृत पोर्टलवर अर्ज करा',
+      description: 'आपले प्रोफाइल सर्व मुख्य वैधानिक निकष पूर्ण करते. थेट शासकीय पोर्टलवर जा.',
+      badgeText: 'अर्ज करण्यास पात्र',
+      buttonLabel: 'पोर्टल उघडा',
+    },
   },
   CHECK_ELIGIBILITY: {
     en: {
@@ -397,6 +451,12 @@ const ACTION_TEXTS: Record<NextActionType, Record<Language, ActionText>> = {
       description: 'ഏറെക്കുറെ പൊരുത്തപ്പെടുന്നു: നിയമപരമായ വ്യവസ്ഥകൾ പരിശോധിച്ച് അപേക്ഷാ സാധ്യത വിലയിരുത്തുക.',
       badgeText: 'വിടവ് പരിശോധിക്കുക',
       buttonLabel: 'മാനദണ്ഡങ്ങൾ കാണുക',
+    },
+    mr: {
+      title: 'पात्रता आवश्यकता तपासा',
+      description: 'जवळपास जुळवणी: अनुपालन मार्ग निश्चित करण्यासाठी वैधानिक तपशील तपासा.',
+      badgeText: 'तफावत तपासा',
+      buttonLabel: 'निकष पहा',
     },
   },
 };
@@ -442,6 +502,13 @@ const getDocumentChecklistActionText = (count: number, lang: Language): ActionTe
         description: `അപേക്ഷിക്കുന്നതിന് മുമ്പ് ആവശ്യമായ എല്ലാ ${count} രേഖകളും തയ്യാറാക്കുക.`,
         badgeText: 'അപേക്ഷിക്കാൻ തയ്യാറാണ്',
         buttonLabel: 'പട്ടിക കാണുക',
+      };
+    case 'mr':
+      return {
+        title: 'वैधानिक कागदपत्रांची यादी तयार करा',
+        description: `अर्ज करण्यापूर्वी आवश्यक सर्व ${count} पडताळणी कागदपत्रे तयार ठेवा.`,
+        badgeText: 'अर्ज करण्यास तयार',
+        buttonLabel: 'यादी पहा',
       };
     default:
       return {

@@ -9,6 +9,7 @@ export const STATUS_COPY: Record<ApplicationStatus, Record<Language, { label: st
     te: { label: 'పత్రాలు సిద్ధం', description: 'అవసరమైన పత్రాలు సేకరించబడ్డాయి.' },
     kn: { label: 'ದಾಖಲೆಗಳು ಸಿದ್ಧವಾಗಿವೆ', description: 'ಅಗತ್ಯ ದಾಖಲೆಗಳನ್ನು ಸಂಗ್ರಹಿಸಲಾಗಿದೆ.' },
     ml: { label: 'രേഖകൾ തയ്യാറാണ്', description: 'ആവശ്യമായ രേഖകൾ ശേഖരിച്ചു.' },
+    mr: { label: 'कागदपत्रे तयार', description: 'आवश्यक कागदपत्रे जमा झाली आहेत.' },
   },
   applied: {
     en: { label: 'Applied', description: 'Submitted and awaiting a decision.' },
@@ -17,6 +18,7 @@ export const STATUS_COPY: Record<ApplicationStatus, Record<Language, { label: st
     te: { label: 'దరఖాస్తు చేయబడింది', description: 'సమర్పించబడింది మరియు నిర్ణయం కోసం వేచి ఉంది.' },
     kn: { label: 'ಅರ್ಜಿ ಸಲ್ಲಿಸಲಾಗಿದೆ', description: 'ಸಲ್ಲಿಸಲಾಗಿದೆ ಮತ್ತು ನಿರ್ಧಾರಕ್ಕಾಗಿ ಕಾಯಲಾಗುತ್ತಿದೆ.' },
     ml: { label: 'അപേക്ഷിച്ചു', description: 'സമർപ്പിച്ചു, തീരുമാനത്തിനായി കാത്തിരിക്കുന്നു.' },
+    mr: { label: 'अर्ज केला', description: 'अर्ज सादर केला, निर्णयाची प्रतीक्षा आहे.' },
   },
   approved: {
     en: { label: 'Approved', description: 'Application approved.' },
@@ -25,6 +27,7 @@ export const STATUS_COPY: Record<ApplicationStatus, Record<Language, { label: st
     te: { label: 'ఆమోదించబడింది', description: 'దరఖాస్తు ఆమోదించబడింది.' },
     kn: { label: 'ಅನುಮೋದಿಸಲಾಗಿದೆ', description: 'ಅರ್ಜಿ ಅನುಮೋದಿಸಲಾಗಿದೆ.' },
     ml: { label: 'അംഗീകരിച്ചു', description: 'അപേക്ഷ അംഗീകരിച്ചു.' },
+    mr: { label: 'मंजूर', description: 'अर्ज मंजूर झाला.' },
   },
   rejected: {
     en: { label: 'Rejected', description: 'Not approved — review alternatives.' },
@@ -33,6 +36,7 @@ export const STATUS_COPY: Record<ApplicationStatus, Record<Language, { label: st
     te: { label: 'తిరస్కరించబడింది', description: 'ఆమోదించబడలేదు — ప్రత్యామ్నాయాలను పరిశీలించండి.' },
     kn: { label: 'ತಿರಸ್ಕರಿಸಲಾಗಿದೆ', description: 'ಅನುಮೋದಿಸಲಾಗಿಲ್ಲ — ಪರ್ಯಾಯಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.' },
     ml: { label: 'നിരസിച്ചു', description: 'അംഗീകരിച്ചിട്ടില്ല — ഇതരമാർഗ്ഗങ്ങൾ പരിശോധിക്കുക.' },
+    mr: { label: 'नाकारले', description: 'मंजूर नाही — पर्यायी योजना पाहा.' },
   },
   interested: {
     en: { label: 'Interested', description: 'Saved — documents still to gather.' },
@@ -41,5 +45,6 @@ export const STATUS_COPY: Record<ApplicationStatus, Record<Language, { label: st
     te: { label: 'ఆసక్తి ఉంది', description: 'సేవ్ చేయబడింది — పత్రాలను ఇంకా సేకరించాలి.' },
     kn: { label: 'ಆಸಕ್ತಿ ಇದೆ', description: 'ಉಳಿಸಲಾಗಿದೆ — ದಾಖಲೆಗಳನ್ನು ಇನ್ನೂ ಸಂಗ್ರಹಿಸಬೇಕಾಗಿದೆ.' },
     ml: { label: 'താൽപ്പര്യമുണ്ട്', description: 'സംരക്ഷിച്ചു — രേഖകൾ ഇനിയും ശേഖരിക്കാനുണ്ട്.' },
+    mr: { label: 'आवड आहे', description: 'जतन केले — कागदपत्रे अजून गोळा करायची आहेत.' },
   },
 };

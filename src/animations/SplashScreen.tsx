@@ -40,6 +40,11 @@ const SPLASH_I18N: Record<Language, { motto: string; description: string; loadin
     description: 'സംരംഭകരെ അർഹമായ പദ്ധതികളുമായി ബന്ധിപ്പിക്കുന്നു',
     loading: 'പോർട്ടൽ ലോഡുചെയ്യുന്നു...',
   },
+  mr: {
+    motto: 'योग्य योजना • योग्य मदत • योग्य मार्ग',
+    description: 'वंचित उद्योजकांना पात्र योजनांशी जोडत आहे',
+    loading: 'पोर्टल लोड होत आहे...',
+  },
 };
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDuration = 1500 }) => {

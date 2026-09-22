@@ -14,6 +14,7 @@ import { ta } from './ta';
 import { te } from './te';
 import { kn } from './kn';
 import { ml } from './ml';
+import { mr } from './mr';
 
 type CommandCenterKey = keyof typeof en;
 
@@ -24,6 +25,7 @@ const commandCenterTranslations: Record<Language, typeof en> = {
   te,
   kn,
   ml,
+  mr,
 };
 
 export function useTranslation(): {

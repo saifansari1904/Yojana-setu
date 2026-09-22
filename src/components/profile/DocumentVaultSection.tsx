@@ -20,6 +20,7 @@ import {
   DocumentProgressMap,
 } from '../../lib/tracker/documentProgress';
 import { useTranslation, PROFILE_I18N } from '../../i18n';
+import { resolveLocalizedPair } from '../../i18n/resolveLocalized';
 
 interface CoreDocumentDefinition {
   id: string;
@@ -171,8 +172,8 @@ export const DocumentVaultSection: React.FC<DocumentVaultSectionProps> = ({ prof
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {CORE_REUSABLE_DOCUMENTS.map((doc) => {
           const isPrepared = vaultDocIds.includes(doc.id);
-          const name = lang === 'hi' ? doc.nameHi : doc.nameEn;
-          const desc = lang === 'hi' ? doc.descriptionHi : doc.descriptionEn;
+          const name = resolveLocalizedPair(doc.nameEn, doc.nameHi, lang);
+          const desc = resolveLocalizedPair(doc.descriptionEn, doc.descriptionHi, lang);
 
           return (
             <button

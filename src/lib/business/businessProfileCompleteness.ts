@@ -254,6 +254,10 @@ const MISSING_FIELD_LOCALIZED: Record<string, Record<Language, { label: string; 
       label: 'ബിസിനസ്സ് ഘട്ടം',
       helper: 'നിങ്ങൾക്ക് പ്രാരംഭ മൂലധനമോ പ്രവർത്തന മൂലധനമോ വിപുലീകരണ വായ്പയോ ആവശ്യമുണ്ടോ എന്ന് വ്യക്തമാക്കുന്നു.',
     },
+    mr: {
+      label: 'व्यवसायाची सद्यःस्थिती',
+      helper: 'तुम्हाला बीज भांडवल, खेळते भांडवल की विस्तार कर्ज आवश्यक आहे हे स्पष्ट करते.',
+    },
   },
   businessType: {
     en: {
@@ -279,6 +283,10 @@ const MISSING_FIELD_LOCALIZED: Record<string, Record<Language, { label: string; 
     ml: {
       label: 'മേഖല / ബിസിനസ്സ് തരം',
       helper: 'മന്ത്രാലയ നിർദ്ദിഷ്ട ക്വാട്ടകൾ തിരിച്ചറിയുന്നു (ഭക്ഷ്യ സംസ്കരണം, നിർമ്മാണം, കരകൗശല വിദഗ്ധർ).',
+    },
+    mr: {
+      label: 'क्षेत्र / व्यवसायाचा प्रकार',
+      helper: 'मंत्रालय-विशिष्ट कोटा (उदा. अन्न प्रक्रिया, उत्पादन, कारागीर) ओळखते.',
     },
   },
   fundingRequired: {
@@ -306,6 +314,10 @@ const MISSING_FIELD_LOCALIZED: Record<string, Record<Language, { label: string; 
       label: 'ആകെ പ്രോജക്റ്റ് ചെലവ് / ഫണ്ടിംഗ് ആവശ്യം',
       helper: 'വായ്പാ പരിധികളും സബ്‌സിഡി പരിധികളും പരിശോധിക്കാൻ സഹായിക്കുന്നു.',
     },
+    mr: {
+      label: 'एकूण प्रकल्प खर्च / निधीची गरज',
+      helper: 'कर्ज मर्यादा आणि भांडवली अनुदानाच्या कमाल मर्यादा तपासण्यास सक्षम करते.',
+    },
   },
   registrationStatus: {
     en: {
@@ -331,6 +343,10 @@ const MISSING_FIELD_LOCALIZED: Record<string, Record<Language, { label: string; 
     ml: {
       label: 'ഔദ്യോഗിക രജിസ്ട്രേഷൻ അവസ്ഥ',
       helper: 'ഔദ്യോഗിക എംഎസ്എംഇ വായ്പാ ഗ്യാരണ്ടികൾക്കുള്ള യോഗ്യത ഉറപ്പാക്കുന്നു.',
+    },
+    mr: {
+      label: 'औपचारिक नोंदणी स्थिती',
+      helper: 'औपचारिक MSME प्राधान्य कर्ज हमीसाठी पात्रता सुनिश्चित करते.',
     },
   },
   operationalStatus: {
@@ -358,6 +374,10 @@ const MISSING_FIELD_LOCALIZED: Record<string, Record<Language, { label: string; 
       label: 'പ്രവർത്തന അവസ്ഥ',
       helper: 'തുടങ്ങുന്നതിന് മുമ്പുള്ളവ, നിലവിൽ പ്രവർത്തിക്കുന്നവ, വിപുലീകരണം എന്നിവ തിരിച്ചറിയുന്നു.',
     },
+    mr: {
+      label: 'कार्यात्मक स्थिती',
+      helper: 'प्रारंभापूर्वी, सक्रिय कार्यरत घटक आणि विस्तार यांमध्ये भेद करते.',
+    },
   },
   businessEntityType: {
     en: {
@@ -383,6 +403,10 @@ const MISSING_FIELD_LOCALIZED: Record<string, Record<Language, { label: string; 
     ml: {
       label: 'നിയമപരമായ ഘടന',
       helper: 'സ്ഥാപനത്തിന്റെ നിയമപരമായ ഘടനയ്ക്ക് അനുയോജ്യമായ പദ്ധതികൾ കണ്ടെത്തുന്നു.',
+    },
+    mr: {
+      label: 'कायदेशीर संरचना',
+      helper: 'कॉर्पोरेट, भागीदारी किंवा एकल कारागीर योजना निकषांशी जुळवते.',
     },
   },
   state: {
@@ -410,6 +434,10 @@ const MISSING_FIELD_LOCALIZED: Record<string, Record<Language, { label: string; 
       label: 'ബിസിനസ്സ് സംസ്ഥാനം',
       helper: 'സംസ്ഥാന സർക്കാർ ആനുകൂല്യങ്ങളും പോർട്ടലുകളും ഫിൽട്ടർ ചെയ്യാൻ ആവശ്യമാണ്.',
     },
+    mr: {
+      label: 'व्यवसायाचे राज्य / केंद्रशासित प्रदेश',
+      helper: 'राज्य सरकारच्या प्रोत्साहन योजना आणि नोडल एजन्सी पोर्टल फिल्टर करण्यासाठी आवश्यक आहे.',
+    },
   },
   primarySupportNeed: {
     en: {
@@ -436,6 +464,10 @@ const MISSING_FIELD_LOCALIZED: Record<string, Record<Language, { label: string; 
       label: 'പ്രധാന സഹായ മുൻഗണന',
       helper: 'മെഷിനറി, പ്രവർത്തന മൂലധനം, അല്ലെങ്കിൽ പരിശീലനം എന്നിവയ്ക്കുള്ള ശുപാർശകൾ നൽകുന്നു.',
     },
+    mr: {
+      label: 'प्राथमिक सहाय्य प्राधान्य',
+      helper: 'यंत्रसामग्री, खेळते भांडवल किंवा प्रशिक्षण यासाठी विशेष शिफारशी तयार करते.',
+    },
   },
   secondarySupportNeeds: {
     en: {
@@ -461,6 +493,10 @@ const MISSING_FIELD_LOCALIZED: Record<string, Record<Language, { label: string; 
     ml: {
       label: 'കൂടുതൽ സഹായ ആവശ്യങ്ങൾ',
       helper: 'വിപണി പ്രവേശനം, സർട്ടിഫിക്കേഷൻ തുടങ്ങിയ അധിക സഹായ മാനദണ്ഡങ്ങൾ ചേർക്കുന്നു.',
+    },
+    mr: {
+      label: 'अतिरिक्त सहाय्य गरजा',
+      helper: 'बाजारपेठ प्रवेश किंवा प्रमाणीकरण यांसारखे दुय्यम सहाय्य निकष जोडते.',
     },
   },
 };

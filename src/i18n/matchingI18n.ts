@@ -18,6 +18,7 @@ const MATCH_COPY = {
       te: 'సామాజిక వర్గం పేర్కొనబడలేదు. ధృవీకరణ కోసం దయచేసి మీ వర్గాన్ని అందించండి.',
       kn: 'ಸಾಮಾಜಿಕ ವರ್ಗವನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಿಲ್ಲ. ಪರಿಶೀಲನೆಗಾಗಿ ದಯವಿಟ್ಟು ನಿಮ್ಮ ವರ್ಗವನ್ನು ಒದಗಿಸಿ.',
       ml: 'സാമൂഹിക വിഭാഗം വ്യക്തമാക്കിയിട്ടില്ല. പരിശോധനയ്ക്കായി ദയവായി നിങ്ങളുടെ വിഭാഗം നൽകുക.',
+      mr: 'सामाजिक वर्ग निर्दिष्ट केलेला नाही. वैधानिक पडताळणीसाठी कृपया आपला वर्ग द्या.',
     },
     scSt: {
       en: (cat: string) => `Priority reservation and dedicated capital subsidy available for ${cat}.`,
@@ -26,6 +27,7 @@ const MATCH_COPY = {
       te: (cat: string) => `${cat} వర్గానికి ఈ పథకంలో ప్రత్యేక రిజర్వేషన్ మరియు మూలధన సబ్సిడీ అందుబాటులో ఉన్నాయి.`,
       kn: (cat: string) => `${cat} ವರ್ಗಕ್ಕೆ ಈ ಯೋಜನೆಯಲ್ಲಿ ವಿಶೇಷ ಮೀಸಲಾತಿ ಮತ್ತು ಬಂಡವಾಳ ಸಬ್ಸಿಡಿ ಲಭ್ಯವಿದೆ.`,
       ml: (cat: string) => `${cat} വിഭാഗത്തിന് ഈ പദ്ധതിയിൽ പ്രത്യേക സംവരണവും മൂലധന സബ്‌സിഡിയും ലഭ്യമാണ്.`,
+      mr: (cat: string) => `${cat} वर्गासाठी या योजनेत विशेष आरक्षण आणि समर्पित भांडवली अनुदान उपलब्ध आहे.`,
     },
     woman: {
       en: 'Dedicated allocation for women-led enterprises with concessional margin requirements.',
@@ -34,6 +36,7 @@ const MATCH_COPY = {
       te: 'మహిళా పారిశ్రామికవేత్తలకు రాయితీ మార్జిన్ మరియు ప్రత్యేక రుణ సదుపాయం అందుబాటులో ఉన్నాయి.',
       kn: 'ಮಹಿಳಾ ಉದ್ಯಮಿಗಳಿಗೆ ರಿಯಾಯಿತಿ ಮಾರ್ಜಿನ್ ಮತ್ತು ವಿಶೇಷ ಸಾಲ ಸೌಲಭ್ಯ ಲಭ್ಯವಿದೆ.',
       ml: 'വനിതാ സംരംഭകർക്കായി പ്രത്യേക വിഹിതവും ഇളവുകളുള്ള വായ്പാ സൗകര്യവും ലഭ്യമാണ്.',
+      mr: 'महिला उद्योजकांसाठी सवलतीच्या मार्जिन रकमेसह विशेष कर्ज सुविधा उपलब्ध आहे.',
     },
     minority: {
       en: 'Targeted credit assistance exclusively reserved for notified minority entrepreneurs.',
@@ -42,6 +45,7 @@ const MATCH_COPY = {
       te: 'మైనారిటీ కమ్యూనిటీ వ్యవస్థాపకుల కోసం ప్రత్యేక రాయితీ రుణ సహాయం అందుబాటులో ఉంది.',
       kn: 'ಅಲ್ಪಸಂಖ್ಯಾತ ಸಮುದಾಯದ ಉದ್ಯಮಿಗಳಿಗೆ ವಿಶೇಷ ರಿಯಾಯಿತಿ ಸಾಲ ನೆರವು ಲಭ್ಯವಿದೆ.',
       ml: 'ന്യൂനപക്ഷ സംരംഭകർക്കായി പ്രത്യേക ഇളവുകളുള്ള വായ്പാ സഹായം ലഭ്യമാണ്.',
+      mr: 'अधिसूचित अल्पसंख्याक समुदायाच्या उद्योजकांसाठी विशेष सवलतीचे कर्ज सहाय्य राखीव आहे.',
     },
     matched: {
       en: (cat: string) => `Your category (${cat}) meets the scheme target beneficiary criteria.`,
@@ -50,6 +54,7 @@ const MATCH_COPY = {
       te: (cat: string) => `మీ వర్గం (${cat}) పథకం నిర్దేశిత లబ్ధిదారుల ప్రమాణాలకు సరిపోలుతుంది.`,
       kn: (cat: string) => `ನಿಮ್ಮ ವರ್ಗವು (${cat}) ಯೋಜನೆಯ ಅರ್ಹ ಫಲಾನುಭವಿಗಳ ಮಾನದಂಡಕ್ಕೆ ಹೊಂದಿಕೆಯಾಗುತ್ತದೆ.`,
       ml: (cat: string) => `നിങ്ങളുടെ വിഭാഗം (${cat}) പദ്ധതിയുടെ യോഗ്യതാ മാനദണ്ഡങ്ങളുമായി പൊരുത്തപ്പെടുന്നു.`,
+      mr: (cat: string) => `आपला वर्ग (${cat}) योजनेच्या लक्ष्य लाभार्थी निकषांशी जुळतो.`,
     },
     mismatched: {
       en: (req: string, cat: string) => `Scheme mandates applicant belong to: ${req}. Your profile: ${cat}.`,
@@ -58,6 +63,7 @@ const MATCH_COPY = {
       te: (req: string, cat: string) => `పథకం ఈ వర్గాలకు మాత్రమే వర్తిస్తుంది: ${req}. మీ వర్గం: ${cat}.`,
       kn: (req: string, cat: string) => `ಯೋಜನೆಯು ಈ ವರ್ಗಗಳಿಗೆ ಮಾತ್ರ ಸೀಮಿತವಾಗಿದೆ: ${req}. ನಿಮ್ಮ ವರ್ಗ: ${cat}.`,
       ml: (req: string, cat: string) => `പദ്ധതി ഈ വിഭാഗങ്ങൾക്ക് മാത്രമുള്ളതാണ്: ${req}. നിങ്ങളുടെ വിഭാഗം: ${cat}.`,
+      mr: (req: string, cat: string) => `योजनेअंतर्गत अर्जदार या वर्गातील असणे आवश्यक आहे: ${req}. आपले प्रोफाइल: ${cat}.`,
     },
   },
   business: {
@@ -68,6 +74,7 @@ const MATCH_COPY = {
       te: 'ప్రొఫైల్‌లో వ్యాపార రంగం పేర్కొనబడలేదు.',
       kn: 'ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ವ್ಯವಹಾರ ಕ್ಷೇತ್ರವನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಿಲ್ಲ.',
       ml: 'പ്രൊഫൈലിൽ ബിസിനസ്സ് മേഖല വ്യക്തമാക്കിയിട്ടില്ല.',
+      mr: 'प्रोफाइलमध्ये व्यवसाय क्षेत्र निर्दिष्ट केलेले नाही.',
     },
     matched: {
       en: (biz: string) => `${biz} is recognized as an eligible activity for financing.`,
@@ -76,6 +83,7 @@ const MATCH_COPY = {
       te: (biz: string) => `${biz} ఈ పథకం కింద ఆర్థిక సహాయానికి అర్హమైన రంగంగా గుర్తించబడింది.`,
       kn: (biz: string) => `${biz} ಈ ಯೋಜನೆಯಡಿ ಹಣಕಾಸಿನ ನೆರವಿಗೆ ಅರ್ಹವಾದ ಕ್ಷೇತ್ರವೆಂದು ಗುರುತಿಸಲ್ಪಟ್ಟಿದೆ.`,
       ml: (biz: string) => `${biz} ഈ പദ്ധതിക്ക് കീഴിൽ സാമ്പത്തിക സഹായത്തിന് യോഗ്യമായ മേഖലയായി അംഗീകരിച്ചിട്ടുണ്ട്.`,
+      mr: (biz: string) => `${biz} वित्तपुरवठ्यासाठी पात्र कार्यक्षेत्र म्हणून मान्यताप्राप्त आहे.`,
     },
     mismatched: {
       en: (req: string, biz: string) => `Scheme is restricted to: ${req}. Your activity: ${biz}.`,
@@ -84,6 +92,7 @@ const MATCH_COPY = {
       te: (req: string, biz: string) => `పథకం వీటికి మాత్రమే పరిమితం: ${req}. మీ రంగం: ${biz}.`,
       kn: (req: string, biz: string) => `ಯೋಜನೆಯು ಈ ಕ್ಷೇತ್ರಗಳಿಗೆ ಮಾತ್ರ ಸೀಮಿತವಾಗಿದೆ: ${req}. ನಿಮ್ಮ ಕ್ಷೇತ್ರ: ${biz}.`,
       ml: (req: string, biz: string) => `പദ്ധതി ഈ മേഖലകൾക്ക് മാത്രമുള്ളതാണ്: ${req}. നിങ്ങളുടെ മേഖല: ${biz}.`,
+      mr: (req: string, biz: string) => `योजना या कार्यक्षेत्रांपुरती मर्यादित आहे: ${req}. आपले कार्यक्षेत्र: ${biz}.`,
     },
   },
   income: {
@@ -94,6 +103,7 @@ const MATCH_COPY = {
       te: 'ఈ ఎంటర్‌ప్రైజ్ పథకానికి గరిష్ట కుటుంబ ఆదాయ పరిమితి లేదు.',
       kn: 'ಈ ಉದ್ಯಮ ಯೋಜನೆಗೆ ಯಾವುದೇ ಗರಿಷ್ಠ ಕುಟುಂಬದ ಆದಾಯ ಮಿತಿ ಅನ್ವಯಿಸುವುದಿಲ್ಲ.',
       ml: 'ഈ സംരംഭക പദ്ധതിക്ക് ഉയർന്ന കുടുംബ വരുമാന പരിധിയില്ല.',
+      mr: 'या उद्यम योजनेसाठी कुटुंबाच्या उत्पन्नाची कोणतीही कमाल मर्यादा लागू नाही.',
     },
     unknown: {
       en: 'Household income not specified. Verification required against scheme income ceiling.',
@@ -102,6 +112,7 @@ const MATCH_COPY = {
       te: 'కుటుంబ ఆదాయం పేర్కొనబడలేదు. పథకం ఆదాయ పరిమితికి ధృవీకరణ అవసరం.',
       kn: 'ಕುಟುಂಬದ ಆದಾಯವನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಿಲ್ಲ. ಯೋಜನೆಯ ಆದಾಯ ಮಿತಿಯ ಪರಿಶೀಲನೆ ಅಗತ್ಯವಿದೆ.',
       ml: 'കുടുംബ വരുമാനം വ്യക്തമാക്കിയിട്ടില്ല. പദ്ധതി വരുമാന പരിധിക്കെതിരെ പരിശോധന ആവശ്യമാണ്.',
+      mr: 'कुटुंबाचे उत्पन्न निर्दिष्ट केलेले नाही. योजना उत्पन्न मर्यादेनुसार पडताळणी आवश्यक आहे.',
     },
     matched: {
       en: (inc: string, cap: string) => `Your annual income of ${inc} is within the maximum ceiling of ${cap}.`,
@@ -110,6 +121,7 @@ const MATCH_COPY = {
       te: (inc: string, cap: string) => `మీ వార్షిక ఆదాయం (${inc}) పథకం గరిష్ట పరిమితి (${cap}) లోపలే ఉంది.`,
       kn: (inc: string, cap: string) => `ನಿಮ್ಮ ವಾರ್ಷಿಕ ಆದಾಯವು (${inc}) ಯೋಜನೆಯ ಗರಿಷ್ಠ ಮಿತಿಯೊಳಗೆ (${cap}) ಇದೆ.`,
       ml: (inc: string, cap: string) => `നിങ്ങളുടെ വാർഷിക വരുമാനം (${inc}) പദ്ധതി പരിധിക്കുള്ളിലാണ് (${cap}).`,
+      mr: (inc: string, cap: string) => `आपले वार्षिक उत्पन्न ${inc} कमाल मर्यादेत ${cap} आहे.`,
     },
     mismatched: {
       en: (inc: string, cap: string, diff: string) => `Your annual income of ${inc} exceeds the scheme limit of ${cap} by ${diff}.`,
@@ -118,6 +130,7 @@ const MATCH_COPY = {
       te: (inc: string, cap: string, diff: string) => `మీ వార్షిక ఆదాయం (${inc}) పథకం పరిమితి కంటే (${cap}) ${diff} ఎక్కువగా ఉంది.`,
       kn: (inc: string, cap: string, diff: string) => `ನಿಮ್ಮ ವಾರ್ಷಿಕ ಆದಾಯವು (${inc}) ಯೋಜನಾ ಮಿತಿಗಿಂತ (${cap}) ${diff} ಹೆಚ್ಚಾಗಿದೆ.`,
       ml: (inc: string, cap: string, diff: string) => `നിങ്ങളുടെ വാർഷിക വരുമാനം (${inc}) പദ്ധതി പരിധിയേക്കാൾ (${cap}) ${diff} കൂടുതലാണ്.`,
+      mr: (inc: string, cap: string, diff: string) => `आपले वार्षिक उत्पन्न ${inc} योजना मर्यादेपेक्षा ${cap} ने ${diff} जास्त आहे.`,
     },
     reqMax: {
       en: (cap: string) => `Max ${cap}`,
@@ -126,6 +139,7 @@ const MATCH_COPY = {
       te: (cap: string) => `గరిష్టంగా ${cap}`,
       kn: (cap: string) => `ಗರಿಷ್ಠ ${cap}`,
       ml: (cap: string) => `പരമാവധി ${cap}`,
+      mr: (cap: string) => `कमाल ${cap}`,
     },
     reqNone: {
       en: 'No Income Ceiling',
@@ -134,6 +148,7 @@ const MATCH_COPY = {
       te: 'ఆదాయ పరిమితి లేదు',
       kn: 'ಆದಾಯ ಮಿತಿ ಇಲ್ಲ',
       ml: 'വരുമാന പരിധിയില്ല',
+      mr: 'उत्पन्न मर्यादा नाही',
     },
   },
   age: {
@@ -144,6 +159,7 @@ const MATCH_COPY = {
       te: 'వయస్సు పేర్కొనబడలేదు. ధృవీకరణ కోసం వయస్సు అవసరం.',
       kn: 'ವಯಸ್ಸನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಿಲ್ಲ. ಪರಿಶೀಲನೆಗೆ ವಯಸ್ಸು ಅಗತ್ಯವಿದೆ.',
       ml: 'പ്രായം വ്യക്തമാക്കിയിട്ടില്ല. പരിശോധനയ്ക്കായി പ്രായം ആവശ്യമാണ്.',
+      mr: 'वय निर्दिष्ट केलेले नाही. वैधानिक पडताळणीसाठी वय आवश्यक आहे.',
     },
     matched: {
       en: (age: number, min: number, max: number) => `Age ${age} is within the required eligibility window (${min}–${max} years).`,
@@ -152,6 +168,7 @@ const MATCH_COPY = {
       te: (age: number, min: number, max: number) => `మీ వయస్సు (${age} సం.) అర్హత పరిమితికి (${min}–${max} సం.) అనుకూలంగా ఉంది.`,
       kn: (age: number, min: number, max: number) => `ನಿಮ್ಮ ವಯಸ್ಸು (${age} ವರ್ಷ) ನಿಗದಿತ ಅರ್ಹತಾ ಮಿತಿಯೊಳಗೆ (${min}–${max} ವರ್ಷ) ಇದೆ.`,
       ml: (age: number, min: number, max: number) => `നിങ്ങളുടെ പ്രായം (${age} വയസ്സ്) നിശ്ചിത യോഗ്യതാ പരിധിക്കുള്ളിലാണ് (${min}–${max} വയസ്സ്).`,
+      mr: (age: number, min: number, max: number) => `वय ${age} आवश्यक पात्रता कक्षेत (${min}–${max} वर्षे) आहे.`,
     },
     mismatched: {
       en: (age: number, min: number, max: number) => `Your age (${age} years) falls outside the mandated window of ${min}–${max} years.`,
@@ -160,6 +177,7 @@ const MATCH_COPY = {
       te: (age: number, min: number, max: number) => `మీ వయస్సు (${age} సం.) పథకం నిర్దేశిత పరిమితికి (${min}–${max} సం.) వెలుపల ఉంది.`,
       kn: (age: number, min: number, max: number) => `ನಿಮ್ಮ ವಯಸ್ಸು (${age} ವರ್ಷ) ಯೋಜನೆಯ ಮಿತಿಗಿಂತ (${min}–${max} ವರ್ಷ) ಹೊರಗಿದೆ.`,
       ml: (age: number, min: number, max: number) => `നിങ്ങളുടെ പ്രായം (${age} വയസ്സ്) പദ്ധതി പരിധിക്ക് (${min}–${max} വയസ്സ്) പുറത്താണ്.`,
+      mr: (age: number, min: number, max: number) => `आपले वय (${age} वर्षे) अनिवार्य कक्षेबाहेर ${min}–${max} वर्षे आहे.`,
     },
     valYears: {
       en: (age: number) => `${age} Years`,
@@ -168,6 +186,7 @@ const MATCH_COPY = {
       te: (age: number) => `${age} సం.`,
       kn: (age: number) => `${age} ವರ್ಷ`,
       ml: (age: number) => `${age} വയസ്സ്`,
+      mr: (age: number) => `${age} वर्षे`,
     },
     reqYears: {
       en: (min: number, max: number) => `${min} to ${max} Years`,
@@ -176,6 +195,7 @@ const MATCH_COPY = {
       te: (min: number, max: number) => `${min} నుండి ${max} సం.`,
       kn: (min: number, max: number) => `${min} ರಿಂದ ${max} ವರ್ಷ`,
       ml: (min: number, max: number) => `${min} മുതൽ ${max} വയസ്സ് വരെ`,
+      mr: (min: number, max: number) => `${min} ते ${max} वर्षे`,
     },
   },
   state: {
@@ -186,6 +206,7 @@ const MATCH_COPY = {
       te: 'రాష్ట్రం పేర్కొనబడలేదు. ప్రాంతీయ పథకాలకు స్థానం అవసరం.',
       kn: 'ರಾಜ್ಯವನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಿಲ್ಲ. ಪ್ರಾದೇಶಿಕ ಯೋಜನೆಗಳಿಗೆ ಸ್ಥಳ ಅಗತ್ಯವಿದೆ.',
       ml: 'സംസ്ഥാനം വ്യക്തമാക്കിയിട്ടില്ല. പ്രാദേശിക പദ്ധതികൾക്ക് ലൊക്കേഷൻ ആവശ്യമാണ്.',
+      mr: 'राज्य निर्दिष्ट केलेले नाही. प्रादेशिक योजनांसाठी कार्यक्षेत्र पडताळणी आवश्यक आहे.',
     },
     allIndia: {
       en: (st: string) => `All-India central scheme operational across ${st}.`,
@@ -194,6 +215,7 @@ const MATCH_COPY = {
       te: (st: string) => `ఇది ${st} అంతటా పనిచేసే అఖిల భారత కేంద్ర పథకం.`,
       kn: (st: string) => `ಇದು ${st} ನಾದ್ಯಂತ ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಅಖಿಲ ಭಾರತ ಕೇಂದ್ರ ಯೋಜನೆಯಾಗಿದೆ.`,
       ml: (st: string) => `ഇത് ${st}-ൽ ഉടനീളം പ്രവർത്തിക്കുന്ന അഖിലേന്ത്യാ കേന്ദ്ര പദ്ധതിയാണ്.`,
+      mr: (st: string) => `संपूर्ण भारतातील केंद्रीय योजना ${st} मध्ये कार्यरत आहे.`,
     },
     regional: {
       en: (st: string) => `State scheme actively operational in ${st}.`,
@@ -202,6 +224,7 @@ const MATCH_COPY = {
       te: (st: string) => `ఈ పథకం ${st} లో చురుకుగా పనిచేస్తోంది.`,
       kn: (st: string) => `ಈ ಯೋಜನೆಯು ${st} ನಲ್ಲಿ ಸಕ್ರಿಯವಾಗಿದೆ.`,
       ml: (st: string) => `ഈ പദ്ധതി ${st}-ൽ സജീവമായി പ്രവർത്തിക്കുന്നു.`,
+      mr: (st: string) => `राज्य योजना ${st} मध्ये सक्रियपणे कार्यरत आहे.`,
     },
     mismatched: {
       en: (sts: string) => `Scheme is currently restricted to: ${sts}.`,
@@ -210,6 +233,7 @@ const MATCH_COPY = {
       te: (sts: string) => `ఈ పథకం ప్రస్తుతం నిర్దిష్ట రాష్ట్రాలకు మాత్రమే పరిమితం: ${sts}.`,
       kn: (sts: string) => `ಈ ಯೋಜನೆಯು ಪ್ರಸ್ತುತ ನಿರ್ದಿಷ್ಟ ರಾಜ್ಯಗಳಿಗೆ ಮಾತ್ರ ಸೀಮಿತವಾಗಿದೆ: ${sts}.`,
       ml: (sts: string) => `ഈ പദ്ധതി നിലവിൽ നിർദ്ദിഷ്ട സംസ്ഥാനങ്ങൾക്ക് മാത്രമായി പരിമിതപ്പെടുത്തിയിരിക്കുന്നു: ${sts}.`,
+      mr: (sts: string) => `योजना सध्या या राज्यांपुरती मर्यादित आहे: ${sts}.`,
     },
     allStatesLabel: {
       en: 'All States & UTs (National)',
@@ -218,6 +242,7 @@ const MATCH_COPY = {
       te: 'అన్ని రాష్ట్రాలు & కేంద్రపాలిత ప్రాంతాలు (జాతీయ)',
       kn: 'ಎಲ್ಲಾ ರಾಜ್ಯಗಳು ಮತ್ತು ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶಗಳು (ರಾಷ್ಟ್ರೀಯ)',
       ml: 'എല്ലാ സംസ്ഥാനങ്ങളും കേന്ദ്രഭരണ പ്രദേശങ്ങളും (ദേശീയ)',
+      mr: 'सर्व राज्ये आणि केंद्रशासित प्रदेश (राष्ट्रीय)',
     },
   },
   summary: {
@@ -228,6 +253,7 @@ const MATCH_COPY = {
       te: (cat: string, biz: string) => `సంభావ్య అర్హత: మీ ప్రొఫైల్ ${cat} మరియు ${biz} కోసం ప్రాథమిక అర్హత ప్రమాణాలకు సరిపోలుతుంది.`,
       kn: (cat: string, biz: string) => `ಸಂಭಾವ್ಯ ಅರ್ಹತೆ: ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ${cat} ಮತ್ತು ${biz} ಗಾಗಿ ಮುಖ್ಯ ಮಾನದಂಡಗಳಿಗೆ ಹೊಂದಿಕೆಯಾಗುತ್ತದೆ.`,
       ml: (cat: string, biz: string) => `സാധ്യമായ യോഗ്യത: നിങ്ങളുടെ പ്രൊഫൈൽ ${cat}, ${biz} എന്നിവയ്ക്കുള്ള യോഗ്യതാ മാനദണ്ഡങ്ങളുമായി പൊരുത്തപ്പെടുന്നു.`,
+      mr: (cat: string, biz: string) => `संभाव्य पात्र: आपले प्रोफाइल ${cat} आणि ${biz} साठी योजनेच्या मुख्य वैधानिक पात्रता निकषांशी जुळते. अंतिम मंजुरी अधिकृत पडताळणीअंतर्गत आहे.`,
     },
     nearMatchGap: {
       en: (count: number, label: string, gap: string) => `Near match (${count}/5 criteria met): Main gap - ${label} (${gap}).`,
@@ -236,6 +262,7 @@ const MATCH_COPY = {
       te: (count: number, label: string, gap: string) => `సమీప అర్హత (${count}/5 ప్రమాణాలు పూర్తి): ప్రధాన తేడా - ${label} (${gap}).`,
       kn: (count: number, label: string, gap: string) => `ಹತ್ತಿರದ ಅರ್ಹತೆ (${count}/5 ಮಾನದಂಡಗಳು ಪೂರ್ಣ): ಮುಖ್ಯ ಅಂತರ - ${label} (${gap}).`,
       ml: (count: number, label: string, gap: string) => `ഏറെക്കുറെ യോഗ്യത (${count}/5 മാനദണ്ഡങ്ങൾ പൂർത്തിയായി): പ്രധാന വ്യത്യാസം - ${label} (${gap}).`,
+      mr: (count: number, label: string, gap: string) => `जवळपास पात्र (${count}/5 निकष पूर्ण): मुख्य तफावत - ${label} (${gap}).`,
     },
     nearMatchNoGap: {
       en: 'Near match: Meets most requirements, with minor adjustments needed.',
@@ -244,6 +271,7 @@ const MATCH_COPY = {
       te: 'సమీప అర్హత: చాలా అవసరాలు సరిపోలుతున్నాయి, చిన్న సర్దుబాట్లు అవసరం.',
       kn: 'ಹತ್ತಿರದ ಅರ್ಹತೆ: ಹೆಚ್ಚಿನ ಅವಶ್ಯಕತೆಗಳು ಹೊಂದಿಕೆಯಾಗುತ್ತವೆ, ಸಣ್ಣ ಬದಲಾವಣೆಗಳು ಬೇಕಾಗಬಹುದು.',
       ml: 'ഏറെക്കുറെ യോഗ്യത: മിക്ക ആവശ്യകതകളും പൊരുത്തപ്പെടുന്നു, ചെറിയ ക്രമീകരണങ്ങൾ ആവശ്യമാണ്.',
+      mr: 'जवळपास पात्र: बहुतांश आवश्यकता जुळतात, किरकोळ समायोजन आवश्यक.',
     },
     lowMatch: {
       en: (unmet: string) => `Does not satisfy core eligibility because profile differs on ${unmet}.`,
@@ -252,6 +280,7 @@ const MATCH_COPY = {
       te: (unmet: string) => `ప్రొఫైల్ ${unmet} నిబంధనలతో సరిపోలనందున అర్హత లేదు.`,
       kn: (unmet: string) => `ಪ್ರೊಫೈಲ್ ${unmet} ನಿಯಮಗಳಿಗೆ ಭಿನ್ನವಾಗಿರುವುದರಿಂದ ಅರ್ಹತೆ ಹೊಂದಿಲ್ಲ.`,
       ml: (unmet: string) => `പ്രൊഫൈൽ ${unmet} നിബന്ധനകളുമായി വ്യത്യാസപ്പെടുന്നതിനാൽ യോഗ്യത നേടിയിട്ടില്ല.`,
+      mr: (unmet: string) => `मुख्य पात्रता पूर्ण होत नाही कारण प्रोफाइल ${unmet} शी भिन्न आहे.`,
     },
   },
   alternatives: {
@@ -262,6 +291,7 @@ const MATCH_COPY = {
       te: 'ఈ పథకంలో ఆదాయ పరిమితి లేదు మరియు మీ ప్రొఫైల్ పూర్తిగా అర్హమైనది.',
       kn: 'ಈ ಯೋಜನೆಯಲ್ಲಿ ಯಾವುದೇ ಆದಾಯ ಮಿತಿ ಇಲ್ಲ ಮತ್ತು ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಸಂಪೂರ್ಣವಾಗಿ ಅರ್ಹವಾಗಿದೆ.',
       ml: 'ഈ പദ്ധതിയിൽ വരുമാന പരിധിയില്ല, നിങ്ങളുടെ പ്രൊഫൈൽ പൂർണ്ണമായും യോഗ്യമാണ്.',
+      mr: 'कुटुंबाच्या उत्पन्नाची कोणतीही मर्यादा लागू नाही; प्रोफाइल पूर्णपणे पात्र आहे.',
     },
     panIndia: {
       en: (st: string) => `National scheme with pan-India coverage across ${st}.`,
@@ -270,6 +300,7 @@ const MATCH_COPY = {
       te: (st: string) => `మీ రాష్ట్రంలో (${st}) వర్తించే అఖిల భారత పథకం.`,
       kn: (st: string) => `ನಿಮ್ಮ ರಾಜ್ಯದಲ್ಲಿ (${st}) ಅನ್ವಯವಾಗುವ ಅಖಿಲ ಭಾರತ ಯೋಜನೆ.`,
       ml: (st: string) => `നിങ്ങളുടെ സംസ്ഥാനത്ത് (${st}) ബാധകമായ അഖിലേന്ത്യാ പദ്ധതി.`,
+      mr: (st: string) => `संपूर्ण भारतात कार्यरत असलेली राष्ट्रीय योजना ${st} मध्ये लागू आहे.`,
     },
     subsidyRate: {
       en: (rate: number) => `Fully eligible with up to ${rate}% capital subsidy.`,
@@ -278,6 +309,7 @@ const MATCH_COPY = {
       te: (rate: number) => `${rate}% వరకు మూలధన సబ్సిడీ సహాయంతో పూర్తి అర్హత.`,
       kn: (rate: number) => `${rate}% ವರೆಗೆ ಬಂಡವಾಳ ಸಬ್ಸಿಡಿ ನೆರವಿನೊಂದಿಗೆ ಸಂಪೂರ್ಣ ಅರ್ಹತೆ.`,
       ml: (rate: number) => `${rate}% വരെ മൂലധന സബ്സിഡി സഹായത്തോടെ പൂർണ്ണ യോഗ്യത.`,
+      mr: (rate: number) => `${rate}% पर्यंत भांडवली अनुदानासह पूर्ण पात्रता.`,
     },
     ventureCompat: {
       en: (biz: string) => `High compatibility for your ${biz} venture.`,
@@ -286,6 +318,7 @@ const MATCH_COPY = {
       te: (biz: string) => `మీ ${biz} వ్యాపారానికి అధిక అనుకూలత.`,
       kn: (biz: string) => `ನಿಮ್ಮ ${biz} ವ್ಯವಹಾರಕ್ಕೆ ಹೆಚ್ಚಿನ ಹೊಂದಾಣಿಕೆ.`,
       ml: (biz: string) => `നിങ്ങളുടെ ${biz} സംരംഭത്തിന് ഉയർന്ന അനുയോജ്യത.`,
+      mr: (biz: string) => `आपल्या ${biz} व्यवसायासाठी उच्च सुसंगतता.`,
     },
     nearMatch: {
       en: (pct: number) => `Higher match (${pct}%) with broader qualification window.`,
@@ -294,6 +327,7 @@ const MATCH_COPY = {
       te: (pct: number) => `అధిక సరిపోలిక (${pct}%) మరియు విస్తృత అర్హత పరిధి.`,
       kn: (pct: number) => `ಹೆಚ್ಚಿನ ಹೊಂದಾಣಿಕೆ (${pct}%) ಮತ್ತು ವಿಶಾಲ ಅರ್ಹತಾ ಮಿತಿ.`,
       ml: (pct: number) => `ഉയർന്ന പൊരുത്തം (${pct}%), വിശാലമായ യോഗ്യതാ പരിധി.`,
+      mr: (pct: number) => `विस्तृत पात्रता कक्षेसह उच्च जुळवणी (${pct}%).`,
     },
   },
 };

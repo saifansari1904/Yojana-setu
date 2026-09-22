@@ -16,6 +16,7 @@ const GAP_COPY: Record<Language, {
   te: { income: (value) => `పరిమితి కంటే ${value} ఎక్కువ`, ageBelow: (value) => `కనీస వయస్సు కంటే ${value} సం. తక్కువ`, ageAbove: (value) => `గరిష్ట వయస్సు కంటే ${value} సం. ఎక్కువ`, state: (value) => `${value} కు మాత్రమే పరిమితం`, business: 'విభిన్న వ్యాపార రంగం', category: 'ప్రత్యేక రిజర్వుడ్ గ్రూప్' },
   kn: { income: (value) => `ಮಿತಿಗಿಂತ ${value} ಹೆಚ್ಚು`, ageBelow: (value) => `ಕನಿಷ್ಠ ವಯಸ್ಸಿಗಿಂತ ${value} ವರ್ಷ ಕಡಿಮೆ`, ageAbove: (value) => `ಗರಿಷ್ಠ ವಯಸ್ಸಿಗಿಂತ ${value} ವರ್ಷ ಹೆಚ್ಚು`, state: (value) => `${value} ಗೆ ಮಾತ್ರ ಸೀಮಿತವಾಗಿದೆ`, business: 'ವಿಭಿನ್ನ ವ್ಯಾಪಾರ ಕ್ಷೇತ್ರ', category: 'ಮೀಸಲಾದ ಉದ್ದೇಶಿತ ವರ್ಗ' },
   ml: { income: (value) => `പരിധിയേക്കാൾ ${value} കൂടുതൽ`, ageBelow: (value) => `ഏറ്റവും കുറഞ്ഞ പ്രായത്തേക്കാൾ ${value} വർഷം കുറവ്`, ageAbove: (value) => `പരമാവധി പ്രായത്തേക്കാൾ ${value} വർഷം കൂടുതൽ`, state: (value) => `${value} ന് മാത്രം ബാധകം`, business: 'വ്യത്യസ്ത ബിസിനസ്സ് മേഖല', category: 'പ്രത്യേക സംവരണ വിഭാഗം' },
+  mr: { income: (value) => `मर्यादेपेक्षा ${value} जास्त`, ageBelow: (value) => `किमान वयापेक्षा ${value} वर्षे कमी`, ageAbove: (value) => `कमाल वयापेक्षा ${value} वर्षे जास्त`, state: (value) => `फक्त ${value} मध्ये लागू`, business: 'भिन्न व्यापार क्षेत्र', category: 'विशिष्ट आरक्षित गट' },
 };
 
 export function formatPrimaryGapDistance(gap: PrimaryGap, lang: Language): string | undefined {

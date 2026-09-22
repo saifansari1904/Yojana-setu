@@ -1,6 +1,6 @@
 import { BusinessType, SocialCategory } from '../types';
 
-export type Language = 'hi' | 'en' | 'ta' | 'te' | 'kn' | 'ml';
+export type Language = 'hi' | 'en' | 'ta' | 'te' | 'kn' | 'ml' | 'mr';
 
 interface LanguageOption {
   code: Language;
@@ -16,6 +16,7 @@ export const SUPPORTED_LANGUAGES: LanguageOption[] = [
   { code: 'te', label: 'Telugu', nativeName: 'తెలుగు', region: 'Andhra Pradesh & Telangana' },
   { code: 'kn', label: 'Kannada', nativeName: 'ಕನ್ನಡ', region: 'Karnataka' },
   { code: 'ml', label: 'Malayalam', nativeName: 'മലയാളം', region: 'Kerala' },
+  { code: 'mr', label: 'Marathi', nativeName: 'मराठी', region: 'Maharashtra & Goa' },
 ];
 
 export interface LocalizedSchemeData {
@@ -163,6 +164,19 @@ export interface Translations {
     discoverySource: string;
     sourcePending: string;
     candidateRecord: string;
+    status: string;
+  };
+  verificationBadge: {
+    verifiedOfficial: string;
+    nodalAgency: string;
+    unverifiedSource: string;
+    invalidDomain: string;
+    candidateScheme: string;
+    gazetteVerified: string;
+    officialGovScheme: string;
+    partiallyVerified: string;
+    reviewInProgress: string;
+    sourceVerificationPending: string;
   };
   questionnaire: {
     stageAboutTitle: string;

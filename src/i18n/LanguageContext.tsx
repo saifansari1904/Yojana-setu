@@ -6,6 +6,7 @@ import { taTranslations } from './ta';
 import { teTranslations } from './te';
 import { knTranslations } from './kn';
 import { mlTranslations } from './ml';
+import { mrTranslations } from './mr';
 import { hiSchemesData, allLocalizedSchemes } from './schemesData';
 import { BusinessType, MatchResult, Scheme, SchemeRuleBreakdown, SocialCategory, UserProfile } from '../types';
 import {
@@ -30,6 +31,7 @@ export const translationsMap: Record<Language, Translations> = {
   te: teTranslations,
   kn: knTranslations,
   ml: mlTranslations,
+  mr: mrTranslations,
 };
 
 export function getCategoryLabel(category: SocialCategory, lang: Language = 'hi'): string {
@@ -119,7 +121,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const toggleLang = () => {
-    const langOrder: Language[] = ['hi', 'en', 'ta', 'te', 'kn', 'ml'];
+    const langOrder: Language[] = ['hi', 'en', 'ta', 'te', 'kn', 'ml', 'mr'];
     const idx = langOrder.indexOf(lang);
     setLang(langOrder[(idx + 1) % langOrder.length]);
   };
@@ -174,7 +176,18 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const formatCurrency = (amount: number): string => {
     if (isNaN(amount)) return '₹0';
-    return new Intl.NumberFormat('en-IN', {
+    // Display locale per language. Existing languages keep 'en-IN' (unchanged
+    // behaviour); Marathi uses 'mr-IN' for localized digits/grouping.
+    const numberFormatLocales: Record<Language, string> = {
+      en: 'en-IN',
+      hi: 'en-IN',
+      ta: 'en-IN',
+      te: 'en-IN',
+      kn: 'en-IN',
+      ml: 'en-IN',
+      mr: 'mr-IN',
+    };
+    return new Intl.NumberFormat(numberFormatLocales[lang], {
       style: 'currency',
       currency: 'INR',
       maximumFractionDigits: 0,

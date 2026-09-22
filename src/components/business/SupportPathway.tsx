@@ -4,6 +4,7 @@ import { ListOrdered, Coins, Info } from 'lucide-react';
 import { SupportPathway as SupportPathwayModel } from '../../types/supportPathway';
 import { SUPPORT_NEEDS_TAXONOMY, SupportNeedType } from '../../types/business';
 import { useTranslation } from '../../i18n';
+import { resolveLocalizedPair } from '../../i18n/resolveLocalized';
 import { formatLakhCrore } from '../../lib/business/fundingCalculator';
 import {
   getLocalizedCombinabilityNotice,
@@ -159,7 +160,7 @@ export const SupportPathway: React.FC<SupportPathwayProps> = ({
             className="space-y-2"
           >
             {topPriorities.map((area, stepIdx) => {
-              const areaLabel = getLocalizedNeedLabel(area.area as SupportNeedType, l) || (l === 'hi' ? area.labelHi : area.labelEn);
+              const areaLabel = getLocalizedNeedLabel(area.area as SupportNeedType, l) || resolveLocalizedPair(area.labelEn, area.labelHi, l);
               const areaReason = getLocalizedSupportAreaReason(area, l);
               return (
                 <motion.li

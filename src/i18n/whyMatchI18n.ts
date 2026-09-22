@@ -11,6 +11,7 @@ const WHY_MATCH_I18N: Record<
     te: 'నియమ సమీక్ష',
     kn: 'ನಿಯಮ ಪರಿಶೀಲನೆ',
     ml: 'നിയമ പരിശോധന',
+    mr: 'नियम लेखापरीक्षण',
   },
   statusEligible: {
     en: 'Eligible',
@@ -19,6 +20,7 @@ const WHY_MATCH_I18N: Record<
     te: 'అర్హత ఉంది',
     kn: 'ಅರ್ಹ',
     ml: 'അർഹതയുണ്ട്',
+    mr: 'पात्र',
   },
   statusNearMatch: {
     en: 'Near Match',
@@ -27,6 +29,7 @@ const WHY_MATCH_I18N: Record<
     te: 'దగ్గరి సరిపోలిక',
     kn: 'ಹತ್ತಿರದ ಹೊಂದಾಣಿಕೆ',
     ml: 'ഏറ്റവും അടുത്തത്',
+    mr: 'जवळची जुळणी',
   },
   statusLowMatch: {
     en: 'Low Match',
@@ -35,6 +38,7 @@ const WHY_MATCH_I18N: Record<
     te: 'తక్కువ సరిపోలిక',
     kn: 'ಕಡಿಮೆ ಹೊಂದಾಣಿಕೆ',
     ml: 'കുറഞ്ഞ അനുയോജ്യത',
+    mr: 'कमी जुळणी',
   },
   whyTitle: {
     en: 'Why this scheme matched your profile',
@@ -43,6 +47,7 @@ const WHY_MATCH_I18N: Record<
     te: 'ఈ పథకం మీ ప్రొఫైల్‌కు ఎందుకు సరిపోలింది',
     kn: 'ಈ ಯೋಜನೆಯು ನಿಮ್ಮ ಪ್ರೊಫೈಲ್‌ಗೆ ಏಕೆ ಹೊಂದಿಕೆಯಾಗುತ್ತದೆ',
     ml: 'ഈ പദ്ധതി നിങ്ങളുടെ പ്രൊഫൈലുമായി എങ്ങനെ പൊരുത്തപ്പെടുന്നു',
+    mr: 'ही योजना आपल्या प्रोफाइलशी का जुळली',
   },
   authorityLabel: {
     en: 'Authority',
@@ -51,6 +56,7 @@ const WHY_MATCH_I18N: Record<
     te: 'అధికార సంస్థ',
     kn: 'ಪ್ರಾಧಿಕಾರ',
     ml: 'അധികാര സ്ഥാപനം',
+    mr: 'प्राधिकरण',
   },
   gapNoticeTitle: {
     en: 'Identified Gap',
@@ -59,6 +65,7 @@ const WHY_MATCH_I18N: Record<
     te: 'గుర్తించిన వ్యత్యాసం',
     kn: 'ಗುರುತಿಸಲಾದ ಅಂತರ',
     ml: 'കണ്ടെത്തിയ അന്തരം',
+    mr: 'ओळखलेली तफावत',
   },
   viewGapActionBtn: {
     en: 'Explore alternative schemes →',
@@ -67,6 +74,7 @@ const WHY_MATCH_I18N: Record<
     te: 'ప్రత్యామ్నాయ పథకాలను అన్వేషించండి →',
     kn: 'ಪರ್ಯಾಯ ಯೋಜನೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ →',
     ml: 'മറ്റ് അനുയോജ്യമായ പദ്ധതികൾ കാണുക →',
+    mr: 'पर्यायी योजना एक्सप्लोर करा →',
   },
   statutoryAuditTitle: {
     en: 'Statutory 5-Factor Eligibility Audit',
@@ -75,6 +83,7 @@ const WHY_MATCH_I18N: Record<
     te: 'చట్టబద్ధమైన 5-కారకాల అర్హత సమీక్ష',
     kn: 'ಶಾಸನಬದ್ಧ 5-ಅಂಶಗಳ ಅರ್ಹತಾ ಪರಿಶೀಲನೆ',
     ml: 'നിയമപരമായ 5-ഘടക യോഗ്യതാ പരിശോധന',
+    mr: 'वैधानिक 5-घटक पात्रता लेखापरीक्षण',
   },
   factorsVerified: {
     en: 'Factors Evaluated',
@@ -83,6 +92,7 @@ const WHY_MATCH_I18N: Record<
     te: 'కారకాలు మూల్యాంకనం చేయబడ్డాయి',
     kn: 'ಅಂಶಗಳನ್ನು ಮೌಲ್ಯಮಾಪನ ಮಾಡಲಾಗಿದೆ',
     ml: 'ഘടകങ്ങൾ വിലയിരുത്തി',
+    mr: 'घटकांचे मूल्यांकन केले',
   },
   criteriaMet: {
     en: 'Criteria Met',
@@ -91,6 +101,7 @@ const WHY_MATCH_I18N: Record<
     te: 'నిబంధన నెరవేరింది',
     kn: 'ಅರ್ಹತೆ ಪೂರ್ಣಗೊಂಡಿದೆ',
     ml: 'മാനദണ്ഡം പാലിച്ചു',
+    mr: 'निकष पूर्ण',
   },
   needed: {
     en: 'Details Needed',
@@ -99,6 +110,7 @@ const WHY_MATCH_I18N: Record<
     te: 'వివరాలు అవసరం',
     kn: 'ವಿವರಗಳು ಅಗತ್ಯವಿದೆ',
     ml: 'വിവരങ്ങൾ ആവശ്യമാണ്',
+    mr: 'तपशील आवश्यक',
   },
   mismatch: {
     en: 'Mismatch',
@@ -107,6 +119,7 @@ const WHY_MATCH_I18N: Record<
     te: 'సరిపోలలేదు',
     kn: 'ಹೊಂದಿಕೆಯಾಗುವುದಿಲ್ಲ',
     ml: 'പൊരുത്തപ്പെടുന്നില്ല',
+    mr: 'जुळत नाही',
   },
   yourInputLabel: {
     en: 'Your Input:',
@@ -115,6 +128,7 @@ const WHY_MATCH_I18N: Record<
     te: 'మీ వివరాలు:',
     kn: 'ನಿಮ್ಮ ವಿವರ:',
     ml: 'നിങ്ങളുടെ വിവരങ്ങൾ:',
+    mr: 'आपले इनपुट:',
   },
   statutoryReqLabel: {
     en: 'Official Gazette Rule:',
@@ -123,6 +137,7 @@ const WHY_MATCH_I18N: Record<
     te: 'అధికారిక నిబంధన:',
     kn: 'ಅಧಿಕೃತ ನಿಯಮ:',
     ml: 'ഔദ്യോഗിക ചട്ടം:',
+    mr: 'अधिकृत राजपत्र नियम:',
   },
   summaryAssessment: {
     en: 'Summary Assessment:',
@@ -131,6 +146,7 @@ const WHY_MATCH_I18N: Record<
     te: 'సారాంశ మూల్యాంకనం:',
     kn: 'ಸಾರಾಂಶ ಮೌಲ್ಯಮಾಪನ:',
     ml: 'സംഗ്രഹ വിലയിരുത്തൽ:',
+    mr: 'सारांश मूल्यांकन:',
   },
   disclaimer: {
     en: 'Eligibility determined by published scheme criteria · explanation generated for clarity',
@@ -139,6 +155,7 @@ const WHY_MATCH_I18N: Record<
     te: 'ప్రచురించబడిన పథకం ప్రమాణాల ఆధారంగా అర్హత నిర్ణయించబడుతుంది · స్పష్టత కోసం వివరణ ఇవ్వబడింది',
     kn: 'ಪ್ರಕಟಿತ ಯೋಜನಾ ಮಾನದಂಡಗಳ ಆಧಾರದ ಮೇಲೆ ಅರ್ಹತೆಯನ್ನು ನಿರ್ಧರಿಸಲಾಗುತ್ತದೆ · ಸ್ಪಷ್ಟತೆಗಾಗಿ ವಿವರಣೆ ನೀಡಲಾಗಿದೆ',
     ml: 'പ്രസിദ്ധീകരിച്ച പദ്ധതി മാനദണ്ഡങ്ങളുടെ അടിസ്ഥാനത്തിലാണ് യോഗ്യത നിർണ്ണയിക്കുന്നത് · വ്യക്തതയ്ക്കായി വിവരണം നൽകിയിട്ടുണ്ട്',
+    mr: 'प्रकाशित योजना निकषांनुसार पात्रता निश्चित केली · स्पष्टतेसाठी स्पष्टीकरण तयार केले',
   },
   applyOfficialPortal: {
     en: 'Apply on Official Ministry Portal',
@@ -147,6 +164,7 @@ const WHY_MATCH_I18N: Record<
     te: 'అధికారిక మంత్రిత్వ శాఖ పోర్టల్‌లో దరఖాస్తు చేసుకోండి',
     kn: 'ಅಧಿಕೃತ ಸಚಿವಾಲಯದ ಪೋರ್ಟಲ್‌ನಲ್ಲಿ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ',
     ml: 'ഔദ്യോഗിക മന്ത്രാലയ പോർട്ടലിൽ അപേക്ഷിക്കുക',
+    mr: 'अधिकृत मंत्रालय पोर्टलवर अर्ज करा',
   },
   backToList: {
     en: 'Back to matched schemes list',
@@ -155,6 +173,7 @@ const WHY_MATCH_I18N: Record<
     te: 'సరిపోలిన పథకాల జాబితాకు తిరిగి వెళ్లండి',
     kn: 'ಹೊಂದಿಕೆಯಾದ ಯೋಜನೆಗಳ ಪಟ್ಟಿಗೆ ಹಿಂತಿರುಗಿ',
     ml: 'പൊരുത്തപ്പെടുന്ന പദ്ധതികളുടെ പട്ടികയിലേക്ക് മടങ്ങുക',
+    mr: 'जुळलेल्या योजनांच्या यादीवर परत जा',
   },
 };
 

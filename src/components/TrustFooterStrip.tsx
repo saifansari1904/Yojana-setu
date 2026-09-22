@@ -29,7 +29,7 @@ export const TrustFooterStrip: React.FC<TrustFooterStripProps> = ({
           <ShieldCheck className="h-4 w-4 shrink-0 text-[#1E6A50] dark:text-[#4ADE80]" aria-hidden="true" />
         )}
         <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2]">
-          {isCandidate ? 'Discovery Sponsoring Body:' : t('trustStrip.source')}{' '}
+          {isCandidate ? t('trustStrip.discoverySource') : t('trustStrip.source')}{' '}
           <span className="font-normal text-[#3F4943] dark:text-[#9EB0A7]">{sourceMinistry}</span>
         </span>
       </div>
@@ -37,14 +37,14 @@ export const TrustFooterStrip: React.FC<TrustFooterStripProps> = ({
         {isCandidate ? (
           <>
             <span>
-              Status:{' '}
+              {t('trustStrip.status')}:{' '}
               <strong className="font-semibold text-amber-800 dark:text-amber-300">
-                Source verification pending
+                {t('trustStrip.sourcePending')}
               </strong>
             </span>
             <span className="hidden sm:inline text-[#BEC9C1] dark:text-[#41534A]">•</span>
             <span className="hidden sm:inline bg-amber-100 dark:bg-amber-950/70 border border-amber-300 dark:border-amber-700/60 text-amber-900 dark:text-amber-300 font-semibold px-2 py-0.5 rounded text-[10px] uppercase tracking-wider">
-              Candidate Record
+              {t('trustStrip.candidateRecord')}
             </span>
           </>
         ) : (

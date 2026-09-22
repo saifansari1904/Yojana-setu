@@ -15,6 +15,7 @@ const PILLAR_NAMES: Record<string, Record<Language, string>> = {
     te: 'ప్రొఫైల్ సమలేఖనం',
     kn: 'ಪ್ರೊಫೈಲ್ ಹೊಂದಾಣಿಕೆ',
     ml: 'പ്രൊഫൈൽ അനുയോജ്യത',
+    mr: 'प्रोफाइल जुळणी',
   },
   eligibility: {
     en: 'Eligibility Rules',
@@ -23,6 +24,7 @@ const PILLAR_NAMES: Record<string, Record<Language, string>> = {
     te: 'అర్హత నిబంధనలు',
     kn: 'ಅರ್ಹತಾ ನಿಯಮಗಳು',
     ml: 'യോഗ്യതാ മാനദണ്ഡങ്ങൾ',
+    mr: 'पात्रता नियम',
   },
   documents: {
     en: 'Mandatory Documents',
@@ -31,6 +33,7 @@ const PILLAR_NAMES: Record<string, Record<Language, string>> = {
     te: 'తప్పనిసరి పత్రాలు',
     kn: 'ಕಡ್ಡಾಯ ದಾಖಲೆಗಳು',
     ml: 'നിർബന്ധിത രേഖകൾ',
+    mr: 'अनिवार्य कागदपत्रे',
   },
   financial: {
     en: 'Financial Alignment',
@@ -39,6 +42,7 @@ const PILLAR_NAMES: Record<string, Record<Language, string>> = {
     te: 'ఆర్థిక సమలేఖనం',
     kn: 'ಹಣಕಾಸು ಹೊಂದಾಣಿಕೆ',
     ml: 'സാമ്പത്തിക അനുയോജ്യത',
+    mr: 'वित्तीय जुळणी',
   },
   process: {
     en: 'Official Channel & Mode',
@@ -47,6 +51,7 @@ const PILLAR_NAMES: Record<string, Record<Language, string>> = {
     te: 'అధికారిక విధానం & మాధ్యమం',
     kn: 'ಅಧಿಕೃತ ಚಾನಲ್ ಮತ್ತು ವಿಧಾನ',
     ml: 'ഔദ്യോഗിക രീതിയും മാധ്യമവും',
+    mr: 'अधिकृत माध्यम व प्रक्रिया',
   },
 };
 
@@ -58,6 +63,7 @@ const READINESS_STATE_LABELS: Record<string, Record<Language, string>> = {
     te: 'దరఖాస్తుకు సిద్ధం',
     kn: 'ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಿದ್ಧ',
     ml: 'അപേക്ഷിക്കാൻ തയ്യാറാണ്',
+    mr: 'अर्ज करण्यासाठी तयार',
   },
   READY_TO_REVIEW: {
     en: 'Ready for Review',
@@ -66,6 +72,7 @@ const READINESS_STATE_LABELS: Record<string, Record<Language, string>> = {
     te: 'సమీక్షకు సిద్ధం',
     kn: 'ಪರಿಶೀಲನೆಗೆ ಸಿದ್ಧ',
     ml: 'പരിಶോധനയ്ക്ക് തയ്യാറാണ്',
+    mr: 'आढाव्यासाठी तयार',
   },
   PARTIAL: {
     en: 'Preparation In Progress',
@@ -74,6 +81,7 @@ const READINESS_STATE_LABELS: Record<string, Record<Language, string>> = {
     te: 'తయారీ పురోగతిలో ఉంది',
     kn: 'ಸಿದ್ಧತೆ ಪ್ರಗತಿಯಲ್ಲಿದೆ',
     ml: 'തയ്യാറെടുപ്പ് പുരോഗമിക്കുന്നു',
+    mr: 'तयारी सुरू आहे',
   },
   NOT_READY: {
     en: 'Action Required',
@@ -82,6 +90,7 @@ const READINESS_STATE_LABELS: Record<string, Record<Language, string>> = {
     te: 'చర్య అవసరం',
     kn: 'ಕ್ರಮ ಅಗತ್ಯವಿದೆ',
     ml: 'നടപടി ആവശ്യമാണ്',
+    mr: 'कृती आवश्यक',
   },
 };
 

@@ -124,6 +124,7 @@ export const getLocalizedFollowUp = (
       te: `ఫాలో-అప్ ${overdueBy} రోజు ఆలస్యం`,
       kn: `ಫಾಲೋ-ಅಪ್ ${overdueBy} ದಿನ ವಿಳಂಬವಾಗಿದೆ`,
       ml: `ഫോളോ-അപ്പ് ${overdueBy} ദിവസം വൈകി`,
+      mr: `पाठपुरावा ${overdueBy} दिवसांनी विलंबित`,
     };
     return phrases[lang] || phrases.en;
   }
@@ -136,6 +137,7 @@ export const getLocalizedFollowUp = (
       te: `ఫాలో-అప్ ${days} రోజులలో`,
       kn: `ಫಾಲೋ-ಅಪ್ ${days} ದಿನಗಳಲ್ಲಿ`,
       ml: `ഫോളോ-അപ്പ് ${days} ദിവസത്തിൽ`,
+      mr: `पाठपुरावा ${days} दिवसांत`,
     };
     return phrases[lang] || phrases.en;
   }
