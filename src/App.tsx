@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef, Suspense, lazy } from 'react';
 import { AnimatePresence, LayoutGroup, MotionConfig } from 'motion/react';
 import { ActiveScreen, ApplicationStatus, MatchResult, TrackedApplication, UserProfile } from './types';
 import { getAllSchemes, getAllRepositorySchemes } from './lib/data';
@@ -6,15 +6,36 @@ import { rankSchemesForProfile } from './utils/matchingEngine';
 import { deriveBusinessNeedProfile, deriveBusinessProfile } from './lib/business';
 import { Header } from './components/Header';
 import { LoginScreen } from './components/LoginScreen';
-import { EligibilityFormScreen } from './components/EligibilityFormScreen';
-import { ResultsListScreen } from './components/ResultsListScreen';
-import { WhyMatchModal } from './components/WhyMatchModal';
-import { WhyNotEligibleView } from './components/WhyNotEligibleView';
-import { SchemeDetailScreen } from './components/SchemeDetailScreen';
-import { ApplicationTrackerScreen } from './components/ApplicationTrackerScreen';
-import { CommandCenterScreen } from './features/commandCenter/CommandCenterScreen';
-import { ApplicationWorkspaceScreen } from './components/application';
-import { EntrepreneurProfileScreen } from './components/profile/EntrepreneurProfileScreen';
+// Code-split screens: only the login shell ships in the initial bundle.
+// Every other screen loads on demand when the user navigates to it.
+const EligibilityFormScreen = lazy(() =>
+  import('./components/EligibilityFormScreen').then((m) => ({ default: m.EligibilityFormScreen })),
+);
+const ResultsListScreen = lazy(() =>
+  import('./components/ResultsListScreen').then((m) => ({ default: m.ResultsListScreen })),
+);
+const WhyMatchModal = lazy(() =>
+  import('./components/WhyMatchModal').then((m) => ({ default: m.WhyMatchModal })),
+);
+const WhyNotEligibleView = lazy(() =>
+  import('./components/WhyNotEligibleView').then((m) => ({ default: m.WhyNotEligibleView })),
+);
+const SchemeDetailScreen = lazy(() =>
+  import('./components/SchemeDetailScreen').then((m) => ({ default: m.SchemeDetailScreen })),
+);
+const ApplicationTrackerScreen = lazy(() =>
+  import('./components/ApplicationTrackerScreen').then((m) => ({ default: m.ApplicationTrackerScreen })),
+);
+const CommandCenterScreen = lazy(() =>
+  import('./features/commandCenter/CommandCenterScreen').then((m) => ({ default: m.CommandCenterScreen })),
+);
+const ApplicationWorkspaceScreen = lazy(() =>
+  import('./components/application').then((m) => ({ default: m.ApplicationWorkspaceScreen })),
+);
+const EntrepreneurProfileScreen = lazy(() =>
+  import('./components/profile/EntrepreneurProfileScreen').then((m) => ({ default: m.EntrepreneurProfileScreen })),
+);
+import { SetuLoader } from './animations/SetuLoader';
 import { loadStoredProfile, saveStoredProfile, clearStoredProfile, subscribeProfileStorage } from './lib/profile/profileStorage';
 import {
   completeFollowUpReminder,
@@ -43,6 +64,15 @@ import { SplashScreen } from './animations/SplashScreen';
 import { MatchingTransition } from './animations/MatchingTransition';
 import { ScrollProgressBar } from './animations/ScrollProgressBar';
 import { startScreenTransition } from './animations/viewTransition';
+
+/** Minimal branded fallback while a code-split screen chunk loads. */
+function ScreenFallback() {
+  return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <SetuLoader size="lg" />
+    </div>
+  );
+}
 
 function YojanaSetuMain() {
   const { lang } = useTranslation();
@@ -147,6 +177,14 @@ function YojanaSetuMain() {
       workspaceTarget
     );
   }, [matchResults, workspaceTarget]);
+
+  // Prefetch the form chunk while the user is on the login screen —
+  // it is the certain next step, so navigation feels instant.
+  useEffect(() => {
+    if (currentScreen === 'login') {
+      import('./components/EligibilityFormScreen');
+    }
+  }, [currentScreen]);
 
   // Smoothly scroll to the top of the portal when transitioning between screens
   useEffect(() => {
@@ -466,6 +504,7 @@ function YojanaSetuMain() {
 
             {currentScreen === 'dashboard' && (
               <AnimatedPage key="dashboard" direction={navDirection}>
+                <Suspense fallback={<ScreenFallback />}>
                 <CommandCenterScreen
                   userProfile={userProfile}
                   matchResults={matchResults}
@@ -478,20 +517,24 @@ function YojanaSetuMain() {
                   onSelectScheme={handleSelectScheme}
                   onToggleSave={handleToggleSaveScheme}
                 />
+                </Suspense>
               </AnimatedPage>
             )}
 
             {currentScreen === 'form' && (
               <AnimatedPage key="form" direction={navDirection}>
+                <Suspense fallback={<ScreenFallback />}>
                 <EligibilityFormScreen
                   initialProfile={userProfile}
                   onSubmit={handleFormSubmit}
                 />
+                </Suspense>
               </AnimatedPage>
             )}
 
             {currentScreen === 'results' && (
               <AnimatedPage key="results" direction={navDirection}>
+                <Suspense fallback={<ScreenFallback />}>
                 <ResultsListScreen
                   matchResults={matchResults}
                   userProfile={userProfile}
@@ -506,11 +549,13 @@ function YojanaSetuMain() {
                   onOpenTracker={() => navigateTo('tracker')}
                   onOpenWorkspace={handleOpenWorkspace}
                 />
+                </Suspense>
               </AnimatedPage>
             )}
 
             {currentScreen === 'alternatives' && (
               <AnimatedPage key="alternatives" direction={navDirection}>
+                <Suspense fallback={<ScreenFallback />}>
                 <WhyNotEligibleView
                   targetMatch={
                     currentWhyNotEligibleTarget ||
@@ -524,11 +569,13 @@ function YojanaSetuMain() {
                     handleSelectScheme(alt);
                   }}
                 />
+                </Suspense>
               </AnimatedPage>
             )}
 
             {currentScreen === 'scheme-detail' && currentSelectedSchemeMatch && (
               <AnimatedPage key="scheme-detail" direction={navDirection}>
+                <Suspense fallback={<ScreenFallback />}>
                 <SchemeDetailScreen
                   matchResult={currentSelectedSchemeMatch}
                   allMatches={matchResults}
@@ -542,11 +589,13 @@ function YojanaSetuMain() {
                   onDocumentProgress={handleDocumentProgress}
                   onOpenWorkspace={handleOpenWorkspace}
                 />
+                </Suspense>
               </AnimatedPage>
             )}
 
             {currentScreen === 'tracker' && (
               <AnimatedPage key="tracker" direction={navDirection}>
+                <Suspense fallback={<ScreenFallback />}>
                 <ApplicationTrackerScreen
                   applications={trackedApplications}
                   matchResults={matchResults}
@@ -560,11 +609,13 @@ function YojanaSetuMain() {
                   onBackToResults={() => navigateTo('results')}
                   onOpenWorkspace={handleOpenWorkspace}
                 />
+                </Suspense>
               </AnimatedPage>
             )}
 
             {currentScreen === 'workspace' && currentWorkspaceTarget && userProfile && (
               <AnimatedPage key="workspace" direction={navDirection}>
+                <Suspense fallback={<ScreenFallback />}>
                 <ApplicationWorkspaceScreen
                   matchResult={currentWorkspaceTarget}
                   userProfile={userProfile}
@@ -577,11 +628,13 @@ function YojanaSetuMain() {
                     commitTrackedApplications(() => updated);
                   }}
                 />
+                </Suspense>
               </AnimatedPage>
             )}
 
             {currentScreen === 'profile' && (
               <AnimatedPage key="profile" direction={navDirection}>
+                <Suspense fallback={<ScreenFallback />}>
                 <EntrepreneurProfileScreen
                   userProfile={userProfile}
                   matchResults={matchResults}
@@ -607,6 +660,7 @@ function YojanaSetuMain() {
                     handleSelectScheme(match as MatchResult);
                   }}
                 />
+                </Suspense>
               </AnimatedPage>
             )}
           </AnimatePresence>
@@ -616,11 +670,13 @@ function YojanaSetuMain() {
 
       {/* Slide-over / Modal for "Why This Match?" 5-Factor Audit */}
       {currentWhyMatchTarget && (
-        <WhyMatchModal
-          matchResult={currentWhyMatchTarget}
-          onClose={() => setWhyMatchTarget(null)}
-          onOpenWhyNotEligible={handleOpenWhyNotEligible}
-        />
+        <Suspense fallback={null}>
+          <WhyMatchModal
+            matchResult={currentWhyMatchTarget}
+            onClose={() => setWhyMatchTarget(null)}
+            onOpenWhyNotEligible={handleOpenWhyNotEligible}
+          />
+        </Suspense>
       )}
     </div>
   );
