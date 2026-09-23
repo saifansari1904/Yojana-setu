@@ -40,13 +40,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
   };
 
   const loginMetrics: Record<string, { verified: string; states: string; rules: string }> = {
-    en: { verified: 'Verified Schemes', states: 'South States & Central', rules: 'Deterministic Rules' },
-    hi: { verified: 'सत्यापित योजनाएं', states: 'दक्षिण राज्य व केंद्र', rules: 'सटीक नियम गणना' },
-    ta: { verified: 'சரிபார்க்கப்பட்ட திட்டங்கள்', states: 'தென் மாநிலங்கள் & மத்திய', rules: 'துல்லியமான விதி மதிப்பீடு' },
-    te: { verified: 'ధృవీకరించబడిన పథకాలు', states: 'దక్షిణ రాష్ట్రాలు & కేంద్రం', rules: 'ఖచ్చితమైన నియమ లెక్కింపు' },
-    kn: { verified: 'ಪರಿಶೀಲಿಸಿದ ಯೋಜನೆಗಳು', states: 'ದಕ್ಷಿಣ ರಾಜ್ಯಗಳು & ಕೇಂದ್ರ', rules: 'ನಿಖರ ನಿಯಮ ಲೆಕ್ಕಾಚಾರ' },
-    ml: { verified: 'സ്ഥിരീകരിച്ച പദ്ധതികൾ', states: 'ദക്ഷിണേന്ത്യൻ സംസ്ഥാനങ്ങളും കേന്ദ്രവും', rules: 'കൃത്യമായ ചട്ട വിശകലനം' },
-    mr: { verified: 'सत्यापित योजना', states: 'दक्षिण राज्ये व केंद्र', rules: 'अचूक नियम गणना' },
+    en: { verified: 'Total Schemes', states: 'States & UTs Covered', rules: 'Languages Supported' },
+    hi: { verified: 'कुल योजनाएं', states: 'राज्य व केंद्र शासित प्रदेश', rules: 'समर्थित भाषाएं' },
+    ta: { verified: 'மொத்த திட்டங்கள்', states: 'மாநிலங்கள் & யூனியன் பிரதேசங்கள்', rules: 'ஆதரிக்கப்படும் மொழிகள்' },
+    te: { verified: 'మొత్తం పథకాలు', states: 'రాష్ట్రాలు & కేంద్రపాలిత ప్రాంతాలు', rules: 'మద్దతు ఉన్న భాషలు' },
+    kn: { verified: 'ಒಟ್ಟು ಯೋಜನೆಗಳು', states: 'ರಾಜ್ಯಗಳು & ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶಗಳು', rules: 'ಬೆಂಬಲಿತ ಭಾಷೆಗಳು' },
+    ml: { verified: 'മൊത്തം പദ്ധതികൾ', states: 'സംസ്ഥാനങ്ങളും കേന്ദ്രഭരണ പ്രദേശങ്ങളും', rules: 'പിന്തുണയ്ക്കുന്ന ഭാഷകൾ' },
+    mr: { verified: 'एकूण योजना', states: 'राज्ये व केंद्रशासित प्रदेश', rules: 'समर्थित भाषा' },
   };
 
   const currentMetrics = loginMetrics[lang] || loginMetrics.en;
@@ -205,7 +205,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
               <ShieldCheck className="w-4 h-4" />
             </div>
             <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[#4ADE80]">
-              <AnimatedScore value={39} suffix="+" />
+              <AnimatedScore value={259} suffix="+" />
             </div>
             <div className="text-[10px] text-[#516A5F] dark:text-[#8FA197] font-medium leading-tight">
               {currentMetrics.verified}
@@ -217,7 +217,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
               <Landmark className="w-4 h-4" />
             </div>
             <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[#4ADE80]">
-              <AnimatedScore value={6} suffix="" />
+              <AnimatedScore value={34} suffix="" />
             </div>
             <div className="text-[10px] text-[#516A5F] dark:text-[#8FA197] font-medium leading-tight">
               {currentMetrics.states}
@@ -229,7 +229,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
               <CheckCircle2 className="w-4 h-4" />
             </div>
             <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[#4ADE80]">
-              <AnimatedScore value={100} suffix="%" />
+              <AnimatedScore value={7} suffix="" />
             </div>
             <div className="text-[10px] text-[#516A5F] dark:text-[#8FA197] font-medium leading-tight">
               {currentMetrics.rules}
