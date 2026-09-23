@@ -36,11 +36,10 @@ import { deriveSchemeTrustProfile } from '../lib/data/trustEngine';
 import { getNextBestAction } from '../i18n/decisionActionI18n';
 import { SchemeComparisonModal } from './SchemeComparisonModal';
 import {
-  BusinessNeedSummary,
   SupportPathway,
   SupportPathwayModal,
 } from './business';
-import { deriveBusinessNeedProfile, buildSupportPathway } from '../lib/business';
+import { buildSupportPathway } from '../lib/business';
 import { getLocalizedBusinessRelevance } from '../lib/business/businessRelevanceEngine';
 import { getLocalizedPathwayAction } from '../i18n/pathwayActionI18n';
 import type { PathwayAction } from '../types/supportPathway';
@@ -52,7 +51,6 @@ const RESULTS_SCREEN_I18N: Record<
   Language,
   {
     foundCount: (count: number) => string;
-    personalizedSub: string;
     analyzedSchemes: string;
     highEligibleNearMatches: (high: number, near: number) => string;
     authoritativeVerifiedCount: (count: number) => string;
@@ -107,7 +105,6 @@ const RESULTS_SCREEN_I18N: Record<
 > = {
   en: {
     foundCount: (count) => `We found ${count} schemes based on your profile.`,
-    personalizedSub: 'Personalized statutory evaluation of central and state credit and subsidy schemes tailored to your entrepreneurial profile',
     analyzedSchemes: 'Analyzed Schemes: ',
     highEligibleNearMatches: (high, near) => `High Eligibility: ${high} | Near Matches: ${near}`,
     authoritativeVerifiedCount: (count) => `Authoritative criteria verified for ${count} schemes`,
@@ -161,7 +158,6 @@ const RESULTS_SCREEN_I18N: Record<
   },
   hi: {
     foundCount: (count) => `आपकी प्रोफ़ाइल के आधार पर ${count} योजनाएं मिलीं।`,
-    personalizedSub: 'आपकी व्यक्तिगत प्रोफ़ाइल एवं आवश्यकता के आधार पर सत्यापित सरकारी ऋण व सब्सिडी योजनाएं',
     analyzedSchemes: 'सफलतापूर्वक विश्लेषित योजनाएं: ',
     highEligibleNearMatches: (high, near) => `उच्च पात्रता: ${high} | आंशिक पात्रता: ${near}`,
     authoritativeVerifiedCount: (count) => `${count} योजनाओं हेतु आधिकारिक मानदंड सत्यापित`,
@@ -215,7 +211,6 @@ const RESULTS_SCREEN_I18N: Record<
   },
   ta: {
     foundCount: (count) => `உங்கள் விவரங்களின் அடிப்படையில் ${count} திட்டங்கள் கண்டறியப்பட்டன.`,
-    personalizedSub: 'உங்கள் தொழில்முனைவு சுயவிவரத்திற்கு ஏற்ப மத்திய மற்றும் மாநில கடன் மற்றும் மானியத் திட்டங்களின் சட்டப்பூர்வ மதிப்பீடு',
     analyzedSchemes: 'பகுப்பாய்வு செய்யப்பட்ட திட்டங்கள்: ',
     highEligibleNearMatches: (high, near) => `அதிக தகுதி: ${high} | நெருங்கிய பொருத்தம்: ${near}`,
     authoritativeVerifiedCount: (count) => `${count} திட்டங்களுக்கான அதிகாரப்பூர்வ அளவுகோல்கள் சரிபார்க்கப்பட்டன`,
@@ -269,7 +264,6 @@ const RESULTS_SCREEN_I18N: Record<
   },
   te: {
     foundCount: (count) => `మీ ప్రొఫైల్ ఆధారంగా ${count} పథకాలు కనుగొనబడ్డాయి.`,
-    personalizedSub: 'మీ వ్యాపార ప్రొఫైల్‌కు అనుగుణంగా కేంద్ర మరియు రాష్ట్ర రుణాలు మరియు సబ్సిడీ పథకాల వ్యక్తిగతీకరించిన చట్టబద్ధమైన మూల్యాంకనం',
     analyzedSchemes: 'విశ్లేషించబడిన పథకాలు: ',
     highEligibleNearMatches: (high, near) => `అధిక అర్హత: ${high} | సమీప సరిపోలిక: ${near}`,
     authoritativeVerifiedCount: (count) => `${count} పథకాలకు అధికారిక ప్రమాణాలు ధృవీకరించబడ్డాయి`,
@@ -323,7 +317,6 @@ const RESULTS_SCREEN_I18N: Record<
   },
   kn: {
     foundCount: (count) => `ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಆಧಾರದ ಮೇಲೆ ${count} ಯೋಜನೆಗಳು ಕಂಡುಬಂದಿವೆ.`,
-    personalizedSub: 'ನಿಮ್ಮ ಉದ್ಯಮಶೀಲತೆಯ ಪ್ರೊಫೈಲ್‌ಗೆ ಅನುಗುಣವಾಗಿ ಕೇಂದ್ರ ಮತ್ತು ರಾಜ್ಯ ಸಾಲ ಹಾಗೂ ಸಬ್ಸಿಡಿ ಯೋಜನೆಗಳ ವೈಯಕ್ತಿಕ ಶಾಸನಬದ್ಧ ಮೌಲ್ಯಮಾಪನ',
     analyzedSchemes: 'ವಿಶ್ಲೇಷಿಸಲಾದ ಯೋಜನೆಗಳು: ',
     highEligibleNearMatches: (high, near) => `ಹೆಚ್ಚಿನ ಅರ್ಹತೆ: ${high} | ಹತ್ತಿರದ ಹೊಂದಾಣಿಕೆ: ${near}`,
     authoritativeVerifiedCount: (count) => `${count} ಯೋಜನೆಗಳಿಗೆ ಅಧಿಕೃತ ಮಾನದಂಡಗಳು ಪರಿಶೀಲಿಸಲ್ಪಟ್ಟಿವೆ`,
@@ -377,7 +370,6 @@ const RESULTS_SCREEN_I18N: Record<
   },
   ml: {
     foundCount: (count) => `നിങ്ങളുടെ പ്രൊഫൈലിനെ അടിസ്ഥാനമാക്കി ${count} പദ്ധതികൾ കണ്ടെത്തി.`,
-    personalizedSub: 'നിങ്ങളുടെ സംരംഭക പ്രൊഫൈലിന് അനുയോജ്യമായ കേന്ദ്ര-സംസ്ഥാന വായ്പാ-സബ്‌സിഡി പദ്ധതികളുടെ നിയമാനുസൃത വിലയിരുത്തൽ',
     analyzedSchemes: 'വിശകലനം ചെയ്ത പദ്ധതികൾ: ',
     highEligibleNearMatches: (high, near) => `ഉയർന്ന യോഗ്യത: ${high} | സാമീപ്യമുള്ളവ: ${near}`,
     authoritativeVerifiedCount: (count) => `${count} പദ്ധതികൾക്കുള്ള ആധികാരിക മാനദണ്ഡങ്ങൾ പരിശോധിച്ചു`,
@@ -431,7 +423,6 @@ const RESULTS_SCREEN_I18N: Record<
   },
   mr: {
     foundCount: (count) => `आपल्या प्रोफाइलनुसार ${count} योजना आढळल्या.`,
-    personalizedSub: 'आपल्या उद्योजक प्रोफाइलसाठी केंद्र आणि राज्यांच्या कर्ज व अनुदान योजनांचे वैयक्तिकृत वैधानिक मूल्यांकन',
     analyzedSchemes: 'विश्लेषित योजना: ',
     highEligibleNearMatches: (high, near) => `उच्च पात्रता: ${high} | समीप जुळणी: ${near}`,
     authoritativeVerifiedCount: (count) => `${count} योजनांसाठी अधिकृत निकष तपासले`,
@@ -1303,9 +1294,6 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         <p className="yj-body mt-2 text-[#42544C] dark:text-[#A9BDB3]">
           {rui.foundCount(matchResults.length)}
         </p>
-        <p className="yj-support text-[#516A5F] dark:text-[#8E9F97] max-w-xl mx-auto mt-1">
-          {rui.personalizedSub}
-        </p>
       </motion.div>
 
       {/* Live Verified Schemes Match Banner */}
@@ -1458,23 +1446,6 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           </button>
         </div>
       </motion.div>
-
-      {/* Phase 4.1 Entrepreneur Business Need Intelligence */}
-      {(() => {
-        if (!userProfile) return null;
-        const effectiveNeedProfile =
-          userProfile.businessNeedProfile || deriveBusinessNeedProfile(userProfile);
-        if (!effectiveNeedProfile) return null;
-
-        return (
-          <div className="mb-6">
-            <BusinessNeedSummary
-              needProfile={effectiveNeedProfile}
-              onCompleteProfile={onEditProfile}
-            />
-          </div>
-        );
-      })()}
 
       {/* Phase 4.2 / 4.3 Support Pathway Quick Action Bar — Clean & Uncluttered */}
       {supportPathway && (
