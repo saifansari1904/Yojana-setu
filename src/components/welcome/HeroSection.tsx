@@ -71,7 +71,7 @@ const ProductFlowVisual = () => {
         <VizEyebrow icon={User}>{t('welcome.flowProfileTitle')}</VizEyebrow>
         <div className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#151C19] divide-y divide-[#E4E8E4] dark:divide-[#24342D]">
           {profileRows.map((row, i) => (
-            <div key={i} className="flex items-center justify-between gap-3 px-3.5 py-2.5">
+            <div key={i} className="flex items-center justify-between gap-3 px-3.5 py-2">
               <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-[#516A5F] dark:text-[#8FA197]">
                 <row.icon className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
                 {row.label}
@@ -94,7 +94,7 @@ const ProductFlowVisual = () => {
         initial={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.96 }}
         animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
         transition={stage(0.45)}
-        className="relative rounded-xl bg-[#14453D] dark:bg-[#1C5045] px-4 py-4 overflow-hidden"
+        className="relative rounded-xl bg-[#14453D] dark:bg-[#1C5045] px-4 py-3 overflow-hidden"
       >
         {!shouldReduceMotion && (
           <motion.span
@@ -108,7 +108,7 @@ const ProductFlowVisual = () => {
           <Cpu className="w-4 h-4 text-[#4ADE80]" />
           {t('welcome.flowEngineTitle')}
         </p>
-        <ul className="relative space-y-2">
+        <ul className="relative space-y-1.5">
           {ENGINE_FACTORS.map((f, i) => (
             <motion.li
               key={f.key}
@@ -136,12 +136,12 @@ const ProductFlowVisual = () => {
         initial={shouldReduceMotion ? undefined : { opacity: 0, y: 14 }}
         animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
         transition={stage(1.5)}
-        className="rounded-xl border-2 border-[#1E6A50]/30 dark:border-[#4ADE80]/30 bg-[#F0F7F3] dark:bg-[#122019] px-4 py-4"
+        className="rounded-xl border-2 border-[#1E6A50]/30 dark:border-[#4ADE80]/30 bg-[#F0F7F3] dark:bg-[#122019] px-4 py-3"
       >
         <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#516A5F] dark:text-[#8FA197] mb-2">
           {t('welcome.flowResultTitle')}
         </p>
-        <div className="flex items-center gap-3 mb-3">
+        <div className="flex items-center gap-3 mb-2">
           <AnimatedScore
             value={86}
             suffix="%"
@@ -217,8 +217,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onFindSchemes, onNavig
             'radial-gradient(720px 380px at 82% 8%, rgba(30,106,80,0.10), transparent 65%), radial-gradient(560px 320px at 8% 90%, rgba(20,69,61,0.07), transparent 60%)',
         }}
       />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-10 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24">
-        <div className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] gap-8 lg:gap-14 items-center">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-10 sm:pt-12 sm:pb-14 lg:py-12 lg:min-h-[calc(100svh-4rem)] lg:flex lg:items-center">
+        <div className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] gap-8 lg:gap-14 items-center w-full">
           {/* LEFT — copy */}
           <motion.div
             variants={shouldReduceMotion ? undefined : staggerContainer}
