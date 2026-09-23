@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { Lock, User, ShieldCheck, Landmark, CheckCircle2 } from 'lucide-react';
+import { Lock, User, ShieldCheck, Landmark, CheckCircle2, Check } from 'lucide-react';
 import { useTranslation } from '../i18n';
 import { fadeUp } from '../animations/variants';
 import { transitions, reducedMotionTransition } from '../animations/transitions';
@@ -170,6 +170,31 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
                 </ArrowFillButton>
               </div>
             </form>
+
+            {/* Why create an account — contextual benefits */}
+            <div className="mt-4 p-3.5 rounded-lg bg-[#F3F4F3] dark:bg-[#111714] border border-[#E4E8E4] dark:border-[#24342D]">
+              <p className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mb-2">
+                {t('welcome.loginContinueTitle')}
+              </p>
+              <p className="text-[11px] text-[#516A5F] dark:text-[#8FA197] mb-2.5 leading-relaxed">
+                {t('welcome.loginWhyAccount')}
+              </p>
+              <ul className="space-y-1.5">
+                {[
+                  t('welcome.loginBenefit1'),
+                  t('welcome.loginBenefit2'),
+                  t('welcome.loginBenefit3'),
+                ].map((benefit, idx) => (
+                  <li
+                    key={idx}
+                    className="flex items-start gap-2 text-[11px] text-[#3F4943] dark:text-[#A3B5AC]"
+                  >
+                    <Check className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80] shrink-0 mt-0.5" />
+                    <span>{benefit}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             {/* Guest Direct Access */}
             <div className="mt-4 pt-3 border-t border-[#E4E8E4] dark:border-[#24342D] text-center">

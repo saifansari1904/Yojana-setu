@@ -446,6 +446,57 @@ export interface Translations {
     printChecklistBtn: string;
     statusAppliedSuccess: string;
   };
+  welcome: {
+    navHome: string;
+    navHowItWorks: string;
+    navSchemes: string;
+    navAbout: string;
+    navSignIn: string;
+    heroTitle: string;
+    heroSubtitle: string;
+    heroPrimaryCta: string;
+    heroNoAccount: string;
+    howItWorksTitle: string;
+    howItWorksSubtitle: string;
+    step1Title: string;
+    step1Desc: string;
+    step2Title: string;
+    step2Desc: string;
+    step3Title: string;
+    step3Desc: string;
+    step4Title: string;
+    step4Desc: string;
+    valueTitle: string;
+    valueSubtitle: string;
+    valueDiscoveryTitle: string;
+    valueDiscoveryDesc: string;
+    valueEligibilityTitle: string;
+    valueEligibilityDesc: string;
+    valueFundingTitle: string;
+    valueFundingDesc: string;
+    valuePrepTitle: string;
+    valuePrepDesc: string;
+    valueTrackingTitle: string;
+    valueTrackingDesc: string;
+    privacyTitle: string;
+    privacySubtitle: string;
+    privacyPoint1: string;
+    privacyPoint2: string;
+    privacyPoint3: string;
+    privacyPoint4: string;
+    privacyPoint5: string;
+    footerTagline: string;
+    footerNote: string;
+    authPromptTitle: string;
+    authPromptDesc: string;
+    authPromptPrimary: string;
+    authPromptSecondary: string;
+    loginContinueTitle: string;
+    loginWhyAccount: string;
+    loginBenefit1: string;
+    loginBenefit2: string;
+    loginBenefit3: string;
+  };
 }
 
 interface SchemeDetailTranslations {

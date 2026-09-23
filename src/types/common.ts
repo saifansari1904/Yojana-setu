@@ -1,4 +1,5 @@
 export type ActiveScreen =
+  | 'welcome'
   | 'login'
   | 'dashboard'
   | 'form'

@@ -8,6 +8,8 @@ import { rankSchemesForProfile } from './utils/matchingEngine';
 import { deriveBusinessNeedProfile, deriveBusinessProfile } from './lib/business';
 import { Header } from './components/Header';
 import { LoginScreen } from './components/LoginScreen';
+import { WelcomeScreen } from './components/WelcomeScreen';
+import { AccountPromptModal } from './components/AccountPromptModal';
 // Code-split screens: only the login shell ships in the initial bundle.
 // Every other screen loads on demand when the user navigates to it.
 const EligibilityFormScreen = lazy(() =>
@@ -84,9 +86,9 @@ function YojanaSetuMain() {
     return !sessionStorage.getItem('yojana_setu_splash_seen');
   });
   const [currentScreen, setCurrentScreen] = useState<ActiveScreen>(() => {
-    if (typeof window === 'undefined') return 'login';
+    if (typeof window === 'undefined') return 'welcome';
     const stored = loadStoredProfile();
-    return stored ? 'dashboard' : 'login';
+    return stored ? 'dashboard' : 'welcome';
   });
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
@@ -100,6 +102,9 @@ function YojanaSetuMain() {
 
   // User profile loaded from authoritative persistent storage
   const [userProfile, setUserProfile] = useState<UserProfile | null>(() => loadStoredProfile());
+
+  // Contextual account prompt: shown when a guest attempts a persistence action.
+  const [accountPromptVisible, setAccountPromptVisible] = useState(false);
 
   // Modal / Slide-over state for "Why this match?"
   const [whyMatchTarget, setWhyMatchTarget] = useState<MatchResult | null>(null);
@@ -231,15 +236,16 @@ function YojanaSetuMain() {
   // owns the motion. Tracks via effect so every navigation path — navigateTo
   // and direct setCurrentScreen calls alike — is covered.
   const SCREEN_ORDER: Record<ActiveScreen, number> = {
-    login: 0,
-    dashboard: 1,
-    form: 2,
-    results: 3,
-    alternatives: 4,
-    'scheme-detail': 5,
-    tracker: 6,
-    workspace: 7,
-    profile: 8,
+    welcome: 0,
+    login: 1,
+    dashboard: 2,
+    form: 3,
+    results: 4,
+    alternatives: 5,
+    'scheme-detail': 6,
+    tracker: 7,
+    workspace: 8,
+    profile: 9,
   };
   const prevScreenRef = useRef<ActiveScreen>(currentScreen);
   const [navDirection, setNavDirection] = useState<number>(0);
@@ -281,6 +287,21 @@ function YojanaSetuMain() {
     startScreenTransition(() => setCurrentScreen(screen));
   };
 
+  /**
+   * Guards persistence actions behind account creation.
+   * If the user is authenticated, returns true and the caller proceeds.
+   * Otherwise shows the contextual account prompt and returns false.
+   * The blocked action is never run silently — the user retries it
+   * manually after creating an account.
+   */
+  const requestPersistentAction = (): boolean => {
+    if (isAuthenticated) {
+      return true;
+    }
+    setAccountPromptVisible(true);
+    return false;
+  };
+
   // Handlers
   const handleSplashComplete = () => {
     try {
@@ -295,8 +316,15 @@ function YojanaSetuMain() {
     if (name) {
       setApplicantName(name);
     }
+    // Explicit account creation/sign-in: persist any working profile
+    // built during the guest assessment so results carry over.
+    if (userProfile) {
+      saveStoredProfile(userProfile);
+    }
     setIsAuthenticated(true);
-    navigateTo('form');
+    // If there's a pending persistent action from the account prompt,
+    // navigate back to where the user was; they can retry the action.
+    navigateTo(userProfile ? 'results' : 'form');
   };
 
   const handleLogout = async () => {
@@ -309,7 +337,7 @@ function YojanaSetuMain() {
     setUserProfile(null);
     clearStoredProfile();
     setApplicantName('');
-    navigateTo('login');
+    navigateTo('welcome');
   };
 
   const handleUpdateProfile = (updatedProfile: UserProfile) => {
@@ -334,9 +362,10 @@ function YojanaSetuMain() {
       businessNeedProfile: needProfile,
       businessProfile: businessProfile,
     };
-    saveStoredProfile(fullProfile);
+    // Guest-first flow: keep the profile in memory only. It is persisted
+    // via saveStoredProfile() only when the user explicitly creates an
+    // account (see handleLogin / handleCreateAccountFromPrompt).
     setUserProfile(fullProfile);
-    setIsAuthenticated(true);
     setIsMatching(true);
   };
 
@@ -344,6 +373,26 @@ function YojanaSetuMain() {
     setIsMatching(false);
     navigateTo('results');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  /**
+   * User chose "Create Account" from the contextual prompt.
+   * Persists the current working profile (if any), marks authenticated,
+   * and routes to the account page to confirm. The pending action is NOT
+   * run silently — the user retries it after signing in.
+   */
+  const handleCreateAccountFromPrompt = () => {
+    if (userProfile) {
+      saveStoredProfile(userProfile);
+    }
+    setIsAuthenticated(true);
+    setAccountPromptVisible(false);
+    navigateTo('login');
+  };
+
+  /** User chose to continue without an account. Dismiss and keep guest state. */
+  const handleDismissAccountPrompt = () => {
+    setAccountPromptVisible(false);
   };
 
   const handleOpenWhyMatch = (match: MatchResult) => {
@@ -361,11 +410,17 @@ function YojanaSetuMain() {
   };
 
   const handleOpenWorkspace = (match: MatchResult) => {
+    if (!requestPersistentAction()) return;
     setWorkspaceTarget(match);
     navigateTo('workspace');
   };
 
   const handleToggleSaveScheme = (schemeId: string) => {
+    // Saving is a persistence action — prompt guests to create an account.
+    if (!requestPersistentAction()) {
+      return;
+    }
+
     const wasSaved = savedSchemeIds.has(schemeId);
 
     setSavedSchemeIds((prev) => {
@@ -406,6 +461,7 @@ function YojanaSetuMain() {
   };
 
   const handleUpdateApplicationStatus = (schemeId: string, status: ApplicationStatus) => {
+    if (!requestPersistentAction()) return;
     commitTrackedApplications((current) =>
       patchTrackedApplication(current, schemeId, {
         status,
@@ -431,18 +487,21 @@ function YojanaSetuMain() {
   };
 
   const handleUpdateApplicationNote = (schemeId: string, note: string) => {
+    if (!requestPersistentAction()) return;
     commitTrackedApplications((current) =>
       patchTrackedApplication(current, schemeId, { note }),
     );
   };
 
   const handleUpdateApplicationAppliedOn = (schemeId: string, appliedOn: string) => {
+    if (!requestPersistentAction()) return;
     commitTrackedApplications((current) =>
       patchTrackedApplication(current, schemeId, { appliedOn }),
     );
   };
 
   const handleRemoveTrackedApplication = (schemeId: string) => {
+    if (!requestPersistentAction()) return;
     commitTrackedApplications((current) => removeTrackedApplication(current, schemeId));
   };
 
@@ -450,6 +509,7 @@ function YojanaSetuMain() {
 
   /** Turns the Phase 4.2 pathway into a tracked application journey. */
   const handleStartPathwayApplication = (match: MatchResult, pathway: unknown) => {
+    if (!requestPersistentAction()) return;
     commitTrackedApplications((current) =>
       startApplicationFromPathway(current, match, pathway as SupportPathwayModel),
     );
@@ -457,6 +517,7 @@ function YojanaSetuMain() {
 
   /** Records preparation progress against the journey (never changes status silently). */
   const handleDocumentProgress = (schemeId: string, preparedDocIds: string[]) => {
+    if (!requestPersistentAction()) return;
     const total =
       matchResults.find((m) => m.scheme.id === schemeId)?.scheme.requiredDocuments?.length || 0;
     if (total === 0) return;
@@ -466,16 +527,23 @@ function YojanaSetuMain() {
   };
 
   const handleSetFollowUp = (schemeId: string, dueOn: string | null) => {
+    if (!requestPersistentAction()) return;
     commitTrackedApplications((current) =>
       setFollowUpReminder(current, schemeId, dueOn ? { dueOn } : null),
     );
   };
 
   const handleCompleteFollowUp = (schemeId: string) => {
+    if (!requestPersistentAction()) return;
     commitTrackedApplications((current) => completeFollowUpReminder(current, schemeId));
   };
 
   const handleHeaderNavigate = (screen: ActiveScreen, targetSectionId?: string) => {
+    // Persistent product areas require an account; public screens are open.
+    const persistentScreens: ActiveScreen[] = ['dashboard', 'tracker', 'profile', 'workspace'];
+    if (persistentScreens.includes(screen) && !requestPersistentAction()) {
+      return;
+    }
     setTargetProfileSection(targetSectionId || null);
     navigateTo(screen);
   };
@@ -505,31 +573,42 @@ function YojanaSetuMain() {
         )}
       </AnimatePresence>
 
-      {/* App Navigation Header */}
-      <Header
-        currentScreen={currentScreen}
-        onNavigate={handleHeaderNavigate}
-        userProfile={userProfile}
-        applicantName={applicantName}
-        isAuthenticated={isAuthenticated}
-        onLogout={handleLogout}
-        trackedCount={trackedApplications.length}
-        savedCount={savedSchemeIds.size}
-        matchResults={matchResults}
-        onUpdateProfile={handleUpdateProfile}
-      />
+      {/* App Navigation Header — hidden on the public welcome screen,
+          which carries its own header */}
+      {currentScreen !== 'welcome' && (
+        <Header
+          currentScreen={currentScreen}
+          onNavigate={handleHeaderNavigate}
+          userProfile={userProfile}
+          applicantName={applicantName}
+          isAuthenticated={isAuthenticated}
+          onLogout={handleLogout}
+          trackedCount={trackedApplications.length}
+          savedCount={savedSchemeIds.size}
+          matchResults={matchResults}
+          onUpdateProfile={handleUpdateProfile}
+        />
+      )}
 
       {/* Main View Area with Direction & Transition-Aware Pages */}
       <main className="relative z-10 flex-1 pb-12">
         <ErrorBoundary>
           <LayoutGroup id="yojana-setu-screens">
           <AnimatePresence mode="wait">
+            {currentScreen === 'welcome' && (
+              <AnimatedPage key="welcome" direction={navDirection}>
+                <WelcomeScreen
+                  onFindSchemes={() => navigateTo('form')}
+                  onSignIn={() => navigateTo('login')}
+                />
+              </AnimatedPage>
+            )}
+
             {currentScreen === 'login' && (
               <AnimatedPage key="login" direction={navDirection}>
                 <LoginScreen
                   onLogin={handleLogin}
                   onSkipToForm={() => {
-                    setIsAuthenticated(true);
                     navigateTo('form');
                   }}
                 />
@@ -712,6 +791,16 @@ function YojanaSetuMain() {
           />
         </Suspense>
       )}
+
+      {/* Contextual account prompt for guest persistence actions */}
+      <AnimatePresence>
+        {accountPromptVisible && (
+          <AccountPromptModal
+            onCreateAccount={handleCreateAccountFromPrompt}
+            onContinueWithoutAccount={handleDismissAccountPrompt}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
