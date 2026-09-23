@@ -57,7 +57,7 @@ const ProductFlowVisual = () => {
   return (
     <div
       aria-hidden="true"
-      className="relative rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white/80 dark:bg-[#111714]/80 backdrop-blur-sm shadow-[0_24px_60px_-24px_rgba(20,69,61,0.25)] p-5 sm:p-6 overflow-hidden"
+      className="relative rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white/80 dark:bg-[#111714]/80 backdrop-blur-sm shadow-[0_24px_60px_-24px_rgba(20,69,61,0.25)] p-4 sm:p-6 overflow-hidden min-w-0"
     >
       {/* soft top accent */}
       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#14453D] via-[#1E6A50] to-[#4ADE80]" />
@@ -217,34 +217,34 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onFindSchemes, onNavig
             'radial-gradient(720px 380px at 82% 8%, rgba(30,106,80,0.10), transparent 65%), radial-gradient(560px 320px at 8% 90%, rgba(20,69,61,0.07), transparent 60%)',
         }}
       />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-14 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24">
-        <div className="grid lg:grid-cols-[1.02fr_0.98fr] gap-10 lg:gap-14 items-center">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-10 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24">
+        <div className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] gap-8 lg:gap-14 items-center">
           {/* LEFT — copy */}
           <motion.div
             variants={shouldReduceMotion ? undefined : staggerContainer}
             initial={shouldReduceMotion ? undefined : 'hidden'}
             animate={shouldReduceMotion ? undefined : 'visible'}
-            className="max-w-xl"
+            className="max-w-xl min-w-0"
           >
-            <motion.div variants={shouldReduceMotion ? undefined : fadeUp} className="mb-5">
+            <motion.div variants={shouldReduceMotion ? undefined : fadeUp} className="mb-4">
               <YojanaSetuLogo size="md" horizontal showTaglines={false} showEnglishPill={false} />
             </motion.div>
             <motion.p
               variants={shouldReduceMotion ? undefined : fadeUp}
-              className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-[0.16em] text-[#1E6A50] dark:text-[#4ADE80] bg-[#D9E8DF]/70 dark:bg-[#1A382D]/70 border border-[#BFD9CE]/60 dark:border-[#22503E]/60 rounded-full px-3 py-1.5 mb-5"
+              className="inline-flex flex-wrap items-center justify-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-[0.16em] text-[#1E6A50] dark:text-[#4ADE80] bg-[#D9E8DF]/70 dark:bg-[#1A382D]/70 border border-[#BFD9CE]/60 dark:border-[#22503E]/60 rounded-full px-3 py-1.5 mb-4 sm:mb-5 max-w-full text-center"
             >
               <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
               {t('welcome.heroEyebrow')}
             </motion.p>
             <motion.h1
               variants={shouldReduceMotion ? undefined : fadeUp}
-              className="text-[2.35rem] leading-[1.08] sm:text-5xl lg:text-[3.4rem] font-extrabold text-[#1A1C1B] dark:text-[#F0F4F2] mb-5 text-balance"
+              className="text-[clamp(1.9rem,7.5vw,2.35rem)] leading-[1.08] sm:text-5xl lg:text-[3.4rem] font-extrabold text-[#1A1C1B] dark:text-[#F0F4F2] mb-4 sm:mb-5 text-balance break-words"
             >
               {t('welcome.heroTitle')}
             </motion.h1>
             <motion.p
               variants={shouldReduceMotion ? undefined : fadeUp}
-              className="text-base sm:text-lg text-[#516A5F] dark:text-[#9EB0A7] leading-relaxed mb-8"
+              className="text-[15px] sm:text-lg text-[#516A5F] dark:text-[#9EB0A7] leading-relaxed mb-6 sm:mb-8 break-words"
             >
               {t('welcome.heroSubtitle')}
             </motion.p>
@@ -270,7 +270,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onFindSchemes, onNavig
             </motion.div>
             <motion.p
               variants={shouldReduceMotion ? undefined : fadeUp}
-              className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-[#1E6A50] dark:text-[#4ADE80]"
+              className="mt-4 sm:mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-[#1E6A50] dark:text-[#4ADE80]"
             >
               <Check className="w-3.5 h-3.5" aria-hidden="true" />
               {t('welcome.heroNoAccount')}
@@ -282,7 +282,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onFindSchemes, onNavig
             initial={shouldReduceMotion ? undefined : { opacity: 0, y: 24 }}
             animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={shouldReduceMotion ? reducedMotionTransition : { ...transitions.smooth, delay: 0.15 }}
-            className="relative"
+            className="relative min-w-0"
           >
             <ProductFlowVisual />
           </motion.div>

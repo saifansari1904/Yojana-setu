@@ -76,9 +76,9 @@ export const MiniDemo: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
         <SectionHeading title={t('welcome.demoTitle')} subtitle={t('welcome.demoSubtitle')} />
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start max-w-5xl mx-auto">
+        <div className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-8 lg:gap-12 items-start max-w-5xl mx-auto">
           {/* LEFT — example selectors */}
-          <RevealOnScroll className="yj-card p-5 sm:p-6">
+          <RevealOnScroll className="yj-card p-5 sm:p-6 min-w-0">
             <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#516A5F] dark:text-[#8FA197] mb-5">
               <FlaskConical className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80]" aria-hidden="true" />
               {t('welcome.demoControlsTitle')}

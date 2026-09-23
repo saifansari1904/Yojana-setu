@@ -28,9 +28,9 @@ export const ExplainableMatch: React.FC = () => {
   return (
     <section id="welcome-explain" className="scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-10 lg:gap-16 items-center">
           {/* LEFT — copy */}
-          <div>
+          <div className="min-w-0">
             <SectionHeading
               align="left"
               title={t('welcome.explainTitle')}
