@@ -761,9 +761,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         whileTap={shouldReduceMotion ? undefined : { scale: 0.995 }}
         transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
         className={`yj-card yj-card-lg overflow-hidden hover:yj-elev-2 hover:border-[#0B5D4B] dark:hover:border-[#4ADE80] ${
-          isCandidate
-            ? 'border-amber-300/80 dark:border-amber-800/60 bg-gradient-to-r from-amber-50/20 to-transparent dark:from-amber-950/15'
-            : isNearMatch
+          isNearMatch
             ? 'border-amber-300 dark:border-amber-800/60 bg-gradient-to-r from-amber-50/20 to-transparent dark:from-amber-950/10'
             : isEligible
             ? 'border-[#C1E2D0] dark:border-[#22503E]'
@@ -821,16 +819,9 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             {/* Scheme Information & Details */}
             <div className="flex-1 w-full">
               <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
-                {isCandidate ? (
-                  <span className="text-[10px] font-bold text-amber-900 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/70 border border-amber-300 dark:border-amber-700/80 px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1">
-                    <AlertTriangle className="w-3 h-3 text-amber-600 dark:text-amber-400" />
-                    {rui.candidateBadge}
-                  </span>
-                ) : (
-                  <span className="text-[11px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.5 rounded uppercase tracking-wider">
-                    {locScheme.schemeType}
-                  </span>
-                )}
+                <span className="text-[11px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.5 rounded uppercase tracking-wider">
+                  {locScheme.schemeType}
+                </span>
 
                 {locScheme.applicableStates.length === 0 ? (
                   <span className="text-[10px] font-semibold text-blue-800 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/60 px-1.5 py-0.5 rounded flex items-center gap-1">
@@ -845,13 +836,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 )}
 
                 {/* Phase 2.5 Dynamic Data Trust Badge */}
-                {isCandidate ? (
-                  <VerificationBadge
-                    tier="candidate"
-                    label={rui.candidateBadge}
-                    sourceText={rui.candidateSourcePending}
-                  />
-                ) : (() => {
+                {(() => {
                   const trust = result.scheme.trustProfile || deriveSchemeTrustProfile(result.scheme);
                   const tier =
                     trust.verification.status === 'VERIFIED'
@@ -897,19 +882,6 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               <p className="text-xs text-[#3F4943] dark:text-[#9EB0A7] mt-1.5 leading-relaxed font-medium">
                 {locScheme.benefitSummary}
               </p>
-
-              {/* Candidate Scheme Advisory Box */}
-              {isCandidate && (
-                <div className="mt-2.5 px-3 py-1.5 rounded bg-amber-50/90 dark:bg-amber-950/40 border border-amber-200/90 dark:border-amber-800/60 flex items-center justify-between gap-2 text-[11px] text-amber-900 dark:text-amber-300">
-                  <div className="flex items-center gap-1.5">
-                    <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
-                    <span>{rui.candidateCardNotice}</span>
-                  </div>
-                  <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-200 shrink-0">
-                    {t('results.candidate.unverified')}
-                  </span>
-                </div>
-              )}
 
               {/* Progressive disclosure: collapsed match reasoning, expanded on demand.
                   Uses only factors already computed by the matching engine. */}

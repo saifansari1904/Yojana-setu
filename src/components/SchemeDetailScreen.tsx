@@ -374,26 +374,6 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               )}
             </motion.div>
 
-            {/* Candidate Scheme Discovery Warning Banner */}
-            {matchResult.scheme.isCandidateScheme && (
-              <motion.div
-                variants={shouldReduceMotion ? undefined : heroItem}
-                className="mb-4 p-3.5 rounded-lg bg-amber-50/90 dark:bg-amber-950/40 border border-amber-300/80 dark:border-amber-700/60 text-amber-950 dark:text-amber-200 text-xs leading-relaxed"
-              >
-                <div className="flex items-start gap-2.5">
-                  <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="font-bold text-amber-900 dark:text-amber-100 block mb-0.5">
-                      {t('schemeDetail.candidateNoticeTitle')}
-                    </strong>
-                    <p className="text-[11px] text-amber-800 dark:text-amber-300">
-                      {t('schemeDetail.candidateNoticeDesc')}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
             {/* Normalized Category Tags */}
             {(() => {
               const categories = getSchemeCategories(matchResult.scheme);
@@ -1279,9 +1259,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
 
                   {/* Responsible Statutory Disclaimer */}
                   <p className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] mb-3 leading-relaxed">
-                    {matchResult.scheme.isCandidateScheme
-                      ? t('schemeDetail.candidateDisclaimer')
-                      : t('schemeDetail.provenanceDisclaimer')}
+                    {t('schemeDetail.provenanceDisclaimer')}
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] pt-2 border-t border-[#E4E8E4] dark:border-[#24342D]">

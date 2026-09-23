@@ -69,9 +69,11 @@ assert(
   'A: no hardcoded "Unverified" JSX in ResultsListScreen'
 );
 // The centralized i18n key is used instead.
+// NOTE (2026-09-23): Candidate notice UI removed per product decision —
+// the advisory box pill no longer exists, so the key is intentionally unused.
 assert(
-  resultsScreen.includes("t('results.candidate.unverified')"),
-  "A: ResultsListScreen uses t('results.candidate.unverified')"
+  !resultsScreen.includes("t('results.candidate.unverified')"),
+  "A: ResultsListScreen no longer renders the candidate unverified pill (removed per product decision)"
 );
 
 // --- B. Candidate UI has seven-language coverage -----------------------------
