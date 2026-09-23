@@ -523,7 +523,6 @@ export const WelcomeScreen = ({
                   className="group min-w-[220px] justify-center"
                 >
                   {t('welcome.heroPrimaryCta')}
-                  <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1" />
                 </ArrowFillButton>
                 <button
                   onClick={() => scrollToSection('welcome-how-it-works')}
@@ -947,7 +946,6 @@ export const WelcomeScreen = ({
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <ArrowFillButton onClick={onSignIn} variant="primary" size="lg" className="group min-w-[200px] justify-center">
                 {t('welcome.authPromptPrimary')}
-                <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1" />
               </ArrowFillButton>
               <button
                 onClick={onFindSchemes}
