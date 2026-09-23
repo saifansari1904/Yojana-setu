@@ -398,6 +398,29 @@
   }
 }
 
+/* ── Welcome motion utilities ────────────────────────────────────────────── */
+/* Decorative loop animations used by the welcome experience only.          */
+
+.animate-dash {
+  animation: yj-dash 1.1s linear infinite;
+}
+
+@keyframes yj-dash {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+
+.animate-spin-slow {
+  animation: yj-spin-slow 16s linear infinite;
+}
+
+@keyframes yj-spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ── Focus & touch targets ───────────────────────────────────────────────── */
 
 .yj-focus-ring:focus-visible {
@@ -441,6 +464,11 @@
   }
 
   .yj-setu-flow {
+    animation: none;
+  }
+
+  .animate-dash,
+  .animate-spin-slow {
     animation: none;
   }
 }
