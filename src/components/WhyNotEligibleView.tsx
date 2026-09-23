@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { MatchResult, UserProfile } from '../types';
 import { MatchGauge } from './MatchGauge';
@@ -21,6 +21,7 @@ import {
 } from '../i18n/whyNotEligibleI18n';
 import { getNextBestAction } from '../i18n/decisionActionI18n';
 import { buildMatchExplanation } from '../lib/matching/explanationBuilder';
+import { findAlternativeSchemes } from '../lib/matching/matchingEngine';
 import {
   fadeSlideUp,
   staggerContainer,
@@ -67,7 +68,16 @@ export const WhyNotEligibleView: React.FC<WhyNotEligibleViewProps> = ({
     );
   }
 
-  const { scheme, matchPercentage, breakdown, primaryGap, recommendedAlternatives } = targetMatch;
+  const { scheme, matchPercentage, breakdown, primaryGap } = targetMatch;
+
+  // Compute alternatives on-demand for this single scheme (~50ms) instead of
+  // precomputing for all 253 non-eligible schemes upfront (~3.7s).
+  const recommendedAlternatives = useMemo(() => {
+    if (targetMatch.recommendedAlternatives) return targetMatch.recommendedAlternatives;
+    if (!userProfile || allMatches.length === 0) return undefined;
+    const allSchemes = allMatches.map((m) => m.scheme);
+    return findAlternativeSchemes(scheme, allSchemes, userProfile, lang);
+  }, [targetMatch, scheme, allMatches, userProfile, lang]);
   const locScheme = getLocalizedScheme(scheme);
 
   const unmetCriteria = breakdown.filter((b) => !b.matched);

@@ -39,6 +39,7 @@ import { getSchemeCategories, getSchemeProvenance } from '../lib/data/normalizat
 import { deriveSchemeTrustProfile } from '../lib/data/trustEngine';
 import { getNextBestAction } from '../i18n/decisionActionI18n';
 import { evaluateFundingFit } from '../lib/matching/fundingFit';
+import { findAlternativeSchemes } from '../lib/matching/matchingEngine';
 import {
   deriveBusinessNeedProfile,
   BUSINESS_STAGE_TAXONOMY,
@@ -226,13 +227,16 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
       : null;
   }, [matchResult.businessRelevance, lang]);
 
-  // Alternative recommendations: use engine's recommendations or fallback to compatible matches
+  // Alternative recommendations: compute on-demand for this single scheme (~50ms)
+  // instead of precomputing for all schemes upfront (~3.7s).
   const alternativeItems = useMemo(() => {
-    if (
-      matchResult.recommendedAlternatives &&
-      matchResult.recommendedAlternatives.length > 0
-    ) {
-      return matchResult.recommendedAlternatives;
+    let recommendations = matchResult.recommendedAlternatives;
+    if (!recommendations && userProfile && allMatches.length > 0) {
+      const allSchemes = allMatches.map((m) => m.scheme);
+      recommendations = findAlternativeSchemes(matchResult.scheme, allSchemes, userProfile, lang);
+    }
+    if (recommendations && recommendations.length > 0) {
+      return recommendations;
     }
 
     // Fallback: pick up to 3 compatible schemes from allMatches
@@ -249,7 +253,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
           reason: reasonFn(m.matchPercentage),
         };
       });
-  }, [matchResult, allMatches, locScheme.id, lang, getLocalizedScheme]);
+  }, [matchResult, allMatches, userProfile, locScheme.id, lang, getLocalizedScheme]);
 
   // Scroll to top on scheme change
   useEffect(() => {

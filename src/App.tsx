@@ -166,24 +166,20 @@ function YojanaSetuMain() {
     return undefined;
   }, [currentScreen, userProfile, schemesLoaded]);
 
-  // Tier 1 (expensive, ~3.7s): full scoring + alternatives. Cached by profile/schemes;
-  // language-independent, so it never re-runs on language change.
+  // Tier 1 (expensive part skipped): scoring only, no upfront O(n²) alternatives.
+  // Alternatives are computed on-demand when the user opens a detail/alternatives
+  // view (WhyNotEligibleView, SchemeDetailScreen). ~50ms instead of ~3.7s.
   const coreResults = useMemo(() => {
     if (!userProfile || !schemesLoaded) return [];
-    return rankSchemesForProfile(allSchemes, userProfile, 'en');
+    return rankSchemesForProfile(allSchemes, userProfile, 'en', { skipAlternatives: true });
   }, [userProfile, allSchemes, schemesLoaded]);
 
-  // Tier 2 (cheap, ~50ms): on language change, regenerate only the text fields
-  // (skipAlternatives) and reuse the cached alternatives from Tier 1.
+  // Tier 2: on language change, regenerate only the text fields (~50ms).
+  // No alternatives merge needed — views compute them on-demand.
   const matchResults = useMemo(() => {
     if (!userProfile || !schemesLoaded) return [];
     if (lang === 'en') return coreResults;
-    const textOnly = rankSchemesForProfile(allSchemes, userProfile, lang, { skipAlternatives: true });
-    const alternativesById = new Map(coreResults.map((r) => [r.scheme.id, r.recommendedAlternatives]));
-    return textOnly.map((r) => ({
-      ...r,
-      recommendedAlternatives: alternativesById.get(r.scheme.id),
-    }));
+    return rankSchemesForProfile(allSchemes, userProfile, lang, { skipAlternatives: true });
   }, [userProfile, lang, allSchemes, schemesLoaded, coreResults]);
 
   // Keep modal/alternatives/detail targets in sync when language toggles
