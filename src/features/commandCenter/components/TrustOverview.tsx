@@ -30,43 +30,43 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
       id={id}
       className="yj-card yj-hoverable p-6"
     >
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-[#EAECEB] dark:border-[#24342D]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-[#EAECEB] dark:border-[var(--border-subtle)]">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-[#1E6A50] dark:text-[#4ADE80]" />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[#3F4943] dark:text-[#C5D5CC]">
+          <ShieldCheck className="w-5 h-5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-[#3F4943] dark:text-[var(--text-secondary)]">
             {t('trustTitle')}
           </h3>
         </div>
-        <span className="text-xs text-[#516A5F] dark:text-[#8E9F97] font-medium">
+        <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] font-medium">
           {t('statutoryAuditNotice')}
         </span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-3.5">
         {/* Metric 1: Verified Percentage */}
-        <div className="p-3.5 rounded-lg bg-emerald-50/70 dark:bg-[#142E25] border border-[#D9E8DF] dark:border-[#22503E]">
+        <div className="p-3.5 rounded-lg bg-emerald-50/70 dark:bg-[var(--bg-subtle)] border border-[#D9E8DF] dark:border-[#22503E]">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-[#14453D] dark:text-[#4ADE80]">{t('recentlyVerified')}</span>
-            <ShieldCheck className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80]" />
+            <span className="text-xs font-medium text-[#14453D] dark:text-[var(--accent-green)]">{t('recentlyVerified')}</span>
+            <ShieldCheck className="w-4 h-4 text-[#1E6A50] dark:text-[var(--accent-green)]" />
           </div>
           <div className="text-xl font-bold text-emerald-950 dark:text-[#D9E8DF] mt-1 tabular-nums">
             {summary.recentlyVerifiedPercentage}%
           </div>
-          <p className="text-[11px] text-[#1E6A50] dark:text-[#4ADE80] mt-0.5">
+          <p className="text-[11px] text-[#1E6A50] dark:text-[var(--accent-green)] mt-0.5">
             {summary.recentlyVerifiedCount} of {summary.visibleSchemesCount} schemes audited within 180 days
           </p>
         </div>
 
         {/* Metric 2: Official Sources */}
-        <div className="p-3.5 rounded-lg bg-[#FAFAF9] dark:bg-[#1d2822] border border-[#E4E8E4] dark:border-[#24342D]">
+        <div className="p-3.5 rounded-lg bg-[#FAFAF9] dark:bg-[var(--bg-raised)] border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-[#3F4943] dark:text-[#C5D5CC]">{t('officialSources')}</span>
-            <Building2 className="w-4 h-4 text-[#516A5F] dark:text-[#9EB0A7]" />
+            <span className="text-xs font-medium text-[#3F4943] dark:text-[var(--text-secondary)]">{t('officialSources')}</span>
+            <Building2 className="w-4 h-4 text-[#516A5F] dark:text-[var(--text-secondary)]" />
           </div>
-          <div className="text-xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mt-1 tabular-nums">
+          <div className="text-xl font-bold text-[#1A1C1B] dark:text-[var(--text-main)] mt-1 tabular-nums">
             {summary.officialSourcesCount}
           </div>
-          <p className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] mt-0.5">
+          <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
             Verified .gov.in and .nic.in apex portals
           </p>
         </div>
@@ -86,15 +86,15 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
         </div>
 
         {/* Metric 4: Needs Verification */}
-        <div className="p-3.5 rounded-lg bg-amber-50/70 dark:bg-[#3B2F14] border border-[#FCD34D]/40 dark:border-amber-700/60">
+        <div className="p-3.5 rounded-lg bg-amber-50/70 dark:bg-[var(--status-warning-bg)] border border-[#FCD34D]/40 dark:border-amber-700/60">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-[#92610A] dark:text-[#FCD34D]">{t('needsVerification')}</span>
-            <AlertTriangle className="w-4 h-4 text-[#92610A] dark:text-[#FCD34D]" />
+            <span className="text-xs font-medium text-[#92610A] dark:text-[var(--text-accent)]">{t('needsVerification')}</span>
+            <AlertTriangle className="w-4 h-4 text-[#92610A] dark:text-[var(--text-accent)]" />
           </div>
-          <div className="text-xl font-bold text-amber-950 dark:text-[#FCD34D] mt-1 tabular-nums">
+          <div className="text-xl font-bold text-amber-950 dark:text-[var(--text-accent)] mt-1 tabular-nums">
             {summary.needsVerificationCount}
           </div>
-          <p className="text-[11px] text-[#92610A] dark:text-[#FCD34D] mt-0.5">
+          <p className="text-[11px] text-[#92610A] dark:text-[var(--text-accent)] mt-0.5">
             Flagged for scheduled quarterly re-verification
           </p>
         </div>

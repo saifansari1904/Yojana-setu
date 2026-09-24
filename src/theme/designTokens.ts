@@ -5,8 +5,13 @@
  * motion, z-index and breakpoint values used by the presentation layer.
  * Business logic never imports this file.
  *
- * The same values are mirrored as CSS custom properties in `src/index.css`
- * (`--yj-*`) so that both Tailwind arbitrary values and raw CSS can use them.
+ * Colour responsibility: the runtime source of truth is the semantic CSS
+ * custom properties in `src/index.css` (--bg-page, --bg-card, --border-subtle,
+ * --text-main, ...). The values below MIRROR those properties for use in
+ * TypeScript (inline styles, canvas, computed values). If a value here ever
+ * disagrees with index.css, index.css wins — update this file to match.
+ * The dark palette follows the premium Welcome dark visual language
+ * (#0E1311 family), never pure black.
  */
 
 /* ── Colour ──────────────────────────────────────────────────────────────── */
@@ -25,12 +30,13 @@ export const palette = {
     100: '#C1E2D0',
     50: '#D4EFE1',
   },
-  /** Dark-theme surfaces: deep green-black, never pure black. */
+  /** Dark-theme surfaces: the Welcome dark visual language (#0E1311 family). */
   dark: {
-    page: '#071A17',
-    surface: '#0B2420',
-    surfaceRaised: '#102E29',
-    surfaceSubtle: '#1B2720',
+    page: '#0E1311',
+    surface: '#141B17',
+    surfaceRaised: '#1D2822',
+    surfaceSubtle: '#122019',
+    surfaceDeep: '#0A1F1B',
     border: '#24342D',
     borderStrong: '#2E4137',
   },
@@ -82,9 +88,9 @@ export type StatusToken = keyof typeof status
 
 export const gradients = {
   hero: 'linear-gradient(135deg, #0B5D4B 0%, #0F766E 55%, #14453D 100%)',
-  heroDark: 'linear-gradient(135deg, #071A17 0%, #0B2420 55%, #102E29 100%)',
+  heroDark: 'linear-gradient(135deg, #0E1311 0%, #141B17 55%, #1D2822 100%)',
   page: 'linear-gradient(180deg, #F7FAF8 0%, #F1F5F3 100%)',
-  pageDark: 'linear-gradient(180deg, #071A17 0%, #0B2420 100%)',
+  pageDark: 'linear-gradient(180deg, #0E1311 0%, #141B17 100%)',
   accent: 'linear-gradient(90deg, #047857 0%, #0F766E 100%)',
   highlight: 'linear-gradient(90deg, #D99A2B 0%, #E3A83B 100%)',
 } as const

@@ -51,7 +51,7 @@ export const ProfilePrintView: React.FC<ProfilePrintViewProps> = ({
   return (
     <div
       id="profile-print-view-overlay"
-      className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-2 sm:p-6 overflow-y-auto"
+      className="fixed inset-0 z-50 bg-[var(--overlay)] backdrop-blur-xs flex items-center justify-center p-2 sm:p-6 overflow-y-auto"
     >
       <div
         id="profile-print-sheet"

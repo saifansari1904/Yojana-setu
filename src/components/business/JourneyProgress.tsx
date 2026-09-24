@@ -144,15 +144,15 @@ export const JourneyProgress: React.FC<JourneyProgressProps> = ({
     <section
       id={id}
       aria-label={title}
-      className={`rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#132720] p-4 sm:p-5 ${className}`}
+      className={`rounded-2xl border border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-card)] p-4 sm:p-5 ${className}`}
     >
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[#9EB0A7] mb-4">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[var(--text-secondary)] mb-4">
         {title}
       </h3>
 
       {/* Progress rail */}
       <div className="relative mb-4" aria-hidden="true">
-        <div className="h-1 w-full rounded-full bg-[#E4E8E4] dark:bg-[#24342D]" />
+        <div className="h-1 w-full rounded-full bg-[#E4E8E4] dark:bg-[var(--bg-raised)]" />
         <motion.div
           className="absolute left-0 top-0 h-1 rounded-full bg-[#175741]"
           initial={shouldReduceMotion ? false : { width: 0 }}
@@ -176,8 +176,8 @@ export const JourneyProgress: React.FC<JourneyProgressProps> = ({
                   isCurrent
                     ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#23584E] shadow-xs'
                     : isPast
-                      ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[#4ADE80] border-[#B2CDBF] dark:border-[#285743]'
-                      : 'bg-transparent text-[#3F4943] dark:text-[#9EB0A7] border-[#E4E8E4] dark:border-[#24342D]',
+                      ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[var(--accent-green)] border-[#B2CDBF] dark:border-[#285743]'
+                      : 'bg-transparent text-[#3F4943] dark:text-[var(--text-secondary)] border-[#E4E8E4] dark:border-[var(--border-subtle)]',
                 ].join(' ')}
               >
                 {label}

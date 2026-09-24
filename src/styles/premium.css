@@ -94,10 +94,14 @@
   }
 
   .dark {
-    /* Dark surfaces: deep green-black, never pure black */
-    --yj-surface-page: #071a17;
-    --yj-surface-card: #0b2420;
-    --yj-surface-subtle: #102e29;
+    /* Dark surfaces: the Welcome dark visual language — deep green-black
+       (#0E1311 family), never pure black. These mirror the semantic tokens
+       in src/index.css (--bg-page, --bg-card, ...), which are the runtime
+       source of truth; the --yj-* names are the presentation-layer aliases. */
+    --yj-surface-page: #0e1311;
+    --yj-surface-card: #141b17;
+    --yj-surface-raised: #1d2822;
+    --yj-surface-subtle: #122019;
     --yj-surface-sunken: #0a1f1b;
     --yj-border-subtle: #24342d;
     --yj-border-strong: #2e4137;
@@ -115,14 +119,14 @@
     --yj-info-fg: #5eead4;
     --yj-info-bg: #0f3330;
     --yj-unknown-fg: #9eb0a7;
-    --yj-unknown-bg: #1e2723;
+    --yj-unknown-bg: #1d2822;
     --yj-verified-fg: #e3a83b;
     --yj-verified-bg: #3b2f14;
     --yj-pending-fg: #a9bdb3;
-    --yj-pending-bg: #1b2720;
+    --yj-pending-bg: #122019;
 
-    --yj-gradient-hero: linear-gradient(135deg, #071a17 0%, #0b2420 55%, #102e29 100%);
-    --yj-gradient-page: linear-gradient(180deg, #071a17 0%, #0b2420 100%);
+    --yj-gradient-hero: linear-gradient(135deg, #0e1311 0%, #141b17 55%, #1d2822 100%);
+    --yj-gradient-page: linear-gradient(180deg, #0e1311 0%, #141b17 100%);
 
     /* Shadows read as depth-plus-glow on dark surfaces */
     --yj-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);

@@ -74,7 +74,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
   return (
     <article
       id={`priority-card-${scheme.id}`}
-      className="bg-white dark:bg-[#1d2822] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-5"
+      className="bg-white dark:bg-[var(--bg-raised)] border border-[#E3ECE7] dark:border-[var(--border-subtle)] rounded-xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-5"
     >
       <div className="flex flex-col gap-4">
         {/* Top Header: Priority Badge & Score */}
@@ -89,11 +89,11 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
             <VerificationBadge tier="verified" />
           </div>
 
-          <div className="flex items-center gap-2 bg-[#F4F8F5] dark:bg-[#14231E] px-3 py-1 rounded-lg border border-[#D8E6DE] dark:border-[#1E342B]">
+          <div className="flex items-center gap-2 bg-[#F4F8F5] dark:bg-[var(--bg-raised)] px-3 py-1 rounded-lg border border-[#D8E6DE] dark:border-[#1E342B]">
             <span className="text-xs text-slate-500 dark:text-slate-400">
               {isHi ? 'मैच स्कोर' : 'Fit Score'}
             </span>
-            <span className="text-sm font-bold text-[#0F6B4C] dark:text-[#4ADE80] flex items-center">
+            <span className="text-sm font-bold text-[#0F6B4C] dark:text-[var(--accent-green)] flex items-center">
               <AnimatedCounter value={priorityScore} />%
             </span>
           </div>
@@ -110,11 +110,11 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
         </div>
 
         {/* Financial / Assistance Quantum Snippet */}
-        <div className="bg-[#FAFBF9] dark:bg-[#1d2822] rounded-lg p-3 border border-[#E9EFEA] dark:border-[#232F29]">
+        <div className="bg-[#FAFBF9] dark:bg-[var(--bg-raised)] rounded-lg p-3 border border-[#E9EFEA] dark:border-[#232F29]">
           <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             {isHi ? 'प्रमुख सरकारी सहायता' : 'Core Sovereign Assistance'}
           </div>
-          <div className="text-sm font-semibold text-[#0F6B4C] dark:text-[#4ADE80] mt-0.5">
+          <div className="text-sm font-semibold text-[#0F6B4C] dark:text-[var(--accent-green)] mt-0.5">
             {isHi ? whyThisScheme.benefitSnippetHi : whyThisScheme.benefitSnippetEn}
           </div>
         </div>
@@ -130,7 +130,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
                 key={idx}
                 className="text-xs text-slate-600 dark:text-slate-300 flex items-start gap-2"
               >
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#0F6B4C] dark:text-[#4ADE80] mt-0.5 shrink-0" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#0F6B4C] dark:text-[var(--accent-green)] mt-0.5 shrink-0" />
                 <span>{reason}</span>
               </li>
             ))}
@@ -154,7 +154,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
       </div>
 
       {/* Action Footer */}
-      <div className="pt-3 border-t border-slate-100 dark:border-[#283530] flex items-center justify-between gap-3 flex-wrap">
+      <div className="pt-3 border-t border-slate-100 dark:border-[var(--border-subtle)] flex items-center justify-between gap-3 flex-wrap">
         <div className="text-xs text-slate-500 dark:text-slate-400">
           <span className="font-medium text-slate-700 dark:text-slate-200">
             {isHi ? nextAction.titleHi : nextAction.titleEn}

@@ -22,9 +22,9 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
         <div className="flex items-center gap-3 mb-5">
           <SetuLoader size="sm" />
           <div>
-            <p className="text-xs font-semibold text-[#14453D] dark:text-[#E8EFEA]">{message}</p>
+            <p className="text-xs font-semibold text-[#14453D] dark:text-[var(--text-main)]">{message}</p>
             {subMessage && (
-              <p className="mt-0.5 text-[11px] text-[#6F7A73] dark:text-[#8E9F97]">{subMessage}</p>
+              <p className="mt-0.5 text-[11px] text-[#6F7A73] dark:text-[var(--text-tertiary)]">{subMessage}</p>
             )}
           </div>
         </div>
@@ -36,11 +36,11 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
   return (
     <div className="py-16 px-4 flex flex-col items-center justify-center text-center">
       <SetuLoader size="md" />
-      <p className="mt-4 text-xs font-semibold text-[#14453D] dark:text-[#E8EFEA]">
+      <p className="mt-4 text-xs font-semibold text-[#14453D] dark:text-[var(--text-main)]">
         {message}
       </p>
       {subMessage && (
-        <p className="mt-1 text-[11px] text-[#6F7A73] dark:text-[#8E9F97]">
+        <p className="mt-1 text-[11px] text-[#6F7A73] dark:text-[var(--text-tertiary)]">
           {subMessage}
         </p>
       )}

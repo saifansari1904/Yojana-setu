@@ -16,7 +16,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({ className = '', rounded = 'r
   return (
     <div
       aria-hidden="true"
-      className={`relative overflow-hidden bg-[#EEEEED] dark:bg-[#1d2822] ${rounded} ${className}`}
+      className={`relative overflow-hidden bg-[#EEEEED] dark:bg-[var(--bg-raised)] ${rounded} ${className}`}
     >
       {!shouldReduceMotion && (
         <motion.div

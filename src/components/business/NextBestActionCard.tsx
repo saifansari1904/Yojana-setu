@@ -76,7 +76,7 @@ const STATUS_META: Record<
       ml: 'പൂർത്തിയായി',
       mr: 'पूर्ण',
     },
-    chip: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[#4ADE80] border-[#B2CDBF] dark:border-[#285743]',
+    chip: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[var(--accent-green)] border-[#B2CDBF] dark:border-[#285743]',
   },
   READY: {
     icon: CheckCircle2,
@@ -89,7 +89,7 @@ const STATUS_META: Record<
       ml: 'തയ്യാറാണ്',
       mr: 'तयार',
     },
-    chip: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[#4ADE80] border-[#B2CDBF] dark:border-[#285743]',
+    chip: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[var(--accent-green)] border-[#B2CDBF] dark:border-[#285743]',
   },
   RECOMMENDED: {
     icon: Compass,
@@ -102,7 +102,7 @@ const STATUS_META: Record<
       ml: 'ശുപാർശ ചെയ്യുന്നത്',
       mr: 'शिफारसीय',
     },
-    chip: 'bg-[#EFF5F1] dark:bg-[#1A2B24] text-[#3F4943] dark:text-[#9EB0A7] border-[#E4E8E4] dark:border-[#24342D]',
+    chip: 'bg-[#EFF5F1] dark:bg-[var(--bg-subtle)] text-[#3F4943] dark:text-[var(--text-secondary)] border-[#E4E8E4] dark:border-[var(--border-subtle)]',
   },
   BLOCKED: {
     icon: AlertTriangle,
@@ -128,7 +128,7 @@ const STATUS_META: Record<
       ml: 'വിവരങ്ങൾ ആവശ്യമാണ്',
       mr: 'माहिती आवश्यक आहे',
     },
-    chip: 'bg-[#FEF3C7] dark:bg-[#3B2F14] text-[#92610A] dark:text-[#FCD34D] border-[#FDE68A] dark:border-[#5A4718]',
+    chip: 'bg-[#FEF3C7] dark:bg-[var(--status-warning-bg)] text-[#92610A] dark:text-[var(--text-accent)] border-[#FDE68A] dark:border-[#5A4718]',
   },
   NOT_RELEVANT: {
     icon: HelpCircle,
@@ -141,7 +141,7 @@ const STATUS_META: Record<
       ml: 'പ്രസക്തമല്ല',
       mr: 'संबंधित नाही',
     },
-    chip: 'bg-[#EFF5F1] dark:bg-[#1A2B24] text-[#3F4943] dark:text-[#9EB0A7] border-[#E4E8E4] dark:border-[#24342D]',
+    chip: 'bg-[#EFF5F1] dark:bg-[var(--bg-subtle)] text-[#3F4943] dark:text-[var(--text-secondary)] border-[#E4E8E4] dark:border-[var(--border-subtle)]',
   },
 };
 
@@ -174,10 +174,10 @@ export const NextBestActionCard: React.FC<NextBestActionCardProps> = ({
       initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={shouldReduceMotion ? { duration: 0.01 } : transitions.smooth}
-      className={`rounded-2xl border border-[#B2CDBF] dark:border-[#285743] bg-[#F7FBF9] dark:bg-[#132720] p-4 sm:p-5 ${className}`}
+      className={`rounded-2xl border border-[#B2CDBF] dark:border-[#285743] bg-[#F7FBF9] dark:bg-[var(--bg-subtle)] p-4 sm:p-5 ${className}`}
     >
       <div className="flex items-center justify-between gap-3 mb-3">
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-[#14453D] dark:text-[#4ADE80]">
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-[#14453D] dark:text-[var(--accent-green)]">
           {COPY.sectionTitle[l]}
         </h3>
         <span
@@ -190,18 +190,18 @@ export const NextBestActionCard: React.FC<NextBestActionCardProps> = ({
 
       <h4
         id={`${id || 'nba'}-title`}
-        className="text-base sm:text-lg font-semibold text-[#14453D] dark:text-[#F0F4F2] mb-1.5"
+        className="text-base sm:text-lg font-semibold text-[#14453D] dark:text-[var(--text-main)] mb-1.5"
       >
         {title}
       </h4>
-      <p className="text-sm text-[#3F4943] dark:text-[#9EB0A7] mb-3">{description}</p>
+      <p className="text-sm text-[#3F4943] dark:text-[var(--text-secondary)] mb-3">{description}</p>
 
       {!compact && (
-        <div className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#0F1F1A] p-3 mb-4">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[#9EB0A7] mb-1">
+        <div className="rounded-xl border border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-card)] p-3 mb-4">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[var(--text-secondary)] mb-1">
             {COPY.whyRecommended[l]}
           </p>
-          <p className="text-sm text-[#3F4943] dark:text-[#C7D6CE] leading-relaxed">{reason}</p>
+          <p className="text-sm text-[#3F4943] dark:text-[var(--text-secondary)] leading-relaxed">{reason}</p>
         </div>
       )}
 
@@ -217,8 +217,8 @@ export const NextBestActionCard: React.FC<NextBestActionCardProps> = ({
       </ArrowFillButton>
 
       {secondaryActions.length > 0 && (
-        <div className="mt-4 pt-3 border-t border-[#E4E8E4] dark:border-[#24342D]">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[#9EB0A7] mb-2">
+        <div className="mt-4 pt-3 border-t border-[#E4E8E4] dark:border-[var(--border-subtle)]">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[var(--text-secondary)] mb-2">
             {COPY.afterThat[l]}
           </p>
           <ul className="space-y-2">
@@ -229,9 +229,9 @@ export const NextBestActionCard: React.FC<NextBestActionCardProps> = ({
                   <button
                     type="button"
                     onClick={() => onAction?.(secondary)}
-                    className="w-full text-left rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#0F1F1A] px-3 py-2.5 min-h-[44px] text-sm text-[#3F4943] dark:text-[#C7D6CE] hover:border-[#B2CDBF] dark:hover:border-[#285743] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
+                    className="w-full text-left rounded-xl border border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-card)] px-3 py-2.5 min-h-[44px] text-sm text-[#3F4943] dark:text-[var(--text-secondary)] hover:border-[#B2CDBF] dark:hover:border-[#285743] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
                   >
-                    <span className="font-medium text-[#14453D] dark:text-[#F0F4F2]">
+                    <span className="font-medium text-[#14453D] dark:text-[var(--text-main)]">
                       {secTitle}
                     </span>
                     <span className="block text-xs mt-0.5">

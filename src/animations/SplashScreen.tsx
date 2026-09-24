@@ -90,7 +90,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDurat
           exit={{ opacity: 0, scale: 0.99 }}
           transition={{ duration: 0.35, ease: 'easeInOut' }}
           onClick={handleSkip}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#FAFAF9] dark:bg-[#141b17] px-6 select-none cursor-pointer"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#FAFAF9] dark:bg-[var(--bg-card)] px-6 select-none cursor-pointer"
           role="dialog"
           aria-label="Yojana Setu Gateway Initializing"
         >
@@ -122,14 +122,14 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDurat
               transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
               className="space-y-1"
             >
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#D9E8DF] dark:bg-[#153428] text-[#14453D] dark:text-[#4ADE80] text-[11px] font-bold tracking-wider uppercase">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#D9E8DF] dark:bg-[var(--bg-subtle)] text-[#14453D] dark:text-[var(--accent-green)] text-[11px] font-bold tracking-wider uppercase">
                 <span>{t('common.citizenPortal')}</span>
               </div>
 
-              <p className="text-sm font-semibold text-[#14453D] dark:text-[#E2E8E4] pt-1">
+              <p className="text-sm font-semibold text-[#14453D] dark:text-[var(--text-main)] pt-1">
                 {copy.motto}
               </p>
-              <p className="text-xs text-[#516A5F] dark:text-[#8E9F97] tracking-tight">
+              <p className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] tracking-tight">
                 {copy.description}
               </p>
             </motion.div>
@@ -139,7 +139,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDurat
               initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.45 }}
-              className="w-48 h-1 bg-[#E4E8E4] dark:bg-[#1E2E27] rounded-full overflow-hidden mt-6 relative"
+              className="w-48 h-1 bg-[#E4E8E4] dark:bg-[var(--bg-raised)] rounded-full overflow-hidden mt-6 relative"
             >
               <motion.div
                 initial={{ x: '-100%' }}
@@ -153,7 +153,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDurat
               />
             </motion.div>
 
-            <span className="text-[10px] text-[#516A5F] dark:text-[#6C7E76] mt-3 font-medium">
+            <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-3 font-medium">
               {copy.loading}
             </span>
           </div>

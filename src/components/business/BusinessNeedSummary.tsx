@@ -318,18 +318,18 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
   return (
     <div
       id="business-need-summary"
-      className="p-4 rounded-md border border-[#C1E2D0] dark:border-[#22503E] bg-[#D9E8DF]/30 dark:bg-[#143327]/40 mb-6 transition-all duration-200"
+      className="p-4 rounded-md border border-[#C1E2D0] dark:border-[#22503E] bg-[#D9E8DF]/30 dark:bg-[#122019]/40 mb-6 transition-all duration-200"
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-start gap-2.5">
-          <div className="p-1.5 rounded-full bg-[#14453D] text-white dark:bg-[#4ADE80] dark:text-[#0B251F] shrink-0 mt-0.5">
+          <div className="p-1.5 rounded-full bg-[#14453D] text-white dark:bg-[var(--accent-green)] dark:text-[#0B251F] shrink-0 mt-0.5">
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#14453D] dark:text-[#4ADE80] block">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#14453D] dark:text-[var(--accent-green)] block">
               {COPY.understoodNeedTitle[l]}
             </span>
-            <p className="text-xs sm:text-sm text-[#1A1C1B] dark:text-[#E0E8E3] font-medium mt-0.5 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#1A1C1B] dark:text-[var(--text-main)] font-medium mt-0.5 leading-relaxed">
               {buildSummaryNarrative()}
             </p>
           </div>
@@ -337,7 +337,7 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
 
         {/* Profile Completeness Pill / Action */}
         <div className="flex items-center gap-2 self-start sm:self-center shrink-0">
-          <span className="text-xs font-semibold px-2.5 py-1 rounded bg-white dark:bg-[#141b17] text-[#14453D] dark:text-[#4ADE80] border border-[#C1E2D0] dark:border-[#24342D] whitespace-nowrap">
+          <span className="text-xs font-semibold px-2.5 py-1 rounded bg-white dark:bg-[var(--bg-card)] text-[#14453D] dark:text-[var(--accent-green)] border border-[#C1E2D0] dark:border-[var(--border-subtle)] whitespace-nowrap">
             {COPY.profileCompleteness[l](needProfile.completenessScore)}
           </span>
 
@@ -345,7 +345,7 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
             <button
               onClick={onCompleteProfile}
               title={needProfile.missingHighValueFields?.map((f) => getLocalizedMissingFieldPrompt(f, l).label).join(', ')}
-              className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:underline flex items-center gap-1 cursor-pointer whitespace-nowrap"
+              className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)] hover:underline flex items-center gap-1 cursor-pointer whitespace-nowrap"
             >
               <span>{COPY.refine[l]}</span>
               <ArrowRight className="w-3 h-3" />
@@ -359,10 +359,10 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
         {/* Business Name / Idea */}
         {businessIdentifier && (
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[var(--text-secondary)]">
               {COPY.labels.business[l]}
             </span>
-            <span className="font-medium text-[#111827] dark:text-[#F3F4F6] truncate" title={businessIdentifier}>
+            <span className="font-medium text-[#111827] dark:text-[var(--text-main)] truncate" title={businessIdentifier}>
               {businessIdentifier}
             </span>
           </div>
@@ -371,10 +371,10 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
         {/* Stage */}
         {stageLabel && (
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[var(--text-secondary)]">
               {COPY.labels.stage[l]}
             </span>
-            <span className="font-medium text-[#111827] dark:text-[#F3F4F6] truncate">
+            <span className="font-medium text-[#111827] dark:text-[var(--text-main)] truncate">
               {stageLabel}
             </span>
           </div>
@@ -383,10 +383,10 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
         {/* Sector */}
         {sectorDisplay && (
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[var(--text-secondary)]">
               {COPY.labels.sector[l]}
             </span>
-            <span className="font-medium text-[#111827] dark:text-[#F3F4F6] truncate" title={sectorDisplay}>
+            <span className="font-medium text-[#111827] dark:text-[var(--text-main)] truncate" title={sectorDisplay}>
               {sectorDisplay}
             </span>
           </div>
@@ -395,10 +395,10 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
         {/* Location */}
         {locationText && (
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[var(--text-secondary)]">
               {COPY.labels.location[l]}
             </span>
-            <span className="font-medium text-[#111827] dark:text-[#F3F4F6] truncate" title={locationText}>
+            <span className="font-medium text-[#111827] dark:text-[var(--text-main)] truncate" title={locationText}>
               {locationText}
             </span>
           </div>
@@ -407,10 +407,10 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
         {/* Project Cost */}
         {needProfile.totalProjectCost !== undefined && needProfile.totalProjectCost > 0 && (
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[var(--text-secondary)]">
               {COPY.labels.projectCost[l]}
             </span>
-            <span className="font-semibold text-[#111827] dark:text-[#F3F4F6]">
+            <span className="font-semibold text-[#111827] dark:text-[var(--text-main)]">
               {formatLakhCrore(needProfile.totalProjectCost, l)}
             </span>
           </div>
@@ -419,10 +419,10 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
         {/* Funding Gap */}
         {needProfile.fundingGap !== undefined && needProfile.fundingGap > 0 && (
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[var(--text-secondary)]">
               {COPY.labels.fundingGap[l]}
             </span>
-            <span className="font-semibold text-[#14453D] dark:text-[#4ADE80]">
+            <span className="font-semibold text-[#14453D] dark:text-[var(--accent-green)]">
               {formatLakhCrore(needProfile.fundingGap, l)}
             </span>
           </div>
@@ -431,10 +431,10 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
         {/* Primary Need */}
         {primaryNeedLabel && (
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF]">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[var(--text-secondary)]">
               {COPY.labels.primaryNeed[l]}
             </span>
-            <span className="font-medium text-[#111827] dark:text-[#F3F4F6] truncate">
+            <span className="font-medium text-[#111827] dark:text-[var(--text-main)] truncate">
               {primaryNeedLabel}
             </span>
           </div>
@@ -443,7 +443,7 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
         {/* Additional Needs */}
         {validSecondaryNeeds.length > 0 && (
           <div className="flex flex-col col-span-2 sm:col-span-4 mt-1">
-            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[#9CA3AF] mb-1">
+            <span className="text-[10px] uppercase font-semibold text-[#4B5563] dark:text-[var(--text-secondary)] mb-1">
               {COPY.labels.additionalNeeds[l]}
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -452,7 +452,7 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
                 return (
                   <span
                     key={needKey}
-                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-white/80 dark:bg-[#141b17] text-[#1E3A8A] dark:text-[#93C5FD] border border-[#BFDBFE] dark:border-[#1E3A8A]/50"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-white/80 dark:bg-[var(--bg-card)] text-[#1E3A8A] dark:text-[#93C5FD] border border-[#BFDBFE] dark:border-[#1E3A8A]/50"
                   >
                     <Tag className="w-3 h-3 shrink-0" />
                     {label || needKey}

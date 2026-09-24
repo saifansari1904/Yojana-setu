@@ -154,11 +154,11 @@ export const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="photo-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[var(--overlay)] backdrop-blur-xs animate-in fade-in duration-200"
     >
-      <div className="relative w-full max-w-lg bg-white dark:bg-[#141b17] rounded-2xl shadow-2xl border border-gray-200 dark:border-[#22352B] overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="relative w-full max-w-lg bg-white dark:bg-[var(--bg-card)] rounded-2xl shadow-2xl border border-gray-200 dark:border-[var(--border-subtle)] overflow-hidden flex flex-col max-h-[90vh]">
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4.5 border-b border-gray-100 dark:border-[#22352B] bg-[#F7FAF8] dark:bg-[#1d2822]">
+        <div className="flex items-center justify-between px-6 py-4.5 border-b border-gray-100 dark:border-[var(--border-subtle)] bg-[#F7FAF8] dark:bg-[var(--bg-raised)]">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-[#14453D] text-white flex items-center justify-center">
               <Camera className="w-4 h-4" />
@@ -184,7 +184,7 @@ export const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
         {/* Modal Body */}
         <div className="p-6 overflow-y-auto space-y-6">
           {/* Avatar Live Preview Showcase */}
-          <div className="flex flex-col sm:flex-row items-center gap-5 p-4 rounded-xl bg-gray-50 dark:bg-[#1d2822] border border-gray-200 dark:border-[#243329]">
+          <div className="flex flex-col sm:flex-row items-center gap-5 p-4 rounded-xl bg-gray-50 dark:bg-[var(--bg-raised)] border border-gray-200 dark:border-[#243329]">
             <div className="relative">
               <CitizenAvatarInsignia
                 displayName={displayName}
@@ -229,7 +229,7 @@ export const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
             className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors flex flex-col items-center justify-center gap-3 ${
               isDragging
                 ? 'border-[#14453D] bg-emerald-50/50 dark:bg-[#14453D]/20'
-                : 'border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600 bg-white dark:bg-[#141b17]'
+                : 'border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600 bg-white dark:bg-[var(--bg-card)]'
             }`}
           >
             <input
@@ -258,7 +258,7 @@ export const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg bg-[#14453D] text-white hover:bg-[#0F352E] dark:bg-[#1B574C] dark:hover:bg-[#14453D] transition-colors shadow-xs"
+                className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg bg-[#14453D] text-white hover:bg-[#0F352E] dark:bg-[#1B574C] dark:hover:bg-[var(--brand-deep)] transition-colors shadow-xs"
               >
                 <Camera className="w-3.5 h-3.5" />
                 <span>{strings.choosePhotoBtn}</span>
@@ -279,7 +279,7 @@ export const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
         </div>
 
         {/* Modal Actions Footer */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100 dark:border-[#22352B] bg-[#F7FAF8] dark:bg-[#1d2822]">
+        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100 dark:border-[var(--border-subtle)] bg-[#F7FAF8] dark:bg-[var(--bg-raised)]">
           <div>
             {currentPhotoUrl && !previewUrl && (
               <span className="text-xs text-amber-600 dark:text-amber-400 font-medium">
@@ -302,7 +302,7 @@ export const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
               disabled={!isChanged && !previewUrl}
               className={`inline-flex items-center gap-2 px-5 py-2 text-xs font-semibold rounded-lg shadow-xs transition-colors ${
                 isChanged
-                  ? 'bg-[#14453D] text-white hover:bg-[#0F352E] dark:bg-[#1B574C] dark:hover:bg-[#14453D]'
+                  ? 'bg-[#14453D] text-white hover:bg-[#0F352E] dark:bg-[#1B574C] dark:hover:bg-[var(--brand-deep)]'
                   : 'bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed'
               }`}
             >

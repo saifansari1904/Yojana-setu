@@ -46,7 +46,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
     },
     REVIEW: {
       label: t('reviewBadge'),
-      classes: 'bg-[#FEF3C7] dark:bg-[#3B2F14] text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700/60 font-medium',
+      classes: 'bg-[#FEF3C7] dark:bg-[var(--status-warning-bg)] text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700/60 font-medium',
     },
     INFORMATION_NEEDED: {
       label: t('infoNeededBadge'),
@@ -54,7 +54,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
     },
     LOW_PRIORITY: {
       label: t('lowPriorityBadge'),
-      classes: 'bg-[#F3F4F3] dark:bg-[#1d2822] text-[#3F4943] dark:text-[#C5D5CC] font-medium',
+      classes: 'bg-[#F3F4F3] dark:bg-[var(--bg-raised)] text-[#3F4943] dark:text-[var(--text-secondary)] font-medium',
     },
   }[actionPriority];
 
@@ -71,7 +71,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
           <div className="flex flex-wrap items-center gap-2 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#516A5F] dark:text-[#8E9F97]">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#516A5F] dark:text-[var(--text-tertiary)]">
               {t('topOpportunityHeading')}
             </span>
             <span className={`text-xs px-2.5 py-0.5 rounded-full ${priorityBadgeConfig.classes}`}>
@@ -82,11 +82,11 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
 
           <h3
             onClick={() => onOpenSchemeDetail(opportunity)}
-            className="text-xl sm:text-xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] cursor-pointer hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors"
+            className="text-xl sm:text-xl font-bold text-[#1A1C1B] dark:text-[var(--text-main)] cursor-pointer hover:text-[#1E6A50] dark:hover:text-[var(--accent-green)] transition-colors"
           >
             {scheme.code} — {schemeTitle}
           </h3>
-          <p className="text-xs text-[#516A5F] dark:text-[#8E9F97] mt-1">{deptTitle}</p>
+          <p className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mt-1">{deptTitle}</p>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
@@ -96,12 +96,12 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
             onToggle={() => onToggleSave(scheme.id)}
           />
           {/* Match Score Badge (Authoritative Phase 3.1 Score) */}
-          <div className="text-right bg-[#FAFAF9] dark:bg-[#1d2822] px-3.5 py-2 rounded-lg border border-[#E4E8E4] dark:border-[#24342D]">
-            <div className="text-xl sm:text-xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] leading-tight">
+          <div className="text-right bg-[#FAFAF9] dark:bg-[var(--bg-raised)] px-3.5 py-2 rounded-lg border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
+            <div className="text-xl sm:text-xl font-bold text-[#1A1C1B] dark:text-[var(--text-main)] leading-tight">
               <AnimatedCounter value={matchResult.totalMatchScore} id={`match-counter-${scheme.id}`} />
-              <span className="text-xs font-normal text-[#516A5F] dark:text-[#8E9F97] ml-0.5">/100</span>
+              <span className="text-xs font-normal text-[#516A5F] dark:text-[var(--text-tertiary)] ml-0.5">/100</span>
             </div>
-            <div className="text-[11px] font-medium text-[#516A5F] dark:text-[#8E9F97] uppercase tracking-wide">
+            <div className="text-[11px] font-medium text-[#516A5F] dark:text-[var(--text-tertiary)] uppercase tracking-wide">
               {t('matchScoreLabel')}
             </div>
           </div>
@@ -109,12 +109,12 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
       </div>
 
       {/* Status Signals Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-5 py-3.5 px-4 bg-slate-50/80 dark:bg-[#1d2822] rounded-lg border border-[#EAECEB] dark:border-[#24342D]">
-        <div className="flex items-center gap-2.5 text-xs text-[#3F4943] dark:text-[#C5D5CC]">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-5 py-3.5 px-4 bg-slate-50/80 dark:bg-[var(--bg-raised)] rounded-lg border border-[#EAECEB] dark:border-[var(--border-subtle)]">
+        <div className="flex items-center gap-2.5 text-xs text-[#3F4943] dark:text-[var(--text-secondary)]">
           <SuccessCheckmark size={18} />
           <span className="font-medium">{t('eligibilityReviewed')}</span>
         </div>
-        <div className="flex items-center gap-2.5 text-xs text-[#3F4943] dark:text-[#C5D5CC]">
+        <div className="flex items-center gap-2.5 text-xs text-[#3F4943] dark:text-[var(--text-secondary)]">
           {matchResult.financialFit.fitsBudget ? (
             <>
               <SuccessCheckmark size={18} />
@@ -122,15 +122,15 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
             </>
           ) : (
             <>
-              <AlertCircle className="w-4 h-4 text-[#92610A] dark:text-[#FCD34D] shrink-0" />
-              <span className="text-[#92610A] dark:text-[#FCD34D]">{matchResult.financialFit.reason}</span>
+              <AlertCircle className="w-4 h-4 text-[#92610A] dark:text-[var(--text-accent)] shrink-0" />
+              <span className="text-[#92610A] dark:text-[var(--text-accent)]">{matchResult.financialFit.reason}</span>
             </>
           )}
         </div>
-        <div className="flex items-center gap-2.5 text-xs text-[#3F4943] dark:text-[#C5D5CC]">
-          <FileText className="w-4 h-4 text-[#516A5F] dark:text-[#8E9F97] shrink-0" />
+        <div className="flex items-center gap-2.5 text-xs text-[#3F4943] dark:text-[var(--text-secondary)]">
+          <FileText className="w-4 h-4 text-[#516A5F] dark:text-[var(--text-tertiary)] shrink-0" />
           <span>
-            <strong className="font-semibold text-[#1A1C1B] dark:text-[#F0F4F2]">{documentReadiness.prepared}</strong>
+            <strong className="font-semibold text-[#1A1C1B] dark:text-[var(--text-main)]">{documentReadiness.prepared}</strong>
             {' '}/ {documentReadiness.total} {t('documentsPrepared')}
           </span>
         </div>
@@ -138,16 +138,16 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
 
       {/* "WHY THIS SCHEME — AND WHY NOW?" */}
       <div className="my-5">
-        <div className="text-xs font-bold text-[#516A5F] dark:text-[#9EB0A7] uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+        <div className="text-xs font-bold text-[#516A5F] dark:text-[var(--text-secondary)] uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
           <span>{t('whyThisSchemeTitle')}</span>
         </div>
         <div className="space-y-1.5">
           {whyThisScheme.points.map((pt, idx) => (
-            <div key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-[#3F4943] dark:text-[#C5D5CC]">
-              {pt.type === 'positive' && <span className="text-[#1E6A50] dark:text-[#4ADE80] font-bold shrink-0">✓</span>}
-              {pt.type === 'attention' && <AlertCircle className="w-3.5 h-3.5 text-[#92610A] dark:text-[#FCD34D] mt-0.5 shrink-0" />}
-              {pt.type === 'neutral' && <span className="text-[#516A5F] dark:text-[#6F7A73] font-bold shrink-0">•</span>}
+            <div key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-[#3F4943] dark:text-[var(--text-secondary)]">
+              {pt.type === 'positive' && <span className="text-[#1E6A50] dark:text-[var(--accent-green)] font-bold shrink-0">✓</span>}
+              {pt.type === 'attention' && <AlertCircle className="w-3.5 h-3.5 text-[#92610A] dark:text-[var(--text-accent)] mt-0.5 shrink-0" />}
+              {pt.type === 'neutral' && <span className="text-[#516A5F] dark:text-[var(--text-tertiary)] font-bold shrink-0">•</span>}
               <span>{resolveLocalizedPair(pt.text, pt.textHi, language)}</span>
             </div>
           ))}
@@ -155,16 +155,16 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
       </div>
 
       {/* NEXT BEST ACTION Box */}
-      <div className="mt-5 p-4 rounded-lg bg-emerald-50/70 dark:bg-[#142E25] border border-emerald-200/80 dark:border-[#22503E] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="mt-5 p-4 rounded-lg bg-emerald-50/70 dark:bg-[var(--bg-subtle)] border border-emerald-200/80 dark:border-[#22503E] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <span className="text-[11px] font-bold text-[#14453D] dark:text-[#4ADE80] uppercase tracking-wider block mb-0.5">
+          <span className="text-[11px] font-bold text-[#14453D] dark:text-[var(--accent-green)] uppercase tracking-wider block mb-0.5">
             {t('nextBestActionTitle')}
           </span>
-          <div className="text-sm font-semibold text-[#1A1C1B] dark:text-[#F0F4F2]">
+          <div className="text-sm font-semibold text-[#1A1C1B] dark:text-[var(--text-main)]">
             {nextBestAction.actionLocalized?.[language] ||
               (resolveLocalizedPair(nextBestAction.actionText, nextBestAction.actionTextHi, language))}
           </div>
-          <div className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mt-0.5">
+          <div className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] mt-0.5">
             {nextBestAction.reasonLocalized?.[language] ||
               (resolveLocalizedPair(nextBestAction.reasonText, nextBestAction.reasonTextHi, language))}
           </div>

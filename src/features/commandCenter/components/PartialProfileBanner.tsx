@@ -127,10 +127,10 @@ export const PartialProfileBanner: React.FC<PartialProfileBannerProps> = ({
             </span>
           </div>
 
-          <p className="text-sm font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] mt-1">
+          <p className="text-sm font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] mt-1">
             {missingList.length} {t('missingFieldsAlert')} ({missingList.slice(0, 3).join(', ')})
           </p>
-          <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mt-0.5">
+          <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] mt-0.5">
             {t('completeProfilePrompt')}
           </p>
         </div>

@@ -55,9 +55,9 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
     return (
       <div
         id={`doc-checklist-${schemeId}-empty`}
-        className={`bg-[#F3F4F3] dark:bg-[#1d2822] rounded-md p-4 text-center border border-[#E4E8E4] dark:border-[#283831] ${className}`}
+        className={`bg-[#F3F4F3] dark:bg-[var(--bg-raised)] rounded-md p-4 text-center border border-[#E4E8E4] dark:border-[var(--border-subtle)] ${className}`}
       >
-        <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7]">
+        <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)]">
           {t('schemeDetail.noDocumentsRequired')}
         </p>
       </div>
@@ -73,14 +73,14 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <div>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center">
+            <div className="w-6 h-6 rounded bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)] flex items-center justify-center">
               <FileText className="w-3.5 h-3.5" />
             </div>
-            <h3 className="text-base font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+            <h3 className="text-base font-bold text-[#1A1C1B] dark:text-[var(--text-main)]">
               {t('schemeDetail.documentsTitle')}
             </h3>
           </div>
-          <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mt-1">
+          <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] mt-1">
             {t('schemeDetail.documentsSubtitle')}
           </p>
         </div>
@@ -90,12 +90,12 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
           <span
             className={`text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 transition-colors ${
               isAllReady
-                ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] border border-[#1E6A50]/30'
-                : 'bg-[#F3F4F3] dark:bg-[#1d2822] text-[#3F4943] dark:text-[#C5D5CC] border border-[#E4E8E4] dark:border-[#2B3D34]'
+                ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)] border border-[#1E6A50]/30'
+                : 'bg-[#F3F4F3] dark:bg-[var(--bg-raised)] text-[#3F4943] dark:text-[var(--text-secondary)] border border-[#E4E8E4] dark:border-[var(--border-subtle)]'
             }`}
           >
             {isAllReady ? (
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
             ) : (
               <span className="w-2 h-2 rounded-full bg-[#C2603F] dark:bg-amber-400" />
             )}
@@ -116,12 +116,12 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
           aria-valuenow={progressPercent}
           aria-valuemin={0}
           aria-valuemax={100}
-          className="w-full bg-[#EEEEED] dark:bg-[#1d2822] h-2 rounded-full overflow-hidden"
+          className="w-full bg-[#EEEEED] dark:bg-[var(--bg-raised)] h-2 rounded-full overflow-hidden"
         >
           <motion.div
             className={`h-full rounded-full transition-colors ${
               isAllReady
-                ? 'bg-[#175741] dark:bg-[#4ADE80]'
+                ? 'bg-[#175741] dark:bg-[var(--accent-green)]'
                 : 'bg-[#14453D] dark:bg-[#10B981]'
             }`}
             initial={{ width: 0 }}
@@ -133,7 +133,7 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
           <motion.div
             initial={shouldReduceMotion ? undefined : { opacity: 0, y: -4 }}
             animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-            className="mt-2 text-[11px] font-semibold text-[#1E6A50] dark:text-[#4ADE80] flex items-center gap-1"
+            className="mt-2 text-[11px] font-semibold text-[#1E6A50] dark:text-[var(--accent-green)] flex items-center gap-1"
           >
             <Check className="w-3.5 h-3.5" />
             <span>{t('schemeDetail.allDocumentsReady')}</span>
@@ -164,7 +164,7 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
               className={`group flex items-start gap-3 p-3 rounded border transition-all cursor-pointer select-none ${
                 isChecked
                   ? 'bg-[#D9E8DF]/40 dark:bg-[#1A382D]/30 border-[#A3D9C9] dark:border-[#2A5C4B]'
-                  : 'bg-[#FAFAF9] dark:bg-[#141b17] hover:bg-[#F3F4F3] dark:hover:bg-[#1d2822] border-[#E4E8E4] dark:border-[#22332A]'
+                  : 'bg-[#FAFAF9] dark:bg-[var(--bg-card)] hover:bg-[#F3F4F3] dark:hover:bg-[var(--bg-raised)] border-[#E4E8E4] dark:border-[var(--border-subtle)]'
               }`}
             >
               {/* Checkbox box */}
@@ -172,7 +172,7 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
                 className={`w-5 h-5 mt-0.5 rounded flex items-center justify-center shrink-0 border transition-all ${
                   isChecked
                     ? 'bg-[#14453D] dark:bg-[#1E6A50] border-[#14453D] dark:border-[#1E6A50] text-white shadow-xs'
-                    : 'bg-white dark:bg-[#141b17] border-[#BFC9C2] dark:border-[#3D5247] group-hover:border-[#14453D] dark:group-hover:border-[#4ADE80]'
+                    : 'bg-white dark:bg-[var(--bg-card)] border-[#BFC9C2] dark:border-[var(--border-subtle)] group-hover:border-[#14453D] dark:group-hover:border-[#4ADE80]'
                 }`}
               >
                 {isChecked && (
@@ -192,12 +192,12 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
                   className={`text-xs font-semibold block leading-snug transition-colors ${
                     isChecked
                       ? 'text-[#14453D] dark:text-[#A7F3D0] line-through decoration-[#1E6A50]/50'
-                      : 'text-[#1A1C1B] dark:text-[#F0F4F2]'
+                      : 'text-[#1A1C1B] dark:text-[var(--text-main)]'
                   }`}
                 >
                   {doc}
                 </span>
-                <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97]">
+                <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
                   {isChecked
                     ? STATUS_HINTS.ready[lang] || STATUS_HINTS.ready.en
                     : STATUS_HINTS.markReady[lang] || STATUS_HINTS.markReady.en}

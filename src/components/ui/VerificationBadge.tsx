@@ -65,14 +65,14 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
   > = {
     gazetted: {
       bg: 'bg-[#D9E8DF] dark:bg-[#1A382D]',
-      text: 'text-[#1E6A50] dark:text-[#4ADE80]',
+      text: 'text-[#1E6A50] dark:text-[var(--accent-green)]',
       border: 'border-[#B2CDBF] dark:border-[#285743]',
       icon: ShieldCheck,
       defaultLabel: t('verificationBadge.gazetteVerified'),
     },
     verified: {
       bg: 'bg-[#D9E8DF] dark:bg-[#1A382D]',
-      text: 'text-[#1E6A50] dark:text-[#4ADE80]',
+      text: 'text-[#1E6A50] dark:text-[var(--accent-green)]',
       border: 'border-[#B2CDBF] dark:border-[#285743]',
       icon: CheckCircle2,
       defaultLabel: t('verificationBadge.officialGovScheme'),
@@ -137,7 +137,7 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
       {hasProvenance && (
         <span
           role="note"
-          className="pointer-events-none absolute left-0 top-full z-20 mt-1.5 w-max max-w-[240px] whitespace-normal rounded-[var(--yj-radius-md)] border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#141b17] px-2.5 py-1.5 text-left text-[10px] font-normal leading-snug text-[#42544C] dark:text-[#A9BDB3] opacity-0 translate-y-0.5 shadow-[var(--yj-shadow-2)] transition-all duration-150 group-hover/provenance:opacity-100 group-hover/provenance:translate-y-0 group-focus-visible/provenance:opacity-100 group-focus-visible/provenance:translate-y-0"
+          className="pointer-events-none absolute left-0 top-full z-20 mt-1.5 w-max max-w-[240px] whitespace-normal rounded-[var(--yj-radius-md)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-card)] px-2.5 py-1.5 text-left text-[10px] font-normal leading-snug text-[#42544C] dark:text-[var(--text-secondary)] opacity-0 translate-y-0.5 shadow-[var(--yj-shadow-2)] transition-all duration-150 group-hover/provenance:opacity-100 group-hover/provenance:translate-y-0 group-focus-visible/provenance:opacity-100 group-focus-visible/provenance:translate-y-0"
         >
           {resolvedSourceText}
         </span>

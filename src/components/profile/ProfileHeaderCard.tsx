@@ -47,7 +47,7 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
   return (
     <div
       id="profile-header-card"
-      className="bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-6 sm:p-7 shadow-xs relative overflow-hidden transition-all"
+      className="bg-white dark:bg-[var(--bg-card)] border border-[#DEE7E2] dark:border-[var(--border-subtle)] rounded-2xl p-6 sm:p-7 shadow-xs relative overflow-hidden transition-all"
     >
       {/* Decorative subtle ambient backdrop */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-radial from-[#D9E8DF]/40 to-transparent dark:from-[#1A382D]/30 pointer-events-none rounded-full blur-2xl -mr-20 -mt-20" />
@@ -69,7 +69,7 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
               <button
                 type="button"
                 onClick={onOpenPhotoModal}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#14453D] dark:text-[#5EEAD4] hover:text-[#0F352E] dark:hover:text-[#4ADE80] transition-colors py-0.5 px-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-[#1E2D25]"
+                className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#14453D] dark:text-[#5EEAD4] hover:text-[#0F352E] dark:hover:text-[var(--accent-green)] transition-colors py-0.5 px-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-[#1E2D25]"
                 title={strings.editPhotoAria}
               >
                 <Camera className="w-3 h-3" />
@@ -80,45 +80,45 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
 
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2 mb-1.5">
-              <span className="text-[11px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-[#D9E8DF] dark:bg-[#162B22] text-[#14453D] dark:text-[#4ADE80] border border-[#D9E8DF] dark:border-[#1E3E2E]">
+              <span className="text-[11px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-[#D9E8DF] dark:bg-[var(--bg-subtle)] text-[#14453D] dark:text-[var(--accent-green)] border border-[#D9E8DF] dark:border-[#1E3E2E]">
                 {strings.pageBadge}
               </span>
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#1E6A50] dark:text-[#4ADE80]">
+              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#1E6A50] dark:text-[var(--accent-green)]">
                 <ShieldCheck className="w-3.5 h-3.5" />
                 {strings.gazetteVerified}
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1F2421] dark:text-[#F0F4F2] tracking-tight truncate">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1F2421] dark:text-[var(--text-main)] tracking-tight truncate">
               {displayName || 'Citizen Entrepreneur'}
             </h1>
 
             {profile.businessName && (
-              <p className="text-sm font-semibold text-[#14453D] dark:text-[#4ADE80] flex items-center gap-1.5 mt-0.5">
+              <p className="text-sm font-semibold text-[#14453D] dark:text-[var(--accent-green)] flex items-center gap-1.5 mt-0.5">
                 <Building2 className="w-4 h-4 shrink-0" />
                 <span>{profile.businessName}</span>
               </p>
             )}
 
             {/* Micro tags row */}
-            <div className="flex flex-wrap items-center gap-2 mt-3 text-xs text-[#516A5F] dark:text-[#9EB0A7]">
-              <span className="inline-flex items-center gap-1 bg-[#F4F7F5] dark:bg-[#1d2822] px-2.5 py-1 rounded-md border border-[#E0E9E4] dark:border-[#223F30] font-medium text-[#1F2421] dark:text-[#E0E9E4]">
-                <User className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
+            <div className="flex flex-wrap items-center gap-2 mt-3 text-xs text-[#516A5F] dark:text-[var(--text-secondary)]">
+              <span className="inline-flex items-center gap-1 bg-[#F4F7F5] dark:bg-[var(--bg-raised)] px-2.5 py-1 rounded-md border border-[#E0E9E4] dark:border-[var(--border-subtle)] font-medium text-[#1F2421] dark:text-[var(--text-main)]">
+                <User className="w-3.5 h-3.5 text-[#14453D] dark:text-[var(--accent-green)]" />
                 {categoryLabel}
               </span>
 
-              <span className="inline-flex items-center gap-1 bg-[#F4F7F5] dark:bg-[#1d2822] px-2.5 py-1 rounded-md border border-[#E0E9E4] dark:border-[#223F30] font-medium text-[#1F2421] dark:text-[#E0E9E4]">
-                <Building2 className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
+              <span className="inline-flex items-center gap-1 bg-[#F4F7F5] dark:bg-[var(--bg-raised)] px-2.5 py-1 rounded-md border border-[#E0E9E4] dark:border-[var(--border-subtle)] font-medium text-[#1F2421] dark:text-[var(--text-main)]">
+                <Building2 className="w-3.5 h-3.5 text-[#14453D] dark:text-[var(--accent-green)]" />
                 {businessTypeLabel}
               </span>
 
-              <span className="inline-flex items-center gap-1 bg-[#F4F7F5] dark:bg-[#1d2822] px-2.5 py-1 rounded-md border border-[#E0E9E4] dark:border-[#223F30] font-medium text-[#1F2421] dark:text-[#E0E9E4]">
-                <MapPin className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
+              <span className="inline-flex items-center gap-1 bg-[#F4F7F5] dark:bg-[var(--bg-raised)] px-2.5 py-1 rounded-md border border-[#E0E9E4] dark:border-[var(--border-subtle)] font-medium text-[#1F2421] dark:text-[var(--text-main)]">
+                <MapPin className="w-3.5 h-3.5 text-[#14453D] dark:text-[var(--accent-green)]" />
                 {profile.district ? `${profile.district}, ${stateLabel}` : stateLabel}
               </span>
 
               {profile.ruralUrban && (
-                <span className="inline-flex items-center gap-1 bg-[#D9E8DF] dark:bg-[#162B22] px-2.5 py-1 rounded-md border border-[#D9E8DF] dark:border-[#1E3E2E] font-semibold text-[#14453D] dark:text-[#4ADE80]">
+                <span className="inline-flex items-center gap-1 bg-[#D9E8DF] dark:bg-[var(--bg-subtle)] px-2.5 py-1 rounded-md border border-[#D9E8DF] dark:border-[#1E3E2E] font-semibold text-[#14453D] dark:text-[var(--accent-green)]">
                   <Award className="w-3.5 h-3.5" />
                   {profile.ruralUrban === 'rural' ? strings.rural : strings.urban}
                 </span>
@@ -143,10 +143,10 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
             type="button"
             id="profile-print-btn"
             onClick={onPrint}
-            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#1d2822] hover:bg-[#F4F7F5] dark:hover:bg-[#22332A] text-[#1F2421] dark:text-[#E0E9E4] border border-[#D9E8DF] dark:border-[#223F30] font-semibold text-sm transition-all cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[var(--bg-raised)] hover:bg-[#F4F7F5] dark:hover:bg-[#22332A] text-[#1F2421] dark:text-[var(--text-main)] border border-[#D9E8DF] dark:border-[var(--border-subtle)] font-semibold text-sm transition-all cursor-pointer"
             title={strings.printSummaryBtn}
           >
-            <Printer className="w-4 h-4 text-[#516A5F] dark:text-[#9EB0A7]" />
+            <Printer className="w-4 h-4 text-[#516A5F] dark:text-[var(--text-secondary)]" />
             <span className="hidden lg:inline">{strings.printSummaryBtn}</span>
           </button>
 
@@ -154,7 +154,7 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
             type="button"
             id="profile-retake-btn"
             onClick={onRetake}
-            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#1d2822] hover:bg-[#F4F7F5] dark:hover:bg-[#22332A] text-[#516A5F] dark:text-[#9EB0A7] border border-[#DEE7E2] dark:border-[#223F30] font-semibold text-sm transition-all cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[var(--bg-raised)] hover:bg-[#F4F7F5] dark:hover:bg-[#22332A] text-[#516A5F] dark:text-[var(--text-secondary)] border border-[#DEE7E2] dark:border-[var(--border-subtle)] font-semibold text-sm transition-all cursor-pointer"
             title={strings.retakeAssessmentBtn}
           >
             <RotateCcw className="w-4 h-4" />

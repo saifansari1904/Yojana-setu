@@ -180,13 +180,13 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
         {/* Center Animated Percentage Display */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
           <span
-            className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2] leading-none tabular-nums"
+            className="font-bold text-[#1A1C1B] dark:text-[var(--text-main)] leading-none tabular-nums"
             style={{ fontSize: size > 80 ? '22px' : size > 60 ? '16px' : '13px' }}
           >
             {displayPercent}%
           </span>
           {size >= 70 && (
-            <span className="text-[9px] uppercase tracking-wider font-semibold text-[#516A5F] dark:text-[#9EB0A7] mt-0.5">
+            <span className="text-[9px] uppercase tracking-wider font-semibold text-[#516A5F] dark:text-[var(--text-secondary)] mt-0.5">
               {matchLabelText}
             </span>
           )}
@@ -197,10 +197,10 @@ export const MatchGauge: React.FC<MatchGaugeProps> = ({
         <span
           className={`mt-2 text-xs font-semibold px-2 py-0.5 rounded ${
             isHighMatch
-              ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[#4ADE80]'
+              ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[var(--accent-green)]'
               : isMediumMatch
-              ? 'bg-[#E4E8E4] dark:bg-[#24342D] text-[#3F4943] dark:text-[#C5D5CC]'
-              : 'bg-[#FFDAD6] dark:bg-[#3D1A14] text-[#C2603F] dark:text-[#F87171]'
+              ? 'bg-[#E4E8E4] dark:bg-[var(--bg-raised)] text-[#3F4943] dark:text-[var(--text-secondary)]'
+              : 'bg-[#FFDAD6] dark:bg-[var(--status-danger-bg)] text-[#C2603F] dark:text-[#F87171]'
           }`}
         >
           {isHighMatch

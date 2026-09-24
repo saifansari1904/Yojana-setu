@@ -119,21 +119,21 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
     switch (status) {
       case 'PREPARED':
         return (
-          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#1E6A50] dark:text-[#4ADE80] bg-[#C1E2D0] dark:bg-[#22503E] px-2 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#1E6A50] dark:text-[var(--accent-green)] bg-[#C1E2D0] dark:bg-[#22503E] px-2 py-0.5 rounded-full">
             <FileCheck className="w-3 h-3" />
             {t('prepared')}
           </span>
         );
       case 'NEED_PREPARATION':
         return (
-          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#92610A] dark:text-[#FCD34D] bg-[#FEF3C7] dark:bg-[#3B2F14] px-2 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#92610A] dark:text-[var(--text-accent)] bg-[#FEF3C7] dark:bg-[var(--status-warning-bg)] px-2 py-0.5 rounded-full">
             <AlertCircle className="w-3 h-3" />
             {t('needPreparation')}
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] bg-[#F3F4F3] dark:bg-[#1d2822] px-2 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#516A5F] dark:text-[var(--text-secondary)] bg-[#F3F4F3] dark:bg-[var(--bg-raised)] px-2 py-0.5 rounded-full">
             <HelpCircle className="w-3 h-3" />
             {t('unknown')}
           </span>
@@ -148,45 +148,45 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
     >
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[#516A5F] dark:text-[#8E9F97]">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-[#516A5F] dark:text-[var(--text-tertiary)]">
             {t('documentCenterTitle')}
           </h3>
-          <span className="text-xs text-[#516A5F] dark:text-[#8E9F97] font-medium">Readiness Tracker</span>
+          <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] font-medium">Readiness Tracker</span>
         </div>
 
         {/* Readiness Count Metrics */}
         <div className="grid grid-cols-3 gap-2.5 mb-4">
           <div className="p-3 rounded-lg bg-[#D9E8DF] dark:bg-[#1A382D] border border-[#D9E8DF] dark:border-[#22503E] text-center">
-            <div className="text-xs font-semibold text-[#14453D] dark:text-[#4ADE80]">{t('prepared')}</div>
+            <div className="text-xs font-semibold text-[#14453D] dark:text-[var(--accent-green)]">{t('prepared')}</div>
             <div className="text-xl font-bold text-[#0B302B] dark:text-[#D9E8DF] mt-1 tabular-nums">
               {summary.prepared}
             </div>
           </div>
 
-          <div className="p-3 rounded-lg bg-[#FEF3C7] dark:bg-[#3B2F14] border border-[#FCD34D]/40 dark:border-amber-700/60 text-center">
-            <div className="text-xs font-semibold text-[#92610A] dark:text-[#FCD34D]">{t('needPreparation')}</div>
-            <div className="text-xl font-bold text-amber-900 dark:text-[#FCD34D] mt-1 tabular-nums">
+          <div className="p-3 rounded-lg bg-[#FEF3C7] dark:bg-[var(--status-warning-bg)] border border-[#FCD34D]/40 dark:border-amber-700/60 text-center">
+            <div className="text-xs font-semibold text-[#92610A] dark:text-[var(--text-accent)]">{t('needPreparation')}</div>
+            <div className="text-xl font-bold text-amber-900 dark:text-[var(--text-accent)] mt-1 tabular-nums">
               {summary.needPreparation}
             </div>
           </div>
 
-          <div className="p-3 rounded-lg bg-[#FAFAF9] dark:bg-[#1d2822] border border-[#E4E8E4] dark:border-[#24342D] text-center">
-            <div className="text-xs font-semibold text-[#3F4943] dark:text-[#C5D5CC]">{t('unknown')}</div>
-            <div className="text-xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mt-1 tabular-nums">
+          <div className="p-3 rounded-lg bg-[#FAFAF9] dark:bg-[var(--bg-raised)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] text-center">
+            <div className="text-xs font-semibold text-[#3F4943] dark:text-[var(--text-secondary)]">{t('unknown')}</div>
+            <div className="text-xl font-bold text-[#1A1C1B] dark:text-[var(--text-main)] mt-1 tabular-nums">
               {summary.unknown}
             </div>
           </div>
         </div>
 
         {/* Tab Toggle: Reusable vs Application Specific */}
-        <div className="flex border-b border-[#E4E8E4] dark:border-[#24342D] mb-3 text-xs">
+        <div className="flex border-b border-[#E4E8E4] dark:border-[var(--border-subtle)] mb-3 text-xs">
           <button
             type="button"
             onClick={() => setActiveTab('reusable')}
             className={`pb-2 px-3 font-semibold transition-colors border-b-2 -mb-px ${
               activeTab === 'reusable'
-                ? 'border-[#14453D] dark:border-[#4ADE80] text-[#1A1C1B] dark:text-[#F0F4F2]'
-                : 'border-transparent text-[#516A5F] dark:text-[#8E9F97] hover:text-[#3F4943] dark:hover:text-[#F0F4F2]'
+                ? 'border-[#14453D] dark:border-[var(--accent-green)] text-[#1A1C1B] dark:text-[var(--text-main)]'
+                : 'border-transparent text-[#516A5F] dark:text-[var(--text-tertiary)] hover:text-[#3F4943] dark:hover:text-[var(--text-main)]'
             }`}
           >
             {t('reusableDocuments')} ({summary.reusable.length})
@@ -196,8 +196,8 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
             onClick={() => setActiveTab('specific')}
             className={`pb-2 px-3 font-semibold transition-colors border-b-2 -mb-px ${
               activeTab === 'specific'
-                ? 'border-[#14453D] dark:border-[#4ADE80] text-[#1A1C1B] dark:text-[#F0F4F2]'
-                : 'border-transparent text-[#516A5F] dark:text-[#8E9F97] hover:text-[#3F4943] dark:hover:text-[#F0F4F2]'
+                ? 'border-[#14453D] dark:border-[var(--accent-green)] text-[#1A1C1B] dark:text-[var(--text-main)]'
+                : 'border-transparent text-[#516A5F] dark:text-[var(--text-tertiary)] hover:text-[#3F4943] dark:hover:text-[var(--text-main)]'
             }`}
           >
             {t('applicationSpecificDocuments')} ({summary.applicationSpecific.length})
@@ -211,26 +211,26 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
               summary.reusable.map(doc => (
                 <div
                   key={doc.id}
-                  className="flex items-center justify-between p-2 rounded-lg bg-[#FAFAF9] dark:bg-[#1d2822] text-xs border border-[#EAECEB] dark:border-[#24342D]"
+                  className="flex items-center justify-between p-2 rounded-lg bg-[#FAFAF9] dark:bg-[var(--bg-raised)] text-xs border border-[#EAECEB] dark:border-[var(--border-subtle)]"
                 >
-                  <span className="font-medium text-[#14453D] dark:text-[#E8EFEA] truncate pr-2">
+                  <span className="font-medium text-[#14453D] dark:text-[var(--text-main)] truncate pr-2">
                     {getLocalizedDocName(doc, language)}
                   </span>
                   {statusBadge(doc.status)}
                 </div>
               ))
             ) : (
-              <div className="text-xs text-[#516A5F] dark:text-[#8E9F97] py-3 text-center">No reusable documents mapped.</div>
+              <div className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] py-3 text-center">No reusable documents mapped.</div>
             )
           ) : summary.applicationSpecific.length > 0 ? (
             summary.applicationSpecific.map(doc => (
               <div
                 key={doc.id}
-                className="flex items-center justify-between p-2 rounded-lg bg-[#FAFAF9] dark:bg-[#1d2822] text-xs border border-[#EAECEB] dark:border-[#24342D]"
+                className="flex items-center justify-between p-2 rounded-lg bg-[#FAFAF9] dark:bg-[var(--bg-raised)] text-xs border border-[#EAECEB] dark:border-[var(--border-subtle)]"
               >
                 <div className="truncate pr-2">
-                  <span className="font-bold text-[#516A5F] dark:text-[#9EB0A7] mr-1.5">[{doc.schemeCode}]</span>
-                  <span className="font-medium text-[#14453D] dark:text-[#E8EFEA]">
+                  <span className="font-bold text-[#516A5F] dark:text-[var(--text-secondary)] mr-1.5">[{doc.schemeCode}]</span>
+                  <span className="font-medium text-[#14453D] dark:text-[var(--text-main)]">
                     {getLocalizedDocName(doc, language)}
                   </span>
                 </div>
@@ -238,15 +238,15 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
               </div>
             ))
           ) : (
-            <div className="text-xs text-[#516A5F] dark:text-[#8E9F97] py-3 text-center">No specific documents mapped.</div>
+            <div className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] py-3 text-center">No specific documents mapped.</div>
           )}
         </div>
       </div>
 
       <div>
         {/* Strict Privacy Badge */}
-        <div className="flex items-center gap-1.5 text-[11px] text-[#516A5F] dark:text-[#8E9F97] bg-[#FAFAF9] dark:bg-[#1d2822] p-2 rounded-md mb-3 border border-[#EAECEB] dark:border-[#24342D]">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80] shrink-0" />
+        <div className="flex items-center gap-1.5 text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] bg-[#FAFAF9] dark:bg-[var(--bg-raised)] p-2 rounded-md mb-3 border border-[#EAECEB] dark:border-[var(--border-subtle)]">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)] shrink-0" />
           <span className="leading-tight">{t('privacyGuarantee')}</span>
         </div>
 
@@ -254,7 +254,7 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
           id="view-document-center-btn"
           type="button"
           onClick={onOpenDocumentCenter}
-          className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg text-xs font-semibold text-[#3F4943] dark:text-[#C5D5CC] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] bg-[#FAFAF9] dark:bg-[#1d2822] hover:bg-[#F3F4F3] dark:hover:bg-[#22302A] border border-[#E4E8E4] dark:border-[#24342D] transition-colors min-h-[44px]"
+          className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg text-xs font-semibold text-[#3F4943] dark:text-[var(--text-secondary)] hover:text-[#1A1C1B] dark:hover:text-[var(--text-main)] bg-[#FAFAF9] dark:bg-[var(--bg-raised)] hover:bg-[#F3F4F3] dark:hover:bg-[#22302A] border border-[#E4E8E4] dark:border-[var(--border-subtle)] transition-colors min-h-[44px]"
         >
           <span>{t('viewDocumentCenter')}</span>
           <ArrowRight className="w-3.5 h-3.5" />

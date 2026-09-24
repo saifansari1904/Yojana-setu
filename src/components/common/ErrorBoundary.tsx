@@ -39,15 +39,15 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="min-h-[400px] flex items-center justify-center p-6 bg-[#FAFAF9] dark:bg-[#141b17]">
-          <div className="max-w-md w-full bg-white dark:bg-[#141b17] rounded-lg border border-[#E4E8E4] dark:border-[#24342D] p-6 shadow-sm text-center">
+        <div className="min-h-[400px] flex items-center justify-center p-6 bg-[#FAFAF9] dark:bg-[var(--bg-card)]">
+          <div className="max-w-md w-full bg-white dark:bg-[var(--bg-card)] rounded-lg border border-[#E4E8E4] dark:border-[var(--border-subtle)] p-6 shadow-sm text-center">
             <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
               <AlertTriangle className="w-6 h-6" />
             </div>
-            <h2 className="text-lg font-bold text-[#14453D] dark:text-[#E8EFEA] mb-2">
+            <h2 className="text-lg font-bold text-[#14453D] dark:text-[var(--text-main)] mb-2">
               Something went wrong
             </h2>
-            <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mb-6 leading-relaxed">
+            <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] mb-6 leading-relaxed">
               An unexpected error occurred while loading this view. Your session data is safe.
             </p>
             {this.state.error && (

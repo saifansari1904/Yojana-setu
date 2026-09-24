@@ -148,7 +148,7 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
         <button
           type="button"
           onClick={onBack}
-          className="inline-flex items-center gap-2 text-xs font-semibold text-[#5A6561] dark:text-[#97A7A0] hover:text-[#1F2421] dark:hover:text-[#F0F4F2] transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-[#5A6561] dark:text-[var(--text-secondary)] hover:text-[#1F2421] dark:hover:text-[var(--text-main)] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>{t('workspace.backBtn')}</span>
@@ -159,7 +159,7 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
             <button
               type="button"
               onClick={onOpenTracker}
-              className="text-xs font-semibold text-[#1E6A50] dark:text-[#4ADE80] hover:underline"
+              className="text-xs font-semibold text-[#1E6A50] dark:text-[var(--accent-green)] hover:underline"
             >
               {t('workspace.openTrackerBtn')}
             </button>
@@ -173,9 +173,9 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
       </div>
 
       {/* Scheme Header Card */}
-      <div className="p-6 rounded-2xl bg-white dark:bg-[#141b17] border border-[#E5E9E7] dark:border-[#22332A] shadow-xs">
+      <div className="p-6 rounded-2xl bg-white dark:bg-[var(--bg-card)] border border-[#E5E9E7] dark:border-[var(--border-subtle)] shadow-xs">
         <div className="flex flex-wrap items-center gap-2 mb-2">
-          <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#1E6A50]/10 text-[#1E6A50] dark:text-[#4ADE80]">
+          <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#1E6A50]/10 text-[#1E6A50] dark:text-[var(--accent-green)]">
             {t('workspace.badge')}
           </span>
           <VerificationBadge
@@ -187,17 +187,17 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
                 : 'in-review'
             }
           />
-          <span className="text-[11px] text-[#5A6561] dark:text-[#97A7A0] flex items-center gap-1">
+          <span className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)] flex items-center gap-1">
             <Building2 className="w-3.5 h-3.5" />
             {matchResult.scheme.sponsoringMinistry}
           </span>
         </div>
 
-        <h1 className="text-xl sm:text-2xl font-bold text-[#1F2421] dark:text-[#F0F4F2]">
+        <h1 className="text-xl sm:text-2xl font-bold text-[#1F2421] dark:text-[var(--text-main)]">
           {matchResult.scheme.name}
         </h1>
 
-        <p className="text-xs sm:text-sm text-[#5A6561] dark:text-[#97A7A0] mt-1 max-w-3xl leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#5A6561] dark:text-[var(--text-secondary)] mt-1 max-w-3xl leading-relaxed">
           {t('workspace.subtitle')}
         </p>
       </div>
@@ -214,7 +214,7 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
       />
 
       {/* Navigation Tabs / Stepper */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#E5E9E7] dark:border-[#22332A] scrollbar-none">
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#E5E9E7] dark:border-[var(--border-subtle)] scrollbar-none">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.key;
           return (
@@ -224,8 +224,8 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
               onClick={() => setActiveTab(tab.key)}
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                 isActive
-                  ? 'bg-[#1E6A50] text-white dark:bg-[#4ADE80] dark:text-[#0E1311] shadow-xs'
-                  : 'text-[#5A6561] dark:text-[#97A7A0] hover:text-[#1F2421] dark:hover:text-[#F0F4F2] hover:bg-[#F4F7F5] dark:hover:bg-[#1d2822]'
+                  ? 'bg-[#1E6A50] text-white dark:bg-[var(--accent-green)] dark:text-[#0E1311] shadow-xs'
+                  : 'text-[#5A6561] dark:text-[var(--text-secondary)] hover:text-[#1F2421] dark:hover:text-[var(--text-main)] hover:bg-[#F4F7F5] dark:hover:bg-[var(--bg-raised)]'
               }`}
             >
               {tab.icon}
@@ -236,7 +236,7 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
       </div>
 
       {/* Active Tab Content Card */}
-      <div className="p-6 rounded-2xl bg-white dark:bg-[#141b17] border border-[#E5E9E7] dark:border-[#22332A] shadow-xs">
+      <div className="p-6 rounded-2xl bg-white dark:bg-[var(--bg-card)] border border-[#E5E9E7] dark:border-[var(--border-subtle)] shadow-xs">
         {activeTab === 'ELIGIBILITY_AUDIT' && (
           <EligibilityAuditSection matchResult={matchResult} userProfile={userProfile} />
         )}

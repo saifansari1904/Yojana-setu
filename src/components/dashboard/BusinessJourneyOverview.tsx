@@ -31,12 +31,12 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
   return (
     <section
       id="business-journey-overview"
-      className="bg-white dark:bg-[#1d2822] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
+      className="bg-white dark:bg-[var(--bg-raised)] border border-[#E3ECE7] dark:border-[var(--border-subtle)] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
     >
       {/* Header */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-[#EAF5EF] dark:bg-[#162D24] text-[#0F6B4C] dark:text-[#4ADE80]">
+          <div className="p-2 rounded-lg bg-[#EAF5EF] dark:bg-[var(--bg-subtle)] text-[#0F6B4C] dark:text-[var(--accent-green)]">
             <Compass className="w-5 h-5" />
           </div>
           <div>
@@ -53,7 +53,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
           <button
             id="modify-profile-stage-btn"
             onClick={onModifyProfile}
-            className="text-xs font-semibold text-[#0F6B4C] dark:text-[#4ADE80] hover:underline px-2 py-1 min-h-[44px] flex items-center"
+            className="text-xs font-semibold text-[#0F6B4C] dark:text-[var(--accent-green)] hover:underline px-2 py-1 min-h-[44px] flex items-center"
           >
             {resolveLocalizedPair('Update Stage', 'चरण बदलें', lang)}
           </button>
@@ -63,10 +63,10 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
       {/* Current Stage Card */}
       <div className="bg-gradient-to-br from-[#F4F9F6] to-[#EBF4EF] dark:from-[#172620] dark:to-[#12201A] border border-[#D5E6DC] dark:border-[#1E362C] rounded-lg p-4 flex flex-col gap-2">
         <div className="flex items-center justify-between gap-2 flex-wrap">
-          <span className="text-xs font-semibold text-[#0F6B4C] dark:text-[#4ADE80] uppercase tracking-wider">
+          <span className="text-xs font-semibold text-[#0F6B4C] dark:text-[var(--accent-green)] uppercase tracking-wider">
             {resolveLocalizedPair('Current Active Stage', 'वर्तमान सक्रिय चरण', lang)}
           </span>
-          <span className="inline-flex items-center gap-1 text-xs font-bold bg-white dark:bg-[#1C2C25] text-slate-800 dark:text-white px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700">
+          <span className="inline-flex items-center gap-1 text-xs font-bold bg-white dark:bg-[var(--bg-card)] text-slate-800 dark:text-white px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700">
             <Sparkles className="w-3 h-3 text-amber-500" />
             {insights.currentFocusCount} {resolveLocalizedPair('Active Opportunities', 'सक्रिय अवसर', lang)}
           </span>
@@ -81,7 +81,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
       </div>
 
       {/* Progression Milestones */}
-      <div className="pt-2 border-t border-slate-100 dark:border-[#283530]">
+      <div className="pt-2 border-t border-slate-100 dark:border-[var(--border-subtle)]">
         <div className="flex items-center justify-between gap-2 mb-2">
           <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">
             {resolveLocalizedPair('Lifecycle Milestones', 'जीवनचक्र प्रगति', lang)}

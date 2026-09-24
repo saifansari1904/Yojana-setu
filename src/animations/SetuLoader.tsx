@@ -43,7 +43,7 @@ export const SetuLoader: React.FC<SetuLoaderProps> = ({
                   ease: 'linear',
                 }
           }
-          className="absolute inset-0 rounded-full border-t-2 border-r-2 border-[#16A34A] dark:border-[#4ADE80] opacity-90"
+          className="absolute inset-0 rounded-full border-t-2 border-r-2 border-[#16A34A] dark:border-[var(--accent-green)] opacity-90"
         />
 
         {/* Center Setu Emblem */}
@@ -65,7 +65,7 @@ export const SetuLoader: React.FC<SetuLoaderProps> = ({
       </div>
 
       {label && (
-        <p className="text-xs font-semibold tracking-wide text-[#14453D] dark:text-[#9EB0A7] animate-pulse">
+        <p className="text-xs font-semibold tracking-wide text-[#14453D] dark:text-[var(--text-secondary)] animate-pulse">
           {label}
         </p>
       )}

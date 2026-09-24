@@ -301,13 +301,13 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
   const pillarConfigs = [
     {
       icon: ShieldCheck,
-      tile: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#0B5D4B] dark:text-[#4ADE80]',
+      tile: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#0B5D4B] dark:text-[var(--accent-green)]',
       title: content.pillars[0].title,
       body: content.pillars[0].body,
     },
     {
       icon: Lock,
-      tile: 'bg-[#FEF3C7] dark:bg-[#3B2F14] text-[#92610A] dark:text-[#FCD34D]',
+      tile: 'bg-[#FEF3C7] dark:bg-[var(--status-warning-bg)] text-[#92610A] dark:text-[var(--text-accent)]',
       title: content.pillars[1].title,
       body: content.pillars[1].body,
     },
@@ -331,19 +331,19 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
 
           <h1
             id="landing-hero-heading"
-            className={`yj-h1 mt-5 text-center lg:text-left text-[#0F1512] dark:text-[#F0F4F2] ${
+            className={`yj-h1 mt-5 text-center lg:text-left text-[#0F1512] dark:text-[var(--text-main)] ${
               isRegional ? 'font-medium leading-snug' : ''
             }`}
           >
             {content.compactTitle1}
-            <span className="text-[#0B5D4B] dark:text-[#4ADE80] border-b-2 border-[#D99A2B] dark:border-[#E3A83B]">
+            <span className="text-[#0B5D4B] dark:text-[var(--accent-green)] border-b-2 border-[#D99A2B] dark:border-[#E3A83B]">
               {content.compactHighlight}
             </span>
             {content.compactTitle2}
           </h1>
 
           <p
-            className={`yj-body yj-measure mt-4 mx-auto lg:mx-0 text-center lg:text-left text-[#42544C] dark:text-[#A9BDB3]`}
+            className={`yj-body yj-measure mt-4 mx-auto lg:mx-0 text-center lg:text-left text-[#42544C] dark:text-[var(--text-secondary)]`}
           >
             {content.compactDesc}
           </p>
@@ -378,12 +378,12 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
                   </span>
                   <span>
                     <span
-                      className={`block yj-support font-bold text-[#0F1512] dark:text-[#F0F4F2]`}
+                      className={`block yj-support font-bold text-[#0F1512] dark:text-[var(--text-main)]`}
                     >
                       {pillar.title}
                     </span>
                     <span
-                      className={`block yj-caption text-[#516A5F] dark:text-[#8E9F97]`}
+                      className={`block yj-caption text-[#516A5F] dark:text-[var(--text-tertiary)]`}
                     >
                       {pillar.body}
                     </span>
@@ -410,21 +410,21 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
           animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
           transition={shouldReduceMotion ? reducedMotionTransition : transitions.smooth}
         >
-          <span className="yj-eyebrow inline-flex items-center gap-2 text-[#0B5D4B] dark:text-[#4ADE80]">
+          <span className="yj-eyebrow inline-flex items-center gap-2 text-[#0B5D4B] dark:text-[var(--accent-green)]">
             <span className="w-6 h-px yj-gradient-highlight inline-block" aria-hidden="true" />
             {content.fullEyebrow}
           </span>
 
           <h1
             id="landing-hero-heading"
-            className={`yj-display mt-3 text-[#0F1512] dark:text-[#F0F4F2]`}
+            className={`yj-display mt-3 text-[#0F1512] dark:text-[var(--text-main)]`}
           >
             {content.fullTitle1}
-            <span className="text-[#0B5D4B] dark:text-[#4ADE80]">{content.fullHighlight}</span>
+            <span className="text-[#0B5D4B] dark:text-[var(--accent-green)]">{content.fullHighlight}</span>
             {content.fullTitle2}
           </h1>
 
-          <p className={`yj-body-lg yj-measure mt-4 text-[#42544C] dark:text-[#A9BDB3]`}>
+          <p className={`yj-body-lg yj-measure mt-4 text-[#42544C] dark:text-[var(--text-secondary)]`}>
             {content.fullDesc}
           </p>
 
@@ -483,18 +483,18 @@ export const SetuHero: React.FC<SetuHeroProps> = ({
                 )}
                 <span
                   aria-hidden="true"
-                  className="relative z-10 w-9 h-9 shrink-0 rounded-full flex items-center justify-center border border-[#C1E2D0] dark:border-[#24342D] bg-[#F1F5F3] dark:bg-[#102E29] text-[#0B5D4B] dark:text-[#4ADE80]"
+                  className="relative z-10 w-9 h-9 shrink-0 rounded-full flex items-center justify-center border border-[#C1E2D0] dark:border-[var(--border-subtle)] bg-[#F1F5F3] dark:bg-[var(--bg-subtle)] text-[#0B5D4B] dark:text-[var(--accent-green)]"
                 >
                   <Icon className="w-[18px] h-[18px]" strokeWidth={1.75} />
                 </span>
                 <span className="pt-1">
                   <span
-                    className={`block yj-support font-semibold text-[#0F1512] dark:text-[#F0F4F2]`}
+                    className={`block yj-support font-semibold text-[#0F1512] dark:text-[var(--text-main)]`}
                   >
                     {step.label}
                   </span>
                   <span
-                    className={`block yj-caption text-[#516A5F] dark:text-[#8E9F97]`}
+                    className={`block yj-caption text-[#516A5F] dark:text-[var(--text-tertiary)]`}
                   >
                     {step.hint}
                   </span>

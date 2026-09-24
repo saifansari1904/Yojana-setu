@@ -254,7 +254,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-xs">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-[var(--overlay)] backdrop-blur-xs">
         <motion.div
           id={`scheme-comparison-dialog-${modalId}`}
           role="dialog"
@@ -264,24 +264,24 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 12 }}
           transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="bg-white dark:bg-[#141b17] border border-[#D5DDD8] dark:border-[#24342D] rounded-lg shadow-2xl max-w-6xl w-full max-h-[92vh] flex flex-col overflow-hidden text-[#1A1C1B] dark:text-[#F0F4F2]"
+          className="bg-white dark:bg-[var(--bg-card)] border border-[#D5DDD8] dark:border-[var(--border-subtle)] rounded-lg shadow-2xl max-w-6xl w-full max-h-[92vh] flex flex-col overflow-hidden text-[#1A1C1B] dark:text-[var(--text-main)]"
         >
           {/* Header */}
-          <div className="px-5 py-4 border-b border-[#E4E8E4] dark:border-[#24342D] flex items-center justify-between bg-[#F8FAF9] dark:bg-[#1d2822]">
+          <div className="px-5 py-4 border-b border-[#E4E8E4] dark:border-[var(--border-subtle)] flex items-center justify-between bg-[#F8FAF9] dark:bg-[var(--bg-raised)]">
             <div>
               <div className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#14453D] dark:bg-[#4ADE80]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#14453D] dark:bg-[var(--accent-green)]" />
                 <h2
                   id="comparison-modal-title"
-                  className="text-base sm:text-lg font-bold text-[#14453D] dark:text-[#4ADE80]"
+                  className="text-base sm:text-lg font-bold text-[#14453D] dark:text-[var(--accent-green)]"
                 >
                   {ui.title}
                 </h2>
-                <span className="text-xs bg-[#E2EAE6] dark:bg-[#1E2E26] text-[#14453D] dark:text-[#4ADE80] px-2 py-0.5 rounded font-semibold">
+                <span className="text-xs bg-[#E2EAE6] dark:bg-[var(--bg-raised)] text-[#14453D] dark:text-[var(--accent-green)] px-2 py-0.5 rounded font-semibold">
                   {columns.length} / 3 {ui.schemes}
                 </span>
               </div>
-              <p className="text-xs text-[#516A5F] dark:text-[#8E9F97] mt-0.5">
+              <p className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
                 {summaryNote}
               </p>
             </div>
@@ -289,7 +289,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
             <button
               id="close-comparison-modal-btn"
               onClick={onClose}
-              className="p-1.5 rounded-md text-[#516A5F] hover:text-[#1A1C1B] dark:text-[#8E9F97] dark:hover:text-[#F0F4F2] hover:bg-[#EAECEB] dark:hover:bg-[#1d2822] transition-colors cursor-pointer"
+              className="p-1.5 rounded-md text-[#516A5F] hover:text-[#1A1C1B] dark:text-[var(--text-tertiary)] dark:hover:text-[var(--text-main)] hover:bg-[#EAECEB] dark:hover:bg-[var(--bg-raised)] transition-colors cursor-pointer"
               aria-label={ui.closeAria}
             >
               <X className="w-5 h-5" />
@@ -315,8 +315,8 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                     variants={columnStaggerItem}
                     className={`rounded-lg border p-4 sm:p-5 flex flex-col justify-between transition-all ${
                       isBestMatch
-                        ? 'border-[#14453D] dark:border-[#4ADE80] bg-[#FAFDFB] dark:bg-[#1d2822] shadow-sm'
-                        : 'border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#141b17]'
+                        ? 'border-[#14453D] dark:border-[var(--accent-green)] bg-[#FAFDFB] dark:bg-[var(--bg-raised)] shadow-sm'
+                        : 'border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-card)]'
                     }`}
                   >
                     <div>
@@ -324,12 +324,12 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                       <div className="flex items-center justify-between gap-2 mb-3">
                         <div className="flex items-center gap-1.5 flex-wrap">
                           {isBestMatch && (
-                            <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider bg-[#14453D] text-white dark:bg-[#4ADE80] dark:text-[#0B251F] px-2 py-0.5 rounded">
+                            <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider bg-[#14453D] text-white dark:bg-[var(--accent-green)] dark:text-[#0B251F] px-2 py-0.5 rounded">
                               <Award className="w-3 h-3" />
                               {ui.topMatch}
                             </span>
                           )}
-                          <span className="text-[10px] font-semibold bg-[#EAECEB] dark:bg-[#223129] px-2 py-0.5 rounded text-[#516A5F] dark:text-[#A0B0A7]">
+                          <span className="text-[10px] font-semibold bg-[#EAECEB] dark:bg-[var(--bg-raised)] px-2 py-0.5 rounded text-[#516A5F] dark:text-[var(--text-secondary)]">
                             {col.schemeType}
                           </span>
                         </div>
@@ -346,10 +346,10 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                       </div>
 
                       {/* Scheme Title */}
-                      <h3 className="text-base font-bold leading-snug line-clamp-2 text-[#1A1C1B] dark:text-[#F0F4F2] mb-1">
+                      <h3 className="text-base font-bold leading-snug line-clamp-2 text-[#1A1C1B] dark:text-[var(--text-main)] mb-1">
                         {col.schemeName}
                       </h3>
-                      <p className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] line-clamp-1 mb-4">
+                      <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] line-clamp-1 mb-4">
                         {col.sponsoringMinistry}
                       </p>
 
@@ -358,14 +358,14 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         variants={isBestMatch && !shouldReduceMotion ? winnerFlash : undefined}
                         initial={isBestMatch && !shouldReduceMotion ? 'hidden' : undefined}
                         animate={isBestMatch && !shouldReduceMotion ? 'visible' : undefined}
-                        className="flex items-center gap-3 p-3 rounded-md bg-[#F4F6F5] dark:bg-[#1d2822] border border-[#E4E8E4] dark:border-[#25362C] mb-4"
+                        className="flex items-center gap-3 p-3 rounded-md bg-[#F4F6F5] dark:bg-[var(--bg-raised)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] mb-4"
                       >
                         <MatchGauge percentage={col.matchPercentage} size={54} strokeWidth={5} />
                         <div>
-                          <span className="text-[10px] uppercase font-bold text-[#516A5F] dark:text-[#8E9F97] block">
+                          <span className="text-[10px] uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block">
                             {ui.matchScore}
                           </span>
-                          <span className="text-lg font-bold text-[#14453D] dark:text-[#4ADE80]">
+                          <span className="text-lg font-bold text-[#14453D] dark:text-[var(--accent-green)]">
                             {Math.round(col.matchPercentage)}%
                           </span>
                           <div className="mt-0.5">
@@ -395,7 +395,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                           {col.standoutHighlights.map((h, hIdx) => (
                             <span
                               key={hIdx}
-                              className="text-[10px] font-bold bg-[#D9E8DF] dark:bg-[#1E382C] text-[#14453D] dark:text-[#4ADE80] px-2 py-0.5 rounded"
+                              className="text-[10px] font-bold bg-[#D9E8DF] dark:bg-[var(--bg-subtle)] text-[#14453D] dark:text-[var(--accent-green)] px-2 py-0.5 rounded"
                             >
                               {h}
                             </span>
@@ -406,18 +406,18 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                       {/* Detailed Metric Rows */}
                       <div className="space-y-2.5 text-xs">
                         {/* Funding Quantum */}
-                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
-                          <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase font-semibold">
+                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[var(--border-subtle)]">
+                          <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] block uppercase font-semibold">
                             {ui.fundingQuantum}
                           </span>
-                          <span className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+                          <span className="font-bold text-[#1A1C1B] dark:text-[var(--text-main)]">
                             {col.fundingRangeText}
                           </span>
                         </div>
 
                         {/* Capital Subsidy */}
-                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
-                          <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase font-semibold">
+                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[var(--border-subtle)]">
+                          <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] block uppercase font-semibold">
                             {ui.capitalSubsidy}
                           </span>
                           <span className="font-semibold text-emerald-700 dark:text-emerald-400">
@@ -426,58 +426,58 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         </div>
 
                         {/* Interest & Tenure */}
-                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
-                          <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase font-semibold">
+                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[var(--border-subtle)]">
+                          <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] block uppercase font-semibold">
                             {ui.interestTenure}
                           </span>
-                          <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2] block">
+                          <span className="font-medium text-[#1A1C1B] dark:text-[var(--text-main)] block">
                             {col.interestRateText} · {col.tenureText}
                           </span>
                         </div>
 
                         {/* Geographic Scope */}
-                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
-                          <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase font-semibold">
+                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[var(--border-subtle)]">
+                          <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] block uppercase font-semibold">
                             {ui.geographicScope}
                           </span>
-                          <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2]">
+                          <span className="font-medium text-[#1A1C1B] dark:text-[var(--text-main)]">
                             {col.applicableStatesText}
                           </span>
                         </div>
 
                         {/* Target Categories */}
-                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
-                          <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase font-semibold">
+                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[var(--border-subtle)]">
+                          <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] block uppercase font-semibold">
                             {ui.targetCategories}
                           </span>
-                          <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2]">
+                          <span className="font-medium text-[#1A1C1B] dark:text-[var(--text-main)]">
                             {col.targetCategoriesText}
                           </span>
                         </div>
 
                         {/* Target Sectors */}
-                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
-                          <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase font-semibold">
+                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[var(--border-subtle)]">
+                          <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] block uppercase font-semibold">
                             {ui.eligibleDomains}
                           </span>
-                          <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2]">
+                          <span className="font-medium text-[#1A1C1B] dark:text-[var(--text-main)]">
                             {col.targetBusinessTypesText}
                           </span>
                         </div>
 
                         {/* Required Documents */}
-                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[#223129]">
-                          <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase font-semibold">
+                        <div className="pb-2 border-b border-[#EAECEB] dark:border-[var(--border-subtle)]">
+                          <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] block uppercase font-semibold">
                             {ui.requiredDocs}
                           </span>
-                          <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2]">
+                          <span className="font-medium text-[#1A1C1B] dark:text-[var(--text-main)]">
                             {col.documentsCount} {ui.statutoryDocs}
                           </span>
                           <div className="flex flex-wrap gap-1 mt-1">
                             {col.keyDocuments.map((doc, dIdx) => (
                               <span
                                 key={dIdx}
-                                className="text-[9px] bg-[#EAECEB] dark:bg-[#1E2E26] px-1.5 py-0.5 rounded text-[#334038] dark:text-[#A0B0A7]"
+                                className="text-[9px] bg-[#EAECEB] dark:bg-[var(--bg-raised)] px-1.5 py-0.5 rounded text-[#334038] dark:text-[var(--text-secondary)]"
                               >
                                 {doc}
                               </span>
@@ -487,10 +487,10 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
 
                         {/* Application Mode */}
                         <div>
-                          <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase font-semibold">
+                          <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] block uppercase font-semibold">
                             {ui.applicationMode}
                           </span>
-                          <span className="font-medium text-[#1A1C1B] dark:text-[#F0F4F2] capitalize">
+                          <span className="font-medium text-[#1A1C1B] dark:text-[var(--text-main)] capitalize">
                             {col.applicationMode}
                           </span>
                         </div>
@@ -498,12 +498,12 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                     </div>
 
                     {/* Bottom Action Area */}
-                    <div className="mt-5 pt-3 border-t border-[#EAECEB] dark:border-[#223129]">
+                    <div className="mt-5 pt-3 border-t border-[#EAECEB] dark:border-[var(--border-subtle)]">
                       <div className="mb-2.5">
-                        <span className="text-[10px] font-bold text-[#14453D] dark:text-[#4ADE80] uppercase tracking-wider block">
+                        <span className="text-[10px] font-bold text-[#14453D] dark:text-[var(--accent-green)] uppercase tracking-wider block">
                           {ui.nextBestAction}
                         </span>
-                        <p className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] font-medium mt-0.5">
+                        <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] font-medium mt-0.5">
                           {col.nextBestAction.description}
                         </p>
                       </div>
@@ -515,7 +515,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                               onClose();
                               onSelectScheme(matchResult);
                             }}
-                            className="flex-1 bg-[#14453D] hover:bg-[#0E352E] dark:bg-[#4ADE80] dark:hover:bg-[#28B781] text-white dark:text-[#0B251F] text-xs font-bold py-2 px-3 rounded text-center transition-colors cursor-pointer flex items-center justify-center gap-1"
+                            className="flex-1 bg-[#14453D] hover:bg-[#0E352E] dark:bg-[var(--accent-green)] dark:hover:bg-[#28B781] text-white dark:text-[#0B251F] text-xs font-bold py-2 px-3 rounded text-center transition-colors cursor-pointer flex items-center justify-center gap-1"
                           >
                             <span>{ui.viewFullDetails}</span>
                             <ArrowRight className="w-3.5 h-3.5" />
@@ -526,7 +526,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                             href={col.nextBestAction.actionUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 border border-[#D5DDD8] dark:border-[#2E4137] rounded hover:bg-[#F3F5F4] dark:hover:bg-[#1E2E26] text-[#14453D] dark:text-[#4ADE80] transition-colors cursor-pointer"
+                            className="p-2 border border-[#D5DDD8] dark:border-[var(--border-strong)] rounded hover:bg-[#F3F5F4] dark:hover:bg-[var(--bg-raised)] text-[#14453D] dark:text-[var(--accent-green)] transition-colors cursor-pointer"
                             title={col.nextBestAction.buttonLabel}
                           >
                             <ExternalLink className="w-4 h-4" />
@@ -541,7 +541,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
           </div>
 
           {/* Footer Note */}
-          <div className="px-5 py-3 border-t border-[#E4E8E4] dark:border-[#24342D] bg-[#F8FAF9] dark:bg-[#1d2822] flex flex-wrap items-center justify-between gap-3 text-xs text-[#516A5F] dark:text-[#8E9F97]">
+          <div className="px-5 py-3 border-t border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-[#F8FAF9] dark:bg-[var(--bg-raised)] flex flex-wrap items-center justify-between gap-3 text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>
@@ -551,7 +551,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
 
             <button
               onClick={onClose}
-              className="px-4 py-1.5 rounded text-xs font-bold text-[#14453D] dark:text-[#4ADE80] bg-white dark:bg-[#1d2822] border border-[#D5DDD8] dark:border-[#2B3E33] hover:bg-[#EAECEB] dark:hover:bg-[#23332A] transition-colors cursor-pointer"
+              className="px-4 py-1.5 rounded text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)] bg-white dark:bg-[var(--bg-raised)] border border-[#D5DDD8] dark:border-[var(--border-subtle)] hover:bg-[#EAECEB] dark:hover:bg-[#23332A] transition-colors cursor-pointer"
             >
               {ui.closeBtn}
             </button>

@@ -31,8 +31,8 @@ export const AmbientBackground: React.FC = () => {
       {/* 3 — Ambient emerald glows */}
       {shouldReduceMotion ? (
         <>
-          <div className="absolute -top-40 -right-40 w-[32rem] h-[32rem] rounded-full bg-[#D9E8DF]/35 dark:bg-[#12463A]/20 blur-3xl" />
-          <div className="absolute top-1/3 -left-40 w-[28rem] h-[28rem] rounded-full bg-[#E2F0EA]/30 dark:bg-[#0F3329]/15 blur-3xl" />
+          <div className="absolute -top-40 -right-40 w-[32rem] h-[32rem] rounded-full bg-[#D9E8DF]/35 dark:bg-[#122019]/20 blur-3xl" />
+          <div className="absolute top-1/3 -left-40 w-[28rem] h-[28rem] rounded-full bg-[#E2F0EA]/30 dark:bg-[#122019]/15 blur-3xl" />
         </>
       ) : (
         <>

@@ -48,15 +48,15 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   return (
     <div
       id="profile-registration-section"
-      className="bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
+      className="bg-white dark:bg-[var(--bg-card)] border border-[#DEE7E2] dark:border-[var(--border-subtle)] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
     >
-      <div className="flex items-center justify-between pb-4 border-b border-[#E8EFEA] dark:border-[#223F30] mb-5">
+      <div className="flex items-center justify-between pb-4 border-b border-[#E8EFEA] dark:border-[var(--border-subtle)] mb-5">
         <div>
-          <h2 className="text-base sm:text-lg font-bold text-[#1F2421] dark:text-[#F0F4F2] flex items-center gap-2">
-            <FileText className="w-5 h-5 text-[#14453D] dark:text-[#4ADE80]" />
+          <h2 className="text-base sm:text-lg font-bold text-[#1F2421] dark:text-[var(--text-main)] flex items-center gap-2">
+            <FileText className="w-5 h-5 text-[#14453D] dark:text-[var(--accent-green)]" />
             {strings.registrationTitle}
           </h2>
-          <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mt-0.5">
+          <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] mt-0.5">
             {strings.registrationSubtitle}
           </p>
         </div>
@@ -64,7 +64,7 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
         <button
           type="button"
           onClick={() => onEditSection('registration')}
-          className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:bg-[#D9E8DF] dark:hover:bg-[#162B22] px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
+          className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)] hover:bg-[#D9E8DF] dark:hover:bg-[var(--bg-subtle)] px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
         >
           <Edit2 className="w-3.5 h-3.5" />
           <span>{strings.editProfileBtn}</span>
@@ -73,32 +73,32 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
         {/* Overall Status */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[var(--bg-card)] rounded-xl border border-[#E8EFEA] dark:border-[var(--border-subtle)]">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[var(--text-secondary)] block uppercase tracking-wider mb-1">
             {strings.registrationStatus}
           </span>
           <div className="flex items-center gap-1.5 mt-0.5">
             {regStatus === 'REGISTERED' ? (
-              <CheckCircle2 className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80]" />
+              <CheckCircle2 className="w-4 h-4 text-[#1E6A50] dark:text-[var(--accent-green)]" />
             ) : (
               <HelpCircle className="w-4 h-4 text-amber-500" />
             )}
-            <span className="text-sm font-bold text-[#1F2421] dark:text-[#F0F4F2]">
+            <span className="text-sm font-bold text-[#1F2421] dark:text-[var(--text-main)]">
               {regStatusLabel}
             </span>
           </div>
         </div>
 
         {/* Udyam MSME */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[var(--bg-card)] rounded-xl border border-[#E8EFEA] dark:border-[var(--border-subtle)]">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[var(--text-secondary)] block uppercase tracking-wider mb-1">
             {strings.udyam}
           </span>
           <div className="flex items-center justify-between">
             <span
               className={`text-xs font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 ${
                 isUdyam
-                  ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
+                  ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)]'
                   : 'bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300'
               }`}
             >
@@ -109,15 +109,15 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
         </div>
 
         {/* GSTIN */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[var(--bg-card)] rounded-xl border border-[#E8EFEA] dark:border-[var(--border-subtle)]">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[var(--text-secondary)] block uppercase tracking-wider mb-1">
             {strings.gst}
           </span>
           <div>
             <span
               className={`text-xs font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 ${
                 isGst
-                  ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
+                  ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)]'
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
               }`}
             >
@@ -128,28 +128,28 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
         </div>
 
         {/* MSME Classification */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
-          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[var(--bg-card)] rounded-xl border border-[#E8EFEA] dark:border-[var(--border-subtle)]">
+          <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[var(--text-secondary)] block uppercase tracking-wider mb-1">
             {strings.msmeCategory}
           </span>
-          <span className="text-sm font-bold text-[#14453D] dark:text-[#4ADE80] block">
+          <span className="text-sm font-bold text-[#14453D] dark:text-[var(--accent-green)] block">
             {msmeTier}
           </span>
-          <span className="text-[10px] text-[#516A5F] dark:text-[#9EB0A7] block">
+          <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-secondary)] block">
             Composite MSMED Criteria
           </span>
         </div>
       </div>
 
       {/* Udyam Registration Direct Nodal Gateway */}
-      <div className="p-4 rounded-xl bg-[#F4F8F5] dark:bg-[#141b17] border border-[#D9E8DF] dark:border-[#1E3E2E] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="p-4 rounded-xl bg-[#F4F8F5] dark:bg-[var(--bg-card)] border border-[#D9E8DF] dark:border-[#1E3E2E] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Building className="w-5 h-5 text-[#14453D] dark:text-[#4ADE80] shrink-0" />
+          <Building className="w-5 h-5 text-[#14453D] dark:text-[var(--accent-green)] shrink-0" />
           <div>
-            <span className="text-xs sm:text-sm font-bold text-[#1F2421] dark:text-[#F0F4F2] block">
+            <span className="text-xs sm:text-sm font-bold text-[#1F2421] dark:text-[var(--text-main)] block">
               Ministry of MSME — Official Free Udyam Portal
             </span>
-            <span className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] block">
+            <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] block">
               Government registration is completely paperless, instant, and 100% free of charge.
             </span>
           </div>

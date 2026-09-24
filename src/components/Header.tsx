@@ -78,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({
   const trackerShortLabel = t('tracker.navShort');
 
   return (
-    <header id="main-header" className="sticky top-0 z-40 bg-[#FAFAF9]/95 dark:bg-[#141b17]/95 backdrop-blur-sm border-b border-[#E4E8E4] dark:border-[#24342D] transition-colors duration-200">
+    <header id="main-header" className="sticky top-0 z-40 bg-[#FAFAF9]/95 dark:bg-[#141b17]/95 backdrop-blur-sm border-b border-[#E4E8E4] dark:border-[var(--border-subtle)] transition-colors duration-200">
       {/* Top micro-bar: Official Taglines, Multilingual Language Switcher & Quick Theme */}
       <div className="bg-[#14453D] dark:bg-[#0B2A24] text-white px-4 py-1.5 text-[11px] font-medium border-b border-[#1E6A50] dark:border-[#164239]">
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
@@ -208,7 +208,7 @@ export const Header: React.FC<HeaderProps> = ({
           </motion.button>
 
           {/* Navigation Links with animated active indicator pill */}
-          <nav className="hidden md:flex items-center gap-1.5 p-1 bg-[#F1F5F3] dark:bg-[#141b17] rounded-lg border border-[#E2E8E5] dark:border-[#1E2E27]">
+          <nav className="hidden md:flex items-center gap-1.5 p-1 bg-[#F1F5F3] dark:bg-[var(--bg-card)] rounded-lg border border-[#E2E8E5] dark:border-[var(--border-subtle)]">
             <motion.button
               id="nav-form-btn"
               whileHover={shouldReduceMotion ? undefined : { y: -1 }}
@@ -217,7 +217,7 @@ export const Header: React.FC<HeaderProps> = ({
               className={`relative px-3.5 py-2 text-xs font-bold rounded-md transition-colors flex items-center gap-1.5 cursor-pointer z-10 ${
                 isFormActive
                   ? 'text-white'
-                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2]'
+                  : 'text-[#3F4943] dark:text-[var(--text-secondary)] hover:text-[#1A1C1B] dark:hover:text-[var(--text-main)]'
               }`}
             >
               {isFormActive && (
@@ -227,7 +227,7 @@ export const Header: React.FC<HeaderProps> = ({
                   transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                 />
               )}
-              <FileCheck2 className={`w-4 h-4 ${isFormActive ? 'text-[#4ADE80]' : 'text-[#1E6A50] dark:text-[#4ADE80]'}`} />
+              <FileCheck2 className={`w-4 h-4 ${isFormActive ? 'text-[#4ADE80]' : 'text-[#1E6A50] dark:text-[var(--accent-green)]'}`} />
               <span>{t('header.navEligibilityCheck')}</span>
             </motion.button>
 
@@ -239,7 +239,7 @@ export const Header: React.FC<HeaderProps> = ({
               className={`relative px-3.5 py-2 text-xs font-bold rounded-md transition-colors flex items-center gap-1.5 cursor-pointer z-10 ${
                 isDashboardActive
                   ? 'text-white'
-                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2]'
+                  : 'text-[#3F4943] dark:text-[var(--text-secondary)] hover:text-[#1A1C1B] dark:hover:text-[var(--text-main)]'
               }`}
             >
               {isDashboardActive && (
@@ -249,7 +249,7 @@ export const Header: React.FC<HeaderProps> = ({
                   transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                 />
               )}
-              <LayoutDashboard className={`w-4 h-4 ${isDashboardActive ? 'text-[#4ADE80]' : 'text-[#1E6A50] dark:text-[#4ADE80]'}`} />
+              <LayoutDashboard className={`w-4 h-4 ${isDashboardActive ? 'text-[#4ADE80]' : 'text-[#1E6A50] dark:text-[var(--accent-green)]'}`} />
               <span>{t('dashboard.navLabel')}</span>
             </motion.button>
 
@@ -261,7 +261,7 @@ export const Header: React.FC<HeaderProps> = ({
               className={`relative px-3.5 py-2 text-xs font-bold rounded-md transition-colors flex items-center gap-1.5 cursor-pointer z-10 ${
                 isResultsActive
                   ? 'text-white'
-                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2]'
+                  : 'text-[#3F4943] dark:text-[var(--text-secondary)] hover:text-[#1A1C1B] dark:hover:text-[var(--text-main)]'
               }`}
             >
               {isResultsActive && (
@@ -271,7 +271,7 @@ export const Header: React.FC<HeaderProps> = ({
                   transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                 />
               )}
-              <Sparkles className={`w-4 h-4 ${isResultsActive ? 'text-[#4ADE80]' : 'text-[#1E6A50] dark:text-[#4ADE80]'}`} />
+              <Sparkles className={`w-4 h-4 ${isResultsActive ? 'text-[#4ADE80]' : 'text-[#1E6A50] dark:text-[var(--accent-green)]'}`} />
               <span>{t('header.navMatchedSchemes')}</span>
             </motion.button>
 
@@ -283,7 +283,7 @@ export const Header: React.FC<HeaderProps> = ({
               className={`relative px-3.5 py-2 text-xs font-bold rounded-md transition-colors flex items-center gap-1.5 cursor-pointer z-10 ${
                 isTrackerActive
                   ? 'text-white'
-                  : 'text-[#3F4943] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2]'
+                  : 'text-[#3F4943] dark:text-[var(--text-secondary)] hover:text-[#1A1C1B] dark:hover:text-[var(--text-main)]'
               }`}
             >
               {isTrackerActive && (
@@ -293,14 +293,14 @@ export const Header: React.FC<HeaderProps> = ({
                   transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                 />
               )}
-              <ClipboardList className={`w-4 h-4 ${isTrackerActive ? 'text-[#4ADE80]' : 'text-[#1E6A50] dark:text-[#4ADE80]'}`} />
+              <ClipboardList className={`w-4 h-4 ${isTrackerActive ? 'text-[#4ADE80]' : 'text-[#1E6A50] dark:text-[var(--accent-green)]'}`} />
               <span>{trackerLabel}</span>
               {trackedCount > 0 && (
                 <span
                   className={`min-w-4 px-1 py-0.5 rounded-full text-[10px] font-bold leading-none ${
                     isTrackerActive
                       ? 'bg-white/25 text-white'
-                      : 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
+                      : 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)]'
                   }`}
                 >
                   {trackedCount}
@@ -328,7 +328,7 @@ export const Header: React.FC<HeaderProps> = ({
                 whileHover={shouldReduceMotion ? undefined : { y: -1, scale: 1.01 }}
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                 onClick={() => onNavigate('login')}
-                className="bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
+                className="bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[var(--brand-deep)] text-white px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
               >
                 <User className="w-3.5 h-3.5" />
                 <span>{t('header.citizenLogin')}</span>
@@ -338,17 +338,17 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Mobile secondary tab bar */}
-        <div className="flex md:hidden items-center overflow-x-auto scrollbar-none border-t border-[#E4E8E4] dark:border-[#24342D] py-2 px-1">
+        <div className="flex md:hidden items-center overflow-x-auto scrollbar-none border-t border-[#E4E8E4] dark:border-[var(--border-subtle)] py-2 px-1">
           <div className="flex items-center gap-1.5 shrink-0">
             <motion.button
               id="mobile-nav-form-btn"
               whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
               onClick={() => onNavigate('form')}
               className={`px-2.5 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors shrink-0 whitespace-nowrap ${
-                isFormActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
+                isFormActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[var(--text-secondary)]'
               }`}
             >
-              <FileCheck2 className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
+              <FileCheck2 className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
               <span>{t('header.navFormShort')}</span>
             </motion.button>
             <motion.button
@@ -356,10 +356,10 @@ export const Header: React.FC<HeaderProps> = ({
               whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
               onClick={() => onNavigate('dashboard')}
               className={`px-2.5 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors shrink-0 whitespace-nowrap ${
-                isDashboardActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
+                isDashboardActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[var(--text-secondary)]'
               }`}
             >
-              <LayoutDashboard className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
+              <LayoutDashboard className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
               <span>{t('dashboard.navShort')}</span>
             </motion.button>
             <motion.button
@@ -367,10 +367,10 @@ export const Header: React.FC<HeaderProps> = ({
               whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
               onClick={() => onNavigate('results')}
               className={`px-2.5 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors shrink-0 whitespace-nowrap ${
-                isResultsActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
+                isResultsActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[var(--text-secondary)]'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
               <span>{t('header.navSchemesShort')}</span>
             </motion.button>
             <motion.button
@@ -378,17 +378,17 @@ export const Header: React.FC<HeaderProps> = ({
               whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
               onClick={() => onNavigate('tracker')}
               className={`px-2.5 py-1 text-xs font-bold rounded flex items-center gap-1 cursor-pointer transition-colors shrink-0 whitespace-nowrap ${
-                isTrackerActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[#9EB0A7]'
+                isTrackerActive ? 'bg-[#14453D] dark:bg-[#1C5045] text-white' : 'text-[#3F4943] dark:text-[var(--text-secondary)]'
               }`}
             >
-              <ClipboardList className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
+              <ClipboardList className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
               <span>{trackerShortLabel}</span>
               {trackedCount > 0 && (
                 <span
                   className={`min-w-4 px-1 rounded-full text-[10px] font-bold leading-none ${
                     isTrackerActive
                       ? 'bg-white/20 text-white'
-                      : 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
+                      : 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)]'
                   }`}
                 >
                   {trackedCount}

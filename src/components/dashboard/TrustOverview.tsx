@@ -22,11 +22,11 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
   return (
     <section
       id="trust-overview"
-      className="bg-white dark:bg-[#1d2822] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
+      className="bg-white dark:bg-[var(--bg-raised)] border border-[#E3ECE7] dark:border-[var(--border-subtle)] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
     >
       {/* Header */}
       <div className="flex items-center gap-2.5">
-        <div className="p-2 rounded-lg bg-[#EAF5EF] dark:bg-[#162D24] text-[#0F6B4C] dark:text-[#4ADE80]">
+        <div className="p-2 rounded-lg bg-[#EAF5EF] dark:bg-[var(--bg-subtle)] text-[#0F6B4C] dark:text-[var(--accent-green)]">
           <ShieldCheck className="w-5 h-5" />
         </div>
         <div>
@@ -43,16 +43,16 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
 
       {/* Metrics Row */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[var(--bg-raised)] border border-slate-200 dark:border-slate-800">
           <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             {isHi ? 'सत्यापित पोर्टल' : 'Verified Portals'}
           </div>
-          <div className="text-xl font-bold text-[#0F6B4C] dark:text-[#4ADE80] mt-1">
+          <div className="text-xl font-bold text-[#0F6B4C] dark:text-[var(--accent-green)] mt-1">
             <AnimatedCounter value={summary.verifiedOfficialPortalsCount} />
           </div>
         </div>
 
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[var(--bg-raised)] border border-slate-200 dark:border-slate-800">
           <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             {isHi ? 'उच्च प्रामाणिकता' : 'High Provenance'}
           </div>
@@ -61,7 +61,7 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
           </div>
         </div>
 
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[var(--bg-raised)] border border-slate-200 dark:border-slate-800">
           <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             {isHi ? 'मूल्यांकित योजनाएं' : 'Evaluated Schemes'}
           </div>
@@ -72,9 +72,9 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
       </div>
 
       {/* Trust Commitments */}
-      <div className="pt-2 border-t border-slate-100 dark:border-[#283530] space-y-2 text-xs">
+      <div className="pt-2 border-t border-slate-100 dark:border-[var(--border-subtle)] space-y-2 text-xs">
         <div className="flex items-start gap-2 text-slate-600 dark:text-slate-300">
-          <Scale className="w-4 h-4 text-[#0F6B4C] dark:text-[#4ADE80] mt-0.5 shrink-0" />
+          <Scale className="w-4 h-4 text-[#0F6B4C] dark:text-[var(--accent-green)] mt-0.5 shrink-0" />
           <span>
             <strong className="text-slate-900 dark:text-white">
               {isHi ? 'नियम-आधारित मूल्यांकन:' : 'Deterministic Matching:'}{' '}
@@ -86,7 +86,7 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
         </div>
 
         <div className="flex items-start gap-2 text-slate-600 dark:text-slate-300">
-          <Lock className="w-4 h-4 text-[#0F6B4C] dark:text-[#4ADE80] mt-0.5 shrink-0" />
+          <Lock className="w-4 h-4 text-[#0F6B4C] dark:text-[var(--accent-green)] mt-0.5 shrink-0" />
           <span>
             <strong className="text-slate-900 dark:text-white">
               {isHi ? 'स्थानीय गोपनीयता:' : 'Zero PII Retention:'}{' '}

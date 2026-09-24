@@ -233,8 +233,8 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
         aria-label={`Entrepreneur Profile: ${displayName}, ${readinessPercent}% Profile Readiness`}
         className={`group relative flex items-center gap-2.5 pl-1.5 pr-3 sm:pr-3.5 py-1.5 rounded-full border transition-all cursor-pointer select-none ${
           isOpen
-            ? 'bg-[#EBF5F0] dark:bg-[#152820] border-[#1E6A50] dark:border-[#22C55E] shadow-sm'
-            : 'bg-white dark:bg-[#141b17] border-[#DEE7E2] dark:border-[#24342D] hover:border-[#1E6A50]/60 dark:hover:border-[#22C55E]/60 hover:bg-[#F7FAF8] dark:hover:bg-[#1d2822] shadow-xs'
+            ? 'bg-[#EBF5F0] dark:bg-[var(--bg-subtle)] border-[#1E6A50] dark:border-[#22C55E] shadow-sm'
+            : 'bg-white dark:bg-[var(--bg-card)] border-[#DEE7E2] dark:border-[var(--border-subtle)] hover:border-[#1E6A50]/60 dark:hover:border-[#22C55E]/60 hover:bg-[#F7FAF8] dark:hover:bg-[var(--bg-raised)] shadow-xs'
         }`}
       >
         {/* Clean Modern Avatar */}
@@ -248,13 +248,13 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
         {/* Identity Details in Header */}
         <div className="flex flex-col text-left">
           <div className="flex items-center gap-1.5">
-            <span className="text-xs sm:text-sm font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] truncate max-w-[110px] sm:max-w-[150px] leading-tight group-hover:text-[#14453D] dark:group-hover:text-[#4ADE80] transition-colors">
+            <span className="text-xs sm:text-sm font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] truncate max-w-[110px] sm:max-w-[150px] leading-tight group-hover:text-[#14453D] dark:group-hover:text-[#4ADE80] transition-colors">
               {displayName}
             </span>
           </div>
-          <div className="flex items-center gap-1.5 text-[11px] leading-none text-[#5A6860] dark:text-[#9EB0A7] mt-0.5">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#175741] dark:bg-[#4ADE80]" />
-            <span className="font-medium text-[#1E6A50] dark:text-[#4ADE80]">
+          <div className="flex items-center gap-1.5 text-[11px] leading-none text-[#5A6860] dark:text-[var(--text-secondary)] mt-0.5">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#175741] dark:bg-[var(--accent-green)]" />
+            <span className="font-medium text-[#1E6A50] dark:text-[var(--accent-green)]">
               {t('account.entrepreneurRole')}
             </span>
             <span className="text-[#B5C5BD] dark:text-[#3B4D44]">•</span>
@@ -268,7 +268,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
-          className="text-[#516A5F] dark:text-[#889B91] shrink-0 ml-0.5"
+          className="text-[#516A5F] dark:text-[var(--text-secondary)] shrink-0 ml-0.5"
         >
           <ChevronDown className="w-4 h-4" />
         </motion.div>
@@ -294,25 +294,25 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                 : { opacity: 0, scale: 0.97, y: -6 }
             }
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="absolute right-0 mt-2.5 w-[calc(100vw-1.25rem)] max-w-[390px] sm:w-[410px] bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl shadow-2xl overflow-hidden z-50 divide-y divide-[#EDF3EF] dark:divide-[#1C2C24]"
+            className="absolute right-0 mt-2.5 w-[calc(100vw-1.25rem)] max-w-[390px] sm:w-[410px] bg-white dark:bg-[var(--bg-card)] border border-[#DEE7E2] dark:border-[var(--border-subtle)] rounded-2xl shadow-2xl overflow-hidden z-50 divide-y divide-[#EDF3EF] dark:divide-[#1C2C24]"
           >
             {/* Top Header Banner */}
-            <div className="px-5 py-3.5 bg-[#F8FAF9] dark:bg-[#141b17] flex items-center justify-between border-b border-[#E1ECE5] dark:border-[#1E3328]">
+            <div className="px-5 py-3.5 bg-[#F8FAF9] dark:bg-[var(--bg-card)] flex items-center justify-between border-b border-[#E1ECE5] dark:border-[var(--border-subtle)]">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] uppercase tracking-wider">
+                <span className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)] uppercase tracking-wider">
                   {t('account.podTitle') && t('account.podTitle') !== 'account.podTitle'
                     ? t('account.podTitle')
                     : 'Entrepreneur Identity'}
                 </span>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#D9E8DF] dark:bg-[#162D22] text-[#14453D] dark:text-[#4ADE80]">
-                  <ShieldCheck className="w-3 h-3 text-[#1E6A50] dark:text-[#4ADE80]" />
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#D9E8DF] dark:bg-[var(--bg-subtle)] text-[#14453D] dark:text-[var(--accent-green)]">
+                  <ShieldCheck className="w-3 h-3 text-[#1E6A50] dark:text-[var(--accent-green)]" />
                   <span>Verified</span>
                 </span>
               </div>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="w-7 h-7 rounded-lg flex items-center justify-center text-[#5A6860] hover:text-[#1A1C1B] dark:text-[#9EB0A7] dark:hover:text-[#F0F4F2] hover:bg-[#EAEFEA] dark:hover:bg-[#1C2E25] transition-colors cursor-pointer"
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-[#5A6860] hover:text-[#1A1C1B] dark:text-[var(--text-secondary)] dark:hover:text-[var(--text-main)] hover:bg-[#EAEFEA] dark:hover:bg-[#1C2E25] transition-colors cursor-pointer"
                 aria-label={t('account.close')}
               >
                 <X className="w-4 h-4" />
@@ -335,7 +335,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                 <button
                   type="button"
                   onClick={() => setIsPhotoModalOpen(true)}
-                  className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-[#14453D] dark:text-[#5EEAD4] hover:text-[#0F352E] dark:hover:text-[#4ADE80] transition-colors py-0.5 px-2 rounded-md hover:bg-[#D9E8DF] dark:hover:bg-[#1A2E25] cursor-pointer"
+                  className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-[#14453D] dark:text-[#5EEAD4] hover:text-[#0F352E] dark:hover:text-[var(--accent-green)] transition-colors py-0.5 px-2 rounded-md hover:bg-[#D9E8DF] dark:hover:bg-[#1A2E25] cursor-pointer"
                 >
                   <Camera className="w-3 h-3" />
                   <span>{userProfile?.photoUrl ? 'Change Photo' : 'Upload Photo'}</span>
@@ -343,23 +343,23 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
               </div>
 
               {/* Citizen Details */}
-              <h2 className="text-base sm:text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2] leading-snug">
+              <h2 className="text-base sm:text-lg font-bold text-[#1A1C1B] dark:text-[var(--text-main)] leading-snug">
                 {displayName}
               </h2>
               <div className="mt-1 flex items-center gap-1.5 justify-center">
-                <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-0.5 rounded-full bg-[#E8F5EE] dark:bg-[#152E22] text-[#14453D] dark:text-[#4ADE80] border border-[#B9E3CB] dark:border-[#1E4D37]">
-                  <CheckCircle2 className="w-3 h-3 text-[#1E6A50] dark:text-[#4ADE80]" />
+                <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-0.5 rounded-full bg-[#E8F5EE] dark:bg-[var(--bg-subtle)] text-[#14453D] dark:text-[var(--accent-green)] border border-[#B9E3CB] dark:border-[#1E4D37]">
+                  <CheckCircle2 className="w-3 h-3 text-[#1E6A50] dark:text-[var(--accent-green)]" />
                   <span>{t('account.entrepreneurRole')}</span>
                 </span>
               </div>
-              <p className="mt-1.5 text-xs text-[#5A6860] dark:text-[#9EB0A7] flex items-center gap-1">
+              <p className="mt-1.5 text-xs text-[#5A6860] dark:text-[var(--text-secondary)] flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5 text-[#1E6A50] shrink-0" />
                 <span>{locationLabel}</span>
               </p>
 
               {/* Local Device Session */}
-              <div className="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#E8F5EE] dark:bg-[#152E22] text-[#14453D] dark:text-[#4ADE80] border border-[#B9E3CB] dark:border-[#1E4D37]">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
+              <div className="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#E8F5EE] dark:bg-[var(--bg-subtle)] text-[#14453D] dark:text-[var(--accent-green)] border border-[#B9E3CB] dark:border-[#1E4D37]">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
                 <span>{t('account.localSessionActive') || 'Local Device Session'}</span>
               </div>
 
@@ -367,19 +367,19 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
               <button
                 type="button"
                 onClick={() => handleAction('profile')}
-                className="w-full mt-4 p-3 rounded-2xl bg-[#F6FAF8] dark:bg-[#1d2822] border border-[#DEE9E3] dark:border-[#243A2F] text-left hover:border-[#1E6A50]/60 dark:hover:border-[#22C55E]/60 transition-all cursor-pointer group"
+                className="w-full mt-4 p-3 rounded-2xl bg-[#F6FAF8] dark:bg-[var(--bg-raised)] border border-[#DEE9E3] dark:border-[var(--border-subtle)] text-left hover:border-[#1E6A50]/60 dark:hover:border-[#22C55E]/60 transition-all cursor-pointer group"
                 title={t('account.profileReadiness')}
               >
                 <div className="flex items-center justify-between text-xs mb-1.5">
-                  <span className="font-extrabold uppercase tracking-wider text-[10px] text-[#5A6860] dark:text-[#9EB0A7]">
+                  <span className="font-extrabold uppercase tracking-wider text-[10px] text-[#5A6860] dark:text-[var(--text-secondary)]">
                     {t('account.profileReadiness')}
                   </span>
-                  <span className="font-black text-[#14453D] dark:text-[#4ADE80]">
+                  <span className="font-black text-[#14453D] dark:text-[var(--accent-green)]">
                     {readinessPercent}%
                   </span>
                 </div>
                 {/* Progress track */}
-                <div className="w-full h-2 rounded-full bg-[#E1ECE5] dark:bg-[#253930] overflow-hidden">
+                <div className="w-full h-2 rounded-full bg-[#E1ECE5] dark:bg-[var(--bg-subtle)] overflow-hidden">
                   <motion.div
                     className={`h-full rounded-full ${
                       readinessPercent >= 80
@@ -393,9 +393,9 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                     transition={{ duration: 0.6, ease: 'easeOut' }}
                   />
                 </div>
-                <div className="mt-1.5 flex items-center justify-between text-[11px] text-[#5A6860] dark:text-[#9EB0A7]">
+                <div className="mt-1.5 flex items-center justify-between text-[11px] text-[#5A6860] dark:text-[var(--text-secondary)]">
                   <span className="truncate">{readinessStatus}</span>
-                  <span className="font-semibold text-[#1E6A50] dark:text-[#4ADE80] shrink-0 ml-1 group-hover:translate-x-0.5 transition-transform">
+                  <span className="font-semibold text-[#1E6A50] dark:text-[var(--accent-green)] shrink-0 ml-1 group-hover:translate-x-0.5 transition-transform">
                     →
                   </span>
                 </div>
@@ -410,10 +410,10 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                   </div>
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <p className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] leading-tight">
+                      <p className="text-xs font-bold text-[#1A1C1B] dark:text-[var(--text-main)] leading-tight">
                         {nextAction.title}
                       </p>
-                      <p className="text-[11px] text-[#5A6860] dark:text-[#9EB0A7] mt-0.5 line-clamp-2 leading-relaxed">
+                      <p className="text-[11px] text-[#5A6860] dark:text-[var(--text-secondary)] mt-0.5 line-clamp-2 leading-relaxed">
                         {nextAction.desc}
                       </p>
                     </div>
@@ -431,40 +431,40 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
               )}
 
               {/* Mini Stats (Saved, Applications, Documents Ready) */}
-              <div className="w-full grid grid-cols-3 gap-2 mt-3.5 pt-3 border-t border-[#EDF3EF] dark:border-[#1E3027]">
+              <div className="w-full grid grid-cols-3 gap-2 mt-3.5 pt-3 border-t border-[#EDF3EF] dark:border-[var(--border-subtle)]">
                 <button
                   type="button"
                   onClick={() => handleAction('results')}
-                  className="p-2 rounded-xl bg-[#F6FAF8] dark:bg-[#1d2822] hover:bg-[#EAF3EE] dark:hover:bg-[#1B2D26] text-center transition-colors cursor-pointer group"
+                  className="p-2 rounded-xl bg-[#F6FAF8] dark:bg-[var(--bg-raised)] hover:bg-[#EAF3EE] dark:hover:bg-[#1B2D26] text-center transition-colors cursor-pointer group"
                 >
-                  <span className="block text-sm sm:text-base font-black text-[#14453D] dark:text-[#4ADE80]">
+                  <span className="block text-sm sm:text-base font-black text-[#14453D] dark:text-[var(--accent-green)]">
                     {savedCount}
                   </span>
-                  <span className="block text-[10px] font-medium text-[#5A6860] dark:text-[#9EB0A7] truncate">
+                  <span className="block text-[10px] font-medium text-[#5A6860] dark:text-[var(--text-secondary)] truncate">
                     {t('account.statsSaved')}
                   </span>
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAction('tracker')}
-                  className="p-2 rounded-xl bg-[#F6FAF8] dark:bg-[#1d2822] hover:bg-[#EAF3EE] dark:hover:bg-[#1B2D26] text-center transition-colors cursor-pointer group"
+                  className="p-2 rounded-xl bg-[#F6FAF8] dark:bg-[var(--bg-raised)] hover:bg-[#EAF3EE] dark:hover:bg-[#1B2D26] text-center transition-colors cursor-pointer group"
                 >
-                  <span className="block text-sm sm:text-base font-black text-[#14453D] dark:text-[#4ADE80]">
+                  <span className="block text-sm sm:text-base font-black text-[#14453D] dark:text-[var(--accent-green)]">
                     {trackedCount}
                   </span>
-                  <span className="block text-[10px] font-medium text-[#5A6860] dark:text-[#9EB0A7] truncate">
+                  <span className="block text-[10px] font-medium text-[#5A6860] dark:text-[var(--text-secondary)] truncate">
                     {t('account.statsApps')}
                   </span>
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAction('profile', 'profile-document-vault-section')}
-                  className="p-2 rounded-xl bg-[#F6FAF8] dark:bg-[#1d2822] hover:bg-[#EAF3EE] dark:hover:bg-[#1B2D26] text-center transition-colors cursor-pointer group"
+                  className="p-2 rounded-xl bg-[#F6FAF8] dark:bg-[var(--bg-raised)] hover:bg-[#EAF3EE] dark:hover:bg-[#1B2D26] text-center transition-colors cursor-pointer group"
                 >
-                  <span className="block text-sm sm:text-base font-black text-[#14453D] dark:text-[#4ADE80]">
+                  <span className="block text-sm sm:text-base font-black text-[#14453D] dark:text-[var(--accent-green)]">
                     {readyDocsCount}
                   </span>
-                  <span className="block text-[10px] font-medium text-[#5A6860] dark:text-[#9EB0A7] truncate">
+                  <span className="block text-[10px] font-medium text-[#5A6860] dark:text-[var(--text-secondary)] truncate">
                     {t('account.statsDocs')}
                   </span>
                 </button>
@@ -487,82 +487,82 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
             <div className="p-3 max-h-[340px] overflow-y-auto divide-y divide-[#EDF3EF] dark:divide-[#1C2C24]">
               {/* GROUP 1: PROFILE */}
               <div className="py-2 first:pt-1">
-                <span className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-[#7E8F86] dark:text-[#7C9086]">
+                <span className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-[#7E8F86] dark:text-[var(--text-secondary)]">
                   {t('account.groupProfile')}
                 </span>
                 <div className="mt-1 space-y-0.5">
                   <button
                     type="button"
                     onClick={() => handleAction('profile', 'profile-demographics-section')}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] hover:bg-[#F2F7F4] dark:hover:bg-[var(--bg-raised)] hover:text-[#1E6A50] dark:hover:text-[var(--accent-green)] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <User className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
+                      <User className="w-4 h-4 text-[#5A6860] dark:text-[var(--text-secondary)] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
                       <span>{t('account.personalDetails')}</span>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[#4ADE80]" />
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[var(--accent-green)]" />
                   </button>
 
                   <button
                     type="button"
                     onClick={() => handleAction('profile', 'profile-business-section')}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] hover:bg-[#F2F7F4] dark:hover:bg-[var(--bg-raised)] hover:text-[#1E6A50] dark:hover:text-[var(--accent-green)] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <Building2 className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
+                      <Building2 className="w-4 h-4 text-[#5A6860] dark:text-[var(--text-secondary)] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
                       <span>{t('account.businessProfile')}</span>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[#4ADE80]" />
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[var(--accent-green)]" />
                   </button>
 
                   <button
                     type="button"
                     onClick={() => handleAction('profile', 'profile-financial-section')}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] hover:bg-[#F2F7F4] dark:hover:bg-[var(--bg-raised)] hover:text-[#1E6A50] dark:hover:text-[var(--accent-green)] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <IndianRupee className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
+                      <IndianRupee className="w-4 h-4 text-[#5A6860] dark:text-[var(--text-secondary)] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
                       <span>{t('account.financialProfile')}</span>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[#4ADE80]" />
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[var(--accent-green)]" />
                   </button>
 
                   <button
                     type="button"
                     onClick={() => handleAction('profile', 'profile-document-vault-section')}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] hover:bg-[#F2F7F4] dark:hover:bg-[var(--bg-raised)] hover:text-[#1E6A50] dark:hover:text-[var(--accent-green)] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <FolderLock className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
+                      <FolderLock className="w-4 h-4 text-[#5A6860] dark:text-[var(--text-secondary)] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
                       <span>{t('account.documents')}</span>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[#4ADE80]" />
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[var(--accent-green)]" />
                   </button>
 
                   <button
                     type="button"
                     onClick={() => handleAction('profile', 'profile-registration-section')}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] hover:text-[#1E6A50] dark:hover:text-[#4ADE80] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] hover:bg-[#F2F7F4] dark:hover:bg-[var(--bg-raised)] hover:text-[#1E6A50] dark:hover:text-[var(--accent-green)] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <FileCheck2 className="w-4 h-4 text-[#5A6860] dark:text-[#889B91] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
+                      <FileCheck2 className="w-4 h-4 text-[#5A6860] dark:text-[var(--text-secondary)] group-hover:text-[#1E6A50] dark:group-hover:text-[#4ADE80] transition-colors" />
                       <span>{t('account.registrations')}</span>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[#4ADE80]" />
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#1E6A50] dark:text-[var(--accent-green)]" />
                   </button>
                 </div>
               </div>
 
               {/* GROUP 2: MY ACTIVITY */}
               <div className="py-2">
-                <span className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-[#7E8F86] dark:text-[#7C9086]">
+                <span className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-[#7E8F86] dark:text-[var(--text-secondary)]">
                   {t('account.groupActivity')}
                 </span>
                 <div className="mt-1 space-y-0.5">
                   <button
                     type="button"
                     onClick={() => handleAction('results')}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] hover:bg-[#F2F7F4] dark:hover:bg-[var(--bg-raised)] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
                       <Star className="w-4 h-4 text-amber-500" />
@@ -578,14 +578,14 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                   <button
                     type="button"
                     onClick={() => handleAction('tracker')}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] hover:bg-[#F2F7F4] dark:hover:bg-[var(--bg-raised)] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <ClipboardList className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80]" />
+                      <ClipboardList className="w-4 h-4 text-[#1E6A50] dark:text-[var(--accent-green)]" />
                       <span>{t('account.applications')}</span>
                     </div>
                     {trackedCount > 0 && (
-                      <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]">
+                      <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)]">
                         {trackedCount}
                       </span>
                     )}
@@ -595,7 +595,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
 
               {/* GROUP 3: ACCOUNT & PREFERENCES */}
               <div className="py-2">
-                <span className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-[#7E8F86] dark:text-[#7C9086]">
+                <span className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-[#7E8F86] dark:text-[var(--text-secondary)]">
                   {t('account.groupAccount')}
                 </span>
                 <div className="mt-1 space-y-0.5">
@@ -605,25 +605,25 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                       setIsOpen(false);
                       setIsPrivacyModalOpen(true);
                     }}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F2F7F4] dark:hover:bg-[#182620] transition-colors cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] hover:bg-[#F2F7F4] dark:hover:bg-[var(--bg-raised)] transition-colors cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <ShieldCheck className="w-4 h-4 text-[#5A6860] dark:text-[#889B91]" />
+                      <ShieldCheck className="w-4 h-4 text-[#5A6860] dark:text-[var(--text-secondary)]" />
                       <span>{t('account.accountPrivacy')}</span>
                     </div>
-                    <span className="text-[10px] font-bold text-[#1E6A50] dark:text-[#4ADE80] bg-[#E8F7EE] dark:bg-[#133020] px-1.5 py-0.5 rounded-md">
+                    <span className="text-[10px] font-bold text-[#1E6A50] dark:text-[var(--accent-green)] bg-[#E8F7EE] dark:bg-[var(--bg-subtle)] px-1.5 py-0.5 rounded-md">
                       DPDP 2023
                     </span>
                   </button>
 
                   {/* Language Selector Dropdown */}
                   <div className="px-3 py-1.5">
-                    <div className="flex items-center justify-between text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] mb-1.5">
+                    <div className="flex items-center justify-between text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] mb-1.5">
                       <div className="flex items-center gap-2.5">
-                        <Globe className="w-4 h-4 text-[#5A6860] dark:text-[#889B91]" />
+                        <Globe className="w-4 h-4 text-[#5A6860] dark:text-[var(--text-secondary)]" />
                         <span>{t('account.language')}</span>
                       </div>
-                      <span className="text-[10px] font-bold uppercase text-[#14453D] dark:text-[#4ADE80]">
+                      <span className="text-[10px] font-bold uppercase text-[#14453D] dark:text-[var(--accent-green)]">
                         {lang}
                       </span>
                     </div>
@@ -638,7 +638,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                             className={`px-2 py-1 rounded-lg text-[11px] font-bold transition-all text-center cursor-pointer ${
                               isSelected
                                 ? 'bg-[#14453D] text-white shadow-xs'
-                                : 'bg-[#F2F7F4] dark:bg-[#1A2822] text-[#3A4841] dark:text-[#B0C3B9] hover:bg-[#E5EFE9] dark:hover:bg-[#22352D]'
+                                : 'bg-[#F2F7F4] dark:bg-[var(--bg-raised)] text-[#3A4841] dark:text-[#B0C3B9] hover:bg-[#E5EFE9] dark:hover:bg-[#22352D]'
                             }`}
                           >
                             {item.nativeName}
@@ -650,7 +650,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
 
                   {/* Appearance Switcher */}
                   <div className="px-3 py-2 flex items-center justify-between">
-                    <div className="flex items-center gap-2.5 text-xs font-semibold text-[#1A1C1B] dark:text-[#F0F4F2]">
+                    <div className="flex items-center gap-2.5 text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)]">
                       {isDark ? (
                         <Moon className="w-4 h-4 text-emerald-400" />
                       ) : (
@@ -658,14 +658,14 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                       )}
                       <span>{t('account.appearance')}</span>
                     </div>
-                    <div className="flex items-center gap-1 bg-[#F2F7F4] dark:bg-[#1A2822] p-0.5 rounded-lg border border-[#DEE7E2] dark:border-[#223F30]">
+                    <div className="flex items-center gap-1 bg-[#F2F7F4] dark:bg-[var(--bg-raised)] p-0.5 rounded-lg border border-[#DEE7E2] dark:border-[var(--border-subtle)]">
                       <button
                         type="button"
                         onClick={() => setTheme('light')}
                         className={`px-2 py-1 rounded-md text-[10px] font-bold transition-all cursor-pointer ${
                           !isDark
                             ? 'bg-white text-[#14453D] shadow-xs'
-                            : 'text-[#516A5F] dark:text-[#889B91]'
+                            : 'text-[#516A5F] dark:text-[var(--text-secondary)]'
                         }`}
                       >
                         {t('account.themeLight')}
@@ -676,7 +676,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                         className={`px-2 py-1 rounded-md text-[10px] font-bold transition-all cursor-pointer ${
                           isDark
                             ? 'bg-[#14453D] text-white shadow-xs'
-                            : 'text-[#516A5F] dark:text-[#889B91]'
+                            : 'text-[#516A5F] dark:text-[var(--text-secondary)]'
                         }`}
                       >
                         {t('account.themeDark')}
@@ -688,7 +688,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
 
               {/* GROUP 4: SESSION */}
               <div className="py-2 last:pb-1">
-                <span className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-[#7E8F86] dark:text-[#7C9086]">
+                <span className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-[#7E8F86] dark:text-[var(--text-secondary)]">
                   {t('account.groupSession')}
                 </span>
                 <div className="mt-1">
@@ -714,7 +714,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
             </div>
 
             {/* Sovereign Privacy Footnote */}
-            <div className="px-4 py-2.5 bg-[#F7FAF8] dark:bg-[#141b17] text-[10px] text-[#516A5F] dark:text-[#82968B] text-center border-t border-[#EDF3EF] dark:border-[#1E3027] flex items-center justify-center gap-1.5">
+            <div className="px-4 py-2.5 bg-[#F7FAF8] dark:bg-[var(--bg-card)] text-[10px] text-[#516A5F] dark:text-[#82968B] text-center border-t border-[#EDF3EF] dark:border-[var(--border-subtle)] flex items-center justify-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50]" />
               <span>DPDP Act 2023 · 100% On-Device Storage Sovereignty</span>
             </div>

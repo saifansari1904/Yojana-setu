@@ -150,11 +150,11 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
       className={`max-w-5xl mx-auto px-4 py-6 sm:py-8 space-y-6 ${{ hi: 'font-hindi', ta: 'font-tamil', te: 'font-telugu', kn: 'font-kannada', ml: 'font-malayalam', en: '' }[language] || ''}`}
     >
       <header id="command-header" className="space-y-1">
-        <p className="yj-eyebrow text-[#516A5F] dark:text-[#8E9F97]">
+        <p className="yj-eyebrow text-[#516A5F] dark:text-[var(--text-tertiary)]">
           {t('navHome')}
         </p>
         {/* Time-of-day greeting: presentation only, no business logic depends on it. */}
-        <h1 className="yj-h2 text-[#0B5D4B] dark:text-[#F0F4F2]">
+        <h1 className="yj-h2 text-[#0B5D4B] dark:text-[var(--text-main)]">
           {(() => {
             const hour = new Date().getHours();
             const greeting =
@@ -167,7 +167,7 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
             return name ? `${greeting.replace(/[।.]$/, '')}, ${name}.` : greeting;
           })()}
         </h1>
-        <p className="yj-body text-[#42544C] dark:text-[#A9BDB3]">
+        <p className="yj-body text-[#42544C] dark:text-[var(--text-secondary)]">
           {insights.hasMatches ? t('headerSubtitle') : t('headerSubtitleEmpty')}
         </p>
       </header>
@@ -184,19 +184,19 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
         <section
           id="command-next-action"
           aria-labelledby="command-next-action-heading"
-          className="yj-card yj-card-lg border-[#D9E8DF] dark:border-[#22503E] bg-[#F6F8F7] dark:bg-[#142E25] p-4 sm:p-5"
+          className="yj-card yj-card-lg border-[#D9E8DF] dark:border-[#22503E] bg-[#F6F8F7] dark:bg-[var(--bg-subtle)] p-4 sm:p-5"
         >
           <h2
             id="command-next-action-heading"
-            className="flex items-center gap-2 yj-eyebrow text-[#1E6A50] dark:text-[#4ADE80]"
+            className="flex items-center gap-2 yj-eyebrow text-[#1E6A50] dark:text-[var(--accent-green)]"
           >
             <Compass className="w-4 h-4" aria-hidden="true" />
             {t('nextBestActionTitle')}
           </h2>
-          <p className="mt-2 yj-h3 text-[#0B5D4B] dark:text-[#E8EFEA]">
+          <p className="mt-2 yj-h3 text-[#0B5D4B] dark:text-[var(--text-main)]">
             {nextBestAction.title}
           </p>
-          <p className="mt-1 yj-support text-[#42544C] dark:text-[#9EB0A7] yj-measure">
+          <p className="mt-1 yj-support text-[#42544C] dark:text-[var(--text-secondary)] yj-measure">
             {nextBestAction.description}
           </p>
           <div className="mt-3">

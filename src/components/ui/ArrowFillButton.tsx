@@ -45,7 +45,7 @@ export const ArrowFillButton: React.FC<ArrowFillButtonProps> = ({
   // Variant styles adhering strictly to Yojana Setu's emerald/stone system
   const variantStyles: Record<ArrowFillButtonVariant, { btn: string; badge: string }> = {
     primary: {
-      btn: 'bg-[#14453D] hover:bg-[#0B302B] active:bg-[#07221E] dark:bg-[#1C5045] dark:hover:bg-[#14453D] dark:active:bg-[#0E342D] text-white border border-[#14453D] dark:border-[#23584E]',
+      btn: 'bg-[#14453D] hover:bg-[#0B302B] active:bg-[#07221E] dark:bg-[#1C5045] dark:hover:bg-[var(--brand-deep)] dark:active:bg-[#0E342D] text-white border border-[#14453D] dark:border-[#23584E]',
       badge: 'bg-white/15 dark:bg-white/10 text-white',
     },
     emerald: {
@@ -53,24 +53,24 @@ export const ArrowFillButton: React.FC<ArrowFillButtonProps> = ({
       badge: 'bg-black/15 text-white',
     },
     secondary: {
-      btn: 'bg-white dark:bg-[#1d2822] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#14453D] dark:text-[#4ADE80] border border-[#E4E8E4] dark:border-[#2E4137]',
-      badge: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]',
+      btn: 'bg-white dark:bg-[var(--bg-raised)] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#14453D] dark:text-[var(--accent-green)] border border-[#E4E8E4] dark:border-[var(--border-strong)]',
+      badge: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)]',
     },
     outline: {
-      btn: 'bg-transparent hover:bg-[#14453D]/5 dark:hover:bg-[#4ADE80]/10 text-[#14453D] dark:text-[#4ADE80] border border-[#14453D]/30 dark:border-[#4ADE80]/30',
-      badge: 'bg-[#14453D]/10 dark:bg-[#4ADE80]/15 text-[#14453D] dark:text-[#4ADE80]',
+      btn: 'bg-transparent hover:bg-[#14453D]/5 dark:hover:bg-[#4ADE80]/10 text-[#14453D] dark:text-[var(--accent-green)] border border-[#14453D]/30 dark:border-[#4ADE80]/30',
+      badge: 'bg-[#14453D]/10 dark:bg-[#4ADE80]/15 text-[#14453D] dark:text-[var(--accent-green)]',
     },
     ghost: {
-      btn: 'bg-transparent hover:bg-[#EEEEED] dark:hover:bg-[#1d2822] text-[#3F4943] dark:text-[#C5D5CC] border border-transparent',
-      badge: 'bg-[#E4E8E4] dark:bg-[#2A3C34] text-[#14453D] dark:text-[#4ADE80]',
+      btn: 'bg-transparent hover:bg-[#EEEEED] dark:hover:bg-[var(--bg-raised)] text-[#3F4943] dark:text-[var(--text-secondary)] border border-transparent',
+      badge: 'bg-[#E4E8E4] dark:bg-[var(--bg-raised)] text-[#14453D] dark:text-[var(--accent-green)]',
     },
     destructive: {
-      btn: 'bg-white dark:bg-[#2A1512] hover:bg-[#FFF5F3] dark:hover:bg-[#3D1A14] text-[#B3261E] dark:text-[#FCA5A5] border border-[#F3C6BE] dark:border-[#5A2B20]',
+      btn: 'bg-white dark:bg-[var(--status-danger-bg)] hover:bg-[#FFF5F3] dark:hover:bg-[var(--status-danger-bg)] text-[#B3261E] dark:text-[#FCA5A5] border border-[#F3C6BE] dark:border-[#5A2B20]',
       badge: 'bg-[#FFDAD6] dark:bg-[#5A2B20] text-[#B3261E] dark:text-[#FCA5A5]',
     },
     // Square, label-less control. Pass `ariaLabel` for an accessible name.
     icon: {
-      btn: 'bg-white dark:bg-[#1d2822] hover:bg-[#F1F5F3] dark:hover:bg-[#26352E] text-[#0B5D4B] dark:text-[#4ADE80] border border-[#E4E8E4] dark:border-[#2E4137]',
+      btn: 'bg-white dark:bg-[var(--bg-raised)] hover:bg-[#F1F5F3] dark:hover:bg-[#26352E] text-[#0B5D4B] dark:text-[var(--accent-green)] border border-[#E4E8E4] dark:border-[var(--border-strong)]',
       badge: 'bg-transparent text-current',
     },
   };

@@ -33,16 +33,16 @@ export const GapDiffBar: React.FC<GapDiffBarProps> = ({
     <div id={id} className="mt-2.5">
       <div className="flex items-end justify-between gap-3 mb-1.5 text-[11px]">
         <div className="min-w-0">
-          <span className="block text-[#516A5F] dark:text-[#8E9F97]">{yourLabel}</span>
-          <strong className="block truncate text-[#1A1C1B] dark:text-[#F0F4F2]">{yourValue}</strong>
+          <span className="block text-[#516A5F] dark:text-[var(--text-tertiary)]">{yourLabel}</span>
+          <strong className="block truncate text-[#1A1C1B] dark:text-[var(--text-main)]">{yourValue}</strong>
         </div>
         <div className="min-w-0 text-right">
-          <span className="block text-[#516A5F] dark:text-[#8E9F97]">{requiredLabel}</span>
+          <span className="block text-[#516A5F] dark:text-[var(--text-tertiary)]">{requiredLabel}</span>
           <strong className="block truncate text-amber-800 dark:text-amber-300">{requiredValue}</strong>
         </div>
       </div>
 
-      <div className="relative h-2 w-full rounded-full bg-[#EEEEED] dark:bg-[#1d2822] overflow-hidden">
+      <div className="relative h-2 w-full rounded-full bg-[#EEEEED] dark:bg-[var(--bg-raised)] overflow-hidden">
         <motion.div
           className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-[#14453D] to-[#1E6A50] dark:from-[#22C55E] dark:to-[#4ADE80]"
           initial={shouldReduceMotion ? { width: `${pct}%` } : { width: '0%' }}

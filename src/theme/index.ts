@@ -1,5 +1,4 @@
 export * from './ThemeContext';
-export * from './tokens';
 export {
   palette,
   status,
@@ -11,4 +10,3 @@ export {
   shadow as elevationShadows,
   designTokens,
 } from './designTokens';
-export { tokens as default } from './tokens';

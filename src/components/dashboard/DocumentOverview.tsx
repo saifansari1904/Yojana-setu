@@ -24,12 +24,12 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
   return (
     <section
       id="document-overview"
-      className="bg-white dark:bg-[#1d2822] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
+      className="bg-white dark:bg-[var(--bg-raised)] border border-[#E3ECE7] dark:border-[var(--border-subtle)] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
     >
       {/* Header */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-[#EAF5EF] dark:bg-[#162D24] text-[#0F6B4C] dark:text-[#4ADE80]">
+          <div className="p-2 rounded-lg bg-[#EAF5EF] dark:bg-[var(--bg-subtle)] text-[#0F6B4C] dark:text-[var(--accent-green)]">
             <FileText className="w-5 h-5" />
           </div>
           <div>
@@ -48,7 +48,7 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
           <button
             id="view-doc-checklist-btn"
             onClick={onOpenChecklist}
-            className="text-xs font-semibold text-[#0F6B4C] dark:text-[#4ADE80] hover:underline px-2 py-1 min-h-[44px] flex items-center gap-1"
+            className="text-xs font-semibold text-[#0F6B4C] dark:text-[var(--accent-green)] hover:underline px-2 py-1 min-h-[44px] flex items-center gap-1"
           >
             <span>{isHi ? 'चेकलिस्ट देखें' : 'View Checklist'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -58,7 +58,7 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
 
       {/* Metrics Row */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[var(--bg-raised)] border border-slate-200 dark:border-slate-800">
           <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             {isHi ? 'अद्वितीय वैधानिक' : 'Unique Mandated'}
           </div>
@@ -67,16 +67,16 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
           </div>
         </div>
 
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[var(--bg-raised)] border border-slate-200 dark:border-slate-800">
           <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             {isHi ? 'तैयार चिह्नित' : 'Marked Prepared'}
           </div>
-          <div className="text-xl font-bold text-[#0F6B4C] dark:text-[#4ADE80] mt-1">
+          <div className="text-xl font-bold text-[#0F6B4C] dark:text-[var(--accent-green)] mt-1">
             <AnimatedCounter value={summary.preparedCount} />
           </div>
         </div>
 
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[var(--bg-raised)] border border-slate-200 dark:border-slate-800">
           <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             {isHi ? 'लंबित तैयारी' : 'Pending Prep'}
           </div>
@@ -106,8 +106,8 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
       )}
 
       {/* Strict Trust & Zero PII Guarantee Callout */}
-      <div className="p-3 rounded-lg bg-[#F3F9F5] dark:bg-[#12251D] border border-[#D5EADB] dark:border-[#1C3A2D] text-xs flex items-start gap-2.5">
-        <Lock className="w-4 h-4 text-[#0F6B4C] dark:text-[#4ADE80] mt-0.5 shrink-0" />
+      <div className="p-3 rounded-lg bg-[#F3F9F5] dark:bg-[var(--bg-raised)] border border-[#D5EADB] dark:border-[#1C3A2D] text-xs flex items-start gap-2.5">
+        <Lock className="w-4 h-4 text-[#0F6B4C] dark:text-[var(--accent-green)] mt-0.5 shrink-0" />
         <div className="leading-relaxed text-slate-700 dark:text-slate-300">
           <span className="font-semibold text-slate-900 dark:text-white">
             {isHi ? 'शून्य व्यक्तिगत डेटा संचय:' : 'Zero PII Storage Guarantee:'}{' '}

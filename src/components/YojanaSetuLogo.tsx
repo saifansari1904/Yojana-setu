@@ -278,16 +278,16 @@ export const YojanaSetuLogo: React.FC<LogoProps> = ({
         </div>
         <div className="flex flex-col justify-center">
           <div className="flex items-center gap-1 leading-tight">
-            <span className={`font-black tracking-tight text-[#14453D] dark:text-[#F0F4F2] ${horizontalConfig.titleText}`}>
+            <span className={`font-black tracking-tight text-[#14453D] dark:text-[var(--text-main)] ${horizontalConfig.titleText}`}>
               YOJANA
             </span>
-            <span className={`font-black tracking-tight text-[#1E6A50] dark:text-[#4ADE80] ${horizontalConfig.titleText}`}>
+            <span className={`font-black tracking-tight text-[#1E6A50] dark:text-[var(--accent-green)] ${horizontalConfig.titleText}`}>
               SETU
             </span>
           </div>
           {showTaglines && (
             <span
-              className={`font-bold text-[#14453D] dark:text-[#9EB0A7] tracking-tight mt-0.5 whitespace-nowrap ${horizontalConfig.taglineText}`}
+              className={`font-bold text-[#14453D] dark:text-[var(--text-secondary)] tracking-tight mt-0.5 whitespace-nowrap ${horizontalConfig.taglineText}`}
               style={{ fontFamily: "'Noto Sans Devanagari', 'Segoe UI', system-ui, sans-serif" }}
             >
               सही योजना • सही सहायता • सही रास्ता
@@ -311,10 +311,10 @@ export const YojanaSetuLogo: React.FC<LogoProps> = ({
 
       {/* 2. Brand Name: YOJANA SETU */}
       <div className="mt-2 flex items-center justify-center gap-1.5 font-black tracking-wider leading-none">
-        <span className={`${stackedConfig.titleText} text-[#14453D] dark:text-[#F0F4F2] font-extrabold`}>
+        <span className={`${stackedConfig.titleText} text-[#14453D] dark:text-[var(--text-main)] font-extrabold`}>
           YOJANA
         </span>
-        <span className={`${stackedConfig.titleText} text-[#1E6A50] dark:text-[#4ADE80] font-extrabold`}>
+        <span className={`${stackedConfig.titleText} text-[#1E6A50] dark:text-[var(--accent-green)] font-extrabold`}>
           SETU
         </span>
       </div>
@@ -322,18 +322,18 @@ export const YojanaSetuLogo: React.FC<LogoProps> = ({
       {/* 3. Divider Line with Central Accent Node */}
       <div className="w-full flex items-center justify-center my-1.5 px-2">
         <div className="h-[2px] flex-1 bg-[#14453D] dark:bg-[#2A7567] rounded-full" />
-        <div className={`${stackedConfig.dotSize} mx-1.5 rounded-full bg-[#14453D] dark:bg-[#4ADE80] shrink-0`} />
-        <div className="h-[2px] flex-1 bg-[#175741] dark:bg-[#4ADE80] rounded-full" />
+        <div className={`${stackedConfig.dotSize} mx-1.5 rounded-full bg-[#14453D] dark:bg-[var(--accent-green)] shrink-0`} />
+        <div className="h-[2px] flex-1 bg-[#175741] dark:bg-[var(--accent-green)] rounded-full" />
       </div>
 
       {/* 4. Tagline in Hindi */}
       {showTaglines && (
         <div
-          className={`${stackedConfig.taglineText} font-bold text-[#14453D] dark:text-[#9EB0A7] tracking-normal whitespace-nowrap`}
+          className={`${stackedConfig.taglineText} font-bold text-[#14453D] dark:text-[var(--text-secondary)] tracking-normal whitespace-nowrap`}
           style={{ fontFamily: "'Noto Sans Devanagari', 'Segoe UI', system-ui, sans-serif" }}
         >
-          सही योजना <span className="text-[#1E6A50] dark:text-[#4ADE80] mx-0.5">•</span> सही सहायता{' '}
-          <span className="text-[#1E6A50] dark:text-[#4ADE80] mx-0.5">•</span> सही रास्ता
+          सही योजना <span className="text-[#1E6A50] dark:text-[var(--accent-green)] mx-0.5">•</span> सही सहायता{' '}
+          <span className="text-[#1E6A50] dark:text-[var(--accent-green)] mx-0.5">•</span> सही रास्ता
         </div>
       )}
 

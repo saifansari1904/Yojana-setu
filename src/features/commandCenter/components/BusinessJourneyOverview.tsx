@@ -88,10 +88,10 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
     >
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[#516A5F] dark:text-[#8E9F97]">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-[#516A5F] dark:text-[var(--text-tertiary)]">
             {t('businessJourneyTitle')}
           </h3>
-          <span className="text-xs text-[#516A5F] dark:text-[#8E9F97] font-medium">
+          <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] font-medium">
             Stage {currentStageIndex + 1} of {JOURNEY_STAGES.length}
           </span>
         </div>
@@ -112,8 +112,8 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
                   isCurrent
                     ? 'bg-[#14453D] text-white font-medium shadow-xs'
                     : isCompleted
-                    ? 'bg-[#FAFAF9] dark:bg-[#1d2822] text-[#3F4943] dark:text-[#C5D5CC] hover:bg-[#F3F4F3] dark:hover:bg-[#22302A]'
-                    : 'bg-transparent text-[#516A5F] dark:text-[#6F7A73]'
+                    ? 'bg-[#FAFAF9] dark:bg-[var(--bg-raised)] text-[#3F4943] dark:text-[var(--text-secondary)] hover:bg-[#F3F4F3] dark:hover:bg-[#22302A]'
+                    : 'bg-transparent text-[#516A5F] dark:text-[var(--text-tertiary)]'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -122,8 +122,8 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
                       isCurrent
                         ? 'bg-emerald-400 text-slate-950'
                         : isCompleted
-                        ? 'bg-[#C1E2D0] dark:bg-[#22503E] text-[#1E6A50] dark:text-[#4ADE80]'
-                        : 'border border-[#E4E8E4] dark:border-[#2A3C34] text-[#516A5F] dark:text-[#6F7A73]'
+                        ? 'bg-[#C1E2D0] dark:bg-[#22503E] text-[#1E6A50] dark:text-[var(--accent-green)]'
+                        : 'border border-[#E4E8E4] dark:border-[var(--border-subtle)] text-[#516A5F] dark:text-[var(--text-tertiary)]'
                     }`}
                   >
                     {isCompleted ? <Check className="w-3 h-3 stroke-[3]" /> : idx + 1}
@@ -138,8 +138,8 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
                       Current
                     </span>
                   )}
-                  {isCompleted && <span className="text-[#1E6A50] dark:text-[#4ADE80] font-semibold">✓</span>}
-                  {isUpcoming && <span className="text-[#C5D5CC] dark:text-[#516A5F]">○</span>}
+                  {isCompleted && <span className="text-[#1E6A50] dark:text-[var(--accent-green)] font-semibold">✓</span>}
+                  {isUpcoming && <span className="text-[#C5D5CC] dark:text-[var(--text-tertiary)]">○</span>}
                 </div>
               </div>
             );
@@ -148,33 +148,33 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
       </div>
 
       {/* Current Focus Card */}
-      <div className="pt-4 border-t border-[#EAECEB] dark:border-[#24342D]">
-        <div className="text-[11px] font-bold uppercase tracking-wider text-[#516A5F] dark:text-[#8E9F97] mb-1">
+      <div className="pt-4 border-t border-[#EAECEB] dark:border-[var(--border-subtle)]">
+        <div className="text-[11px] font-bold uppercase tracking-wider text-[#516A5F] dark:text-[var(--text-tertiary)] mb-1">
           {t('currentFocus')}
         </div>
-        <div className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mb-2">
+        <div className="text-lg font-bold text-[#1A1C1B] dark:text-[var(--text-main)] mb-2">
           {STAGE_TITLES[currentStage]?.[language] || STAGE_TITLES[currentStage]?.en || activeStageInfo.title}
         </div>
 
-        <div className="space-y-1 text-xs text-[#516A5F] dark:text-[#9EB0A7] mb-4">
+        <div className="space-y-1 text-xs text-[#516A5F] dark:text-[var(--text-secondary)] mb-4">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#A3AEA5] shrink-0"></span>
             <span>
-              <strong className="text-[#14453D] dark:text-[#E8EFEA] font-semibold">{relevantSchemesCount}</strong>{' '}
+              <strong className="text-[#14453D] dark:text-[var(--text-main)] font-semibold">{relevantSchemesCount}</strong>{' '}
               {t('relevantSchemes')}
             </span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#A3AEA5] shrink-0"></span>
             <span>
-              <strong className="text-[#14453D] dark:text-[#E8EFEA] font-semibold">{supportPathwaysCount}</strong>{' '}
+              <strong className="text-[#14453D] dark:text-[var(--text-main)] font-semibold">{supportPathwaysCount}</strong>{' '}
               {t('supportPathways')}
             </span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#A3AEA5] shrink-0"></span>
             <span>
-              <strong className="text-[#14453D] dark:text-[#E8EFEA] font-semibold">{applicationsUnderwayCount}</strong>{' '}
+              <strong className="text-[#14453D] dark:text-[var(--text-main)] font-semibold">{applicationsUnderwayCount}</strong>{' '}
               {applicationsUnderwayCount === 1 ? t('applicationUnderway') : t('applicationsUnderway')}
             </span>
           </div>

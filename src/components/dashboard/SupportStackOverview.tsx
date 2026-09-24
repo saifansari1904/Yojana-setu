@@ -44,12 +44,12 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
   return (
     <section
       id="support-stack-overview"
-      className="bg-white dark:bg-[#1d2822] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
+      className="bg-white dark:bg-[var(--bg-raised)] border border-[#E3ECE7] dark:border-[var(--border-subtle)] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
     >
       {/* Header */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-[#EAF5EF] dark:bg-[#162D24] text-[#0F6B4C] dark:text-[#4ADE80]">
+          <div className="p-2 rounded-lg bg-[#EAF5EF] dark:bg-[var(--bg-subtle)] text-[#0F6B4C] dark:text-[var(--accent-green)]">
             <Layers className="w-5 h-5" />
           </div>
           <div>
@@ -68,7 +68,7 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
           <button
             id="view-all-support-schemes"
             onClick={onExploreAll}
-            className="text-xs font-semibold text-[#0F6B4C] dark:text-[#4ADE80] hover:underline px-2 py-1 min-h-[44px] flex items-center gap-1"
+            className="text-xs font-semibold text-[#0F6B4C] dark:text-[var(--accent-green)] hover:underline px-2 py-1 min-h-[44px] flex items-center gap-1"
           >
             <span>{isHi ? 'सभी योजनाएं देखें' : 'View All Schemes'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -90,7 +90,7 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
               disabled={!hasSchemes && !onSelectCategory}
               className={`text-left p-3.5 rounded-lg border transition-all flex flex-col justify-between gap-2 min-h-[44px] ${
                 hasSchemes
-                  ? 'bg-[#F9FCFA] dark:bg-[#1d2822] border-[#D8E8DE] dark:border-[#22382D] hover:border-[#0F6B4C] dark:hover:border-[#4ADE80] cursor-pointer'
+                  ? 'bg-[#F9FCFA] dark:bg-[var(--bg-raised)] border-[#D8E8DE] dark:border-[#22382D] hover:border-[#0F6B4C] dark:hover:border-[var(--accent-green)] cursor-pointer'
                   : 'bg-slate-50 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800 opacity-60'
               }`}
             >
@@ -98,7 +98,7 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
                 <div
                   className={`p-2 rounded-md ${
                     hasSchemes
-                      ? 'bg-[#E5F3EB] dark:bg-[#1E362C] text-[#0F6B4C] dark:text-[#4ADE80]'
+                      ? 'bg-[#E5F3EB] dark:bg-[var(--bg-subtle)] text-[#0F6B4C] dark:text-[var(--accent-green)]'
                       : 'bg-slate-200 dark:bg-slate-800 text-slate-500'
                   }`}
                 >

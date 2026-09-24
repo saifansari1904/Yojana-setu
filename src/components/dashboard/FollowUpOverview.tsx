@@ -28,12 +28,12 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
   return (
     <section
       id="follow-up-overview"
-      className="bg-white dark:bg-[#1d2822] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
+      className="bg-white dark:bg-[var(--bg-raised)] border border-[#E3ECE7] dark:border-[var(--border-subtle)] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
     >
       {/* Header */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-[#EAF5EF] dark:bg-[#162D24] text-[#0F6B4C] dark:text-[#4ADE80]">
+          <div className="p-2 rounded-lg bg-[#EAF5EF] dark:bg-[var(--bg-subtle)] text-[#0F6B4C] dark:text-[var(--accent-green)]">
             <Bell className="w-5 h-5" />
           </div>
           <div>
@@ -52,7 +52,7 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
           <button
             id="manage-reminders-btn"
             onClick={onOpenTracker}
-            className="text-xs font-semibold text-[#0F6B4C] dark:text-[#4ADE80] hover:underline px-2 py-1 min-h-[44px] flex items-center gap-1"
+            className="text-xs font-semibold text-[#0F6B4C] dark:text-[var(--accent-green)] hover:underline px-2 py-1 min-h-[44px] flex items-center gap-1"
           >
             <span>{isHi ? 'अनुस्मारक प्रबंधित करें' : 'Manage Reminders'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -104,7 +104,7 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
                 <button
                   id={`view-followup-scheme-${item.schemeId}`}
                   onClick={() => onSelectScheme(item.match!)}
-                  className="self-start sm:self-center px-3 py-1.5 rounded-md bg-white dark:bg-[#1d2822] border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium min-h-[44px] flex items-center"
+                  className="self-start sm:self-center px-3 py-1.5 rounded-md bg-white dark:bg-[var(--bg-raised)] border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium min-h-[44px] flex items-center"
                 >
                   {isHi ? 'योजना देखें' : 'View Scheme'}
                 </button>

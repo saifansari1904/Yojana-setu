@@ -156,18 +156,18 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
     <div className="mx-auto max-w-5xl px-4 pt-6 pb-12 sm:px-6 lg:px-8">
       <header className="mb-6">
         <div className="mb-1.5 flex items-center gap-2">
-          <LayoutDashboard className="h-5 w-5 text-[#16A34A] dark:text-[#4ADE80]" aria-hidden="true" />
-          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#516A5F] dark:text-[#9EB0A7]">
+          <LayoutDashboard className="h-5 w-5 text-[#16A34A] dark:text-[var(--accent-green)]" aria-hidden="true" />
+          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#516A5F] dark:text-[var(--text-secondary)]">
             {t('dashboard.badge')}
           </p>
         </div>
-        <h1 className="text-xl font-bold text-[#14453D] sm:text-2xl dark:text-[#E8EFEA]">
+        <h1 className="text-xl font-bold text-[#14453D] sm:text-2xl dark:text-[var(--text-main)]">
           {t('dashboard.title')}
         </h1>
-        <p className="mt-1 max-w-2xl text-xs text-[#516A5F] sm:text-sm dark:text-[#9EB0A7]">
+        <p className="mt-1 max-w-2xl text-xs text-[#516A5F] sm:text-sm dark:text-[var(--text-secondary)]">
           {t('dashboard.subtitle')}
         </p>
-        <p className="mt-1.5 text-[11px] text-[#6F7A73] dark:text-[#8E9F97]">
+        <p className="mt-1.5 text-[11px] text-[#6F7A73] dark:text-[var(--text-tertiary)]">
           {t('dashboard.privacyNote')}
         </p>
       </header>
@@ -182,10 +182,10 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
         {stats.map((stat) => {
           const content = (
             <>
-              <span className="block text-2xl font-bold text-[#14453D] dark:text-[#E8EFEA]">
+              <span className="block text-2xl font-bold text-[#14453D] dark:text-[var(--text-main)]">
                 <AnimatedCounter value={stat.value} />
               </span>
-              <span className="mt-0.5 block text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7]">
+              <span className="mt-0.5 block text-[11px] font-semibold text-[#516A5F] dark:text-[var(--text-secondary)]">
                 {stat.label}
               </span>
             </>
@@ -198,14 +198,14 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
                   id={`dashboard-stat-${stat.id}`}
                   type="button"
                   onClick={stat.onClick}
-                  className="min-h-[44px] w-full cursor-pointer rounded-md border border-[#E2E2E0] bg-white p-3 text-left transition-colors hover:border-[#B2CDBF] focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:border-[#24342D] dark:bg-[#141b17] dark:hover:border-[#285743]"
+                  className="min-h-[44px] w-full cursor-pointer rounded-md border border-[#E2E2E0] bg-white p-3 text-left transition-colors hover:border-[#B2CDBF] focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:border-[var(--border-subtle)] dark:bg-[var(--bg-card)] dark:hover:border-[#285743]"
                 >
                   {content}
                 </button>
               ) : (
                 <div
                   id={`dashboard-stat-${stat.id}`}
-                  className="min-h-[44px] rounded-md border border-[#E2E2E0] bg-white p-3 dark:border-[#24342D] dark:bg-[#141b17]"
+                  className="min-h-[44px] rounded-md border border-[#E2E2E0] bg-white p-3 dark:border-[var(--border-subtle)] dark:bg-[var(--bg-card)]"
                 >
                   {content}
                 </div>
@@ -219,25 +219,25 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
       {topMatch && (
         <section
           id="dashboard-next-step"
-          className="mb-6 rounded-md border border-[#B2CDBF] bg-[#D4EFE1]/50 p-4 dark:border-[#285743] dark:bg-[#132720]"
+          className="mb-6 rounded-md border border-[#B2CDBF] bg-[#D4EFE1]/50 p-4 dark:border-[#285743] dark:bg-[var(--bg-subtle)]"
         >
           <div className="mb-1.5 flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-[#0F6B4C] dark:text-[#4ADE80]" aria-hidden="true" />
-            <h2 className="text-sm font-bold text-[#14453D] dark:text-[#E8EFEA]">
+            <Sparkles className="h-4 w-4 text-[#0F6B4C] dark:text-[var(--accent-green)]" aria-hidden="true" />
+            <h2 className="text-sm font-bold text-[#14453D] dark:text-[var(--text-main)]">
               {t('dashboard.nextStepTitle')}
             </h2>
           </div>
-          <p className="text-sm font-semibold text-[#14453D] dark:text-[#E8EFEA]">
+          <p className="text-sm font-semibold text-[#14453D] dark:text-[var(--text-main)]">
             {getLocalizedScheme(topMatch.scheme).name}
           </p>
-          <p className="mt-1 text-xs text-[#3F4943] dark:text-[#C5D5CC]">
+          <p className="mt-1 text-xs text-[#3F4943] dark:text-[var(--text-secondary)]">
             {topMatch.plainLanguageExplanation}
           </p>
           <button
             id="dashboard-open-top-match"
             type="button"
             onClick={() => onSelectScheme(topMatch)}
-            className="mt-3 inline-flex min-h-[44px] cursor-pointer items-center gap-1.5 rounded bg-[#14453D] px-3 text-[11px] font-bold text-white transition-colors hover:bg-[#0B302B] focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:bg-[#1C5045] dark:hover:bg-[#14453D]"
+            className="mt-3 inline-flex min-h-[44px] cursor-pointer items-center gap-1.5 rounded bg-[#14453D] px-3 text-[11px] font-bold text-white transition-colors hover:bg-[#0B302B] focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:bg-[#1C5045] dark:hover:bg-[var(--brand-deep)]"
           >
             <span>{t('dashboard.openScheme')}</span>
             <ArrowRight className="h-3 w-3" aria-hidden="true" />
@@ -249,24 +249,24 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
         {/* Saved schemes */}
         <section
           id="dashboard-saved"
-          className="rounded-md border border-[#E2E2E0] bg-white p-4 dark:border-[#24342D] dark:bg-[#141b17]"
+          className="rounded-md border border-[#E2E2E0] bg-white p-4 dark:border-[var(--border-subtle)] dark:bg-[var(--bg-card)]"
         >
           <div className="mb-3 flex items-center justify-between gap-2">
-            <h2 className="inline-flex items-center gap-1.5 text-sm font-bold text-[#14453D] dark:text-[#E8EFEA]">
+            <h2 className="inline-flex items-center gap-1.5 text-sm font-bold text-[#14453D] dark:text-[var(--text-main)]">
               <Bookmark className="h-4 w-4" aria-hidden="true" />
               {t('dashboard.savedTitle')}
             </h2>
             <button
               type="button"
               onClick={onOpenResults}
-              className="min-h-[44px] cursor-pointer rounded px-2 text-[11px] font-bold text-[#0F6B4C] underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:text-[#4ADE80]"
+              className="min-h-[44px] cursor-pointer rounded px-2 text-[11px] font-bold text-[#0F6B4C] underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:text-[var(--accent-green)]"
             >
               {t('dashboard.viewAllMatches')}
             </button>
           </div>
 
           {savedMatches.length === 0 ? (
-            <p className="text-xs text-[#6F7A73] dark:text-[#8E9F97]">{t('dashboard.savedEmpty')}</p>
+            <p className="text-xs text-[#6F7A73] dark:text-[var(--text-tertiary)]">{t('dashboard.savedEmpty')}</p>
           ) : (
             <ul className="space-y-2">
               {savedMatches.map((match) => (
@@ -274,12 +274,12 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
                   <button
                     type="button"
                     onClick={() => onSelectScheme(match)}
-                    className="flex min-h-[44px] w-full cursor-pointer items-center justify-between gap-3 rounded border border-[#EAECEB] bg-[#F6F8F7] px-3 py-2 text-left transition-colors hover:border-[#B2CDBF] focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:border-[#24342D] dark:bg-[#1d2822] dark:hover:border-[#285743]"
+                    className="flex min-h-[44px] w-full cursor-pointer items-center justify-between gap-3 rounded border border-[#EAECEB] bg-[#F6F8F7] px-3 py-2 text-left transition-colors hover:border-[#B2CDBF] focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:border-[var(--border-subtle)] dark:bg-[var(--bg-raised)] dark:hover:border-[#285743]"
                   >
-                    <span className="min-w-0 truncate text-xs font-semibold text-[#14453D] dark:text-[#C5D5CC]">
+                    <span className="min-w-0 truncate text-xs font-semibold text-[#14453D] dark:text-[var(--text-secondary)]">
                       {getLocalizedScheme(match.scheme).name}
                     </span>
-                    <span className="shrink-0 text-[10px] font-bold text-[#516A5F] dark:text-[#9EB0A7]">
+                    <span className="shrink-0 text-[10px] font-bold text-[#516A5F] dark:text-[var(--text-secondary)]">
                       {match.matchPercentage}%
                     </span>
                   </button>
@@ -292,24 +292,24 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
         {/* Applications in progress */}
         <section
           id="dashboard-applications"
-          className="rounded-md border border-[#E2E2E0] bg-white p-4 dark:border-[#24342D] dark:bg-[#141b17]"
+          className="rounded-md border border-[#E2E2E0] bg-white p-4 dark:border-[var(--border-subtle)] dark:bg-[var(--bg-card)]"
         >
           <div className="mb-3 flex items-center justify-between gap-2">
-            <h2 className="inline-flex items-center gap-1.5 text-sm font-bold text-[#14453D] dark:text-[#E8EFEA]">
+            <h2 className="inline-flex items-center gap-1.5 text-sm font-bold text-[#14453D] dark:text-[var(--text-main)]">
               <ClipboardList className="h-4 w-4" aria-hidden="true" />
               {t('dashboard.trackerTitle')}
             </h2>
             <button
               type="button"
               onClick={onOpenTracker}
-              className="min-h-[44px] cursor-pointer rounded px-2 text-[11px] font-bold text-[#0F6B4C] underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:text-[#4ADE80]"
+              className="min-h-[44px] cursor-pointer rounded px-2 text-[11px] font-bold text-[#0F6B4C] underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:text-[var(--accent-green)]"
             >
               {t('dashboard.viewTracker')}
             </button>
           </div>
 
           {activeApplications.length === 0 ? (
-            <p className="text-xs text-[#6F7A73] dark:text-[#8E9F97]">{t('dashboard.trackerEmpty')}</p>
+            <p className="text-xs text-[#6F7A73] dark:text-[var(--text-tertiary)]">{t('dashboard.trackerEmpty')}</p>
           ) : (
             <ul className="space-y-2">
               {activeApplications.map((app) => {
@@ -318,12 +318,12 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
                 return (
                   <li
                     key={app.schemeId}
-                    className="rounded border border-[#EAECEB] bg-[#F6F8F7] px-3 py-2 dark:border-[#24342D] dark:bg-[#1d2822]"
+                    className="rounded border border-[#EAECEB] bg-[#F6F8F7] px-3 py-2 dark:border-[var(--border-subtle)] dark:bg-[var(--bg-raised)]"
                   >
-                    <p className="truncate text-xs font-semibold text-[#14453D] dark:text-[#C5D5CC]">
+                    <p className="truncate text-xs font-semibold text-[#14453D] dark:text-[var(--text-secondary)]">
                       {name}
                     </p>
-                    <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#516A5F] dark:text-[#9EB0A7]">
+                    <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#516A5F] dark:text-[var(--text-secondary)]">
                       {app.status}
                     </p>
                   </li>
@@ -337,15 +337,15 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
       {/* Needs attention */}
       <section
         id="dashboard-attention"
-        className="mt-4 rounded-md border border-[#E2E2E0] bg-white p-4 dark:border-[#24342D] dark:bg-[#141b17]"
+        className="mt-4 rounded-md border border-[#E2E2E0] bg-white p-4 dark:border-[var(--border-subtle)] dark:bg-[var(--bg-card)]"
       >
-        <h2 className="mb-3 inline-flex items-center gap-1.5 text-sm font-bold text-[#14453D] dark:text-[#E8EFEA]">
+        <h2 className="mb-3 inline-flex items-center gap-1.5 text-sm font-bold text-[#14453D] dark:text-[var(--text-main)]">
           <AlertTriangle className="h-4 w-4" aria-hidden="true" />
           {t('dashboard.attentionTitle')}
         </h2>
 
         {attentionItems.length === 0 ? (
-          <p className="text-xs text-[#6F7A73] dark:text-[#8E9F97]">{t('dashboard.attentionNone')}</p>
+          <p className="text-xs text-[#6F7A73] dark:text-[var(--text-tertiary)]">{t('dashboard.attentionNone')}</p>
         ) : (
           <ul className="space-y-2">
             {attentionItems.map((item) => (
@@ -357,15 +357,15 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
                     : 'border-[#FCD34D] bg-[#FEF3C7]/70 dark:border-[#5B4718] dark:bg-[#3B2F14]/60'
                 }`}
               >
-                <p className="text-xs font-semibold text-[#14453D] dark:text-[#E8EFEA]">
+                <p className="text-xs font-semibold text-[#14453D] dark:text-[var(--text-main)]">
                   {item.schemeName}
                 </p>
-                <p className="mt-0.5 text-[11px] text-[#3F4943] dark:text-[#C5D5CC]">{item.message}</p>
+                <p className="mt-0.5 text-[11px] text-[#3F4943] dark:text-[var(--text-secondary)]">{item.message}</p>
                 {item.match && (
                   <button
                     type="button"
                     onClick={() => item.match && onSelectScheme(item.match)}
-                    className="mt-1 min-h-[44px] cursor-pointer rounded px-1 text-[11px] font-bold text-[#0F6B4C] underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:text-[#4ADE80]"
+                    className="mt-1 min-h-[44px] cursor-pointer rounded px-1 text-[11px] font-bold text-[#0F6B4C] underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:text-[var(--accent-green)]"
                   >
                     {t('dashboard.openScheme')}
                   </button>

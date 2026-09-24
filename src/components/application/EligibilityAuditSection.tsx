@@ -21,13 +21,13 @@ export const EligibilityAuditSection: React.FC<EligibilityAuditSectionProps> = (
 
   return (
     <div id="eligibility-audit-section" className="space-y-6">
-      <div className="flex items-center justify-between pb-4 border-b border-[#E5E9E7] dark:border-[#22332A]">
+      <div className="flex items-center justify-between pb-4 border-b border-[#E5E9E7] dark:border-[var(--border-subtle)]">
         <div>
-          <h3 className="text-base font-bold text-[#1F2421] dark:text-[#F0F4F2] flex items-center gap-2">
-            <Scale className="w-5 h-5 text-[#1E6A50] dark:text-[#4ADE80]" />
+          <h3 className="text-base font-bold text-[#1F2421] dark:text-[var(--text-main)] flex items-center gap-2">
+            <Scale className="w-5 h-5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
             {t('workspace.eligibilityTitle')}
           </h3>
-          <p className="text-xs text-[#5A6561] dark:text-[#97A7A0] mt-1">
+          <p className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] mt-1">
             {t('workspace.eligibilityDesc')}
           </p>
         </div>
@@ -69,17 +69,17 @@ export const EligibilityAuditSection: React.FC<EligibilityAuditSectionProps> = (
             <HelpCircle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
             <span>{t('workspace.unknownFactors')}</span>
           </div>
-          <p className="text-xs text-[#5A6561] dark:text-[#97A7A0] mb-2">
+          <p className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] mb-2">
             The following criteria could not be evaluated strictly from your current profile answers:
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {unknowns.map((u, idx) => (
               <div
                 key={idx}
-                className="p-2.5 rounded-lg bg-white dark:bg-[#141b17] border border-amber-200 dark:border-amber-900 text-xs"
+                className="p-2.5 rounded-lg bg-white dark:bg-[var(--bg-card)] border border-amber-200 dark:border-amber-900 text-xs"
               >
                 <div className="font-semibold">{u.factorLabel}</div>
-                <div className="text-[11px] text-[#5A6561] dark:text-[#97A7A0]">{u.explanation || u.statutoryRequirement}</div>
+                <div className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)]">{u.explanation || u.statutoryRequirement}</div>
               </div>
             ))}
           </div>
@@ -87,32 +87,32 @@ export const EligibilityAuditSection: React.FC<EligibilityAuditSectionProps> = (
       )}
 
       {/* Statutory Parameters Table */}
-      <div className="rounded-xl border border-[#E5E9E7] dark:border-[#22332A] overflow-hidden">
-        <div className="bg-[#F4F7F5] dark:bg-[#1d2822] px-4 py-3 border-b border-[#E5E9E7] dark:border-[#22332A] text-xs font-bold text-[#1F2421] dark:text-[#F0F4F2]">
+      <div className="rounded-xl border border-[#E5E9E7] dark:border-[var(--border-subtle)] overflow-hidden">
+        <div className="bg-[#F4F7F5] dark:bg-[var(--bg-raised)] px-4 py-3 border-b border-[#E5E9E7] dark:border-[var(--border-subtle)] text-xs font-bold text-[#1F2421] dark:text-[var(--text-main)]">
           Statutory Verification Profile
         </div>
-        <div className="divide-y divide-[#E5E9E7] dark:divide-[#22332A] text-xs">
+        <div className="divide-y divide-[#E5E9E7] dark:divide-[var(--border-subtle)] text-xs">
           <div className="px-4 py-3 flex items-center justify-between">
-            <span className="text-[#5A6561] dark:text-[#97A7A0]">Target Beneficiary & Social Category</span>
-            <span className="font-semibold text-[#1F2421] dark:text-[#F0F4F2]">
+            <span className="text-[#5A6561] dark:text-[var(--text-secondary)]">Target Beneficiary & Social Category</span>
+            <span className="font-semibold text-[#1F2421] dark:text-[var(--text-main)]">
               {getLocalizedCategory(userProfile.category)}
             </span>
           </div>
           <div className="px-4 py-3 flex items-center justify-between">
-            <span className="text-[#5A6561] dark:text-[#97A7A0]">Applicant Age & Legal Majority</span>
-            <span className="font-semibold text-[#1F2421] dark:text-[#F0F4F2]">
+            <span className="text-[#5A6561] dark:text-[var(--text-secondary)]">Applicant Age & Legal Majority</span>
+            <span className="font-semibold text-[#1F2421] dark:text-[var(--text-main)]">
               {userProfile.age} years (Verified Majority)
             </span>
           </div>
           <div className="px-4 py-3 flex items-center justify-between">
-            <span className="text-[#5A6561] dark:text-[#97A7A0]">Business Activity Domain</span>
-            <span className="font-semibold text-[#1F2421] dark:text-[#F0F4F2]">
+            <span className="text-[#5A6561] dark:text-[var(--text-secondary)]">Business Activity Domain</span>
+            <span className="font-semibold text-[#1F2421] dark:text-[var(--text-main)]">
               {getLocalizedBusinessType(userProfile.businessType)}
             </span>
           </div>
           <div className="px-4 py-3 flex items-center justify-between">
-            <span className="text-[#5A6561] dark:text-[#97A7A0]">State / Territorial Jurisdiction</span>
-            <span className="font-semibold text-[#1F2421] dark:text-[#F0F4F2]">
+            <span className="text-[#5A6561] dark:text-[var(--text-secondary)]">State / Territorial Jurisdiction</span>
+            <span className="font-semibold text-[#1F2421] dark:text-[var(--text-main)]">
               {getLocalizedState(userProfile.state)}
             </span>
           </div>

@@ -166,10 +166,10 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
               </span>
             </div>
             <div className="text-left">
-              <h2 className="yj-h3 text-[#0F1512] dark:text-[#F0F4F2]">
+              <h2 className="yj-h3 text-[#0F1512] dark:text-[var(--text-main)]">
                 {headerText.title}
               </h2>
-              <p className="yj-caption text-[#516A5F] dark:text-[#8E9F97]">
+              <p className="yj-caption text-[#516A5F] dark:text-[var(--text-tertiary)]">
                 {headerText.subtitle}
               </p>
             </div>
@@ -179,14 +179,14 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
             initial={shouldReduceMotion ? undefined : { opacity: 0, y: -4 }}
             animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.18 }}
-            className="yj-numeric yj-h3 text-[#0B5D4B] dark:text-[#4ADE80]"
+            className="yj-numeric yj-h3 text-[#0B5D4B] dark:text-[var(--accent-green)]"
           >
             {progressPercent}%
           </motion.span>
         </div>
 
         {/* Progress bar */}
-        <div className="w-full bg-[#EDF1EF] dark:bg-[#102E29] h-1.5 rounded-full overflow-hidden mb-6">
+        <div className="w-full bg-[#EDF1EF] dark:bg-[var(--bg-subtle)] h-1.5 rounded-full overflow-hidden mb-6">
           <motion.div
             className="h-full rounded-full yj-gradient-accent"
             initial={{ width: '8%' }}
@@ -210,7 +210,7 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
                   <span
                     aria-hidden="true"
                     className={`absolute left-[13px] top-7 bottom-0 w-0.5 rounded-full transition-colors duration-300 ${
-                      isDone ? 'bg-[#175741]/60 dark:bg-[#4ADE80]/50' : 'bg-[#E4E8E4] dark:bg-[#24342D]'
+                      isDone ? 'bg-[#175741]/60 dark:bg-[#4ADE80]/50' : 'bg-[#E4E8E4] dark:bg-[var(--bg-raised)]'
                     }`}
                   />
                 )}
@@ -219,10 +219,10 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
                   aria-hidden="true"
                   className={`relative z-10 w-[27px] h-[27px] shrink-0 rounded-full border flex items-center justify-center transition-colors duration-200 ${
                     isDone
-                      ? 'bg-[#D9E8DF] dark:bg-[#12352B] border-[#1E6A50]/45 text-[#1E6A50] dark:text-[#4ADE80]'
+                      ? 'bg-[#D9E8DF] dark:bg-[var(--bg-subtle)] border-[#1E6A50]/45 text-[#1E6A50] dark:text-[var(--accent-green)]'
                       : isCurrent
-                      ? 'bg-[#F1F5F3] dark:bg-[#102E29] border-[#1E6A50]/45 text-[#0B5D4B] dark:text-[#4ADE80]'
-                      : 'bg-transparent border-[#E4E8E4] dark:border-[#24342D] text-[#9EB0A7] dark:text-[#4A5D54]'
+                      ? 'bg-[#F1F5F3] dark:bg-[var(--bg-subtle)] border-[#1E6A50]/45 text-[#0B5D4B] dark:text-[var(--accent-green)]'
+                      : 'bg-transparent border-[#E4E8E4] dark:border-[var(--border-subtle)] text-[#9EB0A7] dark:text-[var(--text-tertiary)]'
                   }`}
                 >
                   {isDone ? (
@@ -248,10 +248,10 @@ export const MatchingTransition: React.FC<MatchingTransitionProps> = ({
                 <span
                   className={`pt-1 yj-support transition-colors duration-200 ${
                     isCurrent
-                      ? 'text-[#0F1512] dark:text-[#F0F4F2] font-semibold'
+                      ? 'text-[#0F1512] dark:text-[var(--text-main)] font-semibold'
                       : isDone
-                      ? 'text-[#42544C] dark:text-[#A9BDB3]'
-                      : 'text-[#9EB0A7] dark:text-[#5C6F66]'
+                      ? 'text-[#42544C] dark:text-[var(--text-secondary)]'
+                      : 'text-[#9EB0A7] dark:text-[var(--text-tertiary)]'
                   }`}
                 >
                   {step.labels[lang] || step.labels.en}

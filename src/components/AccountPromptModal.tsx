@@ -56,7 +56,7 @@ export const AccountPromptModal: React.FC<AccountPromptModalProps> = ({
       >
         <button
           onClick={onContinueWithoutAccount}
-          className="absolute top-4 right-4 p-1.5 rounded-full text-[#516A5F] dark:text-[#8FA197] hover:bg-[#F3F4F3] dark:hover:bg-[#1d2822] transition-colors cursor-pointer"
+          className="absolute top-4 right-4 p-1.5 rounded-full text-[#516A5F] dark:text-[var(--text-secondary)] hover:bg-[#F3F4F3] dark:hover:bg-[var(--bg-raised)] transition-colors cursor-pointer"
           aria-label="Close"
         >
           <X className="w-4 h-4" />
@@ -64,15 +64,15 @@ export const AccountPromptModal: React.FC<AccountPromptModalProps> = ({
 
         <div className="text-center">
           <div className="w-14 h-14 rounded-full bg-[#D9E8DF] dark:bg-[#1A382D] flex items-center justify-center mx-auto mb-4">
-            <UserPlus className="w-7 h-7 text-[#14453D] dark:text-[#4ADE80]" />
+            <UserPlus className="w-7 h-7 text-[#14453D] dark:text-[var(--accent-green)]" />
           </div>
           <h2
             id="account-prompt-title"
-            className="text-xl font-extrabold text-[#1A1C1B] dark:text-[#F0F4F2] mb-2"
+            className="text-xl font-extrabold text-[#1A1C1B] dark:text-[var(--text-main)] mb-2"
           >
             {t('welcome.authPromptTitle')}
           </h2>
-          <p className="text-sm text-[#516A5F] dark:text-[#9EB0A7] leading-relaxed mb-6">
+          <p className="text-sm text-[#516A5F] dark:text-[var(--text-secondary)] leading-relaxed mb-6">
             {t('welcome.authPromptDesc')}
           </p>
 
@@ -80,14 +80,14 @@ export const AccountPromptModal: React.FC<AccountPromptModalProps> = ({
             <button
               data-primary-action
               onClick={onCreateAccount}
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#14453D] dark:bg-[#4ADE80] text-white dark:text-[#14453D] text-sm font-bold hover:bg-[#1E6A50] dark:hover:bg-[#6EE7B7] transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#1E6A50] focus:ring-offset-2"
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#14453D] dark:bg-[var(--accent-green)] text-white dark:text-[#14453D] text-sm font-bold hover:bg-[#1E6A50] dark:hover:bg-[#6EE7B7] transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#1E6A50] focus:ring-offset-2"
             >
               {t('welcome.authPromptPrimary')}
               <ArrowRight className="w-4 h-4" />
             </button>
             <button
               onClick={onContinueWithoutAccount}
-              className="w-full px-6 py-3 rounded-lg text-sm font-semibold text-[#516A5F] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#F3F4F3] dark:hover:bg-[#1d2822] transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#1E6A50] focus:ring-offset-2"
+              className="w-full px-6 py-3 rounded-lg text-sm font-semibold text-[#516A5F] dark:text-[var(--text-secondary)] hover:text-[#1A1C1B] dark:hover:text-[var(--text-main)] hover:bg-[#F3F4F3] dark:hover:bg-[var(--bg-raised)] transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#1E6A50] focus:ring-offset-2"
             >
               {t('welcome.authPromptSecondary')}
             </button>

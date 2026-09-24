@@ -58,7 +58,7 @@ export const PathwayReportModal: React.FC<PathwayReportModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 px-3 py-6 print:static print:block print:bg-transparent print:p-0"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[var(--overlay)] px-3 py-6 print:static print:block print:bg-transparent print:p-0"
       role="dialog"
       aria-modal="true"
       aria-label={report.title}

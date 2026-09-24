@@ -161,10 +161,10 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
       id="workspace-readiness-header"
       className="yj-card yj-card-lg p-6 mb-6"
     >
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-[#E5E9E7] dark:border-[#22332A]">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-[#E5E9E7] dark:border-[var(--border-subtle)]">
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <span className="yj-eyebrow text-[#1E6A50] dark:text-[#4ADE80]">
+            <span className="yj-eyebrow text-[#1E6A50] dark:text-[var(--accent-green)]">
               {t('workspace.readinessTitle')}
             </span>
             <span
@@ -180,13 +180,13 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
               {READINESS_STATE_LABELS[readiness.state]?.[lang] || resolveLocalizedPair(readiness.labelEn, readiness.labelHi, lang)}
             </span>
           </div>
-          <p className="yj-body text-[#42544C] dark:text-[#97A7A0] yj-measure">
+          <p className="yj-body text-[#42544C] dark:text-[var(--text-secondary)] yj-measure">
             {resolveLocalizedPair(readiness.summaryEn, readiness.summaryHi, lang)}
           </p>
 
           {/* Readiness progress: the same score, shown as a calm linear track */}
           <div
-            className="mt-3 w-full max-w-md h-1.5 rounded-full bg-[#EDF1EF] dark:bg-[#102E29] overflow-hidden"
+            className="mt-3 w-full max-w-md h-1.5 rounded-full bg-[#EDF1EF] dark:bg-[var(--bg-subtle)] overflow-hidden"
             role="img"
             aria-label={`${t('workspace.overallReadiness')}: ${readiness.overallScore}%`}
           >
@@ -205,9 +205,9 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
         </div>
 
         {/* Readiness Score Gauge */}
-        <div className="flex items-center gap-4 shrink-0 bg-[#F4F7F5] dark:bg-[#1d2822] px-5 py-3 rounded-xl border border-[#E0E6E2] dark:border-[#26372E]">
+        <div className="flex items-center gap-4 shrink-0 bg-[#F4F7F5] dark:bg-[var(--bg-raised)] px-5 py-3 rounded-xl border border-[#E0E6E2] dark:border-[var(--border-subtle)]">
           <div className="text-right">
-            <div className="text-xs font-medium text-[#5A6561] dark:text-[#97A7A0]">
+            <div className="text-xs font-medium text-[#5A6561] dark:text-[var(--text-secondary)]">
               {t('workspace.overallReadiness')}
             </div>
             <div className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
@@ -216,10 +216,10 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
                 : READINESS_STATE_LABELS.NOT_READY?.[lang] || 'Action Required'}
             </div>
           </div>
-          <div className="w-14 h-14 flex items-center justify-center rounded-full bg-white dark:bg-[#141b17] border-2 border-emerald-500 shadow-sm">
+          <div className="w-14 h-14 flex items-center justify-center rounded-full bg-white dark:bg-[var(--bg-card)] border-2 border-emerald-500 shadow-sm">
             <AnimatedScore
               value={readiness.overallScore}
-              className="text-base font-bold text-[#1F2421] dark:text-[#F0F4F2]"
+              className="text-base font-bold text-[#1F2421] dark:text-[var(--text-main)]"
             />
           </div>
         </div>
@@ -232,14 +232,14 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
             key={pillar.key}
             type="button"
             onClick={() => onSelectPillar?.(pillar.key)}
-            className="flex flex-col text-left p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1d2822]/60 hover:border-[#1E6A50]/40 dark:hover:border-[#4ADE80]/40 transition-colors group"
+            className="flex flex-col text-left p-4 rounded-xl border border-[#E5E9E7] dark:border-[var(--border-subtle)] bg-[#FAFAF9] dark:bg-[#1d2822]/60 hover:border-[#1E6A50]/40 dark:hover:border-[#4ADE80]/40 transition-colors group"
           >
             <div className="flex items-center justify-between gap-2 mb-2">
               <div className="flex items-center gap-2">
-                <span className="p-1.5 rounded-lg bg-white dark:bg-[#141b17] border border-[#E0E6E2] dark:border-[#26372E]">
+                <span className="p-1.5 rounded-lg bg-white dark:bg-[var(--bg-card)] border border-[#E0E6E2] dark:border-[var(--border-subtle)]">
                   {getPillarIcon(pillar.key)}
                 </span>
-                <span className="text-xs font-bold text-[#1F2421] dark:text-[#F0F4F2]">
+                <span className="text-xs font-bold text-[#1F2421] dark:text-[var(--text-main)]">
                   {PILLAR_NAMES[pillar.key]?.[lang] || resolveLocalizedPair(pillar.labelEn, pillar.labelHi, lang)}
                 </span>
               </div>
@@ -252,7 +252,7 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
               </span>
             </div>
 
-            <p className="text-xs text-[#5A6561] dark:text-[#97A7A0] leading-snug line-clamp-2">
+            <p className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] leading-snug line-clamp-2">
               {resolveLocalizedPair(pillar.summaryEn, pillar.summaryHi, lang)}
             </p>
           </button>

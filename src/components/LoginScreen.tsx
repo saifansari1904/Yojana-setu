@@ -84,12 +84,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
           <div className="border-t-4 border-[#14453D] dark:border-[#20695B] p-5 sm:p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">{t('login.title')}</h2>
-                <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] font-hindi">
+                <h2 className="text-lg font-bold text-[#1A1C1B] dark:text-[var(--text-main)]">{t('login.title')}</h2>
+                <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] font-hindi">
                   {t('common.taglineHindi')}
                 </p>
               </div>
-              <span className="text-[11px] font-bold bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[#4ADE80] px-2 py-0.5 rounded">
+              <span className="text-[11px] font-bold bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[var(--accent-green)] px-2 py-0.5 rounded">
                 {t('common.verifiedGateway')}
               </span>
             </div>
@@ -98,12 +98,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
               <div>
                 <label
                   htmlFor="login-username"
-                  className="block text-xs font-semibold text-[#1A1C1B] dark:text-[#E2E8E4] uppercase tracking-wider mb-1.5"
+                  className="block text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] uppercase tracking-wider mb-1.5"
                 >
                   {t('login.usernameLabel')}
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#516A5F] dark:text-[#8E9F97]">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#516A5F] dark:text-[var(--text-tertiary)]">
                     <User className="h-4 w-4" />
                   </div>
                   <input
@@ -113,7 +113,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder={t('login.usernamePlaceholder')}
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAF9] dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#2A3C34] rounded text-sm text-[#1A1C1B] dark:text-[#F0F4F2] placeholder-[#516A5F] dark:placeholder-[#6C7E76] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80] focus:ring-1 focus:ring-[#14453D] dark:focus:ring-[#4ADE80] transition-colors"
+                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAF9] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded text-sm text-[#1A1C1B] dark:text-[var(--text-main)] placeholder-[#516A5F] dark:placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[#14453D] dark:focus:border-[var(--accent-green)] focus:ring-1 focus:ring-[#14453D] dark:focus:ring-[var(--accent-green)] transition-colors"
                   />
                 </div>
               </div>
@@ -122,14 +122,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
                 <div className="flex items-center justify-between mb-1.5">
                   <label
                     htmlFor="login-password"
-                    className="block text-xs font-semibold text-[#1A1C1B] dark:text-[#E2E8E4] uppercase tracking-wider"
+                    className="block text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] uppercase tracking-wider"
                   >
                     {t('login.passwordLabel')}
                   </label>
-                  <span className="text-[11px] text-[#1E6A50] dark:text-[#4ADE80] font-medium">{t('login.otpActive')}</span>
+                  <span className="text-[11px] text-[#1E6A50] dark:text-[var(--accent-green)] font-medium">{t('login.otpActive')}</span>
                 </div>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#516A5F] dark:text-[#8E9F97]">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#516A5F] dark:text-[var(--text-tertiary)]">
                     <Lock className="h-4 w-4" />
                   </div>
                   <input
@@ -139,23 +139,23 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder={t('login.passwordPlaceholder')}
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAF9] dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#2A3C34] rounded text-sm text-[#1A1C1B] dark:text-[#F0F4F2] placeholder-[#516A5F] dark:placeholder-[#6C7E76] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80] focus:ring-1 focus:ring-[#14453D] dark:focus:ring-[#4ADE80] transition-colors"
+                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAF9] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded text-sm text-[#1A1C1B] dark:text-[var(--text-main)] placeholder-[#516A5F] dark:placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[#14453D] dark:focus:border-[var(--accent-green)] focus:ring-1 focus:ring-[#14453D] dark:focus:ring-[var(--accent-green)] transition-colors"
                   />
                 </div>
               </div>
 
               <div className="flex items-center justify-between text-xs pt-1">
-                <label className="flex items-center gap-2 cursor-pointer text-[#3F4943] dark:text-[#A3B5AC]">
+                <label className="flex items-center gap-2 cursor-pointer text-[#3F4943] dark:text-[var(--text-secondary)]">
                   <input
                     id="remember-me"
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="rounded border-[#E4E8E4] dark:border-[#2A3C34] text-[#14453D] dark:text-[#4ADE80] focus:ring-[#14453D] dark:focus:ring-[#1E6A50] bg-transparent"
+                    className="rounded border-[#E4E8E4] dark:border-[var(--border-subtle)] text-[#14453D] dark:text-[var(--accent-green)] focus:ring-[#14453D] dark:focus:ring-[#1E6A50] bg-transparent"
                   />
                   <span>{t('login.rememberDevice')}</span>
                 </label>
-                <span className="text-[#516A5F] dark:text-[#8FA197] text-[11px]">{t('login.encrypted')}</span>
+                <span className="text-[#516A5F] dark:text-[var(--text-secondary)] text-[11px]">{t('login.encrypted')}</span>
               </div>
 
               <div className="mt-3">
@@ -172,11 +172,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
             </form>
 
             {/* Why create an account — contextual benefits */}
-            <div className="mt-4 p-3.5 rounded-lg bg-[#F3F4F3] dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#24342D]">
-              <p className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mb-2">
+            <div className="mt-4 p-3.5 rounded-lg bg-[#F3F4F3] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
+              <p className="text-xs font-bold text-[#1A1C1B] dark:text-[var(--text-main)] mb-2">
                 {t('welcome.loginContinueTitle')}
               </p>
-              <p className="text-[11px] text-[#516A5F] dark:text-[#8FA197] mb-2.5 leading-relaxed">
+              <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] mb-2.5 leading-relaxed">
                 {t('welcome.loginWhyAccount')}
               </p>
               <ul className="space-y-1.5">
@@ -187,9 +187,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
                 ].map((benefit, idx) => (
                   <li
                     key={idx}
-                    className="flex items-start gap-2 text-[11px] text-[#3F4943] dark:text-[#A3B5AC]"
+                    className="flex items-start gap-2 text-[11px] text-[#3F4943] dark:text-[var(--text-secondary)]"
                   >
-                    <Check className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80] shrink-0 mt-0.5" />
+                    <Check className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)] shrink-0 mt-0.5" />
                     <span>{benefit}</span>
                   </li>
                 ))}
@@ -197,21 +197,21 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
             </div>
 
             {/* Guest Direct Access */}
-            <div className="mt-4 pt-3 border-t border-[#E4E8E4] dark:border-[#24342D] text-center">
+            <div className="mt-4 pt-3 border-t border-[#E4E8E4] dark:border-[var(--border-subtle)] text-center">
               <motion.button
                 id="skip-to-form-btn"
                 type="button"
                 onClick={onSkipToForm}
                 whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-                className="text-xs text-[#14453D] dark:text-[#4ADE80] hover:text-[#1E6A50] dark:hover:text-[#6EE7B7] font-bold underline cursor-pointer inline-block"
+                className="text-xs text-[#14453D] dark:text-[var(--accent-green)] hover:text-[#1E6A50] dark:hover:text-[#6EE7B7] font-bold underline cursor-pointer inline-block"
               >
                 {t('login.guestCheckBtn')}
               </motion.button>
             </div>
           </div>
 
-          <div className="bg-[#F3F4F3] dark:bg-[#141b17] px-6 py-3 border-t border-[#E4E8E4] dark:border-[#24342D] text-[11px] text-[#516A5F] dark:text-[#8FA197] text-center font-medium">
+          <div className="bg-[#F3F4F3] dark:bg-[var(--bg-card)] px-6 py-3 border-t border-[#E4E8E4] dark:border-[var(--border-subtle)] text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] text-center font-medium">
             {t('login.subFooter')}
           </div>
         </motion.div>
@@ -225,38 +225,38 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
           transition={shouldReduceMotion ? reducedMotionTransition : { ...transitions.smooth, delay: 0.2 }}
           className="mt-4 grid grid-cols-3 gap-2 sm:gap-3 text-center"
         >
-          <div className="bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[#24342D] rounded p-3 shadow-2xs">
-            <div className="flex items-center justify-center text-[#14453D] dark:text-[#4ADE80] mb-1">
+          <div className="bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded p-3 shadow-2xs">
+            <div className="flex items-center justify-center text-[#14453D] dark:text-[var(--accent-green)] mb-1">
               <ShieldCheck className="w-4 h-4" />
             </div>
-            <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[#4ADE80]">
+            <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[var(--accent-green)]">
               <AnimatedScore value={259} suffix="+" />
             </div>
-            <div className="text-[10px] text-[#516A5F] dark:text-[#8FA197] font-medium leading-tight">
+            <div className="text-[10px] text-[#516A5F] dark:text-[var(--text-secondary)] font-medium leading-tight">
               {currentMetrics.verified}
             </div>
           </div>
 
-          <div className="bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[#24342D] rounded p-3 shadow-2xs">
-            <div className="flex items-center justify-center text-[#14453D] dark:text-[#4ADE80] mb-1">
+          <div className="bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded p-3 shadow-2xs">
+            <div className="flex items-center justify-center text-[#14453D] dark:text-[var(--accent-green)] mb-1">
               <Landmark className="w-4 h-4" />
             </div>
-            <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[#4ADE80]">
+            <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[var(--accent-green)]">
               <AnimatedScore value={34} suffix="" />
             </div>
-            <div className="text-[10px] text-[#516A5F] dark:text-[#8FA197] font-medium leading-tight">
+            <div className="text-[10px] text-[#516A5F] dark:text-[var(--text-secondary)] font-medium leading-tight">
               {currentMetrics.states}
             </div>
           </div>
 
-          <div className="bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[#24342D] rounded p-3 shadow-2xs">
-            <div className="flex items-center justify-center text-[#14453D] dark:text-[#4ADE80] mb-1">
+          <div className="bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded p-3 shadow-2xs">
+            <div className="flex items-center justify-center text-[#14453D] dark:text-[var(--accent-green)] mb-1">
               <CheckCircle2 className="w-4 h-4" />
             </div>
-            <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[#4ADE80]">
+            <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[var(--accent-green)]">
               <AnimatedScore value={7} suffix="" />
             </div>
-            <div className="text-[10px] text-[#516A5F] dark:text-[#8FA197] font-medium leading-tight">
+            <div className="text-[10px] text-[#516A5F] dark:text-[var(--text-secondary)] font-medium leading-tight">
               {currentMetrics.rules}
             </div>
           </div>

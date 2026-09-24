@@ -53,7 +53,7 @@ const ITEM_META: Record<
       ml: 'തയ്യാറാണ്',
       mr: 'तयार',
     },
-    tone: 'text-[#1E6A50] dark:text-[#4ADE80]',
+    tone: 'text-[#1E6A50] dark:text-[var(--accent-green)]',
   },
   NOT_PREPARED: {
     icon: Circle,
@@ -66,7 +66,7 @@ const ITEM_META: Record<
       ml: 'തയ്യാറല്ല',
       mr: 'तयार नाही',
     },
-    tone: 'text-[#3F4943] dark:text-[#9EB0A7]',
+    tone: 'text-[#3F4943] dark:text-[var(--text-secondary)]',
   },
   UNKNOWN: {
     icon: HelpCircle,
@@ -79,7 +79,7 @@ const ITEM_META: Record<
       ml: 'അറിയില്ല',
       mr: 'अज्ञात',
     },
-    tone: 'text-[#92610A] dark:text-[#FCD34D]',
+    tone: 'text-[#92610A] dark:text-[var(--text-accent)]',
   },
   NOT_REQUIRED: {
     icon: MinusCircle,
@@ -92,7 +92,7 @@ const ITEM_META: Record<
       ml: 'ആവശ്യമില്ല',
       mr: 'आवश्यक नाही',
     },
-    tone: 'text-[#3F4943] dark:text-[#9EB0A7]',
+    tone: 'text-[#3F4943] dark:text-[var(--text-secondary)]',
   },
 };
 
@@ -118,21 +118,21 @@ export const PreparationChecklist: React.FC<PreparationChecklistProps> = ({
     <section
       id={id}
       aria-label={title}
-      className={`rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#132720] p-4 sm:p-5 ${className}`}
+      className={`rounded-2xl border border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-card)] p-4 sm:p-5 ${className}`}
     >
       <div className="flex items-center justify-between gap-3 mb-3">
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[#9EB0A7]">
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-[#3F4943] dark:text-[var(--text-secondary)]">
           {title}
         </h3>
         {!checklist.requirementsUnverified && checklist.totalCount > 0 && (
-          <span className="text-xs font-medium text-[#14453D] dark:text-[#F0F4F2]">
+          <span className="text-xs font-medium text-[#14453D] dark:text-[var(--text-main)]">
             {summaryText}
           </span>
         )}
       </div>
 
       {checklist.requirementsUnverified ? (
-        <p className="flex items-start gap-2 rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-[#EFF5F1] dark:bg-[#1A2B24] p-3 text-sm text-[#3F4943] dark:text-[#9EB0A7]">
+        <p className="flex items-start gap-2 rounded-xl border border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-[#EFF5F1] dark:bg-[var(--bg-subtle)] p-3 text-sm text-[#3F4943] dark:text-[var(--text-secondary)]">
           <Info className="w-4 h-4 mt-0.5 shrink-0" aria-hidden="true" />
           <span>{summaryText}</span>
         </p>
@@ -156,7 +156,7 @@ export const PreparationChecklist: React.FC<PreparationChecklistProps> = ({
                 >
                   <ItemIcon className="w-4 h-4" aria-hidden="true" />
                 </motion.span>
-                <span className="flex-1 text-sm text-[#3F4943] dark:text-[#C7D6CE]">
+                <span className="flex-1 text-sm text-[#3F4943] dark:text-[var(--text-secondary)]">
                   {itemLabel}
                 </span>
                 {/* Status is always available as text, never colour alone. */}
@@ -172,7 +172,7 @@ export const PreparationChecklist: React.FC<PreparationChecklistProps> = ({
                     aria-pressed={item.state === 'PREPARED'}
                     aria-label={`${itemLabel} — ${stateLabel}`}
                     onClick={() => onToggleItem?.(item.id, item.state !== 'PREPARED')}
-                    className="w-full flex items-center gap-2.5 rounded-xl px-3 py-2.5 min-h-[44px] text-left hover:bg-[#EFF5F1] dark:hover:bg-[#1A2B24] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
+                    className="w-full flex items-center gap-2.5 rounded-xl px-3 py-2.5 min-h-[44px] text-left hover:bg-[#EFF5F1] dark:hover:bg-[var(--bg-subtle)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
                   >
                     {inner}
                   </button>

@@ -85,19 +85,19 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
         animate={shouldReduceMotion ? { opacity: 1 } : 'visible'}
         exit={shouldReduceMotion ? { opacity: 0 } : 'exit'}
         transition={shouldReduceMotion ? reducedMotionTransition : transitions.smooth}
-        className="w-full max-w-xl bg-white dark:bg-[#141b17] min-h-screen h-full shadow-2xl flex flex-col justify-between border-l border-[#E4E8E4] dark:border-[#24342D] transition-colors"
+        className="w-full max-w-xl bg-white dark:bg-[var(--bg-card)] min-h-screen h-full shadow-2xl flex flex-col justify-between border-l border-[#E4E8E4] dark:border-[var(--border-subtle)] transition-colors"
       >
         {/* Top Panel Header (Sticky) */}
-        <div className="sticky top-0 z-10 p-6 border-b border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9]/95 dark:bg-[#141b17]/95 backdrop-blur-sm flex items-start justify-between">
+        <div className="sticky top-0 z-10 p-6 border-b border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-[#FAFAF9]/95 dark:bg-[#141b17]/95 backdrop-blur-sm flex items-start justify-between">
           <div className="flex items-start gap-4">
             <MatchGauge percentage={matchPercentage} size={60} strokeWidth={5} />
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.5 rounded uppercase tracking-wider">
+                <span className="text-[10px] font-bold text-[#14453D] dark:text-[var(--accent-green)] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.5 rounded uppercase tracking-wider">
                   {text('ruleAudit')}
                 </span>
                 {isEligible ? (
-                  <span className="text-[10px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-bold text-[#14453D] dark:text-[var(--accent-green)] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.5 rounded">
                     {text('statusEligible')}
                   </span>
                 ) : isNearMatch ? (
@@ -105,18 +105,18 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                     {text('statusNearMatch')}
                   </span>
                 ) : (
-                  <span className="text-[10px] font-bold text-[#7C2C0F] dark:text-[#FCA5A5] bg-[#FFDAD6] dark:bg-[#3D1A14] px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-bold text-[#7C2C0F] dark:text-[#FCA5A5] bg-[#FFDAD6] dark:bg-[var(--status-danger-bg)] px-2 py-0.5 rounded">
                     {text('statusLowMatch')}
                   </span>
                 )}
               </div>
               <h2
                 id="modal-title"
-                className="text-lg font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mt-1.5 leading-tight"
+                className="text-lg font-bold text-[#1A1C1B] dark:text-[var(--text-main)] mt-1.5 leading-tight"
               >
                 {text('whyTitle')}
               </h2>
-              <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mt-0.5 font-medium">
+              <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] mt-0.5 font-medium">
                 {locScheme.name}
               </p>
             </div>
@@ -125,7 +125,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
             id="close-why-modal-btn"
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded text-[#516A5F] dark:text-[#8E9F97] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1d2822] transition-colors cursor-pointer"
+            className="p-1.5 rounded text-[#516A5F] dark:text-[var(--text-tertiary)] hover:text-[#1A1C1B] dark:hover:text-[var(--text-main)] hover:bg-[#EEEEED] dark:hover:bg-[var(--bg-raised)] transition-colors cursor-pointer"
             aria-label="Close why match panel"
           >
             <X className="w-5 h-5" />
@@ -133,14 +133,14 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
         </div>
 
         {/* Scheme Authority Banner */}
-        <div className="px-6 py-2.5 bg-[#F3F4F3] dark:bg-[#141b17] border-b border-[#E4E8E4] dark:border-[#24342D] flex items-center justify-between text-xs">
-          <span className="text-[#3F4943] dark:text-[#9EB0A7] truncate mr-2">
+        <div className="px-6 py-2.5 bg-[#F3F4F3] dark:bg-[var(--bg-card)] border-b border-[#E4E8E4] dark:border-[var(--border-subtle)] flex items-center justify-between text-xs">
+          <span className="text-[#3F4943] dark:text-[var(--text-secondary)] truncate mr-2">
             {text('authorityLabel')}:{' '}
-            <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">
+            <strong className="text-[#1A1C1B] dark:text-[var(--text-main)]">
               {locScheme.sponsoringMinistry}
             </strong>
           </span>
-          <span className="text-[#14453D] dark:text-[#4ADE80] font-bold shrink-0">
+          <span className="text-[#14453D] dark:text-[var(--accent-green)] font-bold shrink-0">
             {locScheme.fundingRangeText}
           </span>
         </div>
@@ -183,13 +183,13 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
 
           {/* Audit Subheader */}
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[#1A1C1B] dark:text-[#E2E8E4] flex items-center gap-1.5">
-              <Scale className="w-4 h-4 text-[#14453D] dark:text-[#4ADE80]" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#1A1C1B] dark:text-[var(--text-main)] flex items-center gap-1.5">
+              <Scale className="w-4 h-4 text-[#14453D] dark:text-[var(--accent-green)]" />
               <span>
                 {text('statutoryAuditTitle')}
               </span>
             </h3>
-            <span className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] font-semibold">
+            <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] font-semibold">
               {matchResult.matchedCount} of {matchResult.totalFactorsCount}{' '}
               {text('factorsVerified')}
             </span>
@@ -209,7 +209,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                 variants={shouldReduceMotion ? undefined : staggerItem}
                 className={`relative overflow-hidden p-3.5 pl-4 rounded-[var(--yj-radius-md)] border transition-colors ${
                   item.state === 'MATCHED' || item.matched
-                    ? 'bg-[#FAFAF9] dark:bg-[#141b17] border-[#D9E8DF] dark:border-[#235845]'
+                    ? 'bg-[#FAFAF9] dark:bg-[var(--bg-card)] border-[#D9E8DF] dark:border-[#235845]'
                     : item.state === 'UNKNOWN'
                     ? 'bg-amber-50/20 dark:bg-amber-950/20 border-amber-300 dark:border-amber-800'
                     : 'bg-[#FFDAD6]/20 dark:bg-[#3D1A14]/30 border-[#FFCCBD] dark:border-[#5A2B20]'
@@ -223,7 +223,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                   className={`pointer-events-none absolute left-0 top-0 bottom-0 w-1 origin-top ${
                     item.state === 'MATCHED' || item.matched
-                      ? 'bg-[#175741] dark:bg-[#4ADE80]'
+                      ? 'bg-[#175741] dark:bg-[var(--accent-green)]'
                       : item.state === 'UNKNOWN'
                       ? 'bg-amber-400 dark:bg-amber-500'
                       : 'bg-[#C2603F] dark:bg-[#F87171]'
@@ -231,13 +231,13 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                 />
 
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="font-bold text-xs text-[#1A1C1B] dark:text-[#F0F4F2] flex items-center gap-1.5">
+                  <span className="font-bold text-xs text-[#1A1C1B] dark:text-[var(--text-main)] flex items-center gap-1.5">
                     <motion.span
                       variants={shouldReduceMotion ? undefined : popIn}
                       className="shrink-0 flex items-center"
                     >
                       {item.state === 'MATCHED' || item.matched ? (
-                        <CheckCircle2 className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80]" />
+                        <CheckCircle2 className="w-4 h-4 text-[#1E6A50] dark:text-[var(--accent-green)]" />
                       ) : item.state === 'UNKNOWN' ? (
                         <HelpCircle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                       ) : (
@@ -249,10 +249,10 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                   <span
                     className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
                       item.state === 'MATCHED' || item.matched
-                        ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
+                        ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)]'
                         : item.state === 'UNKNOWN'
                         ? 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300'
-                        : 'bg-[#FFDAD6] dark:bg-[#3D1A14] text-[#7C2C0F] dark:text-[#FCA5A5]'
+                        : 'bg-[#FFDAD6] dark:bg-[var(--status-danger-bg)] text-[#7C2C0F] dark:text-[#FCA5A5]'
                     }`}
                   >
                     {item.state === 'MATCHED' || item.matched
@@ -264,23 +264,23 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                 </div>
 
                 {/* Profile vs Scheme Requirement Table */}
-                <div className="grid grid-cols-2 gap-2 text-xs bg-white dark:bg-[#1d2822] p-2.5 rounded border border-[#E4E8E4] dark:border-[#293B33] mt-2">
+                <div className="grid grid-cols-2 gap-2 text-xs bg-white dark:bg-[var(--bg-raised)] p-2.5 rounded border border-[#E4E8E4] dark:border-[var(--border-subtle)] mt-2">
                   <div>
-                    <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase tracking-wider font-semibold">
+                    <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] block uppercase tracking-wider font-semibold">
                       {text('yourInputLabel')}
                     </span>
-                    <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] font-semibold">
+                    <strong className="text-[#1A1C1B] dark:text-[var(--text-main)] font-semibold">
                       {item.userValue}
                     </strong>
                   </div>
                   <div>
-                    <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase tracking-wider font-semibold">
+                    <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] block uppercase tracking-wider font-semibold">
                       {text('statutoryReqLabel')}
                     </span>
                     <strong
                       className={`font-semibold ${
                         item.matched
-                          ? 'text-[#14453D] dark:text-[#4ADE80]'
+                          ? 'text-[#14453D] dark:text-[var(--accent-green)]'
                           : 'text-[#7C2C0F] dark:text-[#FCA5A5]'
                       }`}
                     >
@@ -290,7 +290,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                 </div>
 
                 {/* Plain Language Explanation */}
-                <p className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] mt-2 leading-relaxed">
+                <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] mt-2 leading-relaxed">
                   {item.explanation}
                 </p>
               </motion.div>
@@ -298,18 +298,18 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
           </motion.div>
 
           {/* Plain Language Overall Summary */}
-          <div className="p-4 bg-[#FAFAF9] dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#24342D] rounded">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#1A1C1B] dark:text-[#E2E8E4] block mb-1">
+          <div className="p-4 bg-[#FAFAF9] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#1A1C1B] dark:text-[var(--text-main)] block mb-1">
               {text('summaryAssessment')}
             </span>
-            <p className="text-xs text-[#1F2421] dark:text-[#D5DDD8] font-medium leading-relaxed">
+            <p className="text-xs text-[#1F2421] dark:text-[var(--text-main)] font-medium leading-relaxed">
               {plainLanguageExplanation}
             </p>
           </div>
 
           {/* Trust Footnote */}
-          <div className="flex items-center gap-2 p-3 bg-[#F3F4F3] dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#24342D] rounded text-[11px] text-[#3F4943] dark:text-[#9EB0A7]">
-            <ShieldCheck className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80] shrink-0" />
+          <div className="flex items-center gap-2 p-3 bg-[#F3F4F3] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded text-[11px] text-[#3F4943] dark:text-[var(--text-secondary)]">
+            <ShieldCheck className="w-4 h-4 text-[#1E6A50] dark:text-[var(--accent-green)] shrink-0" />
             <span>
               {text('disclaimer')}
             </span>
@@ -317,7 +317,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
         </div>
 
         {/* Panel Sticky Footer */}
-        <div className="sticky bottom-0 z-10 p-6 border-t border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#141b17] space-y-3">
+        <div className="sticky bottom-0 z-10 p-6 border-t border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-[#FAFAF9] dark:bg-[var(--bg-card)] space-y-3">
           <motion.a
             id="modal-official-portal-link"
             href={locScheme.officialPortalUrl || '#'}
@@ -325,7 +325,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
             rel="noopener noreferrer"
             whileHover={shouldReduceMotion ? undefined : { y: -1 }}
             whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-            className="w-full bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[#14453D] text-white py-2.5 px-4 rounded text-xs font-bold transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[var(--brand-deep)] text-white py-2.5 px-4 rounded text-xs font-bold transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>{text('applyOfficialPortal')}</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -334,7 +334,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-full text-center text-xs text-[#516A5F] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] font-medium py-1 cursor-pointer"
+            className="w-full text-center text-xs text-[#516A5F] dark:text-[var(--text-secondary)] hover:text-[#1A1C1B] dark:hover:text-[var(--text-main)] font-medium py-1 cursor-pointer"
           >
             {text('backToList')}
           </button>

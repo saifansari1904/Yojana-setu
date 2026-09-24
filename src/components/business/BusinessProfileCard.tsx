@@ -205,24 +205,24 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
   return (
     <div
       id="business-profile-card"
-      className="bg-white dark:bg-[#141b17] border border-[#D9E8DF] dark:border-[#223F30] rounded-md shadow-2xs overflow-hidden transition-all duration-200"
+      className="bg-white dark:bg-[var(--bg-card)] border border-[#D9E8DF] dark:border-[var(--border-subtle)] rounded-md shadow-2xs overflow-hidden transition-all duration-200"
     >
       {/* Header bar with stage badge & edit button */}
-      <div className="bg-[#F4F8F6] dark:bg-[#1d2822] px-4 py-3 border-b border-[#D9E8DF] dark:border-[#223F30] flex flex-wrap items-center justify-between gap-2">
+      <div className="bg-[#F4F8F6] dark:bg-[var(--bg-raised)] px-4 py-3 border-b border-[#D9E8DF] dark:border-[var(--border-subtle)] flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <Briefcase className="w-4 h-4 text-[#14453D] dark:text-[#4ADE80]" />
-          <span className="text-xs font-bold uppercase tracking-wider text-[#14453D] dark:text-[#4ADE80]">
+          <Briefcase className="w-4 h-4 text-[#14453D] dark:text-[var(--accent-green)]" />
+          <span className="text-xs font-bold uppercase tracking-wider text-[#14453D] dark:text-[var(--accent-green)]">
             {cp('profileTitle')}
           </span>
           {needProfile.stageSource === 'INFERRED' && (
-            <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] bg-white dark:bg-[#141b17] px-1.5 py-0.5 rounded border border-[#E4E8E4] dark:border-[#24342D]">
+            <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] bg-white dark:bg-[var(--bg-card)] px-1.5 py-0.5 rounded border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
               {cp('inferred')}
             </span>
           )}
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded bg-[#D9E8DF] dark:bg-[#16382B] text-[#14453D] dark:text-[#4ADE80] border border-[#B2CDBF] dark:border-[#285743]">
+          <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded bg-[#D9E8DF] dark:bg-[var(--bg-subtle)] text-[#14453D] dark:text-[var(--accent-green)] border border-[#B2CDBF] dark:border-[#285743]">
             <TrendingUp className="w-3 h-3" />
             <span>{stageLabel}</span>
           </span>
@@ -230,7 +230,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
           {onEditProfile && (
             <button
               onClick={onEditProfile}
-              className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] hover:underline cursor-pointer"
+              className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)] hover:underline cursor-pointer"
             >
               {t('common.edit')}
             </button>
@@ -241,7 +241,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
       <div className="p-4 sm:p-5">
         {/* Business Title / Idea Overview */}
         <div className="mb-4">
-          <h3 className="text-base font-bold text-[#1A1C1B] dark:text-[#F0F4F2] flex items-center gap-2">
+          <h3 className="text-base font-bold text-[#1A1C1B] dark:text-[var(--text-main)] flex items-center gap-2">
             <span>
               {needProfile.businessName ||
                 (needProfile.businessIdeaText
@@ -250,7 +250,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             </span>
           </h3>
           {needProfile.businessIdeaText && needProfile.businessName && (
-            <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7] mt-0.5 italic">
+            <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] mt-0.5 italic">
               "{needProfile.businessIdeaText}"
             </p>
           )}
@@ -258,43 +258,43 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
 
         {/* 4-Item Grid of Core Business Attributes */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs mb-4">
-          <div className="bg-[#FAFAF9] dark:bg-[#141b17] p-2.5 rounded border border-[#E4E8E4] dark:border-[#24342D]">
-            <span className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] block mb-0.5">
+          <div className="bg-[#FAFAF9] dark:bg-[var(--bg-card)] p-2.5 rounded border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
+            <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-0.5">
               {cp('industryDomain')}
             </span>
-            <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] font-semibold block truncate">
+            <strong className="text-[#1A1C1B] dark:text-[var(--text-main)] font-semibold block truncate">
               {getLocalizedBusinessType(needProfile.businessType)}
             </strong>
             {needProfile.subSector && (
-              <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block truncate">
+              <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] block truncate">
                 {needProfile.subSector}
               </span>
             )}
           </div>
 
-          <div className="bg-[#FAFAF9] dark:bg-[#141b17] p-2.5 rounded border border-[#E4E8E4] dark:border-[#24342D]">
-            <span className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] block mb-0.5">
+          <div className="bg-[#FAFAF9] dark:bg-[var(--bg-card)] p-2.5 rounded border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
+            <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-0.5">
               {cp('entityStructure')}
             </span>
-            <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] font-semibold block truncate">
+            <strong className="text-[#1A1C1B] dark:text-[var(--text-main)] font-semibold block truncate">
               {entityLabel}
             </strong>
           </div>
 
-          <div className="bg-[#FAFAF9] dark:bg-[#141b17] p-2.5 rounded border border-[#E4E8E4] dark:border-[#24342D]">
-            <span className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] block mb-0.5">
+          <div className="bg-[#FAFAF9] dark:bg-[var(--bg-card)] p-2.5 rounded border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
+            <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-0.5">
               {cp('registration')}
             </span>
-            <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] font-semibold block truncate">
+            <strong className="text-[#1A1C1B] dark:text-[var(--text-main)] font-semibold block truncate">
               {registrationLabel}
             </strong>
           </div>
 
-          <div className="bg-[#FAFAF9] dark:bg-[#141b17] p-2.5 rounded border border-[#E4E8E4] dark:border-[#24342D]">
-            <span className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] block mb-0.5">
+          <div className="bg-[#FAFAF9] dark:bg-[var(--bg-card)] p-2.5 rounded border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
+            <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-0.5">
               {cp('businessLocation')}
             </span>
-            <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] font-semibold block truncate">
+            <strong className="text-[#1A1C1B] dark:text-[var(--text-main)] font-semibold block truncate">
               {businessLocationText || residenceLocationText || cp('national')}
             </strong>
             {needProfile.location?.isInterstate && (
@@ -306,13 +306,13 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
         </div>
 
         {/* Financial Requirements & Funding Gap Analysis */}
-        <div className="p-3 bg-[#F4F8F6] dark:bg-[#1d2822] border border-[#D9E8DF] dark:border-[#223F30] rounded flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div className="p-3 bg-[#F4F8F6] dark:bg-[var(--bg-raised)] border border-[#D9E8DF] dark:border-[var(--border-subtle)] rounded flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
           <div className="flex flex-wrap items-center gap-4">
             <div>
-              <span className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] block">
+              <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] block">
                 {cp('totalProjectCost')}
               </span>
-              <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] font-bold text-sm">
+              <strong className="text-[#1A1C1B] dark:text-[var(--text-main)] font-bold text-sm">
                 {needProfile.totalProjectCost
                   ? formatLakhCrore(needProfile.totalProjectCost, lang)
                   : cp('notSpecified')}
@@ -320,21 +320,21 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
             </div>
 
             {needProfile.existingInvestment !== undefined && needProfile.existingInvestment > 0 && (
-              <div className="border-l border-[#D9E8DF] dark:border-[#223F30] pl-4">
-                <span className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] block">
+              <div className="border-l border-[#D9E8DF] dark:border-[var(--border-subtle)] pl-4">
+                <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] block">
                   {cp('ownInvestment')}
                 </span>
-                <strong className="text-[#1A1C1B] dark:text-[#F0F4F2] font-bold text-sm">
+                <strong className="text-[#1A1C1B] dark:text-[var(--text-main)] font-bold text-sm">
                   {formatLakhCrore(needProfile.existingInvestment, lang)}
                 </strong>
               </div>
             )}
 
-            <div className="border-l border-[#D9E8DF] dark:border-[#223F30] pl-4">
-              <span className="text-[11px] text-[#14453D] dark:text-[#4ADE80] font-semibold block">
+            <div className="border-l border-[#D9E8DF] dark:border-[var(--border-subtle)] pl-4">
+              <span className="text-[11px] text-[#14453D] dark:text-[var(--accent-green)] font-semibold block">
                 {cp('fundingGap')}
               </span>
-              <strong className="text-[#14453D] dark:text-[#4ADE80] font-extrabold text-base">
+              <strong className="text-[#14453D] dark:text-[var(--accent-green)] font-extrabold text-base">
                 {needProfile.fundingGap > 0
                   ? formatLakhCrore(needProfile.fundingGap, lang)
                   : cp('selfFunded')}
@@ -345,8 +345,8 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
           {/* Primary Need Pill */}
           {primaryNeedLabel && (
             <div className="shrink-0 self-start sm:self-center">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-white dark:bg-[#141b17] text-[#14453D] dark:text-[#4ADE80] font-bold text-xs border border-[#D9E8DF] dark:border-[#223F30] shadow-2xs">
-                <Sparkles className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-white dark:bg-[var(--bg-card)] text-[#14453D] dark:text-[var(--accent-green)] font-bold text-xs border border-[#D9E8DF] dark:border-[var(--border-subtle)] shadow-2xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
                 <span>{`${cp('primaryNeed')}: ${primaryNeedLabel}`}</span>
               </span>
             </div>
@@ -356,7 +356,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
         {/* Secondary Needs tags if provided */}
         {needProfile.secondaryNeeds && needProfile.secondaryNeeds.length > 0 && (
           <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs">
-            <span className="text-[11px] text-[#516A5F] dark:text-[#8E9F97]">
+            <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
               {cp('additionalNeeds')}
             </span>
             {needProfile.secondaryNeeds.map((needKey) => {
@@ -364,7 +364,7 @@ export const BusinessProfileCard: React.FC<BusinessProfileCardProps> = ({
               return (
                 <span
                   key={needKey}
-                  className="bg-[#FAFAF9] dark:bg-[#141b17] text-[#3F4943] dark:text-[#C1C9C4] px-2 py-0.5 rounded text-[11px] border border-[#E4E8E4] dark:border-[#24342D]"
+                  className="bg-[#FAFAF9] dark:bg-[var(--bg-card)] text-[#3F4943] dark:text-[#C1C9C4] px-2 py-0.5 rounded text-[11px] border border-[#E4E8E4] dark:border-[var(--border-subtle)]"
                 >
                   {label || needKey}
                 </span>

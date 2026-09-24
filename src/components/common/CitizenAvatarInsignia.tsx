@@ -123,7 +123,7 @@ export const CitizenAvatarInsignia: React.FC<CitizenAvatarInsigniaProps> = ({
 
   const colorStyles =
     variant === 'soft'
-      ? 'bg-[#D9E8DF] text-[#14453D] dark:bg-[#162D24] dark:text-[#4ADE80] border border-[#C5DDD0] dark:border-[#224A3A]'
+      ? 'bg-[#D9E8DF] text-[#14453D] dark:bg-[var(--bg-subtle)] dark:text-[var(--accent-green)] border border-[#C5DDD0] dark:border-[#224A3A]'
       : 'bg-[#14453D] text-white dark:bg-[#165043] dark:text-[#F0FDF4] border border-[#1E6A50] dark:border-[#246B5A] shadow-xs';
 
   const defaultLabel = displayName

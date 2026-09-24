@@ -40,16 +40,34 @@
     --neutral-800: #232A26;
     --neutral-900: #1A1C1B;
     --neutral-950: #0F1210;
-    /* Semantic tokens · light */
+    /* Semantic tokens · light
+       Single source of truth for the presentation layer. Components reference
+       these via Tailwind arbitrary values, e.g. dark:bg-[var(--bg-card)].
+       Dark values mirror the premium Welcome dark visual language. */
     --bg-page: #FAFAF9;
     --bg-card: #FFFFFF;
+    --bg-raised: #FFFFFF;
+    --bg-subtle: #F1F5F3;
+    --bg-deep: #EDF1EF;
+    --bg-inset: #F1F5F3;
     --bg-tint: var(--brand-50);
     --bg-accent-tint: var(--accent-50);
     --border-subtle: var(--neutral-200);
+    --border-strong: #D3DAD6;
     --text-main: var(--neutral-900);
+    --text-secondary: var(--neutral-600);
+    --text-tertiary: var(--neutral-500);
     --text-muted: var(--neutral-600);
     --text-brand: var(--brand-600);
     --text-accent: var(--accent-700);
+    --accent-green: var(--brand-600);
+    --accent-green-2: var(--brand-500);
+    --brand-deep: var(--brand-800);
+    --gold: var(--accent-700);
+    --overlay: rgba(0, 0, 0, 0.5);
+    --status-success-bg: var(--brand-50);
+    --status-warning-bg: var(--accent-100);
+    --status-danger-bg: #FFDAD6;
     --brand-solid: var(--brand-800);
     --brand-solid-hover: var(--brand-900);
     --on-brand: #FFFFFF;
@@ -58,16 +76,33 @@
   }
 
   .dark {
+    /* Dark semantic tokens · the Welcome dark visual language, applied
+       application-wide: deep green-black page, dark emerald surfaces,
+       subtle green borders, off-white typography, emerald + gold accents. */
     --bg-page: #0E1311;
     --bg-card: #141B17;
-    --bg-inset: #1D2822;
+    --bg-raised: #1D2822;
+    --bg-subtle: #122019;
+    --bg-deep: #0A1F1B;
+    --bg-inset: #122019;
     --bg-tint: #122019;
     --bg-accent-tint: #221A08;
-    --border-subtle: #223129;
+    --border-subtle: #24342D;
+    --border-strong: #2E4137;
     --text-main: #F0F4F2;
-    --text-muted: #9EB0A7;
+    --text-secondary: #A9BDB3;
+    --text-tertiary: #8E9F97;
+    --text-muted: #A9BDB3;
     --text-brand: #4ADE80;
     --text-accent: #FCD34D;
+    --accent-green: #4ADE80;
+    --accent-green-2: #34D399;
+    --brand-deep: #14453D;
+    --gold: #E3A83B;
+    --overlay: rgba(0, 0, 0, 0.65);
+    --status-success-bg: #12352B;
+    --status-warning-bg: #3B2F14;
+    --status-danger-bg: #3D1A14;
     --brand-solid: var(--brand-600);
     --brand-solid-hover: var(--brand-500);
     --on-brand: #FFFFFF;
