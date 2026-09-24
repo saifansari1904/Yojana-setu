@@ -6,7 +6,6 @@ import {
   BusinessStage,
   RuralUrban,
   FundingRangeId,
-  BusinessRegistrationType,
   TurnoverRangeId,
 } from '../types';
 import {
@@ -34,10 +33,19 @@ import {
   QUESTIONNAIRE_STAGES,
   BUSINESS_STAGE_OPTIONS,
   FUNDING_RANGE_OPTIONS,
-  BUSINESS_REGISTRATION_OPTIONS,
   TURNOVER_RANGE_OPTIONS,
   RURAL_URBAN_OPTIONS,
 } from '../data/questionnaireConfig';
+import type {
+  BusinessRegistrationKind,
+  BusinessRegistrationRecord,
+  BusinessFormalizationStatus,
+} from '../types/registration';
+import { REGISTRATION_KINDS } from '../types/registration';
+import {
+  normalizeRegistrationFields,
+  migrateLegacyRegistrations,
+} from '../lib/registrations/registrationModel';
 import {
   Users,
   Briefcase,
@@ -69,10 +77,10 @@ import { YojanaSetuLogo } from './YojanaSetuLogo';
 import {
   useTranslation,
   FORM_I18N,
+  PROFILE_I18N,
   SUPPORT_NEEDS_LOCALIZED,
   LIFECYCLE_PHASES_LOCALIZED,
   OPERATIONAL_STATUS_LOCALIZED,
-  REGISTRATION_STATUS_LOCALIZED,
   BUSINESS_ENTITY_LOCALIZED,
 } from '../i18n';
 import { AnimatedCounter } from '../animations/AnimatedCounter';
@@ -80,6 +88,40 @@ import { questionVariants, errorShakeVariants, validationTick } from '../animati
 import { ArrowFillButton } from './ui';
 
 const DRAFT_KEY = 'yojana_setu_adaptive_form_draft_v2';
+
+/** Registration kinds offered in the assessment form (multi-select cards). */
+const FORM_REG_KINDS: BusinessRegistrationKind[] = ['udyam', 'gst', 'trade_license', 'fssai'];
+
+interface FormRegSelection {
+  kinds: BusinessRegistrationKind[];
+  statuses: Partial<Record<BusinessRegistrationKind, RegistrationStatus>>;
+  informal: boolean;
+}
+
+/**
+ * Initializes the form's registration answers from a previous profile.
+ * Prefers the per-record model; falls back to a one-time legacy migration.
+ */
+function initFormRegistrations(profile?: UserProfile | null): FormRegSelection {
+  const records =
+    profile?.businessRegistrations ??
+    (profile ? migrateLegacyRegistrations(profile) : undefined) ??
+    [];
+  const kinds = FORM_REG_KINDS.filter((k) => records.some((r) => r.kind === k));
+  const statuses: Partial<Record<BusinessRegistrationKind, RegistrationStatus>> = {};
+  for (const r of records) {
+    if (kinds.includes(r.kind) && statuses[r.kind] === undefined) {
+      statuses[r.kind] = r.status;
+    }
+  }
+  const informal =
+    profile?.businessFormalization === 'INFORMAL' ||
+    (kinds.length === 0 &&
+      !profile?.businessFormalization &&
+      (profile?.businessRegistration === 'unregistered' ||
+        profile?.registrationStatus === 'NOT_REGISTERED'));
+  return { kinds, statuses, informal };
+}
 
 interface EligibilityFormScreenProps {
   initialProfile?: UserProfile | null;
@@ -97,9 +139,11 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     getLocalizedCategoryDesc,
     getLocalizedBusinessType,
     getLocalizedState,
+    getLocalizedRegistrationStatus,
     lang,
   } = useTranslation();
   const eui = FORM_I18N[lang] || FORM_I18N.en;
+  const pstrings = PROFILE_I18N[lang] || PROFILE_I18N.en;
   const shouldReduceMotion = useReducedMotion();
   const [slideDirection, setSlideDirection] = useState<number>(1);
 
@@ -121,8 +165,11 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
   const [fundingRequired, setFundingRequired] = useState<number | ''>(
     initialProfile?.fundingRequired || ''
   );
-  const [businessRegistration, setBusinessRegistration] =
-    useState<BusinessRegistrationType | null>(initialProfile?.businessRegistration || null);
+  // Business registrations — multi-select per-record model (mirrors the
+  // profile's Business Registrations & Compliance control center).
+  const [regSel, setRegSel] = useState<FormRegSelection>(() =>
+    initFormRegistrations(initialProfile)
+  );
   const [turnoverRangeId, setTurnoverRangeId] = useState<TurnoverRangeId | null>(
     initialProfile?.turnoverRangeId || null
   );
@@ -174,10 +221,63 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     initialProfile?.entrepreneurExperienceYears ?? ''
   );
 
-  // Registration Status
-  const [registrationStatus, setRegistrationStatus] = useState<RegistrationStatus | null>(
-    initialProfile?.registrationStatus || null
-  );
+  // Per-record model derived from the form's registration answers. Existing
+  // record ids and details are preserved when the user re-takes the form.
+  const formRegistration = useMemo(() => {
+    const existingByKind = new Map<BusinessRegistrationKind, BusinessRegistrationRecord>();
+    for (const r of initialProfile?.businessRegistrations ?? []) {
+      if (!existingByKind.has(r.kind)) existingByKind.set(r.kind, r);
+    }
+    const records: BusinessRegistrationRecord[] = regSel.kinds.map((kind) => {
+      const existing = existingByKind.get(kind);
+      return {
+        ...existing,
+        id: existing?.id ?? `reg_${kind}`,
+        kind,
+        status: regSel.statuses[kind] ?? existing?.status ?? 'REGISTERED',
+        verificationStatus: existing?.verificationStatus ?? 'USER_PROVIDED',
+      };
+    });
+    const formalization: BusinessFormalizationStatus = regSel.informal
+      ? 'INFORMAL'
+      : records.length > 0
+        ? 'FORMALIZED'
+        : 'UNKNOWN';
+    return { records, formalization };
+  }, [regSel, initialProfile]);
+
+  const toggleRegKind = (kind: BusinessRegistrationKind) => {
+    setRegSel((prev) => {
+      const has = prev.kinds.includes(kind);
+      const kinds = has ? prev.kinds.filter((k) => k !== kind) : [...prev.kinds, kind];
+      const statuses = { ...prev.statuses };
+      if (has) {
+        delete statuses[kind];
+      } else if (statuses[kind] === undefined) {
+        statuses[kind] = 'REGISTERED';
+      }
+      return { kinds, statuses, informal: false };
+    });
+    setValidationError(null);
+  };
+
+  const setRegKindStatus = (kind: BusinessRegistrationKind, status: RegistrationStatus) => {
+    setRegSel((prev) => ({
+      ...prev,
+      statuses: { ...prev.statuses, [kind]: status },
+      informal: false,
+    }));
+    setValidationError(null);
+  };
+
+  const toggleRegInformal = () => {
+    setRegSel((prev) => ({
+      kinds: [],
+      statuses: {},
+      informal: !prev.informal,
+    }));
+    setValidationError(null);
+  };
 
   const selectedFundingRange = FUNDING_RANGE_OPTIONS.find((o) => o.id === fundingRangeId) || null;
   // Effective funding amount used for matching, profile and gap math: an explicitly
@@ -238,7 +338,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     setBusinessType(null);
     setFundingRangeId(null);
     setFundingRequired('');
-    setBusinessRegistration(null);
+    setRegSel({ kinds: [], statuses: {}, informal: false });
     setTurnoverRangeId(null);
     setTotalProjectCost('');
     setExistingInvestment('');
@@ -253,7 +353,6 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     setBusinessEntityType(null);
     setSubSector('');
     setEntrepreneurExperienceYears('');
-    setRegistrationStatus(null);
     setCurrentStageIdx(0);
     setValidationError(null);
     try {
@@ -266,7 +365,9 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
 
   // Reactive Live Indicative Match Count Calculation
   const liveIndicativeMatches = useMemo(() => {
-    const probeProfile: UserProfile = {
+    // Legacy registration fields are derived from the per-record model so the
+    // matching engine keeps working unchanged.
+    const probeProfile: UserProfile = normalizeRegistrationFields({
       category: category || 'General',
       age: typeof age === 'number' ? age : 30,
       annualIncome: typeof annualIncome === 'number' ? annualIncome : 300000,
@@ -275,8 +376,9 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       businessStage: businessStage || 'new',
       fundingRequired: effectiveFundingRequired ?? 300000,
       ruralUrban: ruralUrban || 'rural',
-      businessRegistration: businessRegistration || 'unregistered',
-    };
+      businessRegistrations: formRegistration.records,
+      businessFormalization: formRegistration.formalization,
+    });
 
     const evaluated = rankSchemesForProfile(getAllSchemes(), probeProfile, lang);
     return evaluated.filter((m) => m.isEligible || m.matchStatus === 'near-match').length;
@@ -290,7 +392,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     fundingRequired,
     fundingRangeId,
     ruralUrban,
-    businessRegistration,
+    formRegistration,
     turnoverRangeId,
     lang,
   ]);
@@ -348,7 +450,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
         return false;
       }
     } else if (currentStage.id === 'existing_biz') {
-      if (!businessRegistration) {
+      if (regSel.kinds.length === 0 && !regSel.informal) {
         setValidationError(eui.valRegistration);
         return false;
       }
@@ -423,11 +525,11 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       subSector: subSector.trim() || undefined,
       entrepreneurExperienceYears:
         typeof entrepreneurExperienceYears === 'number' ? entrepreneurExperienceYears : undefined,
-      registrationStatus: registrationStatus || undefined,
+      businessRegistrations: formRegistration.records,
+      businessFormalization: formRegistration.formalization,
       fundingRequired: effectiveFundingRequired ?? 300000,
       fundingRangeId: fundingRangeId || undefined,
       ruralUrban: ruralUrban || 'rural',
-      businessRegistration: businessRegistration || 'unregistered',
       turnoverRangeId: turnoverRangeId || undefined,
       businessName: businessName.trim() || undefined,
       totalProjectCost:
@@ -437,22 +539,26 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       primarySupportNeed: primarySupportNeed || undefined,
     };
 
-    finalProfile.businessNeedProfile = deriveBusinessNeedProfile(finalProfile);
-    finalProfile.businessProfile = deriveBusinessProfile(finalProfile);
+    // Derive the legacy registration fields from the per-record model so the
+    // matching engine, need/business profiles, and every downstream consumer
+    // keep working unchanged.
+    const normalizedProfile = normalizeRegistrationFields(finalProfile);
+    normalizedProfile.businessNeedProfile = deriveBusinessNeedProfile(normalizedProfile);
+    normalizedProfile.businessProfile = deriveBusinessProfile(normalizedProfile);
 
-    const validation = validateUserProfile(finalProfile, lang);
+    const validation = validateUserProfile(normalizedProfile, lang);
     if (!validation.isValid) {
       const firstError = Object.values(validation.errors)[0];
       setValidationError(firstError);
       return;
     }
 
-    const outputProfile = validation.formattedProfile || finalProfile;
+    const outputProfile = validation.formattedProfile || normalizedProfile;
     if (!outputProfile.businessNeedProfile) {
-      outputProfile.businessNeedProfile = finalProfile.businessNeedProfile;
+      outputProfile.businessNeedProfile = normalizedProfile.businessNeedProfile;
     }
     if (!outputProfile.businessProfile) {
-      outputProfile.businessProfile = finalProfile.businessProfile;
+      outputProfile.businessProfile = normalizedProfile.businessProfile;
     }
 
     onSubmit(outputProfile);
@@ -1580,79 +1686,101 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
         {/* ------------------------------------------------------------- */}
         {currentStage.id === 'existing_biz' && (
           <div className="space-y-6">
-            {/* Registration Question */}
+            {/* Registration Question — multi-select per-record model */}
             <div>
-              <label className="text-xs sm:text-sm font-bold text-[#1A1C1B] dark:text-[var(--text-main)] block mb-2">
-                {t('questionnaire.registrationLabel')}
+              <label className="text-xs sm:text-sm font-bold text-[#1A1C1B] dark:text-[var(--text-main)] block mb-1">
+                {eui.regFormTitle}
                 <span className="text-red-500 ml-1">*</span>
               </label>
+              <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mb-2">
+                {eui.regFormHint}
+              </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {BUSINESS_REGISTRATION_OPTIONS.map((reg) => {
-                  const isSelected = businessRegistration === reg.id;
+                {FORM_REG_KINDS.map((kind) => {
+                  const isSelected = regSel.kinds.includes(kind);
+                  const kindLabel =
+                    (pstrings[REGISTRATION_KINDS[kind].labelKey as keyof typeof pstrings] as string) || kind;
+                  const kindDesc = (
+                    {
+                      udyam: eui.regKindDescUdyam,
+                      gst: eui.regKindDescGst,
+                      trade_license: eui.regKindDescTrade,
+                      fssai: eui.regKindDescFssai,
+                    } as Record<string, string>
+                  )[kind];
+                  const kindStatus = regSel.statuses[kind] ?? 'REGISTERED';
                   return (
-                    <button
-                      key={reg.id}
-                      type="button"
-                      onClick={() => {
-                        setBusinessRegistration(reg.id);
-                        if (reg.id === 'unregistered') {
-                          setRegistrationStatus('NOT_REGISTERED');
-                        } else {
-                          setRegistrationStatus('REGISTERED');
-                        }
-                        setValidationError(null);
-                      }}
-                      className={`p-3 rounded border text-left cursor-pointer transition-all flex items-start justify-between ${
-                        isSelected
-                          ? 'border-[#14453D] dark:border-[var(--accent-green)] bg-[#D9E8DF]/40 dark:bg-[#1A382D] ring-1 ring-[#14453D] dark:ring-[var(--accent-green)]'
-                          : 'border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-[#FAFAF9] dark:bg-[var(--bg-card)] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
-                      }`}
-                    >
-                      <div>
-                        <div className="font-bold text-xs sm:text-sm text-[#1A1C1B] dark:text-[var(--text-main)]">
-                          {t(reg.labelKey as any)}
+                    <div key={kind}>
+                      <button
+                        type="button"
+                        onClick={() => toggleRegKind(kind)}
+                        aria-pressed={isSelected}
+                        className={`w-full p-3 rounded border text-left cursor-pointer transition-all flex items-start justify-between ${
+                          isSelected
+                            ? 'border-[#14453D] dark:border-[var(--accent-green)] bg-[#D9E8DF]/40 dark:bg-[#1A382D] ring-1 ring-[#14453D] dark:ring-[var(--accent-green)]'
+                            : 'border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-[#FAFAF9] dark:bg-[var(--bg-card)] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
+                        }`}
+                      >
+                        <div>
+                          <div className="font-bold text-xs sm:text-sm text-[#1A1C1B] dark:text-[var(--text-main)]">
+                            {kindLabel}
+                          </div>
+                          <div className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
+                            {kindDesc}
+                          </div>
                         </div>
-                        <div className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
-                          {t(reg.descKey as any)}
-                        </div>
-                      </div>
+                        {isSelected && (
+                          <Check className="w-4 h-4 text-[#14453D] dark:text-[var(--accent-green)] shrink-0 ml-2" />
+                        )}
+                      </button>
                       {isSelected && (
-                        <Check className="w-4 h-4 text-[#14453D] dark:text-[var(--accent-green)] shrink-0 ml-2" />
+                        <div className="mt-1.5 flex items-center gap-1.5" role="group" aria-label={kindLabel}>
+                          {(['REGISTERED', 'IN_PROCESS'] as const).map((st) => (
+                            <button
+                              key={st}
+                              type="button"
+                              onClick={() => setRegKindStatus(kind, st)}
+                              aria-pressed={kindStatus === st}
+                              className={`px-2.5 py-1 text-[11px] font-bold rounded-full border cursor-pointer transition-colors ${
+                                kindStatus === st
+                                  ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[var(--accent-green)]'
+                                  : 'bg-white dark:bg-[var(--bg-card)] text-[#516A5F] dark:text-[var(--text-tertiary)] border-[#D1D5D2] dark:border-[var(--border-subtle)]'
+                              }`}
+                            >
+                              {st === 'REGISTERED' ? eui.regFormRegistered : eui.regFormInProcess}
+                            </button>
+                          ))}
+                        </div>
                       )}
-                    </button>
+                    </div>
                   );
                 })}
               </div>
 
-              {/* Optional Registration Status override (e.g., In Process) */}
-              <div className="mt-3 flex items-center justify-between">
-                <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
-                  {eui.regStatusLabel}
-                </span>
-                <div className="flex gap-1.5">
-                  {(
-                    [
-                      { id: 'REGISTERED', labelEn: 'Registered', labelHi: 'पंजीकृत' },
-                      { id: 'IN_PROCESS', labelEn: 'In Process / Applied', labelHi: 'प्रक्रियाधीन' },
-                      { id: 'NOT_REGISTERED', labelEn: 'Unregistered', labelHi: 'अपंजीकृत' },
-                    ] as { id: RegistrationStatus; labelEn: string; labelHi: string }[]
-                  ).map((st) => (
-                    <button
-                      key={st.id}
-                      type="button"
-                      onClick={() => setRegistrationStatus(st.id)}
-                      className={`px-2 py-0.5 text-[11px] rounded border cursor-pointer ${
-                        registrationStatus === st.id
-                          ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[var(--accent-green)]'
-                          : 'bg-white dark:bg-[var(--bg-card)] text-[#516A5F] dark:text-[var(--text-tertiary)] border-[#D1D5D2] dark:border-[var(--border-subtle)]'
-                      }`}
-                    >
-                      {REGISTRATION_STATUS_LOCALIZED[st.id]?.[lang] || st.labelEn}
-                    </button>
-                  ))}
+              {/* Informal / unregistered — exclusive option */}
+              <button
+                type="button"
+                onClick={toggleRegInformal}
+                aria-pressed={regSel.informal}
+                className={`mt-2.5 w-full p-3 rounded border text-left cursor-pointer transition-all flex items-start justify-between ${
+                  regSel.informal
+                    ? 'border-[#14453D] dark:border-[var(--accent-green)] bg-[#D9E8DF]/40 dark:bg-[#1A382D] ring-1 ring-[#14453D] dark:ring-[var(--accent-green)]'
+                    : 'border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-[#FAFAF9] dark:bg-[var(--bg-card)] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
+                }`}
+              >
+                <div>
+                  <div className="font-bold text-xs sm:text-sm text-[#1A1C1B] dark:text-[var(--text-main)]">
+                    {eui.regFormInformal}
+                  </div>
+                  <div className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
+                    {eui.regFormInformalDesc}
+                  </div>
                 </div>
-              </div>
+                {regSel.informal && (
+                  <Check className="w-4 h-4 text-[#14453D] dark:text-[var(--accent-green)] shrink-0 ml-2" />
+                )}
+              </button>
             </div>
 
             {/* Turnover Question */}
@@ -1879,11 +2007,22 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     <>
                       <div className="flex justify-between pt-1 border-t border-[#E4E8E4]/60 dark:border-[#24342D]/60">
                         <dt className="text-[#516A5F] dark:text-[var(--text-tertiary)]">
-                          {t('questionnaire.registrationLabel')}:
+                          {eui.regFormReviewLabel}:
                         </dt>
-                        <dd className="font-bold text-[#1A1C1B] dark:text-[var(--text-main)]">
-                          {businessRegistration ? businessRegistration.toUpperCase() : t('questionnaire.notSpecified')}
-                          {registrationStatus ? ` (${registrationStatus})` : ''}
+                        <dd className="font-bold text-[#1A1C1B] dark:text-[var(--text-main)] text-right">
+                          {regSel.informal
+                            ? eui.regFormInformal
+                            : regSel.kinds.length > 0
+                              ? regSel.kinds
+                                  .map((k) => {
+                                    const label =
+                                      (pstrings[
+                                        REGISTRATION_KINDS[k].labelKey as keyof typeof pstrings
+                                      ] as string) || k;
+                                    return `${label} (${getLocalizedRegistrationStatus(regSel.statuses[k] ?? 'REGISTERED')})`;
+                                  })
+                                  .join(', ')
+                              : t('questionnaire.notSpecified')}
                         </dd>
                       </div>
                       <div className="flex justify-between">

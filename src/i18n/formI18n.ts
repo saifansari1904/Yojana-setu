@@ -73,6 +73,17 @@ interface FormI18nStrings {
 
   // Registration
   regStatusLabel: string;
+  regFormTitle: string;
+  regFormHint: string;
+  regFormInformal: string;
+  regFormInformalDesc: string;
+  regKindDescUdyam: string;
+  regKindDescGst: string;
+  regKindDescTrade: string;
+  regKindDescFssai: string;
+  regFormRegistered: string;
+  regFormInProcess: string;
+  regFormReviewLabel: string;
 
   // Review & Confirmation
   reviewProjectCostGap: string;
@@ -143,6 +154,17 @@ export const FORM_I18N: Record<Language, FormI18nStrings> = {
     bizIdeaPlaceholder: 'e.g. Solar-powered micro cold storage unit or eco-friendly packaging',
 
     regStatusLabel: 'Registration lifecycle state:',
+    regFormTitle: 'Business Registrations',
+    regFormHint: 'Select all that apply. You can add numbers and documents later from your profile.',
+    regFormInformal: 'Currently Unregistered / Informal',
+    regFormInformalDesc: 'My business is informal or not yet registered',
+    regKindDescUdyam: 'MSME registration for micro, small and medium enterprises',
+    regKindDescGst: 'Goods and Services Tax Identification Number (GSTIN)',
+    regKindDescTrade: 'Local municipal or panchayat trade permit',
+    regKindDescFssai: 'Food safety license for food businesses',
+    regFormRegistered: 'Registered',
+    regFormInProcess: 'In Process',
+    regFormReviewLabel: 'Business Registrations',
 
     reviewProjectCostGap: 'Project Cost / Gap:',
     reviewPrimaryNeed: 'Primary Need:',
@@ -211,6 +233,17 @@ export const FORM_I18N: Record<Language, FormI18nStrings> = {
     bizIdeaPlaceholder: 'उदा. सोलर संचालित कोल्ड स्टोरेज इकाई या बेकरी उत्पाद',
 
     regStatusLabel: 'पंजीकरण वर्तमान स्थिति:',
+    regFormTitle: 'व्यावसायिक पंजीकरण',
+    regFormHint: 'जो लागू हो चुनें। नंबर और दस्तावेज़ बाद में प्रोफ़ाइल से जोड़ सकते हैं।',
+    regFormInformal: 'वर्तमान में अपंजीकृत / अनौपचारिक',
+    regFormInformalDesc: 'मेरा व्यवसाय अनौपचारिक है या अभी पंजीकृत नहीं है',
+    regKindDescUdyam: 'सूक्ष्म, लघु और मध्यम उद्यमों के लिए MSME पंजीकरण',
+    regKindDescGst: 'वस्तु एवं सेवा कर पहचान संख्या (GSTIN)',
+    regKindDescTrade: 'स्थानीय नगरपालिका या पंचायत व्यापार परमिट',
+    regKindDescFssai: 'खाद्य व्यवसायों के लिए खाद्य सुरक्षा लाइसेंस',
+    regFormRegistered: 'पंजीकृत',
+    regFormInProcess: 'प्रक्रियाधीन',
+    regFormReviewLabel: 'व्यावसायिक पंजीकरण',
 
     reviewProjectCostGap: 'परियोजना लागत / वित्तीय अंतर:',
     reviewPrimaryNeed: 'मुख्य आवश्यकता:',
@@ -279,6 +312,17 @@ export const FORM_I18N: Record<Language, FormI18nStrings> = {
     bizIdeaPlaceholder: 'எ.கா. சூரிய சக்தியால் இயங்கும் குளிர்சாதன அலகு அல்லது சூழல் நட்பு பேக்கேஜிங்',
 
     regStatusLabel: 'பதிவு வாழ்க்கைச் சுழற்சி நிலை:',
+    regFormTitle: 'வணிகப் பதிவுகள்',
+    regFormHint: 'பொருந்தும் அனைத்தையும் தேர்ந்தெடுக்கவும். எண்கள் மற்றும் ஆவணங்களைப் பின்னர் சுயவிவரத்தில் சேர்க்கலாம்.',
+    regFormInformal: 'தற்போது பதிவு செய்யப்படாத / முறைசாரா',
+    regFormInformalDesc: 'எனது வணிகம் முறைசாராதது அல்லது இன்னும் பதிவு செய்யப்படவில்லை',
+    regKindDescUdyam: 'குறு, சிறு மற்றும் நடுத்தர நிறுவனங்களுக்கான MSME பதிவு',
+    regKindDescGst: 'சரக்கு மற்றும் சேவை வரி அடையாள எண் (GSTIN)',
+    regKindDescTrade: 'உள்ளாட்சி நகராட்சி அல்லது பஞ்சாயத்து வர்த்தக அனுமதி',
+    regKindDescFssai: 'உணவு வணிகங்களுக்கான உணவு பாதுகாப்பு உரிமம்',
+    regFormRegistered: 'பதிவு செய்யப்பட்டது',
+    regFormInProcess: 'செயல்பாட்டில்',
+    regFormReviewLabel: 'வணிகப் பதிவுகள்',
 
     reviewProjectCostGap: 'திட்டச் செலவு / இடைவெளி:',
     reviewPrimaryNeed: 'முதன்மைத் தேவை:',
@@ -347,6 +391,17 @@ export const FORM_I18N: Record<Language, FormI18nStrings> = {
     bizIdeaPlaceholder: 'ఉదా. సౌరశక్తితో నడిచే కోల్డ్ స్టోరేజ్ లేదా పర్యావరణ అనుకూల ప్యాకేజింగ్',
 
     regStatusLabel: 'నమోదు లైఫ్‌సైకిల్ స్థితి:',
+    regFormTitle: 'వ్యాపార నమోదులు',
+    regFormHint: 'వర్తించే అన్నింటినీ ఎంచుకోండి. సంఖ్యలు మరియు పత్రాలను తర్వాత మీ ప్రొఫైల్ నుండి జోడించవచ్చు.',
+    regFormInformal: 'ప్రస్తుతం నమోదు కాని / అనధికారిక',
+    regFormInformalDesc: 'నా వ్యాపారం అనధికారికమైనది లేదా ఇంకా నమోదు కాలేదు',
+    regKindDescUdyam: 'సూక్ష్మ, చిన్న మరియు మధ్యతరహా సంస్థల కోసం MSME నమోదు',
+    regKindDescGst: 'వస్తు సేవల పన్ను గుర్తింపు సంఖ్య (GSTIN)',
+    regKindDescTrade: 'స్థానిక మున్సిపల్ లేదా పంచాయతీ వ్యాపార అనుమతి',
+    regKindDescFssai: 'ఆహార వ్యాపారాల కోసం ఆహార భద్రతా లైసెన్సు',
+    regFormRegistered: 'నమోదైన',
+    regFormInProcess: 'ప్రక్రియలో',
+    regFormReviewLabel: 'వ్యాపార నమోదులు',
 
     reviewProjectCostGap: 'ప్రాజెక్ట్ ఖర్చు / అంతరం:',
     reviewPrimaryNeed: 'ప్రాథమిక అవసరం:',
@@ -415,6 +470,17 @@ export const FORM_I18N: Record<Language, FormI18nStrings> = {
     bizIdeaPlaceholder: 'ಉದಾ. ಸೌರಶಕ್ತಿ ಚಾಲಿತ ಕೋಲ್ಡ್ ಸ್ಟೋರೇಜ್ ಘಟಕ ಅಥವಾ ಪರಿಸರಸ್ನೇಹಿ ಪ್ಯಾಕೇಜಿಂಗ್',
 
     regStatusLabel: 'ನೋಂದಣಿ ಸ್ಥಿತಿ:',
+    regFormTitle: 'ವ್ಯಾಪಾರ ನೋಂದಣಿಗಳು',
+    regFormHint: 'ಅನ್ವಯಿಸುವ ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ. ಸಂಖ್ಯೆಗಳು ಮತ್ತು ದಾಖಲೆಗಳನ್ನು ನಂತರ ನಿಮ್ಮ ಪ್ರೊಫೈಲ್‌ನಿಂದ ಸೇರಿಸಬಹುದು.',
+    regFormInformal: 'ಪ್ರಸ್ತುತ ನೋಂದಾಯಿಸದ / ಅನೌಪಚಾರಿಕ',
+    regFormInformalDesc: 'ನನ್ನ ವ್ಯಾಪಾರ ಅನೌಪಚಾರಿಕವಾಗಿದೆ ಅಥವಾ ಇನ್ನೂ ನೋಂದಾಯಿಸಿಲ್ಲ',
+    regKindDescUdyam: 'ಸೂಕ್ಷ್ಮ, ಸಣ್ಣ ಮತ್ತು ಮಧ್ಯಮ ಉದ್ಯಮಗಳಿಗೆ MSME ನೋಂದಣಿ',
+    regKindDescGst: 'ಸರಕು ಮತ್ತು ಸೇವಾ ತೆರಿಗೆ ಗುರುತಿನ ಸಂಖ್ಯೆ (GSTIN)',
+    regKindDescTrade: 'ಸ್ಥಳೀಯ ಪುರಸಭೆ ಅಥವಾ ಪಂಚಾಯತ್ ವ್ಯಾಪಾರ ಪರವಾನಗಿ',
+    regKindDescFssai: 'ಆಹಾರ ವ್ಯವಹಾರಗಳಿಗೆ ಆಹಾರ ಸುರಕ್ಷತಾ ಪರವಾನಗಿ',
+    regFormRegistered: 'ನೋಂದಾಯಿಸಲಾಗಿದೆ',
+    regFormInProcess: 'ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ',
+    regFormReviewLabel: 'ವ್ಯಾಪಾರ ನೋಂದಣಿಗಳು',
 
     reviewProjectCostGap: 'ಯೋಜನಾ ವೆಚ್ಚ / ಅಂತರ:',
     reviewPrimaryNeed: 'ಪ್ರಾಥಮಿಕ ಅಗತ್ಯ:',
@@ -483,6 +549,17 @@ export const FORM_I18N: Record<Language, FormI18nStrings> = {
     bizIdeaPlaceholder: 'ഉദാ. സൗരോർജ്ജത്തിൽ പ്രവർത്തിക്കുന്ന കോൾഡ് സ്റ്റോറേജ് അല്ലെങ്കിൽ പരിസ്ഥിതി സൗഹൃദ പാക്കേജിംഗ്',
 
     regStatusLabel: 'രജിസ്ട്രേഷൻ നില:',
+    regFormTitle: 'ബിസിനസ് രജിസ്ട്രേഷനുകൾ',
+    regFormHint: 'ബാധകമായ എല്ലാം തിരഞ്ഞെടുക്കുക. നമ്പറുകളും രേഖകളും പിന്നീട് പ്രൊഫൈലിൽ നിന്ന് ചേർക്കാം.',
+    regFormInformal: 'നിലവിൽ രജിസ്റ്റർ ചെയ്യാത്ത / അനൗപചാരിക',
+    regFormInformalDesc: 'എന്റെ ബിസിനസ് അനൗപചാരികമാണ് അല്ലെങ്കിൽ ഇതുവരെ രജിസ്റ്റർ ചെയ്തിട്ടില്ല',
+    regKindDescUdyam: 'സൂക്ഷ്മ, ചെറുകിട, ഇടത്തരം സംരംഭങ്ങൾക്കുള്ള MSME രജിസ്ട്രേഷൻ',
+    regKindDescGst: 'ചരക്ക് സേവന നികുതി തിരിച്ചറിയൽ നമ്പർ (GSTIN)',
+    regKindDescTrade: 'തദ്ദേശ സ്വയംഭരണ വ്യാപാര അനുമതി',
+    regKindDescFssai: 'ഭക്ഷ്യ ബിസിനസുകൾക്കുള്ള ഭക്ഷ്യ സുരക്ഷാ ലൈസൻസ്',
+    regFormRegistered: 'രജിസ്റ്റർ ചെയ്തു',
+    regFormInProcess: 'പ്രക്രിയയിൽ',
+    regFormReviewLabel: 'ബിസിനസ് രജിസ്ട്രേഷനുകൾ',
 
     reviewProjectCostGap: 'പ്രോജക്റ്റ് ചെലവ് / വിടവ്:',
     reviewPrimaryNeed: 'പ്രാഥമിക ആവശ്യം:',
@@ -551,6 +628,17 @@ export const FORM_I18N: Record<Language, FormI18nStrings> = {
     bizIdeaPlaceholder: 'उदा. सौरऊर्जेवर चालणारे सूक्ष्म शीतगृह युनिट किंवा पर्यावरणपूरक पॅकेजिंग',
 
     regStatusLabel: 'नोंदणी जीवनचक्र स्थिती:',
+    regFormTitle: 'व्यवसाय नोंदणी',
+    regFormHint: 'लागू असलेले सर्व निवडा. क्रमांक आणि कागदपत्रे नंतर प्रोफाइलमधून जोडता येतील.',
+    regFormInformal: 'सध्या अनोंदणीकृत / अनौपचारिक',
+    regFormInformalDesc: 'माझा व्यवसाय अनौपचारिक आहे किंवा अद्याप नोंदणीकृत नाही',
+    regKindDescUdyam: 'सूक्ष्म, लघु आणि मध्यम उद्योगांसाठी MSME नोंदणी',
+    regKindDescGst: 'वस्तू व सेवा कर ओळख क्रमांक (GSTIN)',
+    regKindDescTrade: 'स्थानिक नगरपालिका किंवा पंचायत व्यापार परवाना',
+    regKindDescFssai: 'अन्न व्यवसायांसाठी अन्न सुरक्षा परवाना',
+    regFormRegistered: 'नोंदणीकृत',
+    regFormInProcess: 'प्रक्रियेत',
+    regFormReviewLabel: 'व्यवसाय नोंदणी',
 
     reviewProjectCostGap: 'प्रकल्प खर्च / तफावत:',
     reviewPrimaryNeed: 'प्राथमिक गरज:',
