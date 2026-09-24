@@ -64,6 +64,7 @@ import { LanguageProvider, useTranslation } from './i18n';
 import { ThemeProvider } from './theme/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { getSupabaseClient, isSupabaseConfigured } from './lib/supabase/client';
+import { hasOAuthCallbackParams } from './lib/supabase';
 import { syncSavedSchemeToggle } from './lib/supabase/sync';
 import { ResetPasswordScreen } from './components/ResetPasswordScreen';
 import { AnimatedPage } from './animations/AnimatedPage';
@@ -84,16 +85,19 @@ function ScreenFallback() {
 
 function YojanaSetuMain() {
   const { lang, t } = useTranslation();
-  const { signOutUser, user: authUser, authError, clearAuthError } = useAuth();
+  const { signOutUser, user: authUser, authError, clearAuthError, loading: authLoading } = useAuth();
   const [showSplash, setShowSplash] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return !sessionStorage.getItem('yojana_setu_splash_seen');
   });
   const [currentScreen, setCurrentScreen] = useState<ActiveScreen>(() => 'welcome');
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    return !!loadStoredProfile();
-  });
+  /**
+   * SINGLE SOURCE OF TRUTH for cloud authentication: derived directly from
+   * the Supabase session via AuthContext. There is no independent boolean —
+   * a local/guest profile must never masquerade as an authenticated session,
+   * and a valid session must never render a logged-out header.
+   */
+  const isCloudAuthenticated = !!authUser && !authUser.isLocal;
   const [applicantName, setApplicantName] = useState<string>(() => {
     if (typeof window === 'undefined') return '';
     return loadStoredProfile()?.applicantName || '';
@@ -266,11 +270,13 @@ function YojanaSetuMain() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentScreen]);
 
-  // Synchronize profile state across multi-tab sessions and local storage events
+  // Synchronize profile state across multi-tab sessions and local storage events.
+  // NOTE: this syncs profile DATA only. Authentication state is derived from
+  // AuthContext (isCloudAuthenticated) — a profile event must never flip the
+  // header between logged-in and logged-out on its own.
   useEffect(() => {
     const unsubscribe = subscribeProfileStorage((updated) => {
       setUserProfile(updated);
-      setIsAuthenticated(!!updated);
       setApplicantName(updated?.applicantName || '');
     });
     return unsubscribe;
@@ -311,13 +317,15 @@ function YojanaSetuMain() {
 
   /**
    * Guards persistence actions behind account creation.
-   * If the user is authenticated, returns true and the caller proceeds.
+   * Cloud-authenticated users always pass. Guests with a persisted local
+   * profile keep the access they had before (legacy behavior preserved).
+   * A guest assessment kept only in memory does NOT pass — same as before.
    * Otherwise shows the contextual account prompt and returns false.
    * The blocked action is never run silently — the user retries it
    * manually after creating an account.
    */
   const requestPersistentAction = (): boolean => {
-    if (isAuthenticated) {
+    if (isCloudAuthenticated || loadStoredProfile()) {
       return true;
     }
     setAccountPromptVisible(true);
@@ -334,6 +342,13 @@ function YojanaSetuMain() {
     setShowSplash(false);
   };
 
+  /**
+   * Login-screen sign-in callback (email/password, sign-up). Authentication
+   * itself is established by Supabase/AuthContext — this only carries over a
+   * guest assessment built before sign-in and records the display name.
+   * Post-sign-in navigation reacts to the authoritative AuthContext state
+   * in the effect below; it is never driven from here.
+   */
   const handleLogin = (name?: string) => {
     if (name) {
       setApplicantName(name);
@@ -343,30 +358,45 @@ function YojanaSetuMain() {
     if (userProfile) {
       saveStoredProfile(userProfile);
     }
-    setIsAuthenticated(true);
-    // If there's a pending persistent action from the account prompt,
-    // navigate back to where the user was; they can retry the action.
-    navigateTo(userProfile ? 'results' : 'form');
   };
 
+  // True when this page load began with OAuth callback params in the URL.
+  // Captured on first render: AuthContext consumes (clears) them during
+  // session restore, so they must be read before any effect runs.
+  const oauthReturnRef = useRef<boolean>(false);
+  if (!oauthReturnRef.current && typeof window !== 'undefined') {
+    try {
+      oauthReturnRef.current = hasOAuthCallbackParams();
+    } catch {
+      // Non-fatal: without it an OAuth return is treated like a refresh.
+    }
+  }
+
   /**
-   * Cloud session sign-in (page refresh or Google OAuth redirect return):
-   * AuthContext restores the Supabase session asynchronously. When it lands
-   * as a non-local user while the app isn't authenticated yet, run the same
-   * post-login flow as the login screen.
+   * Post-sign-in navigation — NAVIGATION ONLY, never authentication.
+   * Reacts to the single source of truth (AuthContext): when a cloud
+   * session appears as a FRESH sign-in — in-page login, or an OAuth
+   * redirect return — move from the entry screens to results/form.
+   * A plain page refresh that restores an existing session intentionally
+   * leaves the user on the welcome page.
    */
-  const cloudLoginHandledRef = useRef(false);
+  const prevCloudUidRef = useRef<string | null>(null);
+  const bootResolvedRef = useRef(false);
   useEffect(() => {
-    if (!authUser) {
-      cloudLoginHandledRef.current = false;
-      return;
-    }
-    if (!authUser.isLocal && !isAuthenticated && !cloudLoginHandledRef.current) {
-      cloudLoginHandledRef.current = true;
-      handleLogin(authUser.displayName);
-    }
+    const uid = authUser && !authUser.isLocal ? authUser.uid : null;
+    const prevUid = prevCloudUidRef.current;
+    prevCloudUidRef.current = uid;
+    // A cloud user appearing only after AuthContext finished loading is a
+    // fresh sign-in; one arriving during the boot restore is not.
+    const freshSignIn = bootResolvedRef.current;
+    if (!authLoading) bootResolvedRef.current = true;
+    if (!uid || !authUser || uid === prevUid) return;
+    if (currentScreen !== 'welcome' && currentScreen !== 'login') return;
+    if (!freshSignIn && !oauthReturnRef.current) return;
+    setApplicantName(authUser.displayName);
+    navigateTo(userProfile ? 'results' : 'form');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authUser, isAuthenticated]);
+  }, [authUser, authLoading, currentScreen, userProfile]);
 
   /**
    * Password recovery completed: the new password is set and the recovery
@@ -383,7 +413,8 @@ function YojanaSetuMain() {
     } catch (err) {
       console.warn('[Auth] Error signing out:', err);
     }
-    setIsAuthenticated(false);
+    // Auth state itself is cleared by signOutUser (Supabase SIGNED_OUT ->
+    // AuthContext). Here we only reset the app-level profile state.
     setUserProfile(null);
     clearStoredProfile();
     setApplicantName('');
@@ -427,15 +458,14 @@ function YojanaSetuMain() {
 
   /**
    * User chose "Create Account" from the contextual prompt.
-   * Persists the current working profile (if any), marks authenticated,
-   * and routes to the account page to confirm. The pending action is NOT
-   * run silently — the user retries it after signing in.
+   * Persists the current working profile (if any) and routes to the login
+   * screen to confirm. The pending action is NOT run silently — the user
+   * retries it after signing in.
    */
   const handleCreateAccountFromPrompt = () => {
     if (userProfile) {
       saveStoredProfile(userProfile);
     }
-    setIsAuthenticated(true);
     setAccountPromptVisible(false);
     navigateTo('login');
   };
@@ -638,7 +668,7 @@ function YojanaSetuMain() {
           onNavigate={handleHeaderNavigate}
           userProfile={userProfile}
           applicantName={applicantName}
-          isAuthenticated={isAuthenticated}
+          isAuthenticated={isCloudAuthenticated}
           onLogout={handleLogout}
           trackedCount={trackedApplications.length}
           savedCount={savedSchemeIds.size}
