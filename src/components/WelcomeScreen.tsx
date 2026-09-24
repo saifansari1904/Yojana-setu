@@ -55,7 +55,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAF9] dark:bg-[#0E1311] text-[#1A1C1B] dark:text-[#F0F4F2] overflow-x-clip">
+    <div className="min-h-screen bg-[#FAFAF9] dark:bg-transparent text-[#1A1C1B] dark:text-[#F0F4F2] overflow-x-clip">
       <WelcomeHeader
         activeSection={activeSection}
         onNavigate={scrollToSection}

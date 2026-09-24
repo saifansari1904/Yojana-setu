@@ -549,7 +549,7 @@ function YojanaSetuMain() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-[#FAFAF9] dark:bg-[#0E1311] text-[#1A1C1B] dark:text-[#F0F4F2] font-sans antialiased selection:bg-[#D9E8DF] dark:selection:bg-[#1A382D] selection:text-[#14453D] dark:selection:text-[#4ADE80] transition-colors duration-200 overflow-x-hidden">
+    <div className="relative min-h-screen flex flex-col bg-[#FAFAF9] dark:bg-transparent text-[#1A1C1B] dark:text-[#F0F4F2] font-sans antialiased selection:bg-[#D9E8DF] dark:selection:bg-[#1A382D] selection:text-[#14453D] dark:selection:text-[#4ADE80] transition-colors duration-200 overflow-x-hidden">
       {/* Ambient background subtle lighting gradient */}
       <AmbientBackground />
 
