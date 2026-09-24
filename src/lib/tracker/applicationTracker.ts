@@ -8,6 +8,7 @@ import {
   loadDocumentProgress,
   summariseDocumentProgress,
 } from './documentProgress';
+import { syncTrackedApplicationsToCloud } from '../supabase/sync';
 
 const STORAGE_KEY = 'yojana_setu_applications_v1';
 
@@ -131,6 +132,9 @@ export const saveTrackedApplications = (applications: TrackedApplication[]): voi
   } catch {
     // Storage full or blocked — tracker stays in-memory for this session.
   }
+  // Mirror to the cloud backend when a Supabase session is active.
+  // Fire-and-forget: never blocks the UI, never throws.
+  syncTrackedApplicationsToCloud(applications);
 };
 
 export const createTrackedApplication = (

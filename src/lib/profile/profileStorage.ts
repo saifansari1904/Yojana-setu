@@ -14,6 +14,7 @@ import { UserProfile } from '../../types/user';
 import { deriveBusinessProfile, deriveBusinessNeedProfile } from '../business/businessNeedProfile';
 import { validateUserProfile } from '../validation/userProfileValidation';
 import { normalizeRegistrationFields } from '../registrations/registrationModel';
+import { syncProfileToCloud } from '../supabase/sync';
 
 export const USER_PROFILE_STORAGE_KEY = 'yojana_setu_user_profile_v1';
 const PROFILE_SYNC_EVENT = 'yojana_setu_profile_sync';
@@ -148,6 +149,10 @@ export function saveStoredProfile(profile: UserProfile | null | undefined): User
       console.warn('[ProfileStorage] Failed to persist user profile:', err);
     }
   }
+
+  // Mirror to the cloud backend when a Supabase session is active.
+  // Fire-and-forget: never blocks the UI, never throws.
+  syncProfileToCloud(updatedProfile);
 
   return updatedProfile;
 }

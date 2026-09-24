@@ -62,6 +62,9 @@ import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { LanguageProvider, useTranslation } from './i18n';
 import { ThemeProvider } from './theme/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { getSupabaseClient, isSupabaseConfigured } from './lib/supabase/client';
+import { syncSavedSchemeToggle } from './lib/supabase/sync';
+import { ResetPasswordScreen } from './components/ResetPasswordScreen';
 import { AnimatedPage } from './animations/AnimatedPage';
 import { AmbientBackground } from './animations/AmbientBackground';
 import { SplashScreen } from './animations/SplashScreen';
@@ -80,7 +83,7 @@ function ScreenFallback() {
 
 function YojanaSetuMain() {
   const { lang } = useTranslation();
-  const { signOutUser } = useAuth();
+  const { signOutUser, user: authUser } = useAuth();
   const [showSplash, setShowSplash] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return !sessionStorage.getItem('yojana_setu_splash_seen');
@@ -105,6 +108,9 @@ function YojanaSetuMain() {
 
   // Contextual account prompt: shown when a guest attempts a persistence action.
   const [accountPromptVisible, setAccountPromptVisible] = useState(false);
+
+  // Password recovery: shown when the Supabase reset link returns to the app.
+  const [showResetPassword, setShowResetPassword] = useState(false);
 
   // Modal / Slide-over state for "Why this match?"
   const [whyMatchTarget, setWhyMatchTarget] = useState<MatchResult | null>(null);
@@ -274,6 +280,25 @@ function YojanaSetuMain() {
   }, []);
 
   /**
+   * Password-recovery flow: Supabase sends a real reset email now, linking
+   * back to /login. When the link returns, the client emits PASSWORD_RECOVERY
+   * and we show the set-new-password screen instead of the normal UI.
+   */
+  useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+    try {
+      if (!isSupabaseConfigured()) return;
+      const { data } = getSupabaseClient().auth.onAuthStateChange((event) => {
+        if (event === 'PASSWORD_RECOVERY') setShowResetPassword(true);
+      });
+      unsubscribe = () => data.subscription.unsubscribe();
+    } catch {
+      // Backend not configured — the recovery screen never appears.
+    }
+    return () => unsubscribe?.();
+  }, []);
+
+  /**
    * Screen navigation. Screens that rely on Framer shared-layout morphing
    * (results <-> scheme-detail) update directly; everything else goes through
    * the native View Transitions layer so the two systems never overlap.
@@ -327,8 +352,36 @@ function YojanaSetuMain() {
     navigateTo(userProfile ? 'results' : 'form');
   };
 
-  const handleLogout = async () => {
-    try {
+  /**
+   * Cloud session sign-in (page refresh or Google OAuth redirect return):
+   * AuthContext restores the Supabase session asynchronously. When it lands
+   * as a non-local user while the app isn't authenticated yet, run the same
+   * post-login flow as the login screen.
+   */
+  const cloudLoginHandledRef = useRef(false);
+  useEffect(() => {
+    if (!authUser) {
+      cloudLoginHandledRef.current = false;
+      return;
+    }
+    if (!authUser.isLocal && !isAuthenticated && !cloudLoginHandledRef.current) {
+      cloudLoginHandledRef.current = true;
+      handleLogin(authUser.displayName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authUser, isAuthenticated]);
+
+  /**
+   * Password recovery completed: the new password is set and the recovery
+   * session is valid. Reload so AuthContext picks up the session through
+   * its normal restore path (it ignores the PASSWORD_RECOVERY event itself).
+   */
+  const handleResetPasswordDone = () => {
+    setShowResetPassword(false);
+    window.location.reload();
+  };
+
+  const handleLogout = async () => {    try {
       await signOutUser();
     } catch (err) {
       console.warn('[Auth] Error signing out:', err);
@@ -440,6 +493,10 @@ function YojanaSetuMain() {
       }
       return next;
     });
+
+    // Mirror the toggle to the cloud backend when a Supabase session is
+    // active. Fire-and-forget: never blocks the UI, never throws.
+    syncSavedSchemeToggle(schemeId, !wasSaved);
 
     // Keep the tracker in step with saves, as a separate state write.
     if (wasSaved) {
@@ -804,6 +861,14 @@ function YojanaSetuMain() {
           />
         )}
       </AnimatePresence>
+
+      {/* Password-recovery overlay: set a new password after the reset link
+          returns. Rendered above everything; the page reloads on success. */}
+      {showResetPassword && (
+        <div className="fixed inset-0 z-[90] overflow-y-auto bg-[#FAFAF9] dark:bg-[#0E1311]">
+          <ResetPasswordScreen onDone={handleResetPasswordDone} />
+        </div>
+      )}
     </div>
   );
 }

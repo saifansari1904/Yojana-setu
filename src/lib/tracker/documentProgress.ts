@@ -15,6 +15,8 @@ const LEGACY_PREFIX = 'setu_docs_';
 
 export type DocumentProgressMap = Record<string, string[]>;
 
+import { syncDocumentProgressToCloud } from '../supabase/sync';
+
 const isStringArray = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every((item) => typeof item === 'string');
 
@@ -44,6 +46,9 @@ export const saveDocumentProgress = (map: DocumentProgressMap): void => {
   } catch {
     // Storage blocked or full — progress stays in memory for this session.
   }
+  // Mirror to the cloud backend when a Supabase session is active.
+  // Fire-and-forget: never blocks the UI, never throws.
+  syncDocumentProgressToCloud(map);
 };
 
 /**

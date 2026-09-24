@@ -112,6 +112,20 @@ export interface Translations {
     noAccountPrompt: string;
     haveAccountPrompt: string;
     dismiss: string;
+    resetPassword: {
+      title: string;
+      subtitle: string;
+      newPasswordLabel: string;
+      confirmPasswordLabel: string;
+      submitButton: string;
+      successTitle: string;
+      successMessage: string;
+      doneButton: string;
+      errorMismatch: string;
+      errorTooShort: string;
+      errorExpired: string;
+      errorGeneric: string;
+    };
   };
   form: {
     badge: string;
