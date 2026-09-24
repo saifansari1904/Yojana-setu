@@ -134,17 +134,11 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
   const [existingInvestment, setExistingInvestment] = useState<number | ''>(
     initialProfile?.existingInvestment ?? ''
   );
-  const [businessIdea, setBusinessIdea] = useState<string>(
-    initialProfile?.businessIdea || ''
-  );
   const [businessName, setBusinessName] = useState<string>(
     initialProfile?.businessName || ''
   );
   const [primarySupportNeed, setPrimarySupportNeed] = useState<SupportNeedType | null>(
     initialProfile?.primarySupportNeed || null
-  );
-  const [secondarySupportNeeds, setSecondarySupportNeeds] = useState<SupportNeedType[]>(
-    initialProfile?.secondarySupportNeeds || []
   );
 
   // Extended Geographic Location
@@ -193,20 +187,8 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     );
   }, [totalProjectCost, existingInvestment, fundingRequired]);
 
-  // Primary support need handler: ensures primary cannot be selected as secondary
   const handleSelectPrimaryNeed = (need: SupportNeedType | null) => {
     setPrimarySupportNeed(need);
-    if (need) {
-      setSecondarySupportNeeds((prev) => prev.filter((s) => s !== need));
-    }
-  };
-
-  // Secondary support need multi-select toggle handler
-  const handleToggleSecondaryNeed = (need: SupportNeedType) => {
-    if (need === primarySupportNeed) return;
-    setSecondarySupportNeeds((prev) =>
-      prev.includes(need) ? prev.filter((s) => s !== need) : [...prev, need]
-    );
   };
 
   // Active stage navigation
@@ -253,10 +235,8 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     setTurnoverRangeId(null);
     setTotalProjectCost('');
     setExistingInvestment('');
-    setBusinessIdea('');
     setBusinessName('');
     setPrimarySupportNeed(null);
-    setSecondarySupportNeeds([]);
     setResidenceState('');
     setBusinessState('');
     setIsDifferentState(false);
@@ -442,7 +422,6 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       ruralUrban: ruralUrban || 'rural',
       businessRegistration: businessRegistration || 'unregistered',
       turnoverRangeId: turnoverRangeId || undefined,
-      businessIdea: businessIdea.trim() || undefined,
       businessName: businessName.trim() || undefined,
       totalProjectCost:
         typeof totalProjectCost === 'number'
@@ -453,7 +432,6 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       existingInvestment: typeof existingInvestment === 'number' ? existingInvestment : 0,
       fundingGap: calculatedFundingGap,
       primarySupportNeed: primarySupportNeed || undefined,
-      secondarySupportNeeds: secondarySupportNeeds.length > 0 ? secondarySupportNeeds : undefined,
     };
 
     finalProfile.businessNeedProfile = deriveBusinessNeedProfile(finalProfile);
@@ -1601,77 +1579,6 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   })}
                 </div>
               </div>
-
-              {/* Secondary Support Needs Multi-Select */}
-              <div className="pt-2.5 border-t border-[#D9E8DF]/60 dark:border-[#203D2E]/60">
-                <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
-                    {eui.secondaryNeedsLabel}
-                  </label>
-                  {secondarySupportNeeds.length > 0 && (
-                    <span className="text-[10px] font-bold text-[#14453D] dark:text-[#4ADE80] bg-[#D9E8DF]/60 dark:bg-[#1A382D] px-2 py-0.5 rounded-full">
-                      {eui.selectedCount(secondarySupportNeeds.length)}
-                    </span>
-                  )}
-                </div>
-                <p className="text-[11px] text-[#516A5F] dark:text-[#8E9F97] mb-2">
-                  {eui.secondaryNeedsHint}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {(
-                    [
-                      { id: 'CAPITAL', labelEn: 'Seed Capital', labelHi: 'प्रारंभिक पूंजी' },
-                      { id: 'WORKING_CAPITAL', labelEn: 'Working Capital', labelHi: 'कार्यशील पूंजी' },
-                      { id: 'EQUIPMENT', labelEn: 'Machinery / Tools', labelHi: 'मशीनरी व उपकरण' },
-                      { id: 'SUBSIDY', labelEn: 'Govt Subsidy', labelHi: 'सरकारी सब्सिडी' },
-                      { id: 'INFRASTRUCTURE', labelEn: 'Work Shed / Infra', labelHi: 'कार्यशाला' },
-                      { id: 'SKILL_DEVELOPMENT', labelEn: 'Skill Training', labelHi: 'कौशल प्रशिक्षण' },
-                      { id: 'MARKET_ACCESS', labelEn: 'Market Access', labelHi: 'बाजार संपर्क' },
-                      { id: 'COMPLIANCE_AND_REGISTRATION', labelEn: 'Compliance / Licenses', labelHi: 'अनुपालन व लाइसेंस' },
-                      { id: 'EXPORT_ASSISTANCE', labelEn: 'Export Assistance', labelHi: 'निर्यात सहायता' },
-                    ] as { id: SupportNeedType; labelEn: string; labelHi: string }[]
-                  )
-                    .filter((need) => need.id !== primarySupportNeed)
-                    .map((need) => {
-                      const isSelected = secondarySupportNeeds.includes(need.id);
-                      return (
-                        <button
-                          key={need.id}
-                          type="button"
-                          onClick={() => handleToggleSecondaryNeed(need.id)}
-                          className={`px-2.5 py-1.5 rounded text-xs font-semibold border transition-all cursor-pointer flex items-center gap-1.5 ${
-                            isSelected
-                              ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#4ADE80] shadow-xs'
-                              : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
-                          }`}
-                        >
-                          {isSelected && <Check className="w-3 h-3 text-white" />}
-                          <span>{SUPPORT_NEEDS_LOCALIZED[need.id]?.[lang] || need.labelEn}</span>
-                        </button>
-                      );
-                    })}
-                </div>
-              </div>
-
-              {/* Business Idea / Activity Description */}
-              <div>
-                <label className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] block mb-1">
-                  {eui.bizIdeaLabel}
-                </label>
-                <input
-                  type="text"
-                  placeholder={eui.bizIdeaPlaceholder}
-                  value={businessIdea}
-                  onChange={(e) => setBusinessIdea(e.target.value)}
-                  className="w-full px-3 py-2 text-xs border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
-                />
-              </div>
-            </div>
-
-            {/* Why we ask this */}
-            <div className="mt-3 p-3 bg-[#FAFAF9] dark:bg-[#101613] rounded border border-[#E4E8E4] dark:border-[#24342D] flex items-start gap-2 text-xs text-[#516A5F] dark:text-[#8E9F97]">
-              <HelpCircle className="w-4 h-4 text-[#14453D] dark:text-[#4ADE80] shrink-0 mt-0.5" />
-              <span>{t('questionnaire.whyAskFunding')}</span>
             </div>
           </div>
         )}
@@ -1950,17 +1857,6 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       </dt>
                       <dd className="font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
                         {SUPPORT_NEEDS_LOCALIZED[primarySupportNeed]?.[lang] || primarySupportNeed.replace(/_/g, " ")}
-                      </dd>
-                    </div>
-                  )}
-
-                  {secondarySupportNeeds.length > 0 && (
-                    <div className="flex justify-between">
-                      <dt className="text-[#516A5F] dark:text-[#8E9F97]">
-                        {eui.reviewSecondaryNeeds}
-                      </dt>
-                      <dd className="font-medium text-[#516A5F] dark:text-[#8E9F97] text-right">
-                        {secondarySupportNeeds.map((s) => SUPPORT_NEEDS_LOCALIZED[s]?.[lang] || s.replace(/_/g, " ")).join(", ")}
                       </dd>
                     </div>
                   )}
