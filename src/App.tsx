@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef, Suspense, lazy } from 'react';
 import { AnimatePresence, LayoutGroup, MotionConfig } from 'motion/react';
+import { AlertCircle, X } from 'lucide-react';
 import { ActiveScreen, ApplicationStatus, MatchResult, TrackedApplication, UserProfile } from './types';
 import type { Scheme } from './types/scheme';
 // Scheme data (1.5MB candidate dataset) loads asynchronously — never in the initial bundle.
@@ -82,8 +83,8 @@ function ScreenFallback() {
 }
 
 function YojanaSetuMain() {
-  const { lang } = useTranslation();
-  const { signOutUser, user: authUser } = useAuth();
+  const { lang, t } = useTranslation();
+  const { signOutUser, user: authUser, authError, clearAuthError } = useAuth();
   const [showSplash, setShowSplash] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return !sessionStorage.getItem('yojana_setu_splash_seen');
@@ -648,6 +649,27 @@ function YojanaSetuMain() {
           matchResults={matchResults}
           onUpdateProfile={handleUpdateProfile}
         />
+      )}
+
+      {/* OAuth callback failure — visible on EVERY screen, not just login.
+          After a Google redirect the app boots to welcome/dashboard, so a
+          login-screen-only banner would never be seen. This surfaces the
+          real reason instead of a silent "logged out". */}
+      {authError && (
+        <div role="alert" className="relative z-40 mx-auto flex w-full max-w-3xl items-start gap-2.5 px-4 pt-3">
+          <div className="flex flex-1 items-start gap-2.5 rounded-[var(--yj-radius-md)] border border-[#C0392B]/25 dark:border-[#E57373]/25 bg-[#FDF3F2] dark:bg-[#E57373]/[0.07] px-3.5 py-3 text-[13px] leading-relaxed text-[#7B241C] dark:text-[#F5B7B1]">
+            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
+            <div className="flex-1 min-w-0">
+              <p>{t('login.oauthFailed')}</p>
+              {authError !== 'oauthUnknown' && (
+                <p className="mt-1 text-[12px] opacity-80 break-words">{authError}</p>
+              )}
+            </div>
+            <button type="button" onClick={clearAuthError} aria-label={t('login.dismiss')} className="shrink-0 rounded p-1 opacity-70 hover:opacity-100">
+              <X className="w-4 h-4" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
       )}
 
       {/* Main View Area with Direction & Transition-Aware Pages */}
