@@ -129,7 +129,10 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
     } else if (['businessName', 'businessIdea', 'subSector', 'businessStageKey', 'businessEntityType', 'entrepreneurExperienceYears'].includes(fieldKey)) {
       handleOpenEdit('business');
     } else if (['registrationStatus', 'hasUdyam', 'hasGst', 'hasTradeLicense'].includes(fieldKey)) {
-      handleOpenEdit('registration');
+      // Registration prompts open the Business Registrations & Compliance
+      // control center directly; the edit modal's registration tab only
+      // covers formalization.
+      scrollToSection('profile-registration-section');
     } else {
       handleOpenEdit('personal');
     }
@@ -256,7 +259,7 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
 
         <RegistrationSection
           profile={userProfile}
-          onEditSection={() => handleOpenEdit('registration')}
+          onSave={handleSaveProfile}
         />
 
         <DocumentVaultSection

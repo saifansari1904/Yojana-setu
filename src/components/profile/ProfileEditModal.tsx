@@ -21,7 +21,6 @@ import {
   SupportNeedType,
   BusinessStageKey,
   BusinessEntityType,
-  RegistrationStatus,
 } from '../../types/business';
 import { useTranslation, PROFILE_I18N, SUPPORTED_LANGUAGES } from '../../i18n';
 import { CitizenAvatarInsignia } from '../common/CitizenAvatarInsignia';
@@ -696,125 +695,44 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
               </div>
             )}
 
-            {/* REGISTRATION TAB */}
+            {/* REGISTRATION TAB — formalization only; individual records live in the section */}
             {activeTab === 'registration' && (
               <div className="space-y-4">
-                <div>
-                  <label className="text-xs font-bold text-[#1F2421] dark:text-[var(--text-main)] block mb-1">
-                    {strings.registrationStatus}
-                  </label>
-                  <select
-                    value={formState.registrationStatus || (formState.isRegistered ? 'REGISTERED' : 'NOT_REGISTERED')}
-                    onChange={(e) => {
-                      const val = e.target.value as RegistrationStatus;
-                      handleChange('registrationStatus', val);
-                      handleChange('isRegistered', val === 'REGISTERED');
-                    }}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-card)] text-sm text-[#1F2421] dark:text-[var(--text-main)] focus:ring-2 focus:ring-[#14453D] outline-hidden"
-                  >
-                    <option value="REGISTERED">Formal Registered Enterprise</option>
-                    <option value="NOT_REGISTERED">Unregistered / Informal Enterprise</option>
-                    <option value="UNKNOWN">To Be Verified</option>
-                  </select>
-                </div>
-
-                <div className="space-y-3 pt-2">
-                  <label className="text-xs font-bold text-[#1F2421] dark:text-[var(--text-main)] block">
-                    Statutory MSME Registrations & Accounts
-                  </label>
-
-                  <label className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[var(--border-subtle)] bg-[#F9FAF9] dark:bg-[var(--bg-card)] cursor-pointer">
-                    <input
-                      type="radio"
-                      name="businessRegistration"
-                      value="udyam"
-                      checked={formState.businessRegistration === 'udyam' || (formState.isRegistered && !formState.businessRegistration)}
-                      onChange={() => {
-                        handleChange('businessRegistration', 'udyam');
-                        handleChange('isRegistered', true);
-                        handleChange('registrationStatus', 'REGISTERED');
-                      }}
-                      className="w-4 h-4 text-[#14453D] focus:ring-[#14453D]"
-                    />
-                    <div>
-                      <span className="text-xs font-bold text-[#1F2421] dark:text-[var(--text-main)] block">
-                        {strings.udyam}
-                      </span>
-                      <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] block">
-                        Possess active Udyam Registration Certificate (UAM/URC)
-                      </span>
-                    </div>
-                  </label>
-
-                  <label className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[var(--border-subtle)] bg-[#F9FAF9] dark:bg-[var(--bg-card)] cursor-pointer">
-                    <input
-                      type="radio"
-                      name="businessRegistration"
-                      value="gst"
-                      checked={formState.businessRegistration === 'gst'}
-                      onChange={() => {
-                        handleChange('businessRegistration', 'gst');
-                        handleChange('isRegistered', true);
-                        handleChange('registrationStatus', 'REGISTERED');
-                      }}
-                      className="w-4 h-4 text-[#14453D] focus:ring-[#14453D]"
-                    />
-                    <div>
-                      <span className="text-xs font-bold text-[#1F2421] dark:text-[var(--text-main)] block">
-                        {strings.gst}
-                      </span>
-                      <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] block">
-                        Have Goods & Services Tax Identification Number (GSTIN)
-                      </span>
-                    </div>
-                  </label>
-
-                  <label className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[var(--border-subtle)] bg-[#F9FAF9] dark:bg-[var(--bg-card)] cursor-pointer">
-                    <input
-                      type="radio"
-                      name="businessRegistration"
-                      value="local_trade"
-                      checked={formState.businessRegistration === 'local_trade'}
-                      onChange={() => {
-                        handleChange('businessRegistration', 'local_trade');
-                        handleChange('isRegistered', true);
-                        handleChange('registrationStatus', 'REGISTERED');
-                      }}
-                      className="w-4 h-4 text-[#14453D] focus:ring-[#14453D]"
-                    />
-                    <div>
-                      <span className="text-xs font-bold text-[#1F2421] dark:text-[var(--text-main)] block">
-                        {strings.tradeLicense}
-                      </span>
-                      <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] block">
-                        Municipal Shop & Establishment or Panchayat Trade License
-                      </span>
-                    </div>
-                  </label>
-
-                  <label className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[var(--border-subtle)] bg-[#F9FAF9] dark:bg-[var(--bg-card)] cursor-pointer">
-                    <input
-                      type="radio"
-                      name="businessRegistration"
-                      value="unregistered"
-                      checked={formState.businessRegistration === 'unregistered' || (!formState.isRegistered && !formState.businessRegistration)}
-                      onChange={() => {
-                        handleChange('businessRegistration', 'unregistered');
-                        handleChange('isRegistered', false);
-                        handleChange('registrationStatus', 'NOT_REGISTERED');
-                      }}
-                      className="w-4 h-4 text-[#14453D] focus:ring-[#14453D]"
-                    />
-                    <div>
-                      <span className="text-xs font-bold text-[#1F2421] dark:text-[var(--text-main)] block">
-                        Not Yet Registered / Informal Unit
-                      </span>
-                      <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] block">
-                        Currently informal or planning registration alongside scheme application
-                      </span>
-                    </div>
-                  </label>
-                </div>
+                <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)]">
+                  {strings.regTabNote}
+                </p>
+                <fieldset>
+                  <legend className="text-xs font-bold text-[#1F2421] dark:text-[var(--text-main)] block mb-2">
+                    {strings.regFormalization}
+                  </legend>
+                  <div className="space-y-2">
+                    {(
+                      [
+                        ['FORMALIZED', strings.regFormFormalized],
+                        ['PARTIALLY_FORMALIZED', strings.regFormPartial],
+                        ['INFORMAL', strings.regFormInformal],
+                        ['UNKNOWN', strings.regFormUnknown],
+                      ] as const
+                    ).map(([value, label]) => (
+                      <label
+                        key={value}
+                        className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[var(--border-subtle)] bg-[#F9FAF9] dark:bg-[var(--bg-card)] cursor-pointer"
+                      >
+                        <input
+                          type="radio"
+                          name="businessFormalization"
+                          value={value}
+                          checked={(formState.businessFormalization || 'UNKNOWN') === value}
+                          onChange={() => handleChange('businessFormalization', value)}
+                          className="w-4 h-4 text-[#14453D] focus:ring-[#14453D]"
+                        />
+                        <span className="text-xs font-bold text-[#1F2421] dark:text-[var(--text-main)]">
+                          {label}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
               </div>
             )}
           </div>

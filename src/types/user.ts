@@ -12,6 +12,10 @@ import type {
   BusinessProfile,
   BusinessNeedProfile,
 } from './business';
+import type {
+  BusinessRegistrationRecord,
+  BusinessFormalizationStatus,
+} from './registration';
 
 export type SocialCategory = 'SC' | 'ST' | 'OBC' | 'General' | 'Woman' | 'Minority';
 
@@ -60,6 +64,11 @@ export interface UserProfile {
   existingTurnover?: number;
   turnoverRangeId?: TurnoverRangeId;
   businessRegistration?: BusinessRegistrationType;
+
+  // Business Registrations & Compliance control center (per-record model).
+  // Legacy fields above are DERIVED from these (see registrationModel.ts).
+  businessFormalization?: BusinessFormalizationStatus;
+  businessRegistrations?: BusinessRegistrationRecord[];
 
   // Phase 4.1 — Business Profile & Business Need Intelligence Fields
   businessIdea?: string;

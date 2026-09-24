@@ -138,6 +138,10 @@ export function validateUserProfile(
       existingTurnover: profile.existingTurnover,
       turnoverRangeId: profile.turnoverRangeId,
       businessRegistration: profile.businessRegistration,
+      // Business Registrations & Compliance control center (passed through;
+      // normalized against legacy fields on load/save in profileStorage).
+      businessFormalization: profile.businessFormalization,
+      businessRegistrations: profile.businessRegistrations,
 
       // Phase 4.1 Business Profile Fields
       businessIdea: profile.businessIdea,

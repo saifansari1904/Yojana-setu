@@ -9,6 +9,8 @@ import { UserProfile } from '../../types/user';
 import { MatchResult } from '../../types';
 import { useTranslation, PROFILE_I18N } from '../../i18n';
 import { formatLakhCrore } from '../../lib/business';
+import { normalizeRegistrationFields } from '../../lib/registrations/registrationModel';
+import { REGISTRATION_KINDS } from '../../types/registration';
 
 interface ProfilePrintViewProps {
   profile: UserProfile;
@@ -30,6 +32,7 @@ export const ProfilePrintView: React.FC<ProfilePrintViewProps> = ({
     getLocalizedBusinessStage,
     getLocalizedEntity,
     getLocalizedSupportNeed,
+    getLocalizedRegistrationStatus,
   } = useTranslation();
   const strings = PROFILE_I18N[lang] || PROFILE_I18N.en;
 
@@ -207,37 +210,48 @@ export const ProfilePrintView: React.FC<ProfilePrintViewProps> = ({
             </div>
           </div>
 
-          {/* Section 4: Registrations & Formalization */}
+          {/* Section 4: Business Registrations & Compliance — from actual records, never invented */}
           <div>
             <h2 className="text-xs font-black text-[#14453D] uppercase tracking-wider border-b border-gray-200 pb-1 mb-3">
-              4. {strings.registrationTitle}
+              4. {strings.regCenterTitle}
             </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-              <div>
-                <span className="text-gray-500 block font-semibold">{strings.registrationStatus}:</span>
-                <span className="font-bold text-gray-900 block mt-0.5">
-                  {profile.registrationStatus === 'REGISTERED' || profile.isRegistered ? 'Formal Unit' : 'Informal Unit'}
-                </span>
-              </div>
-              <div>
-                <span className="text-gray-500 block font-semibold">{strings.udyam}:</span>
-                <span className="font-bold text-gray-900 block mt-0.5">
-                  {profile.businessRegistration === 'udyam' || profile.registrationStatus === 'REGISTERED' || profile.isRegistered ? 'Registered (Verified)' : 'Not Yet Registered'}
-                </span>
-              </div>
-              <div>
-                <span className="text-gray-500 block font-semibold">{strings.gst}:</span>
-                <span className="font-bold text-gray-900 block mt-0.5">
-                  {profile.businessRegistration === 'gst' ? 'Registered' : 'Exempt / Not Applicable'}
-                </span>
-              </div>
-              <div>
-                <span className="text-gray-500 block font-semibold">MSME Composite Tier:</span>
-                <span className="font-bold text-gray-900 block mt-0.5">
-                  Micro Enterprise
-                </span>
-              </div>
-            </div>
+            {(() => {
+              const normalized = normalizeRegistrationFields(profile);
+              const records = normalized.businessRegistrations ?? [];
+              const formalization = normalized.businessFormalization ?? 'UNKNOWN';
+              const formalizationLabel =
+                formalization === 'FORMALIZED' ? strings.regFormFormalized :
+                formalization === 'PARTIALLY_FORMALIZED' ? strings.regFormPartial :
+                formalization === 'INFORMAL' ? strings.regFormInformal : strings.regFormUnknown;
+              return (
+                <div className="text-xs">
+                  <div className="mb-3">
+                    <span className="text-gray-500 block font-semibold">{strings.regFormalization}:</span>
+                    <span className="font-bold text-gray-900 block mt-0.5">{formalizationLabel}</span>
+                  </div>
+                  {records.length === 0 ? (
+                    <p className="text-gray-500">{strings.regEmptyTitle}</p>
+                  ) : (
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                      {records.map((r) => {
+                        const kindLabel = r.kind === 'other' && r.customLabel
+                          ? r.customLabel
+                          : (strings[REGISTRATION_KINDS[r.kind].labelKey as keyof typeof strings] as string) || r.kind;
+                        return (
+                          <div key={r.id}>
+                            <span className="text-gray-500 block font-semibold">{kindLabel}:</span>
+                            <span className="font-bold text-gray-900 block mt-0.5">
+                              {getLocalizedRegistrationStatus(r.status)}
+                              {r.registrationNumber ? ` — ${r.registrationNumber}` : ''}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
 
           {/* Section 5: Eligible Scheme Matches Discovery Snapshot */}

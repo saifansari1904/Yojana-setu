@@ -13,6 +13,7 @@
 import { UserProfile } from '../../types/user';
 import { deriveBusinessProfile, deriveBusinessNeedProfile } from '../business/businessNeedProfile';
 import { validateUserProfile } from '../validation/userProfileValidation';
+import { normalizeRegistrationFields } from '../registrations/registrationModel';
 
 export const USER_PROFILE_STORAGE_KEY = 'yojana_setu_user_profile_v1';
 const PROFILE_SYNC_EVENT = 'yojana_setu_profile_sync';
@@ -81,7 +82,10 @@ export function loadStoredProfile(): UserProfile | null {
 
     const validation = validateUserProfile(parsed as Partial<UserProfile>);
     if (validation.isValid && validation.formattedProfile) {
-      return sanitizeProfilePII(validation.formattedProfile);
+      // One-time migration: legacy registration fields -> per-record model,
+      // and legacy fields derived back from records for existing consumers.
+      const normalized = normalizeRegistrationFields(validation.formattedProfile);
+      return sanitizeProfilePII(normalized);
     }
 
     // Defensive repair for legacy or partially valid saved profiles
@@ -124,11 +128,14 @@ export function saveStoredProfile(profile: UserProfile | null | undefined): User
   }
 
   const sanitized = sanitizeProfilePII(profile);
-  const needProfile = sanitized.businessNeedProfile || deriveBusinessNeedProfile(sanitized);
-  const bizProfile = sanitized.businessProfile || deriveBusinessProfile(sanitized);
+  // Keep legacy registration fields in sync with per-record model so the
+  // matching engine and all existing consumers see current data.
+  const normalized = normalizeRegistrationFields(sanitized);
+  const needProfile = normalized.businessNeedProfile || deriveBusinessNeedProfile(normalized);
+  const bizProfile = normalized.businessProfile || deriveBusinessProfile(normalized);
 
   const updatedProfile: UserProfile = {
-    ...sanitized,
+    ...normalized,
     businessNeedProfile: needProfile,
     businessProfile: bizProfile,
   };

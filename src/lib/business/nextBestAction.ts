@@ -12,6 +12,7 @@ import {
 } from '../../types/supportPathway';
 import { calculateBusinessProfileCompleteness } from './businessProfileCompleteness';
 import { formatLakhCrore } from './fundingCalculator';
+import { getIncompleteRegistrationRecords } from '../registrations/registrationModel';
 
 interface PathwayActionSet {
   /** Exactly one primary action. Never undefined. */
@@ -266,8 +267,15 @@ export function derivePathwayNextBestAction(
   // 5. Registration prerequisite
   // ---------------------------------------------------------------------------
   const regStatus = needProfile.registrationStatus;
+  // Incomplete per-record details (e.g. GST marked registered but the number
+  // is missing) also surface through the existing COMPLETE_REGISTRATION
+  // action — same action id, priority, and i18n keys; only the trigger widens.
+  const hasIncompleteRegistrationDetails =
+    getIncompleteRegistrationRecords(profile.businessRegistrations).length > 0;
   if (
-    (regStatus === 'NOT_REGISTERED' || regStatus === 'IN_PROCESS') &&
+    (regStatus === 'NOT_REGISTERED' ||
+      regStatus === 'IN_PROCESS' ||
+      hasIncompleteRegistrationDetails) &&
     (requiresRegistration(selectedMatch) ||
       supportStack.some((g) => g.area === 'BUSINESS_REGISTRATION'))
   ) {
