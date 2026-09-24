@@ -530,24 +530,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
           </div>
         </div>
 
-        {/* Segmented + shimmering Linear Progress Bar */}
+        {/* Segmented Linear Progress Bar */}
         <div className="relative w-full bg-[#EEEEED] dark:bg-[var(--bg-raised)] h-2 rounded-full overflow-hidden mb-4">
           <motion.div
             className="relative h-full rounded-full bg-gradient-to-r from-[#14453D] via-[#1E6A50] to-[#1E6A50] overflow-hidden"
             initial={false}
             animate={{ width: `${((currentStageIdx + 1) / activeStages.length) * 100}%` }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {!shouldReduceMotion && (
-              <motion.span
-                aria-hidden="true"
-                className="absolute inset-y-0 w-1/3 bg-white/35"
-                initial={{ x: '-120%' }}
-                animate={{ x: '320%' }}
-                transition={{ repeat: Infinity, duration: 1.8, ease: 'linear' }}
-              />
-            )}
-          </motion.div>
+          />
 
           {/* Stage tick marks so progress reads as discrete steps */}
           <div className="pointer-events-none absolute inset-0 flex">
