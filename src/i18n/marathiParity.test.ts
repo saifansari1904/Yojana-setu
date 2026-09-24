@@ -98,9 +98,11 @@ const badMr = Object.entries(flatMr).filter(
 assert(badMr.length === 0, 'B: mr has no empty or placeholder values', JSON.stringify(badMr.slice(0, 5)));
 
 // mr values should be genuinely translated (not copied English) for Devanagari-expected copy.
-// Allowlist: strings that are legitimately identical (numbers, codes, brand-ish tokens).
+// Allowlist: strings that are legitimately identical (numbers, codes, brand-ish tokens,
+// example email placeholders — the address format itself is not display copy).
+const ASCII_IDENTICAL_ALLOWLIST = new Set(['login.emailPlaceholder']);
 const asciiIdentical = Object.keys(flatMr).filter(
-  (k) => flatMr[k] === flatEn[k] && /^[\x00-\x7F]*$/.test(flatMr[k]) && /[a-zA-Z]/.test(flatMr[k])
+  (k) => !ASCII_IDENTICAL_ALLOWLIST.has(k) && flatMr[k] === flatEn[k] && /^[\x00-\x7F]*$/.test(flatMr[k]) && /[a-zA-Z]/.test(flatMr[k])
 );
 assert(
   asciiIdentical.length === 0,
