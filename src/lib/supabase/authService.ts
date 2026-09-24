@@ -152,8 +152,10 @@ async function resolveDisplayName(userId: string, fallbackEmail: string | null):
   try {
     const supabase = getSupabaseClient();
     const { data } = await supabase.auth.getUser();
-    const metaName = (data.user?.user_metadata as Record<string, unknown> | undefined)
-      ?.display_name;
+    // Google OAuth stores the name as `full_name` (sometimes `name`); the
+    // email/password sign-up stores it as `display_name`. Check all three.
+    const meta = (data.user?.user_metadata as Record<string, unknown> | undefined) ?? {};
+    const metaName = meta.display_name ?? meta.full_name ?? meta.name;
     if (typeof metaName === 'string' && metaName.trim()) {
       return sanitizeApplicantName(metaName);
     }

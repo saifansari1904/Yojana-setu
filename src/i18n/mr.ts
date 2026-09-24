@@ -426,6 +426,7 @@ export const mrTranslations: Translations = {
     applications: 'अर्ज',
     accountPrivacy: 'खाते व गोपनीयता',
     signOut: 'साइन आउट',
+    cloudSessionActive: 'क्लाउड खाते',
     localSessionActive: 'स्थानिक डिव्हाइस सत्र',
     entrepreneurRole: 'उद्योजक',
     profileReadiness: 'प्रोफाइल तयारी',

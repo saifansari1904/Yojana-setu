@@ -426,6 +426,7 @@ export const hiTranslations: Translations = {
     applications: 'आवेदन',
     accountPrivacy: 'खाता और गोपनीयता',
     signOut: 'साइन आउट',
+    cloudSessionActive: 'क्लाउड खाता',
     localSessionActive: 'स्थानीय डिवाइस सत्र',
     entrepreneurRole: 'उद्यमी',
     profileReadiness: 'प्रोफ़ाइल तत्परता',

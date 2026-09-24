@@ -426,6 +426,7 @@ export const enTranslations: Translations = {
     applications: 'Applications',
     accountPrivacy: 'Account & Privacy',
     signOut: 'Sign out',
+    cloudSessionActive: 'Cloud Account',
     localSessionActive: 'Local Device Session',
     entrepreneurRole: 'Entrepreneur',
     profileReadiness: 'Profile Readiness',

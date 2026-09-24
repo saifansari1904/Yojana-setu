@@ -426,6 +426,7 @@ export const knTranslations: Translations = {
     applications: 'ಅರ್ಜಿಗಳು',
     accountPrivacy: 'ಖಾತೆ ಮತ್ತು ಗೌಪ್ಯತೆ',
     signOut: 'ಸೈನ್ ಔಟ್',
+    cloudSessionActive: 'ಕ್ಲೌಡ್ ಖಾತೆ',
     localSessionActive: 'ಸ್ಥಳೀಯ ಸಾಧನ ಸೆಷನ್',
     entrepreneurRole: 'ಉದ್ಯಮಿ',
     profileReadiness: 'ಪ್ರೊಫೈಲ್ ಸನ್ನದ್ಧತೆ',

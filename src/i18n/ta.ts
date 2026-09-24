@@ -426,6 +426,7 @@ export const taTranslations: Translations = {
     applications: 'விண்ணப்பங்கள்',
     accountPrivacy: 'கணக்கு & தனியுரிமை',
     signOut: 'வெளியேறு',
+    cloudSessionActive: 'மேகக் கணக்கு',
     localSessionActive: 'உள்ளூர் சாதன அமர்வு',
     entrepreneurRole: 'தொழில்முனைவோர்',
     profileReadiness: 'சுயவிவர தயார்நிலை',

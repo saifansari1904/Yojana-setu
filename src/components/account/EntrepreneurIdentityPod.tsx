@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import { ActiveScreen, MatchResult, UserProfile } from '../../types';
 import { useTranslation, SUPPORTED_LANGUAGES, Language } from '../../i18n';
+import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../theme/ThemeContext';
 import { calculateBusinessProfileCompleteness } from '../../lib/business/businessProfileCompleteness';
 import { loadDocumentProgress } from '../../lib/tracker/documentProgress';
@@ -62,6 +63,9 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
   onUpdateProfile,
 }) => {
   const { t, lang, setLang, getLocalizedState } = useTranslation();
+  const { user: authUser } = useAuth();
+  // Cloud (Supabase) sessions get the cloud badge; guests/local stay local.
+  const isCloudAccount = authUser != null && !authUser.isLocal;
   const { isDark, setTheme } = useTheme();
   const shouldReduceMotion = useReducedMotion();
 
@@ -357,10 +361,10 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                 <span>{locationLabel}</span>
               </p>
 
-              {/* Local Device Session */}
+              {/* Session type: cloud account for signed-in users, local device otherwise */}
               <div className="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#E8F5EE] dark:bg-[var(--bg-subtle)] text-[#14453D] dark:text-[var(--accent-green)] border border-[#B9E3CB] dark:border-[#1E4D37]">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
-                <span>{t('account.localSessionActive') || 'Local Device Session'}</span>
+                <span>{isCloudAccount ? t('account.cloudSessionActive') : (t('account.localSessionActive') || 'Local Device Session')}</span>
               </div>
 
               {/* Profile Readiness Bar (Clickable -> /profile) */}

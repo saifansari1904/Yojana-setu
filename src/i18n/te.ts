@@ -426,6 +426,7 @@ export const teTranslations: Translations = {
     applications: 'దరఖాస్తులు',
     accountPrivacy: 'ఖాతా & గోప్యత',
     signOut: 'సైన్ అవుట్',
+    cloudSessionActive: 'క్లౌడ్ ఖాతా',
     localSessionActive: 'స్థానిక పరికర సెషన్',
     entrepreneurRole: 'పారిశ్రామికవేత్త',
     profileReadiness: 'ప్రొఫైల్ సంసిద్ధత',

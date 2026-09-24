@@ -412,6 +412,7 @@ export interface Translations {
     applications: string;
     accountPrivacy: string;
     signOut: string;
+    cloudSessionActive: string;
     localSessionActive: string;
     entrepreneurRole: string;
     profileReadiness: string;

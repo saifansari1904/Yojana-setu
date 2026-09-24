@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { loadStoredProfile, clearStoredProfile, subscribeProfileStorage } from '../lib/profile/profileStorage';
+import { loadStoredProfile, saveStoredProfile, clearStoredProfile, subscribeProfileStorage } from '../lib/profile/profileStorage';
+import type { UserProfile } from '../types/user';
 import {
   getSessionUser,
   onAuthStateChange,
@@ -59,6 +60,24 @@ const toLocalUser = (): LocalUser | null => {
  * e.g. a fresh phone — we pull the cloud account down instead, then reload
  * once so the whole app boots from the restored data.
  */
+/**
+ * OAuth sign-ins (Google) carry the user's real name in their metadata, but
+ * the local profile — which the identity panel reads first — may have no
+ * applicantName yet. Fill it in once so the UI shows the real name
+ * everywhere; never overwrites a name the user already set. Runs before the
+ * one-time migration so the name is carried into the cloud profile too.
+ */
+const backfillApplicantName = (displayName: string): void => {
+  try {
+    if (!displayName || displayName === 'Citizen Entrepreneur') return;
+    const current = loadStoredProfile();
+    if (current?.applicantName?.trim()) return;
+    saveStoredProfile({ ...(current ?? {}), applicantName: displayName } as UserProfile);
+  } catch {
+    /* never break sign-in over a display-name nicety */
+  }
+};
+
 const RESTORED_FLAG = 'yojana_setu_cloud_restored_v1';
 
 const runOneTimeMigration = (userId: string): void => {
@@ -136,6 +155,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (sessionUser) {
         setSyncUserId(sessionUser.id);
         setUser(toCloudUser(sessionUser));
+        backfillApplicantName(sessionUser.displayName);
         runOneTimeMigration(sessionUser.id);
       } else {
         setSyncUserId(null);

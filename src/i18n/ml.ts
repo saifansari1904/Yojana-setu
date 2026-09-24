@@ -426,6 +426,7 @@ export const mlTranslations: Translations = {
     applications: 'അപേക്ഷകൾ',
     accountPrivacy: 'അക്കൗണ്ടും സ്വകാര്യതയും',
     signOut: 'സൈൻ ഔട്ട്',
+    cloudSessionActive: 'ക്ലൗഡ് അക്കൗണ്ട്',
     localSessionActive: 'പ്രാദേശിക ഉപകരണ സെഷൻ',
     entrepreneurRole: 'സംരംഭകൻ',
     profileReadiness: 'പ്രൊഫൈൽ സന്നദ്ധത',
