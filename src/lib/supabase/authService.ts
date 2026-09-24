@@ -136,14 +136,48 @@ async function resolveLoginEmail(identifier: string): Promise<string | null> {
 }
 
 /** Display name: profiles row first, user_metadata fallback, never raw PII. */
+
+/**
+ * Maximum time to wait for one display-name lookup. The name is cosmetic —
+ * it must NEVER block (or silently break) sign-in if the network stalls.
+ * On timeout we fall through to the next source, ending at the metadata /
+ * email fallback. The abandoned request is left to settle on its own; its
+ * late rejection is swallowed to avoid unhandled-rejection noise.
+ */
+const DISPLAY_NAME_LOOKUP_TIMEOUT_MS = 8000;
+
+function withLookupTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const guarded = promise.then(
+    (value) => {
+      if (timer !== undefined) clearTimeout(timer);
+      return value;
+    },
+    (err) => {
+      if (timer !== undefined) clearTimeout(timer);
+      throw err;
+    },
+  );
+  // If the timeout wins, the abandoned promise may still reject later —
+  // swallow it so it never surfaces as an unhandled rejection.
+  guarded.catch(() => {});
+  const timeout = new Promise<T>((_, reject) => {
+    timer = setTimeout(() => reject(new Error('display-name lookup timed out')), ms);
+  });
+  return Promise.race([guarded, timeout]);
+}
+
 async function resolveDisplayName(userId: string, fallbackEmail: string | null): Promise<string> {
   try {
     const supabase = getSupabaseClient();
-    const { data } = await supabase
-      .from('profiles')
-      .select('display_name')
-      .eq('user_id', userId)
-      .maybeSingle();
+    const profileQuery = Promise.resolve(
+      supabase
+        .from('profiles')
+        .select('display_name')
+        .eq('user_id', userId)
+        .maybeSingle(),
+    );
+    const { data } = await withLookupTimeout(profileQuery, DISPLAY_NAME_LOOKUP_TIMEOUT_MS);
     const raw = (data?.display_name as string | undefined)?.trim();
     if (raw) return sanitizeApplicantName(raw);
   } catch {
@@ -151,7 +185,7 @@ async function resolveDisplayName(userId: string, fallbackEmail: string | null):
   }
   try {
     const supabase = getSupabaseClient();
-    const { data } = await supabase.auth.getUser();
+    const { data } = await withLookupTimeout(supabase.auth.getUser(), DISPLAY_NAME_LOOKUP_TIMEOUT_MS);
     // Google OAuth stores the name as `full_name` (sometimes `name`); the
     // email/password sign-up stores it as `display_name`. Check all three.
     const meta = (data.user?.user_metadata as Record<string, unknown> | undefined) ?? {};
