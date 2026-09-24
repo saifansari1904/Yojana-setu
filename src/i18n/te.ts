@@ -79,6 +79,9 @@ export const teTranslations: Translations = {
     statusSending: 'పంపబడుతోంది...',
     trustLine: 'మీ ఖాతా పథకాలను సేవ్ చేయడానికి, దరఖాస్తులను ట్రాక్ చేయడానికి మరియు మీ ప్రయాణాన్ని కొనసాగించడానికి సహాయపడుతుంది.',
     continueGuest: 'సైన్ ఇన్ లేకుండా కొనసాగించండి',
+    noAccountPrompt: 'Yojana Setu కు కొత్తవారా?',
+    haveAccountPrompt: 'ఇప్పటికే ఖాతా ఉందా?',
+    dismiss: 'మూసివేయండి',
   },
   form: {
     badge: 'అర్హత నిర్ధారణ వ్యవస్థ',

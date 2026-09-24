@@ -79,6 +79,9 @@ export const hiTranslations: Translations = {
     statusSending: 'भेजा जा रहा है...',
     trustLine: 'आपका खाता योजनाएं सहेजने, आवेदन ट्रैक करने और अपनी यात्रा जारी रखने में मदद करता है।',
     continueGuest: 'बिना साइन इन किए जारी रखें',
+    noAccountPrompt: 'Yojana Setu पर नए हैं?',
+    haveAccountPrompt: 'पहले से खाता है?',
+    dismiss: 'बंद करें',
   },
   form: {
     badge: 'पात्रता जांच प्रणाली',

@@ -79,6 +79,9 @@ export const knTranslations: Translations = {
     statusSending: 'ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ...',
     trustLine: 'ನಿಮ್ಮ ಖಾತೆಯು ಯೋಜನೆಗಳನ್ನು ಉಳಿಸಲು, ಅರ್ಜಿಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲು ಮತ್ತು ನಿಮ್ಮ ಪ್ರಯಾಣವನ್ನು ಮುಂದುವರಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ.',
     continueGuest: 'ಸೈನ್ ಇನ್ ಇಲ್ಲದೆ ಮುಂದುವರಿಸಿ',
+    noAccountPrompt: 'Yojana Setu ಗೆ ಹೊಸಬರೇ?',
+    haveAccountPrompt: 'ಈಗಾಗಲೇ ಖಾತೆ ಇದೆಯೇ?',
+    dismiss: 'ಮುಚ್ಚಿ',
   },
   form: {
     badge: 'ಅರ್ಹತಾ ನಿರ್ಧಾರ ವ್ಯವಸ್ಥೆ',

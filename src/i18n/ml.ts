@@ -79,6 +79,9 @@ export const mlTranslations: Translations = {
     statusSending: 'അയയ്ക്കുന്നു...',
     trustLine: 'സ്കീമുകൾ സംരക്ഷിക്കാനും അപേക്ഷകൾ ട്രാക്ക് ചെയ്യാനും നിങ്ങളുടെ യാത്ര തുടരാനും നിങ്ങളുടെ അക്കൗണ്ട് സഹായിക്കുന്നു.',
     continueGuest: 'സൈൻ ഇൻ ചെയ്യാതെ തുടരുക',
+    noAccountPrompt: 'Yojana Setu-വിൽ പുതിയതാണോ?',
+    haveAccountPrompt: 'ഇതിനകം അക്കൗണ്ട് ഉണ്ടോ?',
+    dismiss: 'അടയ്ക്കുക',
   },
   form: {
     badge: 'യോഗ്യതാ നിർണ്ണയ സംവിധാനം',

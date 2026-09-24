@@ -79,6 +79,9 @@ export const enTranslations: Translations = {
     statusSending: 'Sending...',
     trustLine: 'Your account helps you save schemes, track applications and continue your journey.',
     continueGuest: 'Continue without signing in',
+    noAccountPrompt: 'New to Yojana Setu?',
+    haveAccountPrompt: 'Already have an account?',
+    dismiss: 'Dismiss',
   },
   form: {
     badge: 'ELIGIBILITY ENGINE',

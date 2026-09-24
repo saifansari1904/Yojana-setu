@@ -109,6 +109,9 @@ export interface Translations {
     statusSending: string;
     trustLine: string;
     continueGuest: string;
+    noAccountPrompt: string;
+    haveAccountPrompt: string;
+    dismiss: string;
   };
   form: {
     badge: string;

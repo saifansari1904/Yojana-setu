@@ -79,6 +79,9 @@ export const mrTranslations: Translations = {
     statusSending: 'पाठवत आहे...',
     trustLine: 'तुमचे खाते योजना जतन करण्यास, अर्जांचा मागोवा घेण्यास आणि तुमचा प्रवास सुरू ठेवण्यास मदत करते.',
     continueGuest: 'साइन इन न करता पुढे जा',
+    noAccountPrompt: 'Yojana Setu वर नवीन आहात?',
+    haveAccountPrompt: 'आधीपासून खाते आहे?',
+    dismiss: 'बंद करा',
   },
   form: {
     badge: 'पात्रता इंजिन',

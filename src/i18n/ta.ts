@@ -79,6 +79,9 @@ export const taTranslations: Translations = {
     statusSending: 'அனுப்பப்படுகிறது...',
     trustLine: 'உங்கள் கணக்கு திட்டங்களைச் சேமிக்கவும், விண்ணப்பங்களைக் கண்காணிக்கவும், உங்கள் பயணத்தைத் தொடரவும் உதவுகிறது.',
     continueGuest: 'உள்நுழையாமல் தொடரவும்',
+    noAccountPrompt: 'Yojana Setu-விற்குப் புதியவரா?',
+    haveAccountPrompt: 'ஏற்கனவே கணக்கு உள்ளதா?',
+    dismiss: 'மூடுக',
   },
   form: {
     badge: 'தகுதி கணக்கீட்டு அமைப்பு',
