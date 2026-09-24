@@ -180,18 +180,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // resulted (e.g. a stale ?code= retried after a reload), clear the
     // params and retry once against the stored session before giving up.
     // A failed callback is surfaced as authError instead of a silent logout.
+    //
+    // The restore is bounded: if Supabase stalls during the callback (the
+    // token exchange itself can hang on some networks/browsers), we fail
+    // visibly with the banner instead of hanging silently forever.
+    const CALLBACK_RESTORE_TIMEOUT_MS = 20000;
     (async () => {
       try {
         const hadCallback = hasOAuthCallbackParams();
-        let sessionUser = await getSessionUser();
-        if (!sessionUser && hadCallback) {
-          clearOAuthCallbackParams();
-          sessionUser = await getSessionUser();
+        let sessionUser: SessionUser | null = null;
+        try {
+          const restore = (async (): Promise<SessionUser | null> => {
+            let user = await getSessionUser();
+            if (!user && hadCallback) {
+              clearOAuthCallbackParams();
+              user = await getSessionUser();
+            }
+            return user;
+          })();
+          const timeout = new Promise<SessionUser | null>((_, reject) => {
+            setTimeout(
+              () => reject(new Error('OAuth callback restore timed out')),
+              CALLBACK_RESTORE_TIMEOUT_MS,
+            );
+          });
+          sessionUser = await Promise.race([restore, timeout]);
+        } catch (err) {
+          // Timeout or restore error: fall through to the banner below.
+          // (getAuthCallbackError is skipped here — it can stall the same way.)
+          console.warn('[AuthContext] OAuth callback restore did not complete:', err);
         }
         if (cancelled) return;
         if (!sessionUser && hadCallback) {
-          const detail = await getAuthCallbackError();
-          setAuthError(detail || 'oauthUnknown');
+          setAuthError('oauthUnknown');
         }
         applySessionUser(sessionUser);
       } catch {
