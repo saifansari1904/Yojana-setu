@@ -179,13 +179,20 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     initialProfile?.registrationStatus || null
   );
 
+  const selectedFundingRange = FUNDING_RANGE_OPTIONS.find((o) => o.id === fundingRangeId) || null;
+  // Effective funding amount used for matching, profile and gap math: an explicitly
+  // typed exact amount wins; otherwise the selected range's representative amount
+  // applies. The exact-amount input itself stays empty until the user types a value.
+  const effectiveFundingRequired: number | undefined =
+    typeof fundingRequired === 'number' ? fundingRequired : selectedFundingRange?.defaultAmount;
+
   const calculatedFundingGap = useMemo(() => {
     return calculateFundingGap(
       typeof totalProjectCost === 'number' ? totalProjectCost : undefined,
       typeof existingInvestment === 'number' ? existingInvestment : undefined,
-      typeof fundingRequired === 'number' ? fundingRequired : undefined
+      effectiveFundingRequired
     );
-  }, [totalProjectCost, existingInvestment, fundingRequired]);
+  }, [totalProjectCost, existingInvestment, effectiveFundingRequired]);
 
   const handleSelectPrimaryNeed = (need: SupportNeedType | null) => {
     setPrimarySupportNeed(need);
@@ -266,7 +273,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       businessType: businessType || 'manufacturing',
       state: state || 'All States & UTs',
       businessStage: businessStage || 'new',
-      fundingRequired: typeof fundingRequired === 'number' ? fundingRequired : 300000,
+      fundingRequired: effectiveFundingRequired ?? 300000,
       ruralUrban: ruralUrban || 'rural',
       businessRegistration: businessRegistration || 'unregistered',
     };
@@ -417,18 +424,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       entrepreneurExperienceYears:
         typeof entrepreneurExperienceYears === 'number' ? entrepreneurExperienceYears : undefined,
       registrationStatus: registrationStatus || undefined,
-      fundingRequired: typeof fundingRequired === 'number' ? fundingRequired : 300000,
+      fundingRequired: effectiveFundingRequired ?? 300000,
       fundingRangeId: fundingRangeId || undefined,
       ruralUrban: ruralUrban || 'rural',
       businessRegistration: businessRegistration || 'unregistered',
       turnoverRangeId: turnoverRangeId || undefined,
       businessName: businessName.trim() || undefined,
       totalProjectCost:
-        typeof totalProjectCost === 'number'
-          ? totalProjectCost
-          : typeof fundingRequired === 'number'
-          ? fundingRequired
-          : undefined,
+        typeof totalProjectCost === 'number' ? totalProjectCost : effectiveFundingRequired,
       existingInvestment: typeof existingInvestment === 'number' ? existingInvestment : 0,
       fundingGap: calculatedFundingGap,
       primarySupportNeed: primarySupportNeed || undefined,
@@ -1412,7 +1415,6 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     type="button"
                     onClick={() => {
                       setFundingRangeId(opt.id);
-                      setFundingRequired(opt.defaultAmount);
                       setValidationError(null);
                     }}
                     className={`p-4 rounded border text-left cursor-pointer transition-all flex items-start justify-between ${
@@ -1490,7 +1492,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       type="number"
                       step="50000"
                       min="0"
-                      placeholder={fundingRequired ? String(fundingRequired) : eui.totalCostPlaceholder}
+                      placeholder={effectiveFundingRequired ? String(effectiveFundingRequired) : eui.totalCostPlaceholder}
                       value={totalProjectCost}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
@@ -1833,8 +1835,8 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       {t('questionnaire.fundingLabel')}:
                     </dt>
                     <dd className="font-bold text-[#14453D] dark:text-[#4ADE80]">
-                      {fundingRequired !== ''
-                        ? formatCurrency(Number(fundingRequired))
+                      {effectiveFundingRequired !== undefined
+                        ? formatCurrency(effectiveFundingRequired)
                         : t('questionnaire.notSpecified')}
                     </dd>
                   </div>
