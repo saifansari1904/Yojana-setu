@@ -216,10 +216,10 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
     >
       <div
         id="profile-edit-modal-card"
-        className="bg-white dark:bg-[#151C19] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl my-auto transition-all"
+        className="bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl my-auto transition-all"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E8EFEA] dark:border-[#223F30] bg-[#F8FAF9] dark:bg-[#111714]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E8EFEA] dark:border-[#223F30] bg-[#F8FAF9] dark:bg-[#141b17]">
           <div className="flex items-center gap-2">
             <User className="w-5 h-5 text-[#14453D] dark:text-[#4ADE80]" />
             <h3 className="text-base sm:text-lg font-bold text-[#1F2421] dark:text-[#F0F4F2]">
@@ -236,7 +236,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
         </div>
 
         {/* Tab switcher */}
-        <div className="flex border-b border-[#E8EFEA] dark:border-[#223F30] bg-[#F4F7F5] dark:bg-[#131B17] px-4 overflow-x-auto no-scrollbar">
+        <div className="flex border-b border-[#E8EFEA] dark:border-[#223F30] bg-[#F4F7F5] dark:bg-[#141b17] px-4 overflow-x-auto no-scrollbar">
           <button
             type="button"
             onClick={() => setActiveTab('personal')}
@@ -304,7 +304,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
             {activeTab === 'personal' && (
               <div className="space-y-4">
                 {/* Profile Photo & Avatar Card */}
-                <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-[#F8FAF9] dark:bg-[#151D18] border border-[#DEE7E2] dark:border-[#223F30]">
+                <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-[#F8FAF9] dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30]">
                   <div className="relative shrink-0">
                     <CitizenAvatarInsignia
                       size="lg"
@@ -368,7 +368,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     value={formState.applicantName || ''}
                     onChange={(e) => handleChange('applicantName', e.target.value)}
                     placeholder="Enter full name of applicant"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     required
                   />
                 </div>
@@ -381,7 +381,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     <select
                       value={formState.category}
                       onChange={(e) => handleChange('category', e.target.value as SocialCategory)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     >
                       {CATEGORIES.map((c) => (
                         <option key={c.id} value={c.id}>
@@ -401,7 +401,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                       max={85}
                       value={formState.age || 28}
                       onChange={(e) => handleChange('age', parseInt(e.target.value) || 18)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                       required
                     />
                   </div>
@@ -415,7 +415,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     <select
                       value={formState.gender || 'male'}
                       onChange={(e) => handleChange('gender', e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     >
                       <option value="female">Female</option>
                       <option value="male">Male</option>
@@ -433,7 +433,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                       step={10000}
                       value={formState.annualIncome || 250000}
                       onChange={(e) => handleChange('annualIncome', parseInt(e.target.value) || 0)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     />
                   </div>
                 </div>
@@ -446,7 +446,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     <select
                       value={formState.state}
                       onChange={(e) => handleChange('state', e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     >
                       {INDIAN_STATES.map((s) => (
                         <option key={s} value={s}>
@@ -465,7 +465,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                       value={formState.district || ''}
                       onChange={(e) => handleChange('district', e.target.value)}
                       placeholder="e.g. Pune, Jaipur, Madurai"
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     />
                   </div>
 
@@ -476,7 +476,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     <select
                       value={formState.ruralUrban || 'rural'}
                       onChange={(e) => handleChange('ruralUrban', e.target.value as 'rural' | 'urban')}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     >
                       <option value="rural">Rural (Eligible for higher subsidy)</option>
                       <option value="urban">Urban</option>
@@ -498,7 +498,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     value={formState.businessName || ''}
                     onChange={(e) => handleChange('businessName', e.target.value)}
                     placeholder="e.g. Shiv Shakti Agro Processing / Priya Boutique"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                   />
                 </div>
 
@@ -511,7 +511,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     value={formState.businessIdea || ''}
                     onChange={(e) => handleChange('businessIdea', e.target.value)}
                     placeholder="Brief description of enterprise activity, product, or services..."
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                   />
                 </div>
 
@@ -523,7 +523,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     <select
                       value={formState.businessType}
                       onChange={(e) => handleChange('businessType', e.target.value as BusinessType)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     >
                       {BUSINESS_TYPES.map((b) => (
                         <option key={b.id} value={b.id}>
@@ -542,7 +542,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                       value={formState.subSector || ''}
                       onChange={(e) => handleChange('subSector', e.target.value)}
                       placeholder="e.g. Mustard Oil Milling, Tailoring, Dairy"
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     />
                   </div>
                 </div>
@@ -555,7 +555,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     <select
                       value={formState.businessStageKey || 'NEW_PRE_LAUNCH'}
                       onChange={(e) => handleChange('businessStageKey', e.target.value as BusinessStageKey)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     >
                       {BUSINESS_STAGES.map((s) => (
                         <option key={s.id} value={s.id}>
@@ -572,7 +572,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     <select
                       value={formState.businessEntityType || 'SOLE_PROPRIETORSHIP'}
                       onChange={(e) => handleChange('businessEntityType', e.target.value as BusinessEntityType)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     >
                       {ENTITY_TYPES.map((e) => (
                         <option key={e.id} value={e.id}>
@@ -591,7 +591,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     <select
                       value={formState.businessState || formState.state}
                       onChange={(e) => handleChange('businessState', e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     >
                       {INDIAN_STATES.map((s) => (
                         <option key={s} value={s}>
@@ -611,7 +611,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                       max={50}
                       value={formState.entrepreneurExperienceYears ?? 2}
                       onChange={(e) => handleChange('entrepreneurExperienceYears', parseInt(e.target.value) || 0)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     />
                   </div>
                 </div>
@@ -636,7 +636,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                         handleChange('totalProjectCost', val);
                         handleChange('fundingRequired', val);
                       }}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                       required
                     />
                   </div>
@@ -655,7 +655,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                         handleChange('existingInvestment', val);
                         handleChange('investmentAmount', val);
                       }}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     />
                   </div>
                 </div>
@@ -668,7 +668,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     <select
                       value={formState.primarySupportNeed || 'WORKING_CAPITAL'}
                       onChange={(e) => handleChange('primarySupportNeed', e.target.value as SupportNeedType)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     >
                       {SUPPORT_NEEDS.map((s) => (
                         <option key={s.id} value={s.id}>
@@ -689,7 +689,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                       value={formState.existingTurnover ?? 0}
                       onChange={(e) => handleChange('existingTurnover', parseInt(e.target.value) || 0)}
                       placeholder="0 for new enterprises"
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                     />
                   </div>
                 </div>
@@ -710,7 +710,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                       handleChange('registrationStatus', val);
                       handleChange('isRegistered', val === 'REGISTERED');
                     }}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#101714] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D9E8DF] dark:border-[#223F30] bg-white dark:bg-[#141b17] text-sm text-[#1F2421] dark:text-[#F0F4F2] focus:ring-2 focus:ring-[#14453D] outline-hidden"
                   >
                     <option value="REGISTERED">Formal Registered Enterprise</option>
                     <option value="NOT_REGISTERED">Unregistered / Informal Enterprise</option>
@@ -723,7 +723,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     Statutory MSME Registrations & Accounts
                   </label>
 
-                  <label className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27] bg-[#F9FAF9] dark:bg-[#121915] cursor-pointer">
+                  <label className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27] bg-[#F9FAF9] dark:bg-[#141b17] cursor-pointer">
                     <input
                       type="radio"
                       name="businessRegistration"
@@ -746,7 +746,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     </div>
                   </label>
 
-                  <label className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27] bg-[#F9FAF9] dark:bg-[#121915] cursor-pointer">
+                  <label className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27] bg-[#F9FAF9] dark:bg-[#141b17] cursor-pointer">
                     <input
                       type="radio"
                       name="businessRegistration"
@@ -769,7 +769,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     </div>
                   </label>
 
-                  <label className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27] bg-[#F9FAF9] dark:bg-[#121915] cursor-pointer">
+                  <label className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27] bg-[#F9FAF9] dark:bg-[#141b17] cursor-pointer">
                     <input
                       type="radio"
                       name="businessRegistration"
@@ -792,7 +792,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                     </div>
                   </label>
 
-                  <label className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27] bg-[#F9FAF9] dark:bg-[#121915] cursor-pointer">
+                  <label className="flex items-center gap-3 p-3 rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27] bg-[#F9FAF9] dark:bg-[#141b17] cursor-pointer">
                     <input
                       type="radio"
                       name="businessRegistration"
@@ -820,7 +820,7 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           </div>
 
           {/* Footer Actions */}
-          <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[#E8EFEA] dark:border-[#223F30] bg-[#F8FAF9] dark:bg-[#111714]">
+          <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[#E8EFEA] dark:border-[#223F30] bg-[#F8FAF9] dark:bg-[#141b17]">
             <button
               type="button"
               onClick={onClose}

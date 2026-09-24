@@ -74,7 +74,7 @@ export const JourneySection: React.FC = () => {
                 className="group relative flex lg:flex-col gap-4 lg:gap-0 lg:items-center lg:text-center"
               >
                 <div className="relative shrink-0">
-                  <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-white dark:bg-[#111714] border-2 border-[#D9E8DF] dark:border-[#22503E] group-hover:border-[#1E6A50] dark:group-hover:border-[#4ADE80] group-hover:shadow-md flex items-center justify-center transition-all duration-200">
+                  <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-white dark:bg-[#141b17] border-2 border-[#D9E8DF] dark:border-[#22503E] group-hover:border-[#1E6A50] dark:group-hover:border-[#4ADE80] group-hover:shadow-md flex items-center justify-center transition-all duration-200">
                     <step.icon className="w-6 h-6 text-[#14453D] dark:text-[#4ADE80]" aria-hidden="true" />
                   </div>
                   <span

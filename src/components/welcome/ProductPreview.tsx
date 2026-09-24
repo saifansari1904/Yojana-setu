@@ -31,7 +31,7 @@ export const ProductPreview: React.FC<ProductPreviewProps> = ({ onFindSchemes })
   ] as const;
 
   return (
-    <section id="welcome-preview" className="bg-white dark:bg-[#111714] border-y border-[#E4E8E4] dark:border-[#24342D] scroll-mt-20">
+    <section id="welcome-preview" className="bg-white dark:bg-[#141b17] border-y border-[#E4E8E4] dark:border-[#24342D] scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
         <SectionHeading title={t('welcome.previewTitle')} subtitle={t('welcome.previewSubtitle')} />
 
@@ -41,7 +41,7 @@ export const ProductPreview: React.FC<ProductPreviewProps> = ({ onFindSchemes })
             {/* window chrome */}
             <div
               aria-hidden="true"
-              className="flex items-center gap-1.5 px-4 py-3 border-b border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#111714]"
+              className="flex items-center gap-1.5 px-4 py-3 border-b border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#141b17]"
             >
               <span className="w-2.5 h-2.5 rounded-full bg-[#E4E8E4] dark:bg-[#2A3C34]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[#E4E8E4] dark:bg-[#2A3C34]" />
@@ -49,12 +49,12 @@ export const ProductPreview: React.FC<ProductPreviewProps> = ({ onFindSchemes })
             </div>
 
             <div className="p-4 sm:p-6" aria-hidden="true">
-              <div className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#111714] p-4 sm:p-5">
+              <div className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#141b17] p-4 sm:p-5">
                 <div className="flex items-center justify-between mb-4">
                   <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#516A5F] dark:text-[#8FA197]">
                     {t('welcome.previewSchemeTitle')}
                   </p>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#8FA197] dark:text-[#6E7F76] bg-[#F3F4F3] dark:bg-[#1A211D] rounded-full px-2.5 py-1">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#8FA197] dark:text-[#6E7F76] bg-[#F3F4F3] dark:bg-[#1d2822] rounded-full px-2.5 py-1">
                     {t('welcome.flowDemoTag')}
                   </span>
                 </div>
@@ -162,7 +162,7 @@ export const ProductPreview: React.FC<ProductPreviewProps> = ({ onFindSchemes })
             <motion.div
               key={i}
               variants={shouldReduceMotion ? undefined : staggerItem}
-              className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#151C19] p-5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200"
+              className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#141b17] p-5 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200"
             >
               <span className="w-9 h-9 rounded-lg bg-[#D9E8DF] dark:bg-[#1A382D] flex items-center justify-center mb-3">
                 <c.icon className="w-[18px] h-[18px] text-[#14453D] dark:text-[#4ADE80]" aria-hidden="true" />

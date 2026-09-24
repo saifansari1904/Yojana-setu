@@ -34,7 +34,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
 
       {/* Meta Bar: Ministry, Agency, Helpdesk */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1A2520]/40">
+        <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1d2822]/40">
           <span className="text-[11px] text-[#5A6561] dark:text-[#97A7A0] block mb-1">
             Sponsoring Ministry
           </span>
@@ -43,7 +43,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
           </span>
         </div>
 
-        <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1A2520]/40">
+        <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1d2822]/40">
           <span className="text-[11px] text-[#5A6561] dark:text-[#97A7A0] block mb-1">
             {t('workspace.nodalAgencyLabel')}
           </span>
@@ -52,7 +52,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
           </span>
         </div>
 
-        <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1A2520]/40">
+        <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1d2822]/40">
           <span className="text-[11px] text-[#5A6561] dark:text-[#97A7A0] block mb-1">
             {t('workspace.helplineLabel')}
           </span>
@@ -73,7 +73,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
           {instructions.map((inst) => (
             <div
               key={inst.stepNumber}
-              className="p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#151D19] flex items-start gap-4"
+              className="p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#141b17] flex items-start gap-4"
             >
               <div className="w-7 h-7 rounded-full bg-[#1E6A50] dark:bg-[#4ADE80] text-white dark:text-[#0E1311] flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
                 {inst.stepNumber}
@@ -84,7 +84,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
                     {resolveLocalizedPair(inst.titleEn, inst.titleHi, lang)}
                   </h5>
                   {inst.agency && (
-                    <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#F4F7F5] dark:bg-[#1A2520] text-[#5A6561] dark:text-[#97A7A0]">
+                    <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#F4F7F5] dark:bg-[#1d2822] text-[#5A6561] dark:text-[#97A7A0]">
                       {inst.agency}
                     </span>
                   )}

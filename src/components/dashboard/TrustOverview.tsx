@@ -22,7 +22,7 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
   return (
     <section
       id="trust-overview"
-      className="bg-white dark:bg-[#1E2623] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
+      className="bg-white dark:bg-[#1d2822] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
     >
       {/* Header */}
       <div className="flex items-center gap-2.5">
@@ -43,7 +43,7 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
 
       {/* Metrics Row */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#16221D] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
           <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             {isHi ? 'सत्यापित पोर्टल' : 'Verified Portals'}
           </div>
@@ -52,7 +52,7 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
           </div>
         </div>
 
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#16221D] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
           <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             {isHi ? 'उच्च प्रामाणिकता' : 'High Provenance'}
           </div>
@@ -61,7 +61,7 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
           </div>
         </div>
 
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#16221D] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
           <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             {isHi ? 'मूल्यांकित योजनाएं' : 'Evaluated Schemes'}
           </div>

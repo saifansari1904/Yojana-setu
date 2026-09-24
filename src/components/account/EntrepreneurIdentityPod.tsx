@@ -234,7 +234,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
         className={`group relative flex items-center gap-2.5 pl-1.5 pr-3 sm:pr-3.5 py-1.5 rounded-full border transition-all cursor-pointer select-none ${
           isOpen
             ? 'bg-[#EBF5F0] dark:bg-[#152820] border-[#1E6A50] dark:border-[#22C55E] shadow-sm'
-            : 'bg-white dark:bg-[#121A16] border-[#DEE7E2] dark:border-[#24342D] hover:border-[#1E6A50]/60 dark:hover:border-[#22C55E]/60 hover:bg-[#F7FAF8] dark:hover:bg-[#16231D] shadow-xs'
+            : 'bg-white dark:bg-[#141b17] border-[#DEE7E2] dark:border-[#24342D] hover:border-[#1E6A50]/60 dark:hover:border-[#22C55E]/60 hover:bg-[#F7FAF8] dark:hover:bg-[#1d2822] shadow-xs'
         }`}
       >
         {/* Clean Modern Avatar */}
@@ -294,10 +294,10 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                 : { opacity: 0, scale: 0.97, y: -6 }
             }
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="absolute right-0 mt-2.5 w-[calc(100vw-1.25rem)] max-w-[390px] sm:w-[410px] bg-white dark:bg-[#121815] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl shadow-2xl overflow-hidden z-50 divide-y divide-[#EDF3EF] dark:divide-[#1C2C24]"
+            className="absolute right-0 mt-2.5 w-[calc(100vw-1.25rem)] max-w-[390px] sm:w-[410px] bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl shadow-2xl overflow-hidden z-50 divide-y divide-[#EDF3EF] dark:divide-[#1C2C24]"
           >
             {/* Top Header Banner */}
-            <div className="px-5 py-3.5 bg-[#F8FAF9] dark:bg-[#141C18] flex items-center justify-between border-b border-[#E1ECE5] dark:border-[#1E3328]">
+            <div className="px-5 py-3.5 bg-[#F8FAF9] dark:bg-[#141b17] flex items-center justify-between border-b border-[#E1ECE5] dark:border-[#1E3328]">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] uppercase tracking-wider">
                   {t('account.podTitle') && t('account.podTitle') !== 'account.podTitle'
@@ -367,7 +367,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
               <button
                 type="button"
                 onClick={() => handleAction('profile')}
-                className="w-full mt-4 p-3 rounded-2xl bg-[#F6FAF8] dark:bg-[#16221D] border border-[#DEE9E3] dark:border-[#243A2F] text-left hover:border-[#1E6A50]/60 dark:hover:border-[#22C55E]/60 transition-all cursor-pointer group"
+                className="w-full mt-4 p-3 rounded-2xl bg-[#F6FAF8] dark:bg-[#1d2822] border border-[#DEE9E3] dark:border-[#243A2F] text-left hover:border-[#1E6A50]/60 dark:hover:border-[#22C55E]/60 transition-all cursor-pointer group"
                 title={t('account.profileReadiness')}
               >
                 <div className="flex items-center justify-between text-xs mb-1.5">
@@ -435,7 +435,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                 <button
                   type="button"
                   onClick={() => handleAction('results')}
-                  className="p-2 rounded-xl bg-[#F6FAF8] dark:bg-[#16221D] hover:bg-[#EAF3EE] dark:hover:bg-[#1B2D26] text-center transition-colors cursor-pointer group"
+                  className="p-2 rounded-xl bg-[#F6FAF8] dark:bg-[#1d2822] hover:bg-[#EAF3EE] dark:hover:bg-[#1B2D26] text-center transition-colors cursor-pointer group"
                 >
                   <span className="block text-sm sm:text-base font-black text-[#14453D] dark:text-[#4ADE80]">
                     {savedCount}
@@ -447,7 +447,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                 <button
                   type="button"
                   onClick={() => handleAction('tracker')}
-                  className="p-2 rounded-xl bg-[#F6FAF8] dark:bg-[#16221D] hover:bg-[#EAF3EE] dark:hover:bg-[#1B2D26] text-center transition-colors cursor-pointer group"
+                  className="p-2 rounded-xl bg-[#F6FAF8] dark:bg-[#1d2822] hover:bg-[#EAF3EE] dark:hover:bg-[#1B2D26] text-center transition-colors cursor-pointer group"
                 >
                   <span className="block text-sm sm:text-base font-black text-[#14453D] dark:text-[#4ADE80]">
                     {trackedCount}
@@ -459,7 +459,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
                 <button
                   type="button"
                   onClick={() => handleAction('profile', 'profile-document-vault-section')}
-                  className="p-2 rounded-xl bg-[#F6FAF8] dark:bg-[#16221D] hover:bg-[#EAF3EE] dark:hover:bg-[#1B2D26] text-center transition-colors cursor-pointer group"
+                  className="p-2 rounded-xl bg-[#F6FAF8] dark:bg-[#1d2822] hover:bg-[#EAF3EE] dark:hover:bg-[#1B2D26] text-center transition-colors cursor-pointer group"
                 >
                   <span className="block text-sm sm:text-base font-black text-[#14453D] dark:text-[#4ADE80]">
                     {readyDocsCount}
@@ -714,7 +714,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
             </div>
 
             {/* Sovereign Privacy Footnote */}
-            <div className="px-4 py-2.5 bg-[#F7FAF8] dark:bg-[#0E1512] text-[10px] text-[#516A5F] dark:text-[#82968B] text-center border-t border-[#EDF3EF] dark:border-[#1E3027] flex items-center justify-center gap-1.5">
+            <div className="px-4 py-2.5 bg-[#F7FAF8] dark:bg-[#141b17] text-[10px] text-[#516A5F] dark:text-[#82968B] text-center border-t border-[#EDF3EF] dark:border-[#1E3027] flex items-center justify-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50]" />
               <span>DPDP Act 2023 · 100% On-Device Storage Sovereignty</span>
             </div>

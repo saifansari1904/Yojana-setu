@@ -58,7 +58,7 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
         </div>
 
         {/* Metric 2: Official Sources */}
-        <div className="p-3.5 rounded-lg bg-[#FAFAF9] dark:bg-[#1A2420] border border-[#E4E8E4] dark:border-[#24342D]">
+        <div className="p-3.5 rounded-lg bg-[#FAFAF9] dark:bg-[#1d2822] border border-[#E4E8E4] dark:border-[#24342D]">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-[#3F4943] dark:text-[#C5D5CC]">{t('officialSources')}</span>
             <Building2 className="w-4 h-4 text-[#516A5F] dark:text-[#9EB0A7]" />

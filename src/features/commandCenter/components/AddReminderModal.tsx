@@ -60,8 +60,8 @@ export const AddReminderModal: React.FC<AddReminderModalProps> = ({
       aria-labelledby="add-reminder-title"
       className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
     >
-      <div className="bg-white dark:bg-[#151C19] rounded-2xl shadow-xl border border-[#E4E8E4] dark:border-[#24342D] w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#EAECEB] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#151C19]">
+      <div className="bg-white dark:bg-[#141b17] rounded-2xl shadow-xl border border-[#E4E8E4] dark:border-[#24342D] w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#EAECEB] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#141b17]">
           <div className="flex items-center gap-2">
             <Bell className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80]" />
             <h3 id="add-reminder-title" className="text-sm font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
@@ -90,7 +90,7 @@ export const AddReminderModal: React.FC<AddReminderModalProps> = ({
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="e.g. Gather updated quotation for machinery"
-              className="w-full text-xs border border-[#E4E8E4] dark:border-[#2A3C34] rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white dark:bg-[#1A2420] text-[#1A1C1B] dark:text-[#F0F4F2]"
+              className="w-full text-xs border border-[#E4E8E4] dark:border-[#2A3C34] rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white dark:bg-[#1d2822] text-[#1A1C1B] dark:text-[#F0F4F2]"
             />
           </div>
 
@@ -102,7 +102,7 @@ export const AddReminderModal: React.FC<AddReminderModalProps> = ({
               id="reminder-scheme-select"
               value={schemeId}
               onChange={e => setSchemeId(e.target.value)}
-              className="w-full text-xs border border-[#E4E8E4] dark:border-[#2A3C34] rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white dark:bg-[#1A2420] text-[#1A1C1B] dark:text-[#F0F4F2]"
+              className="w-full text-xs border border-[#E4E8E4] dark:border-[#2A3C34] rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white dark:bg-[#1d2822] text-[#1A1C1B] dark:text-[#F0F4F2]"
             >
               <option value="">General / Independent</option>
               {schemes.map(s => (
@@ -123,7 +123,7 @@ export const AddReminderModal: React.FC<AddReminderModalProps> = ({
               required
               value={date}
               onChange={e => setDate(e.target.value)}
-              className="w-full text-xs border border-[#E4E8E4] dark:border-[#2A3C34] rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white dark:bg-[#1A2420] text-[#1A1C1B] dark:text-[#F0F4F2]"
+              className="w-full text-xs border border-[#E4E8E4] dark:border-[#2A3C34] rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white dark:bg-[#1d2822] text-[#1A1C1B] dark:text-[#F0F4F2]"
             />
           </div>
 
@@ -131,7 +131,7 @@ export const AddReminderModal: React.FC<AddReminderModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-medium text-[#516A5F] dark:text-[#9EB0A7] hover:bg-[#F3F4F3] dark:hover:bg-[#1E2924] rounded-lg min-h-[44px]"
+              className="px-4 py-2 text-xs font-medium text-[#516A5F] dark:text-[#9EB0A7] hover:bg-[#F3F4F3] dark:hover:bg-[#1d2822] rounded-lg min-h-[44px]"
             >
               {t('close')}
             </button>

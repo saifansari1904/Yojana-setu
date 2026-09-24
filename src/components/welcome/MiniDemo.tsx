@@ -72,7 +72,7 @@ export const MiniDemo: React.FC = () => {
     shouldReduceMotion ? undefined : { ...transitions.smooth, delay };
 
   return (
-    <section id="welcome-demo" className="bg-white dark:bg-[#111714] border-y border-[#E4E8E4] dark:border-[#24342D] scroll-mt-20">
+    <section id="welcome-demo" className="bg-white dark:bg-[#141b17] border-y border-[#E4E8E4] dark:border-[#24342D] scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
         <SectionHeading title={t('welcome.demoTitle')} subtitle={t('welcome.demoSubtitle')} />
 
@@ -101,7 +101,7 @@ export const MiniDemo: React.FC = () => {
                           className={`px-4 py-2.5 min-h-[44px] rounded-lg text-[13px] font-bold border transition-all duration-150 cursor-pointer ${
                             active
                               ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#1C5045] shadow-sm'
-                              : 'bg-white dark:bg-[#151C19] text-[#3F4943] dark:text-[#C5D5CC] border-[#E4E8E4] dark:border-[#2A3C34] hover:border-[#1E6A50]/60 dark:hover:border-[#4ADE80]/60'
+                              : 'bg-white dark:bg-[#141b17] text-[#3F4943] dark:text-[#C5D5CC] border-[#E4E8E4] dark:border-[#2A3C34] hover:border-[#1E6A50]/60 dark:hover:border-[#4ADE80]/60'
                           }`}
                         >
                           {opt}
@@ -202,7 +202,7 @@ export const MiniDemo: React.FC = () => {
               initial={shouldReduceMotion ? undefined : { opacity: 0, y: 10 }}
               animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={stage(1.35)}
-              className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#151C19] px-4 py-3 flex items-center gap-3"
+              className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#141b17] px-4 py-3 flex items-center gap-3"
             >
               <span className="w-8 h-8 rounded-lg bg-[#D9E8DF] dark:bg-[#1A382D] flex items-center justify-center shrink-0">
                 <FileCheck2 className="w-4 h-4 text-[#14453D] dark:text-[#4ADE80]" />

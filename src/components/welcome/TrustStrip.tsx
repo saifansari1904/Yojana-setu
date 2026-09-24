@@ -16,7 +16,7 @@ export const TrustStrip: React.FC = () => {
   ];
 
   return (
-    <section aria-label={t('welcome.trustStrip1Title')} className="border-y border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#111714]">
+    <section aria-label={t('welcome.trustStrip1Title')} className="border-y border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#141b17]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-7">
         <motion.dl
           variants={shouldReduceMotion ? undefined : staggerContainer}

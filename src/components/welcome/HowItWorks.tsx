@@ -43,7 +43,7 @@ export const HowItWorks: React.FC = () => {
                 className="group relative flex lg:flex-col gap-4 lg:gap-0 lg:items-center lg:text-center"
               >
                 <div className="relative shrink-0">
-                  <div className="w-14 h-14 rounded-2xl bg-white dark:bg-[#111714] border-2 border-[#D9E8DF] dark:border-[#22503E] group-hover:border-[#1E6A50] dark:group-hover:border-[#4ADE80] flex items-center justify-center transition-colors duration-200 shadow-sm">
+                  <div className="w-14 h-14 rounded-2xl bg-white dark:bg-[#141b17] border-2 border-[#D9E8DF] dark:border-[#22503E] group-hover:border-[#1E6A50] dark:group-hover:border-[#4ADE80] flex items-center justify-center transition-colors duration-200 shadow-sm">
                     <step.icon className="w-6 h-6 text-[#14453D] dark:text-[#4ADE80]" aria-hidden="true" />
                   </div>
                   <span

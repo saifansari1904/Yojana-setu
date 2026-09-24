@@ -42,7 +42,7 @@ export const GapDiffBar: React.FC<GapDiffBarProps> = ({
         </div>
       </div>
 
-      <div className="relative h-2 w-full rounded-full bg-[#EEEEED] dark:bg-[#202B26] overflow-hidden">
+      <div className="relative h-2 w-full rounded-full bg-[#EEEEED] dark:bg-[#1d2822] overflow-hidden">
         <motion.div
           className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-[#14453D] to-[#1E6A50] dark:from-[#22C55E] dark:to-[#4ADE80]"
           initial={shouldReduceMotion ? { width: `${pct}%` } : { width: '0%' }}

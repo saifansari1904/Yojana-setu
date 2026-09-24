@@ -20,7 +20,7 @@ export const TrustFooterStrip: React.FC<TrustFooterStripProps> = ({
   return (
     <div
       id="trust-footer-strip"
-      className={`flex flex-wrap items-center justify-between gap-3 border-t border-[#E4E8E4] dark:border-[#24342D] bg-[#F3F4F3] dark:bg-[#111714] px-4 py-2.5 text-xs text-[#3F4943] dark:text-[#9EB0A7] rounded-b-md transition-colors ${className}`}
+      className={`flex flex-wrap items-center justify-between gap-3 border-t border-[#E4E8E4] dark:border-[#24342D] bg-[#F3F4F3] dark:bg-[#141b17] px-4 py-2.5 text-xs text-[#3F4943] dark:text-[#9EB0A7] rounded-b-md transition-colors ${className}`}
     >
       <div className="flex items-center gap-2">
         {isCandidate ? (

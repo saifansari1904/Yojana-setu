@@ -32,7 +32,7 @@ export const ApplicationOverview: React.FC<ApplicationOverviewProps> = ({
   return (
     <section
       id="application-overview"
-      className="bg-white dark:bg-[#1E2623] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
+      className="bg-white dark:bg-[#1d2822] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
     >
       {/* Header */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -66,7 +66,7 @@ export const ApplicationOverview: React.FC<ApplicationOverviewProps> = ({
 
       {/* Summary KPI Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#16221D] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
             <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>{isHi ? 'आवेदन हेतु तैयार' : 'Ready to Apply'}</span>
@@ -76,7 +76,7 @@ export const ApplicationOverview: React.FC<ApplicationOverviewProps> = ({
           </div>
         </div>
 
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#16221D] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
             <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
             <span>{isHi ? 'तैयारी में' : 'In Preparation'}</span>
@@ -86,7 +86,7 @@ export const ApplicationOverview: React.FC<ApplicationOverviewProps> = ({
           </div>
         </div>
 
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#16221D] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
             <Send className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
             <span>{isHi ? 'प्रस्तुत' : 'Submitted'}</span>
@@ -96,7 +96,7 @@ export const ApplicationOverview: React.FC<ApplicationOverviewProps> = ({
           </div>
         </div>
 
-        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#16221D] border border-slate-200 dark:border-slate-800">
+        <div className="p-3.5 rounded-lg bg-[#FAFBF9] dark:bg-[#1d2822] border border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
             <CheckCircle2 className="w-3.5 h-3.5 text-[#0F6B4C] dark:text-[#4ADE80]" />
             <span>{isHi ? 'स्वीकृत' : 'Approved'}</span>

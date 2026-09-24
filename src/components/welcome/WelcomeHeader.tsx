@@ -104,7 +104,7 @@ export const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({
             <div className="relative" ref={langMenuRef}>
               <button
                 onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-                className="flex items-center gap-1.5 text-xs font-semibold text-[#3F4943] dark:text-[#A3B5AC] hover:text-[#14453D] dark:hover:text-[#4ADE80] hover:border-[#14453D]/40 dark:hover:border-[#4ADE80]/40 px-2.5 py-2 rounded-lg border border-[#E4E8E4] dark:border-[#2A3C34] bg-white/60 dark:bg-[#151C19]/60 transition-all cursor-pointer min-h-[44px]"
+                className="flex items-center gap-1.5 text-xs font-semibold text-[#3F4943] dark:text-[#A3B5AC] hover:text-[#14453D] dark:hover:text-[#4ADE80] hover:border-[#14453D]/40 dark:hover:border-[#4ADE80]/40 px-2.5 py-2 rounded-lg border border-[#E4E8E4] dark:border-[#2A3C34] bg-white/60 dark:bg-[#141b17]/60 transition-all cursor-pointer min-h-[44px]"
                 aria-haspopup="listbox"
                 aria-expanded={langDropdownOpen}
               >
@@ -121,14 +121,14 @@ export const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({
                   initial={shouldReduceMotion ? undefined : { opacity: 0, y: -4 }}
                   animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
                   transition={transitions.fast}
-                  className="absolute right-0 mt-1.5 w-44 bg-white dark:bg-[#151C19] border border-[#E4E8E4] dark:border-[#2A3C34] rounded-xl shadow-xl py-1 z-50 overflow-hidden"
+                  className="absolute right-0 mt-1.5 w-44 bg-white dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#2A3C34] rounded-xl shadow-xl py-1 z-50 overflow-hidden"
                   role="listbox"
                 >
                   {SUPPORTED_LANGUAGES.map((opt) => (
                     <button
                       key={opt.code}
                       onClick={() => selectLanguage(opt.code)}
-                      className="w-full flex items-center justify-between px-3 py-2.5 min-h-[44px] text-xs text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F3F4F3] dark:hover:bg-[#1E2A25] transition-colors cursor-pointer"
+                      className="w-full flex items-center justify-between px-3 py-2.5 min-h-[44px] text-xs text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#F3F4F3] dark:hover:bg-[#1d2822] transition-colors cursor-pointer"
                       role="option"
                       aria-selected={opt.code === lang}
                     >
@@ -150,7 +150,7 @@ export const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-[#3F4943] dark:text-[#A3B5AC] hover:bg-[#F3F4F3] dark:hover:bg-[#1E2A25] transition-colors cursor-pointer"
+              className="md:hidden p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-[#3F4943] dark:text-[#A3B5AC] hover:bg-[#F3F4F3] dark:hover:bg-[#1d2822] transition-colors cursor-pointer"
               aria-expanded={mobileMenuOpen}
               aria-label={mobileMenuOpen ? t('welcome.menuClose') : t('welcome.menuOpen')}
             >
@@ -179,7 +179,7 @@ export const WelcomeHeader: React.FC<WelcomeHeaderProps> = ({
                 className={`text-left px-3 py-2.5 min-h-[44px] rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
                   activeSection === item.id
                     ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]'
-                    : 'text-[#3F4943] dark:text-[#A3B5AC] hover:bg-[#F3F4F3] dark:hover:bg-[#1E2A25]'
+                    : 'text-[#3F4943] dark:text-[#A3B5AC] hover:bg-[#F3F4F3] dark:hover:bg-[#1d2822]'
                 }`}
               >
                 {item.label}

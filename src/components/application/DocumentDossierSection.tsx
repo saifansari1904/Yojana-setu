@@ -66,7 +66,7 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
           <button
             type="button"
             onClick={onPrintDossier || (() => window.print())}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#151D19] text-[#1F2421] dark:text-[#F0F4F2] hover:bg-[#F4F7F5] dark:hover:bg-[#1A2520] transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#141b17] text-[#1F2421] dark:text-[#F0F4F2] hover:bg-[#F4F7F5] dark:hover:bg-[#1d2822] transition-colors"
           >
             <Printer className="w-3.5 h-3.5 text-[#5A6561] dark:text-[#97A7A0]" />
             <span>{t('workspace.printChecklistBtn')}</span>
@@ -81,7 +81,7 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
           <span>{t('workspace.allDocsReady')}</span>
         </div>
       ) : (
-        <div className="flex items-center justify-between p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1A2520]/50 text-xs">
+        <div className="flex items-center justify-between p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1d2822]/50 text-xs">
           <div className="flex items-center gap-2 text-[#5A6561] dark:text-[#97A7A0]">
             <AlertCircle className="w-4 h-4 text-blue-600 dark:text-blue-400" />
             <span>{t('workspace.mandatoryNotice')}</span>
@@ -110,7 +110,7 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
                 className={`p-4 rounded-xl border transition-all cursor-pointer flex items-start justify-between gap-4 ${
                   isPrepared
                     ? 'border-emerald-300 dark:border-emerald-800 bg-emerald-50/40 dark:bg-emerald-950/20'
-                    : 'border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#151D19] hover:border-[#1E6A50]/40'
+                    : 'border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#141b17] hover:border-[#1E6A50]/40'
                 }`}
               >
                 <div className="flex items-start gap-3">
@@ -147,7 +147,7 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
                   className={`text-[11px] font-semibold px-2.5 py-1 rounded-md border shrink-0 ${
                     isPrepared
                       ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800'
-                      : 'bg-[#F4F7F5] dark:bg-[#1A2520] text-[#5A6561] dark:text-[#97A7A0] border-[#E5E9E7] dark:border-[#22332A]'
+                      : 'bg-[#F4F7F5] dark:bg-[#1d2822] text-[#5A6561] dark:text-[#97A7A0] border-[#E5E9E7] dark:border-[#22332A]'
                   }`}
                 >
                   {isPrepared ? 'Ready in Dossier' : t('workspace.markPrepared')}

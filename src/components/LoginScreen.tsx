@@ -113,7 +113,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder={t('login.usernamePlaceholder')}
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAF9] dark:bg-[#101613] border border-[#E4E8E4] dark:border-[#2A3C34] rounded text-sm text-[#1A1C1B] dark:text-[#F0F4F2] placeholder-[#516A5F] dark:placeholder-[#6C7E76] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80] focus:ring-1 focus:ring-[#14453D] dark:focus:ring-[#4ADE80] transition-colors"
+                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAF9] dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#2A3C34] rounded text-sm text-[#1A1C1B] dark:text-[#F0F4F2] placeholder-[#516A5F] dark:placeholder-[#6C7E76] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80] focus:ring-1 focus:ring-[#14453D] dark:focus:ring-[#4ADE80] transition-colors"
                   />
                 </div>
               </div>
@@ -139,7 +139,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder={t('login.passwordPlaceholder')}
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAF9] dark:bg-[#101613] border border-[#E4E8E4] dark:border-[#2A3C34] rounded text-sm text-[#1A1C1B] dark:text-[#F0F4F2] placeholder-[#516A5F] dark:placeholder-[#6C7E76] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80] focus:ring-1 focus:ring-[#14453D] dark:focus:ring-[#4ADE80] transition-colors"
+                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAF9] dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#2A3C34] rounded text-sm text-[#1A1C1B] dark:text-[#F0F4F2] placeholder-[#516A5F] dark:placeholder-[#6C7E76] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80] focus:ring-1 focus:ring-[#14453D] dark:focus:ring-[#4ADE80] transition-colors"
                   />
                 </div>
               </div>
@@ -172,7 +172,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
             </form>
 
             {/* Why create an account — contextual benefits */}
-            <div className="mt-4 p-3.5 rounded-lg bg-[#F3F4F3] dark:bg-[#111714] border border-[#E4E8E4] dark:border-[#24342D]">
+            <div className="mt-4 p-3.5 rounded-lg bg-[#F3F4F3] dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#24342D]">
               <p className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mb-2">
                 {t('welcome.loginContinueTitle')}
               </p>
@@ -211,7 +211,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
             </div>
           </div>
 
-          <div className="bg-[#F3F4F3] dark:bg-[#111714] px-6 py-3 border-t border-[#E4E8E4] dark:border-[#24342D] text-[11px] text-[#516A5F] dark:text-[#8FA197] text-center font-medium">
+          <div className="bg-[#F3F4F3] dark:bg-[#141b17] px-6 py-3 border-t border-[#E4E8E4] dark:border-[#24342D] text-[11px] text-[#516A5F] dark:text-[#8FA197] text-center font-medium">
             {t('login.subFooter')}
           </div>
         </motion.div>
@@ -225,7 +225,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
           transition={shouldReduceMotion ? reducedMotionTransition : { ...transitions.smooth, delay: 0.2 }}
           className="mt-4 grid grid-cols-3 gap-2 sm:gap-3 text-center"
         >
-          <div className="bg-white/80 dark:bg-[#151C19]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[#24342D] rounded p-3 shadow-2xs">
+          <div className="bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[#24342D] rounded p-3 shadow-2xs">
             <div className="flex items-center justify-center text-[#14453D] dark:text-[#4ADE80] mb-1">
               <ShieldCheck className="w-4 h-4" />
             </div>
@@ -237,7 +237,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
             </div>
           </div>
 
-          <div className="bg-white/80 dark:bg-[#151C19]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[#24342D] rounded p-3 shadow-2xs">
+          <div className="bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[#24342D] rounded p-3 shadow-2xs">
             <div className="flex items-center justify-center text-[#14453D] dark:text-[#4ADE80] mb-1">
               <Landmark className="w-4 h-4" />
             </div>
@@ -249,7 +249,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
             </div>
           </div>
 
-          <div className="bg-white/80 dark:bg-[#151C19]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[#24342D] rounded p-3 shadow-2xs">
+          <div className="bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[#24342D] rounded p-3 shadow-2xs">
             <div className="flex items-center justify-center text-[#14453D] dark:text-[#4ADE80] mb-1">
               <CheckCircle2 className="w-4 h-4" />
             </div>

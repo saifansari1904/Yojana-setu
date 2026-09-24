@@ -495,7 +495,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
             <span>{t('questionnaire.indicativeCountSuffix')}</span>
           </p>
         </div>
-        <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#8E9F97] bg-white/70 dark:bg-[#101613]/70 px-2.5 py-1 rounded border border-[#C1E2D0] dark:border-[#24342D] whitespace-nowrap">
+        <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#8E9F97] bg-white/70 dark:bg-[#141b17]/70 px-2.5 py-1 rounded border border-[#C1E2D0] dark:border-[#24342D] whitespace-nowrap">
           {t('questionnaire.indicativeEstimateNote')}
         </span>
       </div>
@@ -531,7 +531,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
         </div>
 
         {/* Segmented + shimmering Linear Progress Bar */}
-        <div className="relative w-full bg-[#EEEEED] dark:bg-[#202B26] h-2 rounded-full overflow-hidden mb-4">
+        <div className="relative w-full bg-[#EEEEED] dark:bg-[#1d2822] h-2 rounded-full overflow-hidden mb-4">
           <motion.div
             className="relative h-full rounded-full bg-gradient-to-r from-[#14453D] via-[#1E6A50] to-[#1E6A50] overflow-hidden"
             initial={false}
@@ -584,7 +584,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     ? 'bg-[#14453D] text-white font-bold shadow-2xs'
                     : isCompleted
                     ? 'bg-[#D9E8DF]/50 dark:bg-[#1A382D]/50 text-[#14453D] dark:text-[#4ADE80] hover:bg-[#D9E8DF] dark:hover:bg-[#1A382D]'
-                    : 'text-[#516A5F] dark:text-[#8E9F97] hover:bg-[#F3F4F3] dark:hover:bg-[#1A2420]'
+                    : 'text-[#516A5F] dark:text-[#8E9F97] hover:bg-[#F3F4F3] dark:hover:bg-[#1d2822]'
                 }`}
               >
                 <div
@@ -647,7 +647,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       </AnimatePresence>
 
       {/* STAGE CONTAINER */}
-      <div className="bg-white dark:bg-[#151C19] border border-[#E4E8E4] dark:border-[#24342D] rounded-md p-5 sm:p-7 shadow-xs mb-6 overflow-hidden">
+      <div className="bg-white dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#24342D] rounded-md p-5 sm:p-7 shadow-xs mb-6 overflow-hidden">
         <AnimatePresence mode="wait" custom={slideDirection}>
           <motion.div
             key={currentStage.id}
@@ -699,7 +699,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       className={`p-3 rounded border text-left cursor-pointer transition-all flex items-start justify-between ${
                         category === cat
                           ? 'border-[#14453D] dark:border-[#4ADE80] bg-[#D9E8DF]/40 dark:bg-[#1A382D] ring-1 ring-[#14453D] dark:ring-[#4ADE80]'
-                          : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
+                          : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#141b17] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
                       }`}
                     >
                       <div>
@@ -751,7 +751,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     setAge(val);
                     setValidationError(null);
                   }}
-                  className="w-28 p-2.5 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
+                  className="w-28 p-2.5 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#141b17] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
                 />
                 <input
                   type="range"
@@ -779,7 +779,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     className={`px-2.5 py-1 text-xs rounded border cursor-pointer ${
                       age === presetAge
                         ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#4ADE80]'
-                        : 'bg-[#FAFAF9] dark:bg-[#101613] text-[#516A5F] dark:text-[#8E9F97] border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924]'
+                        : 'bg-[#FAFAF9] dark:bg-[#141b17] text-[#516A5F] dark:text-[#8E9F97] border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1d2822]'
                     }`}
                   >
                     {presetAge} {t('common.years')}
@@ -820,7 +820,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   }
                   setValidationError(null);
                 }}
-                className="w-full p-2.5 text-xs font-semibold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
+                className="w-full p-2.5 text-xs font-semibold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#141b17] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
               >
                 <option value="" disabled>
                   {eui.selectStatePlaceholder}
@@ -860,7 +860,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     className={`px-2 py-0.5 text-[11px] rounded border cursor-pointer ${
                       state === st
                         ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#4ADE80]'
-                        : 'bg-[#FAFAF9] dark:bg-[#101613] text-[#516A5F] dark:text-[#8E9F97] border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924]'
+                        : 'bg-[#FAFAF9] dark:bg-[#141b17] text-[#516A5F] dark:text-[#8E9F97] border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1d2822]'
                     }`}
                   >
                     {getLocalizedState(st)}
@@ -880,7 +880,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       placeholder={eui.districtPlaceholder}
                       value={district}
                       onChange={(e) => setDistrict(e.target.value)}
-                      className="w-full p-2 text-xs border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
+                      className="w-full p-2 text-xs border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#141b17] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
                     />
                   </div>
 
@@ -919,7 +919,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     <select
                       value={residenceState}
                       onChange={(e) => setResidenceState(e.target.value)}
-                      className="w-full p-2 text-xs font-semibold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
+                      className="w-full p-2 text-xs font-semibold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#141b17] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
                     >
                       <option value="" disabled>
                         {eui.selectHomeStatePlaceholder}
@@ -954,7 +954,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                         className={`p-2.5 rounded border text-left cursor-pointer transition-all flex items-center justify-between ${
                           isSelected
                             ? 'border-[#14453D] dark:border-[#4ADE80] bg-[#D9E8DF]/40 dark:bg-[#1A382D] ring-1 ring-[#14453D] dark:ring-[#4ADE80]'
-                            : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
+                            : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#141b17] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
                         }`}
                       >
                         <div>
@@ -1010,7 +1010,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     setAnnualIncome(val);
                     setValidationError(null);
                   }}
-                  className="w-full pl-8 pr-3 py-2.5 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
+                  className="w-full pl-8 pr-3 py-2.5 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#141b17] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
                 />
               </div>
 
@@ -1033,7 +1033,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     className={`px-2.5 py-1 text-xs rounded border cursor-pointer ${
                       annualIncome === preset.value
                         ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#4ADE80]'
-                        : 'bg-[#FAFAF9] dark:bg-[#101613] text-[#516A5F] dark:text-[#8E9F97] border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924]'
+                        : 'bg-[#FAFAF9] dark:bg-[#141b17] text-[#516A5F] dark:text-[#8E9F97] border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1d2822]'
                     }`}
                   >
                     {preset.label}
@@ -1083,7 +1083,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     className={`yj-focus-ring group p-4 rounded-[var(--yj-radius-md)] border text-left cursor-pointer transition-all duration-200 flex flex-col justify-between active:scale-[0.99] ${
                       isSelected
                         ? 'border-[#0B5D4B] dark:border-[#4ADE80] bg-[#D9E8DF]/40 dark:bg-[#1A382D] ring-2 ring-[#0B5D4B] dark:ring-[#4ADE80] shadow-[var(--yj-shadow-2)] -translate-y-0.5'
-                        : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613] hover:-translate-y-0.5 hover:shadow-[var(--yj-shadow-2)] hover:border-[#0B5D4B]/50 dark:hover:border-[#4ADE80]/50'
+                        : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#141b17] hover:-translate-y-0.5 hover:shadow-[var(--yj-shadow-2)] hover:border-[#0B5D4B]/50 dark:hover:border-[#4ADE80]/50'
                     }`}
                   >
                     <div>
@@ -1162,7 +1162,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                           className={`px-2.5 py-1 rounded text-xs font-semibold border transition-all cursor-pointer ${
                             isSelected
                               ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#4ADE80]'
-                              : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
+                              : 'bg-white dark:bg-[#141b17] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
                           }`}
                         >
                           {LIFECYCLE_PHASES_LOCALIZED[stage.id]?.[lang] || stage.labelEn}
@@ -1196,7 +1196,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                           className={`px-2.5 py-1 rounded text-xs font-semibold border transition-all cursor-pointer ${
                             isSelected
                               ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#4ADE80]'
-                              : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
+                              : 'bg-white dark:bg-[#141b17] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
                           }`}
                         >
                           {OPERATIONAL_STATUS_LOCALIZED[status.id]?.[lang] || status.labelEn}
@@ -1209,7 +1209,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
             )}
 
             {/* Why we ask this */}
-            <div className="mt-4 p-3 bg-[#FAFAF9] dark:bg-[#101613] rounded border border-[#E4E8E4] dark:border-[#24342D] flex items-start gap-2 text-xs text-[#516A5F] dark:text-[#8E9F97]">
+            <div className="mt-4 p-3 bg-[#FAFAF9] dark:bg-[#141b17] rounded border border-[#E4E8E4] dark:border-[#24342D] flex items-start gap-2 text-xs text-[#516A5F] dark:text-[#8E9F97]">
               <HelpCircle className="w-4 h-4 text-[#14453D] dark:text-[#4ADE80] shrink-0 mt-0.5" />
               <span>{t('questionnaire.whyAskBizStage')}</span>
             </div>
@@ -1256,14 +1256,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     className={`p-3.5 rounded border text-left cursor-pointer transition-all flex items-start gap-3 ${
                       isSelected
                         ? 'border-[#14453D] dark:border-[#4ADE80] bg-[#D9E8DF]/40 dark:bg-[#1A382D] ring-2 ring-[#14453D] dark:ring-[#4ADE80]'
-                        : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
+                        : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#141b17] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
                     }`}
                   >
                     <div
                       className={`p-2 rounded shrink-0 ${
                         isSelected
                           ? 'bg-[#14453D] text-white'
-                          : 'bg-[#E4E8E4]/60 dark:bg-[#202B26] text-[#14453D] dark:text-[#4ADE80]'
+                          : 'bg-[#E4E8E4]/60 dark:bg-[#1d2822] text-[#14453D] dark:text-[#4ADE80]'
                       }`}
                     >
                       <IconComponent className="w-5 h-5" />
@@ -1327,7 +1327,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                         className={`px-2.5 py-1 rounded text-xs font-semibold border transition-all cursor-pointer ${
                           isSelected
                             ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#4ADE80]'
-                            : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
+                            : 'bg-white dark:bg-[#141b17] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
                         }`}
                       >
                         {BUSINESS_ENTITY_LOCALIZED[typeKey]?.[lang] || entityInfo.en}
@@ -1347,7 +1347,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     placeholder={eui.subSectorPlaceholder}
                     value={subSector}
                     onChange={(e) => setSubSector(e.target.value)}
-                    className="w-full p-2 text-xs border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
+                    className="w-full p-2 text-xs border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#141b17] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
                   />
                 </div>
 
@@ -1366,7 +1366,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                         const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
                         setEntrepreneurExperienceYears(val);
                       }}
-                      className="w-20 p-2 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
+                      className="w-20 p-2 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#141b17] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
                     />
                     <div className="flex flex-wrap gap-1">
                       {[0, 1, 2, 3, 5, 10].map((yr) => (
@@ -1377,7 +1377,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                           className={`px-2 py-1 text-[11px] rounded border cursor-pointer ${
                             entrepreneurExperienceYears === yr
                               ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#4ADE80]'
-                              : 'bg-white dark:bg-[#101613] text-[#516A5F] dark:text-[#8E9F97] border-[#D1D5D2] dark:border-[#2A3C34]'
+                              : 'bg-white dark:bg-[#141b17] text-[#516A5F] dark:text-[#8E9F97] border-[#D1D5D2] dark:border-[#2A3C34]'
                           }`}
                         >
                           {yr}y
@@ -1390,7 +1390,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
             </div>
 
             {/* Why we ask this */}
-            <div className="mt-4 p-3 bg-[#FAFAF9] dark:bg-[#101613] rounded border border-[#E4E8E4] dark:border-[#24342D] flex items-start gap-2 text-xs text-[#516A5F] dark:text-[#8E9F97]">
+            <div className="mt-4 p-3 bg-[#FAFAF9] dark:bg-[#141b17] rounded border border-[#E4E8E4] dark:border-[#24342D] flex items-start gap-2 text-xs text-[#516A5F] dark:text-[#8E9F97]">
               <HelpCircle className="w-4 h-4 text-[#14453D] dark:text-[#4ADE80] shrink-0 mt-0.5" />
               <span>{t('questionnaire.whyAskBizType')}</span>
             </div>
@@ -1420,7 +1420,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     className={`p-4 rounded border text-left cursor-pointer transition-all flex items-start justify-between ${
                       isSelected
                         ? 'border-[#14453D] dark:border-[#4ADE80] bg-[#D9E8DF]/40 dark:bg-[#1A382D] ring-2 ring-[#14453D] dark:ring-[#4ADE80]'
-                        : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
+                        : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#141b17] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
                     }`}
                   >
                     <div>
@@ -1460,7 +1460,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       setFundingRequired(val);
                       setValidationError(null);
                     }}
-                    className="w-full pl-8 pr-3 py-2.5 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
+                    className="w-full pl-8 pr-3 py-2.5 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#141b17] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
                   />
                 </div>
                 <span className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80]">
@@ -1498,7 +1498,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                         const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
                         setTotalProjectCost(val);
                       }}
-                      className="w-full pl-7 pr-3 py-2 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
+                      className="w-full pl-7 pr-3 py-2 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#141b17] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
                     />
                   </div>
                 </div>
@@ -1521,14 +1521,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                         const val = e.target.value === '' ? '' : parseInt(e.target.value, 10);
                         setExistingInvestment(val);
                       }}
-                      className="w-full pl-7 pr-3 py-2 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
+                      className="w-full pl-7 pr-3 py-2 text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] rounded bg-white dark:bg-[#141b17] text-[#1A1C1B] dark:text-[#F0F4F2] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Live Funding Gap Callout */}
-              <div className="p-3 rounded-lg bg-[#F4F8F6] dark:bg-[#16231C] border border-[#D9E8DF] dark:border-[#223F30] flex items-center justify-between">
+              <div className="p-3 rounded-lg bg-[#F4F8F6] dark:bg-[#1d2822] border border-[#D9E8DF] dark:border-[#223F30] flex items-center justify-between">
                 <div>
                   <span className="text-[11px] text-[#516A5F] dark:text-[#9EB0A7] block">
                     {eui.fundingGapLabel}
@@ -1572,7 +1572,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                         className={`px-2.5 py-1.5 rounded text-xs font-semibold border transition-all cursor-pointer ${
                           isSelected
                             ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#4ADE80] shadow-xs'
-                            : 'bg-white dark:bg-[#101613] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
+                            : 'bg-white dark:bg-[#141b17] text-[#3F4943] dark:text-[#A0B2A8] border-[#D1D5D2] dark:border-[#2A3C34] hover:border-[#14453D]'
                         }`}
                       >
                         {SUPPORT_NEEDS_LOCALIZED[need.id]?.[lang] || need.labelEn}
@@ -1616,7 +1616,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       className={`p-3 rounded border text-left cursor-pointer transition-all flex items-start justify-between ${
                         isSelected
                           ? 'border-[#14453D] dark:border-[#4ADE80] bg-[#D9E8DF]/40 dark:bg-[#1A382D] ring-1 ring-[#14453D] dark:ring-[#4ADE80]'
-                          : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
+                          : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#141b17] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
                       }`}
                     >
                       <div>
@@ -1655,7 +1655,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       className={`px-2 py-0.5 text-[11px] rounded border cursor-pointer ${
                         registrationStatus === st.id
                           ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[#4ADE80]'
-                          : 'bg-white dark:bg-[#101613] text-[#516A5F] dark:text-[#8E9F97] border-[#D1D5D2] dark:border-[#2A3C34]'
+                          : 'bg-white dark:bg-[#141b17] text-[#516A5F] dark:text-[#8E9F97] border-[#D1D5D2] dark:border-[#2A3C34]'
                       }`}
                     >
                       {REGISTRATION_STATUS_LOCALIZED[st.id]?.[lang] || st.labelEn}
@@ -1686,7 +1686,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       className={`p-3 rounded border text-left cursor-pointer transition-all flex items-start justify-between ${
                         isSelected
                           ? 'border-[#14453D] dark:border-[#4ADE80] bg-[#D9E8DF]/40 dark:bg-[#1A382D] ring-1 ring-[#14453D] dark:ring-[#4ADE80]'
-                          : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
+                          : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#141b17] hover:border-[#14453D]/50 dark:hover:border-[#4ADE80]/50'
                       }`}
                     >
                       <div>
@@ -1707,7 +1707,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
             </div>
 
             {/* Why we ask this */}
-            <div className="mt-3 p-3 bg-[#FAFAF9] dark:bg-[#101613] rounded border border-[#E4E8E4] dark:border-[#24342D] flex items-start gap-2 text-xs text-[#516A5F] dark:text-[#8E9F97]">
+            <div className="mt-3 p-3 bg-[#FAFAF9] dark:bg-[#141b17] rounded border border-[#E4E8E4] dark:border-[#24342D] flex items-start gap-2 text-xs text-[#516A5F] dark:text-[#8E9F97]">
               <HelpCircle className="w-4 h-4 text-[#14453D] dark:text-[#4ADE80] shrink-0 mt-0.5" />
               <span>{t('questionnaire.whyAskExistingBiz')}</span>
             </div>
@@ -1733,7 +1733,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Card 1: Personal & Demographic */}
-              <div className="p-4 rounded border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#101613]">
+              <div className="p-4 rounded border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#141b17]">
                 <div className="flex items-center justify-between pb-2 border-b border-[#E4E8E4] dark:border-[#24342D] mb-3">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-[#14453D] dark:text-[#4ADE80] flex items-center gap-1.5">
                     <Users className="w-3.5 h-3.5" />
@@ -1790,7 +1790,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               </div>
 
               {/* Card 2: Business & Enterprise */}
-              <div className="p-4 rounded border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#101613]">
+              <div className="p-4 rounded border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#141b17]">
                 <div className="flex items-center justify-between pb-2 border-b border-[#E4E8E4] dark:border-[#24342D] mb-3">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-[#14453D] dark:text-[#4ADE80] flex items-center gap-1.5">
                     <Briefcase className="w-3.5 h-3.5" />
@@ -1934,7 +1934,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 hover: { y: -1 },
                 tap: { scale: 0.98 },
               }}
-              className="w-full sm:w-auto px-5 py-2.5 rounded text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#101613] text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924] transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+              className="w-full sm:w-auto px-5 py-2.5 rounded text-xs font-bold border border-[#C2C8C3] dark:border-[#2A3C34] bg-[#FAFAF9] dark:bg-[#141b17] text-[#1A1C1B] dark:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1d2822] transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <motion.span
                 variants={{

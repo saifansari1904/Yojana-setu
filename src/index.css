@@ -58,8 +58,9 @@
   }
 
   .dark {
-    --bg-page: #0C120F;
-    --bg-card: #131A16;
+    --bg-page: #0E1311;
+    --bg-card: #141B17;
+    --bg-inset: #1D2822;
     --bg-tint: #122019;
     --bg-accent-tint: #221A08;
     --border-subtle: #223129;

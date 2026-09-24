@@ -45,7 +45,7 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
           exit={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.95, y: 10 }}
           transition={{ duration: 0.2 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-lg bg-white dark:bg-[#151C19] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-7 overflow-hidden text-left"
+          className="relative w-full max-w-lg bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-7 overflow-hidden text-left"
         >
           {/* Top Decorative Header */}
           <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#E8EFEA] dark:border-[#223F30]">
@@ -69,7 +69,7 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
               id="privacy-modal-close-btn"
               type="button"
               onClick={onClose}
-              className="p-1.5 text-[#516A5F] dark:text-[#9EB0A7] hover:text-[#1F2421] dark:hover:text-[#F0F4F2] hover:bg-[#F3F6F4] dark:hover:bg-[#1E2B25] rounded-lg transition-colors cursor-pointer"
+              className="p-1.5 text-[#516A5F] dark:text-[#9EB0A7] hover:text-[#1F2421] dark:hover:text-[#F0F4F2] hover:bg-[#F3F6F4] dark:hover:bg-[#1d2822] rounded-lg transition-colors cursor-pointer"
               aria-label={t('account.close')}
             >
               <X className="w-5 h-5" />
@@ -78,7 +78,7 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
 
           {/* Privacy Guarantees */}
           <div className="space-y-4 py-5 text-xs sm:text-sm text-[#3F4943] dark:text-[#CBD8D2]">
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-[#F4F9F6] dark:bg-[#101D18] border border-[#D5E8DF] dark:border-[#1E3B2E]">
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-[#F4F9F6] dark:bg-[#141b17] border border-[#D5E8DF] dark:border-[#1E3B2E]">
               <HardDrive className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80] shrink-0 mt-0.5" />
               <div>
                 <span className="font-bold text-[#14453D] dark:text-[#4ADE80] block mb-0.5">
@@ -90,7 +90,7 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
               </div>
             </div>
 
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-[#FAFBFB] dark:bg-[#161F1B] border border-[#E2E8E5] dark:border-[#223028]">
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-[#FAFBFB] dark:bg-[#1d2822] border border-[#E2E8E5] dark:border-[#223028]">
               <EyeOff className="w-4 h-4 text-[#14453D] dark:text-[#4ADE80] shrink-0 mt-0.5" />
               <div>
                 <span className="font-bold text-[#1F2421] dark:text-[#F0F4F2] block mb-0.5">
@@ -102,7 +102,7 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
               </div>
             </div>
 
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-[#FAFBFB] dark:bg-[#161F1B] border border-[#E2E8E5] dark:border-[#223028]">
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-[#FAFBFB] dark:bg-[#1d2822] border border-[#E2E8E5] dark:border-[#223028]">
               <Lock className="w-4 h-4 text-[#14453D] dark:text-[#4ADE80] shrink-0 mt-0.5" />
               <div>
                 <span className="font-bold text-[#1F2421] dark:text-[#F0F4F2] block mb-0.5">

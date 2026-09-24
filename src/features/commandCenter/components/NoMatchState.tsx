@@ -53,7 +53,7 @@ export const NoMatchState: React.FC<NoMatchStateProps> = ({
           id="explore-support-nomatch-btn"
           type="button"
           onClick={onExploreSupport}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-semibold bg-white dark:bg-[#151C19] text-[#3F4943] dark:text-[#C5D5CC] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#FAFAF9] dark:hover:bg-[#1E2924] transition-colors min-h-[44px]"
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-semibold bg-white dark:bg-[#141b17] text-[#3F4943] dark:text-[#C5D5CC] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#FAFAF9] dark:hover:bg-[#1d2822] transition-colors min-h-[44px]"
         >
           <Layers className="w-4 h-4" />
           <span>{t('exploreSupportBtn')}</span>
@@ -63,7 +63,7 @@ export const NoMatchState: React.FC<NoMatchStateProps> = ({
           id="view-near-matches-nomatch-btn"
           type="button"
           onClick={onViewNearMatches}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-semibold bg-[#F3F4F3] dark:bg-[#1E2924] text-[#3F4943] dark:text-[#C5D5CC] hover:bg-[#EEEEED] dark:hover:bg-[#26352E] transition-colors min-h-[44px]"
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-semibold bg-[#F3F4F3] dark:bg-[#1d2822] text-[#3F4943] dark:text-[#C5D5CC] hover:bg-[#EEEEED] dark:hover:bg-[#26352E] transition-colors min-h-[44px]"
         >
           <Eye className="w-4 h-4" />
           <span>{t('viewNearMatchesBtn')}</span>

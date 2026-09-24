@@ -90,7 +90,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, minDurat
           exit={{ opacity: 0, scale: 0.99 }}
           transition={{ duration: 0.35, ease: 'easeInOut' }}
           onClick={handleSkip}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#FAFAF9] dark:bg-[#0B1512] px-6 select-none cursor-pointer"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#FAFAF9] dark:bg-[#141b17] px-6 select-none cursor-pointer"
           role="dialog"
           aria-label="Yojana Setu Gateway Initializing"
         >

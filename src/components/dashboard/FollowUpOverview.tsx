@@ -28,7 +28,7 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
   return (
     <section
       id="follow-up-overview"
-      className="bg-white dark:bg-[#1E2623] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
+      className="bg-white dark:bg-[#1d2822] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
     >
       {/* Header */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -104,7 +104,7 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
                 <button
                   id={`view-followup-scheme-${item.schemeId}`}
                   onClick={() => onSelectScheme(item.match!)}
-                  className="self-start sm:self-center px-3 py-1.5 rounded-md bg-white dark:bg-[#1E2623] border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium min-h-[44px] flex items-center"
+                  className="self-start sm:self-center px-3 py-1.5 rounded-md bg-white dark:bg-[#1d2822] border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium min-h-[44px] flex items-center"
                 >
                   {isHi ? 'योजना देखें' : 'View Scheme'}
                 </button>

@@ -48,7 +48,7 @@ export const BookmarkButton: React.FC<BookmarkButtonProps> = ({
       className={`yj-tap yj-focus-ring relative inline-flex items-center justify-center font-bold rounded-[var(--yj-radius-md)] transition-all cursor-pointer select-none border ${
         isSaved
           ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] border-[#1E6A50] dark:border-[#22C55E]'
-          : 'bg-white dark:bg-[#1E2924] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#516A5F] dark:text-[#C5D5CC] border-[#E4E8E4] dark:border-[#2E4137] hover:border-[#B2CDBF] dark:hover:border-[#3E5C4E]'
+          : 'bg-white dark:bg-[#1d2822] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#516A5F] dark:text-[#C5D5CC] border-[#E4E8E4] dark:border-[#2E4137] hover:border-[#B2CDBF] dark:hover:border-[#3E5C4E]'
       } ${compact ? 'p-2 text-xs' : 'px-3 py-1.5 text-xs gap-1.5'} ${className}`}
     >
       {/* Radial spark burst on save confirmation */}

@@ -85,10 +85,10 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
         animate={shouldReduceMotion ? { opacity: 1 } : 'visible'}
         exit={shouldReduceMotion ? { opacity: 0 } : 'exit'}
         transition={shouldReduceMotion ? reducedMotionTransition : transitions.smooth}
-        className="w-full max-w-xl bg-white dark:bg-[#151C19] min-h-screen h-full shadow-2xl flex flex-col justify-between border-l border-[#E4E8E4] dark:border-[#24342D] transition-colors"
+        className="w-full max-w-xl bg-white dark:bg-[#141b17] min-h-screen h-full shadow-2xl flex flex-col justify-between border-l border-[#E4E8E4] dark:border-[#24342D] transition-colors"
       >
         {/* Top Panel Header (Sticky) */}
-        <div className="sticky top-0 z-10 p-6 border-b border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9]/95 dark:bg-[#151C19]/95 backdrop-blur-sm flex items-start justify-between">
+        <div className="sticky top-0 z-10 p-6 border-b border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9]/95 dark:bg-[#141b17]/95 backdrop-blur-sm flex items-start justify-between">
           <div className="flex items-start gap-4">
             <MatchGauge percentage={matchPercentage} size={60} strokeWidth={5} />
             <div>
@@ -125,7 +125,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
             id="close-why-modal-btn"
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded text-[#516A5F] dark:text-[#8E9F97] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924] transition-colors cursor-pointer"
+            className="p-1.5 rounded text-[#516A5F] dark:text-[#8E9F97] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#EEEEED] dark:hover:bg-[#1d2822] transition-colors cursor-pointer"
             aria-label="Close why match panel"
           >
             <X className="w-5 h-5" />
@@ -133,7 +133,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
         </div>
 
         {/* Scheme Authority Banner */}
-        <div className="px-6 py-2.5 bg-[#F3F4F3] dark:bg-[#111714] border-b border-[#E4E8E4] dark:border-[#24342D] flex items-center justify-between text-xs">
+        <div className="px-6 py-2.5 bg-[#F3F4F3] dark:bg-[#141b17] border-b border-[#E4E8E4] dark:border-[#24342D] flex items-center justify-between text-xs">
           <span className="text-[#3F4943] dark:text-[#9EB0A7] truncate mr-2">
             {text('authorityLabel')}:{' '}
             <strong className="text-[#1A1C1B] dark:text-[#F0F4F2]">
@@ -209,7 +209,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                 variants={shouldReduceMotion ? undefined : staggerItem}
                 className={`relative overflow-hidden p-3.5 pl-4 rounded-[var(--yj-radius-md)] border transition-colors ${
                   item.state === 'MATCHED' || item.matched
-                    ? 'bg-[#FAFAF9] dark:bg-[#111714] border-[#D9E8DF] dark:border-[#235845]'
+                    ? 'bg-[#FAFAF9] dark:bg-[#141b17] border-[#D9E8DF] dark:border-[#235845]'
                     : item.state === 'UNKNOWN'
                     ? 'bg-amber-50/20 dark:bg-amber-950/20 border-amber-300 dark:border-amber-800'
                     : 'bg-[#FFDAD6]/20 dark:bg-[#3D1A14]/30 border-[#FFCCBD] dark:border-[#5A2B20]'
@@ -264,7 +264,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
                 </div>
 
                 {/* Profile vs Scheme Requirement Table */}
-                <div className="grid grid-cols-2 gap-2 text-xs bg-white dark:bg-[#18221E] p-2.5 rounded border border-[#E4E8E4] dark:border-[#293B33] mt-2">
+                <div className="grid grid-cols-2 gap-2 text-xs bg-white dark:bg-[#1d2822] p-2.5 rounded border border-[#E4E8E4] dark:border-[#293B33] mt-2">
                   <div>
                     <span className="text-[10px] text-[#516A5F] dark:text-[#8E9F97] block uppercase tracking-wider font-semibold">
                       {text('yourInputLabel')}
@@ -298,7 +298,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
           </motion.div>
 
           {/* Plain Language Overall Summary */}
-          <div className="p-4 bg-[#FAFAF9] dark:bg-[#111714] border border-[#E4E8E4] dark:border-[#24342D] rounded">
+          <div className="p-4 bg-[#FAFAF9] dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#24342D] rounded">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#1A1C1B] dark:text-[#E2E8E4] block mb-1">
               {text('summaryAssessment')}
             </span>
@@ -308,7 +308,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
           </div>
 
           {/* Trust Footnote */}
-          <div className="flex items-center gap-2 p-3 bg-[#F3F4F3] dark:bg-[#111714] border border-[#E4E8E4] dark:border-[#24342D] rounded text-[11px] text-[#3F4943] dark:text-[#9EB0A7]">
+          <div className="flex items-center gap-2 p-3 bg-[#F3F4F3] dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#24342D] rounded text-[11px] text-[#3F4943] dark:text-[#9EB0A7]">
             <ShieldCheck className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80] shrink-0" />
             <span>
               {text('disclaimer')}
@@ -317,7 +317,7 @@ export const WhyMatchModal: React.FC<WhyMatchModalProps> = ({
         </div>
 
         {/* Panel Sticky Footer */}
-        <div className="sticky bottom-0 z-10 p-6 border-t border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#151C19] space-y-3">
+        <div className="sticky bottom-0 z-10 p-6 border-t border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#141b17] space-y-3">
           <motion.a
             id="modal-official-portal-link"
             href={locScheme.officialPortalUrl || '#'}

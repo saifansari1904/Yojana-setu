@@ -13,7 +13,7 @@ export const AccountConversion: React.FC<AccountConversionProps> = ({ onSignIn, 
   const { t } = useTranslation();
 
   return (
-    <section id="welcome-account" className="bg-white dark:bg-[#111714] border-y border-[#E4E8E4] dark:border-[#24342D]">
+    <section id="welcome-account" className="bg-white dark:bg-[#141b17] border-y border-[#E4E8E4] dark:border-[#24342D]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14 sm:py-20 text-center">
         <RevealOnScroll>
           <div className="w-12 h-12 rounded-2xl bg-[#D9E8DF] dark:bg-[#1A382D] flex items-center justify-center mx-auto mb-5">

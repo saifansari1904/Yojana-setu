@@ -39,7 +39,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
   return (
     <div
       id="profile-business-section"
-      className="bg-white dark:bg-[#151C19] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
+      className="bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
     >
       <div className="flex items-center justify-between pb-4 border-b border-[#E8EFEA] dark:border-[#223F30] mb-5">
         <div>
@@ -64,7 +64,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Enterprise Name */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.businessName}
           </span>
@@ -74,7 +74,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
         </div>
 
         {/* Industry Sector */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.sector}
           </span>
@@ -91,7 +91,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
         </div>
 
         {/* Enterprise Stage */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.businessStage}
           </span>
@@ -104,7 +104,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
         </div>
 
         {/* Legal Structure */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.entityType}
           </span>
@@ -114,7 +114,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
         </div>
 
         {/* Operating Location */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.businessLocation}
           </span>
@@ -131,7 +131,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
         </div>
 
         {/* Experience */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.experienceYears}
           </span>
@@ -146,7 +146,7 @@ export const BusinessSection: React.FC<BusinessSectionProps> = ({
 
       {/* Business Concept / Activity Summary */}
       {profile.businessIdea && (
-        <div className="mt-4 p-3.5 rounded-xl bg-[#F8FAF9] dark:bg-[#101714] border border-[#E0E9E4] dark:border-[#1E2E27]">
+        <div className="mt-4 p-3.5 rounded-xl bg-[#F8FAF9] dark:bg-[#141b17] border border-[#E0E9E4] dark:border-[#1E2E27]">
           <span className="text-[11px] font-bold uppercase tracking-wider text-[#516A5F] dark:text-[#9EB0A7] block mb-1">
             {strings.businessIdea}
           </span>

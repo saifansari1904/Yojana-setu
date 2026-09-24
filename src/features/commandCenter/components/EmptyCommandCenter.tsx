@@ -40,7 +40,7 @@ export const EmptyCommandCenter: React.FC<EmptyCommandCenterProps> = ({
 
         {/* Feature Highlights - STRICTLY NO FAKE NUMBERS */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto mb-8 text-left">
-          <div className="p-4 rounded-xl bg-[#FAFAF9] dark:bg-[#151C19] border border-[#EAECEB] dark:border-[#24342D]">
+          <div className="p-4 rounded-xl bg-[#FAFAF9] dark:bg-[#141b17] border border-[#EAECEB] dark:border-[#24342D]">
             <Sparkles className="w-5 h-5 text-[#92610A] dark:text-[#FCD34D] mb-2" />
             <h4 className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] uppercase tracking-wide">
               Deterministic Matching
@@ -50,7 +50,7 @@ export const EmptyCommandCenter: React.FC<EmptyCommandCenterProps> = ({
             </p>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#FAFAF9] dark:bg-[#151C19] border border-[#EAECEB] dark:border-[#24342D]">
+          <div className="p-4 rounded-xl bg-[#FAFAF9] dark:bg-[#141b17] border border-[#EAECEB] dark:border-[#24342D]">
             <Layers className="w-5 h-5 text-sky-600 mb-2" />
             <h4 className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] uppercase tracking-wide">
               Support Pathways
@@ -60,7 +60,7 @@ export const EmptyCommandCenter: React.FC<EmptyCommandCenterProps> = ({
             </p>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#FAFAF9] dark:bg-[#151C19] border border-[#EAECEB] dark:border-[#24342D]">
+          <div className="p-4 rounded-xl bg-[#FAFAF9] dark:bg-[#141b17] border border-[#EAECEB] dark:border-[#24342D]">
             <ShieldCheck className="w-5 h-5 text-[#1E6A50] dark:text-[#4ADE80] mb-2" />
             <h4 className="text-xs font-bold text-[#1A1C1B] dark:text-[#F0F4F2] uppercase tracking-wide">
               Verified Trust

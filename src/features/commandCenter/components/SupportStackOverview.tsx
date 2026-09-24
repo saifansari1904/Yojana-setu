@@ -54,10 +54,10 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
                 id={`support-cat-${String(category || '').toLowerCase().replace(/\s+/g, '-')}`}
                 type="button"
                 onClick={() => onSelectCategory(category)}
-                className="w-full flex items-center justify-between py-3 px-2 rounded-lg text-left transition-colors hover:bg-[#FAFAF9] dark:hover:bg-[#1E2924] focus:outline-none focus:ring-2 focus:ring-slate-300 dark:focus:ring-emerald-800 group min-h-[44px]"
+                className="w-full flex items-center justify-between py-3 px-2 rounded-lg text-left transition-colors hover:bg-[#FAFAF9] dark:hover:bg-[#1d2822] focus:outline-none focus:ring-2 focus:ring-slate-300 dark:focus:ring-emerald-800 group min-h-[44px]"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#F3F4F3] dark:bg-[#1E2924] flex items-center justify-center text-[#516A5F] dark:text-[#9EB0A7] group-hover:bg-[#14453D] group-hover:text-white transition-colors shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-[#F3F4F3] dark:bg-[#1d2822] flex items-center justify-center text-[#516A5F] dark:text-[#9EB0A7] group-hover:bg-[#14453D] group-hover:text-white transition-colors shrink-0">
                     <Icon className="w-4 h-4" />
                   </div>
                   <span className="text-sm font-medium text-[#14453D] dark:text-[#E8EFEA] group-hover:text-[#1A1C1B] dark:group-hover:text-white">

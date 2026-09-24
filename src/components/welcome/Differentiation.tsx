@@ -34,7 +34,7 @@ export const Differentiation: React.FC = () => {
         <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
           {/* Traditional */}
           <RevealOnScroll>
-            <div className="h-full rounded-2xl border border-[#E4E8E4] dark:border-[#2A3C34] bg-[#F3F4F3] dark:bg-[#151C19] p-5 sm:p-7">
+            <div className="h-full rounded-2xl border border-[#E4E8E4] dark:border-[#2A3C34] bg-[#F3F4F3] dark:bg-[#141b17] p-5 sm:p-7">
               <h3 className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#516A5F] dark:text-[#8FA197] mb-5">
                 {t('welcome.diffTradTitle')}
               </h3>
@@ -57,7 +57,7 @@ export const Differentiation: React.FC = () => {
             initial={shouldReduceMotion ? undefined : 'hidden'}
             whileInView={shouldReduceMotion ? undefined : 'visible'}
             viewport={{ once: true, margin: '-60px' }}
-            className="h-full rounded-2xl border-2 border-[#1E6A50]/40 dark:border-[#4ADE80]/40 bg-white dark:bg-[#111714] p-5 sm:p-7 shadow-[0_20px_48px_-24px_rgba(20,69,61,0.3)]"
+            className="h-full rounded-2xl border-2 border-[#1E6A50]/40 dark:border-[#4ADE80]/40 bg-white dark:bg-[#141b17] p-5 sm:p-7 shadow-[0_20px_48px_-24px_rgba(20,69,61,0.3)]"
           >
             <h3 className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-[0.12em] text-[#14453D] dark:text-[#4ADE80] mb-5">
               <Compass className="w-4 h-4" aria-hidden="true" />

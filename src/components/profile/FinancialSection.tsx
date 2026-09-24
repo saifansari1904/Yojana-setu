@@ -34,7 +34,7 @@ export const FinancialSection: React.FC<FinancialSectionProps> = ({
   return (
     <div
       id="profile-financial-section"
-      className="bg-white dark:bg-[#151C19] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
+      className="bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
     >
       <div className="flex items-center justify-between pb-4 border-b border-[#E8EFEA] dark:border-[#223F30] mb-5">
         <div>
@@ -60,7 +60,7 @@ export const FinancialSection: React.FC<FinancialSectionProps> = ({
       {/* Capital Architecture Highlights */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
         {/* Total Project Cost */}
-        <div className="p-4 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-4 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.totalProjectCost}
           </span>
@@ -73,7 +73,7 @@ export const FinancialSection: React.FC<FinancialSectionProps> = ({
         </div>
 
         {/* Own Promoter Contribution */}
-        <div className="p-4 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-4 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.ownInvestment} ({marginRatio}%)
           </span>
@@ -86,7 +86,7 @@ export const FinancialSection: React.FC<FinancialSectionProps> = ({
         </div>
 
         {/* Calculated Funding Gap */}
-        <div className="p-4 bg-[#F4F8F5] dark:bg-[#101D17] rounded-xl border border-[#D9E8DF] dark:border-[#1E3E2E]">
+        <div className="p-4 bg-[#F4F8F5] dark:bg-[#141b17] rounded-xl border border-[#D9E8DF] dark:border-[#1E3E2E]">
           <span className="text-[11px] font-semibold text-[#14453D] dark:text-[#4ADE80] block uppercase tracking-wider">
             {strings.fundingGap} ({gapRatio}%)
           </span>
@@ -100,12 +100,12 @@ export const FinancialSection: React.FC<FinancialSectionProps> = ({
       </div>
 
       {/* Visual Stack Proportion Bar */}
-      <div className="mb-5 p-4 rounded-xl bg-[#F9FAF9] dark:bg-[#121915] border border-[#E8EFEA] dark:border-[#1E2E27]">
+      <div className="mb-5 p-4 rounded-xl bg-[#F9FAF9] dark:bg-[#141b17] border border-[#E8EFEA] dark:border-[#1E2E27]">
         <div className="flex items-center justify-between text-xs font-semibold text-[#1F2421] dark:text-[#F0F4F2] mb-2">
           <span>Capital Structure Distribution</span>
           <span>{formatCurrency(totalCost)}</span>
         </div>
-        <div className="w-full h-3 rounded-full bg-[#E8EFEA] dark:bg-[#1C2822] overflow-hidden flex">
+        <div className="w-full h-3 rounded-full bg-[#E8EFEA] dark:bg-[#1d2822] overflow-hidden flex">
           <div
             className="bg-[#14453D] dark:bg-[#1F6E5E] h-full transition-all"
             style={{ width: `${marginRatio}%` }}
@@ -132,7 +132,7 @@ export const FinancialSection: React.FC<FinancialSectionProps> = ({
       {/* Support Priorities and Turnover */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Primary Priority */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
             {strings.primaryNeed}
           </span>
@@ -143,7 +143,7 @@ export const FinancialSection: React.FC<FinancialSectionProps> = ({
         </div>
 
         {/* Annual Turnover */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
             {strings.turnover}
           </span>

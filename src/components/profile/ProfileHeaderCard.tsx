@@ -47,7 +47,7 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
   return (
     <div
       id="profile-header-card"
-      className="bg-white dark:bg-[#151C19] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-6 sm:p-7 shadow-xs relative overflow-hidden transition-all"
+      className="bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-6 sm:p-7 shadow-xs relative overflow-hidden transition-all"
     >
       {/* Decorative subtle ambient backdrop */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-radial from-[#D9E8DF]/40 to-transparent dark:from-[#1A382D]/30 pointer-events-none rounded-full blur-2xl -mr-20 -mt-20" />
@@ -102,17 +102,17 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
 
             {/* Micro tags row */}
             <div className="flex flex-wrap items-center gap-2 mt-3 text-xs text-[#516A5F] dark:text-[#9EB0A7]">
-              <span className="inline-flex items-center gap-1 bg-[#F4F7F5] dark:bg-[#18231E] px-2.5 py-1 rounded-md border border-[#E0E9E4] dark:border-[#223F30] font-medium text-[#1F2421] dark:text-[#E0E9E4]">
+              <span className="inline-flex items-center gap-1 bg-[#F4F7F5] dark:bg-[#1d2822] px-2.5 py-1 rounded-md border border-[#E0E9E4] dark:border-[#223F30] font-medium text-[#1F2421] dark:text-[#E0E9E4]">
                 <User className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
                 {categoryLabel}
               </span>
 
-              <span className="inline-flex items-center gap-1 bg-[#F4F7F5] dark:bg-[#18231E] px-2.5 py-1 rounded-md border border-[#E0E9E4] dark:border-[#223F30] font-medium text-[#1F2421] dark:text-[#E0E9E4]">
+              <span className="inline-flex items-center gap-1 bg-[#F4F7F5] dark:bg-[#1d2822] px-2.5 py-1 rounded-md border border-[#E0E9E4] dark:border-[#223F30] font-medium text-[#1F2421] dark:text-[#E0E9E4]">
                 <Building2 className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
                 {businessTypeLabel}
               </span>
 
-              <span className="inline-flex items-center gap-1 bg-[#F4F7F5] dark:bg-[#18231E] px-2.5 py-1 rounded-md border border-[#E0E9E4] dark:border-[#223F30] font-medium text-[#1F2421] dark:text-[#E0E9E4]">
+              <span className="inline-flex items-center gap-1 bg-[#F4F7F5] dark:bg-[#1d2822] px-2.5 py-1 rounded-md border border-[#E0E9E4] dark:border-[#223F30] font-medium text-[#1F2421] dark:text-[#E0E9E4]">
                 <MapPin className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
                 {profile.district ? `${profile.district}, ${stateLabel}` : stateLabel}
               </span>
@@ -143,7 +143,7 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
             type="button"
             id="profile-print-btn"
             onClick={onPrint}
-            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#1C2621] hover:bg-[#F4F7F5] dark:hover:bg-[#22332A] text-[#1F2421] dark:text-[#E0E9E4] border border-[#D9E8DF] dark:border-[#223F30] font-semibold text-sm transition-all cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#1d2822] hover:bg-[#F4F7F5] dark:hover:bg-[#22332A] text-[#1F2421] dark:text-[#E0E9E4] border border-[#D9E8DF] dark:border-[#223F30] font-semibold text-sm transition-all cursor-pointer"
             title={strings.printSummaryBtn}
           >
             <Printer className="w-4 h-4 text-[#516A5F] dark:text-[#9EB0A7]" />
@@ -154,7 +154,7 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
             type="button"
             id="profile-retake-btn"
             onClick={onRetake}
-            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#1C2621] hover:bg-[#F4F7F5] dark:hover:bg-[#22332A] text-[#516A5F] dark:text-[#9EB0A7] border border-[#DEE7E2] dark:border-[#223F30] font-semibold text-sm transition-all cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#1d2822] hover:bg-[#F4F7F5] dark:hover:bg-[#22332A] text-[#516A5F] dark:text-[#9EB0A7] border border-[#DEE7E2] dark:border-[#223F30] font-semibold text-sm transition-all cursor-pointer"
             title={strings.retakeAssessmentBtn}
           >
             <RotateCcw className="w-4 h-4" />

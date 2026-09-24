@@ -57,7 +57,7 @@ const ProductFlowVisual = () => {
   return (
     <div
       aria-hidden="true"
-      className="relative rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white/80 dark:bg-[#111714]/80 backdrop-blur-sm shadow-[0_24px_60px_-24px_rgba(20,69,61,0.25)] p-3 sm:p-4 overflow-hidden min-w-0"
+      className="relative rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-sm shadow-[0_24px_60px_-24px_rgba(20,69,61,0.25)] p-3 sm:p-4 overflow-hidden min-w-0"
     >
       {/* soft top accent */}
       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#14453D] via-[#1E6A50] to-[#4ADE80]" />
@@ -73,7 +73,7 @@ const ProductFlowVisual = () => {
           {profileChips.map((chip, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#151C19] px-2.5 py-1 text-[11px] font-bold text-[#1A1C1B] dark:text-[#E2E8E4]"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#141b17] px-2.5 py-1 text-[11px] font-bold text-[#1A1C1B] dark:text-[#E2E8E4]"
             >
               <chip.icon className="w-3 h-3 text-[#14453D] dark:text-[#4ADE80]" />
               {chip.value}
@@ -170,7 +170,7 @@ const ProductFlowVisual = () => {
         initial={shouldReduceMotion ? undefined : { opacity: 0, y: 14 }}
         animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
         transition={stage(1.95)}
-        className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#151C19] px-3.5 py-2.5 flex items-center gap-2.5"
+        className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#141b17] px-3.5 py-2.5 flex items-center gap-2.5"
       >
         <span className="w-8 h-8 rounded-lg bg-[#14453D] dark:bg-[#1C5045] flex items-center justify-center shrink-0">
           <FileCheck2 className="w-4 h-4 text-[#4ADE80]" />

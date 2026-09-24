@@ -144,7 +144,7 @@ export const SupportPathwayModal: React.FC<SupportPathwayModalProps> = ({
           animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1, y: 0 }}
           exit={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.96, y: 12 }}
           transition={{ duration: 0.2, ease: 'easeOut' }}
-          className="relative w-full max-w-4xl max-h-[90vh] flex flex-col rounded-2xl bg-[#F8FAF9] dark:bg-[#0E1A15] border border-[#D9E8DF] dark:border-[#223F32] shadow-2xl overflow-hidden"
+          className="relative w-full max-w-4xl max-h-[90vh] flex flex-col rounded-2xl bg-[#F8FAF9] dark:bg-[#141b17] border border-[#D9E8DF] dark:border-[#223F32] shadow-2xl overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}

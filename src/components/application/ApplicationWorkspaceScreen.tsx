@@ -173,7 +173,7 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
       </div>
 
       {/* Scheme Header Card */}
-      <div className="p-6 rounded-2xl bg-white dark:bg-[#151D19] border border-[#E5E9E7] dark:border-[#22332A] shadow-xs">
+      <div className="p-6 rounded-2xl bg-white dark:bg-[#141b17] border border-[#E5E9E7] dark:border-[#22332A] shadow-xs">
         <div className="flex flex-wrap items-center gap-2 mb-2">
           <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#1E6A50]/10 text-[#1E6A50] dark:text-[#4ADE80]">
             {t('workspace.badge')}
@@ -225,7 +225,7 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                 isActive
                   ? 'bg-[#1E6A50] text-white dark:bg-[#4ADE80] dark:text-[#0E1311] shadow-xs'
-                  : 'text-[#5A6561] dark:text-[#97A7A0] hover:text-[#1F2421] dark:hover:text-[#F0F4F2] hover:bg-[#F4F7F5] dark:hover:bg-[#1A2520]'
+                  : 'text-[#5A6561] dark:text-[#97A7A0] hover:text-[#1F2421] dark:hover:text-[#F0F4F2] hover:bg-[#F4F7F5] dark:hover:bg-[#1d2822]'
               }`}
             >
               {tab.icon}
@@ -236,7 +236,7 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
       </div>
 
       {/* Active Tab Content Card */}
-      <div className="p-6 rounded-2xl bg-white dark:bg-[#151D19] border border-[#E5E9E7] dark:border-[#22332A] shadow-xs">
+      <div className="p-6 rounded-2xl bg-white dark:bg-[#141b17] border border-[#E5E9E7] dark:border-[#22332A] shadow-xs">
         {activeTab === 'ELIGIBILITY_AUDIT' && (
           <EligibilityAuditSection matchResult={matchResult} userProfile={userProfile} />
         )}

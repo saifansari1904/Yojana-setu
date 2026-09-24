@@ -76,7 +76,7 @@ export const EligibilityAuditSection: React.FC<EligibilityAuditSectionProps> = (
             {unknowns.map((u, idx) => (
               <div
                 key={idx}
-                className="p-2.5 rounded-lg bg-white dark:bg-[#151D19] border border-amber-200 dark:border-amber-900 text-xs"
+                className="p-2.5 rounded-lg bg-white dark:bg-[#141b17] border border-amber-200 dark:border-amber-900 text-xs"
               >
                 <div className="font-semibold">{u.factorLabel}</div>
                 <div className="text-[11px] text-[#5A6561] dark:text-[#97A7A0]">{u.explanation || u.statutoryRequirement}</div>
@@ -88,7 +88,7 @@ export const EligibilityAuditSection: React.FC<EligibilityAuditSectionProps> = (
 
       {/* Statutory Parameters Table */}
       <div className="rounded-xl border border-[#E5E9E7] dark:border-[#22332A] overflow-hidden">
-        <div className="bg-[#F4F7F5] dark:bg-[#1A2520] px-4 py-3 border-b border-[#E5E9E7] dark:border-[#22332A] text-xs font-bold text-[#1F2421] dark:text-[#F0F4F2]">
+        <div className="bg-[#F4F7F5] dark:bg-[#1d2822] px-4 py-3 border-b border-[#E5E9E7] dark:border-[#22332A] text-xs font-bold text-[#1F2421] dark:text-[#F0F4F2]">
           Statutory Verification Profile
         </div>
         <div className="divide-y divide-[#E5E9E7] dark:divide-[#22332A] text-xs">

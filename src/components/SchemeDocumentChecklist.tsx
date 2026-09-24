@@ -55,7 +55,7 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
     return (
       <div
         id={`doc-checklist-${schemeId}-empty`}
-        className={`bg-[#F3F4F3] dark:bg-[#1B2420] rounded-md p-4 text-center border border-[#E4E8E4] dark:border-[#283831] ${className}`}
+        className={`bg-[#F3F4F3] dark:bg-[#1d2822] rounded-md p-4 text-center border border-[#E4E8E4] dark:border-[#283831] ${className}`}
       >
         <p className="text-xs text-[#516A5F] dark:text-[#9EB0A7]">
           {t('schemeDetail.noDocumentsRequired')}
@@ -91,7 +91,7 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
             className={`text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 transition-colors ${
               isAllReady
                 ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80] border border-[#1E6A50]/30'
-                : 'bg-[#F3F4F3] dark:bg-[#1E2723] text-[#3F4943] dark:text-[#C5D5CC] border border-[#E4E8E4] dark:border-[#2B3D34]'
+                : 'bg-[#F3F4F3] dark:bg-[#1d2822] text-[#3F4943] dark:text-[#C5D5CC] border border-[#E4E8E4] dark:border-[#2B3D34]'
             }`}
           >
             {isAllReady ? (
@@ -116,7 +116,7 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
           aria-valuenow={progressPercent}
           aria-valuemin={0}
           aria-valuemax={100}
-          className="w-full bg-[#EEEEED] dark:bg-[#1E2924] h-2 rounded-full overflow-hidden"
+          className="w-full bg-[#EEEEED] dark:bg-[#1d2822] h-2 rounded-full overflow-hidden"
         >
           <motion.div
             className={`h-full rounded-full transition-colors ${
@@ -164,7 +164,7 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
               className={`group flex items-start gap-3 p-3 rounded border transition-all cursor-pointer select-none ${
                 isChecked
                   ? 'bg-[#D9E8DF]/40 dark:bg-[#1A382D]/30 border-[#A3D9C9] dark:border-[#2A5C4B]'
-                  : 'bg-[#FAFAF9] dark:bg-[#101613] hover:bg-[#F3F4F3] dark:hover:bg-[#161F1B] border-[#E4E8E4] dark:border-[#22332A]'
+                  : 'bg-[#FAFAF9] dark:bg-[#141b17] hover:bg-[#F3F4F3] dark:hover:bg-[#1d2822] border-[#E4E8E4] dark:border-[#22332A]'
               }`}
             >
               {/* Checkbox box */}
@@ -172,7 +172,7 @@ export const SchemeDocumentChecklist: React.FC<SchemeDocumentChecklistProps> = (
                 className={`w-5 h-5 mt-0.5 rounded flex items-center justify-center shrink-0 border transition-all ${
                   isChecked
                     ? 'bg-[#14453D] dark:bg-[#1E6A50] border-[#14453D] dark:border-[#1E6A50] text-white shadow-xs'
-                    : 'bg-white dark:bg-[#151C19] border-[#BFC9C2] dark:border-[#3D5247] group-hover:border-[#14453D] dark:group-hover:border-[#4ADE80]'
+                    : 'bg-white dark:bg-[#141b17] border-[#BFC9C2] dark:border-[#3D5247] group-hover:border-[#14453D] dark:group-hover:border-[#4ADE80]'
                 }`}
               >
                 {isChecked && (

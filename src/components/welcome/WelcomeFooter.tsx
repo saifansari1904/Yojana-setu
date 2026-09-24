@@ -5,7 +5,7 @@ import { useTranslation } from '../../i18n';
 export const WelcomeFooter: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <footer className="border-t border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#111714]">
+    <footer className="border-t border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#141b17]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex items-center gap-3">

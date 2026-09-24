@@ -28,7 +28,7 @@ export const ProfileCompletenessCard: React.FC<ProfileCompletenessCardProps> = (
   return (
     <div
       id="profile-completeness-card"
-      className="bg-white dark:bg-[#151C19] border border-[#D9E8DF] dark:border-[#223F30] rounded-xl p-5 shadow-xs transition-all"
+      className="bg-white dark:bg-[#141b17] border border-[#D9E8DF] dark:border-[#223F30] rounded-xl p-5 shadow-xs transition-all"
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <div>
@@ -61,7 +61,7 @@ export const ProfileCompletenessCard: React.FC<ProfileCompletenessCardProps> = (
       </div>
 
       {/* Visual Progress Bar */}
-      <div className="w-full bg-[#E8EFEA] dark:bg-[#1C2822] h-2.5 rounded-full overflow-hidden mb-4">
+      <div className="w-full bg-[#E8EFEA] dark:bg-[#1d2822] h-2.5 rounded-full overflow-hidden mb-4">
         <div
           className={`h-full transition-all duration-500 rounded-full ${
             isComplete
@@ -88,7 +88,7 @@ export const ProfileCompletenessCard: React.FC<ProfileCompletenessCardProps> = (
               return (
                 <div
                   key={item.fieldKey}
-                  className="bg-[#F8FAF9] dark:bg-[#101714] border border-[#DEE7E2] dark:border-[#1E2E27] rounded-lg p-2.5 flex items-center justify-between gap-2 hover:border-[#1E6A50] transition-colors"
+                  className="bg-[#F8FAF9] dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#1E2E27] rounded-lg p-2.5 flex items-center justify-between gap-2 hover:border-[#1E6A50] transition-colors"
                 >
                   <div className="min-w-0">
                     <span className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] block truncate">

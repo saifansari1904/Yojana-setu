@@ -793,7 +793,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                       <span>{t('results.statusNearMatch')}</span>
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded bg-[#F3F4F3] dark:bg-[#1E2924] text-[#7C2C0F] dark:text-[#FCA5A5] border border-[#FFDAD6] dark:border-[#5A2B20]">
+                    <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded bg-[#F3F4F3] dark:bg-[#1d2822] text-[#7C2C0F] dark:text-[#FCA5A5] border border-[#FFDAD6] dark:border-[#5A2B20]">
                       <Info className="w-3.5 h-3.5 text-[#C2603F] dark:text-[#F87171]" />
                       <span>{t('results.statusLowMatch')}</span>
                     </span>
@@ -860,7 +860,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                     {cats.slice(0, 3).map((cat) => (
                       <span
                         key={cat}
-                        className="text-[10px] font-medium bg-[#F3F4F3] dark:bg-[#1E2924] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] px-1.5 py-0.5 rounded"
+                        className="text-[10px] font-medium bg-[#F3F4F3] dark:bg-[#1d2822] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] px-1.5 py-0.5 rounded"
                       >
                         {cat}
                       </span>
@@ -877,7 +877,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               {/* Progressive disclosure: collapsed match reasoning, expanded on demand.
                   Uses only factors already computed by the matching engine. */}
               {Array.isArray(result.breakdown) && result.breakdown.length > 0 && (
-                <details className="group/why mt-3 rounded-[var(--yj-radius-md)] border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#111714]">
+                <details className="group/why mt-3 rounded-[var(--yj-radius-md)] border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#141b17]">
                   <summary className="yj-focus-ring flex items-center justify-between gap-2 cursor-pointer list-none px-3 py-2 text-[11px] font-bold text-[#0B5D4B] dark:text-[#4ADE80] rounded-[var(--yj-radius-md)]">
                     <span>
                       {rui.whyItMatches}
@@ -952,7 +952,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               )}
 
               {/* Funding / Loan Range Banner */}
-              <div className="mt-3.5 flex flex-wrap items-center gap-4 bg-[#FAFAF9] dark:bg-[#101613] border border-[#E4E8E4] dark:border-[#24342D] p-2.5 rounded text-xs">
+              <div className="mt-3.5 flex flex-wrap items-center gap-4 bg-[#FAFAF9] dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#24342D] p-2.5 rounded text-xs">
                 <div>
                   <span className="text-[#516A5F] dark:text-[#8E9F97] text-[11px] block">
                     {t('results.fundingQuantumLabel')}
@@ -1033,7 +1033,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                       ? 'bg-[#EBF7F0] dark:bg-[#142C21] border-[#B2E4C9] dark:border-[#214D38]'
                       : result.businessRelevance.relevanceLevel === 'MEDIUM'
                       ? 'bg-blue-50/70 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800/60'
-                      : 'bg-[#F9F9F8] dark:bg-[#18201C] border-[#E4E8E4] dark:border-[#2A3C34]'
+                      : 'bg-[#F9F9F8] dark:bg-[#1d2822] border-[#E4E8E4] dark:border-[#2A3C34]'
                   }`}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
@@ -1059,7 +1059,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                         {result.businessRelevance.matchedNeeds.map((n) => (
                           <span
                             key={n.needType}
-                            className="text-[10px] font-semibold bg-white/90 dark:bg-[#1A2620] text-[#14453D] dark:text-[#4ADE80] border border-[#D9E8DF] dark:border-[#244335] px-1.5 py-0.5 rounded"
+                            className="text-[10px] font-semibold bg-white/90 dark:bg-[#1d2822] text-[#14453D] dark:text-[#4ADE80] border border-[#D9E8DF] dark:border-[#244335] px-1.5 py-0.5 rounded"
                           >
                             ✓ {SUPPORT_NEEDS_LOCALIZED[n.needType]?.[lang] || resolveLocalizedPair(n.labelEn, n.labelHi, lang)}
                           </span>
@@ -1091,7 +1091,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 return (
                   <div
                     id={`next-action-${locScheme.id}`}
-                    className="mt-3.5 p-2.5 rounded-md bg-[#F4F8F6] dark:bg-[#16231C] border border-[#D9E8DF] dark:border-[#223F30] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
+                    className="mt-3.5 p-2.5 rounded-md bg-[#F4F8F6] dark:bg-[#1d2822] border border-[#D9E8DF] dark:border-[#223F30] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
                   >
                     <div className="flex items-start sm:items-center gap-2">
                       <span className="text-[10px] font-bold uppercase tracking-wider bg-[#14453D] text-white dark:bg-[#4ADE80] dark:text-[#0B251F] px-1.5 py-0.5 rounded shrink-0">
@@ -1128,7 +1128,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 {locScheme.requiredDocuments.slice(0, 3).map((doc, dIdx) => (
                   <span
                     key={dIdx}
-                    className="bg-[#EEEEED] dark:bg-[#1E2924] text-[#1A1C1B] dark:text-[#D5DDD8] text-[11px] px-2 py-0.5 rounded"
+                    className="bg-[#EEEEED] dark:bg-[#1d2822] text-[#1A1C1B] dark:text-[#D5DDD8] text-[11px] px-2 py-0.5 rounded"
                   >
                     {doc}
                   </span>
@@ -1179,7 +1179,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                         className={`px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer border ${
                           isSelectedForCompare
                             ? 'bg-[#14453D] text-white border-[#14453D] dark:bg-[#4ADE80] dark:text-[#0B251F]'
-                            : 'bg-white dark:bg-[#1E2924] text-[#516A5F] dark:text-[#9EB0A7] border-[#E4E8E4] dark:border-[#2E4137] hover:bg-[#F3F4F3] dark:hover:bg-[#25362C]'
+                            : 'bg-white dark:bg-[#1d2822] text-[#516A5F] dark:text-[#9EB0A7] border-[#E4E8E4] dark:border-[#2E4137] hover:bg-[#F3F4F3] dark:hover:bg-[#25362C]'
                         }`}
                         title={
                           isSelectedForCompare
@@ -1214,7 +1214,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                       onClick={() => onOpenWhyNotEligible(result)}
                       whileHover={shouldReduceMotion ? undefined : { y: -1 }}
                       whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
-                      className="bg-[#FAFAF9] dark:bg-[#101613] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1A14]/70 text-[#7C2C0F] dark:text-[#FCA5A5] border border-[#FFCCBD] dark:border-[#5A2B20] px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                      className="bg-[#FAFAF9] dark:bg-[#141b17] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1A14]/70 text-[#7C2C0F] dark:text-[#FCA5A5] border border-[#FFCCBD] dark:border-[#5A2B20] px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
                     >
                       <AlertTriangle className="w-3.5 h-3.5 text-[#C2603F] dark:text-[#F87171]" />
                       <span>{rui.gapAnalysisAlternatives}</span>
@@ -1322,7 +1322,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         </div>
         <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2">
           {authoritativeCount > 0 && (
-            <span className="text-[11px] font-semibold text-[#14453D] dark:text-[#4ADE80] bg-white/80 dark:bg-[#101613]/80 px-2.5 py-1 rounded border border-[#C1E2D0] dark:border-[#24342D] whitespace-nowrap flex items-center gap-1.5">
+            <span className="text-[11px] font-semibold text-[#14453D] dark:text-[#4ADE80] bg-white/80 dark:bg-[#141b17]/80 px-2.5 py-1 rounded border border-[#C1E2D0] dark:border-[#24342D] whitespace-nowrap flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" />
               <span>{rui.authoritativeVerifiedCount(authoritativeCount)}</span>
             </span>
@@ -1433,8 +1433,8 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             onClick={() => handleTabChange('all')}
             className={`rounded p-2.5 cursor-pointer transition-all text-center ${
               activeTab === 'all'
-                ? 'bg-[#E5E7E5] dark:bg-[#25322B] border-2 border-[#516A5F] dark:border-[#8E9F97] shadow-xs'
-                : 'bg-[#F3F4F3] dark:bg-[#1B2420] border border-[#E4E8E4] dark:border-[#293B33] hover:border-[#516A5F]'
+                ? 'bg-[#E5E7E5] dark:bg-[#1d2822] border-2 border-[#516A5F] dark:border-[#8E9F97] shadow-xs'
+                : 'bg-[#F3F4F3] dark:bg-[#1d2822] border border-[#E4E8E4] dark:border-[#293B33] hover:border-[#516A5F]'
             }`}
           >
             <span className="text-xl font-extrabold text-[#3F4943] dark:text-[#C5D5CC] leading-none block">
@@ -1541,7 +1541,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${
               activeTab === 'all'
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white'
-                : 'bg-white dark:bg-[#151C19] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924]'
+                : 'bg-white dark:bg-[#141b17] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1d2822]'
             }`}
           >
             {t('results.tabAll')} ({matchResults.length})
@@ -1552,7 +1552,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${
               activeTab === 'eligible'
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white'
-                : 'bg-white dark:bg-[#151C19] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924]'
+                : 'bg-white dark:bg-[#141b17] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1d2822]'
             }`}
           >
             {t('results.tabBest')} ({eligibleMatches.length})
@@ -1563,7 +1563,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${
               activeTab === 'near'
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white'
-                : 'bg-white dark:bg-[#151C19] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924]'
+                : 'bg-white dark:bg-[#141b17] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1d2822]'
             }`}
           >
             {t('results.tabNear')} ({nearMatches.length})
@@ -1574,7 +1574,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${
               activeTab === 'subsidized'
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white'
-                : 'bg-white dark:bg-[#151C19] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1E2924]'
+                : 'bg-white dark:bg-[#141b17] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1d2822]'
             }`}
           >
             {t('results.tabSubsidized')}
@@ -1588,13 +1588,13 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             placeholder={t('results.searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-3 py-1.5 bg-white dark:bg-[#151C19] border border-[#E4E8E4] dark:border-[#2A3C34] rounded text-xs text-[#1A1C1B] dark:text-[#F0F4F2] placeholder-[#516A5F] dark:placeholder-[#6C7E76] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
+            className="w-full px-3 py-1.5 bg-white dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#2A3C34] rounded text-xs text-[#1A1C1B] dark:text-[#F0F4F2] placeholder-[#516A5F] dark:placeholder-[#6C7E76] focus:outline-none focus:border-[#14453D] dark:focus:border-[#4ADE80]"
           />
         </div>
       </div>
 
       {/* Regional Jurisdiction Filter + Pan-India State/UT Dropdown */}
-      <div className="flex flex-wrap items-center gap-1.5 mb-3 py-2 px-3 bg-[#F3F4F3] dark:bg-[#1A2520] rounded border border-[#E4E8E4] dark:border-[#24342D] text-xs">
+      <div className="flex flex-wrap items-center gap-1.5 mb-3 py-2 px-3 bg-[#F3F4F3] dark:bg-[#1d2822] rounded border border-[#E4E8E4] dark:border-[#24342D] text-xs">
         <span className="text-[#516A5F] dark:text-[#9EB0A7] font-semibold flex items-center gap-1 mr-1">
           <MapPin className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
           <span>{rui.jurisdiction}</span>
@@ -1616,7 +1616,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             className={`px-2.5 py-1 rounded text-[11px] font-bold transition-all cursor-pointer ${
               selectedRegion === reg.id
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white shadow-xs'
-                : 'bg-white dark:bg-[#151C19] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#202D27]'
+                : 'bg-white dark:bg-[#141b17] text-[#3F4943] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EEEEED] dark:hover:bg-[#1d2822]'
             }`}
           >
             {reg.label}
@@ -1630,7 +1630,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           onChange={(e) => {
             if (e.target.value) setSelectedRegion(e.target.value);
           }}
-          className="ml-auto px-2.5 py-1 text-[11px] font-semibold rounded bg-white dark:bg-[#151C19] border border-[#E4E8E4] dark:border-[#2A3C34] text-[#14453D] dark:text-[#4ADE80] focus:outline-none cursor-pointer"
+          className="ml-auto px-2.5 py-1 text-[11px] font-semibold rounded bg-white dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#2A3C34] text-[#14453D] dark:text-[#4ADE80] focus:outline-none cursor-pointer"
         >
           <option value="">{rui.selectStatePrompt}</option>
           {INDIAN_STATES.map((state) => (
@@ -1642,7 +1642,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
       </div>
 
       {/* Trust Classification Filter Bar: Gazette Verified vs Candidate Discovery */}
-      <div className="flex flex-wrap items-center justify-between gap-2 mb-6 py-2 px-3 bg-white dark:bg-[#121B16] rounded border border-[#E4E8E4] dark:border-[#24342D] text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-6 py-2 px-3 bg-white dark:bg-[#141b17] rounded border border-[#E4E8E4] dark:border-[#24342D] text-xs">
         <div className="flex items-center gap-1.5 text-[#516A5F] dark:text-[#9EB0A7] font-semibold">
           <ShieldAlert className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
           <span>{rui.trustFilterLabel}</span>
@@ -1656,7 +1656,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             className={`px-2.5 py-1 rounded text-[11px] font-bold transition-all cursor-pointer ${
               trustFilter === 'all'
                 ? 'bg-[#14453D] text-white dark:bg-[#4ADE80] dark:text-[#0B251F]'
-                : 'bg-[#F3F4F3] dark:bg-[#1A2520] text-[#516A5F] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EAEAEA]'
+                : 'bg-[#F3F4F3] dark:bg-[#1d2822] text-[#516A5F] dark:text-[#9EB0A7] border border-[#E4E8E4] dark:border-[#2A3C34] hover:bg-[#EAEAEA]'
             }`}
           >
             {rui.allTrustTiers} ({matchResults.length})
@@ -1841,7 +1841,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
       )}
 
       {/* Alternative Options Section Prompt */}
-      <div className="mt-8 p-5 bg-[#F3F4F3] dark:bg-[#151C19] border border-[#E4E8E4] dark:border-[#24342D] rounded-md flex flex-col sm:flex-row items-center justify-between gap-4 transition-colors duration-200">
+      <div className="mt-8 p-5 bg-[#F3F4F3] dark:bg-[#141b17] border border-[#E4E8E4] dark:border-[#24342D] rounded-md flex flex-col sm:flex-row items-center justify-between gap-4 transition-colors duration-200">
         <div>
           <h3 className="text-sm font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
             {t('results.altSectionTitle')}
@@ -1857,7 +1857,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               nearMatches[0] || otherMatches[0] || matchResults[0];
             onOpenWhyNotEligible(nearOrLow);
           }}
-          className="bg-white dark:bg-[#1C2521] hover:bg-[#EEEEED] dark:hover:bg-[#25322C] text-[#1A1C1B] dark:text-[#F0F4F2] border border-[#E4E8E4] dark:border-[#2A3C34] px-4 py-2 rounded text-xs font-bold transition-colors shrink-0 flex items-center gap-1.5 cursor-pointer"
+          className="bg-white dark:bg-[#1d2822] hover:bg-[#EEEEED] dark:hover:bg-[#1d2822] text-[#1A1C1B] dark:text-[#F0F4F2] border border-[#E4E8E4] dark:border-[#2A3C34] px-4 py-2 rounded text-xs font-bold transition-colors shrink-0 flex items-center gap-1.5 cursor-pointer"
         >
           <span>{t('results.altSectionBtn')}</span>
           <ArrowRight className="w-3.5 h-3.5" />

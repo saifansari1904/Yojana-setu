@@ -31,7 +31,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
   return (
     <section
       id="business-journey-overview"
-      className="bg-white dark:bg-[#1E2623] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
+      className="bg-white dark:bg-[#1d2822] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
     >
       {/* Header */}
       <div className="flex items-center justify-between gap-3 flex-wrap">

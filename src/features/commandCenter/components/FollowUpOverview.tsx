@@ -64,7 +64,7 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
               return (
                 <div
                   key={item.id}
-                  className="flex items-start justify-between p-3 rounded-lg border border-[#EAECEB] dark:border-[#24342D] hover:border-[#E4E8E4] dark:hover:border-[#2A3C34] bg-slate-50/70 dark:bg-[#1A2420] transition-colors gap-3 text-xs"
+                  className="flex items-start justify-between p-3 rounded-lg border border-[#EAECEB] dark:border-[#24342D] hover:border-[#E4E8E4] dark:hover:border-[#2A3C34] bg-slate-50/70 dark:bg-[#1d2822] transition-colors gap-3 text-xs"
                 >
                   <div className="flex items-start gap-2.5">
                     <button
@@ -119,7 +119,7 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
         id="view-all-follow-ups-btn"
         type="button"
         onClick={onViewAll}
-        className="w-full mt-2 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg text-xs font-semibold text-[#3F4943] dark:text-[#C5D5CC] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] bg-[#FAFAF9] dark:bg-[#1A2420] hover:bg-[#F3F4F3] dark:hover:bg-[#22302A] border border-[#E4E8E4] dark:border-[#24342D] transition-colors min-h-[44px]"
+        className="w-full mt-2 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg text-xs font-semibold text-[#3F4943] dark:text-[#C5D5CC] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] bg-[#FAFAF9] dark:bg-[#1d2822] hover:bg-[#F3F4F3] dark:hover:bg-[#22302A] border border-[#E4E8E4] dark:border-[#24342D] transition-colors min-h-[44px]"
       >
         <span>{t('viewAllFollowUps')}</span>
         <ArrowRight className="w-3.5 h-3.5" />

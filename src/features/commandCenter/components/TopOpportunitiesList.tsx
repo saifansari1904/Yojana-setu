@@ -53,7 +53,7 @@ export const TopOpportunitiesList: React.FC<TopOpportunitiesListProps> = ({
             HIGH_PRIORITY: { label: t('highPriorityBadge'), cls: 'bg-[#14453D] text-white' },
             REVIEW: { label: t('reviewBadge'), cls: 'bg-[#FEF3C7] dark:bg-[#3B2F14] text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700/60' },
             INFORMATION_NEEDED: { label: t('infoNeededBadge'), cls: 'bg-blue-100 dark:bg-[#0E2A38] text-blue-900 dark:text-blue-300 border border-blue-300 dark:border-blue-800' },
-            LOW_PRIORITY: { label: t('lowPriorityBadge'), cls: 'bg-[#F3F4F3] dark:bg-[#1E2924] text-[#3F4943] dark:text-[#C5D5CC]' },
+            LOW_PRIORITY: { label: t('lowPriorityBadge'), cls: 'bg-[#F3F4F3] dark:bg-[#1d2822] text-[#3F4943] dark:text-[#C5D5CC]' },
           }[actionPriority];
 
           return (
@@ -94,7 +94,7 @@ export const TopOpportunitiesList: React.FC<TopOpportunitiesListProps> = ({
                   {schemeTitle}
                 </p>
 
-                <div className="flex items-center gap-2 text-[11px] text-[#516A5F] dark:text-[#8E9F97] mb-3 bg-[#FAFAF9] dark:bg-[#1A2420] border border-[#EAECEB] dark:border-[#24342D] p-2 rounded">
+                <div className="flex items-center gap-2 text-[11px] text-[#516A5F] dark:text-[#8E9F97] mb-3 bg-[#FAFAF9] dark:bg-[#1d2822] border border-[#EAECEB] dark:border-[#24342D] p-2 rounded">
                   <FileText className="w-3.5 h-3.5 text-[#516A5F] dark:text-[#6F7A73] shrink-0" />
                   <span>
                     {documentReadiness.prepared}/{documentReadiness.total} {t('documentsPrepared')}

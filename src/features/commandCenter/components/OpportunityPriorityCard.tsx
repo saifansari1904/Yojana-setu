@@ -54,7 +54,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
     },
     LOW_PRIORITY: {
       label: t('lowPriorityBadge'),
-      classes: 'bg-[#F3F4F3] dark:bg-[#1E2924] text-[#3F4943] dark:text-[#C5D5CC] font-medium',
+      classes: 'bg-[#F3F4F3] dark:bg-[#1d2822] text-[#3F4943] dark:text-[#C5D5CC] font-medium',
     },
   }[actionPriority];
 
@@ -96,7 +96,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
             onToggle={() => onToggleSave(scheme.id)}
           />
           {/* Match Score Badge (Authoritative Phase 3.1 Score) */}
-          <div className="text-right bg-[#FAFAF9] dark:bg-[#1A2420] px-3.5 py-2 rounded-lg border border-[#E4E8E4] dark:border-[#24342D]">
+          <div className="text-right bg-[#FAFAF9] dark:bg-[#1d2822] px-3.5 py-2 rounded-lg border border-[#E4E8E4] dark:border-[#24342D]">
             <div className="text-xl sm:text-xl font-bold text-[#1A1C1B] dark:text-[#F0F4F2] leading-tight">
               <AnimatedCounter value={matchResult.totalMatchScore} id={`match-counter-${scheme.id}`} />
               <span className="text-xs font-normal text-[#516A5F] dark:text-[#8E9F97] ml-0.5">/100</span>
@@ -109,7 +109,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
       </div>
 
       {/* Status Signals Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-5 py-3.5 px-4 bg-slate-50/80 dark:bg-[#1A2420] rounded-lg border border-[#EAECEB] dark:border-[#24342D]">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-5 py-3.5 px-4 bg-slate-50/80 dark:bg-[#1d2822] rounded-lg border border-[#EAECEB] dark:border-[#24342D]">
         <div className="flex items-center gap-2.5 text-xs text-[#3F4943] dark:text-[#C5D5CC]">
           <SuccessCheckmark size={18} />
           <span className="font-medium">{t('eligibilityReviewed')}</span>

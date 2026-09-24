@@ -198,14 +198,14 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
                   id={`dashboard-stat-${stat.id}`}
                   type="button"
                   onClick={stat.onClick}
-                  className="min-h-[44px] w-full cursor-pointer rounded-md border border-[#E2E2E0] bg-white p-3 text-left transition-colors hover:border-[#B2CDBF] focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:border-[#24342D] dark:bg-[#151C19] dark:hover:border-[#285743]"
+                  className="min-h-[44px] w-full cursor-pointer rounded-md border border-[#E2E2E0] bg-white p-3 text-left transition-colors hover:border-[#B2CDBF] focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:border-[#24342D] dark:bg-[#141b17] dark:hover:border-[#285743]"
                 >
                   {content}
                 </button>
               ) : (
                 <div
                   id={`dashboard-stat-${stat.id}`}
-                  className="min-h-[44px] rounded-md border border-[#E2E2E0] bg-white p-3 dark:border-[#24342D] dark:bg-[#151C19]"
+                  className="min-h-[44px] rounded-md border border-[#E2E2E0] bg-white p-3 dark:border-[#24342D] dark:bg-[#141b17]"
                 >
                   {content}
                 </div>
@@ -249,7 +249,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
         {/* Saved schemes */}
         <section
           id="dashboard-saved"
-          className="rounded-md border border-[#E2E2E0] bg-white p-4 dark:border-[#24342D] dark:bg-[#151C19]"
+          className="rounded-md border border-[#E2E2E0] bg-white p-4 dark:border-[#24342D] dark:bg-[#141b17]"
         >
           <div className="mb-3 flex items-center justify-between gap-2">
             <h2 className="inline-flex items-center gap-1.5 text-sm font-bold text-[#14453D] dark:text-[#E8EFEA]">
@@ -274,7 +274,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
                   <button
                     type="button"
                     onClick={() => onSelectScheme(match)}
-                    className="flex min-h-[44px] w-full cursor-pointer items-center justify-between gap-3 rounded border border-[#EAECEB] bg-[#F6F8F7] px-3 py-2 text-left transition-colors hover:border-[#B2CDBF] focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:border-[#24342D] dark:bg-[#1B2720] dark:hover:border-[#285743]"
+                    className="flex min-h-[44px] w-full cursor-pointer items-center justify-between gap-3 rounded border border-[#EAECEB] bg-[#F6F8F7] px-3 py-2 text-left transition-colors hover:border-[#B2CDBF] focus-visible:ring-2 focus-visible:ring-[#16A34A] dark:border-[#24342D] dark:bg-[#1d2822] dark:hover:border-[#285743]"
                   >
                     <span className="min-w-0 truncate text-xs font-semibold text-[#14453D] dark:text-[#C5D5CC]">
                       {getLocalizedScheme(match.scheme).name}
@@ -292,7 +292,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
         {/* Applications in progress */}
         <section
           id="dashboard-applications"
-          className="rounded-md border border-[#E2E2E0] bg-white p-4 dark:border-[#24342D] dark:bg-[#151C19]"
+          className="rounded-md border border-[#E2E2E0] bg-white p-4 dark:border-[#24342D] dark:bg-[#141b17]"
         >
           <div className="mb-3 flex items-center justify-between gap-2">
             <h2 className="inline-flex items-center gap-1.5 text-sm font-bold text-[#14453D] dark:text-[#E8EFEA]">
@@ -318,7 +318,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
                 return (
                   <li
                     key={app.schemeId}
-                    className="rounded border border-[#EAECEB] bg-[#F6F8F7] px-3 py-2 dark:border-[#24342D] dark:bg-[#1B2720]"
+                    className="rounded border border-[#EAECEB] bg-[#F6F8F7] px-3 py-2 dark:border-[#24342D] dark:bg-[#1d2822]"
                   >
                     <p className="truncate text-xs font-semibold text-[#14453D] dark:text-[#C5D5CC]">
                       {name}
@@ -337,7 +337,7 @@ export const HomeDashboardScreen: React.FC<HomeDashboardScreenProps> = ({
       {/* Needs attention */}
       <section
         id="dashboard-attention"
-        className="mt-4 rounded-md border border-[#E2E2E0] bg-white p-4 dark:border-[#24342D] dark:bg-[#151C19]"
+        className="mt-4 rounded-md border border-[#E2E2E0] bg-white p-4 dark:border-[#24342D] dark:bg-[#141b17]"
       >
         <h2 className="mb-3 inline-flex items-center gap-1.5 text-sm font-bold text-[#14453D] dark:text-[#E8EFEA]">
           <AlertTriangle className="h-4 w-4" aria-hidden="true" />

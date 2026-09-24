@@ -106,7 +106,7 @@ export const MatchingEngine: React.FC = () => {
   ];
 
   return (
-    <section id="welcome-matching" className="bg-white dark:bg-[#111714] border-y border-[#E4E8E4] dark:border-[#24342D] scroll-mt-20">
+    <section id="welcome-matching" className="bg-white dark:bg-[#141b17] border-y border-[#E4E8E4] dark:border-[#24342D] scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
         <SectionHeading title={t('welcome.matchingTitle')} subtitle={t('welcome.matchingSubtitle')} />
 

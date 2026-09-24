@@ -50,7 +50,7 @@ export const TrustSection: React.FC = () => {
             <motion.div
               key={i}
               variants={shouldReduceMotion ? undefined : staggerItem}
-              className="group rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#111714] p-5 sm:p-6 hover:-translate-y-0.5 hover:shadow-md hover:border-[#1E6A50]/40 dark:hover:border-[#4ADE80]/40 transition-all duration-200"
+              className="group rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#141b17] p-5 sm:p-6 hover:-translate-y-0.5 hover:shadow-md hover:border-[#1E6A50]/40 dark:hover:border-[#4ADE80]/40 transition-all duration-200"
             >
               <div className="w-10 h-10 rounded-xl bg-[#14453D] dark:bg-[#1C5045] flex items-center justify-center mb-4 transition-transform duration-200 group-hover:scale-105">
                 <p.icon className="w-5 h-5 text-[#4ADE80]" aria-hidden="true" />
@@ -67,7 +67,7 @@ export const TrustSection: React.FC = () => {
 
         {/* Privacy panel */}
         <RevealOnScroll>
-          <div className="rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#111714] p-6 sm:p-10">
+          <div className="rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#141b17] p-6 sm:p-10">
             <div className="flex items-start gap-4 mb-8">
               <div className="w-11 h-11 rounded-2xl bg-[#D9E8DF] dark:bg-[#1A382D] flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-5 h-5 text-[#14453D] dark:text-[#4ADE80]" aria-hidden="true" />

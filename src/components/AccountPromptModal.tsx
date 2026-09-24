@@ -56,7 +56,7 @@ export const AccountPromptModal: React.FC<AccountPromptModalProps> = ({
       >
         <button
           onClick={onContinueWithoutAccount}
-          className="absolute top-4 right-4 p-1.5 rounded-full text-[#516A5F] dark:text-[#8FA197] hover:bg-[#F3F4F3] dark:hover:bg-[#1E2A25] transition-colors cursor-pointer"
+          className="absolute top-4 right-4 p-1.5 rounded-full text-[#516A5F] dark:text-[#8FA197] hover:bg-[#F3F4F3] dark:hover:bg-[#1d2822] transition-colors cursor-pointer"
           aria-label="Close"
         >
           <X className="w-4 h-4" />
@@ -87,7 +87,7 @@ export const AccountPromptModal: React.FC<AccountPromptModalProps> = ({
             </button>
             <button
               onClick={onContinueWithoutAccount}
-              className="w-full px-6 py-3 rounded-lg text-sm font-semibold text-[#516A5F] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#F3F4F3] dark:hover:bg-[#1E2A25] transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#1E6A50] focus:ring-offset-2"
+              className="w-full px-6 py-3 rounded-lg text-sm font-semibold text-[#516A5F] dark:text-[#9EB0A7] hover:text-[#1A1C1B] dark:hover:text-[#F0F4F2] hover:bg-[#F3F4F3] dark:hover:bg-[#1d2822] transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#1E6A50] focus:ring-offset-2"
             >
               {t('welcome.authPromptSecondary')}
             </button>

@@ -84,7 +84,7 @@ export const EntrepreneurProfileScreen: React.FC<EntrepreneurProfileScreenProps>
   if (!userProfile) {
     return (
       <main id="profile-empty-screen" className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <div className="bg-white dark:bg-[#151C19] border border-[#DEE7E2] dark:border-[#223F30] rounded-3xl p-8 sm:p-12 shadow-sm">
+        <div className="bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-3xl p-8 sm:p-12 shadow-sm">
           <div className="w-16 h-16 rounded-2xl bg-[#D9E8DF] dark:bg-[#162B22] text-[#14453D] dark:text-[#4ADE80] flex items-center justify-center mx-auto mb-4">
             <User className="w-8 h-8" />
           </div>

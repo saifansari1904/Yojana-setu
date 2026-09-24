@@ -205,7 +205,7 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
         </div>
 
         {/* Readiness Score Gauge */}
-        <div className="flex items-center gap-4 shrink-0 bg-[#F4F7F5] dark:bg-[#1A2520] px-5 py-3 rounded-xl border border-[#E0E6E2] dark:border-[#26372E]">
+        <div className="flex items-center gap-4 shrink-0 bg-[#F4F7F5] dark:bg-[#1d2822] px-5 py-3 rounded-xl border border-[#E0E6E2] dark:border-[#26372E]">
           <div className="text-right">
             <div className="text-xs font-medium text-[#5A6561] dark:text-[#97A7A0]">
               {t('workspace.overallReadiness')}
@@ -216,7 +216,7 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
                 : READINESS_STATE_LABELS.NOT_READY?.[lang] || 'Action Required'}
             </div>
           </div>
-          <div className="w-14 h-14 flex items-center justify-center rounded-full bg-white dark:bg-[#151D19] border-2 border-emerald-500 shadow-sm">
+          <div className="w-14 h-14 flex items-center justify-center rounded-full bg-white dark:bg-[#141b17] border-2 border-emerald-500 shadow-sm">
             <AnimatedScore
               value={readiness.overallScore}
               className="text-base font-bold text-[#1F2421] dark:text-[#F0F4F2]"
@@ -232,11 +232,11 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
             key={pillar.key}
             type="button"
             onClick={() => onSelectPillar?.(pillar.key)}
-            className="flex flex-col text-left p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1A2520]/60 hover:border-[#1E6A50]/40 dark:hover:border-[#4ADE80]/40 transition-colors group"
+            className="flex flex-col text-left p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1d2822]/60 hover:border-[#1E6A50]/40 dark:hover:border-[#4ADE80]/40 transition-colors group"
           >
             <div className="flex items-center justify-between gap-2 mb-2">
               <div className="flex items-center gap-2">
-                <span className="p-1.5 rounded-lg bg-white dark:bg-[#151D19] border border-[#E0E6E2] dark:border-[#26372E]">
+                <span className="p-1.5 rounded-lg bg-white dark:bg-[#141b17] border border-[#E0E6E2] dark:border-[#26372E]">
                   {getPillarIcon(pillar.key)}
                 </span>
                 <span className="text-xs font-bold text-[#1F2421] dark:text-[#F0F4F2]">

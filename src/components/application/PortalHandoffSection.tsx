@@ -71,7 +71,7 @@ export const PortalHandoffSection: React.FC<PortalHandoffSectionProps> = ({
       )}
 
       {/* Official Portal Redirection Card */}
-      <div className="p-6 rounded-2xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#151D19] space-y-4">
+      <div className="p-6 rounded-2xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#141b17] space-y-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <div className="text-xs font-semibold text-[#5A6561] dark:text-[#97A7A0]">

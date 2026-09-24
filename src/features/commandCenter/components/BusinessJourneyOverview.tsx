@@ -112,7 +112,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
                   isCurrent
                     ? 'bg-[#14453D] text-white font-medium shadow-xs'
                     : isCompleted
-                    ? 'bg-[#FAFAF9] dark:bg-[#1A2420] text-[#3F4943] dark:text-[#C5D5CC] hover:bg-[#F3F4F3] dark:hover:bg-[#22302A]'
+                    ? 'bg-[#FAFAF9] dark:bg-[#1d2822] text-[#3F4943] dark:text-[#C5D5CC] hover:bg-[#F3F4F3] dark:hover:bg-[#22302A]'
                     : 'bg-transparent text-[#516A5F] dark:text-[#6F7A73]'
                 }`}
               >

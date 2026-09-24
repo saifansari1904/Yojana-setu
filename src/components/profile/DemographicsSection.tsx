@@ -30,7 +30,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
   return (
     <div
       id="profile-demographics-section"
-      className="bg-white dark:bg-[#151C19] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
+      className="bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
     >
       <div className="flex items-center justify-between pb-4 border-b border-[#E8EFEA] dark:border-[#223F30] mb-5">
         <div>
@@ -55,7 +55,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Full Name */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.applicantName}
           </span>
@@ -65,7 +65,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
         </div>
 
         {/* Social Category */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.category}
           </span>
@@ -82,7 +82,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
         </div>
 
         {/* Age & Bracket */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.age} / {strings.ageBracket}
           </span>
@@ -103,7 +103,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
         </div>
 
         {/* Gender */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.gender}
           </span>
@@ -113,7 +113,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
         </div>
 
         {/* Annual Income */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.annualIncome}
           </span>
@@ -123,7 +123,7 @@ export const DemographicsSection: React.FC<DemographicsSectionProps> = ({
         </div>
 
         {/* State & District */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider">
             {strings.state} / {strings.district}
           </span>

@@ -53,7 +53,7 @@ export const ArrowFillButton: React.FC<ArrowFillButtonProps> = ({
       badge: 'bg-black/15 text-white',
     },
     secondary: {
-      btn: 'bg-white dark:bg-[#1E2924] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#14453D] dark:text-[#4ADE80] border border-[#E4E8E4] dark:border-[#2E4137]',
+      btn: 'bg-white dark:bg-[#1d2822] hover:bg-[#F3F4F3] dark:hover:bg-[#26352E] text-[#14453D] dark:text-[#4ADE80] border border-[#E4E8E4] dark:border-[#2E4137]',
       badge: 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[#4ADE80]',
     },
     outline: {
@@ -61,7 +61,7 @@ export const ArrowFillButton: React.FC<ArrowFillButtonProps> = ({
       badge: 'bg-[#14453D]/10 dark:bg-[#4ADE80]/15 text-[#14453D] dark:text-[#4ADE80]',
     },
     ghost: {
-      btn: 'bg-transparent hover:bg-[#EEEEED] dark:hover:bg-[#1E2723] text-[#3F4943] dark:text-[#C5D5CC] border border-transparent',
+      btn: 'bg-transparent hover:bg-[#EEEEED] dark:hover:bg-[#1d2822] text-[#3F4943] dark:text-[#C5D5CC] border border-transparent',
       badge: 'bg-[#E4E8E4] dark:bg-[#2A3C34] text-[#14453D] dark:text-[#4ADE80]',
     },
     destructive: {
@@ -70,7 +70,7 @@ export const ArrowFillButton: React.FC<ArrowFillButtonProps> = ({
     },
     // Square, label-less control. Pass `ariaLabel` for an accessible name.
     icon: {
-      btn: 'bg-white dark:bg-[#1E2924] hover:bg-[#F1F5F3] dark:hover:bg-[#26352E] text-[#0B5D4B] dark:text-[#4ADE80] border border-[#E4E8E4] dark:border-[#2E4137]',
+      btn: 'bg-white dark:bg-[#1d2822] hover:bg-[#F1F5F3] dark:hover:bg-[#26352E] text-[#0B5D4B] dark:text-[#4ADE80] border border-[#E4E8E4] dark:border-[#2E4137]',
       badge: 'bg-transparent text-current',
     },
   };

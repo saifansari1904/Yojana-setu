@@ -62,7 +62,7 @@ export const ExplainableMatch: React.FC = () => {
           <RevealOnScroll>
             <div
               aria-hidden="true"
-              className="relative rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#111714] shadow-[0_24px_60px_-24px_rgba(20,69,61,0.25)] p-5 sm:p-7 overflow-hidden"
+              className="relative rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#141b17] shadow-[0_24px_60px_-24px_rgba(20,69,61,0.25)] p-5 sm:p-7 overflow-hidden"
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#14453D] via-[#1E6A50] to-[#4ADE80]" />
               <div className="flex items-center justify-between mb-5">
@@ -70,7 +70,7 @@ export const ExplainableMatch: React.FC = () => {
                   <Eye className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80]" />
                   {t('welcome.explainCardTitle')}
                 </h3>
-                <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#8FA197] dark:text-[#6E7F76] bg-[#F3F4F3] dark:bg-[#1A211D] rounded-full px-2.5 py-1">
+                <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#8FA197] dark:text-[#6E7F76] bg-[#F3F4F3] dark:bg-[#1d2822] rounded-full px-2.5 py-1">
                   {t('welcome.flowDemoTag')}
                 </span>
               </div>

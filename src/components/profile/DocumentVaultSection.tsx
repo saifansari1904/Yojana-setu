@@ -137,7 +137,7 @@ export const DocumentVaultSection: React.FC<DocumentVaultSectionProps> = ({ prof
   return (
     <div
       id="profile-document-vault-section"
-      className="bg-white dark:bg-[#151C19] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
+      className="bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#E8EFEA] dark:border-[#223F30] mb-5">
         <div>
@@ -157,7 +157,7 @@ export const DocumentVaultSection: React.FC<DocumentVaultSectionProps> = ({ prof
         </div>
       </div>
 
-      <div className="w-full bg-[#E8EFEA] dark:bg-[#1C2822] h-2 rounded-full overflow-hidden mb-5">
+      <div className="w-full bg-[#E8EFEA] dark:bg-[#1d2822] h-2 rounded-full overflow-hidden mb-5">
         <div
           className="h-full bg-gradient-to-r from-[#14453D] to-[#1E6A50] rounded-full transition-all duration-300"
           style={{ width: `${readinessPercent}%` }}
@@ -183,7 +183,7 @@ export const DocumentVaultSection: React.FC<DocumentVaultSectionProps> = ({ prof
               className={`p-3.5 rounded-xl border text-left transition-all flex items-start justify-between gap-3 cursor-pointer ${
                 isPrepared
                   ? 'bg-[#F4F8F5] dark:bg-[#111F18] border-[#A8D5BC] dark:border-[#224A37]'
-                  : 'bg-[#F9FAF9] dark:bg-[#121915] border-[#E8EFEA] dark:border-[#1E2E27] hover:border-[#1E6A50]'
+                  : 'bg-[#F9FAF9] dark:bg-[#141b17] border-[#E8EFEA] dark:border-[#1E2E27] hover:border-[#1E6A50]'
               }`}
             >
               <div className="min-w-0 flex-1">

@@ -44,7 +44,7 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
   return (
     <section
       id="support-stack-overview"
-      className="bg-white dark:bg-[#1E2623] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
+      className="bg-white dark:bg-[#1d2822] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col gap-4"
     >
       {/* Header */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -90,7 +90,7 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
               disabled={!hasSchemes && !onSelectCategory}
               className={`text-left p-3.5 rounded-lg border transition-all flex flex-col justify-between gap-2 min-h-[44px] ${
                 hasSchemes
-                  ? 'bg-[#F9FCFA] dark:bg-[#16231E] border-[#D8E8DE] dark:border-[#22382D] hover:border-[#0F6B4C] dark:hover:border-[#4ADE80] cursor-pointer'
+                  ? 'bg-[#F9FCFA] dark:bg-[#1d2822] border-[#D8E8DE] dark:border-[#22382D] hover:border-[#0F6B4C] dark:hover:border-[#4ADE80] cursor-pointer'
                   : 'bg-slate-50 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800 opacity-60'
               }`}
             >

@@ -48,7 +48,7 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   return (
     <div
       id="profile-registration-section"
-      className="bg-white dark:bg-[#151C19] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
+      className="bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
     >
       <div className="flex items-center justify-between pb-4 border-b border-[#E8EFEA] dark:border-[#223F30] mb-5">
         <div>
@@ -73,7 +73,7 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
         {/* Overall Status */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
             {strings.registrationStatus}
           </span>
@@ -90,7 +90,7 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
         </div>
 
         {/* Udyam MSME */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
             {strings.udyam}
           </span>
@@ -109,7 +109,7 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
         </div>
 
         {/* GSTIN */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
             {strings.gst}
           </span>
@@ -128,7 +128,7 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
         </div>
 
         {/* MSME Classification */}
-        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#121915] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
+        <div className="p-3.5 bg-[#F9FAF9] dark:bg-[#141b17] rounded-xl border border-[#E8EFEA] dark:border-[#1E2E27]">
           <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[#9EB0A7] block uppercase tracking-wider mb-1">
             {strings.msmeCategory}
           </span>
@@ -142,7 +142,7 @@ export const RegistrationSection: React.FC<RegistrationSectionProps> = ({
       </div>
 
       {/* Udyam Registration Direct Nodal Gateway */}
-      <div className="p-4 rounded-xl bg-[#F4F8F5] dark:bg-[#101D17] border border-[#D9E8DF] dark:border-[#1E3E2E] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="p-4 rounded-xl bg-[#F4F8F5] dark:bg-[#141b17] border border-[#D9E8DF] dark:border-[#1E3E2E] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <Building className="w-5 h-5 text-[#14453D] dark:text-[#4ADE80] shrink-0" />
           <div>

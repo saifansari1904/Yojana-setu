@@ -41,7 +41,7 @@ export const SchemeImpactSection: React.FC<SchemeImpactSectionProps> = ({
   return (
     <div
       id="profile-scheme-impact-section"
-      className="bg-white dark:bg-[#151C19] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
+      className="bg-white dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#223F30] rounded-2xl p-5 sm:p-6 shadow-xs transition-all"
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#E8EFEA] dark:border-[#223F30] mb-5">
         <div>
@@ -68,7 +68,7 @@ export const SchemeImpactSection: React.FC<SchemeImpactSectionProps> = ({
 
       {/* Stats row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-        <div className="p-4 rounded-xl bg-[#F4F8F5] dark:bg-[#101D17] border border-[#D9E8DF] dark:border-[#1E3E2E] flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-[#F4F8F5] dark:bg-[#141b17] border border-[#D9E8DF] dark:border-[#1E3E2E] flex items-center justify-between">
           <div>
             <span className="text-xs font-bold text-[#14453D] dark:text-[#4ADE80] block">
               {strings.eligibleCount}
@@ -107,7 +107,7 @@ export const SchemeImpactSection: React.FC<SchemeImpactSectionProps> = ({
                   key={res.scheme.id}
                   type="button"
                   onClick={() => onSelectScheme(res.scheme)}
-                  className="p-3.5 rounded-xl bg-[#F9FAF9] dark:bg-[#121915] border border-[#E8EFEA] dark:border-[#1E2E27] hover:border-[#1E6A50] transition-all text-left flex flex-col justify-between cursor-pointer group"
+                  className="p-3.5 rounded-xl bg-[#F9FAF9] dark:bg-[#141b17] border border-[#E8EFEA] dark:border-[#1E2E27] hover:border-[#1E6A50] transition-all text-left flex flex-col justify-between cursor-pointer group"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-1.5">
@@ -135,7 +135,7 @@ export const SchemeImpactSection: React.FC<SchemeImpactSectionProps> = ({
       )}
 
       {/* Synchronization footnote */}
-      <div className="p-3.5 rounded-xl bg-[#F4F7F5] dark:bg-[#131B17] border border-[#DEE7E2] dark:border-[#1E2E27] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-[#516A5F] dark:text-[#9EB0A7]">
+      <div className="p-3.5 rounded-xl bg-[#F4F7F5] dark:bg-[#141b17] border border-[#DEE7E2] dark:border-[#1E2E27] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-[#516A5F] dark:text-[#9EB0A7]">
         <span className="flex items-center gap-1.5">
           <ShieldCheck className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80] shrink-0" />
           {strings.syncNotice}

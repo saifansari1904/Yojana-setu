@@ -264,10 +264,10 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 12 }}
           transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="bg-white dark:bg-[#121815] border border-[#D5DDD8] dark:border-[#24342D] rounded-lg shadow-2xl max-w-6xl w-full max-h-[92vh] flex flex-col overflow-hidden text-[#1A1C1B] dark:text-[#F0F4F2]"
+          className="bg-white dark:bg-[#141b17] border border-[#D5DDD8] dark:border-[#24342D] rounded-lg shadow-2xl max-w-6xl w-full max-h-[92vh] flex flex-col overflow-hidden text-[#1A1C1B] dark:text-[#F0F4F2]"
         >
           {/* Header */}
-          <div className="px-5 py-4 border-b border-[#E4E8E4] dark:border-[#24342D] flex items-center justify-between bg-[#F8FAF9] dark:bg-[#16201B]">
+          <div className="px-5 py-4 border-b border-[#E4E8E4] dark:border-[#24342D] flex items-center justify-between bg-[#F8FAF9] dark:bg-[#1d2822]">
             <div>
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-[#14453D] dark:bg-[#4ADE80]" />
@@ -289,7 +289,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
             <button
               id="close-comparison-modal-btn"
               onClick={onClose}
-              className="p-1.5 rounded-md text-[#516A5F] hover:text-[#1A1C1B] dark:text-[#8E9F97] dark:hover:text-[#F0F4F2] hover:bg-[#EAECEB] dark:hover:bg-[#202D26] transition-colors cursor-pointer"
+              className="p-1.5 rounded-md text-[#516A5F] hover:text-[#1A1C1B] dark:text-[#8E9F97] dark:hover:text-[#F0F4F2] hover:bg-[#EAECEB] dark:hover:bg-[#1d2822] transition-colors cursor-pointer"
               aria-label={ui.closeAria}
             >
               <X className="w-5 h-5" />
@@ -315,8 +315,8 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                     variants={columnStaggerItem}
                     className={`rounded-lg border p-4 sm:p-5 flex flex-col justify-between transition-all ${
                       isBestMatch
-                        ? 'border-[#14453D] dark:border-[#4ADE80] bg-[#FAFDFB] dark:bg-[#15221C] shadow-sm'
-                        : 'border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#141C18]'
+                        ? 'border-[#14453D] dark:border-[#4ADE80] bg-[#FAFDFB] dark:bg-[#1d2822] shadow-sm'
+                        : 'border-[#E4E8E4] dark:border-[#24342D] bg-white dark:bg-[#141b17]'
                     }`}
                   >
                     <div>
@@ -358,7 +358,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
                         variants={isBestMatch && !shouldReduceMotion ? winnerFlash : undefined}
                         initial={isBestMatch && !shouldReduceMotion ? 'hidden' : undefined}
                         animate={isBestMatch && !shouldReduceMotion ? 'visible' : undefined}
-                        className="flex items-center gap-3 p-3 rounded-md bg-[#F4F6F5] dark:bg-[#1B2720] border border-[#E4E8E4] dark:border-[#25362C] mb-4"
+                        className="flex items-center gap-3 p-3 rounded-md bg-[#F4F6F5] dark:bg-[#1d2822] border border-[#E4E8E4] dark:border-[#25362C] mb-4"
                       >
                         <MatchGauge percentage={col.matchPercentage} size={54} strokeWidth={5} />
                         <div>
@@ -541,7 +541,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
           </div>
 
           {/* Footer Note */}
-          <div className="px-5 py-3 border-t border-[#E4E8E4] dark:border-[#24342D] bg-[#F8FAF9] dark:bg-[#16201B] flex flex-wrap items-center justify-between gap-3 text-xs text-[#516A5F] dark:text-[#8E9F97]">
+          <div className="px-5 py-3 border-t border-[#E4E8E4] dark:border-[#24342D] bg-[#F8FAF9] dark:bg-[#1d2822] flex flex-wrap items-center justify-between gap-3 text-xs text-[#516A5F] dark:text-[#8E9F97]">
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>
@@ -551,7 +551,7 @@ export const SchemeComparisonModal: React.FC<SchemeComparisonModalProps> = ({
 
             <button
               onClick={onClose}
-              className="px-4 py-1.5 rounded text-xs font-bold text-[#14453D] dark:text-[#4ADE80] bg-white dark:bg-[#1B2720] border border-[#D5DDD8] dark:border-[#2B3E33] hover:bg-[#EAECEB] dark:hover:bg-[#23332A] transition-colors cursor-pointer"
+              className="px-4 py-1.5 rounded text-xs font-bold text-[#14453D] dark:text-[#4ADE80] bg-white dark:bg-[#1d2822] border border-[#D5DDD8] dark:border-[#2B3E33] hover:bg-[#EAECEB] dark:hover:bg-[#23332A] transition-colors cursor-pointer"
             >
               {ui.closeBtn}
             </button>

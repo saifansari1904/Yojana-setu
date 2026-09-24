@@ -74,7 +74,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
   return (
     <article
       id={`priority-card-${scheme.id}`}
-      className="bg-white dark:bg-[#1E2623] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-5"
+      className="bg-white dark:bg-[#1d2822] border border-[#E3ECE7] dark:border-[#283530] rounded-xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-5"
     >
       <div className="flex flex-col gap-4">
         {/* Top Header: Priority Badge & Score */}
@@ -110,7 +110,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
         </div>
 
         {/* Financial / Assistance Quantum Snippet */}
-        <div className="bg-[#FAFBF9] dark:bg-[#17201C] rounded-lg p-3 border border-[#E9EFEA] dark:border-[#232F29]">
+        <div className="bg-[#FAFBF9] dark:bg-[#1d2822] rounded-lg p-3 border border-[#E9EFEA] dark:border-[#232F29]">
           <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             {isHi ? 'प्रमुख सरकारी सहायता' : 'Core Sovereign Assistance'}
           </div>

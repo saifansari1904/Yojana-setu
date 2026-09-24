@@ -78,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({
   const trackerShortLabel = t('tracker.navShort');
 
   return (
-    <header id="main-header" className="sticky top-0 z-40 bg-[#FAFAF9]/95 dark:bg-[#151C19]/95 backdrop-blur-sm border-b border-[#E4E8E4] dark:border-[#24342D] transition-colors duration-200">
+    <header id="main-header" className="sticky top-0 z-40 bg-[#FAFAF9]/95 dark:bg-[#141b17]/95 backdrop-blur-sm border-b border-[#E4E8E4] dark:border-[#24342D] transition-colors duration-200">
       {/* Top micro-bar: Official Taglines, Multilingual Language Switcher & Quick Theme */}
       <div className="bg-[#14453D] dark:bg-[#0B2A24] text-white px-4 py-1.5 text-[11px] font-medium border-b border-[#1E6A50] dark:border-[#164239]">
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
@@ -208,7 +208,7 @@ export const Header: React.FC<HeaderProps> = ({
           </motion.button>
 
           {/* Navigation Links with animated active indicator pill */}
-          <nav className="hidden md:flex items-center gap-1.5 p-1 bg-[#F1F5F3] dark:bg-[#101714] rounded-lg border border-[#E2E8E5] dark:border-[#1E2E27]">
+          <nav className="hidden md:flex items-center gap-1.5 p-1 bg-[#F1F5F3] dark:bg-[#141b17] rounded-lg border border-[#E2E8E5] dark:border-[#1E2E27]">
             <motion.button
               id="nav-form-btn"
               whileHover={shouldReduceMotion ? undefined : { y: -1 }}

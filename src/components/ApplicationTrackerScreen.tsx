@@ -184,7 +184,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                   ? 'border-[#FFCCBD] dark:border-[#5A2B20] bg-[#FFDAD6]/50 dark:bg-[#3D1A14]/50 text-[#8C3A22] dark:text-[#FFB4A4]'
                   : followUp.state === 'DUE_TODAY'
                     ? 'border-[#FCD34D] dark:border-[#5B4718] bg-[#FEF3C7]/70 dark:bg-[#3B2F14]/60 text-[#92610A] dark:text-[#FCD34D]'
-                    : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#F4F6F5] dark:bg-[#1B2720] text-[#3F4943] dark:text-[#C5D5CC]';
+                    : 'border-[#E4E8E4] dark:border-[#2A3C34] bg-[#F4F6F5] dark:bg-[#1d2822] text-[#3F4943] dark:text-[#C5D5CC]';
 
               return (
                 <motion.div
@@ -253,7 +253,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         type="date"
                         value={app.appliedOn || ''}
                         onChange={(e) => onUpdateAppliedOn(app.schemeId, e.target.value)}
-                        className="bg-[#FAFAF9] dark:bg-[#1B2720] border border-[#E4E8E4] dark:border-[#2A3C34] rounded px-2.5 py-1.5 text-xs text-[#1A1C1B] dark:text-[#F0F4F2] focus-visible:ring-2 focus-visible:ring-[#1E6A50] outline-none"
+                        className="bg-[#FAFAF9] dark:bg-[#1d2822] border border-[#E4E8E4] dark:border-[#2A3C34] rounded px-2.5 py-1.5 text-xs text-[#1A1C1B] dark:text-[#F0F4F2] focus-visible:ring-2 focus-visible:ring-[#1E6A50] outline-none"
                       />
                     </div>
                   )}
@@ -272,12 +272,12 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         value={app.note || ''}
                         onChange={(e) => onUpdateNote(app.schemeId, e.target.value)}
                         placeholder={t('tracker.notePlaceholder')}
-                        className="w-full bg-[#FAFAF9] dark:bg-[#1B2720] border border-[#E4E8E4] dark:border-[#2A3C34] rounded px-2.5 py-2 text-xs text-[#1A1C1B] dark:text-[#F0F4F2] placeholder:text-[#9EB0A7] focus-visible:ring-2 focus-visible:ring-[#1E6A50] outline-none resize-y"
+                        className="w-full bg-[#FAFAF9] dark:bg-[#1d2822] border border-[#E4E8E4] dark:border-[#2A3C34] rounded px-2.5 py-2 text-xs text-[#1A1C1B] dark:text-[#F0F4F2] placeholder:text-[#9EB0A7] focus-visible:ring-2 focus-visible:ring-[#1E6A50] outline-none resize-y"
                       />
                     </div>
                   ) : (
                     app.note && (
-                      <p className="mb-3 text-[11px] text-[#3F4943] dark:text-[#C5D5CC] bg-[#F4F6F5] dark:bg-[#1B2720] border border-[#EAECEB] dark:border-[#24342D] rounded px-3 py-2 whitespace-pre-wrap">
+                      <p className="mb-3 text-[11px] text-[#3F4943] dark:text-[#C5D5CC] bg-[#F4F6F5] dark:bg-[#1d2822] border border-[#EAECEB] dark:border-[#24342D] rounded px-3 py-2 whitespace-pre-wrap">
                         {app.note}
                       </p>
                     )
@@ -325,7 +325,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                           onChange={(e) =>
                             onSetFollowUp(app.schemeId, e.target.value ? e.target.value : null)
                           }
-                          className="min-h-[44px] rounded border border-[#E4E8E4] bg-white px-2.5 py-1.5 text-xs text-[#1A1C1B] outline-none focus-visible:ring-2 focus-visible:ring-[#1E6A50] dark:border-[#2A3C34] dark:bg-[#1B2720] dark:text-[#F0F4F2]"
+                          className="min-h-[44px] rounded border border-[#E4E8E4] bg-white px-2.5 py-1.5 text-xs text-[#1A1C1B] outline-none focus-visible:ring-2 focus-visible:ring-[#1E6A50] dark:border-[#2A3C34] dark:bg-[#1d2822] dark:text-[#F0F4F2]"
                         />
                         {app.followUp?.dueOn && (
                           <span className="text-[11px] font-semibold">
@@ -351,7 +351,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
 
                   {/* Phase 4.3 — journey timeline captured from the support pathway */}
                   {app.journey && app.journey.length > 0 && (
-                    <details className="mb-3 rounded border border-[#E4E8E4] dark:border-[#24342D] bg-[#F4F6F5] dark:bg-[#1B2720] px-3 py-2">
+                    <details className="mb-3 rounded border border-[#E4E8E4] dark:border-[#24342D] bg-[#F4F6F5] dark:bg-[#1d2822] px-3 py-2">
                       <summary className="cursor-pointer text-[11px] font-bold text-[#14453D] dark:text-[#C5D5CC]">
                         {t('tracker.journeyTitle')} ({app.journey.length})
                       </summary>
@@ -404,7 +404,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         id={`tracker-open-scheme-${app.schemeId}`}
                         type="button"
                         onClick={() => onSelectScheme(match)}
-                        className="inline-flex items-center gap-1.5 bg-[#F3F4F3] dark:bg-[#1E2723] hover:bg-[#EEEEED] dark:hover:bg-[#26352E] border border-[#E4E8E4] dark:border-[#2A3C34] text-[#14453D] dark:text-[#C5D5CC] px-3 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
+                        className="inline-flex items-center gap-1.5 bg-[#F3F4F3] dark:bg-[#1d2822] hover:bg-[#EEEEED] dark:hover:bg-[#26352E] border border-[#E4E8E4] dark:border-[#2A3C34] text-[#14453D] dark:text-[#C5D5CC] px-3 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
                       >
                         <FileText className="w-3 h-3" />
                         <span>{t('tracker.openScheme')}</span>

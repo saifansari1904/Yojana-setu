@@ -337,7 +337,7 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
 
         {/* Profile Completeness Pill / Action */}
         <div className="flex items-center gap-2 self-start sm:self-center shrink-0">
-          <span className="text-xs font-semibold px-2.5 py-1 rounded bg-white dark:bg-[#101613] text-[#14453D] dark:text-[#4ADE80] border border-[#C1E2D0] dark:border-[#24342D] whitespace-nowrap">
+          <span className="text-xs font-semibold px-2.5 py-1 rounded bg-white dark:bg-[#141b17] text-[#14453D] dark:text-[#4ADE80] border border-[#C1E2D0] dark:border-[#24342D] whitespace-nowrap">
             {COPY.profileCompleteness[l](needProfile.completenessScore)}
           </span>
 
@@ -452,7 +452,7 @@ export const BusinessNeedSummary: React.FC<BusinessNeedSummaryProps> = ({
                 return (
                   <span
                     key={needKey}
-                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-white/80 dark:bg-[#101613] text-[#1E3A8A] dark:text-[#93C5FD] border border-[#BFDBFE] dark:border-[#1E3A8A]/50"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-white/80 dark:bg-[#141b17] text-[#1E3A8A] dark:text-[#93C5FD] border border-[#BFDBFE] dark:border-[#1E3A8A]/50"
                   >
                     <Tag className="w-3 h-3 shrink-0" />
                     {label || needKey}

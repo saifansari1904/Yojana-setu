@@ -59,7 +59,7 @@ export const FinancialAlignmentSection: React.FC<FinancialAlignmentSectionProps>
 
       {/* Key Financial Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#151D19]">
+        <div className="p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#141b17]">
           <span className="text-[11px] font-semibold text-[#5A6561] dark:text-[#97A7A0] uppercase tracking-wider block mb-1">
             {t('workspace.projectCostLabel')}
           </span>
@@ -71,7 +71,7 @@ export const FinancialAlignmentSection: React.FC<FinancialAlignmentSectionProps>
           </span>
         </div>
 
-        <div className="p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#151D19]">
+        <div className="p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#141b17]">
           <span className="text-[11px] font-semibold text-[#5A6561] dark:text-[#97A7A0] uppercase tracking-wider block mb-1">
             {t('workspace.promoterMarginLabel')}
           </span>
@@ -83,7 +83,7 @@ export const FinancialAlignmentSection: React.FC<FinancialAlignmentSectionProps>
           </span>
         </div>
 
-        <div className="p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#151D19]">
+        <div className="p-4 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-white dark:bg-[#141b17]">
           <span className="text-[11px] font-semibold text-[#5A6561] dark:text-[#97A7A0] uppercase tracking-wider block mb-1">
             {t('workspace.subsidyEligibleLabel')}
           </span>
@@ -98,7 +98,7 @@ export const FinancialAlignmentSection: React.FC<FinancialAlignmentSectionProps>
 
       {/* Additional Terms */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-        <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1A2520]/40 flex items-start gap-3">
+        <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1d2822]/40 flex items-start gap-3">
           <Percent className="w-4 h-4 text-[#8E9B94] mt-0.5" />
           <div>
             <div className="font-semibold text-[#1F2421] dark:text-[#F0F4F2]">Indicative Interest & Concession</div>
@@ -108,7 +108,7 @@ export const FinancialAlignmentSection: React.FC<FinancialAlignmentSectionProps>
           </div>
         </div>
 
-        <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1A2520]/40 flex items-start gap-3">
+        <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[#22332A] bg-[#FAFAF9] dark:bg-[#1d2822]/40 flex items-start gap-3">
           <Clock className="w-4 h-4 text-[#8E9B94] mt-0.5" />
           <div>
             <div className="font-semibold text-[#1F2421] dark:text-[#F0F4F2]">Loan Repayment & Moratorium</div>
