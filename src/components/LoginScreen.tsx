@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { Lock, User, ShieldCheck, Landmark, CheckCircle2, Check } from 'lucide-react';
+import { User, ShieldCheck } from 'lucide-react';
 import { useTranslation } from '../i18n';
 import { fadeUp } from '../animations/variants';
 import { transitions, reducedMotionTransition } from '../animations/transitions';
-import { ArrowFillButton, AnimatedScore } from './ui';
-import { SetuHero } from './hero/SetuHero';
+import { ArrowFillButton } from './ui';
+import { YojanaSetuLogo } from './YojanaSetuLogo';
 import { sanitizeApplicantName } from '../lib/profile/profileStorage';
 
 interface LoginScreenProps {
@@ -13,21 +13,16 @@ interface LoginScreenProps {
   onSkipToForm: () => void;
 }
 
+/**
+ * Focused authentication utility — a natural continuation of the Welcome
+ * experience, not a second landing page. Authentication behavior is
+ * unchanged: the local account is created/signed in from the applicant's
+ * name via onLogin. No marketing content, no invented auth methods.
+ */
 export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm }) => {
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(true);
   const { t, lang } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
-
-  /** Secondary hero CTA: reveal the trust/how-it-works strip below the fold. */
-  const handleExploreHowItWorks = () => {
-    const target = document.getElementById('login-trust-counters');
-    target?.scrollIntoView({
-      behavior: shouldReduceMotion ? 'auto' : 'smooth',
-      block: 'center',
-    });
-  };
 
   const defaultUsernames: Record<string, string> = {
     en: 'Citizen Entrepreneur',
@@ -39,18 +34,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
     mr: 'नागरिक उद्योजक',
   };
 
-  const loginMetrics: Record<string, { verified: string; states: string; rules: string }> = {
-    en: { verified: 'Total Schemes', states: 'States & UTs Covered', rules: 'Languages Supported' },
-    hi: { verified: 'कुल योजनाएं', states: 'राज्य व केंद्र शासित प्रदेश', rules: 'समर्थित भाषाएं' },
-    ta: { verified: 'மொத்த திட்டங்கள்', states: 'மாநிலங்கள் & யூனியன் பிரதேசங்கள்', rules: 'ஆதரிக்கப்படும் மொழிகள்' },
-    te: { verified: 'మొత్తం పథకాలు', states: 'రాష్ట్రాలు & కేంద్రపాలిత ప్రాంతాలు', rules: 'మద్దతు ఉన్న భాషలు' },
-    kn: { verified: 'ಒಟ್ಟು ಯೋಜನೆಗಳು', states: 'ರಾಜ್ಯಗಳು & ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶಗಳು', rules: 'ಬೆಂಬಲಿತ ಭಾಷೆಗಳು' },
-    ml: { verified: 'മൊത്തം പദ്ധതികൾ', states: 'സംസ്ഥാനങ്ങളും കേന്ദ്രഭരണ പ്രദേശങ്ങളും', rules: 'പിന്തുണയ്ക്കുന്ന ഭാഷകൾ' },
-    mr: { verified: 'एकूण योजना', states: 'राज्ये व केंद्रशासित प्रदेश', rules: 'समर्थित भाषा' },
-  };
-
-  const currentMetrics = loginMetrics[lang] || loginMetrics.en;
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const fallback = defaultUsernames[lang] || defaultUsernames.en;
@@ -59,210 +42,91 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
   };
 
   return (
-    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 py-6 sm:py-8 transition-colors duration-200">
-      {/* Above-the-fold layout: sign-in sits beside the hero on desktop and
-          first on mobile, so nobody has to scroll to reach it. */}
-      <div className="w-full max-w-6xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-center">
-        <div className="order-2 lg:order-1">
-          <SetuHero
-            compact
-            onFindSchemes={onSkipToForm}
-            onExploreHowItWorks={handleExploreHowItWorks}
-          />
+    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 py-10 sm:py-12 transition-colors duration-200">
+      <motion.div
+        variants={shouldReduceMotion ? undefined : fadeUp}
+        initial={shouldReduceMotion ? undefined : 'hidden'}
+        animate={shouldReduceMotion ? undefined : 'visible'}
+        transition={shouldReduceMotion ? reducedMotionTransition : { ...transitions.smooth, delay: 0.05 }}
+        className="w-full max-w-sm"
+      >
+        {/* Brand anchor — small emblem, no marketing */}
+        <div className="flex justify-center mb-5">
+          <YojanaSetuLogo iconOnly size={44} />
         </div>
 
-      {/* Sign-in column — brand emblem lives in the hero column beside it. */}
-      <div className="order-1 lg:order-2 w-full max-w-lg mx-auto">
-        {/* Centered Login Card */}
-        <motion.div
-          variants={shouldReduceMotion ? undefined : fadeUp}
-          initial={shouldReduceMotion ? undefined : 'hidden'}
-          animate={shouldReduceMotion ? undefined : 'visible'}
-          transition={shouldReduceMotion ? reducedMotionTransition : { ...transitions.smooth, delay: 0.1 }}
-          className="yj-card shadow-sm overflow-hidden transition-colors duration-200"
-        >
-          <div className="border-t-4 border-[#14453D] dark:border-[#20695B] p-5 sm:p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h2 className="text-lg font-bold text-[#1A1C1B] dark:text-[var(--text-main)]">{t('login.title')}</h2>
-                <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] font-hindi">
-                  {t('common.taglineHindi')}
-                </p>
-              </div>
-              <span className="text-[11px] font-bold bg-[#D9E8DF] dark:bg-[#1A382D] text-[#1E6A50] dark:text-[var(--accent-green)] px-2 py-0.5 rounded">
-                {t('common.verifiedGateway')}
-              </span>
-            </div>
+        {/* Auth card */}
+        <div className="bg-white dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded-2xl p-6 sm:p-7 shadow-sm transition-colors duration-200">
+          <h1 className="text-[28px] sm:text-[32px] leading-tight font-extrabold tracking-tight text-center text-[#1A1C1B] dark:text-[var(--text-main)]">
+            {t('login.signInTitle')}
+          </h1>
+          <p className="mt-1.5 text-sm text-center text-[#516A5F] dark:text-[var(--text-secondary)]">
+            {t('login.signInSubtitle')}
+          </p>
 
-            <form onSubmit={handleSubmit} className="space-y-3.5">
-              <div>
-                <label
-                  htmlFor="login-username"
-                  className="block text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] uppercase tracking-wider mb-1.5"
-                >
-                  {t('login.usernameLabel')}
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#516A5F] dark:text-[var(--text-tertiary)]">
-                    <User className="h-4 w-4" />
-                  </div>
-                  <input
-                    id="login-username"
-                    type="text"
-                    required
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder={t('login.usernamePlaceholder')}
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAF9] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded text-sm text-[#1A1C1B] dark:text-[var(--text-main)] placeholder-[#516A5F] dark:placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[#14453D] dark:focus:border-[var(--accent-green)] focus:ring-1 focus:ring-[#14453D] dark:focus:ring-[var(--accent-green)] transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label
-                    htmlFor="login-password"
-                    className="block text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] uppercase tracking-wider"
-                  >
-                    {t('login.passwordLabel')}
-                  </label>
-                  <span className="text-[11px] text-[#1E6A50] dark:text-[var(--accent-green)] font-medium">{t('login.otpActive')}</span>
-                </div>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#516A5F] dark:text-[var(--text-tertiary)]">
-                    <Lock className="h-4 w-4" />
-                  </div>
-                  <input
-                    id="login-password"
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder={t('login.passwordPlaceholder')}
-                    className="w-full pl-9 pr-3 py-2.5 bg-[#FAFAF9] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded text-sm text-[#1A1C1B] dark:text-[var(--text-main)] placeholder-[#516A5F] dark:placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[#14453D] dark:focus:border-[var(--accent-green)] focus:ring-1 focus:ring-[#14453D] dark:focus:ring-[var(--accent-green)] transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between text-xs pt-1">
-                <label className="flex items-center gap-2 cursor-pointer text-[#3F4943] dark:text-[var(--text-secondary)]">
-                  <input
-                    id="remember-me"
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="rounded border-[#E4E8E4] dark:border-[var(--border-subtle)] text-[#14453D] dark:text-[var(--accent-green)] focus:ring-[#14453D] dark:focus:ring-[#1E6A50] bg-transparent"
-                  />
-                  <span>{t('login.rememberDevice')}</span>
-                </label>
-                <span className="text-[#516A5F] dark:text-[var(--text-secondary)] text-[11px]">{t('login.encrypted')}</span>
-              </div>
-
-              <div className="mt-3">
-                <ArrowFillButton
-                  id="login-submit-btn"
-                  type="submit"
-                  variant="primary"
-                  size="md"
-                  fullWidth={true}
-                >
-                  {t('login.signInBtn')}
-                </ArrowFillButton>
-              </div>
-            </form>
-
-            {/* Why create an account — contextual benefits */}
-            <div className="mt-4 p-3.5 rounded-lg bg-[#F3F4F3] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
-              <p className="text-xs font-bold text-[#1A1C1B] dark:text-[var(--text-main)] mb-2">
-                {t('welcome.loginContinueTitle')}
-              </p>
-              <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] mb-2.5 leading-relaxed">
-                {t('welcome.loginWhyAccount')}
-              </p>
-              <ul className="space-y-1.5">
-                {[
-                  t('welcome.loginBenefit1'),
-                  t('welcome.loginBenefit2'),
-                  t('welcome.loginBenefit3'),
-                ].map((benefit, idx) => (
-                  <li
-                    key={idx}
-                    className="flex items-start gap-2 text-[11px] text-[#3F4943] dark:text-[var(--text-secondary)]"
-                  >
-                    <Check className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)] shrink-0 mt-0.5" />
-                    <span>{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Guest Direct Access */}
-            <div className="mt-4 pt-3 border-t border-[#E4E8E4] dark:border-[var(--border-subtle)] text-center">
-              <motion.button
-                id="skip-to-form-btn"
-                type="button"
-                onClick={onSkipToForm}
-                whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
-                whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-                className="text-xs text-[#14453D] dark:text-[var(--accent-green)] hover:text-[#1E6A50] dark:hover:text-[#6EE7B7] font-bold underline cursor-pointer inline-block"
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <div>
+              <label
+                htmlFor="login-username"
+                className="block text-[13px] font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] mb-1.5"
               >
-                {t('login.guestCheckBtn')}
-              </motion.button>
+                {t('login.usernameLabel')}
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#516A5F] dark:text-[var(--text-tertiary)]">
+                  <User className="h-4 w-4" aria-hidden="true" />
+                </div>
+                <input
+                  id="login-username"
+                  name="username"
+                  type="text"
+                  required
+                  autoComplete="name"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder={t('login.usernamePlaceholder')}
+                  className="w-full pl-9 pr-3 py-3 bg-[#F7F8F7] dark:bg-[var(--bg-inset)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded-xl text-[15px] text-[#1A1C1B] dark:text-[var(--text-main)] placeholder-[#8A968F] dark:placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[#14453D] dark:focus:border-[var(--accent-green)] focus:ring-2 focus:ring-[#14453D]/20 dark:focus:ring-[var(--accent-green)]/25 hover:border-[#14453D]/40 dark:hover:border-[#4ADE80]/40 transition-colors"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="bg-[#F3F4F3] dark:bg-[var(--bg-card)] px-6 py-3 border-t border-[#E4E8E4] dark:border-[var(--border-subtle)] text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] text-center font-medium">
-            {t('login.subFooter')}
-          </div>
-        </motion.div>
+            <ArrowFillButton
+              id="login-submit-btn"
+              type="submit"
+              variant="primary"
+              size="md"
+              fullWidth={true}
+            >
+              {t('login.signInCta')}
+            </ArrowFillButton>
+          </form>
 
-        {/* Section 29: Trust Counters Row */}
-        <motion.div
-          id="login-trust-counters"
-          variants={shouldReduceMotion ? undefined : fadeUp}
-          initial={shouldReduceMotion ? undefined : 'hidden'}
-          animate={shouldReduceMotion ? undefined : 'visible'}
-          transition={shouldReduceMotion ? reducedMotionTransition : { ...transitions.smooth, delay: 0.2 }}
-          className="mt-4 grid grid-cols-3 gap-2 sm:gap-3 text-center"
-        >
-          <div className="bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded p-3 shadow-2xs">
-            <div className="flex items-center justify-center text-[#14453D] dark:text-[var(--accent-green)] mb-1">
-              <ShieldCheck className="w-4 h-4" />
-            </div>
-            <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[var(--accent-green)]">
-              <AnimatedScore value={259} suffix="+" />
-            </div>
-            <div className="text-[10px] text-[#516A5F] dark:text-[var(--text-secondary)] font-medium leading-tight">
-              {currentMetrics.verified}
-            </div>
-          </div>
+          {/* One-line trust statement */}
+          <p className="mt-5 flex items-start justify-center gap-1.5 text-[12px] leading-relaxed text-center text-[#516A5F] dark:text-[var(--text-tertiary)]">
+            <ShieldCheck className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#1E6A50] dark:text-[var(--accent-green)]" aria-hidden="true" />
+            <span>{t('login.trustLine')}</span>
+          </p>
 
-          <div className="bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded p-3 shadow-2xs">
-            <div className="flex items-center justify-center text-[#14453D] dark:text-[var(--accent-green)] mb-1">
-              <Landmark className="w-4 h-4" />
-            </div>
-            <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[var(--accent-green)]">
-              <AnimatedScore value={34} suffix="" />
-            </div>
-            <div className="text-[10px] text-[#516A5F] dark:text-[var(--text-secondary)] font-medium leading-tight">
-              {currentMetrics.states}
-            </div>
-          </div>
+          {/* Account creation is part of sign-in in the local account model */}
+          <p className="mt-4 text-center text-[13px] text-[#3F4943] dark:text-[var(--text-secondary)]">
+            {t('login.newHereLine')}
+          </p>
 
-          <div className="bg-white/80 dark:bg-[#141b17]/80 backdrop-blur-xs border border-[#E4E8E4] dark:border-[var(--border-subtle)] rounded p-3 shadow-2xs">
-            <div className="flex items-center justify-center text-[#14453D] dark:text-[var(--accent-green)] mb-1">
-              <CheckCircle2 className="w-4 h-4" />
-            </div>
-            <div className="text-base sm:text-lg font-extrabold text-[#14453D] dark:text-[var(--accent-green)]">
-              <AnimatedScore value={7} suffix="" />
-            </div>
-            <div className="text-[10px] text-[#516A5F] dark:text-[var(--text-secondary)] font-medium leading-tight">
-              {currentMetrics.rules}
-            </div>
+          {/* Guest path — help first, account when needed */}
+          <div className="mt-3 pt-4 border-t border-[#E4E8E4] dark:border-[var(--border-subtle)] text-center">
+            <motion.button
+              id="skip-to-form-btn"
+              type="button"
+              onClick={onSkipToForm}
+              whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+              className="text-[13px] text-[#14453D] dark:text-[var(--accent-green)] hover:text-[#1E6A50] dark:hover:text-[#6EE7B7] font-semibold cursor-pointer"
+            >
+              {t('login.continueGuest')}
+            </motion.button>
           </div>
-        </motion.div>
-      </div>
-      </div>
+        </div>
+      </motion.div>
     </div>
   );
 };

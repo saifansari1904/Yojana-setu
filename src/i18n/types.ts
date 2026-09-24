@@ -57,17 +57,14 @@ export interface Translations {
     switchToLight: string;
   };
   login: {
-    title: string;
     usernameLabel: string;
     usernamePlaceholder: string;
-    passwordLabel: string;
-    passwordPlaceholder: string;
-    otpActive: string;
-    rememberDevice: string;
-    encrypted: string;
-    signInBtn: string;
-    guestCheckBtn: string;
-    subFooter: string;
+    signInTitle: string;
+    signInSubtitle: string;
+    signInCta: string;
+    trustLine: string;
+    newHereLine: string;
+    continueGuest: string;
   };
   form: {
     badge: string;
@@ -474,11 +471,6 @@ export interface Translations {
     authPromptDesc: string;
     authPromptPrimary: string;
     authPromptSecondary: string;
-    loginContinueTitle: string;
-    loginWhyAccount: string;
-    loginBenefit1: string;
-    loginBenefit2: string;
-    loginBenefit3: string;
     heroEyebrow: string;
     heroSecondaryCta: string;
     trustStrip1Title: string;
