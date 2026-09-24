@@ -142,11 +142,11 @@ assert(
   "W3: ActiveScreen includes 'welcome'",
 );
 
-// W4 — default screen is 'welcome' when no stored profile
+// W4 — the site always boots to the welcome screen
 const appSrc = readSrc('src/App.tsx');
 assert(
-  /return stored \? 'dashboard' : 'welcome'/.test(appSrc),
-  'W4: new users start on welcome (stored ? dashboard : welcome)',
+  /useState<ActiveScreen>\(\(\) => 'welcome'\)/.test(appSrc),
+  "W4: site always boots to 'welcome'",
 );
 
 // W5 — handleFormSubmit does not persist or authenticate

@@ -98,7 +98,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [lang, setLangState] = useState<Language>(() => {
-    if (typeof window === 'undefined') return 'hi';
+    if (typeof window === 'undefined') return 'en';
     try {
       const saved = localStorage.getItem(STORAGE_KEY) as Language | null;
       if (saved && (saved in translationsMap)) {
@@ -107,7 +107,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     } catch {
       // Ignore local storage error
     }
-    return 'hi'; // Default language is Hindi
+    return 'en'; // Default language is English
   });
 
   const setLang = (newLang: Language) => {

@@ -89,11 +89,7 @@ function YojanaSetuMain() {
     if (typeof window === 'undefined') return false;
     return !sessionStorage.getItem('yojana_setu_splash_seen');
   });
-  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>(() => {
-    if (typeof window === 'undefined') return 'welcome';
-    const stored = loadStoredProfile();
-    return stored ? 'dashboard' : 'welcome';
-  });
+  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>(() => 'welcome');
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return !!loadStoredProfile();
