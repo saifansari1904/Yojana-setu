@@ -37,10 +37,10 @@ const ProductFlowVisual = () => {
   const { t } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
 
-  const profileRows = [
-    { icon: Briefcase, label: t('welcome.flowBizLabel'), value: t('welcome.flowBizValue') },
-    { icon: MapPin, label: t('welcome.flowLocLabel'), value: t('welcome.flowLocValue') },
-    { icon: Wallet, label: t('welcome.flowIncLabel'), value: t('welcome.flowIncValue') },
+  const profileChips = [
+    { icon: Briefcase, value: t('welcome.flowBizValue') },
+    { icon: MapPin, value: t('welcome.flowLocValue') },
+    { icon: Wallet, value: t('welcome.flowIncValue') },
   ];
 
   const resultChecks = [
@@ -57,44 +57,39 @@ const ProductFlowVisual = () => {
   return (
     <div
       aria-hidden="true"
-      className="relative rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white/80 dark:bg-[#111714]/80 backdrop-blur-sm shadow-[0_24px_60px_-24px_rgba(20,69,61,0.25)] p-4 sm:p-6 overflow-hidden min-w-0"
+      className="relative rounded-2xl border border-[#E4E8E4] dark:border-[#24342D] bg-white/80 dark:bg-[#111714]/80 backdrop-blur-sm shadow-[0_24px_60px_-24px_rgba(20,69,61,0.25)] p-3 sm:p-4 overflow-hidden min-w-0"
     >
       {/* soft top accent */}
       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#14453D] via-[#1E6A50] to-[#4ADE80]" />
 
-      {/* Stage 1 — profile */}
+      {/* Stage 1 — profile as inline chips */}
       <motion.div
         initial={shouldReduceMotion ? undefined : { opacity: 0, y: 14 }}
         animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
         transition={stage(0.15)}
       >
         <VizEyebrow icon={User}>{t('welcome.flowProfileTitle')}</VizEyebrow>
-        <div className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#151C19] divide-y divide-[#E4E8E4] dark:divide-[#24342D]">
-          {profileRows.map((row, i) => (
-            <div key={i} className="flex items-center justify-between gap-3 px-3.5 py-2">
-              <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-[#516A5F] dark:text-[#8FA197]">
-                <row.icon className="w-3.5 h-3.5 text-[#14453D] dark:text-[#4ADE80]" />
-                {row.label}
-              </span>
-              <span className="text-[13px] font-bold text-[#1A1C1B] dark:text-[#E2E8E4] truncate">
-                {row.value}
-              </span>
-            </div>
+        <div className="flex flex-wrap gap-1.5">
+          {profileChips.map((chip, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#151C19] px-2.5 py-1 text-[11px] font-bold text-[#1A1C1B] dark:text-[#E2E8E4]"
+            >
+              <chip.icon className="w-3 h-3 text-[#14453D] dark:text-[#4ADE80]" />
+              {chip.value}
+            </span>
           ))}
         </div>
-        <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#8FA197] dark:text-[#6E7F76]">
-          {t('welcome.flowDemoTag')}
-        </p>
       </motion.div>
 
       <FlowConnector className="my-1" />
 
-      {/* Stage 2 — matching engine, factors illuminate sequentially */}
+      {/* Stage 2 — matching engine, slim weighted bars illuminate sequentially */}
       <motion.div
         initial={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.96 }}
         animate={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
         transition={stage(0.45)}
-        className="relative rounded-xl bg-[#14453D] dark:bg-[#1C5045] px-4 py-3 overflow-hidden"
+        className="relative rounded-xl bg-[#14453D] dark:bg-[#1C5045] px-3.5 py-3 overflow-hidden"
       >
         {!shouldReduceMotion && (
           <motion.span
@@ -104,24 +99,32 @@ const ProductFlowVisual = () => {
             transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut' }}
           />
         )}
-        <p className="relative flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#BFD9CE] mb-3">
-          <Cpu className="w-4 h-4 text-[#4ADE80]" />
+        <p className="relative flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#BFD9CE] mb-2">
+          <Cpu className="w-3.5 h-3.5 text-[#4ADE80]" />
           {t('welcome.flowEngineTitle')}
         </p>
-        <ul className="relative space-y-1.5">
+        <ul className="relative space-y-1">
           {ENGINE_FACTORS.map((f, i) => (
             <motion.li
               key={f.key}
               initial={shouldReduceMotion ? undefined : { opacity: 0.35, x: -8 }}
               animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
               transition={stage(0.75 + i * 0.18)}
-              className="flex items-center justify-between gap-2 rounded-lg bg-white/[0.07] px-3 py-2"
+              className="flex items-center gap-2"
             >
-              <span className="flex items-center gap-2 text-[12px] font-semibold text-white">
-                <f.icon className="w-3.5 h-3.5 text-[#4ADE80]" />
+              <f.icon className="w-3.5 h-3.5 text-[#4ADE80] shrink-0" />
+              <span className="flex-1 min-w-0 truncate text-[11px] font-semibold text-white">
                 {t(f.key)}
               </span>
-              <span className="text-[12px] font-extrabold text-[#4ADE80] tabular-nums">
+              <span className="w-14 sm:w-20 h-1 rounded-full bg-white/15 overflow-hidden shrink-0">
+                <motion.span
+                  className="block h-full rounded-full bg-[#4ADE80]"
+                  initial={shouldReduceMotion ? undefined : { width: 0 }}
+                  animate={{ width: `${f.weight}%` }}
+                  transition={stage(0.9 + i * 0.18)}
+                />
+              </span>
+              <span className="w-8 shrink-0 text-right text-[11px] font-extrabold text-[#4ADE80] tabular-nums">
                 {f.weight}%
               </span>
             </motion.li>
@@ -131,38 +134,30 @@ const ProductFlowVisual = () => {
 
       <FlowConnector className="my-1" />
 
-      {/* Stage 3 — match result */}
+      {/* Stage 3 — match result, horizontal */}
       <motion.div
         initial={shouldReduceMotion ? undefined : { opacity: 0, y: 14 }}
         animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
         transition={stage(1.5)}
-        className="rounded-xl border-2 border-[#1E6A50]/30 dark:border-[#4ADE80]/30 bg-[#F0F7F3] dark:bg-[#122019] px-4 py-3"
+        className="rounded-xl border-2 border-[#1E6A50]/30 dark:border-[#4ADE80]/30 bg-[#F0F7F3] dark:bg-[#122019] px-3.5 py-2.5 flex items-center gap-3"
       >
-        <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#516A5F] dark:text-[#8FA197] mb-2">
-          {t('welcome.flowResultTitle')}
-        </p>
-        <div className="flex items-center gap-3 mb-2">
-          <AnimatedScore
-            value={86}
-            suffix="%"
-            duration={1.1}
-            className="text-3xl font-extrabold text-[#14453D] dark:text-[#4ADE80] tabular-nums"
-          />
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[#1E6A50] dark:text-[#4ADE80] bg-[#D9E8DF] dark:bg-[#1A382D] rounded-full px-2.5 py-1">
-            {t('welcome.flowDemoTag')}
-          </span>
-        </div>
-        <ul className="space-y-1.5">
+        <AnimatedScore
+          value={86}
+          suffix="%"
+          duration={1.1}
+          className="text-[1.7rem] leading-none font-extrabold text-[#14453D] dark:text-[#4ADE80] tabular-nums shrink-0"
+        />
+        <ul className="min-w-0">
           {resultChecks.map((c, i) => (
             <motion.li
               key={i}
               initial={shouldReduceMotion ? undefined : { opacity: 0, x: -6 }}
               animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
               transition={stage(1.7 + i * 0.12)}
-              className="flex items-center gap-2 text-[13px] font-semibold text-[#1A1C1B] dark:text-[#E2E8E4]"
+              className="flex items-center gap-1.5 text-[11px] font-semibold text-[#1A1C1B] dark:text-[#E2E8E4] truncate"
             >
-              <Check className="w-4 h-4 text-[#1E6A50] dark:text-[#4ADE80] shrink-0" />
-              {c}
+              <Check className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80] shrink-0" />
+              <span className="truncate">{c}</span>
             </motion.li>
           ))}
         </ul>
@@ -175,22 +170,22 @@ const ProductFlowVisual = () => {
         initial={shouldReduceMotion ? undefined : { opacity: 0, y: 14 }}
         animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
         transition={stage(1.95)}
-        className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#151C19] px-4 py-3.5 flex items-center gap-3"
+        className="rounded-xl border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#151C19] px-3.5 py-2.5 flex items-center gap-2.5"
       >
-        <span className="w-9 h-9 rounded-lg bg-[#14453D] dark:bg-[#1C5045] flex items-center justify-center shrink-0">
-          <FileCheck2 className="w-[18px] h-[18px] text-[#4ADE80]" />
+        <span className="w-8 h-8 rounded-lg bg-[#14453D] dark:bg-[#1C5045] flex items-center justify-center shrink-0">
+          <FileCheck2 className="w-4 h-4 text-[#4ADE80]" />
         </span>
-        <span>
-          <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#516A5F] dark:text-[#8FA197]">
+        <span className="min-w-0">
+          <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-[#516A5F] dark:text-[#8FA197]">
             {t('welcome.flowNextTitle')}
           </span>
-          <span className="block text-[13px] font-bold text-[#1A1C1B] dark:text-[#F0F4F2]">
+          <span className="block text-[12px] font-bold text-[#1A1C1B] dark:text-[#F0F4F2] truncate">
             {t('welcome.flowNextDesc')}
           </span>
         </span>
       </motion.div>
 
-      <p className="mt-4 text-center text-[10px] font-medium uppercase tracking-[0.14em] text-[#8FA197] dark:text-[#6E7F76]">
+      <p className="mt-3 text-center text-[10px] font-medium uppercase tracking-[0.14em] text-[#8FA197] dark:text-[#6E7F76]">
         {t('welcome.flowIllustrative')}
       </p>
     </div>
