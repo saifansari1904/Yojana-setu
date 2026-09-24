@@ -82,6 +82,7 @@ export const taTranslations: Translations = {
     noAccountPrompt: 'Yojana Setu-விற்குப் புதியவரா?',
     haveAccountPrompt: 'ஏற்கனவே கணக்கு உள்ளதா?',
     dismiss: 'மூடுக',
+    oauthFailed: 'Google உள்நுழைவு முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',
     resetPassword: {
       title: 'புதிய கடவுச்சொல்லை அமைக்கவும்',
       subtitle: 'உங்கள் Yojana Setu கணக்கிற்கான புதிய கடவுச்சொல்லைத் தேர்ந்தெடுக்கவும்.',

@@ -112,6 +112,7 @@ export interface Translations {
     noAccountPrompt: string;
     haveAccountPrompt: string;
     dismiss: string;
+    oauthFailed: string;
     resetPassword: {
       title: string;
       subtitle: string;

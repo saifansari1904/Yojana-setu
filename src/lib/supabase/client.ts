@@ -52,7 +52,16 @@ export function getSupabaseClient(): SupabaseClient {
     );
   }
 
-  client = createClient(url, anonKey);
+  client = createClient(url, anonKey, {
+    auth: {
+      // PKCE (not implicit): the OAuth callback carries a one-time ?code=
+      // in the query string instead of tokens in the URL fragment. The
+      // fragment form is fragile — any redirect or tab restore can drop it
+      // silently and the app boots "logged out" with no error. PKCE also
+      // auto-cleans the code from the address bar after the exchange.
+      flowType: 'pkce',
+    },
+  });
   return client;
 }
 

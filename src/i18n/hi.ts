@@ -82,6 +82,7 @@ export const hiTranslations: Translations = {
     noAccountPrompt: 'Yojana Setu पर नए हैं?',
     haveAccountPrompt: 'पहले से खाता है?',
     dismiss: 'बंद करें',
+    oauthFailed: 'Google साइन-इन पूरा नहीं हुआ। कृपया पुनः प्रयास करें।',
     resetPassword: {
       title: 'नया पासवर्ड सेट करें',
       subtitle: 'अपने Yojana Setu खाते के लिए नया पासवर्ड चुनें।',

@@ -82,6 +82,7 @@ export const teTranslations: Translations = {
     noAccountPrompt: 'Yojana Setu కు కొత్తవారా?',
     haveAccountPrompt: 'ఇప్పటికే ఖాతా ఉందా?',
     dismiss: 'మూసివేయండి',
+    oauthFailed: 'Google సైన్-ఇన్ పూర్తి కాలేదు. దయచేసి మళ్లీ ప్రయత్నించండి.',
     resetPassword: {
       title: 'కొత్త పాస్‌వర్డ్ సెట్ చేయండి',
       subtitle: 'మీ Yojana Setu ఖాతా కోసం కొత్త పాస్‌వర్డ్ ఎంచుకోండి.',

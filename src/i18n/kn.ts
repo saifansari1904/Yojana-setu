@@ -82,6 +82,7 @@ export const knTranslations: Translations = {
     noAccountPrompt: 'Yojana Setu ಗೆ ಹೊಸಬರೇ?',
     haveAccountPrompt: 'ಈಗಾಗಲೇ ಖಾತೆ ಇದೆಯೇ?',
     dismiss: 'ಮುಚ್ಚಿ',
+    oauthFailed: 'Google ಸೈನ್-ಇನ್ ಪೂರ್ಣಗೊಳ್ಳಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
     resetPassword: {
       title: 'ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ ಹೊಂದಿಸಿ',
       subtitle: 'ನಿಮ್ಮ Yojana Setu ಖಾತೆಗೆ ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ ಆರಿಸಿ.',

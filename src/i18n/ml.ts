@@ -82,6 +82,7 @@ export const mlTranslations: Translations = {
     noAccountPrompt: 'Yojana Setu-വിൽ പുതിയതാണോ?',
     haveAccountPrompt: 'ഇതിനകം അക്കൗണ്ട് ഉണ്ടോ?',
     dismiss: 'അടയ്ക്കുക',
+    oauthFailed: 'Google സൈൻ-ഇൻ പൂർത്തിയായില്ല. ദയവായി വീണ്ടും ശ്രമിക്കുക.',
     resetPassword: {
       title: 'പുതിയ പാസ്‌വേഡ് സെറ്റ് ചെയ്യുക',
       subtitle: 'നിങ്ങളുടെ Yojana Setu അക്കൗണ്ടിനായി പുതിയ പാസ്‌വേഡ് തിരഞ്ഞെടുക്കുക.',

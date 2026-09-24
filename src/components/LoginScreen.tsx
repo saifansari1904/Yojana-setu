@@ -15,6 +15,7 @@ import {
   setRememberedIdentifier,
 } from '../lib/auth/authService';
 import { validateSignIn, validateSignUp, type AuthFieldErrors } from '../lib/auth/authValidation';
+import { useAuth } from '../context/AuthContext';
 
 interface LoginScreenProps {
   onLogin: (applicantName?: string) => void;
@@ -33,6 +34,7 @@ type Tab = 'signin' | 'signup';
  */
 export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm }) => {
   const { t } = useTranslation();
+  const { authError, clearAuthError } = useAuth();
   const shouldReduceMotion = useReducedMotion();
 
   const [tab, setTab] = useState<Tab>('signin');
@@ -160,6 +162,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
 
   const handleGoogle = async () => {
     clearFeedback();
+    clearAuthError();
     setSubmitting(true);
     try {
       const result = await signInWithGoogle();
@@ -247,6 +250,20 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
               <Info className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
               <p className="flex-1 min-w-0">{notice}</p>
               <button type="button" onClick={() => setNotice(null)} aria-label={t('login.dismiss')} className={dismissBtnClass}>
+                <X className="w-4 h-4" aria-hidden="true" />
+              </button>
+            </div>
+          )}
+          {authError && (
+            <div role="alert" className="mb-5 flex items-start gap-2.5 rounded-[var(--yj-radius-md)] border border-[#C0392B]/25 dark:border-[#E57373]/25 bg-[#FDF3F2] dark:bg-[#E57373]/[0.07] px-3.5 py-3 text-[13px] leading-relaxed text-[#7B241C] dark:text-[#F5B7B1]">
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
+              <div className="flex-1 min-w-0">
+                <p>{t('login.oauthFailed')}</p>
+                {authError !== 'oauthUnknown' && (
+                  <p className="mt-1 text-[12px] opacity-80">{authError}</p>
+                )}
+              </div>
+              <button type="button" onClick={clearAuthError} aria-label={t('login.dismiss')} className={dismissBtnClass}>
                 <X className="w-4 h-4" aria-hidden="true" />
               </button>
             </div>

@@ -343,15 +343,90 @@ export function onAuthStateChange(callback: (user: SessionUser | null) => void):
       callback(null);
       return;
     }
-    if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
-      const user = session?.user;
-      if (!user) {
-        callback(null);
-        return;
-      }
-      const displayName = await resolveDisplayName(user.id, user.email ?? null);
-      callback(toSessionUser(user, displayName));
-    }
+    // Any other event that carries a session means the user is authenticated
+    // (SIGNED_IN, TOKEN_REFRESHED, USER_UPDATED, PASSWORD_RECOVERY, ...).
+    // Requiring an exact event name here silently dropped real sessions.
+    const user = session?.user;
+    if (!user) return;
+    const displayName = await resolveDisplayName(user.id, user.email ?? null);
+    callback(toSessionUser(user, displayName));
   });
   return () => subscription.unsubscribe();
+}
+
+/* ============ OAUTH CALLBACK PARAMS (URL hygiene + diagnostics) ============ */
+
+const OAUTH_CALLBACK_PARAMS = [
+  'code', 'state', 'error', 'error_code', 'error_description',
+  'access_token', 'refresh_token', 'expires_in', 'expires_at',
+  'token_type', 'provider_token', 'provider_refresh_token',
+];
+
+/** True when the current URL carries an OAuth/OIDC callback (query or hash). */
+export function hasOAuthCallbackParams(): boolean {
+  try {
+    const url = new URL(window.location.href);
+    if (OAUTH_CALLBACK_PARAMS.some((p) => url.searchParams.has(p))) return true;
+    const hashParams = new URLSearchParams(url.hash.replace(/^#/, ''));
+    return OAUTH_CALLBACK_PARAMS.some((p) => hashParams.has(p));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Remove OAuth callback params from the address bar (query + hash).
+ * Returns true when anything was removed. Safe to call after the session
+ * is established — the client has already consumed the params by then.
+ * A stale ?code= / #access_token= left in the URL poisons later reloads
+ * (the exchange is retried with a used code and fails), so the app must
+ * not leave them behind.
+ */
+export function clearOAuthCallbackParams(): boolean {
+  try {
+    const url = new URL(window.location.href);
+    let changed = false;
+    for (const p of OAUTH_CALLBACK_PARAMS) {
+      if (url.searchParams.has(p)) {
+        url.searchParams.delete(p);
+        changed = true;
+      }
+    }
+    if (url.hash) {
+      const hashParams = new URLSearchParams(url.hash.replace(/^#/, ''));
+      let hashChanged = false;
+      for (const p of OAUTH_CALLBACK_PARAMS) {
+        if (hashParams.has(p)) {
+          hashParams.delete(p);
+          hashChanged = true;
+        }
+      }
+      if (hashChanged) {
+        const rest = hashParams.toString();
+        url.hash = rest ? `#${rest}` : '';
+        changed = true;
+      }
+    }
+    if (changed) {
+      window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+    }
+    return changed;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * The error (if any) from processing the OAuth callback URL during client
+ * initialization — e.g. a rejected code exchange. Null when the callback
+ * processed cleanly or there was no callback. Surfaces the real reason
+ * instead of failing silently as "logged out".
+ */
+export async function getAuthCallbackError(): Promise<string | null> {
+  try {
+    const { error } = await getSupabaseClient().auth.initialize();
+    return error?.message ?? null;
+  } catch {
+    return null;
+  }
 }

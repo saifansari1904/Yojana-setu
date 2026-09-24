@@ -6,6 +6,9 @@ import {
   onAuthStateChange,
   signOut as supabaseSignOut,
   isSupabaseConfigured,
+  hasOAuthCallbackParams,
+  clearOAuthCallbackParams,
+  getAuthCallbackError,
   type SessionUser,
 } from '../lib/supabase';
 import {
@@ -24,12 +27,17 @@ export interface LocalUser {
 interface AuthContextType {
   user: LocalUser | null;
   loading: boolean;
+  /** Set when a Google OAuth return could not establish a session. Shown on the login screen. */
+  authError: string | null;
+  clearAuthError: () => void;
   signOutUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: false,
+  authError: null,
+  clearAuthError: () => {},
   signOutUser: async () => {},
 });
 
@@ -118,6 +126,7 @@ const restoreForReturningUser = (userId: string): void => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<LocalUser | null>(() => toLocalUser());
+  const [authError, setAuthError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(() => {
     try {
       return isSupabaseConfigured();
@@ -155,6 +164,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (sessionUser) {
         setSyncUserId(sessionUser.id);
         setUser(toCloudUser(sessionUser));
+        setAuthError(null);
+        // The callback params are consumed — never leave them in the URL.
+        clearOAuthCallbackParams();
         backfillApplicantName(sessionUser.displayName);
         runOneTimeMigration(sessionUser.id);
       } else {
@@ -164,15 +176,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     // Restore an existing session (page refresh, Google redirect return).
-    getSessionUser()
-      .then((sessionUser) => {
+    // Self-healing: if the URL carried an OAuth callback but no session
+    // resulted (e.g. a stale ?code= retried after a reload), clear the
+    // params and retry once against the stored session before giving up.
+    // A failed callback is surfaced as authError instead of a silent logout.
+    (async () => {
+      try {
+        const hadCallback = hasOAuthCallbackParams();
+        let sessionUser = await getSessionUser();
+        if (!sessionUser && hadCallback) {
+          clearOAuthCallbackParams();
+          sessionUser = await getSessionUser();
+        }
         if (cancelled) return;
+        if (!sessionUser && hadCallback) {
+          const detail = await getAuthCallbackError();
+          setAuthError(detail || 'oauthUnknown');
+        }
         applySessionUser(sessionUser);
-        setLoading(false);
-      })
-      .catch(() => {
+      } catch {
+        if (!cancelled) applySessionUser(null);
+      } finally {
         if (!cancelled) setLoading(false);
-      });
+      }
+    })();
 
     // Live session changes: sign-in, sign-out, token refresh, and the
     // post-Google-OAuth redirect landing back on the app.
@@ -200,8 +227,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
   };
 
+  const clearAuthError = () => setAuthError(null);
+
   return (
-    <AuthContext.Provider value={{ user, loading, signOutUser }}>
+    <AuthContext.Provider value={{ user, loading, authError, clearAuthError, signOutUser }}>
       {children}
     </AuthContext.Provider>
   );

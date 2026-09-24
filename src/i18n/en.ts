@@ -82,6 +82,7 @@ export const enTranslations: Translations = {
     noAccountPrompt: 'New to Yojana Setu?',
     haveAccountPrompt: 'Already have an account?',
     dismiss: 'Dismiss',
+    oauthFailed: "Google sign-in didn't complete. Please try again.",
     resetPassword: {
       title: 'Set a new password',
       subtitle: 'Choose a new password for your Yojana Setu account.',
