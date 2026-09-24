@@ -405,6 +405,9 @@ function YojanaSetuMain() {
   };
 
   const handleSelectScheme = (match: MatchResult) => {
+    // Viewing full scheme details is gated like the persistent product
+    // areas (dashboard/tracker) — guests get the account prompt first.
+    if (!requestPersistentAction()) return;
     setSelectedSchemeMatch(match);
     setCurrentScreen('scheme-detail');
   };
