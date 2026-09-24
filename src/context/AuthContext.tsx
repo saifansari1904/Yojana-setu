@@ -8,7 +8,7 @@ import {
   isSupabaseConfigured,
   hasOAuthCallbackParams,
   clearOAuthCallbackParams,
-  getAuthCallbackError,
+  resolveDisplayName,
   type SessionUser,
 } from '../lib/supabase';
 import {
@@ -46,6 +46,14 @@ const toCloudUser = (sessionUser: SessionUser): LocalUser => ({
   displayName: sessionUser.displayName,
   isLocal: false,
 });
+
+/** Development-only auth diagnostic logging. Never logs tokens, codes, or PII. */
+const authLog = (...args: unknown[]): void => {
+  if (import.meta.env.DEV) {
+    // eslint-disable-next-line no-console
+    console.log('[Auth]', ...args);
+  }
+};
 
 /** Legacy fallback: a locally stored profile still yields a local user (guests). */
 const toLocalUser = (): LocalUser | null => {
@@ -160,20 +168,65 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     let cancelled = false;
+
+    /**
+     * Background profile enrichment. Runs AFTER the user is already
+     * authenticated and the app is rendering: checks the profiles table
+     * for a nicer display name and upgrades it if one is found. A failure
+     * here can never log the user out — the metadata-derived name stays.
+     */
+    const enrichDisplayNameInBackground = (sessionUser: SessionUser): void => {
+      authLog('PROFILE_ENRICHMENT_START', sessionUser.id);
+      resolveDisplayName(sessionUser.id, sessionUser.email)
+        .then((enriched) => {
+          if (cancelled) return;
+          if (enriched && enriched !== sessionUser.displayName) {
+            authLog('PROFILE_ENRICHMENT_SUCCESS');
+            setUser((current) =>
+              current && !current.isLocal && current.uid === sessionUser.id
+                ? { ...current, displayName: enriched }
+                : current,
+            );
+            backfillApplicantName(enriched);
+          } else {
+            authLog('PROFILE_ENRICHMENT_SUCCESS', '(no change)');
+          }
+        })
+        .catch((err) => {
+          // Cosmetic only — the user stays logged in with the metadata name.
+          authLog('PROFILE_ENRICHMENT_FAILED', err);
+        });
+    };
+
     const applySessionUser = (sessionUser: SessionUser | null) => {
       if (sessionUser) {
+        authLog('SESSION_APPLIED', sessionUser.id);
         setSyncUserId(sessionUser.id);
+        // Authenticated IMMEDIATELY — the app renders without waiting for
+        // any profile/database work.
         setUser(toCloudUser(sessionUser));
         setAuthError(null);
         // The callback params are consumed — never leave them in the URL.
         clearOAuthCallbackParams();
         backfillApplicantName(sessionUser.displayName);
         runOneTimeMigration(sessionUser.id);
+        enrichDisplayNameInBackground(sessionUser);
       } else {
+        authLog('SESSION_APPLIED', '(signed out)');
         setSyncUserId(null);
         setUser(toLocalUser());
       }
     };
+
+    // Race-safe initialization: the auth listener is established FIRST, so
+    // an OAuth event arriving during startup cannot be missed. The restore
+    // below then reconciles any session the listener hasn't delivered yet.
+    authLog('AUTH_INIT');
+    const unsubscribeAuth = onAuthStateChange((sessionUser) => {
+      if (cancelled) return;
+      authLog('AUTH_EVENT', sessionUser ? 'session' : 'null');
+      applySessionUser(sessionUser);
+    });
 
     // Restore an existing session (page refresh, Google redirect return).
     // Self-healing: if the URL carried an OAuth callback but no session
@@ -188,6 +241,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     (async () => {
       try {
         const hadCallback = hasOAuthCallbackParams();
+        if (hadCallback) authLog('OAUTH_CALLBACK', 'detected');
         let sessionUser: SessionUser | null = null;
         try {
           const restore = (async (): Promise<SessionUser | null> => {
@@ -208,9 +262,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } catch (err) {
           // Timeout or restore error: fall through to the banner below.
           // (getAuthCallbackError is skipped here — it can stall the same way.)
-          console.warn('[AuthContext] OAuth callback restore did not complete:', err);
+          authLog('SESSION_RESTORE_FAILED', err);
         }
         if (cancelled) return;
+        authLog('SESSION_RESTORED', sessionUser ? sessionUser.id : '(none)');
         if (!sessionUser && hadCallback) {
           setAuthError('oauthUnknown');
         }
@@ -218,15 +273,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } catch {
         if (!cancelled) applySessionUser(null);
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          authLog('AUTH_INIT', 'complete');
+          setLoading(false);
+        }
       }
     })();
-
-    // Live session changes: sign-in, sign-out, token refresh, and the
-    // post-Google-OAuth redirect landing back on the app.
-    const unsubscribeAuth = onAuthStateChange((sessionUser) => {
-      if (!cancelled) applySessionUser(sessionUser);
-    });
 
     return () => {
       cancelled = true;

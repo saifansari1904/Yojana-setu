@@ -138,6 +138,25 @@ async function resolveLoginEmail(identifier: string): Promise<string | null> {
 /** Display name: profiles row first, user_metadata fallback, never raw PII. */
 
 /**
+ * Synchronous display name from the session's user_metadata — NO network.
+ * This is the name used on the critical authentication path: auth state
+ * must NEVER wait for profile/database lookups. Google OAuth stores the
+ * name as `full_name` (sometimes `name`); email/password sign-up stores it
+ * as `display_name`. Falls back to the email prefix, never raw PII.
+ */
+export function getSyncDisplayName(
+  user: { user_metadata?: Record<string, unknown> },
+  fallbackEmail: string | null,
+): string {
+  const meta = (user.user_metadata as Record<string, unknown> | undefined) ?? {};
+  const metaName = meta.display_name ?? meta.full_name ?? meta.name;
+  if (typeof metaName === 'string' && metaName.trim()) {
+    return sanitizeApplicantName(metaName);
+  }
+  return sanitizeApplicantName(fallbackEmail?.split('@')[0]);
+}
+
+/**
  * Maximum time to wait for one display-name lookup. The name is cosmetic —
  * it must NEVER block (or silently break) sign-in if the network stalls.
  * On timeout we fall through to the next source, ending at the metadata /
@@ -167,7 +186,14 @@ function withLookupTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([guarded, timeout]);
 }
 
-async function resolveDisplayName(userId: string, fallbackEmail: string | null): Promise<string> {
+/**
+ * Background profile enrichment: checks the profiles table for a nicer
+ * display name (e.g. one the user set in-app). NEVER call this on the
+ * critical authentication path — auth state is applied first from the
+ * synchronous metadata name, and this only upgrades the cosmetic name
+ * afterwards. Never rejects: falls back to the metadata/email name.
+ */
+export async function resolveDisplayName(userId: string, fallbackEmail: string | null): Promise<string> {
   try {
     const supabase = getSupabaseClient();
     const profileQuery = Promise.resolve(
@@ -274,7 +300,9 @@ export async function signInWithPassword(input: SignInInput): Promise<AuthResult
       return { ok: false, error: mapSignInError(error?.message ?? '') };
     }
 
-    const name = await resolveDisplayName(data.user.id, data.user.email ?? null);
+    // The session is already established; the name here is cosmetic and
+    // must not block on network lookups.
+    const name = getSyncDisplayName(data.user, data.user.email ?? null);
     return { ok: true, name };
   } catch (err) {
     return { ok: false, error: isNetworkError(err) ? 'network' : 'unknown' };
@@ -351,15 +379,17 @@ export async function signOut(): Promise<void> {
   await getSupabaseClient().auth.signOut();
 }
 
-/** Current session user, or null when signed out. */
+/** Current session user, or null when signed out. Never blocks on profile lookups. */
 export async function getSessionUser(): Promise<SessionUser | null> {
   try {
     const supabase = getSupabaseClient();
     const { data } = await supabase.auth.getSession();
     const user = data.session?.user;
     if (!user) return null;
-    const displayName = await resolveDisplayName(user.id, user.email ?? null);
-    return toSessionUser(user, displayName);
+    // Authentication state is applied IMMEDIATELY from the session's own
+    // metadata. Profile/database enrichment happens separately, in the
+    // background, and can never turn a valid session into a logout.
+    return toSessionUser(user, getSyncDisplayName(user, user.email ?? null));
   } catch {
     return null;
   }
@@ -372,18 +402,22 @@ export async function getSessionUser(): Promise<SessionUser | null> {
  */
 export function onAuthStateChange(callback: (user: SessionUser | null) => void): () => void {
   const supabase = getSupabaseClient();
-  const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+  // NOTE: the subscriber is intentionally SYNCHRONOUS. It must never await
+  // profile/database work before notifying — authentication state is
+  // applied immediately from the session, and enrichment runs afterwards
+  // in the background (see AuthContext).
+  const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
     if (event === 'SIGNED_OUT') {
       callback(null);
       return;
     }
     // Any other event that carries a session means the user is authenticated
-    // (SIGNED_IN, TOKEN_REFRESHED, USER_UPDATED, PASSWORD_RECOVERY, ...).
-    // Requiring an exact event name here silently dropped real sessions.
+    // (INITIAL_SESSION, SIGNED_IN, TOKEN_REFRESHED, USER_UPDATED,
+    // PASSWORD_RECOVERY, ...). Requiring an exact event name here silently
+    // dropped real sessions.
     const user = session?.user;
     if (!user) return;
-    const displayName = await resolveDisplayName(user.id, user.email ?? null);
-    callback(toSessionUser(user, displayName));
+    callback(toSessionUser(user, getSyncDisplayName(user, user.email ?? null)));
   });
   return () => subscription.unsubscribe();
 }
