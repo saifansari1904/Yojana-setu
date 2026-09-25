@@ -166,10 +166,14 @@ function YojanaSetuMain() {
     if (currentScreen === 'form' || currentScreen === 'results' || userProfile) {
       let cancelled = false;
       import('./lib/data/schemeRepository').then((m) => {
-        if (!cancelled) {
-          setAllSchemes(m.getAllRepositorySchemes());
-          setSchemesLoaded(true);
-        }
+        if (cancelled) return;
+        setAllSchemes(m.getAllRepositorySchemes());
+        setSchemesLoaded(true);
+        // Background: pull the live curated catalog from Supabase and swap it
+        // in when it differs (bundled data stays as the offline fallback).
+        m.refreshCuratedSchemesFromCloud().then((changed) => {
+          if (changed && !cancelled) setAllSchemes(m.getAllRepositorySchemes());
+        });
       });
       return () => {
         cancelled = true;
