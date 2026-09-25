@@ -161,6 +161,21 @@ function YojanaSetuMain() {
   // the data chunk is typically already cached by the time it is requested here.
   const [allSchemes, setAllSchemes] = useState<Scheme[]>([]);
   const [schemesLoaded, setSchemesLoaded] = useState(false);
+  // Root-mounted flag: the catalog subscription below is app-lifetime, so it
+  // must never call setState after unmount (StrictMode-safe).
+  const mountedRef = useRef(true);
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+  // App-lifetime catalog subscription (installed once the data chunk loads):
+  // the module notifies only on real digest changes, so state re-syncs at
+  // most once per meaningful cloud swap — including swaps that finish while
+  // the user navigates between screens (no missed updates, no refresh loop).
+  const catalogSubRef = useRef<(() => void) | null>(null);
+  const refreshStartedRef = useRef(false);
   useEffect(() => {
     if (schemesLoaded) return;
     if (currentScreen === 'form' || currentScreen === 'results' || userProfile) {
@@ -169,11 +184,20 @@ function YojanaSetuMain() {
         if (cancelled) return;
         setAllSchemes(m.getAllRepositorySchemes());
         setSchemesLoaded(true);
-        // Background: pull the live curated catalog from Supabase and swap it
-        // in when it differs (bundled data stays as the offline fallback).
-        m.refreshCuratedSchemesFromCloud().then((changed) => {
-          if (changed && !cancelled) setAllSchemes(m.getAllRepositorySchemes());
-        });
+        if (!catalogSubRef.current) {
+          catalogSubRef.current = m.subscribeCatalogChanges(
+            () => setAllSchemes(m.getAllRepositorySchemes()),
+            () => !mountedRef.current,
+          );
+        }
+        // Background: pull the live curated catalog from Supabase (bundled
+        // data stays as the offline fallback). Concurrent calls share one
+        // in-flight request; failures keep the current catalog. Swap arrival
+        // comes via the subscription above, so navigation can't miss it.
+        if (!refreshStartedRef.current) {
+          refreshStartedRef.current = true;
+          m.refreshCuratedSchemesFromCloud();
+        }
       });
       return () => {
         cancelled = true;

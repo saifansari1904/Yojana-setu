@@ -10,9 +10,19 @@ import type {
   ReviewQueueItem,
   DataQualityAuditReport,
 } from '../../types/scheme';
-import { getCuratedSchemes, refreshCuratedSchemesFromCloud, subscribeCuratedSchemes } from './cloudSchemeCatalog';
+import {
+  getCuratedSchemes,
+  refreshCuratedSchemesFromCloud,
+  subscribeCuratedSchemes,
+  subscribeCatalogChanges,
+} from './cloudSchemeCatalog';
 
-export { refreshCuratedSchemesFromCloud, subscribeCuratedSchemes, getCuratedSchemes };
+export {
+  refreshCuratedSchemesFromCloud,
+  subscribeCuratedSchemes,
+  subscribeCatalogChanges,
+  getCuratedSchemes,
+};
 import { SOUTH_INDIA_SCHEMES } from '../../data/southIndiaSchemes';
 import { CANDIDATE_SCHEMES_DATABASE } from '../../data/candidateSchemes';
 import {
@@ -143,10 +153,26 @@ export function getStateSpecificSchemes(state?: string): Scheme[] {
 }
 
 /**
- * Retrieves all curated South India entrepreneur schemes.
+ * The bundled South India list defines MEMBERSHIP (which scheme ids are South
+ * India schemes); the objects always come from the ACTIVE curated catalog so
+ * there is never a second scheme source. Candidates are unaffected.
+ */
+const SOUTH_INDIA_SCHEME_IDS: ReadonlySet<string> = new Set(
+  SOUTH_INDIA_SCHEMES.map((s) => s.id),
+);
+
+/**
+ * Retrieves all curated South India entrepreneur schemes from the active
+ * catalog (bundled, cached, or cloud — whichever is current).
  */
 export function getSouthIndiaSchemes(): Scheme[] {
-  return SOUTH_INDIA_SCHEMES;
+  const activeById = new Map(getCuratedSchemes().map((s) => [s.id, s]));
+  const result: Scheme[] = [];
+  for (const id of SOUTH_INDIA_SCHEME_IDS) {
+    const scheme = activeById.get(id);
+    if (scheme) result.push(scheme);
+  }
+  return result;
 }
 
 /**
