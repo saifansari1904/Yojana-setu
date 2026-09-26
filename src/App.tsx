@@ -546,18 +546,30 @@ function YojanaSetuMain() {
   }, [authUser, authLoading, currentScreen, userProfile, profileRestore]);
 
   /**
-   * SAFETY NET: an authenticated user must never be stranded on the login
-   * route. The login UI is gated off when authenticated (canShowLoginScreen
+   * SAFETY NET: an authenticated user must never be stranded on the entry
+   * screens. The login UI is gated off when authenticated (canShowLoginScreen
    * is false), so if the post-auth navigation above did not fire (lost
    * intent flag, duplicate uid, or any other reason), this effect moves the
-   * user to the form/results directly. It only fires when the profile
-   * restore is not pending, so the destination is stable.
+   * user to the form/results directly.
+   *
+   * - On 'login': ALWAYS navigate (the login form cannot render when
+   *   authenticated — staying is a blank screen).
+   * - On 'welcome': navigate only if there was an in-page sign-in during
+   *   this page lifetime. A restored session on reload (no intent) stays on
+   *   welcome — that is the legitimate welcome-first boot.
+   *
+   * It only fires when the profile restore is not pending, so the
+   * destination (results vs form) is stable.
    */
   useEffect(() => {
     if (authStatus !== 'authenticated') return;
-    if (currentScreen !== 'login') return;
     if (profileRestore === 'pending') return;
-    navigateTo(userProfile ? 'results' : 'form');
+    if (currentScreen === 'login') {
+      navigateTo(userProfile ? 'results' : 'form');
+    } else if (currentScreen === 'welcome' && inPageSignInRef.current) {
+      inPageSignInRef.current = false;
+      navigateTo(userProfile ? 'results' : 'form');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authStatus, currentScreen, profileRestore, userProfile]);
 
