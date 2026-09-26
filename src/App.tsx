@@ -375,7 +375,10 @@ function YojanaSetuMain() {
    * itself is established by Supabase/AuthContext — this only carries over a
    * guest assessment built before sign-in and records the display name.
    * Post-sign-in navigation reacts to the authoritative AuthContext state
-   * in the effect below; it is never driven from here.
+   * in the effect below — except for one case it cannot see: an explicit
+   * sign-in while a session for the same user is already active. The effect
+   * skips navigation when the uid is unchanged, which left users stuck on
+   * the login screen with zero feedback. That case navigates from here.
    */
   const handleLogin = (name?: string) => {
     if (name) {
@@ -385,6 +388,12 @@ function YojanaSetuMain() {
     // built during the guest assessment so results carry over.
     if (userProfile) {
       saveStoredProfile(userProfile);
+    }
+    // Already signed in and explicitly signing in again: the effect below
+    // will not navigate (uid unchanged) — do it here. Fresh sign-ins are
+    // untouched: they navigate via the effect when the new auth state lands.
+    if (isCloudAuthenticated && (currentScreen === 'login' || currentScreen === 'welcome')) {
+      navigateTo(userProfile ? 'results' : 'form');
     }
   };
 
