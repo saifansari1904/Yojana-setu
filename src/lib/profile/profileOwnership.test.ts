@@ -17,7 +17,7 @@
  *  7. Login restores correct cloud profile.
  *  8. User A logout → User B login.
  *  9. User B logout → User A login.
- * 10. Legacy v1 profile migration.
+ * 10. Legacy v1 profile is read-only (never a migration source).
  * 11. Unowned v1 profile is not assigned to arbitrary user.
  * 12. Guest → account migration still works.
  * 13. Authenticated save never writes to guest key.
@@ -347,18 +347,27 @@ assert(
   loadStoredProfile() === null,
 );
 
-/* 12. Guest → account migration still works. */
-/* migrationHelper reads the legacy v1 key explicitly for the one-time
- * guest→cloud migration (with remote-exists protection). Verify the
- * migration source still points at the legacy key. */
+/* 12. Guest → account migration still works, sourced from the guest key. */
+/* The legacy global v1 key is read-only: it must never be a migration
+ * source (it may belong to a different person). The explicit guest →
+ * account migration claims ONLY the current guest profile key. */
 const migrationSrc = readSrc('src/lib/supabase/migrationHelper.ts');
 assert(
-  '12a. migrationHelper still reads the legacy v1 key for guest→account migration',
-  migrationSrc.includes("K_PROFILE = 'yojana_setu_user_profile_v1'"),
+  '12a. legacy v1 is never a migration source (read-only)',
+  !/readJson<[^>]*>\(\s*['"]yojana_setu_user_profile_v1/.test(migrationSrc) &&
+    !/localStorage\.getItem\(['"]yojana_setu_user_profile_v1/.test(migrationSrc),
 );
 assert(
-  '12b. migration keeps the remote-exists protection (never overwrites cloud)',
+  '12b. explicit guest migration claims the guest profile key',
+  migrationSrc.includes('claimLocalProfile(userId, GUEST_PROFILE_KEY'),
+);
+assert(
+  '12c. migration keeps the remote-exists protection (never overwrites cloud)',
   /if\s*\(\s*!remote\s*\)/.test(migrationSrc),
+);
+assert(
+  '12d. ordinary login marks profile as skipped-legacy-read-only',
+  migrationSrc.includes("'skipped-legacy-read-only'"),
 );
 
 /* 13. Authenticated save never writes to guest key. */

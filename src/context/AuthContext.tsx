@@ -14,6 +14,8 @@ import {
 import {
   hasMigrated,
   migrateLocalStorageToSupabase,
+  migrateGuestProfileToSupabase,
+  consumeExplicitGuestMigration,
 } from '../lib/supabase/migrationHelper';
 import { setSyncUserId, restoreCloudToLocal, hasUsableLocalProfile, clearCloudCaches } from '../lib/supabase/sync';
 import { loadAuthenticatedProfile } from '../lib/profile/profileStorage';
@@ -224,7 +226,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch {
       return;
     }
-    migrateLocalStorageToSupabase(userId)
+    // FLOW A (ordinary login) never claims the legacy global v1 profile or
+    // the guest profile. FLOW B (explicit guest → account) claims ONLY the
+    // current guest profile key — the user explicitly chose "Create Account"
+    // during the guest flow, and App recorded that intent via
+    // requestExplicitGuestMigration(). Consumed exactly once here.
+    const explicitGuestMigration = consumeExplicitGuestMigration();
+    const migration = explicitGuestMigration
+      ? migrateGuestProfileToSupabase(userId)
+      : migrateLocalStorageToSupabase(userId);
+    migration
       .catch((err) => {
         console.warn('[Auth] One-time localStorage migration failed (local data kept):', err);
       })
@@ -438,6 +449,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Clear the global cloud caches (saved schemes, applications, documents)
     // so the next user cannot read the previous user's cached state.
     clearCloudCaches();
+    // Discard any unconsumed explicit-migration intent: it belonged to the
+    // signed-out user's guest session and must never leak into a different
+    // user's later sign-in on a shared device.
+    consumeExplicitGuestMigration();
     setProfileRestore('idle');
     // The one-time restore flag must not survive logout: otherwise a restore
     // performed earlier in this tab session would suppress the cloud restore

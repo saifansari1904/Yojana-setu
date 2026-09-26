@@ -66,6 +66,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { getSupabaseClient, isSupabaseConfigured } from './lib/supabase/client';
 import { hasOAuthCallbackParams } from './lib/supabase';
 import { syncSavedSchemeToggle, hasUsableLocalProfile } from './lib/supabase/sync';
+import { requestExplicitGuestMigration } from './lib/supabase/migrationHelper';
 import { canShowLoginScreen, decidePostAuthNavigation } from './lib/auth/authState';
 import { ResetPasswordScreen } from './components/ResetPasswordScreen';
 import { AnimatedPage } from './animations/AnimatedPage';
@@ -648,9 +649,11 @@ function YojanaSetuMain() {
       businessNeedProfile: needProfile,
       businessProfile: businessProfile,
     };
-    // Guest-first flow: keep the profile in memory only. It is persisted
-    // via saveStoredProfile() only when the user explicitly creates an
-    // account (see handleLogin / handleCreateAccountFromPrompt).
+    // Guest-first flow: keep the profile in memory only. It is persisted to
+    // the guest key only when the user explicitly creates an account
+    // (see handleCreateAccountFromPrompt: it saves the working profile and
+    // records the explicit-migration intent, which AuthContext consumes
+    // exactly once after sign-in to run the guest → account migration).
     setUserProfile(fullProfile);
     // Authenticated users already have a durable home for the entrepreneur
     // profile (Supabase public.user_profiles, mirrored by saveStoredProfile).
@@ -671,14 +674,19 @@ function YojanaSetuMain() {
 
   /**
    * User chose "Create Account" from the contextual prompt.
-   * Persists the current working profile (if any) and routes to the login
-   * screen to confirm. The pending action is NOT run silently — the user
-   * retries it after signing in.
+   * Persists the current working profile (if any) to the guest key and
+   * records the EXPLICIT guest → account migration intent. AuthContext
+   * consumes that intent exactly once after sign-in: only then may the
+   * guest profile be claimed into the new cloud account. Ordinary logins
+   * never trigger this — they never claim legacy v1 or guest data.
+   * The pending action is NOT run silently — the user retries it after
+   * signing in.
    */
   const handleCreateAccountFromPrompt = () => {
     if (userProfile) {
       saveStoredProfile(userProfile);
     }
+    requestExplicitGuestMigration();
     setAccountPromptVisible(false);
     navigateTo('login');
   };
