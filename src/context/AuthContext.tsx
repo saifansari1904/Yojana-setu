@@ -87,8 +87,16 @@ const backfillApplicantName = (displayName: string): void => {
   try {
     if (!displayName || displayName === 'Citizen Entrepreneur') return;
     const current = loadStoredProfile();
-    if (current?.applicantName?.trim()) return;
-    saveStoredProfile({ ...(current ?? {}), applicantName: displayName } as UserProfile);
+    // Never fabricate a profile from nothing. On a fresh login with no local
+    // profile (e.g. after logout cleared it), the cloud-restore path owns
+    // recovery: writing a name-only stub here would (a) make
+    // restoreCloudToLocal skip the restore ("local data wins") and (b)
+    // overwrite the good cloud copy with the stub via the fire-and-forget
+    // sync. Together those two effects reset the user's profile on every
+    // re-login. Only fill a missing name on a profile that already exists.
+    if (!current) return;
+    if (current.applicantName?.trim()) return;
+    saveStoredProfile({ ...current, applicantName: displayName } as UserProfile);
   } catch {
     /* never break sign-in over a display-name nicety */
   }
@@ -105,9 +113,18 @@ const runOneTimeMigration = (userId: string): void => {
   } catch {
     return;
   }
-  migrateLocalStorageToSupabase(userId).catch((err) => {
-    console.warn('[Auth] One-time localStorage migration failed (local data kept):', err);
-  });
+  migrateLocalStorageToSupabase(userId)
+    .catch((err) => {
+      console.warn('[Auth] One-time localStorage migration failed (local data kept):', err);
+    })
+    .finally(() => {
+      // The migration only pushes local -> cloud. On a fresh device (or a
+      // cleared browser) with an existing cloud account, there is nothing
+      // local to push — pull the cloud profile down instead, otherwise the
+      // user sees an empty profile until their *next* login. This is a no-op
+      // whenever local data exists.
+      restoreForReturningUser(userId);
+    });
 };
 
 const restoreForReturningUser = (userId: string): void => {
