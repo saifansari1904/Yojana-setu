@@ -29,6 +29,13 @@ import {
   deriveBusinessNeedProfile,
   calculateFundingGap,
 } from '../../lib/business';
+import {
+  processProfilePhoto,
+  PhotoProcessError,
+  photoErrorI18nKey,
+} from '../../lib/profile/profilePhoto';
+import { checkPhotoFitsBudget } from '../../lib/profile/profileStorage';
+import { useAccessibleDialog } from '../common/useAccessibleDialog';
 
 export type ProfileEditTab = 'personal' | 'business' | 'financial' | 'registration';
 
@@ -116,6 +123,9 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   const [photoError, setPhotoError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Phase 2E.2: dialog semantics — Escape, focus-in, focus trap, focus return.
+  const { dialogRef } = useAccessibleDialog({ isOpen, onClose });
+
   // Sync state if initialTab changes on open
   React.useEffect(() => {
     if (isOpen) {
@@ -135,28 +145,24 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
     }));
   };
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhotoError(null);
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
-      setPhotoError(strings.photoTypeError);
-      return;
-    }
-    if (file.size > 3 * 1024 * 1024) {
-      setPhotoError(strings.photoSizeError);
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target?.result as string;
-      if (dataUrl) {
-        handleChange('photoUrl', dataUrl);
+    try {
+      // Phase 2E.2: shared hardened pipeline — magic-byte type check,
+      // resize/compress, payload cap. Never persists the raw original.
+      const processed = await processProfilePhoto(file);
+      if (!checkPhotoFitsBudget(processed.dataUrl)) {
+        setPhotoError(strings.photoSizeError);
+        return;
       }
-    };
-    reader.readAsDataURL(file);
+      handleChange('photoUrl', processed.dataUrl);
+    } catch (err) {
+      const code = err instanceof PhotoProcessError ? err.code : 'unreadable';
+      setPhotoError(strings[photoErrorI18nKey(code)]);
+    }
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
@@ -211,6 +217,11 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   return (
     <div
       id="profile-edit-modal-overlay"
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="profile-edit-modal-title"
+      tabIndex={-1}
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[var(--overlay)] backdrop-blur-xs overflow-y-auto"
     >
       <div
@@ -221,13 +232,14 @@ export const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#E8EFEA] dark:border-[var(--border-subtle)] bg-[#F8FAF9] dark:bg-[var(--bg-card)]">
           <div className="flex items-center gap-2">
             <User className="w-5 h-5 text-[#14453D] dark:text-[var(--accent-green)]" />
-            <h3 className="text-base sm:text-lg font-bold text-[#1F2421] dark:text-[var(--text-main)]">
+            <h3 id="profile-edit-modal-title" className="text-base sm:text-lg font-bold text-[#1F2421] dark:text-[var(--text-main)]">
               {strings.editModalTitle}
             </h3>
           </div>
           <button
             type="button"
             onClick={onClose}
+            aria-label={strings.cancel}
             className="p-1.5 rounded-lg text-[#516A5F] hover:bg-[#E8EFEA] dark:hover:bg-[var(--bg-raised)] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />

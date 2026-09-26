@@ -15,6 +15,7 @@ import { deriveBusinessProfile, deriveBusinessNeedProfile } from '../business/bu
 import { validateUserProfile } from '../validation/userProfileValidation';
 import { normalizeRegistrationFields } from '../registrations/registrationModel';
 import { syncProfileToCloud, getSyncUserId } from '../supabase/sync';
+import { LOCAL_STORAGE_BUDGET_BYTES } from './profilePhoto';
 
 /**
  * STORAGE OWNERSHIP MODEL
@@ -34,6 +35,40 @@ const LEGACY_PROFILE_KEY = 'yojana_setu_user_profile_v1';
 // Kept exported for tests/back-compat; do not use for new writes.
 export const USER_PROFILE_STORAGE_KEY = LEGACY_PROFILE_KEY;
 const PROFILE_SYNC_EVENT = 'yojana_setu_profile_sync';
+/**
+ * Phase 2E.2: dispatched when a profile persist fails specifically because
+ * the browser storage quota was exceeded. Previously this failed silently
+ * (console.warn only) and the UI could report false success.
+ */
+export const PROFILE_QUOTA_EXCEEDED_EVENT = 'ys-profile-quota-exceeded';
+
+export function isQuotaExceededError(err: unknown): boolean {
+  const name = (err as { name?: string } | null)?.name ?? '';
+  return name === 'QuotaExceededError' || name === 'NS_ERROR_DOM_QUOTA_REACHED';
+}
+
+/**
+ * Phase 2E.2 preflight: would persisting this photo keep the profile within
+ * the conservative localStorage budget? Lets the photo UI surface a quota
+ * failure BEFORE claiming success, instead of discovering it in a silent
+ * catch after the modal has already closed.
+ */
+export function checkPhotoFitsBudget(photoDataUrl: string): boolean {
+  if (typeof window === 'undefined') return true;
+  try {
+    const current = loadStoredProfile();
+    const candidate = JSON.stringify({ ...(current ?? {}), photoUrl: photoDataUrl });
+    // Base64 JPEG payloads are ASCII, so string length ≈ byte length.
+    return candidate.length <= LOCAL_STORAGE_BUDGET_BYTES;
+  } catch {
+    return true; // preflight must never block; the real save still guards
+  }
+}
+
+function notifyQuotaExceeded(storageKey: string): void {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent(PROFILE_QUOTA_EXCEEDED_EVENT, { detail: { storageKey } }));
+}
 
 /** User-scoped authenticated profile key. Uses the Supabase auth UID, never email. */
 export function authenticatedProfileKey(userId: string): string {
@@ -200,6 +235,7 @@ export function saveStoredProfile(profile: UserProfile | null | undefined): User
       window.dispatchEvent(new CustomEvent(PROFILE_SYNC_EVENT, { detail: updatedProfile }));
     } catch (err) {
       console.warn('[ProfileStorage] Failed to persist user profile:', err);
+      if (isQuotaExceededError(err)) notifyQuotaExceeded(storageKey);
     }
   }
 
@@ -230,6 +266,7 @@ export function saveAuthenticatedProfile(userId: string, profile: UserProfile | 
       window.dispatchEvent(new CustomEvent(PROFILE_SYNC_EVENT, { detail: updatedProfile }));
     } catch (err) {
       console.warn('[ProfileStorage] Failed to persist authenticated profile:', err);
+      if (isQuotaExceededError(err)) notifyQuotaExceeded(authenticatedProfileKey(userId));
     }
   }
   return updatedProfile;

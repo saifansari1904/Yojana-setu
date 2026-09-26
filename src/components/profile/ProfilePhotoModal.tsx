@@ -9,6 +9,13 @@ import { Camera, Upload, Trash2, X, AlertCircle, CheckCircle2, RefreshCw } from 
 import { CitizenAvatarInsignia, getFirstLetterOfFirstName } from '../common/CitizenAvatarInsignia';
 import { useTranslation } from '../../i18n';
 import { PROFILE_I18N } from '../../i18n/profileI18n';
+import {
+  processProfilePhoto,
+  PhotoProcessError,
+  photoErrorI18nKey,
+} from '../../lib/profile/profilePhoto';
+import { checkPhotoFitsBudget } from '../../lib/profile/profileStorage';
+import { useAccessibleDialog } from '../common/useAccessibleDialog';
 
 interface ProfilePhotoModalProps {
   isOpen: boolean;
@@ -18,8 +25,8 @@ interface ProfilePhotoModalProps {
   onSavePhoto: (newPhotoUrl?: string) => void;
 }
 
-const MAX_FILE_SIZE_BYTES = 3 * 1024 * 1024; // 3MB
-const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+// Photo validation/processing lives in the shared Phase 2E.2 pipeline:
+// src/lib/profile/profilePhoto.ts (magic-byte check, resize, payload cap).
 
 export const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
   isOpen,
@@ -36,6 +43,9 @@ export const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Phase 2E.2: focus-in, focus trap, focus return (Escape already handled below).
+  const { dialogRef } = useAccessibleDialog({ isOpen, onClose });
 
   // Sync with prop when modal opens
   useEffect(() => {
@@ -66,37 +76,26 @@ export const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
     return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
   };
 
-  const processFile = (file: File) => {
+  const processFile = async (file: File) => {
     setError(null);
 
-    // Validate type
-    if (!ALLOWED_MIME_TYPES.includes(file.type)) {
-      setError(strings.photoTypeError);
-      return;
-    }
-
-    // Validate size
-    if (file.size > MAX_FILE_SIZE_BYTES) {
-      setError(strings.photoSizeError);
-      return;
-    }
-
-    // Read as Data URL
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target?.result as string;
-      if (result) {
-        setPreviewUrl(result);
-        setFileDetails({
-          name: file.name,
-          size: formatFileSize(file.size),
-        });
+    try {
+      // Phase 2E.2: shared hardened pipeline — magic-byte type check,
+      // resize/compress, payload cap. Never persists the raw original.
+      const processed = await processProfilePhoto(file);
+      if (!checkPhotoFitsBudget(processed.dataUrl)) {
+        setError(strings.photoSizeError);
+        return;
       }
-    };
-    reader.onerror = () => {
-      setError(strings.photoTypeError);
-    };
-    reader.readAsDataURL(file);
+      setPreviewUrl(processed.dataUrl);
+      setFileDetails({
+        name: file.name,
+        size: formatFileSize(processed.originalBytes),
+      });
+    } catch (err) {
+      const code = err instanceof PhotoProcessError ? err.code : 'unreadable';
+      setError(strings[photoErrorI18nKey(code)]);
+    }
   };
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,9 +150,11 @@ export const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
   // dialog half off-screen.
   return createPortal(
     <div
+      ref={dialogRef}
       role="dialog"
       aria-modal="true"
       aria-labelledby="photo-modal-title"
+      tabIndex={-1}
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[var(--overlay)] backdrop-blur-xs animate-in fade-in duration-200"
     >
       <div className="relative w-full max-w-lg bg-white dark:bg-[var(--bg-card)] rounded-2xl shadow-2xl border border-gray-200 dark:border-[var(--border-subtle)] overflow-hidden flex flex-col max-h-[90vh]">
@@ -250,7 +251,7 @@ export const ProfilePhotoModal: React.FC<ProfilePhotoModalProps> = ({
                 Drag and drop your photo here, or browse
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                Supports JPG, JPEG, or PNG up to 3MB
+                Supports JPG, PNG, or WebP up to 3MB
               </p>
             </div>
 
