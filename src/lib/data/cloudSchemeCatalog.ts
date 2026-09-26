@@ -382,9 +382,69 @@ function blankScheme(row: SchemeRow, rel: Related): Scheme {
   };
 }
 
+/**
+ * Array fields the matcher and detail screens call `.includes()` on.
+ * `aliases` accepts snake_case keys from hand-authored import payloads.
+ * Anything missing or mistyped falls back to the blankScheme default
+ * (already on `base`) — never to `undefined`.
+ */
+const SCHEME_ARRAY_ALIASES: Array<{ key: keyof Scheme; aliases: string[] }> = [
+  { key: 'targetCategories', aliases: ['target_categories', 'social_categories'] },
+  { key: 'targetBusinessTypes', aliases: ['target_business_types', 'business_types'] },
+  { key: 'applicableStates', aliases: ['applicable_states', 'states'] },
+  { key: 'requiredDocuments', aliases: ['required_documents', 'documents'] },
+  { key: 'mandatoryCriteria', aliases: ['mandatory_criteria'] },
+  { key: 'tags', aliases: [] },
+  { key: 'categories', aliases: [] },
+];
+
+/** Extract a string array, dropping non-scalar values (never "[object Object]"). */
+function asStringArray(value: unknown): string[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  const out: string[] = [];
+  for (const v of value) {
+    if (typeof v === 'string') out.push(v);
+    else if (typeof v === 'number' || typeof v === 'boolean') out.push(String(v));
+  }
+  return out;
+}
+
+function coerceSchemeArrays(base: Scheme, raw: Record<string, unknown> | null): void {
+  const rec = base as unknown as Record<string, unknown>;
+  for (const { key, aliases } of SCHEME_ARRAY_ALIASES) {
+    // 1) payload's own camelCase value wins (same as the old spread behavior)
+    const direct = raw ? asStringArray(raw[key as string]) : undefined;
+    if (direct) {
+      rec[key] = direct;
+      continue;
+    }
+    // 2) snake_case import aliases
+    let aliased: string[] | undefined;
+    if (raw) {
+      for (const a of aliases) {
+        aliased = asStringArray(raw[a]);
+        if (aliased) break;
+      }
+    }
+    if (aliased) {
+      rec[key] = aliased;
+      continue;
+    }
+    // 3) blankScheme rule-derived default, if the spread left a real array
+    if (Array.isArray(rec[key])) continue;
+    // 4) last resort: a mistyped payload value can never reach `.includes()`
+    rec[key] = [];
+  }
+}
+
 export function mapRowToScheme(row: SchemeRow, rel: Related): Scheme {
-  const raw = (row.raw_payload ?? null) as Scheme | null;
-  const base: Scheme = raw ? { ...raw } : blankScheme(row, rel);
+  const raw = (row.raw_payload ?? null) as Record<string, unknown> | null;
+  // Never trust a hand-authored payload: start from blankScheme defaults
+  // (match-critical arrays are derived from eligibility rules there),
+  // overlay the payload, then coerce. A missing/mistyped array degrades
+  // to [] instead of crashing the matcher on `.includes()`.
+  const base = { ...blankScheme(row, rel), ...(raw ?? {}) } as Scheme;
+  coerceSchemeArrays(base, raw);
 
   // Structured display columns override the payload so admin edits apply.
   base.id = row.id;
