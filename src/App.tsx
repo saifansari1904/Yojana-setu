@@ -65,7 +65,8 @@ import { ThemeProvider } from './theme/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { getSupabaseClient, isSupabaseConfigured } from './lib/supabase/client';
 import { hasOAuthCallbackParams } from './lib/supabase';
-import { syncSavedSchemeToggle } from './lib/supabase/sync';
+import { syncSavedSchemeToggle, hasUsableLocalProfile } from './lib/supabase/sync';
+import { canShowLoginScreen } from './lib/auth/authState';
 import { ResetPasswordScreen } from './components/ResetPasswordScreen';
 import { AnimatedPage } from './animations/AnimatedPage';
 import { AmbientBackground } from './animations/AmbientBackground';
@@ -85,19 +86,28 @@ function ScreenFallback() {
 
 function YojanaSetuMain() {
   const { lang, t } = useTranslation();
-  const { signOutUser, user: authUser, authError, clearAuthError, loading: authLoading } = useAuth();
+  const { signOutUser, user: authUser, authStatus, profileRestore, authError, clearAuthError, loading: authLoading } = useAuth();
   const [showSplash, setShowSplash] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return !sessionStorage.getItem('yojana_setu_splash_seen');
   });
   const [currentScreen, setCurrentScreen] = useState<ActiveScreen>(() => 'welcome');
   /**
-   * SINGLE SOURCE OF TRUTH for cloud authentication: derived directly from
-   * the Supabase session via AuthContext. There is no independent boolean —
-   * a local/guest profile must never masquerade as an authenticated session,
-   * and a valid session must never render a logged-out header.
+   * SINGLE SOURCE OF TRUTH for cloud authentication: the authoritative
+   * AuthContext status. There is no independent boolean — a local/guest
+   * profile must never masquerade as an authenticated session, and a valid
+   * session must never render a logged-out header. While auth is loading,
+   * nothing may render as authenticated.
    */
-  const isCloudAuthenticated = !!authUser && !authUser.isLocal;
+  const isCloudAuthenticated = authStatus === 'authenticated';
+  /**
+   * Login-screen mount contract: the Sign-in screen exists ONLY when the
+   * authoritative state is unauthenticated AND the user explicitly navigated
+   * there. It is never mounted during auth loading, and it unmounts in the
+   * same commit that a session is applied — no header/login overlap, no
+   * effect-delayed navigation window, no independent local truth.
+   */
+  const canShowLogin = canShowLoginScreen(authStatus, currentScreen);
   const [applicantName, setApplicantName] = useState<string>(() => {
     if (typeof window === 'undefined') return '';
     return loadStoredProfile()?.applicantName || '';
@@ -106,6 +116,18 @@ function YojanaSetuMain() {
 
   // User profile loaded from authoritative persistent storage
   const [userProfile, setUserProfile] = useState<UserProfile | null>(() => loadStoredProfile());
+
+  /**
+   * PROFILE_LOADING: a fresh-device sign-in whose cloud profile restore is
+   * still running. The authenticated UI must not assume the profile is blank
+   * (which would flash the onboarding form and lose in-progress input when
+   * the restore's reload lands). A neutral loader covers the wait; the
+   * navigation effect fires once the restore settles.
+   */
+  const showProfileLoading =
+    authStatus === 'authenticated' &&
+    profileRestore === 'pending' &&
+    !hasUsableLocalProfile(userProfile);
 
   // Contextual account prompt: shown when a guest attempts a persistence action.
   const [accountPromptVisible, setAccountPromptVisible] = useState(false);
@@ -157,8 +179,9 @@ function YojanaSetuMain() {
 
   // Scheme dataset loads asynchronously so the 1.5MB candidate data never blocks
   // the initial bundle. Triggered when the user reaches the form (where matching
-  // begins) or already has a profile. The form chunk is prefetched on login, so
-  // the data chunk is typically already cached by the time it is requested here.
+  // begins) or already has a profile. The post-auth prefetch below warms the
+  // data chunk during the auth round-trip, so it is usually cached by the
+  // time it is requested here.
   const [allSchemes, setAllSchemes] = useState<Scheme[]>([]);
   const [schemesLoaded, setSchemesLoaded] = useState(false);
   // Root-mounted flag: the catalog subscription below is app-lifetime, so it
@@ -180,8 +203,13 @@ function YojanaSetuMain() {
     if (schemesLoaded) return;
     if (currentScreen === 'form' || currentScreen === 'results' || userProfile) {
       let cancelled = false;
+      const datasetStart = performance.now();
       import('./lib/data/schemeRepository').then((m) => {
         if (cancelled) return;
+        if (import.meta.env.DEV) {
+          // eslint-disable-next-line no-console
+          console.log(`[Catalog] dataset chunk loaded in ${Math.round(performance.now() - datasetStart)}ms`);
+        }
         setAllSchemes(m.getAllRepositorySchemes());
         setSchemesLoaded(true);
         if (!catalogSubRef.current) {
@@ -206,12 +234,50 @@ function YojanaSetuMain() {
     return undefined;
   }, [currentScreen, userProfile, schemesLoaded]);
 
+  /**
+   * Post-auth chunk prefetch (Bug B — real request-flow fix, not spinner
+   * hiding): the moment the user reaches the Sign-in screen — or completes
+   * authentication — the results screen chunk, the form chunk, and the
+   * 1.3MB scheme dataset chunk start downloading in parallel with the auth
+   * round-trip / user reading, instead of serially after navigation. The
+   * same module paths are used as the real imports, so this only warms the
+   * browser cache — zero duplicate bytes. Idle-scheduled; failures ignored.
+   */
+  useEffect(() => {
+    if (currentScreen !== 'login' && authStatus !== 'authenticated') return;
+    let cancelled = false;
+    const prefetch = () => {
+      if (cancelled) return;
+      void import('./components/ResultsListScreen').catch(() => {});
+      void import('./components/EligibilityFormScreen').catch(() => {});
+      void import('./lib/data/schemeRepository').catch(() => {});
+    };
+    if (typeof window !== 'undefined' && typeof window.requestIdleCallback === 'function') {
+      const id = window.requestIdleCallback(prefetch, { timeout: 2000 });
+      return () => {
+        cancelled = true;
+        window.cancelIdleCallback(id);
+      };
+    }
+    const timer = setTimeout(prefetch, 60);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [currentScreen, authStatus]);
+
   // Tier 1 (expensive part skipped): scoring only, no upfront O(n²) alternatives.
   // Alternatives are computed on-demand when the user opens a detail/alternatives
   // view (WhyNotEligibleView, SchemeDetailScreen). ~50ms instead of ~3.7s.
   const coreResults = useMemo(() => {
     if (!userProfile || !schemesLoaded) return [];
-    return rankSchemesForProfile(allSchemes, userProfile, 'en', { skipAlternatives: true });
+    const matchStart = performance.now();
+    const ranked = rankSchemesForProfile(allSchemes, userProfile, 'en', { skipAlternatives: true });
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.log(`[Matching] ranked ${ranked.length} schemes in ${Math.round(performance.now() - matchStart)}ms`);
+    }
+    return ranked;
   }, [userProfile, allSchemes, schemesLoaded]);
 
   // Tier 2: on language change, regenerate only the text fields (~50ms).
@@ -221,6 +287,28 @@ function YojanaSetuMain() {
     if (lang === 'en') return coreResults;
     return rankSchemesForProfile(allSchemes, userProfile, lang, { skipAlternatives: true });
   }, [userProfile, lang, allSchemes, schemesLoaded, coreResults]);
+
+  // [RENDER] pipeline timing: navigation to the results screen → first
+  // non-empty match list painted. Dev-only; measures the real user-visible
+  // delay without touching the spinner or the matching engine.
+  const resultsNavStartRef = useRef<number | null>(null);
+  const resultsReadyLoggedRef = useRef(false);
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    if (currentScreen === 'results') {
+      if (resultsNavStartRef.current === null) {
+        resultsNavStartRef.current = performance.now();
+        resultsReadyLoggedRef.current = false;
+      }
+      if (!resultsReadyLoggedRef.current && matchResults.length > 0) {
+        resultsReadyLoggedRef.current = true;
+        // eslint-disable-next-line no-console
+        console.log(`[Render] results ready ${Math.round(performance.now() - (resultsNavStartRef.current ?? performance.now()))}ms after navigation`);
+      }
+    } else {
+      resultsNavStartRef.current = null;
+    }
+  }, [currentScreen, matchResults.length]);
 
   // Keep modal/alternatives/detail targets in sync when language toggles
   const currentWhyMatchTarget = useMemo(() => {
@@ -416,24 +504,35 @@ function YojanaSetuMain() {
    * redirect return — move from the entry screens to results/form.
    * A plain page refresh that restores an existing session intentionally
    * leaves the user on the welcome page.
+   *
+   * While a fresh-device profile restore is pending, navigation WAITS: the
+   * destination (results vs onboarding form) depends on the restored
+   * profile, and navigating on the still-empty local state would flash the
+   * wrong screen. The PROFILE_LOADING gate below covers the wait visually.
    */
   const prevCloudUidRef = useRef<string | null>(null);
   const bootResolvedRef = useRef(false);
   useEffect(() => {
     const uid = authUser && !authUser.isLocal ? authUser.uid : null;
     const prevUid = prevCloudUidRef.current;
-    prevCloudUidRef.current = uid;
     // A cloud user appearing only after AuthContext finished loading is a
     // fresh sign-in; one arriving during the boot restore is not.
     const freshSignIn = bootResolvedRef.current;
     if (!authLoading) bootResolvedRef.current = true;
+    // While a fresh-device profile restore is pending, neither consume this
+    // uid nor navigate: the destination (results vs onboarding form) depends
+    // on the restored profile, and this effect must re-fire once the restore
+    // settles. (Consuming the uid here would strand an authenticated user on
+    // the login route when the restore finishes with no cloud profile.)
+    if (profileRestore === 'pending') return;
+    prevCloudUidRef.current = uid;
     if (!uid || !authUser || uid === prevUid) return;
     if (currentScreen !== 'welcome' && currentScreen !== 'login') return;
     if (!freshSignIn && !oauthReturnRef.current) return;
     setApplicantName(authUser.displayName);
     navigateTo(userProfile ? 'results' : 'form');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authUser, authLoading, currentScreen, userProfile]);
+  }, [authUser, authLoading, currentScreen, userProfile, profileRestore]);
 
   /**
    * Password recovery completed: the new password is set and the recovery
@@ -747,6 +846,13 @@ function YojanaSetuMain() {
       <main className="relative z-10 flex-1 pb-12">
         <ErrorBoundary>
           <LayoutGroup id="yojana-setu-screens">
+          {/* PROFILE_LOADING (fresh-device restore): neutral loader instead of
+              any authenticated screen until the cloud profile settles. */}
+          {showProfileLoading ? (
+            <div className="flex items-center justify-center min-h-[60vh]" role="status" aria-label="Loading your profile">
+              <SetuLoader size="lg" />
+            </div>
+          ) : (
           <AnimatePresence mode="wait">
             {currentScreen === 'welcome' && (
               <AnimatedPage key="welcome" direction={navDirection}>
@@ -757,7 +863,7 @@ function YojanaSetuMain() {
               </AnimatedPage>
             )}
 
-            {currentScreen === 'login' && (
+            {canShowLogin && (
               <AnimatedPage key="login" direction={navDirection}>
                 <LoginScreen
                   onLogin={handleLogin}
@@ -930,6 +1036,7 @@ function YojanaSetuMain() {
               </AnimatedPage>
             )}
           </AnimatePresence>
+          )}
           </LayoutGroup>
         </ErrorBoundary>
       </main>

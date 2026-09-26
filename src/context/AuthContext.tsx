@@ -15,7 +15,17 @@ import {
   hasMigrated,
   migrateLocalStorageToSupabase,
 } from '../lib/supabase/migrationHelper';
-import { setSyncUserId, restoreCloudToLocal } from '../lib/supabase/sync';
+import { setSyncUserId, restoreCloudToLocal, hasUsableLocalProfile } from '../lib/supabase/sync';
+import {
+  resolveAuthStatus,
+  AuthSessionArbiter,
+  type AuthStatus,
+  type ProfileRestoreState,
+} from '../lib/auth/authState';
+
+// Re-exported so existing import sites keep working; the definitions live
+// in lib/auth/authState.ts (pure, unit-testable).
+export type { AuthStatus, ProfileRestoreState } from '../lib/auth/authState';
 
 export interface LocalUser {
   uid: string;
@@ -27,6 +37,8 @@ export interface LocalUser {
 interface AuthContextType {
   user: LocalUser | null;
   loading: boolean;
+  authStatus: AuthStatus;
+  profileRestore: ProfileRestoreState;
   /** Set when a Google OAuth return could not establish a session. Shown on the login screen. */
   authError: string | null;
   clearAuthError: () => void;
@@ -36,6 +48,8 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: false,
+  authStatus: 'unauthenticated',
+  profileRestore: 'idle',
   authError: null,
   clearAuthError: () => {},
   signOutUser: async () => {},
@@ -104,54 +118,10 @@ const backfillApplicantName = (displayName: string): void => {
 
 const RESTORED_FLAG = 'yojana_setu_cloud_restored_v1';
 
-const runOneTimeMigration = (userId: string): void => {
-  try {
-    if (hasMigrated()) {
-      restoreForReturningUser(userId);
-      return;
-    }
-  } catch {
-    return;
-  }
-  migrateLocalStorageToSupabase(userId)
-    .catch((err) => {
-      console.warn('[Auth] One-time localStorage migration failed (local data kept):', err);
-    })
-    .finally(() => {
-      // The migration only pushes local -> cloud. On a fresh device (or a
-      // cleared browser) with an existing cloud account, there is nothing
-      // local to push — pull the cloud profile down instead, otherwise the
-      // user sees an empty profile until their *next* login. This is a no-op
-      // whenever local data exists.
-      restoreForReturningUser(userId);
-    });
-};
-
-const restoreForReturningUser = (userId: string): void => {
-  try {
-    if (sessionStorage.getItem(RESTORED_FLAG)) return;
-  } catch {
-    return;
-  }
-  restoreCloudToLocal(userId)
-    .then((restored) => {
-      if (!restored) return;
-      try {
-        sessionStorage.setItem(RESTORED_FLAG, '1');
-      } catch {
-        /* ignore */
-      }
-      // Fresh device: boot the app from the restored data.
-      window.location.reload();
-    })
-    .catch((err) => {
-      console.warn('[Auth] Cloud restore failed (continuing with local data):', err);
-    });
-};
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<LocalUser | null>(() => toLocalUser());
   const [authError, setAuthError] = useState<string | null>(null);
+  const [profileRestore, setProfileRestore] = useState<ProfileRestoreState>('idle');
   const [loading, setLoading] = useState<boolean>(() => {
     try {
       return isSupabaseConfigured();
@@ -159,6 +129,87 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return false;
     }
   });
+
+  /**
+   * Single authoritative auth state, derived from the same `user` + `loading`
+   * pair that drives everything else. There is exactly one truth — routing
+   * branches on this, never on `user`/`loading`/localStorage independently.
+   */
+  const authStatus = resolveAuthStatus(loading, user);
+
+  /**
+   * One-time legacy import after the first backend sign-in. Never deletes
+   * local data; no-ops on later sign-ins via the hasMigrated() flag.
+   *
+   * For RETURNING users (flag already set) on a device with no local data —
+   * e.g. a fresh phone — we pull the cloud account down instead, then reload
+   * once so the whole app boots from the restored data.
+   *
+   * Lives inside the provider so the restore can publish its lifecycle:
+   * while `pending`, the app must not navigate as if the profile were blank.
+   */
+  const restoreForReturningUser = (userId: string): void => {
+    try {
+      if (sessionStorage.getItem(RESTORED_FLAG)) return;
+    } catch {
+      return;
+    }
+    // A device that already holds a usable profile never needs a restore.
+    // This also keeps the restore (and its reload) strictly off the path
+    // for same-device logins.
+    if (hasUsableLocalProfile(loadStoredProfile())) return;
+    const restoreStart = performance.now();
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.log('[Profile] restore started for', userId);
+    }
+    setProfileRestore('pending');
+    restoreCloudToLocal(userId)
+      .then((restored) => {
+        if (import.meta.env.DEV) {
+          // eslint-disable-next-line no-console
+          console.log(`[Profile] restore done (restored=${restored}) in ${Math.round(performance.now() - restoreStart)}ms`);
+        }
+        if (!restored) {
+          setProfileRestore('done');
+          return;
+        }
+        try {
+          sessionStorage.setItem(RESTORED_FLAG, '1');
+        } catch {
+          /* ignore */
+        }
+        // Fresh device: boot the app from the restored data.
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.warn('[Auth] Cloud restore failed (continuing with local data):', err);
+        setProfileRestore('done');
+      });
+  };
+
+  const runOneTimeMigration = (userId: string): void => {
+    try {
+      if (hasMigrated()) {
+        restoreForReturningUser(userId);
+        return;
+      }
+    } catch {
+      return;
+    }
+    migrateLocalStorageToSupabase(userId)
+      .catch((err) => {
+        console.warn('[Auth] One-time localStorage migration failed (local data kept):', err);
+      })
+      .finally(() => {
+        // The migration only pushes local -> cloud. On a fresh device (or a
+        // cleared browser) with an existing cloud account, there is nothing
+        // local to push — pull the cloud profile down instead, otherwise the
+        // user sees an empty profile until their *next* login. This is a no-op
+        // whenever local data exists.
+        restoreForReturningUser(userId);
+      });
+  };
 
   useEffect(() => {
     // Local profile changes (guest flow, sign-out) keep working exactly as
@@ -185,6 +236,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     let cancelled = false;
+
+    /**
+     * Auth-write arbitration (see lib/auth/authState.ts): the listener and
+     * the boot restore are concurrent writers. Every state-committing apply
+     * bumps the generation first; the boot restore commits only if no apply
+     * landed while its read was in flight — the newer writer always wins,
+     * so a stale `null` restore can never clear a valid session.
+     */
+    const arbiter = new AuthSessionArbiter();
 
     /**
      * Background profile enrichment. Runs AFTER the user is already
@@ -216,6 +276,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const applySessionUser = (sessionUser: SessionUser | null) => {
+      // Newest apply wins: bump before committing so a concurrent boot read
+      // can detect it went stale.
+      arbiter.beginApply();
+      const appliedUid = sessionUser ? sessionUser.id : null;
+      // Duplicate delivery (INITIAL_SESSION echoing the boot restore, token
+      // refresh, re-subscription): the state already reflects this uid, so
+      // skip the migration/restore/enrichment side effects entirely.
+      // Sign-out (null) is never a duplicate — it always commits.
+      if (arbiter.isDuplicateDelivery(appliedUid)) {
+        authLog('SESSION_APPLIED', '(duplicate — skipped)');
+        return;
+      }
+      arbiter.recordApplied(appliedUid);
       if (sessionUser) {
         authLog('SESSION_APPLIED', sessionUser.id);
         setSyncUserId(sessionUser.id);
@@ -255,7 +328,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // token exchange itself can hang on some networks/browsers), we fail
     // visibly with the banner instead of hanging silently forever.
     const CALLBACK_RESTORE_TIMEOUT_MS = 20000;
+    const bootStart = performance.now();
     (async () => {
+      // Capture the generation BEFORE the async read: if the listener
+      // delivers an auth event while this read is in flight, that event is
+      // newer and this result must be discarded, never applied.
+      const readGeneration = arbiter.captureForBootRead();
       try {
         const hadCallback = hasOAuthCallbackParams();
         if (hadCallback) authLog('OAUTH_CALLBACK', 'detected');
@@ -282,13 +360,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           authLog('SESSION_RESTORE_FAILED', err);
         }
         if (cancelled) return;
-        authLog('SESSION_RESTORED', sessionUser ? sessionUser.id : '(none)');
-        if (!sessionUser && hadCallback) {
-          setAuthError('oauthUnknown');
+        if (!arbiter.isBootReadFresh(readGeneration)) {
+          // A listener event landed mid-read and already committed a newer
+          // state. Applying this (possibly null) result would clobber it.
+          authLog('SESSION_RESTORED', '(stale read — listener already applied)');
+        } else {
+          authLog('SESSION_RESTORED', sessionUser ? sessionUser.id : '(none)');
+          if (!sessionUser && hadCallback) {
+            setAuthError('oauthUnknown');
+          }
+          applySessionUser(sessionUser);
         }
-        applySessionUser(sessionUser);
+        authLog('TIMING', `boot→session-resolved ${Math.round(performance.now() - bootStart)}ms`);
       } catch {
-        if (!cancelled) applySessionUser(null);
+        if (!cancelled && arbiter.isBootReadFresh(readGeneration)) applySessionUser(null);
       } finally {
         if (!cancelled) {
           authLog('AUTH_INIT', 'complete');
@@ -314,6 +399,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     setSyncUserId(null);
     clearStoredProfile();
+    setProfileRestore('idle');
     // The one-time restore flag must not survive logout: otherwise a restore
     // performed earlier in this tab session would suppress the cloud restore
     // on the next login, and the entrepreneur profile would look "reset"
@@ -329,7 +415,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const clearAuthError = () => setAuthError(null);
 
   return (
-    <AuthContext.Provider value={{ user, loading, authError, clearAuthError, signOutUser }}>
+    <AuthContext.Provider
+      value={{ user, loading, authStatus, profileRestore, authError, clearAuthError, signOutUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

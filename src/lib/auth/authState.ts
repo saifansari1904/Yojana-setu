@@ -1,0 +1,109 @@
+/**
+ * YOJANA SETU — AUTH STATE MACHINE (pure, UI-free)
+ * ------------------------------------------------------------------
+ * The single authoritative authentication contract. Routing, the header,
+ * and the login screen branch on these values and nothing else — never on
+ * `user`, `loading`, localStorage, or a component-local boolean.
+ *
+ * Kept free of React/DOM imports so the contract is unit-testable with the
+ * repo's tsx script convention. AuthContext is a thin driver over this.
+ */
+
+/**
+ * - `loading`:         session restore in flight — render neutral auth
+ *                      loading; nothing may render as authenticated and the
+ *                      login screen must not be mounted.
+ * - `authenticated`:   a real Supabase session is active — the login screen
+ *                      must never be mounted.
+ * - `unauthenticated`: no session — the login screen may be shown when the
+ *                      user explicitly navigates there.
+ */
+export type AuthStatus = 'loading' | 'authenticated' | 'unauthenticated';
+
+/**
+ * Cloud-profile restore lifecycle for fresh devices (no usable local
+ * profile). While `pending`, the authenticated UI must not assume the
+ * profile is blank — post-login navigation waits for `done`.
+ */
+export type ProfileRestoreState = 'idle' | 'pending' | 'done';
+
+/** Minimal shape the status derivation needs — no Supabase types here. */
+export interface AuthUserLike {
+  isLocal: boolean;
+}
+
+/**
+ * Derive the single authoritative auth status. `loading` dominates: while
+ * the session restore is in flight the app is neither authenticated nor
+ * unauthenticated. A local/guest user is never `authenticated`.
+ */
+export function resolveAuthStatus(loading: boolean, user: AuthUserLike | null): AuthStatus {
+  if (loading) return 'loading';
+  if (user && !user.isLocal) return 'authenticated';
+  return 'unauthenticated';
+}
+
+/**
+ * Login-screen mount contract — the ONLY gate for rendering the Sign-in
+ * screen. It is mounted solely when the authoritative state is
+ * `unauthenticated` AND the user explicitly navigated to it. In particular:
+ * never during `loading`, never after a session is applied.
+ */
+export function canShowLoginScreen(authStatus: AuthStatus, currentScreen: string): boolean {
+  return authStatus === 'unauthenticated' && currentScreen === 'login';
+}
+
+/** True while a fresh-device cloud profile restore is running. */
+export function isProfileRestorePending(state: ProfileRestoreState): boolean {
+  return state === 'pending';
+}
+
+/**
+ * Arbitration for concurrent auth-state writers: Supabase listener events
+ * vs the boot-time session restore.
+ *
+ * The observed failure mode: the listener applies a valid session, then the
+ * boot restore — whose async read started earlier — resolves `null` and
+ * clears the authenticated state. The protocol: every state-committing
+ * apply bumps the generation first; the boot restore captures the
+ * generation before its read and commits only if nothing was applied while
+ * the read was in flight (the newer writer always wins).
+ *
+ * Duplicate deliveries (INITIAL_SESSION echoing the boot restore, token
+ * refresh) are no-ops so migration/restore/enrichment never run twice for
+ * one session. Sign-out (`null`) is never a duplicate — it always commits.
+ */
+export class AuthSessionArbiter {
+  private generation = 0;
+  private lastAppliedUid: string | null | undefined = undefined;
+
+  /** Call at the start of every state-committing apply. */
+  beginApply(): number {
+    this.generation += 1;
+    return this.generation;
+  }
+
+  /** Capture the generation before an async boot read (does not bump). */
+  captureForBootRead(): number {
+    return this.generation;
+  }
+
+  /** True when no apply happened during the boot read — safe to commit. */
+  isBootReadFresh(captured: number): boolean {
+    return this.generation === captured;
+  }
+
+  /**
+   * True when this uid was already committed. `null` (signed out) is never
+   * a duplicate.
+   */
+  isDuplicateDelivery(uid: string | null): boolean {
+    if (uid === null) return false;
+    return this.lastAppliedUid === uid;
+  }
+
+  /** Record the uid committed by an apply. */
+  recordApplied(uid: string | null): void {
+    this.lastAppliedUid = uid;
+  }
+}

@@ -643,6 +643,15 @@ export interface MergeResult {
  *   the cloud response are retained as-is, so a partial/failed response can
  *   never silently shrink the catalog. Explicit unpublish/tombstone semantics
  *   belong to the future admin-review phase.
+ * - STALE-PHANTOM EVICTION: the published query returns the complete set
+ *   (no pagination; row counts are far below PostgREST limits), so on a
+ *   successful refresh the cloud response is authoritative for membership.
+ *   A previous-catalog scheme whose id is in NEITHER the cloud response NOR
+ *   the bundled offline base is a stale phantom — e.g. cached during an era
+ *   when the cloud briefly published an extra row — and is evicted. Without
+ *   this, a stale cache fossilizes the extra scheme forever, because the
+ *   plain UNION could never remove it. Bundled ids are always retained: the
+ *   bundled catalog is the offline fallback and must never shrink.
  * - `changed` is true only when the stable digest differs.
  */
 export function mergeCloudRows(
@@ -697,9 +706,23 @@ export function mergeCloudRows(
 
   const previous = getCuratedSchemes();
   const seenIds = new Set(mapped.map((s) => s.id));
+  // The bundled catalog is the offline base — its ids survive every merge.
+  const bundledIds = new Set(SCHEMES_DATABASE.map((s) => s.id));
   const merged: Scheme[] = [...mapped];
+  let evicted = 0;
   for (const s of previous) {
-    if (!seenIds.has(s.id)) merged.push(s);
+    if (seenIds.has(s.id)) continue; // superseded by the fresh cloud row
+    if (!bundledIds.has(s.id)) {
+      // Stale phantom (see doc comment): in neither the complete cloud
+      // response nor the bundled base. Evict.
+      evicted++;
+      continue;
+    }
+    merged.push(s);
+  }
+  if (evicted > 0 && typeof window !== 'undefined' && import.meta.env?.DEV) {
+    // eslint-disable-next-line no-console
+    console.log(`[cloudSchemeCatalog] evicted ${evicted} stale non-bundled scheme(s) absent from the published cloud set`);
   }
 
   const changed = catalogDigest(previous) !== catalogDigest(merged);
@@ -808,10 +831,21 @@ async function doRefresh(): Promise<boolean> {
   // Every failure path returns false and leaves the current catalog untouched:
   // unconfigured -> no client; timeout/network/API error -> caught below;
   // empty or fully-malformed response -> mergeCloudRows returns changed:false.
+  const refreshStart = performance.now();
+  const devLog = (msg: string): void => {
+    if (typeof window !== 'undefined' && import.meta.env?.DEV) {
+      // eslint-disable-next-line no-console
+      console.log(`[Catalog] ${msg}`);
+    }
+  };
   try {
     if (!isSupabaseConfigured()) return false;
+    const fetchStart = performance.now();
     const { rows, relatedById } = await fetchCloudTables();
+    devLog(`cloud fetch: ${rows.length} published rows in ${Math.round(performance.now() - fetchStart)}ms`);
+    const mergeStart = performance.now();
     const { schemes, changed } = mergeCloudRows(rows, relatedById);
+    devLog(`merge: ${schemes.length} curated (changed=${changed}) in ${Math.round(performance.now() - mergeStart)}ms`);
     if (!changed) return false;
     curatedSchemes = schemes;
     catalogSource = 'cloud';
@@ -823,8 +857,10 @@ async function doRefresh(): Promise<boolean> {
         // Listener errors must not break the catalog swap.
       }
     }
+    devLog(`refresh swapped catalog in ${Math.round(performance.now() - refreshStart)}ms total`);
     return true;
   } catch {
+    devLog(`refresh failed after ${Math.round(performance.now() - refreshStart)}ms (catalog unchanged)`);
     return false;
   }
 }
@@ -843,4 +879,116 @@ export function refreshCuratedSchemesFromCloud(): Promise<boolean> {
     });
   }
   return inFlightRefresh;
+}
+
+// ---------------------------------------------------------------------------
+// Development-only set-difference diagnostic (§12).
+// Compares the four ID sets that feed the catalog counts — live cloud
+// published IDs, bundled IDs, cached IDs, and the final resolved frontend
+// IDs — and names the exact extra/duplicate/missing schemes. Intended for
+// the dev console (`await window.__ys_diagnoseCatalog()`); it is never
+// rendered in the UI and never exposed to citizens.
+// ---------------------------------------------------------------------------
+
+export interface CatalogSetDiagnosis {
+  /** Live `schemes` rows with status='published'. Null when the read failed. */
+  cloudIds: string[] | null;
+  cloudError: string | null;
+  bundledIds: string[];
+  /** IDs in the ys_cloud_schemes_v2 cache. Null when no cache exists. */
+  cachedIds: string[] | null;
+  /** Final frontend IDs: current curated set + bundled candidates. */
+  finalIds: string[];
+  finalCuratedIds: string[];
+  /** IDs present in the final set but in NEITHER cloud NOR bundled. */
+  phantomIds: string[];
+  /** IDs present more than once in the final set. */
+  duplicateIds: string[];
+  /** Cloud-published IDs missing from the final set (should be empty). */
+  missingFromFinalIds: string[];
+}
+
+/** Read the raw v2 cache IDs without mutating catalog state. */
+function readCachedIds(): string[] | null {
+  try {
+    if (typeof localStorage === 'undefined') return null;
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { version?: number; schemes?: Array<{ id?: string }> };
+    if (!parsed || parsed.version !== CACHE_VERSION || !Array.isArray(parsed.schemes)) return null;
+    return parsed.schemes.map((s) => s.id).filter((id): id is string => typeof id === 'string');
+  } catch {
+    return null;
+  }
+}
+
+export async function diagnoseCatalogSets(): Promise<CatalogSetDiagnosis> {
+  let cloudIds: string[] | null = null;
+  let cloudError: string | null = null;
+  try {
+    if (!isSupabaseConfigured()) {
+      cloudError = 'supabase not configured';
+    } else {
+      const { data, error } = await getSupabaseClient()
+        .from('schemes')
+        .select('id')
+        .eq('status', 'published');
+      if (error) cloudError = error.message;
+      else cloudIds = (data ?? []).map((r: { id: string }) => r.id);
+    }
+  } catch (err) {
+    cloudError = err instanceof Error ? err.message : String(err);
+  }
+
+  const bundledIds = SCHEMES_DATABASE.map((s) => s.id);
+  const cachedIds = readCachedIds();
+  const finalCuratedIds = getCuratedSchemes().map((s) => s.id);
+  // Mirrors getAllRepositorySchemes() without importing schemeRepository
+  // (which imports this module — direct candidate import avoids the cycle).
+  const { CANDIDATE_SCHEMES_DATABASE } = await import('../../data/candidateSchemes');
+  const finalIds = [...finalCuratedIds, ...CANDIDATE_SCHEMES_DATABASE.map((s) => s.id)];
+
+  const cloudSet = new Set(cloudIds ?? []);
+  const bundledSet = new Set(bundledIds);
+  const seen = new Set<string>();
+  const duplicateIds = [...new Set(finalIds.filter((id) => (seen.has(id) ? true : (seen.add(id), false))))];
+  const phantomIds = [...new Set(finalCuratedIds.filter((id) => !cloudSet.has(id) && !bundledSet.has(id)))];
+  const finalSet = new Set(finalIds);
+  const missingFromFinalIds = (cloudIds ?? []).filter((id) => !finalSet.has(id));
+
+  const diagnosis: CatalogSetDiagnosis = {
+    cloudIds,
+    cloudError,
+    bundledIds,
+    cachedIds,
+    finalIds,
+    finalCuratedIds,
+    phantomIds,
+    duplicateIds,
+    missingFromFinalIds,
+  };
+
+  if (typeof window !== 'undefined' && import.meta.env?.DEV) {
+    // eslint-disable-next-line no-console
+    console.log('[CatalogDiagnosis] counts:', {
+      cloudPublished: cloudIds?.length ?? `(read failed: ${cloudError})`,
+      bundled: bundledIds.length,
+      cached: cachedIds?.length ?? '(no cache)',
+      finalCurated: finalCuratedIds.length,
+      finalTotal: finalIds.length,
+    });
+    // eslint-disable-next-line no-console
+    console.log('[CatalogDiagnosis] phantomIds (final, in neither cloud nor bundled):', phantomIds);
+    // eslint-disable-next-line no-console
+    console.log('[CatalogDiagnosis] duplicateIds:', duplicateIds);
+    // eslint-disable-next-line no-console
+    console.log('[CatalogDiagnosis] missingFromFinalIds:', missingFromFinalIds);
+  }
+  return diagnosis;
+}
+
+// Dev-console entry point. Attached only in development builds; production
+// bundles never carry it, so citizens can never invoke it.
+if (typeof window !== 'undefined' && import.meta.env?.DEV) {
+  (window as unknown as Record<string, unknown>).__ys_diagnoseCatalog = diagnoseCatalogSets;
 }
