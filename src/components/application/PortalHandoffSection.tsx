@@ -75,7 +75,9 @@ export const PortalHandoffSection: React.FC<PortalHandoffSectionProps> = ({
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <div className="text-xs font-semibold text-[#5A6561] dark:text-[var(--text-secondary)]">
-              Official Government Portal Address
+              {portalInfo.isVerifiedGovtDomain
+                ? 'Official Government Portal Address'
+                : 'Application Portal Address'}
             </div>
             <div className="text-sm font-bold text-[#1F2421] dark:text-[var(--text-main)] mt-0.5">
               {portalInfo.domain || 'Official Ministry Portal'}

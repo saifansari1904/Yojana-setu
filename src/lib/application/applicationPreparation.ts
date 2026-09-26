@@ -31,55 +31,113 @@ import type {
 import { evaluateFundingFit } from '../matching/fundingFit';
 import { createJourneyEvent, appendJourneyEvent } from '../tracker/applicationJourney';
 import { createTrackedApplication } from '../tracker/applicationTracker';
+import { classifyUrlSafety } from '../data/trustEngine';
+import type { UrlSafetyClassification } from '../../types/trust';
 
-// Domain validation helper for official government web properties
+// Domain verification for official government web properties.
+//
+// Phase 2E.2 hardening: this is a thin wrapper over the single shared
+// classification path (trustEngine.classifyUrlSafety), which is
+// registry-first and uses exact / domain-boundary hostname matching.
+//
+// Loose substring checks are never used here: fake-sidbi.in.attacker.com
+// and sidbi.in.attacker.com must NOT verify, and generic suffixes
+// (.org.in, .edu.in, .ac.in, .org, .com) never confer official status.
+// A domain the authority registry does not know returns UNKNOWN
+// (SECONDARY_AGGREGATOR), never a guess.
 export function verifyOfficialPortalUrl(url?: string): {
   isVerifiedGovtDomain: boolean;
   domain: string;
   isSecure: boolean;
+  classification: UrlSafetyClassification;
 } {
   if (!url || typeof url !== 'string' || !url.trim()) {
-    return { isVerifiedGovtDomain: false, domain: '', isSecure: false };
+    return { isVerifiedGovtDomain: false, domain: '', isSecure: false, classification: 'SUSPICIOUS_OR_INVALID' };
   }
 
+  let hostname = '';
+  let isSecure = false;
   try {
     const parsed = new URL(url.trim());
-    const hostname = parsed.hostname.toLowerCase();
-    const isSecure = parsed.protocol === 'https:';
-
-    // Recognised official Indian government and autonomous nodal authority domains
-    const isGovDomain =
-      hostname.endsWith('.gov.in') ||
-      hostname.endsWith('.nic.in') ||
-      hostname.endsWith('.gov') ||
-      hostname.endsWith('.org.in') ||
-      hostname.endsWith('.edu.in') ||
-      hostname.endsWith('.ac.in') ||
-      hostname.includes('msme.gov.in') ||
-      hostname.includes('kvic.gov.in') ||
-      hostname.includes('standupmitra.in') ||
-      hostname.includes('udyamregistration.gov.in') ||
-      hostname.includes('jansamarth.in') ||
-      hostname.includes('sidbi.in');
-
-    return {
-      isVerifiedGovtDomain: isGovDomain,
-      domain: hostname,
-      isSecure,
-    };
+    hostname = parsed.hostname.toLowerCase();
+    isSecure = parsed.protocol === 'https:';
   } catch {
-    return { isVerifiedGovtDomain: false, domain: url, isSecure: false };
+    return { isVerifiedGovtDomain: false, domain: url, isSecure: false, classification: 'SUSPICIOUS_OR_INVALID' };
   }
+
+  const classification = classifyUrlSafety(url);
+  // OFFICIAL_GOVERNMENT: registry-confirmed government domains (.gov.in/.nic.in
+  // and registered ministries). IMPLEMENTING_AGENCY: registry-confirmed statutory
+  // bodies and public financing corporations (e.g. sidbi.in, mudra.org.in).
+  // Everything else — including GOVERNMENT_BACKED and SECONDARY_AGGREGATOR —
+  // is not treated as a verified official channel.
+  const isVerifiedGovtDomain =
+    classification === 'OFFICIAL_GOVERNMENT' || classification === 'IMPLEMENTING_AGENCY';
+
+  return {
+    isVerifiedGovtDomain,
+    domain: hostname,
+    isSecure,
+    classification,
+  };
 }
 
 function addInstructionKeys(instructions: StepInstruction[]): StepInstruction[] {
   return instructions.map((instruction) => ({ ...instruction, titleKey: `application.steps.${instruction.stepNumber}.title`, descriptionKey: `application.steps.${instruction.stepNumber}.description` }));
 }
 
-// Builds verifiable step-by-step instructions from verified scheme guidelines
+// Builds step-by-step instructions for the application workspace.
+//
+// Phase 2E.2 trust hardening — SOURCE-BACKED vs UNKNOWN discipline:
+//   * Steps marked SOURCE-BACKED use only values present in the scheme record
+//     (official portal hostname, requiredDocuments count, agency name, and the
+//     intelligence.application fields applicationProcess /
+//     bankChannelInformation / helplineInformation when populated).
+//   * Anything the scheme record does not establish — authentication method,
+//     e-sign, editability after submission, processing time, approval body,
+//     attestation rules — is returned as UNKNOWN / NOT SPECIFIED and phrased
+//     as "check the official portal", never as a fabricated requirement.
+//   * This generator never changes the Online / Hybrid / Offline-DIC channel
+//     model and never touches readiness scoring.
+function portalHostname(scheme: Scheme): string {
+  try {
+    return scheme.officialPortalUrl ? new URL(scheme.officialPortalUrl).hostname : 'the official portal';
+  } catch {
+    return 'the official portal';
+  }
+}
+
+function sourceBackedProcessSteps(scheme: Scheme): StepInstruction[] {
+  const process = scheme.intelligence?.application?.applicationProcess;
+  if (!Array.isArray(process)) return [];
+  const steps = process
+    .map((s) => (typeof s === 'string' ? s.trim() : ''))
+    .filter((s) => s.length > 0);
+  if (steps.length === 0) return [];
+  // Source-backed: taken verbatim from the scheme's official process data.
+  // Provided in the dataset language; Hindi fallback notes the source.
+  return steps.map((step, i) => ({
+    stepNumber: i + 1,
+    titleEn: 'Official Process Step',
+    titleHi: 'आधिकारिक प्रक्रिया चरण',
+    descEn: step,
+    descHi: `योजना के आधिकारिक विवरण अनुसार: ${step}`,
+    isMandatory: false,
+    agency: scheme.department || scheme.intelligence?.application?.nodalAgency,
+  }));
+}
+
 export function getStepByStepApplicationGuide(scheme: Scheme): StepInstruction[] {
   const mode = scheme.applicationMode || 'Online via Portal';
   const agency = scheme.department || scheme.intelligence?.application?.nodalAgency || scheme.sponsoringMinistry;
+  const host = portalHostname(scheme);
+
+  // When the dataset carries the scheme's own official process, prefer it:
+  // those steps are source-backed by definition.
+  const officialSteps = sourceBackedProcessSteps(scheme);
+  if (officialSteps.length > 0) {
+    return addInstructionKeys(officialSteps);
+  }
 
   if (mode === 'Online via Portal') {
     return addInstructionKeys([
@@ -87,8 +145,8 @@ export function getStepByStepApplicationGuide(scheme: Scheme): StepInstruction[]
         stepNumber: 1,
         titleEn: 'Portal Registration & Authentication',
         titleHi: 'पोर्टल पंजीकरण एवं प्रमाणीकरण',
-        descEn: `Register an entrepreneur account on the official portal (${scheme.officialPortalUrl ? new URL(scheme.officialPortalUrl).hostname : 'official portal'}) using mobile number and Aadhaar OTP verification.`,
-        descHi: `आधिकारिक पोर्टल पर मोबाइल नंबर एवं आधार ओटीपी प्रमाणीकरण के माध्यम से उद्यमी खाता पंजीकृत करें।`,
+        descEn: `Create your applicant account on the official portal (${host}) using the authentication method the portal specifies.`,
+        descHi: `आधिकारिक पोर्टल पर पोर्टल द्वारा निर्दिष्ट प्रमाणीकरण विधि से अपना आवेदक खाता बनाएं।`,
         isMandatory: true,
         agency,
       },
@@ -104,53 +162,58 @@ export function getStepByStepApplicationGuide(scheme: Scheme): StepInstruction[]
         stepNumber: 3,
         titleEn: 'Upload Prescribed Supporting Documents',
         titleHi: 'निर्धारित सहायक दस्तावेज अपलोड करें',
-        descEn: `Upload verified self-attested digital copies of all mandatory documents (${scheme.requiredDocuments?.length || 0} statutory documents mandated).`,
-        descHi: `सभी अनिवार्य दस्तावेजों की सत्यापित स्व-प्रमाणित डिजिटल प्रतियां अपलोड करें (${scheme.requiredDocuments?.length || 0} वैधानिक दस्तावेज आवश्यक)।`,
+        descEn: `Upload digital copies of the scheme's required documents (${scheme.requiredDocuments?.length || 0} listed for this scheme). Check the official portal for any attestation, format, or size requirements.`,
+        descHi: `योजना हेतु आवश्यक दस्तावेजों की डिजिटल प्रतियां अपलोड करें (इस योजना हेतु ${scheme.requiredDocuments?.length || 0} सूचीबद्ध)। प्रमाणीकरण, प्रारूप या आकार संबंधी आवश्यकताओं हेतु आधिकारिक पोर्टल देखें।`,
         isMandatory: true,
       },
       {
         stepNumber: 4,
-        titleEn: 'Final Review & e-Sign Submission',
-        titleHi: 'अंतिम समीक्षा एवं ई-हस्ताक्षर प्रस्तुति',
-        descEn: 'Review the generated application preview carefully before digital submission. Once submitted, changes cannot be made.',
-        descHi: 'डिजिटल प्रस्तुति से पूर्व उत्पन्न आवेदन पूर्वावलोकन की सावधानीपूर्वक समीक्षा करें। एक बार प्रस्तुत करने के बाद बदलाव संभव नहीं है।',
+        titleEn: 'Final Review & Submission',
+        titleHi: 'अंतिम समीक्षा एवं प्रस्तुति',
+        descEn: 'Review the generated application preview carefully before submission. Check the portal\u2019s instructions for any edit or correction window after submission.',
+        descHi: 'प्रस्तुति से पूर्व उत्पन्न आवेदन पूर्वावलोकन की सावधानीपूर्वक समीक्षा करें। प्रस्तुति के बाद संशोधन की सुविधा हेतु पोर्टल के निर्देश देखें।',
         isMandatory: true,
       },
       {
         stepNumber: 5,
         titleEn: 'Record Official Acknowledgement Number',
         titleHi: 'आधिकारिक पावती संख्या सुरक्षित रखें',
-        descEn: 'Download the submission PDF and record your Application / Acknowledgement Reference Number for departmental follow-up.',
-        descHi: 'प्रस्तुति पीडीएफ डाउनलोड करें और विभागीय अनुवर्ती कार्रवाई हेतु अपनी आवेदन / पावती संदर्भ संख्या सुरक्षित रखें।',
+        descEn: 'Save any acknowledgement or reference number the portal issues after submission for departmental follow-up.',
+        descHi: 'विभागीय अनुवर्ती कार्रवाई हेतु प्रस्तुति के बाद पोर्टल द्वारा जारी पावती या संदर्भ संख्या सुरक्षित रखें।',
         isMandatory: true,
       },
     ]);
   }
 
   if (mode === 'Hybrid') {
+    const bankInfo = scheme.intelligence?.application?.bankChannelInformation?.trim();
     return addInstructionKeys([
       {
         stepNumber: 1,
         titleEn: 'Online Preliminary Application Filing',
         titleHi: 'ऑनलाइन प्रारंभिक आवेदन प्रस्तुति',
-        descEn: `File the electronic preliminary application on ${scheme.officialPortalUrl ? new URL(scheme.officialPortalUrl).hostname : 'the official portal'}.`,
+        descEn: `File the electronic preliminary application on ${host}.`,
         descHi: `आधिकारिक पोर्टल पर इलेक्ट्रॉनिक प्रारंभिक आवेदन जमा करें।`,
         isMandatory: true,
       },
       {
         stepNumber: 2,
-        titleEn: 'Download System-Generated Application Dossier',
-        titleHi: 'सिस्टम द्वारा जनरेटेड आवेदन डोजियर डाउनलोड करें',
-        descEn: 'Print the system-generated acknowledgement receipt and summary project profile.',
-        descHi: 'सिस्टम जनरेटेड पावती रसीद एवं सारांश परियोजना प्रोफ़ाइल का प्रिंट लें।',
+        titleEn: 'Save the Portal Acknowledgement',
+        titleHi: 'पोर्टल पावती सुरक्षित रखें',
+        descEn: 'Save or print any acknowledgement the portal generates after the online step.',
+        descHi: 'ऑनलाइन चरण के बाद पोर्टल द्वारा जारी पावती सुरक्षित रखें या उसका प्रिंट लें।',
         isMandatory: true,
       },
       {
         stepNumber: 3,
         titleEn: 'Bank Branch / Nodal Agency Verification',
         titleHi: 'बैंक शाखा / नोडल एजेंसी सत्यापन',
-        descEn: 'Present the physical dossier along with original identity and business documents to the designated bank branch or task force committee for appraisal.',
-        descHi: 'मूल पहचान एवं व्यवसाय दस्तावेजों के साथ भौतिक डोजियर निर्दिष्ट बैंक शाखा या टास्क फोर्स समिति के समक्ष मूल्यांकन हेतु प्रस्तुत करें।',
+        descEn: bankInfo && bankInfo.length > 0
+          ? bankInfo
+          : 'If the scheme requires in-person verification, the official portal or nodal agency will specify the designated office or bank branch. Do not assume a channel the scheme has not declared.',
+        descHi: bankInfo && bankInfo.length > 0
+          ? bankInfo
+          : 'यदि योजना में व्यक्तिगत सत्यापन आवश्यक है, तो आधिकारिक पोर्टल या नोडल एजेंसी निर्दिष्ट कार्यालय या बैंक शाखा बताएगी। योजना द्वारा घोषित न किए गए माध्यम की कल्पना न करें।',
         isMandatory: true,
         agency,
       },
@@ -163,8 +226,8 @@ export function getStepByStepApplicationGuide(scheme: Scheme): StepInstruction[]
       stepNumber: 1,
       titleEn: 'Procure Official Application Form',
       titleHi: 'आधिकारिक आवेदन प्रपत्र प्राप्त करें',
-      descEn: `Visit your nearest District Industries Centre (DIC), Khadi Board, or nodal desk of ${agency} to collect the physical application dossier.`,
-      descHi: `भौतिक आवेदन प्रपत्र प्राप्त करने हेतु अपने निकटतम जिला उद्योग केंद्र (DIC) या ${agency} के नोडल कार्यालय में संपर्क करें।`,
+      descEn: `Obtain the official application form from the nodal office or District Industries Centre (DIC) designated for this scheme${agency ? ` (${agency})` : ''}.`,
+      descHi: `इस योजना हेतु निर्दिष्ट नोडल कार्यालय या जिला उद्योग केंद्र (DIC) से आधिकारिक आवेदन प्रपत्र प्राप्त करें।`,
       isMandatory: true,
       agency,
     },
@@ -172,16 +235,16 @@ export function getStepByStepApplicationGuide(scheme: Scheme): StepInstruction[]
       stepNumber: 2,
       titleEn: 'Complete Form & Collate Physical Dossier',
       titleHi: 'प्रपत्र पूर्ण करें एवं भौतिक दस्तावेज संलग्न करें',
-      descEn: 'Fill all sections in clear block letters and attach self-attested passport photographs and mandated statutory certificates.',
-      descHi: 'सभी खंडों को स्पष्ट अक्षरों में भरें और स्व-प्रमाणित पासपोर्ट आकार के चित्र एवं निर्धारित वैधानिक प्रमाणपत्र संलग्न करें।',
+      descEn: 'Complete the form as instructed and attach the documents the scheme lists. Check the official guidelines for any attestation or photograph requirements.',
+      descHi: 'निर्देशानुसार प्रपत्र पूर्ण करें और योजना द्वारा सूचीबद्ध दस्तावेज संलग्न करें। प्रमाणीकरण या चित्र संबंधी आवश्यकताओं हेतु आधिकारिक दिशानिर्देश देखें।',
       isMandatory: true,
     },
     {
       stepNumber: 3,
-      titleEn: 'Submit at Designated Desk & Obtain Stamp',
-      titleHi: 'निर्धारित पटल पर जमा कर मुहरयुक्त पावती लें',
-      descEn: 'Submit the dossier to the designated nodal officer in person and obtain a signed, date-stamped counterfoil acknowledgment.',
-      descHi: 'दस्तावेज व्यक्तिगत रूप से नोडल अधिकारी के समक्ष प्रस्तुत करें और हस्ताक्षरित, मुहरयुक्त पावती रसीद प्राप्त करें।',
+      titleEn: 'Submit at Designated Desk & Obtain Acknowledgement',
+      titleHi: 'निर्धारित पटल पर जमा कर पावती लें',
+      descEn: 'Submit as instructed by the scheme\u2019s official guidelines and retain any acknowledgement issued.',
+      descHi: 'योजना के आधिकारिक दिशानिर्देशों के अनुसार जमा करें और जारी पावती सुरक्षित रखें।',
       isMandatory: true,
       agency,
     },
@@ -336,8 +399,15 @@ function calculateWorkspaceReadiness(
     procScore = 100;
     procState = 'SATISFIED';
   } else if (scheme.officialPortalUrl) {
+    // Phase 2E.2: the URL is listed but NOT in the verified government domain
+    // registry. Score is unchanged (readiness scoring preserved); only the
+    // state and wording are honest — never "verified" when it is not.
     procScore = 85;
-    procState = 'SATISFIED';
+    procState = 'UNKNOWN';
+    procSummaryEn = 'Portal listed — official status unverified';
+    procSummaryHi = 'पोर्टल सूचीबद्ध — आधिकारिक स्थिति असत्यापित';
+    procDetailEn = `The listed portal (${portalInfo.domain || 'unknown address'}) is not in the verified government domain registry. Confirm the address on the ministry website before applying.`;
+    procDetailHi = `सूचीबद्ध पोर्टल सत्यापित सरकारी डोमेन रजिस्ट्री में नहीं है। आवेदन से पूर्व मंत्रालय की वेबसाइट पर पता सत्यापित करें।`;
   } else {
     procScore = 50;
     procState = 'PARTIAL';

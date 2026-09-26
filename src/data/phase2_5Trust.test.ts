@@ -309,9 +309,12 @@ console.log('======================================================\n');
     classifyUrlSafety('https://cmegp.kar.nic.in') === 'OFFICIAL_GOVERNMENT',
     'T58: cmegp.kar.nic.in retained as OFFICIAL_GOVERNMENT'
   );
+  // Phase 2E.2 hardening: a designated academic knowledge partner is
+  // IMPLEMENTING_AGENCY, not OFFICIAL_GOVERNMENT (generic .ac.in is
+  // never official; see trustEngine registry classification).
   assert(
-    classifyUrlSafety('https://agritech.tnau.ac.in') === 'OFFICIAL_GOVERNMENT',
-    'T59: agritech.tnau.ac.in retained as OFFICIAL_GOVERNMENT'
+    classifyUrlSafety('https://agritech.tnau.ac.in') === 'IMPLEMENTING_AGENCY',
+    'T59: agritech.tnau.ac.in classified as IMPLEMENTING_AGENCY'
   );
   assert(
     classifyUrlSafety('https://www.cgtmse.in') === 'IMPLEMENTING_AGENCY',
@@ -329,9 +332,12 @@ console.log('======================================================\n');
     classifyUrlSafety('https://www.ncdc.in') === 'IMPLEMENTING_AGENCY',
     'T63: ncdc.in retained as IMPLEMENTING_AGENCY'
   );
+  // Phase 2E.2 hardening: registry public corporations (Kudumbashree is
+  // PUBLIC_CORPORATION) are IMPLEMENTING_AGENCY; only ministries and
+  // state departments are OFFICIAL_GOVERNMENT.
   assert(
-    classifyUrlSafety('https://kudumbashree.org') === 'GOVERNMENT_BACKED',
-    'T64: Known state mission kudumbashree.org retained as GOVERNMENT_BACKED'
+    classifyUrlSafety('https://kudumbashree.org') === 'IMPLEMENTING_AGENCY',
+    'T64: Known state mission kudumbashree.org classified as IMPLEMENTING_AGENCY'
   );
   assert(
     classifyUrlSafety('https://tnsfac.org') === 'GOVERNMENT_BACKED',

@@ -24,6 +24,7 @@ import {
 } from '../../types/trust';
 import { INDIAN_STATES } from '../../constants';
 import { findAuthorityByDomain } from '../../data/governmentAuthorities';
+import type { CandidateDeduplicationResult } from '../../types/rawScheme';
 
 export const SYSTEM_REFERENCE_DATE = '2026-09-13'; // Default baseline reference date for deterministic testing
 
@@ -173,20 +174,31 @@ export function classifyUrlSafety(url?: string | null): UrlSafetyClassification 
     return 'SUSPICIOUS_OR_INVALID';
   }
 
-  // Consult Government Authority Registry first
+  // Consult Government Authority Registry first. A registry hit is
+  // authoritative: the registry — not suffix heuristics — decides whether a
+  // domain is an official government property. This keeps one clear
+  // classification path; the Tier 2/3 explicit lists below only cover
+  // known domains that have not (yet) been given registry entries.
   const registeredAuthority = findAuthorityByDomain(hostname);
   if (registeredAuthority) {
     if (registeredAuthority.authorityType === 'AGGREGATOR') {
       return 'SECONDARY_AGGREGATOR';
     }
-    if (registeredAuthority.authorityType === 'ACADEMIC_INSTITUTION') {
-      // General academic domains (.ac.in) are not government authorities.
-      // Only designated state knowledge partners (e.g., TNAU Agritech portal) are recognized.
-      if (registeredAuthority.isOfficialGovernment) {
+    if (registeredAuthority.isOfficialGovernment) {
+      // Registry-confirmed government authority. Ministries and state
+      // departments are OFFICIAL_GOVERNMENT; statutory bodies, public
+      // corporations and designated knowledge partners (e.g. TNAU Agritech)
+      // are IMPLEMENTING_AGENCY. Academic institutions are official only
+      // when explicitly designated — generic .ac.in is never official.
+      if (
+        registeredAuthority.authorityType === 'CENTRAL_MINISTRY' ||
+        registeredAuthority.authorityType === 'STATE_DEPARTMENT'
+      ) {
         return 'OFFICIAL_GOVERNMENT';
       }
-      return 'SECONDARY_AGGREGATOR';
+      return 'IMPLEMENTING_AGENCY';
     }
+    return 'SECONDARY_AGGREGATOR';
   }
 
   // Tier 1: Official Indian government domain extensions (.gov.in, .nic.in)
@@ -243,48 +255,71 @@ export function classifyUrlSafety(url?: string | null): UrlSafetyClassification 
 
 /**
  * Determines the source hierarchy level (1 - 6).
+ *
+ * Phase 2E.2 hardening: matches against the parsed hostname with exact /
+ * domain-boundary comparison only. Substring matching on the raw URL string
+ * is never used — fake-sidbi.in.attacker.com must not be classified as a
+ * statutory agency, and bare tokens like "tiic" must not match path/query
+ * text. Unknown domains fall through to the lower levels, never guessed up.
  */
 export function classifySourceHierarchy(scheme?: Scheme | null): SourceHierarchyLevel {
   if (!scheme) return 6;
-  const url = (scheme.officialPortalUrl || '').toLowerCase();
+  const rawUrl = scheme.officialPortalUrl || '';
   const ministry = (scheme.sponsoringMinistry || '').toLowerCase();
   const applicableStates = scheme.applicableStates || [];
+
+  // Parse the hostname once; an unparseable URL contributes no domain signal.
+  let hostname = '';
+  try {
+    hostname = new URL(rawUrl.trim()).hostname.toLowerCase();
+  } catch {
+    hostname = '';
+  }
+
+  // Exact-or-subdomain match: "d" matches hostname === d or *.d only.
+  const domainMatches = (domains: string[]): boolean =>
+    hostname !== '' && domains.some((d) => hostname === d || hostname.endsWith(`.${d}`));
 
   // Candidate discovery records must never be elevated to Level 1 on the
   // strength of a portal URL alone — they stay Level 6 (Secondary Aggregator).
   const isCandidate = scheme.isCandidateScheme === true;
   if (
-    url.includes('india.gov.in') ||
-    (!isCandidate && url.includes('myscheme.gov.in')) ||
-    url.includes('msme.gov.in') ||
-    url.includes('standupmitra.in') ||
-    (applicableStates.length === 0 && url.includes('.gov.in'))
+    domainMatches(['india.gov.in']) ||
+    (!isCandidate && domainMatches(['myscheme.gov.in'])) ||
+    domainMatches(['msme.gov.in']) ||
+    domainMatches(['standupmitra.in']) ||
+    (applicableStates.length === 0 && domainMatches(['gov.in']))
   ) {
     return 1; // Central Govt Portal
   }
 
   if (
     applicableStates.length > 0 &&
-    (url.includes('.gov.in') || url.includes('.nic.in'))
+    (hostname.endsWith('.gov.in') || hostname.endsWith('.nic.in'))
   ) {
     return 2; // State Govt Portal
   }
 
   if (
-    url.includes('sidbi.in') ||
-    url.includes('cgtmse.in') ||
-    url.includes('mudra.org.in') ||
-    url.includes('tiic') ||
-    url.includes('ksfc')
+    domainMatches([
+      'sidbi.in',
+      'cgtmse.in',
+      'mudra.org.in',
+      'tiic.org',
+      'tiic.co.in',
+      'ksfc.in',
+    ])
   ) {
     return 4; // Statutory Implementing Agency
   }
 
   if (
-    url.includes('ksum') ||
-    url.includes('nmdfc') ||
-    url.includes('vcfsc') ||
-    url.includes('scsthub')
+    domainMatches([
+      'startupmission.kerala.gov.in', // Kerala Startup Mission (ksum)
+      'nmdfc.org',
+      'vcfsc.in',
+      'scsthub.in',
+    ])
   ) {
     return 5; // Govt-backed Corporation
   }
@@ -437,12 +472,41 @@ export function deriveSchemeTrustProfile(
 
 /**
  * Scans the database and generates a machine-readable data review queue for data maintainers.
+ *
+ * Phase 2E.2: accepts an optional dedupe collision audit. Every unresolved
+ * collision (needsReview) becomes a HIGH-priority UNRESOLVED_COLLISION item
+ * carrying the matched scheme id, duplicate type, and confidence — so a
+ * collision can never be overlooked at review time, and publication must
+ * require its resolution. (The actual publish/approve gate lives in the
+ * out-of-repo admin console + migrations 028/029 RPCs; this repo has no
+ * publish path, so the in-repo guarantee is visibility, never silent
+ * clearance.)
  */
 export function generateReviewQueue(
   schemes: Scheme[],
-  refDate?: string | Date | null
+  refDate?: string | Date | null,
+  collisionAudit?: CandidateDeduplicationResult[]
 ): ReviewQueueItem[] {
   const queue: ReviewQueueItem[] = [];
+
+  if (Array.isArray(collisionAudit)) {
+    for (const collision of collisionAudit) {
+      if (!collision.needsReview) continue;
+      const scheme = schemes.find((s) => s.id === collision.candidateId);
+      queue.push({
+        id: `rq-collision-${collision.candidateId}`,
+        schemeId: collision.candidateId,
+        schemeName: scheme?.name || collision.candidateId,
+        issueType: 'UNRESOLVED_COLLISION',
+        priority: 'HIGH',
+        field: 'matched_scheme_id',
+        currentValue: collision.existingSchemeId || null,
+        source: scheme?.officialPortalUrl || null,
+        notes: `UNRESOLVED COLLISION (${collision.duplicateType || 'UNKNOWN_TYPE'}, confidence ${collision.confidenceScore}): candidate '${collision.candidateId}' collides with authoritative scheme '${collision.existingSchemeId || 'unknown'}'. ${collision.notes}`,
+        suggestedAction: 'Resolve before approval/publication: merge into the matched scheme or confirm as distinct with evidence. Do not auto-merge; do not discard the ingestion record.',
+      });
+    }
+  }
 
   schemes.forEach((scheme, idx) => {
     const trust = deriveSchemeTrustProfile(scheme, refDate);

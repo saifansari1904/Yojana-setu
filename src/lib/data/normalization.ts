@@ -302,6 +302,12 @@ export function getSchemeCategories(scheme: Scheme): NormalizedSchemeCategory[] 
 
 /**
  * Derives source provenance object for a scheme.
+ *
+ * Phase 2E.2 hardening: official-source detection uses the parsed hostname
+ * with exact / domain-boundary matching only. Substring matching on the raw
+ * URL string is never used, and generic academic suffixes (.ac.in) never
+ * confer official status — per the authority registry policy, academic
+ * institutions are isOfficialGovernment = false.
  */
 export function getSchemeProvenance(scheme: Scheme): SchemeSourceProvenance {
   if (scheme.sourceProvenance) {
@@ -310,15 +316,25 @@ export function getSchemeProvenance(scheme: Scheme): SchemeSourceProvenance {
 
   const isNational = scheme.applicableStates.length === 0;
   const url = scheme.officialPortalUrl || '';
+
+  let hostname = '';
+  try {
+    hostname = new URL(url.trim()).hostname.toLowerCase();
+  } catch {
+    hostname = '';
+  }
+  const OFFICIAL_SOURCE_DOMAINS = [
+    'cgtmse.in',
+    'mudra.org.in',
+    'scsthub.in',
+    'vcfsc.in',
+    'nmdfc.org',
+  ];
   const isGovDomain =
-    url.includes('.gov.in') ||
-    url.includes('.nic.in') ||
-    url.includes('.ac.in') ||
-    url.includes('cgtmse.in') ||
-    url.includes('mudra.org.in') ||
-    url.includes('scsthub.in') ||
-    url.includes('vcfsc.in') ||
-    url.includes('nmdfc.org');
+    hostname !== '' &&
+    (hostname.endsWith('.gov.in') ||
+      hostname.endsWith('.nic.in') ||
+      OFFICIAL_SOURCE_DOMAINS.some((d) => hostname === d || hostname.endsWith(`.${d}`)));
 
   const rawStatus = getSchemeVerificationStatus(scheme);
 

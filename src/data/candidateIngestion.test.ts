@@ -215,9 +215,11 @@ assert(
 );
 
 const tnauCheck = classifyUrlSafety('https://agritech.tnau.ac.in');
+// Phase 2E.2 hardening: designated academic knowledge partner →
+// IMPLEMENTING_AGENCY (still an authorized status, not OFFICIAL_GOVERNMENT).
 assert(
-  tnauCheck === 'OFFICIAL_GOVERNMENT',
-  `C29: Designated state university portal (agritech.tnau.ac.in) retains authorized status`
+  tnauCheck === 'IMPLEMENTING_AGENCY',
+  `C29: Designated state university portal (agritech.tnau.ac.in) retains authorized status (got ${tnauCheck})`
 );
 
 const centralGovCheck = classifyUrlSafety('https://msme.gov.in/schemes');

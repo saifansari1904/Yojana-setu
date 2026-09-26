@@ -58,7 +58,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
           </span>
           <span className="text-xs font-semibold text-[#1E6A50] dark:text-[var(--accent-green)] flex items-center gap-1">
             <Phone className="w-3.5 h-3.5" />
-            {scheme.intelligence?.application?.helplineInformation || 'National MSME Helpline: 1800-180-6763'}
+            {scheme.intelligence?.application?.helplineInformation || 'Not specified in scheme data'}
           </span>
         </div>
       </div>
