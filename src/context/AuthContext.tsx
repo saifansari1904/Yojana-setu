@@ -117,6 +117,10 @@ const backfillApplicantName = (displayName: string): void => {
 };
 
 const RESTORED_FLAG = 'yojana_setu_cloud_restored_v1';
+// Upper bound for the fresh-device cloud profile restore. If the restore
+// hasn't settled by then, the app proceeds with local data instead of
+// freezing on the profile loader.
+const RESTORE_TIMEOUT_MS = 10_000;
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<LocalUser | null>(() => toLocalUser());
@@ -147,6 +151,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
    *
    * Lives inside the provider so the restore can publish its lifecycle:
    * while `pending`, the app must not navigate as if the profile were blank.
+   *
+   * The restore is BOUNDED: if the cloud fetch doesn't settle within
+   * RESTORE_TIMEOUT_MS (hung network, stalled Supabase client — supabase-js
+   * has no default request timeout), we stop waiting and let the user in
+   * with local data. Without this bound, a never-settling promise would
+   * leave profileRestore='pending' forever, freezing the app on the
+   * profile loader after sign-in.
    */
   const restoreForReturningUser = (userId: string): void => {
     try {
@@ -164,7 +175,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.log('[Profile] restore started for', userId);
     }
     setProfileRestore('pending');
-    restoreCloudToLocal(userId)
+    const boundedRestore: Promise<boolean> = Promise.race([
+      restoreCloudToLocal(userId),
+      new Promise<boolean>((resolve) => {
+        setTimeout(() => resolve(false), RESTORE_TIMEOUT_MS);
+      }),
+    ]);
+    boundedRestore
       .then((restored) => {
         if (import.meta.env.DEV) {
           // eslint-disable-next-line no-console
