@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, CheckCircle2, AlertCircle, ShieldCheck } from 'lucide-react';
 import type { CitizenSubmissionConfirmation } from '../../types/application';
 import { useTranslation } from '../../i18n';
+import { useAccessibleDialog } from '../common/useAccessibleDialog';
 
 interface CitizenConfirmationModalProps {
   isOpen: boolean;
@@ -28,6 +29,9 @@ export const CitizenConfirmationModal: React.FC<CitizenConfirmationModalProps> =
   const [isDisclaimerChecked, setIsDisclaimerChecked] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Phase 2E.2: dialog semantics — Escape, focus-in, focus trap, focus return.
+  const { dialogRef } = useAccessibleDialog({ isOpen, onClose });
+
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -52,6 +56,11 @@ export const CitizenConfirmationModal: React.FC<CitizenConfirmationModalProps> =
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--overlay)] backdrop-blur-xs">
         <motion.div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="citizen-confirm-modal-title"
+          tabIndex={-1}
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.96 }}
@@ -62,13 +71,14 @@ export const CitizenConfirmationModal: React.FC<CitizenConfirmationModalProps> =
           <div className="flex items-center justify-between px-6 py-4 border-b border-[#E5E9E7] dark:border-[var(--border-subtle)]">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
-              <h3 className="text-base font-bold text-[#1F2421] dark:text-[var(--text-main)]">
+              <h3 id="citizen-confirm-modal-title" className="text-base font-bold text-[#1F2421] dark:text-[var(--text-main)]">
                 {t('workspace.confirmModalTitle')}
               </h3>
             </div>
             <button
               type="button"
               onClick={onClose}
+              aria-label={t('workspace.cancelBtn')}
               className="p-1.5 rounded-lg text-[#8E9B94] hover:text-[#1F2421] dark:hover:text-[var(--text-main)] hover:bg-[#F4F7F5] dark:hover:bg-[var(--bg-raised)] transition-colors"
             >
               <X className="w-5 h-5" />

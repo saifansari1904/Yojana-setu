@@ -196,3 +196,13 @@
 #scroll-progress-bar {
   view-transition-name: yj-scroll-progress;
 }
+
+/* ── Phase 2E.2: accessible dialogs respect reduced motion ─────────────── */
+@media (prefers-reduced-motion: reduce) {
+  [data-accessible-dialog],
+  [data-accessible-dialog] * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
