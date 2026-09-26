@@ -41,7 +41,7 @@ const EntrepreneurProfileScreen = lazy(() =>
   import('./components/profile/EntrepreneurProfileScreen').then((m) => ({ default: m.EntrepreneurProfileScreen })),
 );
 import { SetuLoader } from './animations/SetuLoader';
-import { loadStoredProfile, saveStoredProfile, subscribeProfileStorage } from './lib/profile/profileStorage';
+import { loadStoredProfile, loadAuthenticatedProfile, saveStoredProfile, subscribeProfileStorage } from './lib/profile/profileStorage';
 import {
   completeFollowUpReminder,
   createTrackedApplication,
@@ -114,19 +114,55 @@ function YojanaSetuMain() {
   });
   const [isMatching, setIsMatching] = useState<boolean>(false);
 
-  // User profile loaded from authoritative persistent storage
+  // User profile loaded from authoritative persistent storage.
+  // NOTE: at first render AuthContext may not have applied the Supabase
+  // session yet (syncUserId is null), so this may initially hold a guest
+  // profile. The explicit hydration effect below corrects it once the
+  // authenticated UID is available.
   const [userProfile, setUserProfile] = useState<UserProfile | null>(() => loadStoredProfile());
 
-  // Keep userProfile in sync when the cloud restore (or another tab) writes
-  // to localStorage and dispatches the profile sync event. This replaces the
-  // old window.location.reload() after restore — React state updates
-  // naturally, and the post-auth navigation effect re-evaluates with the
-  // fresh profile.
+  /**
+   * AUTHENTICATED PROFILE HYDRATION (spec §5/§6).
+   *
+   * Explicit hydration transition: when the authenticated UID becomes
+   * available, load the user-scoped profile and make it active. This does
+   * NOT depend on PROFILE_SYNC_EVENT (which never fires when
+   * restoreForReturningUser exits early because v2:<uid> already exists).
+   *
+   * Restore ordering:
+   * - v2:<uid> exists → hydrate immediately, no cloud wait.
+   * - v2:<uid> missing + restore pending → wait for the restore's event.
+   * - v2:<uid> missing + restore settled → clear stale guest state.
+   */
   useEffect(() => {
-    return subscribeProfileStorage((profile) => {
-      setUserProfile(profile);
-    });
-  }, []);
+    if (authStatus !== 'authenticated' || !authUser || authUser.isLocal) return;
+    const uid = authUser.uid;
+    const localProfile = loadAuthenticatedProfile(uid);
+    if (localProfile) {
+      setUserProfile(localProfile);
+      setApplicantName(localProfile.applicantName || authUser.displayName || '');
+    } else if (profileRestore !== 'pending') {
+      // No local mirror and no restore running: the pre-auth guest profile
+      // must not remain active.
+      setUserProfile(null);
+      setApplicantName(authUser.displayName || '');
+    }
+    // No local mirror but restore pending: the restore writes v2:<uid> and
+    // dispatches PROFILE_SYNC_EVENT, which the subscription below handles.
+  }, [authStatus, authUser, profileRestore]);
+
+  /**
+   * AUTHENTICATED → GUEST TRANSITION (spec §9).
+   * On logout, clear the active profile from React state. The device cache
+   * was already cleared by signOutUser; this ensures no stale authenticated
+   * profile remains visible.
+   */
+  useEffect(() => {
+    if (authStatus === 'unauthenticated') {
+      setUserProfile(null);
+      setApplicantName('');
+    }
+  }, [authStatus]);
 
   /**
    * PROFILE_LOADING: a fresh-device sign-in whose cloud profile restore is
@@ -397,10 +433,14 @@ function YojanaSetuMain() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentScreen]);
 
-  // Synchronize profile state across multi-tab sessions and local storage events.
+  // SINGLE profile synchronization subscription (spec §11).
+  // Synchronizes profile state across multi-tab sessions, local storage
+  // events, and the cloud restore's PROFILE_SYNC_EVENT.
   // NOTE: this syncs profile DATA only. Authentication state is derived from
   // AuthContext (isCloudAuthenticated) — a profile event must never flip the
   // header between logged-in and logged-out on its own.
+  // The callback is ownership-aware: loadStoredProfile() reads v2:<uid> when
+  // authenticated, the guest key otherwise.
   useEffect(() => {
     const unsubscribe = subscribeProfileStorage((updated) => {
       setUserProfile(updated);

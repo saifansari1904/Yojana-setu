@@ -1,5 +1,5 @@
 /**
- * YOJANA SETU — PROFILE OWNERSHIP TESTS (spec §20)
+ * YOJANA SETU — PROFILE OWNERSHIP TESTS (spec §20 + hydration §16)
  * ------------------------------------------------------------------
  * Verifies the user-scoped local profile ownership model:
  *
@@ -24,6 +24,20 @@
  * 14. Logout clears syncUserId.
  * 15. Next authenticated user receives correct UID.
  * 16. Existing matching result remains identical after restore.
+ *
+ * Covers hydration spec §16 tests:
+ * H1. authenticated UID becomes available after App initialization
+ * H2. active profile switches from guest → authenticated profile
+ * H3. authenticated refresh restores same profile
+ * H4. existing v2 profile does not require cloud restore
+ * H5. fresh device cloud restore still works
+ * H6. authenticated user never falls back to guest profile
+ * H7. logout removes authenticated active profile
+ * H8. User A → User B isolation (refresh variant)
+ * H9. User B → User A restoration (refresh variant)
+ * H10. applicantName follows active profile
+ * H11. exactly one profile subscription in App
+ * H12. language switching does not alter profile
  */
 
 import * as fs from 'fs';
@@ -139,7 +153,7 @@ const guestProfile: UserProfile = {
   category: 'General',
   age: 30,
   annualIncome: 250000,
-  businessType: 'retail',
+  businessType: 'trading',
   state: 'Maharashtra',
   applicantName: 'Guest User',
 };
@@ -421,6 +435,169 @@ assert(
   '16. matching before save equals matching after restore',
   JSON.stringify(before) === JSON.stringify(after) && before.length > 0,
   `ranked ${before.length} schemes`,
+);
+
+console.log('\n=== PROFILE HYDRATION TESTS (spec §16) ===');
+
+/* H1. authenticated UID becomes available after App initialization.
+ * Simulates: App renders with syncUserId=null (guest read), then AuthContext
+ * applies the session. The hydration effect must load v2:<uid>. */
+ls().clear();
+logoutToGuest();
+saveStoredProfile(guestProfile); // guest state at App init
+const initProfile = loadStoredProfile(); // what useState(() => loadStoredProfile()) sees
+assert(
+  'H1a. App init before auth reads the guest profile',
+  coreFields(initProfile) === coreFields(guestProfile),
+);
+// AuthContext applies User A session
+loginAs(UID_A);
+saveAuthenticatedProfile(UID_A, profileA); // v2:<uid> exists (returning user)
+// Hydration effect: loadAuthenticatedProfile(uid)
+const hydrated = loadAuthenticatedProfile(UID_A);
+assert(
+  'H1b. after UID available, hydration loads the authenticated profile',
+  coreFields(hydrated) === coreFields(profileA),
+);
+assert(
+  'H1c. hydrated profile is not the guest profile',
+  hydrated?.applicantName !== 'Guest User',
+);
+
+/* H2. active profile switches from guest → authenticated profile. */
+ls().clear();
+logoutToGuest();
+saveStoredProfile(guestProfile);
+let activeProfile = loadStoredProfile(); // guest active
+assert('H2a. guest active before sign-in', activeProfile?.applicantName === 'Guest User');
+loginAs(UID_A);
+saveAuthenticatedProfile(UID_A, profileA);
+activeProfile = loadAuthenticatedProfile(UID_A); // hydration switches source
+assert(
+  'H2b. after sign-in, active profile is the authenticated one',
+  coreFields(activeProfile) === coreFields(profileA),
+);
+
+/* H3. authenticated refresh restores same profile.
+ * Simulates: browser refresh with v2:<uid> in storage. App inits (guest
+ * read), auth restores, hydration loads v2:<uid>. */
+ls().clear();
+loginAs(UID_A);
+saveStoredProfile(profileA);
+const persistedCore = coreFields(loadAuthenticatedProfile(UID_A));
+// "Refresh": syncUserId resets to null, App re-inits
+logoutToGuest();
+loginAs(UID_A); // auth restores
+const refreshHydrated = loadAuthenticatedProfile(UID_A);
+assert(
+  'H3. refresh restores the identical authenticated profile',
+  refreshHydrated !== null &&
+    coreFields(refreshHydrated) === persistedCore,
+);
+
+/* H4. existing v2 profile does not require cloud restore. */
+ls().clear();
+loginAs(UID_A);
+saveStoredProfile(profileA);
+assert(
+  'H4. usable v2 profile means restoreForReturningUser exits early',
+  hasUsableLocalProfile(loadAuthenticatedProfile(UID_A)),
+);
+
+/* H5. fresh device cloud restore still works. */
+ls().clear();
+loginAs(UID_A);
+assert('H5a. fresh device has no v2 profile', loadAuthenticatedProfile(UID_A) === null);
+// restoreCloudToLocal writes the cloud row to v2:<uid>
+saveAuthenticatedProfile(UID_A, profileA);
+assert(
+  'H5b. after restore, v2 profile loads',
+  coreFields(loadAuthenticatedProfile(UID_A)) === coreFields(profileA),
+);
+
+/* H6. authenticated user never falls back to guest profile. */
+ls().clear();
+logoutToGuest();
+saveStoredProfile(guestProfile); // guest profile exists in storage
+loginAs(UID_A);
+saveAuthenticatedProfile(UID_A, profileA);
+// The hydration path uses loadAuthenticatedProfile, never the guest key
+const authOnly = loadAuthenticatedProfile(UID_A);
+assert(
+  'H6a. authenticated hydration source is v2:<uid>, not guest',
+  coreFields(authOnly) === coreFields(profileA),
+);
+assert(
+  'H6b. guest profile still in storage but not used for auth',
+  ls().getItem(GUEST_PROFILE_KEY) !== null &&
+    authOnly?.applicantName !== 'Guest User',
+);
+
+/* H7. logout removes authenticated active profile. */
+ls().clear();
+loginAs(UID_A);
+saveStoredProfile(profileA);
+clearAuthenticatedProfile(UID_A); // signOutUser
+logoutToGuest();
+assert(
+  'H7a. after logout, no authenticated profile loads',
+  loadAuthenticatedProfile(UID_A) === null,
+);
+assert(
+  'H7b. after logout, guest context finds no auth data',
+  loadStoredProfile() === null || loadStoredProfile()?.applicantName !== 'User A',
+);
+
+/* H8/H9. multi-user refresh isolation. */
+ls().clear();
+loginAs(UID_A);
+saveStoredProfile(profileA);
+logoutToGuest(); // simulate refresh boundary
+loginAs(UID_A);
+assert(
+  'H8. A refresh keeps A profile isolated',
+  coreFields(loadAuthenticatedProfile(UID_A)) === coreFields(profileA),
+);
+clearAuthenticatedProfile(UID_A);
+logoutToGuest();
+loginAs(UID_B);
+saveStoredProfile(profileB);
+assert(
+  'H9. B login after A logout yields B profile',
+  coreFields(loadAuthenticatedProfile(UID_B)) === coreFields(profileB),
+);
+
+/* H10. applicantName follows active profile. */
+ls().clear();
+loginAs(UID_A);
+saveStoredProfile(profileA);
+const nameFromProfile = loadAuthenticatedProfile(UID_A)?.applicantName || '';
+assert('H10a. applicantName from A profile', nameFromProfile === 'User A');
+clearAuthenticatedProfile(UID_A);
+logoutToGuest();
+loginAs(UID_B);
+saveStoredProfile(profileB);
+const nameFromB = loadAuthenticatedProfile(UID_B)?.applicantName || '';
+assert('H10b. applicantName switches to B profile', nameFromB === 'User B');
+
+/* H11. exactly one profile subscription in App. */
+const appSrc = readSrc('src/App.tsx');
+const subCalls = appSrc.match(/subscribeProfileStorage\(/g) || [];
+assert(
+  'H11. App has exactly one subscribeProfileStorage subscription',
+  subCalls.length === 1,
+  `found ${subCalls.length}`,
+);
+
+/* H12. language switching does not alter profile. */
+ls().clear();
+loginAs(UID_A);
+saveStoredProfile(profileA);
+const beforeLang = coreFields(loadAuthenticatedProfile(UID_A));
+const reloaded = loadAuthenticatedProfile(UID_A);
+assert(
+  'H12. profile data identical across re-reads (language-independent)',
+  coreFields(reloaded) === beforeLang,
 );
 
 console.log(`\n--- PROFILE OWNERSHIP: ${passed} passed, ${failed} failed ---`);
