@@ -13,8 +13,13 @@
  * FLOW A — ORDINARY LOGIN: migrateLocalStorageToSupabase(userId).
  *   Never reads the legacy global v1 key, even when it holds a complete
  *   profile — that key may belong to a different person who previously used
- *   this browser. Never reads the guest key either. Saved schemes,
- *   applications and document progress are union-merged (additive only).
+ *   this browser. Never reads the guest key either. Auxiliary local stores
+ *   (saved schemes, applications, document progress) are ALSO never claimed:
+ *   they are written by the app's local stores regardless of auth state, so
+ *   their content is mixed historical state of unknown ownership. The
+ *   authenticated user's durable data comes from the cloud tables via the
+ *   normal restore path (restoreCloudToLocal). This function only marks the
+ *   per-user migration version.
  *
  * FLOW B — EXPLICIT GUEST → ACCOUNT: migrateGuestProfileToSupabase(userId).
  *   Runs only when the user explicitly chose "Create Account" during the
@@ -213,8 +218,11 @@ async function claimLocalProfile(
 
 /**
  * Union-merge the additive local stores (saved schemes, tracked
- * applications, document progress). Never deletes or overwrites remote
- * state; remote data always wins on conflict.
+ * applications, document progress). Used ONLY by the explicit guest →
+ * account flow, where the user's explicit "Create Account" choice is the
+ * ownership signal for the current device session's data. Never called on
+ * ordinary login. Never deletes or overwrites remote state; remote data
+ * always wins on conflict.
  */
 async function migrateAuxiliaryData(
   userId: string,
@@ -313,14 +321,18 @@ async function migrateAuxiliaryData(
  * FLOW A — ordinary login. Safe to call on every login — it no-ops after
  * the first successful run on the device.
  *
- * The legacy global v1 profile and the guest profile are BOTH ignored:
- * neither may be auto-assigned to the signing-in user. The authenticated
- * profile comes only from v2:<uid> / public.user_profiles via the normal
- * restore path.
+ * Ownership rule: ordinary login NEVER claims unowned local data. The
+ * legacy global v1 profile and the guest profile are ignored, and the
+ * auxiliary local stores (saved schemes, applications, document progress)
+ * are NOT migrated — they hold mixed historical state of unknown
+ * ownership (written by the app's local stores regardless of auth state).
+ * The authenticated user's durable data is pulled from the cloud tables
+ * by the normal restore path (AuthContext → restoreForReturningUser).
+ * This function only records the per-user migration version.
  */
 export async function migrateLocalStorageToSupabase(
   userId: string,
-  deps?: MigrationRemoteDeps,
+  _deps?: MigrationRemoteDeps,
 ): Promise<MigrationReport> {
   const report = newReport(userId);
   if (report.alreadyRan) return report;
@@ -329,7 +341,9 @@ export async function migrateLocalStorageToSupabase(
   // Ordinary login does not read it, not even when complete.
   report.profile = 'skipped-legacy-read-only';
 
-  await migrateAuxiliaryData(userId, report, deps ?? defaultDeps());
+  // Intentionally no migrateAuxiliaryData(): unowned local saved schemes,
+  // applications and document progress must never be assigned to whoever
+  // happens to log in. Cloud restore owns the authenticated user's data.
 
   markDone(userId);
   return report;
