@@ -63,10 +63,24 @@ function background(task: Promise<unknown>, tag: string): void {
 
 /* ------------------------- Eligibility profile ------------------------- */
 
+/**
+ * Minimum integrity contract for the cloud mirror.
+ *
+ * A profile missing its core entrepreneur facts must never replace the
+ * complete row in public.user_profiles (which saveUserProfile overwrites in
+ * full on conflict). Every legitimate writer passes a full UserProfile, so
+ * this rejects nothing real — it only makes a future partial-write
+ * regression structurally incapable of clobbering cloud data.
+ */
+export function isCloudMirrorSafe(profile: UserProfile | null | undefined): boolean {
+  return !!profile && !!(profile as UserProfile).category && !!(profile as UserProfile).state;
+}
+
 /** Mirror a profile save to the cloud. Call from saveStoredProfile. */
 export function syncProfileToCloud(profile: UserProfile | null | undefined): void {
   const userId = activeUserId();
   if (!userId || !profile) return;
+  if (!isCloudMirrorSafe(profile)) return;
   background(
     saveUserProfile(userId, profile as unknown as Json, extractProfileColumns(profile)),
     'profile',
@@ -186,6 +200,25 @@ function readLocalJson(key: string): unknown {
 }
 
 /**
+ * Validity-aware "local wins" guard.
+ *
+ * The restore must not run when this device already holds a real profile —
+ * but a legacy name-only stub (left in localStorage by the pre-53d46de bug)
+ * is truthy JSON without being a restorable entrepreneur profile. Treating
+ * it as "local data wins" would block the cloud restore forever and reproduce
+ * the exact "profile reset on re-login" symptom. A stub therefore counts as
+ * absent so the cloud copy can hydrate the device.
+ *
+ * Kept inline (not imported from profileStorage) to avoid a circular import;
+ * the core-facts heuristic mirrors migrationHelper's.
+ */
+export function hasUsableLocalProfile(raw: unknown): boolean {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return false;
+  const rec = raw as Record<string, unknown>;
+  return !!(rec.category && rec.state);
+}
+
+/**
  * Pull the cloud account's data into this device's localStorage.
  *
  * Runs ONLY for returning users (migration flag already set) whose device
@@ -200,7 +233,8 @@ function readLocalJson(key: string): unknown {
 export async function restoreCloudToLocal(userId: string): Promise<boolean> {
   try {
     if (typeof window === 'undefined') return false;
-    if (readLocalJson(LS_PROFILE_KEY)) return false;
+    // Validity-aware: a legacy name-only stub must not block the restore.
+    if (hasUsableLocalProfile(readLocalJson(LS_PROFILE_KEY))) return false;
 
     const remoteProfile = await getUserProfile<Json>(userId).catch(() => null);
     if (!remoteProfile || typeof remoteProfile !== 'object' || Array.isArray(remoteProfile)) {

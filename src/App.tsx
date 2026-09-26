@@ -484,6 +484,14 @@ function YojanaSetuMain() {
     // via saveStoredProfile() only when the user explicitly creates an
     // account (see handleLogin / handleCreateAccountFromPrompt).
     setUserProfile(fullProfile);
+    // Authenticated users already have a durable home for the entrepreneur
+    // profile (Supabase public.user_profiles, mirrored by saveStoredProfile).
+    // Persist immediately so logout -> login restores the complete profile
+    // instead of forcing re-entry. Guests stay memory-only by design: their
+    // working profile is persisted on explicit account creation.
+    if (isCloudAuthenticated) {
+      saveStoredProfile(fullProfile);
+    }
     setIsMatching(true);
   };
 

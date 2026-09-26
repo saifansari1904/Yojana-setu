@@ -149,7 +149,11 @@ assert(
   "W4: site always boots to 'welcome'",
 );
 
-// W5 — handleFormSubmit does not persist or authenticate
+// W5 — handleFormSubmit persists ONLY for cloud-authenticated users.
+// Guests stay memory-only by design (their working profile is persisted on
+// explicit account creation via handleLogin / handleCreateAccountFromPrompt);
+// an authenticated user's completed assessment must be persisted immediately
+// so logout -> login restores it instead of forcing re-entry.
 const formSubmitMatch = appSrc.match(
   /const handleFormSubmit[\s\S]*?\n  \};/,
 );
@@ -158,10 +162,17 @@ if (formSubmitMatch) {
   const block = formSubmitMatch[0];
   // Strip comments to avoid false positives from explanatory text
   const codeOnly = block.replace(/\/\/.*$/gm, '');
+  const saveCalls = codeOnly.match(/saveStoredProfile\(/g) || [];
   assert(
-    !codeOnly.includes('saveStoredProfile'),
-    'W5: handleFormSubmit does not call saveStoredProfile',
+    saveCalls.length <= 1,
+    'W5: handleFormSubmit persists at most once',
   );
+  if (saveCalls.length === 1) {
+    assert(
+      /if\s*\(\s*isCloudAuthenticated\s*\)[\s\S]*?saveStoredProfile\(/.test(codeOnly),
+      'W5: handleFormSubmit persists only when cloud-authenticated (guest path stays memory-only)',
+    );
+  }
   assert(
     !codeOnly.includes('setIsAuthenticated(true)'),
     'W5: handleFormSubmit does not set authenticated',

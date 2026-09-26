@@ -314,6 +314,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     setSyncUserId(null);
     clearStoredProfile();
+    // The one-time restore flag must not survive logout: otherwise a restore
+    // performed earlier in this tab session would suppress the cloud restore
+    // on the next login, and the entrepreneur profile would look "reset"
+    // even though public.user_profiles still holds it.
+    try {
+      sessionStorage.removeItem(RESTORED_FLAG);
+    } catch {
+      /* sessionStorage unavailable — restore will simply re-run */
+    }
     setUser(null);
   };
 
