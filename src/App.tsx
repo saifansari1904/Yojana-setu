@@ -117,6 +117,17 @@ function YojanaSetuMain() {
   // User profile loaded from authoritative persistent storage
   const [userProfile, setUserProfile] = useState<UserProfile | null>(() => loadStoredProfile());
 
+  // Keep userProfile in sync when the cloud restore (or another tab) writes
+  // to localStorage and dispatches the profile sync event. This replaces the
+  // old window.location.reload() after restore — React state updates
+  // naturally, and the post-auth navigation effect re-evaluates with the
+  // fresh profile.
+  useEffect(() => {
+    return subscribeProfileStorage((profile) => {
+      setUserProfile(profile);
+    });
+  }, []);
+
   /**
    * PROFILE_LOADING: a fresh-device sign-in whose cloud profile restore is
    * still running. The authenticated UI must not assume the profile is blank
@@ -468,23 +479,6 @@ function YojanaSetuMain() {
    * skips navigation when the uid is unchanged, which left users stuck on
    * the login screen with zero feedback. That case navigates from here.
    */
-  const handleLogin = (name?: string) => {
-    if (name) {
-      setApplicantName(name);
-    }
-    // Explicit account creation/sign-in: persist any working profile
-    // built during the guest assessment so results carry over.
-    if (userProfile) {
-      saveStoredProfile(userProfile);
-    }
-    // Already signed in and explicitly signing in again: the effect below
-    // will not navigate (uid unchanged) — do it here. Fresh sign-ins are
-    // untouched: they navigate via the effect when the new auth state lands.
-    if (isCloudAuthenticated && (currentScreen === 'login' || currentScreen === 'welcome')) {
-      navigateTo(userProfile ? 'results' : 'form');
-    }
-  };
-
   // True when this page load began with OAuth callback params in the URL.
   // Captured on first render: AuthContext consumes (clears) them during
   // session restore, so they must be read before any effect runs.
@@ -538,6 +532,13 @@ function YojanaSetuMain() {
     // the login route when the restore finishes with no cloud profile.)
     if (decision.consumed) prevCloudUidRef.current = uid;
     if (!decision.destination || !authUser) return;
+    // TEMPORARY instrumentation (auth cleanup): log every post-auth
+    // navigation so the single-authority flow can be verified. Remove once
+    // the login → results/form flow is confirmed in production.
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.log(`[Navigation] ${currentScreen} → ${decision.destination} (uid=${uid})`);
+    }
     // Consume the explicit sign-in intent once it has navigated.
     inPageSignInRef.current = false;
     setApplicantName(authUser.displayName);
@@ -546,26 +547,20 @@ function YojanaSetuMain() {
   }, [authUser, authLoading, currentScreen, userProfile, profileRestore]);
 
   /**
-   * SAFETY NET: an authenticated user must never be stranded on the entry
-   * screens. The login UI is gated off when authenticated (canShowLoginScreen
-   * is false), so if the post-auth navigation above did not fire (lost
-   * intent flag, duplicate uid, or any other reason), this effect moves the
-   * user to the form/results directly. It only fires when the profile
-   * restore is not pending, so the destination (results vs form) is stable.
-   *
-   * This is unconditional: an authenticated user on 'login' or 'welcome'
-   * always navigates. The welcome-first boot for restored sessions is
-   * handled by the main effect above (which keeps the strict intent check);
-   * this safety net is the last resort that guarantees no stranded state.
+   * AUTH INVARIANT (dev-only diagnostic): an authenticated user must never
+   * be stranded on the login route — the login UI is gated off when
+   * authenticated (canShowLoginScreen is false), so this state would render
+   * blank. The single post-auth navigation effect above is the only
+   * production navigation authority; this diagnostic only reports the
+   * violation, it never navigates.
    */
   useEffect(() => {
-    if (authStatus !== 'authenticated') return;
-    if (profileRestore === 'pending') return;
-    if (currentScreen === 'login' || currentScreen === 'welcome') {
-      navigateTo(userProfile ? 'results' : 'form');
+    if (!import.meta.env.DEV) return;
+    if (authStatus === 'authenticated' && currentScreen === 'login' && profileRestore !== 'pending') {
+      // eslint-disable-next-line no-console
+      console.error('[AuthInvariant] authenticated user stranded on login route');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authStatus, currentScreen, profileRestore, userProfile]);
+  }, [authStatus, currentScreen, profileRestore]);
 
   /**
    * Password recovery completed: the new password is set and the recovery
@@ -908,7 +903,6 @@ function YojanaSetuMain() {
             {canShowLogin && (
               <AnimatedPage key="login" direction={navDirection}>
                 <LoginScreen
-                  onLogin={handleLogin}
                   onSignInInitiated={() => {
                     // Explicit user intent: an in-page sign-in round-trip
                     // started during this page lifetime. The post-auth

@@ -315,10 +315,10 @@ assert(
   hasUsableLocalProfile({ ...completeProfile }),
 );
 
-/* 14. signOut clears the one-time restore flag */
+/* 14. signOut clears the one-time restore flag (user-scoped) */
 assert(
   '14. signOutUser removes the cloud-restore flag so the next login restores',
-  /const signOutUser[\s\S]*?sessionStorage\.removeItem\(RESTORED_FLAG\)[\s\S]*?setUser\(null\)/.test(
+  /const signOutUser[\s\S]*?sessionStorage\.removeItem\(restoredFlagKey\(uid\)\)[\s\S]*?setUser\(null\)/.test(
     authCtxSrc,
   ),
 );

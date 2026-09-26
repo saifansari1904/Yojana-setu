@@ -59,18 +59,19 @@ function readJson<T>(key: string): T | null {
   }
 }
 
-/** True when the user already migrated on this device. */
-export function hasMigrated(): boolean {
+/** True when this user already migrated on this device. User-scoped: one
+ *  user's migration state never suppresses another user's migration. */
+export function hasMigrated(userId: string): boolean {
   try {
-    return localStorage.getItem(DONE_FLAG) === '1';
+    return localStorage.getItem(`${DONE_FLAG}:${userId}`) === '1';
   } catch {
     return false;
   }
 }
 
-function markDone(): void {
+function markDone(userId: string): void {
   try {
-    localStorage.setItem(DONE_FLAG, '1');
+    localStorage.setItem(`${DONE_FLAG}:${userId}`, '1');
   } catch {
     /* non-fatal */
   }
@@ -84,7 +85,7 @@ export async function migrateLocalStorageToSupabase(userId: string): Promise<Mig
   const report: MigrationReport = {
     ranAt: new Date().toISOString(),
     userId,
-    alreadyRan: hasMigrated(),
+    alreadyRan: hasMigrated(userId),
     profile: 'skipped-empty',
     savedSchemes: 0,
     applications: 0,
@@ -202,6 +203,6 @@ export async function migrateLocalStorageToSupabase(userId: string): Promise<Mig
     report.errors.push(`documents: ${err instanceof Error ? err.message : String(err)}`);
   }
 
-  markDone();
+  markDone(userId);
   return report;
 }

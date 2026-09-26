@@ -18,7 +18,6 @@ import { validateSignIn, validateSignUp, type AuthFieldErrors } from '../lib/aut
 import { useAuth } from '../context/AuthContext';
 
 interface LoginScreenProps {
-  onLogin: (applicantName?: string) => void;
   /** Called synchronously when the user initiates a sign-in round-trip
    *  (before the auth request starts), so the app can distinguish an
    *  explicit sign-in from a stored session restored on page load. */
@@ -36,7 +35,7 @@ type Tab = 'signin' | 'signup';
  * NOTE: This file is presentation-only. All auth state, handlers, validation,
  * service calls, callbacks, and i18n keys are preserved exactly as implemented.
  */
-export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSignInInitiated, onSkipToForm }) => {
+export const LoginScreen: React.FC<LoginScreenProps> = ({ onSignInInitiated, onSkipToForm }) => {
   const { t } = useTranslation();
   const { authError, clearAuthError } = useAuth();
   const shouldReduceMotion = useReducedMotion();
@@ -117,7 +116,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSignInIniti
       const result = await signInWithPassword({ identifier: identifier.trim(), password, rememberMe });
       if (result.ok) {
         setRememberedIdentifier(rememberMe ? identifier.trim() : '');
-        onLogin(result.name);
+        // Auth state is owned by AuthContext (Supabase session). Do not
+        // notify App here — the post-auth navigation effect reacts to the
+        // authoritative auth state when it lands.
       } else if (result.error === 'noAccount') {
         setFormError(t('login.errNoAccount'));
       } else {
@@ -153,7 +154,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSignInIniti
         password: newPassword,
       });
       if (result.ok) {
-        onLogin(result.name);
+        // Auth state is owned by AuthContext (Supabase session). Do not
+        // notify App here — the post-auth navigation effect reacts to the
+        // authoritative auth state when it lands.
       } else if (result.error === 'emailInUse') {
         setFormError(t('login.errEmailInUse'));
       } else {
@@ -174,7 +177,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSignInIniti
       onSignInInitiated();
       const result = await signInWithGoogle();
       if (result.ok) {
-        onLogin(result.name);
+        // Auth state is owned by AuthContext (Supabase session). Do not
+        // notify App here — the post-auth navigation effect reacts to the
+        // authoritative auth state when it lands.
       } else {
         // No backend yet — honest notice, not a dead button.
         setNotice(t('login.backendPendingNotice'));

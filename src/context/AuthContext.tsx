@@ -116,11 +116,17 @@ const backfillApplicantName = (displayName: string): void => {
   }
 };
 
-const RESTORED_FLAG = 'yojana_setu_cloud_restored_v1';
+const RESTORED_FLAG_PREFIX = 'yojana_setu_cloud_restored_v1:';
 // Upper bound for the fresh-device cloud profile restore. If the restore
 // hasn't settled by then, the app proceeds with local data instead of
 // freezing on the profile loader.
 const RESTORE_TIMEOUT_MS = 10_000;
+
+/** User-scoped restore flag: one user's restore state never suppresses
+ *  another user's restore. Uses the Supabase auth UID, never email. */
+function restoredFlagKey(userId: string): string {
+  return `${RESTORED_FLAG_PREFIX}${userId}`;
+}
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<LocalUser | null>(() => toLocalUser());
@@ -161,7 +167,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
    */
   const restoreForReturningUser = (userId: string): void => {
     try {
-      if (sessionStorage.getItem(RESTORED_FLAG)) return;
+      if (sessionStorage.getItem(restoredFlagKey(userId))) return;
     } catch {
       return;
     }
@@ -192,12 +198,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           return;
         }
         try {
-          sessionStorage.setItem(RESTORED_FLAG, '1');
+          sessionStorage.setItem(restoredFlagKey(userId), '1');
         } catch {
           /* ignore */
         }
-        // Fresh device: boot the app from the restored data.
-        window.location.reload();
+        // Fresh device: the restored profile is already in localStorage and
+        // the PROFILE_SYNC_EVENT has been dispatched by restoreCloudToLocal.
+        // App subscribers pick up the new profile via subscribeProfileStorage.
+        // No reload — the navigation effect re-evaluates on profileRestore.
+        setProfileRestore('done');
       })
       .catch((err) => {
         console.warn('[Auth] Cloud restore failed (continuing with local data):', err);
@@ -207,7 +216,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const runOneTimeMigration = (userId: string): void => {
     try {
-      if (hasMigrated()) {
+      if (hasMigrated(userId)) {
         restoreForReturningUser(userId);
         return;
       }
@@ -422,7 +431,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // on the next login, and the entrepreneur profile would look "reset"
     // even though public.user_profiles still holds it.
     try {
-      sessionStorage.removeItem(RESTORED_FLAG);
+      const uid = user?.uid;
+      if (uid) sessionStorage.removeItem(restoredFlagKey(uid));
     } catch {
       /* sessionStorage unavailable — restore will simply re-run */
     }
