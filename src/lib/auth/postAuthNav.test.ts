@@ -53,7 +53,11 @@ const OTHER_UID = 'user-456';
   assert(d.consumed === true, 'late restored session uid is consumed (seen)');
 }
 
-// ── 2. Same, but on the login route ──────────────────────────────────
+// ── 2. Authenticated on the login route ALWAYS navigates ─────────────
+// The login UI is gated off when authenticated (canShowLoginScreen is
+// false), so a restored session on the login route must not stay — staying
+// strands the user on a blank screen. (The welcome route keeps the strict
+// no-intent-no-nav rule; see test 1.)
 {
   const d = decidePostAuthNavigation({
     uid: UID,
@@ -64,7 +68,8 @@ const OTHER_UID = 'user-456';
     oauthReturn: false,
     hasProfile: false,
   });
-  assert(d.destination === null, 'late restored session on login route does not navigate');
+  assert(d.destination === 'form', 'authenticated session on login route navigates to form');
+  assert(d.consumed === true, 'login-route navigation consumes the uid');
 }
 
 // ── 3. In-page sign-in WITH profile → results ────────────────────────

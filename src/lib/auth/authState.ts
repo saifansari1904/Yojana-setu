@@ -104,7 +104,17 @@ export function decidePostAuthNavigation(args: {
   if (currentScreen !== 'welcome' && currentScreen !== 'login') {
     return { destination: null, consumed: true };
   }
-  // Rule 5: explicit intent only — a restored session stays put.
+  // Authenticated on the login route: the login UI is gated off when
+  // authenticated (canShowLoginScreen is false), so staying here strands the
+  // user on a blank screen. Navigate regardless of the intent flags — they
+  // can be lost across a slow auth round-trip or a browser takeover, and the
+  // blank-screen outcome is strictly worse than navigating. (The welcome
+  // route below keeps the strict intent check: a restored session on reload
+  // must not auto-navigate off welcome.)
+  if (currentScreen === 'login') {
+    return { destination: hasProfile ? 'results' : 'form', consumed: true };
+  }
+  // Rule 5: explicit intent only — a restored session stays put on welcome.
   if (!inPageSignIn && !oauthReturn) return { destination: null, consumed: true };
   return { destination: hasProfile ? 'results' : 'form', consumed: true };
 }
