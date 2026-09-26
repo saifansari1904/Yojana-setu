@@ -66,7 +66,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { getSupabaseClient, isSupabaseConfigured } from './lib/supabase/client';
 import { hasOAuthCallbackParams } from './lib/supabase';
 import { syncSavedSchemeToggle, hasUsableLocalProfile } from './lib/supabase/sync';
-import { canShowLoginScreen } from './lib/auth/authState';
+import { canShowLoginScreen, decidePostAuthNavigation } from './lib/auth/authState';
 import { ResetPasswordScreen } from './components/ResetPasswordScreen';
 import { AnimatedPage } from './animations/AnimatedPage';
 import { AmbientBackground } from './animations/AmbientBackground';
@@ -497,10 +497,19 @@ function YojanaSetuMain() {
     }
   }
 
+  // Explicit sign-in intent for this page lifetime. Set synchronously by
+  // the login screen BEFORE the auth round-trip starts (and therefore
+  // before any auth state can land). A session restored from storage —
+  // even a late-arriving one that lands after the boot already resolved
+  // as unauthenticated — must never trigger auto-navigation; only an
+  // explicit sign-in (or the OAuth return above) moves the user off the
+  // entry screens. Consumed (cleared) once it has navigated.
+  const inPageSignInRef = useRef<boolean>(false);
+
   /**
    * Post-sign-in navigation — NAVIGATION ONLY, never authentication.
    * Reacts to the single source of truth (AuthContext): when a cloud
-   * session appears as a FRESH sign-in — in-page login, or an OAuth
+   * session appears from an EXPLICIT sign-in — in-page login, or an OAuth
    * redirect return — move from the entry screens to results/form.
    * A plain page refresh that restores an existing session intentionally
    * leaves the user on the welcome page.
@@ -511,26 +520,28 @@ function YojanaSetuMain() {
    * wrong screen. The PROFILE_LOADING gate below covers the wait visually.
    */
   const prevCloudUidRef = useRef<string | null>(null);
-  const bootResolvedRef = useRef(false);
   useEffect(() => {
     const uid = authUser && !authUser.isLocal ? authUser.uid : null;
-    const prevUid = prevCloudUidRef.current;
-    // A cloud user appearing only after AuthContext finished loading is a
-    // fresh sign-in; one arriving during the boot restore is not.
-    const freshSignIn = bootResolvedRef.current;
-    if (!authLoading) bootResolvedRef.current = true;
-    // While a fresh-device profile restore is pending, neither consume this
-    // uid nor navigate: the destination (results vs onboarding form) depends
-    // on the restored profile, and this effect must re-fire once the restore
+    const decision = decidePostAuthNavigation({
+      uid,
+      prevUid: prevCloudUidRef.current,
+      currentScreen,
+      profileRestore,
+      inPageSignIn: inPageSignInRef.current,
+      oauthReturn: oauthReturnRef.current,
+      hasProfile: !!userProfile,
+    });
+    // While a fresh-device profile restore is pending the uid is NOT
+    // consumed: the destination (results vs onboarding form) depends on the
+    // restored profile, and this effect must re-fire once the restore
     // settles. (Consuming the uid here would strand an authenticated user on
     // the login route when the restore finishes with no cloud profile.)
-    if (profileRestore === 'pending') return;
-    prevCloudUidRef.current = uid;
-    if (!uid || !authUser || uid === prevUid) return;
-    if (currentScreen !== 'welcome' && currentScreen !== 'login') return;
-    if (!freshSignIn && !oauthReturnRef.current) return;
+    if (decision.consumed) prevCloudUidRef.current = uid;
+    if (!decision.destination || !authUser) return;
+    // Consume the explicit sign-in intent once it has navigated.
+    inPageSignInRef.current = false;
     setApplicantName(authUser.displayName);
-    navigateTo(userProfile ? 'results' : 'form');
+    navigateTo(decision.destination);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authUser, authLoading, currentScreen, userProfile, profileRestore]);
 
@@ -867,6 +878,14 @@ function YojanaSetuMain() {
               <AnimatedPage key="login" direction={navDirection}>
                 <LoginScreen
                   onLogin={handleLogin}
+                  onSignInInitiated={() => {
+                    // Explicit user intent: an in-page sign-in round-trip
+                    // started during this page lifetime. The post-auth
+                    // navigation effect reads this (never timing) to decide
+                    // whether the arriving session should move the user off
+                    // the entry screens.
+                    inPageSignInRef.current = true;
+                  }}
                   onSkipToForm={() => {
                     navigateTo('form');
                   }}

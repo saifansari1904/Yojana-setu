@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { pageVariants, directionalPageVariants } from './variants';
 import { reducedMotionTransition } from './transitions';
@@ -12,6 +12,15 @@ interface AnimatedPageProps {
    * -1 = back (slides in from the left), 0 = neutral fade.
    * Keep 0 for transitions driven by shared-layout morphing
    * (results <-> scheme-detail) so the two systems never fight.
+   *
+   * Captured once at mount (enterDirectionRef): the exit trajectory must
+   * follow the screen's OWN enter direction, never a navigation that lands
+   * while it is exiting. The global navDirection is updated by a separate
+   * effect AFTER the navigation commits; if the exiting screen re-resolved
+   * its `exit` variant (or switched variant sets) against the new direction
+   * mid-exit, the animation could be retargeted and stall — freezing the
+   * app on a faded screen. Freezing at mount eliminates that hazard while
+   * preserving the directional design.
    */
   direction?: number;
 }
@@ -23,6 +32,8 @@ export const AnimatedPage: React.FC<AnimatedPageProps> = ({
   direction = 0,
 }) => {
   const shouldReduceMotion = useReducedMotion();
+  const enterDirectionRef = useRef(direction);
+  const enterDirection = enterDirectionRef.current;
 
   if (shouldReduceMotion) {
     return (
@@ -42,8 +53,8 @@ export const AnimatedPage: React.FC<AnimatedPageProps> = ({
   return (
     <motion.div
       id={id}
-      custom={direction}
-      variants={direction === 0 ? pageVariants : directionalPageVariants}
+      custom={enterDirection}
+      variants={enterDirection === 0 ? pageVariants : directionalPageVariants}
       initial="initial"
       animate="animate"
       exit="exit"

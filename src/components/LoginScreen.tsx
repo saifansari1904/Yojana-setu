@@ -19,6 +19,10 @@ import { useAuth } from '../context/AuthContext';
 
 interface LoginScreenProps {
   onLogin: (applicantName?: string) => void;
+  /** Called synchronously when the user initiates a sign-in round-trip
+   *  (before the auth request starts), so the app can distinguish an
+   *  explicit sign-in from a stored session restored on page load. */
+  onSignInInitiated: () => void;
   onSkipToForm: () => void;
 }
 
@@ -32,7 +36,7 @@ type Tab = 'signin' | 'signup';
  * NOTE: This file is presentation-only. All auth state, handlers, validation,
  * service calls, callbacks, and i18n keys are preserved exactly as implemented.
  */
-export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm }) => {
+export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSignInInitiated, onSkipToForm }) => {
   const { t } = useTranslation();
   const { authError, clearAuthError } = useAuth();
   const shouldReduceMotion = useReducedMotion();
@@ -109,6 +113,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
     if (Object.keys(fieldErrors).length > 0) return;
     setSubmitting(true);
     try {
+      onSignInInitiated();
       const result = await signInWithPassword({ identifier: identifier.trim(), password, rememberMe });
       if (result.ok) {
         setRememberedIdentifier(rememberMe ? identifier.trim() : '');
@@ -140,6 +145,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
     if (Object.keys(fieldErrors).length > 0) return;
     setSubmitting(true);
     try {
+      onSignInInitiated();
       const result = await signUpWithCredentials({
         name: name.trim(),
         email: email.trim(),
@@ -165,6 +171,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkipToForm 
     clearAuthError();
     setSubmitting(true);
     try {
+      onSignInInitiated();
       const result = await signInWithGoogle();
       if (result.ok) {
         onLogin(result.name);

@@ -58,6 +58,57 @@ export function isProfileRestorePending(state: ProfileRestoreState): boolean {
   return state === 'pending';
 }
 
+// ── Post-auth navigation decision ──────────────────────────────────────
+// Decides whether an auth-state change should move the user off the entry
+// screens ('welcome' | 'login'). Pure: fully testable without React.
+//
+// Contract:
+//  1. While a fresh-device profile restore is pending, NEVER navigate and
+//     NEVER consume the uid — the destination depends on the restored
+//     profile, so the caller must see this uid again once restore settles.
+//  2. The uid is consumed (marked seen) even when not navigating, so a
+//     stored session is never mistaken for a new sign-in on a later pass.
+//  3. Only a NEW uid navigates — duplicates are ignored.
+//  4. Only the entry screens navigate — deep links never get hijacked.
+//  5. Only EXPLICIT user intent navigates: an in-page sign-in during this
+//     page lifetime, or an OAuth redirect return (URL params). A session
+//     restored from storage — even one that arrives late, after the boot
+//     already resolved as unauthenticated — stays on the entry screen.
+//     (Rule 5 is the fix for the spurious reload auto-navigation: the old
+//     timing heuristic treated any session arriving after setLoading(false)
+//     as a fresh sign-in, firing a mid-boot screen transition whose exit
+//     animation could freeze the app on the faded welcome screen.)
+export type PostAuthDestination = 'results' | 'form';
+
+export interface PostAuthNavDecision {
+  /** 'results' | 'form' when navigation should happen, null otherwise. */
+  destination: PostAuthDestination | null;
+  /** True when the caller should record this uid as seen (prevUid). */
+  consumed: boolean;
+}
+
+export function decidePostAuthNavigation(args: {
+  uid: string | null;
+  prevUid: string | null;
+  currentScreen: string;
+  profileRestore: ProfileRestoreState;
+  inPageSignIn: boolean;
+  oauthReturn: boolean;
+  hasProfile: boolean;
+}): PostAuthNavDecision {
+  const { uid, prevUid, currentScreen, profileRestore, inPageSignIn, oauthReturn, hasProfile } = args;
+  // Rule 1: restore pending — wait, and don't consume the uid.
+  if (isProfileRestorePending(profileRestore)) return { destination: null, consumed: false };
+  // Rules 3–4: no uid, duplicate uid, or not on an entry screen — seen, no nav.
+  if (!uid || uid === prevUid) return { destination: null, consumed: true };
+  if (currentScreen !== 'welcome' && currentScreen !== 'login') {
+    return { destination: null, consumed: true };
+  }
+  // Rule 5: explicit intent only — a restored session stays put.
+  if (!inPageSignIn && !oauthReturn) return { destination: null, consumed: true };
+  return { destination: hasProfile ? 'results' : 'form', consumed: true };
+}
+
 /**
  * Arbitration for concurrent auth-state writers: Supabase listener events
  * vs the boot-time session restore.
