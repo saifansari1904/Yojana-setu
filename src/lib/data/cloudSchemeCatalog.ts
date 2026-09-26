@@ -230,8 +230,47 @@ export interface SchemeRow {
   benefit_summary: string | null;
   description: string | null;
   funding_range_text: string | null;
-  metadata: { tags?: string[]; categories?: string[] } | null;
+  metadata: {
+    tags?: string[];
+    categories?: string[];
+    /**
+     * Phase 2E.2 — explicit lifecycle signals. Only these values may retire
+     * a scheme. Absent entirely today (the cloud query selects
+     * status='published' only); honored defensively so a future select that
+     * includes tombstone rows behaves correctly.
+     */
+    lifecycle_status?: string | null;
+    retired_at?: string | null;
+  } | null;
   raw_payload: Partial<Scheme> | null;
+  /**
+   * Phase 2E.2 — not selected by the current cloud query (published-only),
+   * but part of the row contract so an explicit 'retired'/'archived' status
+   * is recognized as a tombstone when a future select includes it.
+   */
+  status?: string | null;
+}
+
+/**
+ * Phase 2E.2 — explicit cloud lifecycle signals that retire a scheme.
+ * ONLY these explicit signals may remove/retire a scheme. In particular:
+ * - a network failure (fetch rejects; merge is never called) never retires,
+ * - an empty cloud response never retires (merge returns unchanged),
+ * - a scheme merely absent from the published set is never treated as
+ *   retired — bundled ids are retained as the offline base.
+ */
+const RETIREMENT_STATUSES = new Set(['retired', 'archived']);
+
+export function isTombstoneRow(row: SchemeRow | null | undefined): boolean {
+  if (!row) return false;
+  const status = typeof row.status === 'string' ? row.status.toLowerCase().trim() : '';
+  if (RETIREMENT_STATUSES.has(status)) return true;
+  const lifecycle = typeof row.metadata?.lifecycle_status === 'string'
+    ? row.metadata.lifecycle_status.toLowerCase().trim()
+    : '';
+  if (RETIREMENT_STATUSES.has(lifecycle)) return true;
+  if (typeof row.metadata?.retired_at === 'string' && row.metadata.retired_at.trim() !== '') return true;
+  return false;
 }
 
 export interface SourceRow {
@@ -641,17 +680,24 @@ export interface MergeResult {
  *   (no degradation window).
  * - UNION, not replace: current-catalog schemes whose ids are absent from
  *   the cloud response are retained as-is, so a partial/failed response can
- *   never silently shrink the catalog. Explicit unpublish/tombstone semantics
- *   belong to the future admin-review phase.
- * - STALE-PHANTOM EVICTION: the published query returns the complete set
- *   (no pagination; row counts are far below PostgREST limits), so on a
- *   successful refresh the cloud response is authoritative for membership.
- *   A previous-catalog scheme whose id is in NEITHER the cloud response NOR
- *   the bundled offline base is a stale phantom — e.g. cached during an era
- *   when the cloud briefly published an extra row — and is evicted. Without
- *   this, a stale cache fossilizes the extra scheme forever, because the
- *   plain UNION could never remove it. Bundled ids are always retained: the
- *   bundled catalog is the offline fallback and must never shrink.
+ *   never silently shrink the catalog.
+ * - TOMBSTONE HONORING (Phase 2E.2): only an EXPLICIT cloud lifecycle signal
+ *   retires a scheme — a row with status 'retired'/'archived',
+ *   metadata.lifecycle_status 'retired'/'archived', or a non-empty
+ *   metadata.retired_at. Tombstoned ids are excluded from the merged catalog
+ *   AND override the bundled offline base (an explicit retirement wins over
+ *   the bundled copy). Absence from the published set is NOT a tombstone —
+ *   a scheme that disappears from the published response without an explicit
+ *   lifecycle signal is retained. This is deliberate: a network hiccup, a
+ *   partially-synced admin edit, or a query regression must never imply
+ *   retirement. The price is that a briefly-published row removed without a
+ *   tombstone lingers until an explicit tombstone arrives; the backend fix
+ *   (exposing tombstone rows to anon) is the proper retirement channel.
+ *   NOTE: the current cloud query selects status='published' only, and anon
+ *   RLS exposes published rows only, so tombstone rows do not reach the
+ *   frontend today. Authoritative retirement requires a backend change
+ *   (tombstone rows exposed to anon, e.g. a second published+retired query or
+ *   a security-definer RPC) — intentionally not created in this phase.
  * - `changed` is true only when the stable digest differs.
  */
 export function mergeCloudRows(
@@ -664,9 +710,21 @@ export function mergeCloudRows(
 
   const currentById = new Map(getCuratedSchemes().map((s) => [s.id, s]));
   const mapped: Scheme[] = [];
+  // Phase 2E.2: collect explicit tombstone signals first — a tombstone
+  // retires its id even if a bundled copy exists.
+  const tombstonedIds = new Set<string>();
+  for (const row of rows) {
+    if (row && typeof row.id === 'string' && row.id.length > 0 && isTombstoneRow(row)) {
+      tombstonedIds.add(row.id);
+    }
+  }
   for (const row of rows) {
     try {
       if (!row || typeof row.id !== 'string' || row.id.length === 0) continue;
+      // An explicit retirement signal wins over every other merge rule:
+      // the scheme is excluded, and the "keep existing bundled copy"
+      // fallback below must not resurrect it.
+      if (tombstonedIds.has(row.id)) continue;
       const rel = relatedById.get(row.id) ?? {
         rules: [],
         docs: [],
@@ -700,29 +758,29 @@ export function mergeCloudRows(
     }
   }
 
-  if (mapped.length === 0) {
+  // An empty or fully-malformed response never replaces a working catalog.
+  // But a response carrying ONLY explicit tombstones is not "empty" — the
+  // retirement signals are real and must be applied below.
+  if (mapped.length === 0 && tombstonedIds.size === 0) {
     return { schemes: getCuratedSchemes(), changed: false };
   }
 
   const previous = getCuratedSchemes();
   const seenIds = new Set(mapped.map((s) => s.id));
-  // The bundled catalog is the offline base — its ids survive every merge.
-  const bundledIds = new Set(SCHEMES_DATABASE.map((s) => s.id));
+  // Phase 2E.2: absence is never a retirement signal. A previous-catalog
+  // scheme that is neither superseded by a fresh cloud row nor explicitly
+  // tombstoned is retained as-is — even if its id is in neither the cloud
+  // response nor the bundled offline base. Only an explicit lifecycle
+  // signal (tombstonedIds) may remove a scheme.
   const merged: Scheme[] = [...mapped];
-  let evicted = 0;
   for (const s of previous) {
     if (seenIds.has(s.id)) continue; // superseded by the fresh cloud row
-    if (!bundledIds.has(s.id)) {
-      // Stale phantom (see doc comment): in neither the complete cloud
-      // response nor the bundled base. Evict.
-      evicted++;
-      continue;
-    }
+    if (tombstonedIds.has(s.id)) continue; // explicit retirement overrides everything
     merged.push(s);
   }
-  if (evicted > 0 && typeof window !== 'undefined' && import.meta.env?.DEV) {
+  if (tombstonedIds.size > 0 && typeof window !== 'undefined' && import.meta.env?.DEV) {
     // eslint-disable-next-line no-console
-    console.log(`[cloudSchemeCatalog] evicted ${evicted} stale non-bundled scheme(s) absent from the published cloud set`);
+    console.log(`[cloudSchemeCatalog] retired ${tombstonedIds.size} scheme(s) via explicit tombstone signal: ${[...tombstonedIds].join(', ')}`);
   }
 
   const changed = catalogDigest(previous) !== catalogDigest(merged);
@@ -900,7 +958,9 @@ export interface CatalogSetDiagnosis {
   /** Final frontend IDs: current curated set + bundled candidates. */
   finalIds: string[];
   finalCuratedIds: string[];
-  /** IDs present in the final set but in NEITHER cloud NOR bundled. */
+  /** IDs present in the final set but in NEITHER cloud NOR bundled.
+   *  Informational only — these are retained, never evicted (Phase 2E.2:
+   *  absence is not a retirement signal). */
   phantomIds: string[];
   /** IDs present more than once in the final set. */
   duplicateIds: string[];

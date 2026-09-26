@@ -2,8 +2,10 @@
  * YOJANA SETU — CATALOG SET REGRESSION TESTS (Bug C)
  *
  * §20 regression scenarios for the cloud-catalog merge:
- *  5. Cloud publishes 39 + a stale cache holds 40 -> final curated is 39;
- *     the stale phantom is evicted, bundled rows are never lost.
+ *  5. Cloud publishes 39 + a stale cache holds 40 -> final curated is 40;
+ *     the extra cached scheme is RETAINED (Phase 2E.2: absence from the
+ *     published set is not a retirement signal — only an explicit cloud
+ *     lifecycle tombstone may remove a scheme). Bundled rows never lost.
  *  6. Bundled 39 + cloud 39 (identical) -> no churn (changed=false).
  *  7. Cloud publishes 40 with one genuinely NEW id -> 40 (no false eviction).
  *  8. Cloud failure (empty / fully malformed) -> catalog unchanged.
@@ -111,7 +113,9 @@ async function main() {
   const PHANTOM_ID = 'phantom-stale-scheme';
 
   // ------------------------------------------------------------------
-  // §20.5 — cloud 39 + stale cache 40 -> phantom evicted, final 39
+  // §20.5 — cloud 39 + stale cache 40 -> extra cached scheme RETAINED
+  // (Phase 2E.2: absence from the published set is not a retirement
+  // signal; only an explicit tombstone may remove a scheme)
   // ------------------------------------------------------------------
   {
     const phantom = cloneScheme(SCHEMES_DATABASE[0]);
@@ -123,13 +127,13 @@ async function main() {
     );
     const result = catalog.mergeCloudRows(bundledRows(), EMPTY_RELATED);
     const ids = result.schemes.map((s) => s.id);
-    assert(result.schemes.length === 39, `§20.5 phantom evicted: final curated is 39 (got ${result.schemes.length})`);
-    assert(!ids.includes(PHANTOM_ID), '§20.5 the stale phantom id is gone from the final set');
+    assert(result.schemes.length === 40, `§20.5 no absence-based eviction: final curated is 40 (got ${result.schemes.length})`);
+    assert(ids.includes(PHANTOM_ID), '§20.5 the extra cached id is retained until an explicit tombstone arrives');
     assert(
       bundledIds.every((id) => ids.includes(id)),
-      '§20.5 all 39 bundled ids survive the eviction',
+      '§20.5 all 39 bundled ids survive the merge',
     );
-    assert(result.changed === true, '§20.5 changed=true so the refresh swaps the catalog');
+    assert(result.changed === false, '§20.5 changed=false: retained set equals previous, no catalog swap needed');
     assert(
       catalog.getCatalogSource() === 'cached',
       '§20.5 mergeCloudRows is pure: module state (cached) untouched until doRefresh swaps',

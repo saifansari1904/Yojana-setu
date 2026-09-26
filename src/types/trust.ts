@@ -110,6 +110,7 @@ export interface ReviewQueueItem {
     | 'URL_SAFETY_UNCONFIRMED'
     | 'DOCUMENT_CHECKLIST_INCOMPLETE'
     | 'APPLICATION_PORTAL_UNVERIFIED'
+    | 'UNRESOLVED_COLLISION'
     | 'SECONDARY_SOURCE_ONLY';
   priority: 'HIGH' | 'MEDIUM' | 'LOW';
   field: string;

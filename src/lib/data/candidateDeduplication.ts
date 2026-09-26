@@ -136,13 +136,24 @@ export function deduplicateCandidateSchemes(
     }
 
     if (isDuplicate) {
+      // Phase 2E.2: a collision against an authoritative scheme record is
+      // NEVER silently resolved. The candidate keeps its (renamed) identity so
+      // the ingestion record is not discarded, but the audit entry is flagged
+      // needsReview so review/publication surfaces must surface it and block
+      // approval until a human resolves it. Intra-batch ID collisions (no
+      // authoritative counterpart) are true duplicates of the same ingest and
+      // do not require review.
+      const needsReview = existingSchemeId !== undefined && existingSchemeId !== '';
       duplicateAudit.push({
         candidateId: cand.id,
         existingSchemeId,
         isDuplicate: true,
         duplicateType,
         confidenceScore,
-        notes,
+        notes: needsReview
+          ? `${notes} UNRESOLVED COLLISION — publication/approval requires human resolution (merge into '${existingSchemeId}' or confirm as distinct).`
+          : notes,
+        needsReview,
       });
 
       // Annotate candidate scheme metadata with duplicate audit without mutating authoritative scheme
