@@ -165,6 +165,15 @@ export function getSyncDisplayName(
  */
 const DISPLAY_NAME_LOOKUP_TIMEOUT_MS = 8000;
 
+/**
+ * The signup trigger's placeholder default (migration 002). A profile row
+ * carrying exactly this value means "no name was captured at signup" —
+ * it must never overwrite a real auth-metadata name (e.g. Google's
+ * full_name). Only a genuinely user-set profile name takes precedence
+ * over metadata.
+ */
+const PLACEHOLDER_DISPLAY_NAME = 'citizen entrepreneur';
+
 function withLookupTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;
   const guarded = promise.then(
@@ -205,7 +214,10 @@ export async function resolveDisplayName(userId: string, fallbackEmail: string |
     );
     const { data } = await withLookupTimeout(profileQuery, DISPLAY_NAME_LOOKUP_TIMEOUT_MS);
     const raw = (data?.display_name as string | undefined)?.trim();
-    if (raw) return sanitizeApplicantName(raw);
+    // Skip the trigger's placeholder default: it is not a user-chosen name.
+    if (raw && raw.toLowerCase() !== PLACEHOLDER_DISPLAY_NAME) {
+      return sanitizeApplicantName(raw);
+    }
   } catch {
     /* fall through to metadata */
   }
