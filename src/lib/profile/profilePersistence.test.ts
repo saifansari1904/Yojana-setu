@@ -68,12 +68,20 @@ import {
   loadStoredProfile,
   saveStoredProfile,
   clearStoredProfile,
+  loadAuthenticatedProfile,
+  loadGuestProfile,
+  saveAuthenticatedProfile,
+  clearAuthenticatedProfile,
+  authenticatedProfileKey,
+  GUEST_PROFILE_KEY,
   USER_PROFILE_STORAGE_KEY,
 } from './profileStorage';
 import {
   isCloudMirrorSafe,
   hasUsableLocalProfile,
   restoreCloudToLocal,
+  setSyncUserId,
+  getSyncUserId,
 } from '../supabase/sync';
 import { rankSchemesForProfile } from '../matching/matchingEngine';
 import { SCHEMES_DATABASE } from '../../data/schemes';
@@ -132,24 +140,39 @@ const coreFields = (p: UserProfile | null): string =>
   });
 
 /** Simulates exactly what restoreCloudToLocal does on a successful restore:
- *  the cloud row is written verbatim to the local profile key. */
-const simulateCloudRestoreWrite = (cloudRow: unknown): void => {
-  ls().setItem(USER_PROFILE_STORAGE_KEY, JSON.stringify(cloudRow));
+ *  the cloud row is written verbatim to the user's scoped profile key. */
+const simulateCloudRestoreWrite = (userId: string, cloudRow: unknown): void => {
+  ls().setItem(authenticatedProfileKey(userId), JSON.stringify(cloudRow));
 };
+
+// Test user ids (Supabase UIDs, never emails)
+const UID_A = 'aaaaaaaa-1111-4222-8333-444444444444';
+const UID_B = 'bbbbbbbb-5555-4666-8777-888888888888';
+
+/** Simulate an authenticated session for the given uid. */
+const loginAs = (uid: string): void => setSyncUserId(uid);
+/** Simulate logout / guest mode. */
+const logoutToGuest = (): void => setSyncUserId(null);
 
 console.log('\n=== PROFILE PERSISTENCE REGRESSION TESTS ===');
 
-/* 1. save profile -> load profile */
+/* 1. save profile -> load profile (authenticated) */
 ls().clear();
+loginAs(UID_A);
 saveStoredProfile(completeProfile);
 assert(
   '1. save profile -> load profile roundtrip preserves core fields',
   coreFields(loadStoredProfile()) === coreFields(completeProfile),
 );
+assert(
+  '1b. authenticated profile stored under v2:<uid>, not the global key',
+  ls().getItem(authenticatedProfileKey(UID_A)) !== null &&
+    ls().getItem(USER_PROFILE_STORAGE_KEY) === null,
+);
 
 /* 2. cloud profile -> local hydration */
-clearStoredProfile(); // logout wipes the device
-simulateCloudRestoreWrite({ ...completeProfile }); // cloud row arrives verbatim
+clearAuthenticatedProfile(UID_A); // logout wipes the device cache
+simulateCloudRestoreWrite(UID_A, { ...completeProfile }); // cloud row arrives verbatim
 assert(
   '2. cloud profile hydrates local state with identical core fields',
   coreFields(loadStoredProfile()) === coreFields(completeProfile),
@@ -157,17 +180,20 @@ assert(
 
 /* 3. logout -> login -> profile restored (full state machine) */
 ls().clear();
+loginAs(UID_A);
 saveStoredProfile(completeProfile); // authenticated assessment submit persists
-const cloudRow = JSON.parse(ls().getItem(USER_PROFILE_STORAGE_KEY)!); // "synced" row
-clearStoredProfile(); // logout
+const cloudRow = JSON.parse(ls().getItem(authenticatedProfileKey(UID_A))!); // "synced" row
+clearAuthenticatedProfile(UID_A); // logout clears the device cache
+logoutToGuest();
 assert('3a. logout clears the local profile', loadStoredProfile() === null);
 // login: restore path runs because no usable local profile remains
-const localRaw = ls().getItem(USER_PROFILE_STORAGE_KEY);
+loginAs(UID_A);
+const localRaw = ls().getItem(authenticatedProfileKey(UID_A));
 assert(
   '3b. after logout there is no usable local profile to block restore',
   !hasUsableLocalProfile(localRaw ? JSON.parse(localRaw) : null),
 );
-simulateCloudRestoreWrite(cloudRow); // restoreCloudToLocal success leg
+simulateCloudRestoreWrite(UID_A, cloudRow); // restoreCloudToLocal success leg
 assert(
   '3c. login restores the complete entrepreneur profile',
   coreFields(loadStoredProfile()) === coreFields(completeProfile),
@@ -176,10 +202,13 @@ assert(
 /* 4 & 5. provider independence: Google and email logins share one restore path */
 for (const provider of ['Google', 'email/password']) {
   ls().clear();
+  loginAs(UID_A);
   saveStoredProfile(completeProfile);
-  const row = JSON.parse(ls().getItem(USER_PROFILE_STORAGE_KEY)!);
-  clearStoredProfile();
-  simulateCloudRestoreWrite(row);
+  const row = JSON.parse(ls().getItem(authenticatedProfileKey(UID_A))!);
+  clearAuthenticatedProfile(UID_A);
+  logoutToGuest();
+  loginAs(UID_A);
+  simulateCloudRestoreWrite(UID_A, row);
   assert(
     `${provider}: logout -> login restores the complete profile`,
     coreFields(loadStoredProfile()) === coreFields(completeProfile),
@@ -224,21 +253,22 @@ assert(
 );
 
 /* 8. auth loading / session restore cannot clear a valid profile */
-const clearCalls = authCtxSrc.match(/clearStoredProfile/g) || [];
+const clearCalls = authCtxSrc.match(/clearAuthenticatedProfile/g) || [];
 assert(
-  '8. only signOutUser may clear the stored profile (boot/restore paths never do)',
+  '8. only signOutUser clears the authenticated device cache (boot/restore paths never do)',
   clearCalls.length === 2, // import + the single call inside signOutUser
   `found ${clearCalls.length} references`,
 );
 assert(
   '8b. session restore derives state from storage, never wipes it',
-  !/applySessionUser[\s\S]{0,400}?clearStoredProfile/.test(authCtxSrc),
+  !/applySessionUser[\s\S]{0,400}?clearAuthenticatedProfile/.test(authCtxSrc),
 );
 
 /* 9. language change does not alter stored profile data */
 ls().clear();
+loginAs(UID_A);
 saveStoredProfile(completeProfile);
-const rawStored = ls().getItem(USER_PROFILE_STORAGE_KEY)!;
+const rawStored = ls().getItem(authenticatedProfileKey(UID_A))!;
 const parsedStored = JSON.parse(rawStored) as Record<string, unknown>;
 assert(
   '9a. stored core facts are language-independent codes/values',
@@ -258,10 +288,13 @@ const rankIds = (p: UserProfile): string[] =>
   );
 const beforeLogout = rankIds(completeProfile);
 ls().clear();
+loginAs(UID_A);
 saveStoredProfile(completeProfile);
-const synced = JSON.parse(ls().getItem(USER_PROFILE_STORAGE_KEY)!);
-clearStoredProfile();
-simulateCloudRestoreWrite(synced);
+const synced = JSON.parse(ls().getItem(authenticatedProfileKey(UID_A))!);
+clearAuthenticatedProfile(UID_A);
+logoutToGuest();
+loginAs(UID_A);
+simulateCloudRestoreWrite(UID_A, synced);
 const restored = loadStoredProfile()!;
 const afterRelogin = rankIds(restored);
 assert(
@@ -292,8 +325,9 @@ assert(
 
 /* 12. refresh after login preserves the profile */
 ls().clear();
+loginAs(UID_A);
 saveStoredProfile(completeProfile);
-const afterRefreshRaw = ls().getItem(USER_PROFILE_STORAGE_KEY); // fresh read, like a reboot
+const afterRefreshRaw = ls().getItem(authenticatedProfileKey(UID_A)); // fresh read, like a reboot
 assert(
   '12. profile survives a refresh (re-read from storage)',
   coreFields(

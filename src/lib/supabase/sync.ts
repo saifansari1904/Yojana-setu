@@ -44,6 +44,12 @@ export function setSyncUserId(userId: string | null): void {
   lastSyncedDocMap = null;
 }
 
+/** The currently authenticated cloud user id, or null for guests/signed-out.
+ *  Used by profile storage to select the user-scoped local key. */
+export function getSyncUserId(): string | null {
+  return syncUserId;
+}
+
 /** Cloud user id when syncing is possible, else null. */
 function activeUserId(): string | null {
   if (!syncUserId) return null;
@@ -189,6 +195,27 @@ const LS_SAVED_KEY = 'yojana_setu_saved_schemes';
 const LS_APPLICATIONS_KEY = 'yojana_setu_applications_v1';
 const LS_DOC_PROGRESS_KEY = 'yojana_setu_document_progress_v1';
 const PROFILE_SYNC_EVENT = 'yojana_setu_profile_sync';
+/** User-scoped authenticated profile key (mirrors profileStorage.ts; kept as
+ *  a literal here to avoid a circular import). */
+const authProfileKey = (userId: string): string => `yojana_setu_user_profile_v2:${userId}`;
+
+/**
+ * Clears the global cloud-cache keys (saved schemes, applications, document
+ * progress) on logout. These are device caches, not the durable cloud
+ * source — the next login restores the correct user's data from
+ * public.* tables. Clearing prevents User B from ever reading User A's
+ * cached state on a shared device.
+ */
+export function clearCloudCaches(): void {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.removeItem(LS_SAVED_KEY);
+    localStorage.removeItem(LS_APPLICATIONS_KEY);
+    localStorage.removeItem(LS_DOC_PROGRESS_KEY);
+  } catch {
+    /* ignore */
+  }
+}
 
 function readLocalJson(key: string): unknown {
   try {
@@ -233,15 +260,17 @@ export function hasUsableLocalProfile(raw: unknown): boolean {
 export async function restoreCloudToLocal(userId: string): Promise<boolean> {
   try {
     if (typeof window === 'undefined') return false;
-    // Validity-aware: a legacy name-only stub must not block the restore.
-    if (hasUsableLocalProfile(readLocalJson(LS_PROFILE_KEY))) return false;
+    // Ownership-aware: only the user's own v2:<uid> key counts as "local
+    // data wins". A legacy global v1 profile belonging to someone else (or a
+    // guest) must never block this user's cloud restore.
+    if (hasUsableLocalProfile(readLocalJson(authProfileKey(userId)))) return false;
 
     const remoteProfile = await getUserProfile<Json>(userId).catch(() => null);
     if (!remoteProfile || typeof remoteProfile !== 'object' || Array.isArray(remoteProfile)) {
       return false;
     }
 
-    localStorage.setItem(LS_PROFILE_KEY, JSON.stringify(remoteProfile));
+    localStorage.setItem(authProfileKey(userId), JSON.stringify(remoteProfile));
 
     try {
       const ids = await getSavedSchemeIds(userId).catch((): string[] => []);

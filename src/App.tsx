@@ -41,7 +41,7 @@ const EntrepreneurProfileScreen = lazy(() =>
   import('./components/profile/EntrepreneurProfileScreen').then((m) => ({ default: m.EntrepreneurProfileScreen })),
 );
 import { SetuLoader } from './animations/SetuLoader';
-import { loadStoredProfile, saveStoredProfile, clearStoredProfile, subscribeProfileStorage } from './lib/profile/profileStorage';
+import { loadStoredProfile, saveStoredProfile, subscribeProfileStorage } from './lib/profile/profileStorage';
 import {
   completeFollowUpReminder,
   createTrackedApplication,
@@ -577,10 +577,11 @@ function YojanaSetuMain() {
     } catch (err) {
       console.warn('[Auth] Error signing out:', err);
     }
-    // Auth state itself is cleared by signOutUser (Supabase SIGNED_OUT ->
-    // AuthContext). Here we only reset the app-level profile state.
+    // Auth state and the authenticated device cache are cleared by
+    // signOutUser (Supabase SIGNED_OUT -> AuthContext). Here we only reset
+    // the app-level React state ("active memory"). The cloud profile is
+    // never deleted.
     setUserProfile(null);
-    clearStoredProfile();
     setApplicantName('');
     navigateTo('welcome');
   };

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { loadStoredProfile, saveStoredProfile, clearStoredProfile, subscribeProfileStorage } from '../lib/profile/profileStorage';
+import { loadStoredProfile, saveStoredProfile, clearAuthenticatedProfile, subscribeProfileStorage } from '../lib/profile/profileStorage';
 import type { UserProfile } from '../types/user';
 import {
   getSessionUser,
@@ -15,7 +15,8 @@ import {
   hasMigrated,
   migrateLocalStorageToSupabase,
 } from '../lib/supabase/migrationHelper';
-import { setSyncUserId, restoreCloudToLocal, hasUsableLocalProfile } from '../lib/supabase/sync';
+import { setSyncUserId, restoreCloudToLocal, hasUsableLocalProfile, clearCloudCaches } from '../lib/supabase/sync';
+import { loadAuthenticatedProfile } from '../lib/profile/profileStorage';
 import {
   resolveAuthStatus,
   AuthSessionArbiter,
@@ -171,10 +172,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch {
       return;
     }
-    // A device that already holds a usable profile never needs a restore.
-    // This also keeps the restore (and its reload) strictly off the path
-    // for same-device logins.
-    if (hasUsableLocalProfile(loadStoredProfile())) return;
+    // Ownership-aware: a device that already holds THIS USER's usable
+    // profile (v2:<uid>) never needs a restore. Another user's profile or
+    // an unowned legacy v1 profile must never suppress this user's restore.
+    if (hasUsableLocalProfile(loadAuthenticatedProfile(userId))) return;
     const restoreStart = performance.now();
     if (import.meta.env.DEV) {
       // eslint-disable-next-line no-console
@@ -416,6 +417,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const signOutUser = async (): Promise<void> => {
+    const uid = user?.uid;
     try {
       if (isSupabaseConfigured()) {
         await supabaseSignOut();
@@ -423,15 +425,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch {
       // Backend unreachable — still clear local state below.
     }
+    // Ordering is critical (spec §18): stop cloud sync BEFORE any local
+    // writes, so a subsequent guest write can never target the old uid.
     setSyncUserId(null);
-    clearStoredProfile();
+    // Clear the authenticated device cache from active memory. The
+    // user-scoped v2:<uid> key is removed so the next user on this device
+    // can never read it; the durable cloud profile (public.user_profiles)
+    // is NEVER deleted — next login restores it.
+    if (uid) {
+      clearAuthenticatedProfile(uid);
+    }
+    // Clear the global cloud caches (saved schemes, applications, documents)
+    // so the next user cannot read the previous user's cached state.
+    clearCloudCaches();
     setProfileRestore('idle');
     // The one-time restore flag must not survive logout: otherwise a restore
     // performed earlier in this tab session would suppress the cloud restore
     // on the next login, and the entrepreneur profile would look "reset"
     // even though public.user_profiles still holds it.
     try {
-      const uid = user?.uid;
       if (uid) sessionStorage.removeItem(restoredFlagKey(uid));
     } catch {
       /* sessionStorage unavailable — restore will simply re-run */

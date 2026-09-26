@@ -28,7 +28,10 @@ import type { Json, TrackedApplicationInput } from './types';
 
 const DONE_FLAG = 'yojana_setu_backend_migrated_v1';
 
-/* Legacy keys (must match the repo exactly). */
+/* Legacy keys (must match the repo exactly).
+ * K_PROFILE is the pre-ownership global key. It is read here ONLY for the
+ * explicit one-time guest→account migration (with remote-exists protection).
+ * It is never used as an authenticated profile source. */
 const K_PROFILE = 'yojana_setu_user_profile_v1';
 const K_SAVED = 'yojana_setu_saved_schemes';
 const K_APPLICATIONS = 'yojana_setu_applications_v1';

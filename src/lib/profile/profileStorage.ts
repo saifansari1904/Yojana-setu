@@ -14,10 +14,31 @@ import { UserProfile } from '../../types/user';
 import { deriveBusinessProfile, deriveBusinessNeedProfile } from '../business/businessNeedProfile';
 import { validateUserProfile } from '../validation/userProfileValidation';
 import { normalizeRegistrationFields } from '../registrations/registrationModel';
-import { syncProfileToCloud } from '../supabase/sync';
+import { syncProfileToCloud, getSyncUserId } from '../supabase/sync';
 
-export const USER_PROFILE_STORAGE_KEY = 'yojana_setu_user_profile_v1';
+/**
+ * STORAGE OWNERSHIP MODEL
+ * -----------------------
+ * Guest profile (unauthenticated):      yojana_setu_guest_profile_v1
+ * Authenticated profile (per Supabase UID): yojana_setu_user_profile_v2:<uid>
+ * Legacy (pre-ownership, read-only):    yojana_setu_user_profile_v1
+ *
+ * The legacy v1 key is NEVER written. It is read only as a fallback for
+ * guests (pre-migration data) and by migrationHelper for the explicit
+ * guest→account migration. An authenticated user NEVER reads the legacy
+ * key — their profile comes from v2:<uid> or the cloud.
+ */
+export const GUEST_PROFILE_KEY = 'yojana_setu_guest_profile_v1';
+const AUTH_PROFILE_KEY_PREFIX = 'yojana_setu_user_profile_v2:';
+const LEGACY_PROFILE_KEY = 'yojana_setu_user_profile_v1';
+// Kept exported for tests/back-compat; do not use for new writes.
+export const USER_PROFILE_STORAGE_KEY = LEGACY_PROFILE_KEY;
 const PROFILE_SYNC_EVENT = 'yojana_setu_profile_sync';
+
+/** User-scoped authenticated profile key. Uses the Supabase auth UID, never email. */
+export function authenticatedProfileKey(userId: string): string {
+  return `${AUTH_PROFILE_KEY_PREFIX}${userId}`;
+}
 
 /**
  * Sanitizes an applicant name to ensure Aadhaar numbers, PAN numbers,
@@ -68,13 +89,13 @@ export function sanitizeProfilePII(profile: UserProfile): UserProfile {
 }
 
 /**
- * Loads the citizen's profile from persistent local storage.
- * Gracefully handles parsing errors, validates data integrity, and returns null if corrupt or missing.
+ * Loads and validates a profile from a specific storage key.
+ * Returns null if missing, corrupt, or invalid.
  */
-export function loadStoredProfile(): UserProfile | null {
+function loadProfileFromKey(storageKey: string): UserProfile | null {
   if (typeof window === 'undefined') return null;
   try {
-    const raw = localStorage.getItem(USER_PROFILE_STORAGE_KEY);
+    const raw = localStorage.getItem(storageKey);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== 'object') {
@@ -118,9 +139,38 @@ export function loadStoredProfile(): UserProfile | null {
 }
 
 /**
- * Saves the user profile as the authoritative source of truth.
- * Automatically sanitizes PII, synchronizes derived business profiles,
- * and notifies other open tabs via broadcast events.
+ * Loads the citizen's profile from persistent local storage.
+ * Ownership-aware: authenticated users read ONLY their v2:<uid> key;
+ * guests read the guest key (with legacy v1 fallback for pre-migration data).
+ */
+export function loadStoredProfile(): UserProfile | null {
+  const uid = getSyncUserId();
+  if (uid) {
+    return loadProfileFromKey(authenticatedProfileKey(uid));
+  }
+  return loadProfileFromKey(GUEST_PROFILE_KEY) ?? loadProfileFromKey(LEGACY_PROFILE_KEY);
+}
+
+/** Loads the authenticated profile for a specific user. Never reads the legacy global key. */
+export function loadAuthenticatedProfile(userId: string): UserProfile | null {
+  return loadProfileFromKey(authenticatedProfileKey(userId));
+}
+
+/** Loads the guest profile. Includes legacy v1 fallback for pre-migration data. */
+export function loadGuestProfile(): UserProfile | null {
+  return loadProfileFromKey(GUEST_PROFILE_KEY) ?? loadProfileFromKey(LEGACY_PROFILE_KEY);
+}
+
+/** Reads the legacy v1 key directly (for the explicit guest→account migration only). */
+export function loadLegacyProfile(): UserProfile | null {
+  return loadProfileFromKey(LEGACY_PROFILE_KEY);
+}
+
+/**
+ * Saves the user profile to the ownership-correct key.
+ * Authenticated: yojana_setu_user_profile_v2:<uid> (+ cloud mirror).
+ * Guest: yojana_setu_guest_profile_v1 (never sent to Supabase).
+ * The legacy v1 key is never written.
  */
 export function saveStoredProfile(profile: UserProfile | null | undefined): UserProfile | null {
   if (!profile) {
@@ -141,9 +191,12 @@ export function saveStoredProfile(profile: UserProfile | null | undefined): User
     businessProfile: bizProfile,
   };
 
+  const uid = getSyncUserId();
+  const storageKey = uid ? authenticatedProfileKey(uid) : GUEST_PROFILE_KEY;
+
   if (typeof window !== 'undefined') {
     try {
-      localStorage.setItem(USER_PROFILE_STORAGE_KEY, JSON.stringify(updatedProfile));
+      localStorage.setItem(storageKey, JSON.stringify(updatedProfile));
       window.dispatchEvent(new CustomEvent(PROFILE_SYNC_EVENT, { detail: updatedProfile }));
     } catch (err) {
       console.warn('[ProfileStorage] Failed to persist user profile:', err);
@@ -152,22 +205,60 @@ export function saveStoredProfile(profile: UserProfile | null | undefined): User
 
   // Mirror to the cloud backend when a Supabase session is active.
   // Fire-and-forget: never blocks the UI, never throws.
+  // Guests never reach here with a uid, so guest data never goes to Supabase.
   syncProfileToCloud(updatedProfile);
 
   return updatedProfile;
 }
 
 /**
- * Clears the stored user profile (e.g. on logout or explicit reset)
- * and dispatches notification.
+ * Saves an authenticated profile for an explicit user id (used by the
+ * restore path, which runs before syncUserId may be set in all callers).
+ */
+export function saveAuthenticatedProfile(userId: string, profile: UserProfile | null | undefined): UserProfile | null {
+  if (!profile) return null;
+  const sanitized = sanitizeProfilePII(profile);
+  const normalized = normalizeRegistrationFields(sanitized);
+  const updatedProfile: UserProfile = {
+    ...normalized,
+    businessNeedProfile: normalized.businessNeedProfile || deriveBusinessNeedProfile(normalized),
+    businessProfile: normalized.businessProfile || deriveBusinessProfile(normalized),
+  };
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(authenticatedProfileKey(userId), JSON.stringify(updatedProfile));
+      window.dispatchEvent(new CustomEvent(PROFILE_SYNC_EVENT, { detail: updatedProfile }));
+    } catch (err) {
+      console.warn('[ProfileStorage] Failed to persist authenticated profile:', err);
+    }
+  }
+  return updatedProfile;
+}
+
+/**
+ * Clears the stored profile for the active ownership context.
+ * Authenticated: removes v2:<uid> (the user's own device cache; the cloud
+ * profile is NEVER deleted). Guest: removes the guest key.
  */
 export function clearStoredProfile(): void {
   if (typeof window !== 'undefined') {
     try {
-      localStorage.removeItem(USER_PROFILE_STORAGE_KEY);
+      const uid = getSyncUserId();
+      localStorage.removeItem(uid ? authenticatedProfileKey(uid) : GUEST_PROFILE_KEY);
       window.dispatchEvent(new CustomEvent(PROFILE_SYNC_EVENT, { detail: null }));
     } catch {
       // Ignore storage failure
+    }
+  }
+}
+
+/** Removes the authenticated device cache for an explicit user id (logout). */
+export function clearAuthenticatedProfile(userId: string): void {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.removeItem(authenticatedProfileKey(userId));
+    } catch {
+      /* ignore */
     }
   }
 }
@@ -179,8 +270,9 @@ export function clearStoredProfile(): void {
 export function subscribeProfileStorage(callback: (profile: UserProfile | null) => void): () => void {
   if (typeof window === 'undefined') return () => {};
 
+  const watchedKeys = new Set([GUEST_PROFILE_KEY, LEGACY_PROFILE_KEY]);
   const handleStorage = (event: StorageEvent) => {
-    if (event.key === USER_PROFILE_STORAGE_KEY) {
+    if (event.key && (watchedKeys.has(event.key) || event.key.startsWith(AUTH_PROFILE_KEY_PREFIX))) {
       callback(loadStoredProfile());
     }
   };
