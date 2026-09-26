@@ -546,6 +546,22 @@ function YojanaSetuMain() {
   }, [authUser, authLoading, currentScreen, userProfile, profileRestore]);
 
   /**
+   * SAFETY NET: an authenticated user must never be stranded on the login
+   * route. The login UI is gated off when authenticated (canShowLoginScreen
+   * is false), so if the post-auth navigation above did not fire (lost
+   * intent flag, duplicate uid, or any other reason), this effect moves the
+   * user to the form/results directly. It only fires when the profile
+   * restore is not pending, so the destination is stable.
+   */
+  useEffect(() => {
+    if (authStatus !== 'authenticated') return;
+    if (currentScreen !== 'login') return;
+    if (profileRestore === 'pending') return;
+    navigateTo(userProfile ? 'results' : 'form');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authStatus, currentScreen, profileRestore, userProfile]);
+
+  /**
    * Password recovery completed: the new password is set and the recovery
    * session is valid. Reload so AuthContext picks up the session through
    * its normal restore path (it ignores the PASSWORD_RECOVERY event itself).
