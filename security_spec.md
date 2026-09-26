@@ -1,28 +1,104 @@
-# Yojana Setu — Security Specification (PII Sanitization & Local-First Isolation)
+# Yojana Setu — Security Specification (Supabase-backed, Local-First)
 
-## 1. Data Invariants
+> Current architecture as of Phase 2E.2. Historical audit reports in
+> `src/data/migration/` and `src/data/reports/` describe earlier stages and
+> are preserved as-is; this document is the authoritative current spec.
 
-1. **Local-First Boundary**: All citizen state (`trackedApplications`, `savedSchemes`, profile data) is isolated locally within the user's browser sandbox via `profileStorage.ts` and `localStorage`.
-2. **PII Sanitization & Redaction**: Strict sanitizers scrub 12-digit Aadhaar formats (continuous, spaced, hyphenated), 10-digit mobile numbers, and PAN structures before persistence.
-3. **Application Lifecycle Integrity**: Tracked applications can only transition through permitted status values: `['interested', 'docs-ready', 'applied', 'approved', 'rejected']`.
-4. **Temporal Invariant**: Creation timestamps are immutable upon record update.
-5. **Payload Bounding**: All string properties have explicit upper bounds. Unbounded payloads are strictly rejected.
-6. **Zero External Data Exfiltration**: No telemetry, third-party authentication tokens, or cloud-hosted database connections are permitted.
-7. **System Default Deny**: Untrusted data inputs are sanitized or rejected by default.
+## 1. Data & Trust Invariants
 
----
+1. **Local-first with cloud mirror**: All citizen state (`trackedApplications`,
+   `savedSchemes`, profile data, document progress) is stored synchronously in
+   the browser (`profileStorage.ts` / `localStorage`). For **authenticated**
+   users it is additionally mirrored to Supabase Postgres (fire-and-forget);
+   guests never sync.
+2. **Supabase Auth is the sole auth authority**: session state flows through
+   the central `AuthContext` (`AUTH_LOADING` / `AUTHENTICATED` /
+   `UNAUTHENTICATED`). Users are identified by Supabase **UID**, never email.
+3. **Profile ownership — no auto-claim**: Ordinary login never claims unowned
+   local data. Legacy `yojana_setu_user_profile_v1` is read-only. The guest
+   profile is claimed only through the explicit guest → account migration
+   flow (`requestExplicitGuestMigration` → `migrateGuestProfileToSupabase`).
+   Cloud data wins; logout clears active local authenticated caches but never
+   deletes durable Supabase rows.
+4. **PII sanitization (not zero-PII)**: `sanitizeProfilePII` scrubs 12-digit
+   Aadhaar formats (continuous, spaced, hyphenated), 10-digit mobile numbers,
+   and PAN structures from name fields before persistence. The app never asks
+   for identity numbers, passwords, or bank credentials. No "zero PII" /
+   "zero retention" / "guaranteed deletion" claims are made — authenticated
+   profile data is synchronized to the user's own account.
+5. **Application lifecycle integrity**: Tracked applications transition only
+   through `['interested', 'docs-ready', 'applied', 'approved', 'rejected']`.
+6. **Temporal invariant**: Creation timestamps are immutable upon record update.
+7. **Payload bounding**: String properties have explicit upper bounds;
+   unbounded payloads are rejected.
+8. **Service role never reaches the browser**: All browser access uses the
+   anon key with Row-Level Security. Service-role credentials live only in
+   server-side tooling / the local admin console.
+9. **Row-Level Security**: Every user-domain table (`profiles`,
+   `eligibility_answers`, `match_results`, `saved_schemes`, `applications`,
+   `documents`, `chat_history`) enforces `auth.uid() = user_id` on all
+   operations. The scheme catalog is readable anonymously (`status =
+   'published'` only); candidates/drafts are never exposed to anon.
+10. **System default deny**: Untrusted inputs are sanitized or rejected.
 
-## 2. The "Dirty Dozen" Malicious Payloads
+## 2. Scheme-data tiers (no candidate is authoritative)
 
-1. **Payload 1 (Identity Spoofing - User Profile)**: An authenticated user (`user_A`) attempts to write to `/users/user_B`.
-2. **Payload 2 (Ghost Field Injection - Profile)**: An attacker injects `isAdmin: true` or `systemRole: "superuser"` into `/users/{userId}`.
-3. **Payload 3 (Denial-of-Wallet String Bomb - Profile)**: An attacker submits an `applicantName` of 100,000 characters.
-4. **Payload 4 (Invalid Category Injection)**: An attacker attempts to set `category: "SuperVIP"` outside the valid enum.
-5. **Payload 5 (Cross-Tenant Subcollection Injection)**: User `user_A` attempts to insert a tracked application into `/users/user_B/trackedApplications/pmegp`.
-6. **Payload 6 (Path ID Poisoning)**: An attacker attempts to create `/users/{userId}/trackedApplications/scheme%20with%20bad%20chars%24%24` or an ID > 128 characters.
-7. **Payload 7 (Invalid Status Mutation)**: An attacker updates tracked application status to `"auto_approved_by_hacker"`.
-8. **Payload 8 (Creation Time Tampering)**: An attacker attempts to mutate `createdAt` on an existing tracked application during an update.
-9. **Payload 9 (Unauthenticated Profile Read)**: An unauthenticated guest client attempts a direct `get()` on `/users/{anyUser}`.
-10. **Payload 10 (Foreign User List Scraping)**: User `user_A` attempts to list `/users/user_B/trackedApplications`.
-11. **Payload 11 (Oversized Note Attack)**: An attacker attempts to write a `note` with 50,000 characters into a tracked application.
-12. **Payload 12 (Invalid Type in Saved Scheme)**: An attacker attempts to write `{ schemeId: 12345 }` (number instead of string) into `savedSchemes`.
+- **Bundled**: the shipped dataset — always available offline.
+- **Cached**: last successful cloud snapshot (`localStorage` v2 cache).
+- **Cloud**: Supabase `schemes` rows with `status = 'published'`.
+- **Published vs candidate/draft**: only `published` rows reach the app.
+  Candidate/draft rows are discovery material, never presented as official.
+
+## 3. Adversarial Payloads (Supabase Postgres + RLS model)
+
+Each payload asserts the RLS-backed invariant it attacks.
+
+1. **Cross-user profile write**: `user_A` attempts `UPDATE profiles SET …
+   WHERE user_id = user_B`. **Blocked**: RLS `auth.uid() = user_id`.
+2. **Ghost field injection**: attacker injects `isAdmin: true` into a profile
+   upsert. **Rejected**: unknown columns fail; no privilege column exists.
+3. **Denial-of-wallet string bomb**: `applicantName` of 100,000 chars.
+   **Rejected**: payload bounds enforced before persistence.
+4. **Invalid category injection**: `category: "SuperVIP"` outside the enum.
+   **Rejected**: enum validation.
+5. **Cross-tenant application insert**: `user_A` inserts into `applications`
+   with `user_id = user_B`. **Blocked**: RLS on insert (`auth.uid()`).
+6. **Path ID poisoning**: application id with bad chars or > 128 chars.
+   **Rejected**: id validation.
+7. **Invalid status mutation**: status `"auto_approved_by_hacker"`.
+   **Rejected**: lifecycle whitelist.
+8. **Creation time tampering**: mutating `createdAt` on update. **Ignored**:
+   immutable on update paths.
+9. **Unauthenticated profile read**: anon `SELECT` on `profiles`.
+   **Blocked**: no anon SELECT policy on user tables.
+10. **Foreign list scraping**: `user_A` selects `user_B`'s applications.
+    **Blocked**: RLS restricts rows to `auth.uid()`.
+11. **Oversized note attack**: 50,000-char application note. **Rejected**:
+    note length bounds.
+12. **Invalid type in saved scheme**: `{ schemeId: 12345 }` (number).
+    **Rejected**: type validation before write.
+
+## 4. Explicitly out of scope / not promised
+
+- Zero-PII storage, zero retention, or guaranteed deletion are **not**
+  promised and must not appear in UI copy or docs.
+- The app is an advisory workspace, not a submission portal; it never
+  submits applications to any ministry.
+- Unknown scheme facts (auth method, e-sign, editability, processing time)
+  are returned as UNKNOWN, never inferred.
+
+## 5. HTTP security headers (Vercel)
+
+`vercel.json` ships safe non-CSP headers on all routes:
+`X-Content-Type-Options: nosniff`,
+`Referrer-Policy: strict-origin-when-cross-origin`,
+`Permissions-Policy: camera=(), microphone=(), geolocation=()`,
+`X-Frame-Options: DENY`.
+
+An enforced Content-Security-Policy is intentionally deferred: the app
+currently relies on an inline print `<style>` (PathwayReportModal),
+an environment-driven Supabase host, Google Fonts, and `data:` images —
+a blind CSP would break Supabase, Google OAuth, fonts, or Vercel assets.
+Follow-up: move the print styles out of inline `<style>`, enumerate the
+Supabase host + font/image sources, then ship CSP in report-only mode
+before enforcing.

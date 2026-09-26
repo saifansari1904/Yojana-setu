@@ -12,7 +12,7 @@ Yojana Setu matches entrepreneurs with relevant Indian government schemes throug
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Tests](https://img.shields.io/badge/Tests-469_passing-16A34A)](#-testing)
+[![Tests](https://img.shields.io/badge/Tests-1248_passing-16A34A)](#-testing)
 [![License](https://img.shields.io/badge/License-Private-lightgrey)](#-license)
 
 </div>
@@ -50,7 +50,7 @@ Track every application's stage, get follow-up reminders, and see your whole jou
 One tap shares a scheme's key details — name, benefit, your match %, and the official link — prefilled in your own language. Built for how scheme information actually spreads.
 
 ### 🌐 Truly Multilingual
-Full UI in **English, Hindi, Tamil, Telugu, Kannada, and Malayalam**. Language changes presentation — never the matching decisions.
+Full UI in **English, Hindi, Tamil, Telugu, Kannada, Malayalam, and Marathi**. Language changes presentation — never the matching decisions.
 
 ### ✨ Premium Motion Design
 Directional page transitions, shared-element morphs between results and detail, an animated match gauge with count-up, staggered entrances, scroll reveals, skeleton loaders — all with `prefers-reduced-motion` respected throughout.
@@ -79,7 +79,7 @@ Dark mode, responsive mobile-first layout, accessibility-minded components, and 
 | Styling | Tailwind CSS 4 |
 | Animation | Motion (`motion/react`) |
 | Icons | Lucide React |
-| i18n | Custom typed locale system (6 languages) |
+| i18n | Custom typed locale system (7 languages) |
 | Logic | Deterministic domain engines, typed data models |
 
 ---
@@ -106,7 +106,7 @@ Open the URL Vite prints in the terminal (default `http://localhost:3000`).
 | `npm run dev` | Start the dev server |
 | `npm run build` | Production build |
 | `npm run lint` | TypeScript check (`tsc --noEmit`) |
-| `npm test` | Full test suite (469 tests) |
+| `npm test` | Full test suite (1248 tests) |
 | `npm run preview` | Preview the production build |
 
 ---
@@ -117,7 +117,7 @@ Open the URL Vite prints in the terminal (default `http://localhost:3000`).
 npm test
 ```
 
-The suite covers the matching engine, eligibility logic, scheme data validation, trust scoring, business intelligence, the application journey, and profile storage — **469 tests, all passing**.
+The suite covers the matching engine, eligibility logic, scheme data validation, trust scoring, business intelligence, the application journey, and profile storage — **1248 tests, all passing**.
 
 ---
 
@@ -129,7 +129,7 @@ src/
 ├── components/     # Screens (eligibility, results, detail, tracker…) + UI
 ├── data/           # Scheme datasets + validation
 ├── features/       # Feature modules (e.g. command center)
-├── i18n/           # Typed translations — en, hi, ta, te, kn, ml
+├── i18n/           # Typed translations — en, hi, ta, te, kn, ml, mr
 ├── lib/            # Domain logic: matching, eligibility, tracker, profile
 ├── theme/          # Dark/light theme
 ├── types/          # Shared TypeScript types
@@ -154,8 +154,19 @@ src/
 - [ ] Family profiles — eligibility for the whole household
 - [ ] Nearby CSC / government office locator
 - [ ] Voice-based eligibility input
-- [ ] Backend persistence & authentication
-- [ ] Live scheme-data pipeline
+- [x] Backend persistence & authentication (Supabase Auth + Postgres/RLS — shipped)
+- [x] Live scheme-data pipeline (cloud catalog with bundled fallback — shipped)
+
+## 🗄️ Backend & Data Architecture
+
+Local-first with a Supabase cloud mirror:
+
+- **Auth** — Supabase Auth is the sole authority (`AuthContext`: `AUTH_LOADING` / `AUTHENTICATED` / `UNAUTHENTICATED`); users are identified by UID.
+- **Guests** — full local functionality, never synced; guest → account migration is explicit only.
+- **Authenticated users** — profile, saved schemes, applications, documents, and chat mirror to Postgres user tables guarded by Row-Level Security (`auth.uid() = user_id`). Ordinary login never claims another user's local data; cloud data wins; logout clears local caches, never cloud rows.
+- **Scheme catalog tiers** — bundled dataset (offline fallback) → local cache → cloud `published` rows. Only `published` schemes reach the app; candidate/draft rows are discovery material, never authoritative.
+
+See `security_spec.md` for the current security model.
 
 ---
 

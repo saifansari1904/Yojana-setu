@@ -82,7 +82,7 @@ export const AccountPrivacyModal: React.FC<AccountPrivacyModalProps> = ({
               <HardDrive className="w-4 h-4 text-[#1E6A50] dark:text-[var(--accent-green)] shrink-0 mt-0.5" />
               <div>
                 <span className="font-bold text-[#14453D] dark:text-[var(--accent-green)] block mb-0.5">
-                  100% On-Device Local Storage
+                  Local-First Storage
                 </span>
                 <p className="text-[#516A5F] dark:text-[var(--text-secondary)] leading-relaxed text-xs">
                   {t('account.privacyStorageNotice')}

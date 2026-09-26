@@ -105,16 +105,16 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
         </div>
       )}
 
-      {/* Strict Trust & Zero PII Guarantee Callout */}
+      {/* Sensitive Identifier Protection Callout */}
       <div className="p-3 rounded-lg bg-[#F3F9F5] dark:bg-[var(--bg-raised)] border border-[#D5EADB] dark:border-[#1C3A2D] text-xs flex items-start gap-2.5">
         <Lock className="w-4 h-4 text-[#0F6B4C] dark:text-[var(--accent-green)] mt-0.5 shrink-0" />
         <div className="leading-relaxed text-slate-700 dark:text-slate-300">
           <span className="font-semibold text-slate-900 dark:text-white">
-            {isHi ? 'शून्य व्यक्तिगत डेटा संचय:' : 'Zero PII Storage Guarantee:'}{' '}
+            {isHi ? 'संवेदनशील पहचानकर्ता संरक्षण:' : 'Sensitive Identifier Protection:'}{' '}
           </span>
           {isHi
-            ? 'योजना सेतु केवल आपकी स्थानीय तैयारी स्थिति को ट्रैक करता है। आपका आधार, पैन, बैंक खाता या दस्तावेज फाइलें कभी भी सर्वर पर अपलोड या संग्रहीत नहीं की जाती हैं।'
-            : 'Yojana Setu functions as an advisory readiness workspace. No Aadhaar numbers, PAN identifiers, bank credentials, or citizen documents are ever stored or transmitted.'}
+            ? 'योजना सेतु एक परामर्शी तैयारी कार्यक्षेत्र है। योजना सेतु कभी पहचान संख्या, पासवर्ड या बैंक विवरण नहीं मांगता है, और संग्रहण से पूर्व नाम फ़ील्ड स्वच्छ करता है।'
+            : 'Yojana Setu functions as an advisory readiness workspace. Yojana Setu never asks for identity numbers, passwords, or bank credentials, and sanitizes name fields before persistence.'}
         </div>
       </div>
     </section>

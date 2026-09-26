@@ -720,7 +720,7 @@ export const EntrepreneurIdentityPod: React.FC<EntrepreneurIdentityPodProps> = (
             {/* Sovereign Privacy Footnote */}
             <div className="px-4 py-2.5 bg-[#F7FAF8] dark:bg-[var(--bg-card)] text-[10px] text-[#516A5F] dark:text-[#82968B] text-center border-t border-[#EDF3EF] dark:border-[var(--border-subtle)] flex items-center justify-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50]" />
-              <span>DPDP Act 2023 · 100% On-Device Storage Sovereignty</span>
+              <span>DPDP Act 2023 · Local-First Data Control</span>
             </div>
           </motion.div>
         )}

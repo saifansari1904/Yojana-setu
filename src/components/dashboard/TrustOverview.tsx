@@ -89,11 +89,11 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
           <Lock className="w-4 h-4 text-[#0F6B4C] dark:text-[var(--accent-green)] mt-0.5 shrink-0" />
           <span>
             <strong className="text-slate-900 dark:text-white">
-              {isHi ? 'स्थानीय गोपनीयता:' : 'Zero PII Retention:'}{' '}
+              {isHi ? 'संवेदनशील पहचानकर्ता संरक्षण:' : 'Sensitive Identifier Protection:'}{' '}
             </strong>
             {isHi
-              ? 'पहचान संख्या या वित्तीय क्रेडेंशियल सर्वर पर संग्रहीत नहीं किए जाते हैं।'
-              : 'No identity credentials or banking numbers are captured or transmitted.'}
+              ? 'पहचान संख्या या वित्तीय क्रेडेंशियल मांगे नहीं जाते हैं; नाम फ़ील्ड संग्रहण से पूर्व स्वच्छ किए जाते हैं।'
+              : 'No identity credentials or banking numbers are requested; name fields are sanitized before persistence.'}
           </span>
         </div>
 

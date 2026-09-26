@@ -72,7 +72,7 @@ export const en = {
   reusableDocuments: 'Reusable Documents',
   applicationSpecificDocuments: 'Application-specific Documents',
   viewDocumentCenter: 'View Document Center →',
-  privacyGuarantee: 'Private & Secure: Yojana Setu never stores identity numbers, passwords, or bank credentials.',
+  privacyGuarantee: 'Private & Secure: Yojana Setu never asks for identity numbers, passwords, or bank credentials, and sanitizes sensitive identifiers before persistence.',
 
   // Follow-ups
   followUpsTitle: 'UPCOMING FOLLOW-UPS',
