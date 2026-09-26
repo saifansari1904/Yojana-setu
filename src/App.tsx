@@ -885,7 +885,16 @@ function YojanaSetuMain() {
               <AnimatedPage key="welcome" direction={navDirection}>
                 <WelcomeScreen
                   onFindSchemes={() => navigateTo('form')}
-                  onSignIn={() => navigateTo('login')}
+                  onSignIn={() => {
+                    // Authenticated users must never be sent to the login
+                    // form (it is gated off when authenticated, leaving a
+                    // blank screen). Route them to the app instead.
+                    if (isCloudAuthenticated) {
+                      navigateTo(userProfile ? 'results' : 'form');
+                    } else {
+                      navigateTo('login');
+                    }
+                  }}
                 />
               </AnimatedPage>
             )}
