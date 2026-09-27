@@ -548,7 +548,7 @@ const RAW_SCHEMES_DATABASE: Scheme[] = [
     schemeType: 'Concessional Loan',
     description: 'Universal institutional credit facilitation for non-corporate, non-farm small and micro enterprises up to ₹10 Lakh without third-party collateral.',
     benefitSummary: 'Collateral-free working capital and term loans from ₹50,000 up to ₹10 Lakhs without third-party guarantee.',
-    fundingRangeText: '₹50,00,0 – ₹10,00,000',
+    fundingRangeText: '₹50,000 – ₹10,00,000',
     minAmount: 50000,
     maxAmount: 1000000,
     subsidyRatePercent: 0,

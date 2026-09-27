@@ -167,7 +167,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     let result = current;
     if (vars) {
       Object.entries(vars).forEach(([k, v]) => {
-        result = result.replace(new RegExp(`{{${k}}}`, 'g'), String(v));
+        // Locale strings use single-brace placeholders: {var}
+        result = result.replace(new RegExp(`\\{${k}\\}`, 'g'), String(v));
       });
     }
 

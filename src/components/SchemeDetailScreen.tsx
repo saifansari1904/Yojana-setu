@@ -1415,7 +1415,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                     {t('schemeDetail.interestRate')}
                   </span>
                   <span className="text-sm font-bold text-[#1A1C1B] dark:text-[var(--text-main)]">
-                    {locScheme.baseInterestRate}% {t('common.paisaPerAnnum')}
+                    {locScheme.baseInterestRate} {t('common.paisaPerAnnum')}
                   </span>
                 </div>
               )}
