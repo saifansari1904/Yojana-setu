@@ -121,7 +121,7 @@ console.log('\n--- RUNNING YOJANA SETU MATCHING ENGINE TEST SUITE ---\n');
     businessType: 'trading',
     state: 'Karnataka',
   };
-  const mudra = SCHEMES_DATABASE.find((s) => s.id === 'pm-mudra-tarun')!;
+  const mudra = SCHEMES_DATABASE.find((s) => s.id === 'cgtmse-guarantee')!;
   const result = evaluateSchemeEligibility(mudra, profile, 'en');
 
   const incomeFactor = result.breakdown.find((b) => b.factorKey === 'income');

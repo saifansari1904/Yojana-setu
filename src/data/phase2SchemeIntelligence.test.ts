@@ -35,16 +35,16 @@ console.log('--- RUNNING YOJANA SETU PHASE 2: SOUTH INDIA SCHEME INTELLIGENCE SU
 // ==========================================
 {
   const total = getAllSchemes();
-  assert(total.length === 39, `Phase 2: Total schemes must be 39 (got ${total.length})`);
-  console.log('✅ PASS: Total schemes count is 39');
+  assert(total.length === 38, `Phase 2: Total schemes must be 38 (got ${total.length})`);
+  console.log('✅ PASS: Total schemes count is 38');
 
   const national = getNationalSchemes();
-  assert(national.length === 10, `Phase 2: Exactly 10 National Central schemes (got ${national.length})`);
+  assert(national.length === 9, `Phase 2: Exactly 9 National Central schemes (got ${national.length})`);
   for (const s of national) {
     assert(s.scope === 'NATIONAL', `Scheme ${s.id} must have scope 'NATIONAL'`);
     assert(s.applicableStates.length === 0, `National scheme ${s.id} must have empty applicableStates`);
   }
-  console.log('✅ PASS: Central National schemes correctly configured (10 schemes, scope NATIONAL)');
+  console.log('✅ PASS: Central National schemes correctly configured (9 schemes, scope NATIONAL)');
 
   const karnataka = getStateSpecificSchemes('Karnataka');
   assert(karnataka.length === 8, `Phase 2: Karnataka must have 8 schemes (got ${karnataka.length})`);
@@ -98,36 +98,36 @@ console.log('--- RUNNING YOJANA SETU PHASE 2: SOUTH INDIA SCHEME INTELLIGENCE SU
   // getSchemesByState includes State-Specific + National schemes
   const kaSchemesWithNational = getSchemesByState('Karnataka');
   assert(
-    kaSchemesWithNational.length === 8 + 10,
-    `Karnataka state query must return 18 schemes (8 state + 10 national), got ${kaSchemesWithNational.length}`
+    kaSchemesWithNational.length === 8 + 9,
+    `Karnataka state query must return 17 schemes (8 state + 9 national), got ${kaSchemesWithNational.length}`
   );
 
   const klSchemesWithNational = getSchemesByState('Kerala');
   assert(
-    klSchemesWithNational.length === 6 + 10,
-    `Kerala state query must return 16 schemes (6 state + 10 national), got ${klSchemesWithNational.length}`
+    klSchemesWithNational.length === 6 + 9,
+    `Kerala state query must return 15 schemes (6 state + 9 national), got ${klSchemesWithNational.length}`
   );
 
   const tnSchemesWithNational = getSchemesByState('Tamil Nadu');
   assert(
-    tnSchemesWithNational.length === 5 + 10,
-    `Tamil Nadu state query must return 15 schemes (5 state + 10 national), got ${tnSchemesWithNational.length}`
+    tnSchemesWithNational.length === 5 + 9,
+    `Tamil Nadu state query must return 14 schemes (5 state + 9 national), got ${tnSchemesWithNational.length}`
   );
 
   const tsSchemesWithNational = getSchemesByState('Telangana');
   assert(
-    tsSchemesWithNational.length === 5 + 10,
-    `Telangana state query must return 15 schemes (5 state + 10 national), got ${tsSchemesWithNational.length}`
+    tsSchemesWithNational.length === 5 + 9,
+    `Telangana state query must return 14 schemes (5 state + 9 national), got ${tsSchemesWithNational.length}`
   );
 
   const apSchemesWithNational = getSchemesByState('Andhra Pradesh');
   assert(
-    apSchemesWithNational.length === 3 + 10,
-    `Andhra Pradesh state query must return 13 schemes (3 state + 10 national), got ${apSchemesWithNational.length}`
+    apSchemesWithNational.length === 3 + 9,
+    `Andhra Pradesh state query must return 12 schemes (3 state + 9 national), got ${apSchemesWithNational.length}`
   );
 
   const allSchemes = getSchemesByState('All States & UTs');
-  assert(allSchemes.length === 39, 'All States query returns full database');
+  assert(allSchemes.length === 38, 'All States query returns full database');
   console.log('✅ PASS: State query returns state schemes + national schemes');
 }
 
@@ -221,9 +221,9 @@ console.log('--- RUNNING YOJANA SETU PHASE 2: SOUTH INDIA SCHEME INTELLIGENCE SU
 
   const pipeline = runSchemeImportPipeline(SCHEMES_DATABASE);
   assert(pipeline.success === true, 'Pipeline execution completed successfully');
-  assert(pipeline.deduplicatedCount === 39, 'Pipeline produced 39 clean schemes');
+  assert(pipeline.deduplicatedCount === 38, 'Pipeline produced 38 clean schemes');
   assert(pipeline.validation.isValid === true, 'Pipeline validation is green');
-  assert(pipeline.metadata.recordCount === 39, 'Pipeline metadata matches record count');
+  assert(pipeline.metadata.recordCount === 38, 'Pipeline metadata matches record count');
   assert(pipeline.completenessReport.overallCompletenessScore >= 95, 'Completeness score is >= 95%');
 
   console.log('✅ PASS: Reusable scheme import and deduplication pipeline functioning correctly');
@@ -245,7 +245,7 @@ console.log('--- RUNNING YOJANA SETU PHASE 2: SOUTH INDIA SCHEME INTELLIGENCE SU
   };
 
   const matches = rankSchemesForProfile(SCHEMES_DATABASE, sampleProfile, 'en');
-  assert(matches.length === 39, 'Matching engine evaluated all 39 schemes');
+  assert(matches.length === 38, 'Matching engine evaluated all 38 schemes');
 
   // Verify that score weights remain exactly 20/20/20/20/20
   for (const m of matches) {

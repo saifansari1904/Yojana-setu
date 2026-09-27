@@ -2,14 +2,14 @@
  * YOJANA SETU — CATALOG SET REGRESSION TESTS (Bug C)
  *
  * §20 regression scenarios for the cloud-catalog merge:
- *  5. Cloud publishes 39 + a stale cache holds 40 -> final curated is 40;
+ *  5. Cloud publishes 38 + a stale cache holds 39 -> final curated is 39;
  *     the extra cached scheme is RETAINED (Phase 2E.2: absence from the
  *     published set is not a retirement signal — only an explicit cloud
  *     lifecycle tombstone may remove a scheme). Bundled rows never lost.
- *  6. Bundled 39 + cloud 39 (identical) -> no churn (changed=false).
- *  7. Cloud publishes 40 with one genuinely NEW id -> 40 (no false eviction).
+ *  6. Bundled 38 + cloud 38 (identical) -> no churn (changed=false).
+ *  7. Cloud publishes 39 with one genuinely NEW id -> 39 (no false eviction).
  *  8. Cloud failure (empty / fully malformed) -> catalog unchanged.
- *  9. Cloud publishes 39 with one RENAMED id -> 40: the new row is added and
+ *  9. Cloud publishes 38 with one RENAMED id -> 39: the new row is added and
  *     the old bundled id is retained (documented no-tombstone behavior).
  * 10. Language switching does not change the dataset or matching results.
  * 12/13. Measured pipeline timing markers exist ([AUTH]/[PROFILE]/[CATALOG]/
@@ -113,7 +113,7 @@ async function main() {
   const PHANTOM_ID = 'phantom-stale-scheme';
 
   // ------------------------------------------------------------------
-  // §20.5 — cloud 39 + stale cache 40 -> extra cached scheme RETAINED
+  // §20.5 — cloud 38 + stale cache 39 -> extra cached scheme RETAINED
   // (Phase 2E.2: absence from the published set is not a retirement
   // signal; only an explicit tombstone may remove a scheme)
   // ------------------------------------------------------------------
@@ -122,16 +122,16 @@ async function main() {
     phantom.id = PHANTOM_ID;
     plantCache([...SCHEMES_DATABASE.map(cloneScheme), phantom]);
     assert(
-      catalog.getCuratedSchemes().length === 40,
-      '§20.5 setup: stale cache hydrates to 40 curated schemes',
+      catalog.getCuratedSchemes().length === 39,
+      '§20.5 setup: stale cache hydrates to 39 curated schemes',
     );
     const result = catalog.mergeCloudRows(bundledRows(), EMPTY_RELATED);
     const ids = result.schemes.map((s) => s.id);
-    assert(result.schemes.length === 40, `§20.5 no absence-based eviction: final curated is 40 (got ${result.schemes.length})`);
+    assert(result.schemes.length === 39, `§20.5 no absence-based eviction: final curated is 39 (got ${result.schemes.length})`);
     assert(ids.includes(PHANTOM_ID), '§20.5 the extra cached id is retained until an explicit tombstone arrives');
     assert(
       bundledIds.every((id) => ids.includes(id)),
-      '§20.5 all 39 bundled ids survive the merge',
+      '§20.5 all 38 bundled ids survive the merge',
     );
     assert(result.changed === false, '§20.5 changed=false: retained set equals previous, no catalog swap needed');
     assert(
@@ -141,18 +141,18 @@ async function main() {
   }
 
   // ------------------------------------------------------------------
-  // §20.6 — bundled 39 + cloud 39 identical -> no churn
+  // §20.6 — bundled 38 + cloud 38 identical -> no churn
   // ------------------------------------------------------------------
   {
     clearState();
-    assert(catalog.getCuratedSchemes().length === 39, '§20.6 setup: bundled fallback is 39');
+    assert(catalog.getCuratedSchemes().length === 38, '§20.6 setup: bundled fallback is 38');
     const result = catalog.mergeCloudRows(bundledRows(), EMPTY_RELATED);
-    assert(result.schemes.length === 39, '§20.6 identical cloud response keeps 39 schemes');
+    assert(result.schemes.length === 38, '§20.6 identical cloud response keeps 38 schemes');
     assert(result.changed === false, '§20.6 changed=false: no catalog swap on identical data');
   }
 
   // ------------------------------------------------------------------
-  // §20.7 — cloud 40 with one genuinely NEW id -> 40, no false eviction
+  // §20.7 — cloud 39 with one genuinely NEW id -> 39, no false eviction
   // ------------------------------------------------------------------
   {
     clearState();
@@ -161,7 +161,7 @@ async function main() {
     const rows = [...bundledRows(), makeRow('brand-new-scheme', newPayload)];
     const result = catalog.mergeCloudRows(rows, EMPTY_RELATED);
     const ids = result.schemes.map((s) => s.id);
-    assert(result.schemes.length === 40, `§20.7 new cloud id added: final curated is 40 (got ${result.schemes.length})`);
+    assert(result.schemes.length === 39, `§20.7 new cloud id added: final curated is 39 (got ${result.schemes.length})`);
     assert(ids.includes('brand-new-scheme'), '§20.7 the new id is present');
     assert(bundledIds.every((id) => ids.includes(id)), '§20.7 all bundled ids retained');
   }
@@ -179,13 +179,13 @@ async function main() {
       EMPTY_RELATED,
     );
     assert(
-      malformed.changed === false && malformed.schemes.length === 39,
-      '§20.8 fully-malformed response -> catalog unchanged at 39',
+      malformed.changed === false && malformed.schemes.length === 38,
+      '§20.8 fully-malformed response -> catalog unchanged at 38',
     );
   }
 
   // ------------------------------------------------------------------
-  // §20.9 — cloud 39 with one RENAMED id -> 40 (new added, old retained)
+  // §20.9 — cloud 38 with one RENAMED id -> 39 (new added, old retained)
   // ------------------------------------------------------------------
   {
     clearState();
@@ -199,15 +199,15 @@ async function main() {
     const result = catalog.mergeCloudRows(rows, EMPTY_RELATED);
     const ids = result.schemes.map((s) => s.id);
     assert(
-      result.schemes.length === 40,
-      `§20.9 rename without tombstones: 40 (new row + retained bundled old id), got ${result.schemes.length}`,
+      result.schemes.length === 39,
+      `§20.9 rename without tombstones: 39 (new row + retained bundled old id), got ${result.schemes.length}`,
     );
     assert(ids.includes('renamed-scheme'), '§20.9 renamed id present');
     assert(ids.includes(droppedId), '§20.9 old bundled id retained (documented behavior)');
   }
 
   // ------------------------------------------------------------------
-  // Diagnostic (§12): set-difference on a crafted 40-scheme cache
+  // Diagnostic (§12): set-difference on a crafted 39-scheme cache
   // ------------------------------------------------------------------
   {
     const phantom = cloneScheme(SCHEMES_DATABASE[0]);
@@ -216,10 +216,10 @@ async function main() {
     const diag = await catalog.diagnoseCatalogSets();
     assert(diag.cloudIds === null, 'diagnostic: no supabase configured -> cloudIds null');
     assert(diag.cloudError === 'supabase not configured', 'diagnostic: cloudError names the cause');
-    assert(diag.bundledIds.length === 39, `diagnostic: bundledIds is 39 (got ${diag.bundledIds.length})`);
-    assert(diag.cachedIds?.length === 40, `diagnostic: cachedIds is 40 (got ${diag.cachedIds?.length})`);
-    assert(diag.finalCuratedIds.length === 40, 'diagnostic: finalCuratedIds is 40');
-    assert(diag.finalIds.length === 260, `diagnostic: finalIds is 260 (40 curated + 220 candidates, got ${diag.finalIds.length})`);
+    assert(diag.bundledIds.length === 38, `diagnostic: bundledIds is 38 (got ${diag.bundledIds.length})`);
+    assert(diag.cachedIds?.length === 39, `diagnostic: cachedIds is 39 (got ${diag.cachedIds?.length})`);
+    assert(diag.finalCuratedIds.length === 39, 'diagnostic: finalCuratedIds is 39');
+    assert(diag.finalIds.length === 259, `diagnostic: finalIds is 259 (39 curated + 220 candidates, got ${diag.finalIds.length})`);
     assert(
       diag.phantomIds.length === 1 && diag.phantomIds[0] === PHANTOM_ID,
       `diagnostic: phantomIds names the exact extra scheme ("${diag.phantomIds.join(',')}")`,
@@ -258,7 +258,7 @@ async function main() {
     const hi = rankSchemesForProfile(SCHEMES_DATABASE, profile, 'hi');
     const mr = rankSchemesForProfile(SCHEMES_DATABASE, profile, 'mr');
     const sig = (r: typeof en) => r.map((x) => `${x.scheme.id}:${x.matchPercentage}:${x.matchStatus}`).join('|');
-    assert(en.length === 39 && hi.length === 39 && mr.length === 39, '§20.10 all languages rank the same 39 curated schemes');
+    assert(en.length === 38 && hi.length === 38 && mr.length === 38, '§20.10 all languages rank the same 38 curated schemes');
     assert(sig(hi) === sig(en), '§20.10 hi results identical to en (ids, scores, statuses)');
     assert(sig(mr) === sig(en), '§20.10 mr results identical to en (ids, scores, statuses)');
   }

@@ -141,8 +141,8 @@ console.log('======================================================\n');
 {
   const audit = generateDataQualityAuditReport(SCHEMES_DATABASE, SYSTEM_REFERENCE_DATE);
 
-  assert(audit.totalSchemes === 39, `T19: Total schemes in audit is 39 (found ${audit.totalSchemes})`);
-  assert(audit.nationalSchemes === 10, `T20: National schemes count is 10 (found ${audit.nationalSchemes})`);
+  assert(audit.totalSchemes === 38, `T19: Total schemes in audit is 38 (found ${audit.totalSchemes})`);
+  assert(audit.nationalSchemes === 9, `T20: National schemes count is 9 (found ${audit.nationalSchemes})`);
   assert(audit.stateSpecificSchemes === 29, `T21: State-specific schemes count is 29 (found ${audit.stateSpecificSchemes})`);
   assert(audit.dataQualityIssues.potentialDuplicates === 0, 'T22: Zero duplicate scheme IDs');
   assert(audit.dataQualityIssues.missingOfficialUrl === 0, 'T23: Zero missing official URLs');
@@ -185,7 +185,7 @@ console.log('======================================================\n');
   assert(needingReview.length > 0, `T35: getSchemesNeedingReview identified schemes needing review (${needingReview.length})`);
 
   const repoAudit = getDataQualityAudit();
-  assert(repoAudit.totalSchemes === 39, 'T36: getDataQualityAudit via repository matches database count');
+  assert(repoAudit.totalSchemes === 38, 'T36: getDataQualityAudit via repository matches database count');
 }
 
 // -----------------------------------------------------------
@@ -201,7 +201,7 @@ console.log('======================================================\n');
   };
 
   const results = rankSchemesForProfile(SCHEMES_DATABASE, testProfile);
-  assert(results.length === 39, 'T37: Ranking returns all 39 schemes');
+  assert(results.length === 38, 'T37: Ranking returns all 38 schemes');
   assert(results[0].matchPercentage === 100, 'T38: Top matched scheme achieves 100% when all 5 criteria match');
 
   // Verify that mathematical scoring is intact: 5 factors, 20% each
@@ -358,7 +358,7 @@ console.log('======================================================\n');
 
   // D. Existing trust/freshness behavior remains unchanged
   const audit = generateDataQualityAuditReport(SCHEMES_DATABASE, SYSTEM_REFERENCE_DATE);
-  assert(audit.trustBreakdown.verified === 39, 'T69: All 39 database schemes retain verified trust status');
+  assert(audit.trustBreakdown.verified === 38, 'T69: All 38 database schemes retain verified trust status');
   assert(audit.trustBreakdown.unverified === 0, 'T70: Database contains zero unverified schemes');
   assert(audit.overallHealthScore >= 95, 'T71: Data quality health score preserved >= 95');
 }

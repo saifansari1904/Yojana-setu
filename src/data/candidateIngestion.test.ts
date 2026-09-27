@@ -244,13 +244,13 @@ assert(
 // SECTION 8: REPOSITORY ABSTRACTION & DATA ISOLATION
 // -------------------------------------------------------------
 const authoritativeSchemes = getAllSchemes();
-assert(authoritativeSchemes.length === 39, `C33: getAllSchemes returns strictly 39 authoritative schemes`);
+assert(authoritativeSchemes.length === 38, `C33: getAllSchemes returns strictly 38 authoritative schemes`);
 
 const repoCandidates = getCandidateSchemes();
 assert(repoCandidates.length === 220, `C34: getCandidateSchemes returns 220 candidate schemes`);
 
 const allCombined = getAllRepositorySchemes();
-assert(allCombined.length === 259, `C35: getAllRepositorySchemes returns combined 259 schemes (39 + 220)`);
+assert(allCombined.length === 258, `C35: getAllRepositorySchemes returns combined 258 schemes (38 + 220)`);
 
 const candidateById = getSchemeById('candidate-standup-india') || getSchemeById('an-pmmsy-fishermen');
 assert(!!candidateById, 'C36: getSchemeById successfully finds candidate schemes');
