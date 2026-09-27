@@ -18,5 +18,16 @@ export default defineConfig(() => {
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
     },
+    build: {
+      // Two independent entry points: the user-facing app and the separate
+      // Admin Console. They share dependencies but ship as separate bundles —
+      // the user app never downloads admin code and vice versa.
+      rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, 'index.html'),
+          admin: path.resolve(__dirname, 'admin.html'),
+        },
+      },
+    },
   };
 });

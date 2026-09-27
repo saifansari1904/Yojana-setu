@@ -28,6 +28,10 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "destination": "/admin.html",
+      "source": "/admin"
+    },
+    {
       "destination": "/index.html",
       "source": "/(.*)"
     }
