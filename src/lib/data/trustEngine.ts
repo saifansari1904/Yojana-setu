@@ -23,7 +23,11 @@ import {
   DataQualityAuditReport,
 } from '../../types/trust';
 import { INDIAN_STATES } from '../../constants';
-import { findAuthorityByDomain } from '../../data/governmentAuthorities';
+import {
+  findAuthorityByDomain,
+  matchAuthorityByHostname,
+  normalizeHostname,
+} from '../../data/governmentAuthorities';
 import type { CandidateDeduplicationResult } from '../../types/rawScheme';
 
 export const SYSTEM_REFERENCE_DATE = '2026-09-13'; // Default baseline reference date for deterministic testing
@@ -152,10 +156,17 @@ export function calculateFreshness(
 }
 
 /**
- * Classifies URL safety & authenticity against official government domain registries.
- * Generic domain extensions (.com, .org, .co.in, .org.in) are never classified as
- * GOVERNMENT_BACKED solely by suffix; only explicitly known statutory or government-backed
- * authorities are recognized. Unknown external domains remain SECONDARY_AGGREGATOR.
+ * Classifies URL safety & authenticity against the single authoritative
+ * government domain registry (src/data/governmentAuthorities.ts).
+ *
+ * The registry is the ONLY source of explicitly trusted domains — this
+ * function keeps no hard-coded trusted-domain lists. Generic domain
+ * extensions (.com, .org, .co.in, .org.in, .edu.in, .ac.in) never confer
+ * trust; only registry entries and the .gov.in/.nic.in extension policy do.
+ * Unknown external domains remain SECONDARY_AGGREGATOR. Hostnames are
+ * normalized and matched by exact hostname / domain boundary only, so
+ * fake-sidbi.in, sidbi.in.attacker.com and attacker-sidbi.in never match
+ * sidbi.in.
  */
 export function classifyUrlSafety(url?: string | null): UrlSafetyClassification {
   if (!url || typeof url !== 'string' || !/^https?:\/\/.+/i.test(url.trim())) {
@@ -164,8 +175,7 @@ export function classifyUrlSafety(url?: string | null): UrlSafetyClassification 
 
   let hostname = '';
   try {
-    const parsed = new URL(url.trim());
-    hostname = parsed.hostname.toLowerCase();
+    hostname = normalizeHostname(new URL(url.trim()).hostname);
   } catch {
     return 'SUSPICIOUS_OR_INVALID';
   }
@@ -174,15 +184,18 @@ export function classifyUrlSafety(url?: string | null): UrlSafetyClassification 
     return 'SUSPICIOUS_OR_INVALID';
   }
 
-  // Consult Government Authority Registry first. A registry hit is
+  // Consult the Government Authority Registry. A registry hit is
   // authoritative: the registry — not suffix heuristics — decides whether a
-  // domain is an official government property. This keeps one clear
-  // classification path; the Tier 2/3 explicit lists below only cover
-  // known domains that have not (yet) been given registry entries.
+  // domain is an official government property.
   const registeredAuthority = findAuthorityByDomain(hostname);
   if (registeredAuthority) {
     if (registeredAuthority.authorityType === 'AGGREGATOR') {
       return 'SECONDARY_AGGREGATOR';
+    }
+    if (registeredAuthority.authorityType === 'STATE_BOARD') {
+      // Explicitly trusted state boards / government-backed bodies
+      // (e.g. KSWDC, NORKA Roots, Kerala Khadi Board).
+      return 'GOVERNMENT_BACKED';
     }
     if (registeredAuthority.isOfficialGovernment) {
       // Registry-confirmed government authority. Ministries and state
@@ -201,8 +214,8 @@ export function classifyUrlSafety(url?: string | null): UrlSafetyClassification 
     return 'SECONDARY_AGGREGATOR';
   }
 
-  // Tier 1: Official Indian government domain extensions (.gov.in, .nic.in)
-  // Note: .ac.in is NOT automatically classified as official government
+  // Registry policy: .gov.in and .nic.in are official government extensions.
+  // Note: .ac.in is NOT automatically classified as official government.
   if (
     hostname === 'gov.in' ||
     hostname.endsWith('.gov.in') ||
@@ -210,42 +223,6 @@ export function classifyUrlSafety(url?: string | null): UrlSafetyClassification 
     hostname.endsWith('.nic.in')
   ) {
     return 'OFFICIAL_GOVERNMENT';
-  }
-
-  // Tier 2: Recognized statutory bodies & public financing corporations (explicit known authorities)
-  const statutoryAgencyDomains = [
-    'cgtmse.in',
-    'mudra.org.in',
-    'scsthub.in',
-    'vcfsc.in',
-    'nmdfc.org',
-    'nsfdc.nic.in',
-    'sidbi.in',
-    'kviconline.gov.in',
-    'standupmitra.in',
-    'startupindia.gov.in',
-    'startupmission.kerala.gov.in',
-    'ncdc.in',
-    'tiic.org',
-    'tiic.co.in',
-    'ksfc.in',
-  ];
-
-  if (statutoryAgencyDomains.some((d) => hostname === d || hostname.endsWith(`.${d}`))) {
-    return 'IMPLEMENTING_AGENCY';
-  }
-
-  // Tier 3: Explicitly known state boards & government-backed corporations from the scheme database
-  const knownGovernmentBackedDomains = [
-    'tnsfac.org',
-    'kswdc.org',
-    'kudumbashree.org',
-    'norkaroots.org',
-    'keralakhadi.org',
-  ];
-
-  if (knownGovernmentBackedDomains.some((d) => hostname === d || hostname.endsWith(`.${d}`))) {
-    return 'GOVERNMENT_BACKED';
   }
 
   // Generic or unknown domains (.com, .org, .co.in, .org.in, third-party aggregators)
@@ -256,11 +233,21 @@ export function classifyUrlSafety(url?: string | null): UrlSafetyClassification 
 /**
  * Determines the source hierarchy level (1 - 6).
  *
- * Phase 2E.2 hardening: matches against the parsed hostname with exact /
- * domain-boundary comparison only. Substring matching on the raw URL string
- * is never used — fake-sidbi.in.attacker.com must not be classified as a
- * statutory agency, and bare tokens like "tiic" must not match path/query
- * text. Unknown domains fall through to the lower levels, never guessed up.
+ * Phase 2E.2 centralization: trusted-domain data comes from the single
+ * authoritative registry (src/data/governmentAuthorities.ts) via
+ * matchAuthorityByHostname + per-pattern hierarchy levels. No hard-coded
+ * domain lists live here. Hostnames are normalized and matched by exact /
+ * domain-boundary comparison only — fake-sidbi.in.attacker.com must not be
+ * classified as a statutory agency, and bare tokens like "tiic" must not
+ * match path/query text. Unknown domains fall through to the lower levels,
+ * never guessed up.
+ *
+ * Structural rules (not domain data) stay in the classifier:
+ * - candidate discovery records are never elevated to Level 1 by a guarded
+ *   portal (myscheme.gov.in, which they were harvested from);
+ * - national schemes on a .gov.in host are Level 1 (registry extension
+ *   policy); state schemes on .gov.in/.nic.in are Level 2;
+ * - the ministry/department/directorate heuristic is Level 3.
  */
 export function classifySourceHierarchy(scheme?: Scheme | null): SourceHierarchyLevel {
   if (!scheme) return 6;
@@ -271,57 +258,51 @@ export function classifySourceHierarchy(scheme?: Scheme | null): SourceHierarchy
   // Parse the hostname once; an unparseable URL contributes no domain signal.
   let hostname = '';
   try {
-    hostname = new URL(rawUrl.trim()).hostname.toLowerCase();
+    hostname = normalizeHostname(new URL(rawUrl.trim()).hostname);
   } catch {
     hostname = '';
   }
 
-  // Exact-or-subdomain match: "d" matches hostname === d or *.d only.
-  const domainMatches = (domains: string[]): boolean =>
-    hostname !== '' && domains.some((d) => hostname === d || hostname.endsWith(`.${d}`));
-
   // Candidate discovery records must never be elevated to Level 1 on the
   // strength of a portal URL alone — they stay Level 6 (Secondary Aggregator).
   const isCandidate = scheme.isCandidateScheme === true;
-  if (
-    domainMatches(['india.gov.in']) ||
-    (!isCandidate && domainMatches(['myscheme.gov.in'])) ||
-    domainMatches(['msme.gov.in']) ||
-    domainMatches(['standupmitra.in']) ||
-    (applicableStates.length === 0 && domainMatches(['gov.in']))
-  ) {
-    return 1; // Central Govt Portal
+
+  const match = hostname ? matchAuthorityByHostname(hostname) : undefined;
+  const patternLevel = match?.authority.patternHierarchyLevels?.[match.matchedPattern];
+
+  // Level 1: Central Govt Portal — registry-resolved. A guarded portal never
+  // elevates candidate discovery records.
+  if (match && patternLevel === 1) {
+    const guarded =
+      match.authority.candidateGuardedPatterns?.includes(match.matchedPattern) ?? false;
+    if (!isCandidate || !guarded) {
+      return 1;
+    }
   }
 
+  // National schemes on a .gov.in host are Level 1 (registry extension policy).
+  if (
+    applicableStates.length === 0 &&
+    (hostname === 'gov.in' || hostname.endsWith('.gov.in'))
+  ) {
+    return 1;
+  }
+
+  // Level 2: State Govt Portal.
   if (
     applicableStates.length > 0 &&
     (hostname.endsWith('.gov.in') || hostname.endsWith('.nic.in'))
   ) {
-    return 2; // State Govt Portal
+    return 2;
   }
 
-  if (
-    domainMatches([
-      'sidbi.in',
-      'cgtmse.in',
-      'mudra.org.in',
-      'tiic.org',
-      'tiic.co.in',
-      'ksfc.in',
-    ])
-  ) {
-    return 4; // Statutory Implementing Agency
+  // Levels 4/5: registry-resolved statutory implementing agencies (4) and
+  // government-backed corporations (5).
+  if (patternLevel === 4) {
+    return 4;
   }
-
-  if (
-    domainMatches([
-      'startupmission.kerala.gov.in', // Kerala Startup Mission (ksum)
-      'nmdfc.org',
-      'vcfsc.in',
-      'scsthub.in',
-    ])
-  ) {
-    return 5; // Govt-backed Corporation
+  if (patternLevel === 5) {
+    return 5;
   }
 
   if (
@@ -476,11 +457,12 @@ export function deriveSchemeTrustProfile(
  * Phase 2E.2: accepts an optional dedupe collision audit. Every unresolved
  * collision (needsReview) becomes a HIGH-priority UNRESOLVED_COLLISION item
  * carrying the matched scheme id, duplicate type, and confidence — so a
- * collision can never be overlooked at review time, and publication must
- * require its resolution. (The actual publish/approve gate lives in the
- * out-of-repo admin console + migrations 028/029 RPCs; this repo has no
- * publish path, so the in-repo guarantee is visibility, never silent
- * clearance.)
+ * collision can never be overlooked at review time. Unresolved ingestion
+ * collisions are surfaced for review. A hard database publication gate
+ * requires explicit linkage between the ingestion item and the scheme
+ * version and belongs to the ingestion / review backend hardening phase;
+ * this repo has no publish path, so the in-repo guarantee is visibility,
+ * never silent clearance.
  */
 export function generateReviewQueue(
   schemes: Scheme[],

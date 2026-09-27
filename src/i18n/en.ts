@@ -438,7 +438,7 @@ export const enTranslations: Translations = {
     themeDark: 'Dark',
     citizen: 'Citizen Entrepreneur',
     privacyModalTitle: 'Account & Data Privacy',
-    privacyModalSubtitle: 'Sovereign Citizen Data Security & On-Device Storage Standards',
+    privacyModalSubtitle: 'Citizen Data Security & Privacy Controls',
     privacyStorageNotice: 'Your personal and business details are stored on this device in secure browser storage, and synchronized to your account when you sign in. Yojana Setu does not sell or share your demographic data with commercial third parties.',
     privacySecurityTitle: 'Data Sovereignty & Privacy',
     privacySecurityDesc: 'Client-side evaluation ensures all calculations and eligibility checks execute privately in your browser session.',

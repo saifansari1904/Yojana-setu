@@ -4,24 +4,23 @@
  */
 
 import { FreshnessStatus, PortalDomainClass } from '../../types';
-
-// Explicit known nodal domains operated by statutory government development banks / corporations
-const KNOWN_NODAL_DOMAINS = [
-  'sidbi.in',
-  'nabard.org',
-  'cgtmse.in',
-  'standupmitra.in',
-  'jansamarth.in',
-];
-
-// Explicit verified exceptions that are validated by official scheme notifications
-const VERIFIED_EXCEPTIONS = [
-  'jansamarth.gov.in',
-];
+import {
+  findAuthorityByDomain,
+  normalizeHostname,
+} from '../../../../data/governmentAuthorities';
 
 /**
  * Classifies a URL domain with strict domain hardening.
- * Does NOT treat .org.in, .edu.in, .ac.in as automatically government-authoritative!
+ *
+ * Phase 2E.2 centralization: explicitly trusted domain data comes from the
+ * single authoritative registry (src/data/governmentAuthorities.ts) — no
+ * hard-coded trusted-domain lists live here. Known nodal agencies
+ * (SIDBI, NABARD, CGTMSE and their portals) are flagged in the registry via
+ * isKnownNodalAgency and matched by exact hostname / domain boundary only.
+ * Does NOT treat .org.in, .edu.in, .ac.in as automatically
+ * government-authoritative. Tier semantics are unchanged: VERIFIED_OFFICIAL
+ * for .gov.in/.nic.in (and explicit provenance exceptions), KNOWN_NODAL for
+ * registry-flagged nodal agencies, UNVERIFIED_EXTERNAL otherwise.
  */
 export function classifyPortalDomain(url: string, isExplicitException = false): PortalDomainClass {
   if (!url || typeof url !== 'string') {
@@ -29,12 +28,13 @@ export function classifyPortalDomain(url: string, isExplicitException = false): 
   }
 
   try {
-    let hostname: string;
+    let rawHostname: string;
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      hostname = new URL(`https://${url}`).hostname.toLowerCase();
+      rawHostname = new URL(`https://${url}`).hostname;
     } else {
-      hostname = new URL(url).hostname.toLowerCase();
+      rawHostname = new URL(url).hostname;
     }
+    const hostname = normalizeHostname(rawHostname);
 
     if (!hostname || hostname.includes(' ') || !hostname.includes('.')) {
       return 'INVALID';
@@ -46,12 +46,15 @@ export function classifyPortalDomain(url: string, isExplicitException = false): 
     }
 
     // 2. Explicit verified exceptions through provenance metadata
-    if (isExplicitException || VERIFIED_EXCEPTIONS.some(d => hostname === d || hostname.endsWith(`.${d}`))) {
+    // (the former hard-coded single-domain exception list is subsumed by the
+    // .gov.in rule above; only the caller-supplied provenance flag remains)
+    if (isExplicitException) {
       return 'VERIFIED_OFFICIAL';
     }
 
-    // 3. Known statutory nodal platforms (e.g. SIDBI, CGTMSE, NABARD)
-    if (KNOWN_NODAL_DOMAINS.some(d => hostname === d || hostname.endsWith(`.${d}`))) {
+    // 3. Known statutory nodal platforms (e.g. SIDBI, CGTMSE, NABARD) —
+    // sourced from the registry's isKnownNodalAgency flag.
+    if (findAuthorityByDomain(hostname)?.isKnownNodalAgency) {
       return 'KNOWN_NODAL';
     }
 

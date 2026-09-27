@@ -1,18 +1,36 @@
 /**
  * YOJANA SETU — GOVERNMENT AUTHORITY & NODAL AGENCY REGISTRY
  *
- * Centralized registry of government ministries, state departments, statutory bodies,
- * and external institutions. Consumed by the Data Trust Engine to enforce rigorous
- * domain provenance without fragile TLD heuristics.
+ * THE single authoritative registry of government ministries, state
+ * departments, statutory bodies, and external institutions. Every URL /
+ * domain trust decision in the app (trustEngine.classifyUrlSafety,
+ * trustEngine.classifySourceHierarchy, normalization.getSchemeProvenance,
+ * commandCenter classifyPortalDomain, applicationPreparation) consumes this
+ * registry — no consumer may keep its own hard-coded trusted-domain list.
  *
  * Rules:
  * 1. .gov.in and .nic.in domains are official government portals.
  * 2. Academic domains (.ac.in, .edu.in) are ACADEMIC_INSTITUTION and isOfficialGovernment = false.
- * 3. Specific authorized state nodal partner portals (e.g. TNAU Agritech) are designated explicitly.
+ * 3. Specific authorized state nodal partner portals (e.g. TNAU) are designated explicitly.
  * 4. Aggregators are explicitly classified with isOfficialGovernment = false.
+ * 5. Hostnames are normalized (lowercase, trimmed, trailing dots stripped)
+ *    and matched by exact hostname or domain boundary only — substring
+ *    matching is never used, so fake-sidbi.in, sidbi.in.attacker.com and
+ *    attacker-sidbi.in never match sidbi.in.
  */
 
 import { GovernmentAuthority } from '../types/authority';
+
+/**
+ * Normalizes a hostname for safe comparison: lowercases, trims whitespace,
+ * and strips trailing dots. Never strips subdomains — www.sidbi.in stays a
+ * subdomain and matches via domain-boundary rules, it is not collapsed to
+ * sidbi.in.
+ */
+export function normalizeHostname(hostname: string): string {
+  if (!hostname || typeof hostname !== 'string') return '';
+  return hostname.toLowerCase().trim().replace(/\.+$/, '');
+}
 
 export const GOVERNMENT_AUTHORITY_REGISTRY: GovernmentAuthority[] = [
   // =================================================================
@@ -27,6 +45,7 @@ export const GOVERNMENT_AUTHORITY_REGISTRY: GovernmentAuthority[] = [
     ministry: 'Ministry of MSME',
     active: true,
     isOfficialGovernment: true,
+    patternHierarchyLevels: { 'msme.gov.in': 1 },
   },
   {
     authorityId: 'auth_finance_goi',
@@ -127,6 +146,10 @@ export const GOVERNMENT_AUTHORITY_REGISTRY: GovernmentAuthority[] = [
     ministry: 'Ministry of Electronics and Information Technology',
     active: true,
     isOfficialGovernment: true,
+    patternHierarchyLevels: { 'myscheme.gov.in': 1, 'india.gov.in': 1 },
+    // Candidate discovery records were harvested from this portal: it must
+    // never elevate a candidate to Level 1 on the strength of its own URL.
+    candidateGuardedPatterns: ['myscheme.gov.in'],
   },
 
   // =================================================================
@@ -140,6 +163,8 @@ export const GOVERNMENT_AUTHORITY_REGISTRY: GovernmentAuthority[] = [
     authorityType: 'STATUTORY_BODY',
     active: true,
     isOfficialGovernment: true,
+    isKnownNodalAgency: true,
+    patternHierarchyLevels: { 'sidbi.in': 4, 'standupmitra.in': 1 },
   },
   {
     authorityId: 'auth_cgtmse',
@@ -150,6 +175,8 @@ export const GOVERNMENT_AUTHORITY_REGISTRY: GovernmentAuthority[] = [
     ministry: 'Ministry of MSME / SIDBI',
     active: true,
     isOfficialGovernment: true,
+    isKnownNodalAgency: true,
+    patternHierarchyLevels: { 'cgtmse.in': 4 },
   },
   {
     authorityId: 'auth_mudra',
@@ -160,6 +187,7 @@ export const GOVERNMENT_AUTHORITY_REGISTRY: GovernmentAuthority[] = [
     ministry: 'Ministry of Finance / SIDBI',
     active: true,
     isOfficialGovernment: true,
+    patternHierarchyLevels: { 'mudra.org.in': 4 },
   },
   {
     authorityId: 'auth_kvic',
@@ -179,6 +207,7 @@ export const GOVERNMENT_AUTHORITY_REGISTRY: GovernmentAuthority[] = [
     authorityType: 'STATUTORY_BODY',
     active: true,
     isOfficialGovernment: true,
+    isKnownNodalAgency: true,
   },
   {
     authorityId: 'auth_nsfdc',
@@ -199,6 +228,7 @@ export const GOVERNMENT_AUTHORITY_REGISTRY: GovernmentAuthority[] = [
     ministry: 'Ministry of Minority Affairs',
     active: true,
     isOfficialGovernment: true,
+    patternHierarchyLevels: { 'nmdfc.org': 5 },
   },
   {
     authorityId: 'auth_scsthub',
@@ -207,6 +237,98 @@ export const GOVERNMENT_AUTHORITY_REGISTRY: GovernmentAuthority[] = [
     domainPatterns: ['scsthub.in'],
     authorityType: 'PUBLIC_CORPORATION',
     ministry: 'Ministry of MSME',
+    active: true,
+    isOfficialGovernment: true,
+    patternHierarchyLevels: { 'scsthub.in': 5 },
+  },
+  {
+    authorityId: 'auth_vcfsc',
+    name: 'Venture Capital Fund for Scheduled Castes (VCFSC)',
+    domain: 'vcfsc.in',
+    domainPatterns: ['vcfsc.in'],
+    authorityType: 'PUBLIC_CORPORATION',
+    ministry: 'Ministry of Social Justice and Empowerment',
+    active: true,
+    isOfficialGovernment: true,
+    patternHierarchyLevels: { 'vcfsc.in': 5 },
+  },
+  {
+    authorityId: 'auth_ncdc',
+    name: 'National Cooperative Development Corporation',
+    domain: 'ncdc.in',
+    domainPatterns: ['ncdc.in'],
+    authorityType: 'STATUTORY_BODY',
+    ministry: 'Ministry of Cooperation',
+    active: true,
+    isOfficialGovernment: true,
+  },
+  {
+    authorityId: 'auth_ksfc',
+    name: 'Karnataka State Financial Corporation',
+    domain: 'ksfc.in',
+    domainPatterns: ['ksfc.in'],
+    authorityType: 'PUBLIC_CORPORATION',
+    stateOrUt: 'Karnataka',
+    active: true,
+    isOfficialGovernment: true,
+    patternHierarchyLevels: { 'ksfc.in': 4 },
+  },
+  {
+    authorityId: 'auth_tiic_alt',
+    name: 'Tamil Nadu Industrial Investment Corporation (alternate domain)',
+    domain: 'tiic.co.in',
+    domainPatterns: ['tiic.co.in'],
+    authorityType: 'PUBLIC_CORPORATION',
+    stateOrUt: 'Tamil Nadu',
+    active: true,
+    isOfficialGovernment: true,
+    patternHierarchyLevels: { 'tiic.co.in': 4 },
+  },
+
+  // =================================================================
+  // 2b. STATE BOARDS & GOVERNMENT-BACKED BODIES
+  // These are explicitly trusted state bodies classified as
+  // GOVERNMENT_BACKED (a distinct tier below IMPLEMENTING_AGENCY).
+  // Previously hard-coded in the trust engine's Tier 3 list; centralized
+  // here so the registry is the single source of truth.
+  // =================================================================
+  {
+    authorityId: 'auth_tnsfac',
+    name: 'TNSFAC State Facilitation Portal',
+    domain: 'tnsfac.org',
+    domainPatterns: ['tnsfac.org'],
+    authorityType: 'STATE_BOARD',
+    stateOrUt: 'Tamil Nadu',
+    active: true,
+    isOfficialGovernment: true,
+  },
+  {
+    authorityId: 'auth_kswdc',
+    name: "Kerala State Women's Development Corporation",
+    domain: 'kswdc.org',
+    domainPatterns: ['kswdc.org'],
+    authorityType: 'STATE_BOARD',
+    stateOrUt: 'Kerala',
+    active: true,
+    isOfficialGovernment: true,
+  },
+  {
+    authorityId: 'auth_norkaroots',
+    name: 'NORKA Roots (Government of Kerala)',
+    domain: 'norkaroots.org',
+    domainPatterns: ['norkaroots.org'],
+    authorityType: 'STATE_BOARD',
+    stateOrUt: 'Kerala',
+    active: true,
+    isOfficialGovernment: true,
+  },
+  {
+    authorityId: 'auth_keralakhadi',
+    name: 'Kerala Khadi & Village Industries Board',
+    domain: 'keralakhadi.org',
+    domainPatterns: ['keralakhadi.org'],
+    authorityType: 'STATE_BOARD',
+    stateOrUt: 'Kerala',
     active: true,
     isOfficialGovernment: true,
   },
@@ -233,6 +355,7 @@ export const GOVERNMENT_AUTHORITY_REGISTRY: GovernmentAuthority[] = [
     stateOrUt: 'Tamil Nadu',
     active: true,
     isOfficialGovernment: true,
+    patternHierarchyLevels: { 'tiic.org': 4 },
   },
   {
     authorityId: 'auth_kerala_gov',
@@ -243,6 +366,7 @@ export const GOVERNMENT_AUTHORITY_REGISTRY: GovernmentAuthority[] = [
     stateOrUt: 'Kerala',
     active: true,
     isOfficialGovernment: true,
+    patternHierarchyLevels: { 'startupmission.kerala.gov.in': 5 },
   },
   {
     authorityId: 'auth_kudumbashree',
@@ -367,28 +491,49 @@ export const GOVERNMENT_AUTHORITY_REGISTRY: GovernmentAuthority[] = [
 ];
 
 /**
- * Searches the authority registry for a matching authority given a domain hostname.
+ * Matches a hostname against the registry, returning the authority and the
+ * exact domain pattern that matched. Matching is exact-hostname or
+ * domain-boundary only (hostname === pattern or hostname ends with
+ * '.' + pattern). When several patterns match, the LONGEST (most specific)
+ * pattern wins, so startupmission.kerala.gov.in matches its dedicated
+ * pattern rather than the generic kerala.gov.in pattern.
  */
-export function findAuthorityByDomain(hostname: string): GovernmentAuthority | undefined {
-  if (!hostname) return undefined;
-  const cleanHost = hostname.toLowerCase().trim();
+export function matchAuthorityByHostname(
+  hostname: string
+): { authority: GovernmentAuthority; matchedPattern: string } | undefined {
+  const cleanHost = normalizeHostname(hostname);
+  if (!cleanHost) return undefined;
 
-  // 1. Direct match on domain
+  // 1. Direct match on domain (exact — always the most specific possible)
   const directMatch = GOVERNMENT_AUTHORITY_REGISTRY.find(
-    (a) => a.domain === cleanHost
+    (a) => normalizeHostname(a.domain) === cleanHost
   );
-  if (directMatch) return directMatch;
+  if (directMatch) {
+    return { authority: directMatch, matchedPattern: normalizeHostname(directMatch.domain) };
+  }
 
-  // 2. Pattern match (subdomains or domain patterns)
+  // 2. Pattern match (subdomains or domain patterns) — longest pattern wins
+  let best: { authority: GovernmentAuthority; matchedPattern: string } | undefined;
   for (const auth of GOVERNMENT_AUTHORITY_REGISTRY) {
-    for (const pat of auth.domainPatterns) {
+    for (const rawPat of auth.domainPatterns) {
+      const pat = normalizeHostname(rawPat);
+      if (!pat) continue;
       if (cleanHost === pat || cleanHost.endsWith('.' + pat)) {
-        return auth;
+        if (!best || pat.length > best.matchedPattern.length) {
+          best = { authority: auth, matchedPattern: pat };
+        }
       }
     }
   }
 
-  return undefined;
+  return best;
+}
+
+/**
+ * Searches the authority registry for a matching authority given a domain hostname.
+ */
+export function findAuthorityByDomain(hostname: string): GovernmentAuthority | undefined {
+  return matchAuthorityByHostname(hostname)?.authority;
 }
 
 /**

@@ -2,6 +2,7 @@ import type { Scheme, SchemeScope, NormalizedSchemeCategory, SchemeSourceProvena
 import { NORMALIZED_SCHEME_CATEGORIES } from '../../data/schemeTaxonomy';
 import { INDIAN_STATES } from '../../constants';
 import { deriveSchemeTrustProfile } from './trustEngine';
+import { findAuthorityByDomain, normalizeHostname } from '../../data/governmentAuthorities';
 
 export interface DatasetMetadata {
   datasetVersion: string;
@@ -303,11 +304,12 @@ export function getSchemeCategories(scheme: Scheme): NormalizedSchemeCategory[] 
 /**
  * Derives source provenance object for a scheme.
  *
- * Phase 2E.2 hardening: official-source detection uses the parsed hostname
- * with exact / domain-boundary matching only. Substring matching on the raw
- * URL string is never used, and generic academic suffixes (.ac.in) never
- * confer official status — per the authority registry policy, academic
- * institutions are isOfficialGovernment = false.
+ * Phase 2E.2 centralization: official-source detection consumes the single
+ * authoritative registry (src/data/governmentAuthorities.ts) — any
+ * registry-confirmed official government domain counts, plus the .gov.in /
+ * .nic.in extension policy. No hard-coded domain list lives here. Matching
+ * uses the parsed hostname with exact / domain-boundary comparison only;
+ * generic academic suffixes (.ac.in) never confer official status.
  */
 export function getSchemeProvenance(scheme: Scheme): SchemeSourceProvenance {
   if (scheme.sourceProvenance) {
@@ -319,22 +321,16 @@ export function getSchemeProvenance(scheme: Scheme): SchemeSourceProvenance {
 
   let hostname = '';
   try {
-    hostname = new URL(url.trim()).hostname.toLowerCase();
+    hostname = normalizeHostname(new URL(url.trim()).hostname);
   } catch {
     hostname = '';
   }
-  const OFFICIAL_SOURCE_DOMAINS = [
-    'cgtmse.in',
-    'mudra.org.in',
-    'scsthub.in',
-    'vcfsc.in',
-    'nmdfc.org',
-  ];
+  const registeredAuthority = hostname ? findAuthorityByDomain(hostname) : undefined;
   const isGovDomain =
     hostname !== '' &&
     (hostname.endsWith('.gov.in') ||
       hostname.endsWith('.nic.in') ||
-      OFFICIAL_SOURCE_DOMAINS.some((d) => hostname === d || hostname.endsWith(`.${d}`)));
+      registeredAuthority?.isOfficialGovernment === true);
 
   const rawStatus = getSchemeVerificationStatus(scheme);
 

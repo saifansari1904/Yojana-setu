@@ -86,6 +86,12 @@ Each payload asserts the RLS-backed invariant it attacks.
   submits applications to any ministry.
 - Unknown scheme facts (auth method, e-sign, editability, processing time)
   are returned as UNKNOWN, never inferred.
+- Unresolved ingestion collisions are surfaced for review. A hard database
+  publication gate requires explicit linkage between the ingestion item and
+  the scheme version and belongs to the ingestion / review backend hardening
+  phase. This repository ships no migration for that gate; the frontend does
+  not fabricate ingestion-item → scheme-version linkage or a frontend-only
+  publication security mechanism.
 
 ## 5. HTTP security headers (Vercel)
 

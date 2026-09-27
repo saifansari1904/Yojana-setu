@@ -116,6 +116,25 @@ async function run(): Promise<void> {
     en.includes('syncs to your account only when you are signed in'),
   );
 
+  /* P2c. privacyModalSubtitle carries the corrected "Citizen Data Security &
+     Privacy Controls" wording (no "Sovereign", no on-device-storage claim)
+     in all seven languages. */
+  const SUBTITLES: Record<string, string> = {
+    en: "privacyModalSubtitle: 'Citizen Data Security & Privacy Controls'",
+    hi: "privacyModalSubtitle: 'नागरिक डेटा सुरक्षा एवं गोपनीयता नियंत्रण'",
+    ta: "privacyModalSubtitle: 'குடிமக்கள் தரவு பாதுகாப்பு மற்றும் தனியுரிமை கட்டுப்பாடுகள்'",
+    te: "privacyModalSubtitle: 'పౌర డేటా భద్రత మరియు గోప్యతా నియంత్రణలు'",
+    kn: "privacyModalSubtitle: 'ನಾಗರಿಕ ಡೇಟಾ ಭದ್ರತೆ ಮತ್ತು ಗೌಪ್ಯತೆ ನಿಯಂತ್ರಣಗಳು'",
+    ml: "privacyModalSubtitle: 'പൗര ഡാറ്റ സുരക്ഷയും സ്വകാര്യതാ നിയന്ത്രണങ്ങളും'",
+    mr: "privacyModalSubtitle: 'नागरिक माहिती सुरक्षा व गोपनीयता नियंत्रणे'",
+  };
+  for (const lang of langs) {
+    const content = read(`i18n/${lang}.ts`);
+    assert(`P2c. ${lang}: privacyModalSubtitle corrected`, content.includes(SUBTITLES[lang]));
+    assert(`P2c. ${lang}: no "Sovereign" in privacyModalSubtitle`, !/privacyModalSubtitle: '[^']*Sovereign/i.test(content));
+    assert(`P2c. ${lang}: no "सार्वभौम" in privacyModalSubtitle`, !content.includes("privacyModalSubtitle: 'सार्वभौम"));
+  }
+
   /* P3. Corrected copy never promises zero PII / zero retention / deletion */
   const allUi = SCAN_FILES.map(read).join('\n');
   assert('P3. no "zero PII" promise in UI surface', !/zero\s+pii/i.test(allUi));
