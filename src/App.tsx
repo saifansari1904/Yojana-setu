@@ -979,6 +979,7 @@ function YojanaSetuMain() {
                   onOpenResults={() => navigateTo('results')}
                   onOpenTracker={() => navigateTo('tracker')}
                   onOpenProfile={() => navigateTo('profile')}
+                  onOpenWorkspace={handleOpenWorkspace}
                   onSelectScheme={handleSelectScheme}
                   onToggleSave={handleToggleSaveScheme}
                 />

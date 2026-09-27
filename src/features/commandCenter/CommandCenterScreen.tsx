@@ -1,59 +1,54 @@
-/**
- * COMMAND CENTER SCREEN
- *
- * The merged Yojana Setu Command Center: one decision surface that answers
- * "what should this entrepreneur focus on right now?".
- *
- * It composes existing systems only — the authoritative matching engine
- * supplies match results, the tracker supplies applications and follow-ups,
- * and the document progress store supplies readiness. Nothing is recomputed
- * and no data is invented.
- */
-
-import React, { useMemo, useState } from 'react';
-import { Compass } from 'lucide-react';
-import { ArrowFillButton } from '../../components/ui/ArrowFillButton';
-import type { MatchResult, UserProfile as AppProfile } from '../../types';
+import React, { useMemo } from 'react';
+import type { MatchResult, UserProfile } from '../../types';
 import type { TrackedApplication } from '../../types/tracker';
-import { loadDocumentProgress } from '../../lib/tracker/documentProgress';
-import { useTranslation as useAppTranslation } from '../../i18n';
+import type { PathwayAction, SupportPathway } from '../../types/supportPathway';
 import { useTranslation } from './i18n';
-import {
-  toApplicationRecords,
-  toFeatureMatchResult,
-  toFeatureProfile,
-  toFeatureScheme,
-  toFollowUpItems,
-  toUserDocumentStates,
-} from './adapter';
-import { generateDashboardInsights } from './lib/dashboard/dashboardInsights';
-import type { BusinessStage, FollowUpItem, OpportunityItem, SupportCategory } from './types';
-import { ApplicationOverview } from './components/ApplicationOverview';
-import { BusinessJourneyOverview } from './components/BusinessJourneyOverview';
-import { DocumentOverview } from './components/DocumentOverview';
-import { EmptyCommandCenter } from './components/EmptyCommandCenter';
-import { FollowUpOverview } from './components/FollowUpOverview';
+import { NextBestActionCard } from '../../components/business/NextBestActionCard';
 import { NoMatchState } from './components/NoMatchState';
-import { OpportunityPriorityCard } from './components/OpportunityPriorityCard';
-import { PartialProfileBanner } from './components/PartialProfileBanner';
-import { SupportStackOverview } from './components/SupportStackOverview';
-import { TopOpportunitiesList } from './components/TopOpportunitiesList';
-import { TrustOverview } from './components/TrustOverview';
-import { AddReminderModal } from './components/AddReminderModal';
+import { deriveBusinessNeedProfile } from '../../lib/business/businessNeedProfile';
+import { buildSupportPathway } from '../../lib/business/supportPathway';
+import { calculateBusinessProfileCompleteness } from '../../lib/business/businessProfileCompleteness';
+import { loadDocumentProgress } from '../../lib/tracker/documentProgress';
+import {
+  deriveEngagementStage,
+  resolveResumeTarget,
+  deriveReadinessCategories,
+  collectRecentActivity,
+  selectTopOpportunities,
+  selectActiveApplications,
+} from './lib/dashboard/dashboardSelectors';
+import { DashboardHeader } from './components/dashboard/DashboardHeader';
+import { TopOpportunities } from './components/dashboard/TopOpportunities';
+import { JourneyStageStrip } from './components/dashboard/JourneyStageStrip';
+import { PreparationOverview } from './components/dashboard/PreparationOverview';
+import { ApplicationsCard } from './components/dashboard/ApplicationsCard';
+import { SavedSchemesCard } from './components/dashboard/SavedSchemesCard';
+import { ProfileReadinessCard } from './components/dashboard/ProfileReadinessCard';
+import { TrustCard } from './components/dashboard/TrustCard';
+import { RecentActivityCard } from './components/dashboard/RecentActivityCard';
 
 interface CommandCenterScreenProps {
-  userProfile: AppProfile | null;
+  userProfile: UserProfile | null;
   matchResults: MatchResult[];
   applications: TrackedApplication[];
   savedSchemeIds: Set<string>;
   onStartCheck: () => void;
   onOpenResults: () => void;
   onOpenTracker: () => void;
-  onOpenProfile?: () => void;
+  onOpenProfile: () => void;
+  onOpenWorkspace: (match: MatchResult) => void;
   onSelectScheme: (match: MatchResult) => void;
-  onToggleSave?: (schemeId: string) => void;
+  onToggleSave: (schemeId: string) => void;
 }
 
+/**
+ * DASHBOARD 2.0 — Entrepreneur Command Center.
+ *
+ * Presentation layer only. Every number, ranking, eligibility verdict, and
+ * recommended action on this screen is produced by the existing business
+ * layer (buildSupportPathway / the matching engine). This file chooses what
+ * to show and where — never what the underlying answer is.
+ */
 export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
   userProfile,
   matchResults,
@@ -63,249 +58,231 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
   onOpenResults,
   onOpenTracker,
   onOpenProfile,
+  onOpenWorkspace,
   onSelectScheme,
   onToggleSave,
 }) => {
-  const { t, language } = useTranslation();
-  const { getLocalizedScheme } = useAppTranslation();
-  const [localFollowUps, setLocalFollowUps] = useState<FollowUpItem[]>([]);
-  const [completedFollowUpIds, setCompletedFollowUpIds] = useState<string[]>([]);
-  const [isReminderOpen, setIsReminderOpen] = useState(false);
+  const { t } = useTranslation();
 
-  const matchByScheme = useMemo(() => {
-    const map = new Map<string, MatchResult>();
-    matchResults.forEach(m => map.set(m.scheme.id, m));
-    return map;
-  }, [matchResults]);
+  const docProgress = useMemo(() => loadDocumentProgress(), []);
 
-  const insights = useMemo(() => {
-    const profile = toFeatureProfile(userProfile);
-    const schemes = matchResults.map(m => {
-      const localized = getLocalizedScheme ? getLocalizedScheme(m.scheme) : undefined;
-      return toFeatureScheme(
-        m.scheme,
-        localized ? { name: localized.name, description: localized.description } : undefined,
-      );
+  const needProfile = useMemo(
+    () => deriveBusinessNeedProfile(userProfile),
+    [userProfile],
+  );
+  const completeness = useMemo(
+    () => (userProfile ? calculateBusinessProfileCompleteness(userProfile) : null),
+    [userProfile],
+  );
+
+  // Top opportunities: the engine's own ordering, eligible first, capped.
+  const topOpportunities = useMemo(
+    () => selectTopOpportunities(matchResults, 4),
+    [matchResults],
+  );
+
+  /**
+   * Scheme in focus for scheme-contextual actions: the first-ranked
+   * opportunity. selectTopOpportunities preserves the engine's ordering
+   * (eligible first), so [0] is the engine's top pick — no dashboard-side
+   * ranking happens here.
+   */
+  const focusMatch = useMemo(() => topOpportunities[0] ?? null, [topOpportunities]);
+
+  const pathway: SupportPathway | null = useMemo(() => {
+    if (!userProfile) return null;
+    const focusPreparedIds =
+      focusMatch && docProgress[focusMatch.scheme.id]
+        ? new Set(docProgress[focusMatch.scheme.id])
+        : new Set<string>();
+    return buildSupportPathway({
+      profile: userProfile,
+      needProfile,
+      matchResults,
+      selectedMatch: focusMatch,
+      preparedDocIds: focusPreparedIds,
     });
+  }, [userProfile, needProfile, matchResults, focusMatch, docProgress]);
 
-    const trackerFollowUps = toFollowUpItems(applications);
-    const followUps = [...trackerFollowUps, ...localFollowUps].map(f => ({
-      ...f,
-      completed: f.completed || completedFollowUpIds.includes(f.id),
-    }));
+  const engagementStage = useMemo(
+    () =>
+      deriveEngagementStage({
+        profile: userProfile,
+        matchResults,
+        applications,
+        savedSchemeIds,
+        docProgress,
+      }),
+    [userProfile, matchResults, applications, savedSchemeIds, docProgress],
+  );
 
-    return generateDashboardInsights({
-      profile,
-      schemes,
-      matchResults: matchResults.map(toFeatureMatchResult),
-      applicationRecords: toApplicationRecords(applications),
-      userDocs: toUserDocumentStates(loadDocumentProgress()),
-      savedSchemeIds: Array.from(savedSchemeIds),
-      followUps,
-    });
-  }, [
-    userProfile,
-    matchResults,
-    applications,
-    savedSchemeIds,
-    localFollowUps,
-    completedFollowUpIds,
-    getLocalizedScheme,
-  ]);
+  const resume = useMemo(
+    () => resolveResumeTarget({ matchResults, applications }),
+    [matchResults, applications],
+  );
 
-  const openScheme = (schemeId: string) => {
-    const match = matchByScheme.get(schemeId);
-    if (match) {
-      onSelectScheme(match);
+  const readinessCategories = useMemo(
+    () => (userProfile ? deriveReadinessCategories(userProfile, docProgress) : []),
+    [userProfile, docProgress],
+  );
+
+  const activeApplications = useMemo(
+    () => selectActiveApplications(applications, 5),
+    [applications],
+  );
+
+  const savedMatches = useMemo(
+    () => matchResults.filter((m) => savedSchemeIds.has(m.scheme.id)),
+    [matchResults, savedSchemeIds],
+  );
+
+  const recentActivity = useMemo(() => collectRecentActivity(applications, 5), [applications]);
+
+  const pendingActions = pathway ? 1 + pathway.secondaryActions.length : 0;
+
+  const handleResume = () => {
+    if (resume.target === 'tracker') onOpenTracker();
+    else if (resume.target === 'form') onOpenProfile();
+    else onOpenResults();
+  };
+
+  const handleJourneyNavigate = (target: 'form' | 'results' | 'tracker' | 'workspace') => {
+    if (target === 'form') onOpenProfile();
+    else if (target === 'tracker') onOpenTracker();
+    else if (target === 'workspace') {
+      if (focusMatch) onOpenWorkspace(focusMatch);
+      else onOpenResults();
+    } else onOpenResults();
+  };
+
+  /** Maps the existing deterministic action's target onto app navigation. */
+  const handlePathwayAction = (action: PathwayAction) => {
+    const target = action.actionTarget;
+    if (target === 'form') {
+      onOpenProfile();
+      return;
+    }
+    if (target === 'compare') {
+      onOpenResults();
+      return;
+    }
+    if (target === 'portal' && action.actionUrl) {
+      window.open(action.actionUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    if (target === 'checklist') {
+      if (focusMatch) onOpenWorkspace(focusMatch);
+      else if (action.relatedSchemeIds && action.relatedSchemeIds.length > 0) {
+        const m = matchResults.find((mm) => mm.scheme.id === action.relatedSchemeIds![0]);
+        if (m) onOpenWorkspace(m);
+        else onOpenResults();
+      } else onOpenResults();
+      return;
+    }
+    if (target === 'details') {
+      const m =
+        action.relatedSchemeIds && action.relatedSchemeIds.length > 0
+          ? matchResults.find((mm) => mm.scheme.id === action.relatedSchemeIds![0])
+          : focusMatch;
+      if (m) onSelectScheme(m);
+      else onOpenResults();
       return;
     }
     onOpenResults();
   };
 
-  const handleOpportunity = (opportunity: OpportunityItem) => {
-    if (opportunity.nextBestAction.targetWorkspace === 'PROFILE') {
-      onStartCheck();
-      return;
-    }
-    if (opportunity.nextBestAction.targetWorkspace === 'TRACKER') {
-      onOpenTracker();
-      return;
-    }
-    openScheme(opportunity.scheme.id);
-  };
-
-  const handleToggleSave = (schemeId: string) => {
-    if (onToggleSave) onToggleSave(schemeId);
-  };
-
-  // New user: no profile yet, so no metrics are shown at all.
-  if (!insights.hasProfile) {
-    return <EmptyCommandCenter onStartProfile={onStartCheck} id="command-new-user" />;
+  if (!userProfile || !pathway) {
+    return (
+      <div className="mx-auto flex min-h-[60vh] w-full max-w-2xl flex-col items-center justify-center px-4 py-16 text-center">
+        <h1 className="text-2xl font-extrabold tracking-tight text-[#14453D] dark:text-[var(--yj-text-1)] sm:text-3xl">
+          {t('welcomeTitle')}
+        </h1>
+        <p className="mt-3 max-w-md text-sm text-[#3E4F47] dark:text-[var(--yj-text-2)]">
+          {t('welcomeSubtitle')}
+        </p>
+        <button
+          type="button"
+          onClick={onStartCheck}
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#14453D] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0F352D] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] dark:bg-[#2E7B61] dark:hover:bg-[#256A54] motion-reduce:transition-none motion-reduce:active:scale-100"
+        >
+          {t('buildProfileBtn')}
+        </button>
+      </div>
+    );
   }
 
-  const { profileCompleteness, nextBestAction } = insights;
-
   return (
-    <div
-      className={`max-w-5xl mx-auto px-4 py-6 sm:py-8 space-y-6 ${{ hi: 'font-hindi', ta: 'font-tamil', te: 'font-telugu', kn: 'font-kannada', ml: 'font-malayalam', en: '' }[language] || ''}`}
-    >
-      <header id="command-header" className="space-y-1">
-        <p className="yj-eyebrow text-[#516A5F] dark:text-[var(--text-tertiary)]">
-          {t('navHome')}
-        </p>
-        {/* Time-of-day greeting: presentation only, no business logic depends on it. */}
-        <h1 className="yj-h2 text-[#0B5D4B] dark:text-[var(--text-main)]">
-          {(() => {
-            const hour = new Date().getHours();
-            const greeting =
-              hour < 12
-                ? t('greetingMorning')
-                : hour < 17
-                ? t('greetingAfternoon')
-                : t('greetingEvening');
-            const name = userProfile?.applicantName || userProfile?.businessName;
-            return name ? `${greeting.replace(/[।.]$/, '')}, ${name}.` : greeting;
-          })()}
-        </h1>
-        <p className="yj-body text-[#42544C] dark:text-[var(--text-secondary)]">
-          {insights.hasMatches ? t('headerSubtitle') : t('headerSubtitleEmpty')}
-        </p>
-      </header>
+    <div className="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 sm:px-6">
+      {/* 1 — Command header */}
+      <DashboardHeader
+        profileName={userProfile.applicantName?.trim() || null}
+        readinessPct={completeness ? completeness.percentage : 0}
+        pendingActions={pendingActions}
+        activeApplications={activeApplications.length}
+        savedCount={savedSchemeIds.size}
+        resume={resume}
+        onResume={handleResume}
+      />
 
-      {!profileCompleteness.isComplete && (
-        <PartialProfileBanner
-          completeness={profileCompleteness}
-          onCompleteProfile={onOpenProfile || onStartCheck}
-          id="command-partial-profile"
+      {/* 2 — Next best action (existing deterministic engine) */}
+      <section aria-label={t('nextBestActionTitle')}>
+        <NextBestActionCard
+          action={pathway.nextBestAction}
+          secondaryActions={pathway.secondaryActions}
+          onAction={handlePathwayAction}
         />
-      )}
+      </section>
 
-      {nextBestAction && (
-        <section
-          id="command-next-action"
-          aria-labelledby="command-next-action-heading"
-          className="yj-card yj-card-lg border-[#D9E8DF] dark:border-[#22503E] bg-[#F6F8F7] dark:bg-[var(--bg-subtle)] p-4 sm:p-5"
-        >
-          <h2
-            id="command-next-action-heading"
-            className="flex items-center gap-2 yj-eyebrow text-[#1E6A50] dark:text-[var(--accent-green)]"
-          >
-            <Compass className="w-4 h-4" aria-hidden="true" />
-            {t('nextBestActionTitle')}
-          </h2>
-          <p className="mt-2 yj-h3 text-[#0B5D4B] dark:text-[var(--text-main)]">
-            {nextBestAction.title}
-          </p>
-          <p className="mt-1 yj-support text-[#42544C] dark:text-[var(--text-secondary)] yj-measure">
-            {nextBestAction.description}
-          </p>
-          <div className="mt-3">
-            <ArrowFillButton
-              id="command-next-action-cta"
-              variant="primary"
-              size="md"
-              onClick={() => {
-                if (nextBestAction.targetWorkspace === 'PROFILE') {
-                  if (onOpenProfile) onOpenProfile();
-                  else onStartCheck();
-                }
-                else if (nextBestAction.targetWorkspace === 'TRACKER') onOpenTracker();
-                else if (nextBestAction.schemeId) openScheme(nextBestAction.schemeId);
-                else onOpenResults();
-              }}
-            >
-              {nextBestAction.actionLabel}
-            </ArrowFillButton>
-          </div>
-        </section>
-      )}
-
-      {insights.topOpportunity ? (
-        <OpportunityPriorityCard
-          opportunity={insights.topOpportunity}
-          onContinue={handleOpportunity}
-          onToggleSave={handleToggleSave}
-          onOpenSchemeDetail={opportunity => openScheme(opportunity.scheme.id)}
-          id="command-top-opportunity"
+      {/* 3 — Top opportunities */}
+      {topOpportunities.length > 0 ? (
+        <TopOpportunities
+          matches={topOpportunities}
+          savedSchemeIds={savedSchemeIds}
+          onToggleSave={onToggleSave}
+          onOpenScheme={onSelectScheme}
         />
       ) : (
         <NoMatchState
-          onReviewProfile={onStartCheck}
+          onReviewProfile={onOpenProfile}
           onExploreSupport={onOpenResults}
           onViewNearMatches={onOpenResults}
-          id="command-no-matches"
         />
       )}
 
-      <TopOpportunitiesList
-        opportunities={insights.priorityOpportunities}
-        onSelectOpportunity={opportunity => openScheme(opportunity.scheme.id)}
-        onToggleSave={handleToggleSave}
-        id="command-opportunities"
-      />
-
-      {/* Modular dashboard grid: paired modules on wide screens, stacked on mobile. */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 items-start">
-        <BusinessJourneyOverview
-          currentStage={insights.currentBusinessStage as BusinessStage}
-          relevantSchemesCount={insights.supportSummary.currentStagePathways.schemesCount}
-          supportPathwaysCount={insights.supportSummary.currentStagePathways.pathwaysCount}
-          applicationsUnderwayCount={insights.supportSummary.currentStagePathways.applicationsUnderwayCount}
-          onExploreStage={() => onOpenResults()}
-          id="command-journey"
+      {/* 4 — Journey + Preparation */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <JourneyStageStrip stage={engagementStage} onNavigate={handleJourneyNavigate} />
+        <PreparationOverview
+          readiness={pathway.readiness}
+          focusMatch={focusMatch}
+          onOpenWorkspace={() => focusMatch && onOpenWorkspace(focusMatch)}
         />
-
-        <SupportStackOverview
-          categoryCounts={insights.supportSummary.categoryCounts as Record<SupportCategory, number>}
-          onSelectCategory={() => onOpenResults()}
-          id="command-support-stack"
-        />
-
-        <ApplicationOverview
-          summary={insights.applicationSummary}
-          onOpenTracker={onOpenTracker}
-          onOpenWorkspace={schemeId => openScheme(schemeId)}
-          id="command-applications"
-        />
-
-        <DocumentOverview
-          summary={insights.documentSummary}
-          onOpenDocumentCenter={onOpenTracker}
-          id="command-documents"
-        />
-
-        <FollowUpOverview
-          followUps={insights.followUpSummary.upcoming}
-          onToggleComplete={id => setCompletedFollowUpIds(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]))}
-          onAddReminder={() => setIsReminderOpen(true)}
-          onViewAll={onOpenTracker}
-          id="command-followups"
-        />
-
-        <TrustOverview summary={insights.trustSummary} id="command-trust" />
       </div>
 
-      <AddReminderModal
-        schemes={insights.allOpportunities.map(o => o.scheme)}
-        isOpen={isReminderOpen}
-        onClose={() => setIsReminderOpen(false)}
-        onAdd={reminder =>
-          setLocalFollowUps(prev => [
-            ...prev,
-            {
-              id: `local-${prev.length + 1}-${reminder.schemeId || 'general'}`,
-              schemeId: reminder.schemeId || '',
-              schemeName: reminder.schemeName || '',
-              title: reminder.title,
-              titleHi: reminder.titleHi,
-              date: reminder.date,
-              // Always a reminder the citizen set for themselves.
-              type: 'USER_REMINDER',
-              completed: false,
-            },
-          ])
-        }
-      />
+      {/* 5 — Applications + Saved schemes */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <ApplicationsCard
+          applications={activeApplications}
+          onOpenTracker={onOpenTracker}
+          onOpenResults={onOpenResults}
+        />
+        <SavedSchemesCard
+          matches={savedMatches}
+          savedSchemeIds={savedSchemeIds}
+          onToggleSave={onToggleSave}
+          onOpenScheme={onSelectScheme}
+          onOpenResults={onOpenResults}
+        />
+      </div>
+
+      {/* 6 — Profile readiness */}
+      <ProfileReadinessCard categories={readinessCategories} onOpenProfile={onOpenProfile} />
+
+      {/* 7 — Trust + Activity */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <TrustCard matches={topOpportunities} />
+        <RecentActivityCard items={recentActivity} />
+      </div>
     </div>
   );
 };

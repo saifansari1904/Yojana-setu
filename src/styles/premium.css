@@ -425,6 +425,21 @@
   }
 }
 
+/* ── Dashboard 2.0 entrance ──────────────────────────────────────────────── */
+/* One-shot rise used by command-center sections. Kept subtle; consumers    */
+/* gate it with motion-safe: so reduced-motion users see no animation.      */
+
+@keyframes yj-dash-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ── Focus & touch targets ───────────────────────────────────────────────── */
 
 .yj-focus-ring:focus-visible {
