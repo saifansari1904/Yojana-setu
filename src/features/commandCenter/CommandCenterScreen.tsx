@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { ArrowRight } from 'lucide-react';
 import type { MatchResult, UserProfile } from '../../types';
 import type { TrackedApplication } from '../../types/tracker';
 import type { PathwayAction, SupportPathway } from '../../types/supportPathway';
@@ -206,6 +207,7 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
           className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#14453D] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0F352D] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] dark:bg-[#2E7B61] dark:hover:bg-[#256A54] motion-reduce:transition-none motion-reduce:active:scale-100"
         >
           {t('buildProfileBtn')}
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
     );
