@@ -98,3 +98,4 @@ export const AnimatedPage: React.FC<AnimatedPageProps> = ({
     </motion.div>
   );
 };
+// Force fresh Vercel build
