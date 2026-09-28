@@ -213,6 +213,23 @@ assert(
 // W7 — Firebase remains absent
 const packageJson = readSrc('package.json');
 assert(!/firebase/i.test(packageJson), 'W7: no Firebase dependency in package.json');
+
+// W8 — scheme detail viewing is never gated (read action, not persistence).
+// Regression test for 2026-09-28: handleSelectScheme briefly gated viewing
+// behind requestPersistentAction(), which made "View Scheme" a dead end for
+// guests. Viewing must always navigate, for guests and users alike.
+{
+  const m = /const handleSelectScheme[\s\S]*?\n  \};/.exec(appSrc);
+  assert(m, 'W8: handleSelectScheme exists in App.tsx');
+  assert(
+    !/requestPersistentAction/.test(m[0]),
+    'W8: handleSelectScheme does not call requestPersistentAction',
+  );
+  assert(
+    /setCurrentScreen\('scheme-detail'\)/.test(m[0]),
+    'W8: handleSelectScheme navigates to scheme-detail',
+  );
+}
 for (const f of [
   'src/components/WelcomeScreen.tsx',
   'src/components/AccountPromptModal.tsx',
