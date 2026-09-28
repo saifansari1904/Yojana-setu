@@ -706,9 +706,9 @@ function YojanaSetuMain() {
   };
 
   const handleSelectScheme = (match: MatchResult) => {
-    // Viewing full scheme details is gated like the persistent product
-    // areas (dashboard/tracker) — guests get the account prompt first.
-    if (!requestPersistentAction()) return;
+    // Viewing scheme details is a read action, not a persistence action:
+    // guests must always be able to open it. Account gating applies only
+    // to actions that persist user data (save, workspace, tracker).
     setSelectedSchemeMatch(match);
     setCurrentScreen('scheme-detail');
   };
