@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion, useReducedMotion, useIsPresent } from 'motion/react';
 import { pageVariants, directionalPageVariants } from './variants';
 import { reducedMotionTransition } from './transitions';
 
@@ -32,6 +32,7 @@ export const AnimatedPage: React.FC<AnimatedPageProps> = ({
   direction = 0,
 }) => {
   const shouldReduceMotion = useReducedMotion();
+  const isPresent = useIsPresent();
   const enterDirectionRef = useRef(direction);
   const enterDirection = enterDirectionRef.current;
 
@@ -59,6 +60,22 @@ export const AnimatedPage: React.FC<AnimatedPageProps> = ({
     }
   };
 
+  /**
+   * Safety net against stalled exit animations.
+   * In AnimatePresence mode="sync", a stuck exiting screen never unmounts and
+   * can interfere with the entering screen's painting. If exit takes longer
+   * than 1s, force display:none to remove it from layout.
+   */
+  const [exitStalled, setExitStalled] = useState(false);
+  useEffect(() => {
+    if (isPresent) {
+      setExitStalled(false);
+      return;
+    }
+    const t = setTimeout(() => setExitStalled(true), 1000);
+    return () => clearTimeout(t);
+  }, [isPresent]);
+
   if (animationFailed) {
     return (
       <div id={id} className={`w-full ${className}`}>
@@ -66,6 +83,8 @@ export const AnimatedPage: React.FC<AnimatedPageProps> = ({
       </div>
     );
   }
+
+  const exitStyle = exitStalled ? { display: 'none' } : undefined;
 
   if (shouldReduceMotion) {
     return (
@@ -77,6 +96,7 @@ export const AnimatedPage: React.FC<AnimatedPageProps> = ({
         transition={reducedMotionTransition}
         onAnimationComplete={handleAnimationComplete}
         className={`w-full ${className}`}
+        style={exitStyle}
       >
         {children}
       </motion.div>
@@ -93,6 +113,7 @@ export const AnimatedPage: React.FC<AnimatedPageProps> = ({
       exit="exit"
       onAnimationComplete={handleAnimationComplete}
       className={`w-full ${className}`}
+      style={exitStyle}
     >
       {children}
     </motion.div>
