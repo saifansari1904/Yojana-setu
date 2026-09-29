@@ -64,6 +64,7 @@ import { LanguageProvider, useTranslation } from './i18n';
 import { ThemeProvider } from './theme/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { getSupabaseClient, isSupabaseConfigured } from './lib/supabase/client';
+import { logEvent } from './lib/analytics';
 import { hasOAuthCallbackParams } from './lib/supabase';
 import { syncSavedSchemeToggle, hasUsableLocalProfile } from './lib/supabase/sync';
 import { requestExplicitGuestMigration } from './lib/supabase/migrationHelper';
@@ -342,6 +343,12 @@ function YojanaSetuMain() {
   const resultsNavStartRef = useRef<number | null>(null);
   const resultsReadyLoggedRef = useRef(false);
   useEffect(() => {
+    if (currentScreen === 'results') {
+      // Analytics: results viewed (all environments)
+      if (resultsNavStartRef.current === null) {
+        logEvent('results_viewed', { matchCount: matchResults.length });
+      }
+    }
     if (!import.meta.env.DEV) return;
     if (currentScreen === 'results') {
       if (resultsNavStartRef.current === null) {
@@ -718,6 +725,7 @@ function YojanaSetuMain() {
     // Viewing scheme details is a read action, not a persistence action:
     // guests must always be able to open it. Account gating applies only
     // to actions that persist user data (save, workspace, tracker).
+    logEvent('scheme_viewed', { scheme_id: match.scheme.id });
     setSelectedSchemeMatch(match);
     setCurrentScreen('scheme-detail');
   };

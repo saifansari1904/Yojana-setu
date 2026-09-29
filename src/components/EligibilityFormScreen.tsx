@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { logEvent } from '../lib/analytics';
 import {
   BusinessType,
   SocialCategory,
@@ -317,6 +318,22 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     }
   }, [activeStages, currentStageIdx]);
 
+  // Analytics: questionnaire funnel (started once per mount)
+  useEffect(() => {
+    logEvent('questionnaire_started', { totalSteps: activeStages.length });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Analytics: step progression
+  useEffect(() => {
+    if (currentStageIdx > 0) {
+      logEvent('questionnaire_step', {
+        step: currentStageIdx + 1,
+        totalSteps: activeStages.length,
+      });
+    }
+  }, [currentStageIdx, activeStages.length]);
+
   // Clear any legacy cached drafts from localStorage to ensure clean state every session
   useEffect(() => {
     try {
@@ -562,6 +579,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
     }
 
     onSubmit(outputProfile);
+    logEvent('questionnaire_completed', { totalSteps: activeStages.length });
   };
 
   return (
