@@ -768,4 +768,5 @@ interface SchemeDetailTranslations {
   provenanceSponsoringBody: string;
   provenanceDataFreshness: string;
   provenanceSourceHierarchy: string;
+  provenanceLastVerified: string;
 }

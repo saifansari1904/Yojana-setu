@@ -599,6 +599,7 @@ export const teTranslations: Translations = {
     provenanceDisclaimer: 'యోజనా సేతు వ్యవస్థాపకులు సంభావ్య నిధులను గుర్తించడంలో సహాయపడటానికి ధృవీకరించబడిన ప్రభుత్వ పథక సమాచారాన్ని అందిస్తుంది. తుది అర్హత, మంజూరు మొత్తాలు మరియు ప్రస్తుత మార్గదర్శకాలు చట్టబద్ధ దరఖాస్తు సమర్పణపై స్పాన్సర్ ప్రభుత్వ అధికారం ద్వారా మాత్రమే నిర్ణయించబడతాయి.',
     provenanceSponsoringBody: 'అధికారిక స్పాన్సర్ సంస్థ:',
     provenanceDataFreshness: 'డేటా తాజాదనం:',
+    provenanceLastVerified: 'చివరిగా ధృవీకరించబడింది:',
     provenanceSourceHierarchy: 'మూల సోపానక్రమం:',
   },
   welcome: {

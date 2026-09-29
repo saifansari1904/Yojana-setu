@@ -599,6 +599,7 @@ export const hiTranslations: Translations = {
     provenanceDisclaimer: 'योजना सेतु उद्यमियों को संभावित वित्तपोषण की पहचान में सहायता हेतु सत्यापित सरकारी योजना जानकारी प्रदान करता है। अंतिम पात्रता, स्वीकृति राशि एवं वर्तमान दिशानिर्देश वैधानिक आवेदन प्रस्तुत करने पर पूर्णतः प्रायोजक सरकारी प्राधिकरण द्वारा निर्धारित किए जाते हैं।',
     provenanceSponsoringBody: 'आधिकारिक प्रायोजक निकाय:',
     provenanceDataFreshness: 'डेटा ताजगी:',
+    provenanceLastVerified: 'अंतिम सत्यापन:',
     provenanceSourceHierarchy: 'स्रोत पदानुक्रम:',
   },
   welcome: {

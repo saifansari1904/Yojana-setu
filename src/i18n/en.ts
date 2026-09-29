@@ -599,6 +599,7 @@ export const enTranslations: Translations = {
     provenanceDisclaimer: 'Yojana Setu provides verified government scheme intelligence to help entrepreneurs identify potential funding. Final eligibility, sanction amounts, and current guidelines are determined solely by the sponsoring government authority upon submission of statutory application.',
     provenanceSponsoringBody: 'Official Sponsoring Body:',
     provenanceDataFreshness: 'Data Freshness:',
+    provenanceLastVerified: 'Last Verified:',
     provenanceSourceHierarchy: 'Source Hierarchy:',
   },
   welcome: {

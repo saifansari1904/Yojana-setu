@@ -1275,6 +1275,14 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                         {trust.freshness.freshnessLabel}
                       </strong>
                     </div>
+                    {prov.lastVerifiedDate && (
+                      <div>
+                        <span className="text-[#516A5F] dark:text-[var(--text-tertiary)]">{t('schemeDetail.provenanceLastVerified')} </span>
+                        <strong className="text-[#1A1C1B] dark:text-[var(--text-main)]">
+                          {new Date(prov.lastVerifiedDate).toLocaleDateString()}
+                        </strong>
+                      </div>
+                    )}
                     <div>
                       <span className="text-[#516A5F] dark:text-[var(--text-tertiary)]">{t('schemeDetail.provenanceSourceHierarchy')} </span>
                       <strong className="text-[#1A1C1B] dark:text-[var(--text-main)]">

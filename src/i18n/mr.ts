@@ -599,6 +599,7 @@ export const mrTranslations: Translations = {
     provenanceDisclaimer: 'योजना सेतू उद्योजकांना संभाव्य निधी ओळखण्यास मदत करण्यासाठी पडताळलेली शासकीय योजना माहिती पुरवते. अंतिम पात्रता, मंजूर रकमा व सध्याची मार्गदर्शक तत्त्वे वैधानिक अर्ज सादर केल्यावर प्रायोजक शासकीय प्राधिकरणाकडूनच निश्चित केली जातात.',
     provenanceSponsoringBody: 'अधिकृत प्रायोजक संस्था:',
     provenanceDataFreshness: 'डेटा ताजेपणा:',
+    provenanceLastVerified: 'शेवटचे सत्यापित:',
     provenanceSourceHierarchy: 'स्रोत श्रेणी:',
   },
   welcome: {

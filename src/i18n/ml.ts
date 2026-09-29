@@ -599,6 +599,7 @@ export const mlTranslations: Translations = {
     provenanceDisclaimer: 'സംരംഭകർക്ക് സാധ്യതയുള്ള ധനസഹായം തിരിച്ചറിയാൻ സഹായിക്കുന്നതിന് യോജന സേതു പരിശോധിച്ച സർക്കാർ പദ്ധതി വിവരങ്ങൾ നൽകുന്നു. അന്തിമ യോഗ്യത, അനുവദിച്ച തുകകൾ, നിലവിലെ മാർഗ്ഗനിർദ്ദേശങ്ങൾ എന്നിവ നിയമാനുസൃത അപേക്ഷ സമർപ്പിക്കുമ്പോൾ സ്പോൺസർ ചെയ്യുന്ന സർക്കാർ അതോറിറ്റി മാത്രമാണ് നിശ്ചയിക്കുന്നത്.',
     provenanceSponsoringBody: 'ഔദ്യോഗിക സ്പോൺസർ സ്ഥാപനം:',
     provenanceDataFreshness: 'ഡാറ്റാ പുതുമ:',
+    provenanceLastVerified: 'അവസാനം പരിശോധിച്ചത്:',
     provenanceSourceHierarchy: 'ഉറവിട ശ്രേണി:',
   },
   welcome: {

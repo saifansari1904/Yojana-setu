@@ -599,6 +599,7 @@ export const knTranslations: Translations = {
     provenanceDisclaimer: 'ಯೋಜನಾ ಸೇತುವು ಉದ್ಯಮಿಗಳು ಸಂಭಾವ್ಯ ಹಣಕಾಸು ಗುರುತಿಸಲು ಸಹಾಯ ಮಾಡಲು ಪರಿಶೀಲಿಸಿದ ಸರ್ಕಾರಿ ಯೋಜನಾ ಮಾಹಿತಿಯನ್ನು ಒದಗಿಸುತ್ತದೆ. ಅಂತಿಮ ಅರ್ಹತೆ, ಮಂಜೂರಾತಿ ಮೊತ್ತಗಳು ಮತ್ತು ಪ್ರಸ್ತುತ ಮಾರ್ಗಸೂಚಿಗಳನ್ನು ಶಾಸನಬದ್ಧ ಅರ್ಜಿ ಸಲ್ಲಿಕೆಯ ಮೇರೆಗೆ ಪ್ರಾಯೋಜಕ ಸರ್ಕಾರಿ ಪ್ರಾಧಿಕಾರ ಮಾತ್ರ ನಿರ್ಧರಿಸುತ್ತದೆ.',
     provenanceSponsoringBody: 'ಅಧಿಕೃತ ಪ್ರಾಯೋಜಕ ಸಂಸ್ಥೆ:',
     provenanceDataFreshness: 'ಡೇಟಾ ತಾಜಾತನ:',
+    provenanceLastVerified: 'ಕೊನೆಯದಾಗಿ ಪರಿಶೀಲಿಸಲಾಗಿದೆ:',
     provenanceSourceHierarchy: 'ಮೂಲ ಶ್ರೇಣಿ:',
   },
   welcome: {

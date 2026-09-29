@@ -99,6 +99,7 @@ const candidateKeys = [
   'schemeDetail.provenanceSponsoringBody',
   'schemeDetail.provenanceDataFreshness',
   'schemeDetail.provenanceSourceHierarchy',
+  'schemeDetail.provenanceLastVerified',
 ];
 for (const key of candidateKeys) {
   const missing = langs.filter((l) => {
