@@ -5,7 +5,7 @@ import { ActiveScreen, ApplicationStatus, MatchResult, TrackedApplication, UserP
 import type { Scheme } from './types/scheme';
 // Scheme data (1.5MB candidate dataset) loads asynchronously — never in the initial bundle.
 // See the schemesLoaded effect below.
-import { rankSchemesForProfile } from './utils/matchingEngine';
+import { rankSchemesForProfile, evaluateSchemeEligibility } from './utils/matchingEngine';
 import { deriveBusinessNeedProfile, deriveBusinessProfile } from './lib/business';
 import { Header } from './components/Header';
 import { LoginScreen } from './components/LoginScreen';
@@ -433,6 +433,15 @@ function YojanaSetuMain() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentScreen]);
+
+  // Navigation safety: never strand the user on a blank scheme-detail screen.
+  // If currentScreen is 'scheme-detail' but there is no selected match
+  // (e.g., stale state after a failed selection), fall back to results.
+  useEffect(() => {
+    if (currentScreen === 'scheme-detail' && !currentSelectedSchemeMatch) {
+      setCurrentScreen('results');
+    }
+  }, [currentScreen, currentSelectedSchemeMatch]);
 
   // SINGLE profile synchronization subscription (spec §11).
   // Synchronizes profile state across multi-tab sessions, local storage
@@ -1111,19 +1120,18 @@ function YojanaSetuMain() {
                   onViewTracker={() => navigateTo('tracker')}
                   targetSectionId={targetProfileSection}
                   onSelectScheme={(scheme) => {
-                    const match = matchResults.find((m) => m.scheme.id === scheme.id) || {
-                      scheme,
-                      matchScore: 85,
-                      matchPercentage: 85,
-                      isEligible: true,
-                      reasons: [],
-                      disqualifyingFactors: [],
-                      breakdown: { categoryScore: 20, stateScore: 20, businessTypeScore: 20, investmentScore: 20, ageScore: 5 },
-                      potentialSubsidyAmount: 250000,
-                      calculatedSubsidyText: '25% - 35% Capital Subsidy',
-                      priorityRank: 1,
-                    };
-                    handleSelectScheme(match as MatchResult);
+                    const existing = matchResults.find((m) => m.scheme.id === scheme.id);
+                    if (existing) {
+                      handleSelectScheme(existing);
+                      return;
+                    }
+                    // No existing MatchResult: evaluate the scheme through the
+                    // real deterministic matching engine. Never fabricate
+                    // score, eligibility, or breakdown values.
+                    if (!userProfile) {
+                      return;
+                    }
+                    handleSelectScheme(evaluateSchemeEligibility(scheme, userProfile, lang));
                   }}
                 />
                 </Suspense>
