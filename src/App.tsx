@@ -930,7 +930,7 @@ function YojanaSetuMain() {
               <SetuLoader size="lg" />
             </div>
           ) : (
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="sync">
             {currentScreen === 'welcome' && (
               <AnimatedPage key="welcome" direction={navDirection}>
                 <WelcomeScreen
