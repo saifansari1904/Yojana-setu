@@ -439,7 +439,6 @@ function YojanaSetuMain() {
   // (e.g., stale state after a failed selection), fall back to results.
   useEffect(() => {
     if (currentScreen === 'scheme-detail' && !currentSelectedSchemeMatch) {
-      console.log('[NavigationTrace] scheme-detail → results | reason=guard-null-match | source=App.tsx safety effect');
       setCurrentScreen('results');
     }
   }, [currentScreen, currentSelectedSchemeMatch]);
@@ -485,7 +484,6 @@ function YojanaSetuMain() {
    * the native View Transitions layer so the two systems never overlap.
    */
   const navigateTo = (screen: ActiveScreen) => {
-    console.log(`[NavigationTrace] ${currentScreen} → ${screen} | reason=navigateTo | source=App.tsx`);
     const usesSharedLayout = screen === 'scheme-detail' || currentScreen === 'scheme-detail';
     if (usesSharedLayout) {
       setCurrentScreen(screen);
@@ -720,7 +718,6 @@ function YojanaSetuMain() {
     // Viewing scheme details is a read action, not a persistence action:
     // guests must always be able to open it. Account gating applies only
     // to actions that persist user data (save, workspace, tracker).
-    console.log(`[NavigationTrace] → scheme-detail | reason=handleSelectScheme | scheme=${match.scheme.id} | source=App.tsx`);
     setSelectedSchemeMatch(match);
     setCurrentScreen('scheme-detail');
   };
