@@ -19,6 +19,7 @@ import {
   selectActiveApplications,
 } from './lib/dashboard/dashboardSelectors';
 import { DashboardHeader } from './components/dashboard/DashboardHeader';
+import { StatCard } from '../../components/ui/StatCard';
 import { TopOpportunities } from './components/dashboard/TopOpportunities';
 import { JourneyStageStrip } from './components/dashboard/JourneyStageStrip';
 import { PreparationOverview } from './components/dashboard/PreparationOverview';
@@ -225,6 +226,39 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
         resume={resume}
         onResume={handleResume}
       />
+
+      {/* 1b — Key stats (21st.dev-inspired stat cards) */}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <StatCard
+          title={t('dashStatMatches')}
+          value={matchResults.length}
+          description={t('dashStatMatchesDesc')}
+          onActionClick={onOpenResults}
+          actionLabel={t('dashStatMatchesAction')}
+        />
+        <StatCard
+          title={t('dashStatApplications')}
+          value={activeApplications.length}
+          description={t('dashStatApplicationsDesc')}
+          onActionClick={onOpenTracker}
+          actionLabel={t('dashStatApplicationsAction')}
+        />
+        <StatCard
+          title={t('dashStatSaved')}
+          value={savedSchemeIds.size}
+          description={t('dashStatSavedDesc')}
+          onActionClick={onOpenResults}
+          actionLabel={t('dashStatSavedAction')}
+        />
+        <StatCard
+          title={t('dashStatReadiness')}
+          value={completeness ? completeness.percentage : 0}
+          valueSuffix="%"
+          description={t('dashStatReadinessDesc')}
+          onActionClick={onOpenProfile}
+          actionLabel={t('dashStatReadinessAction')}
+        />
+      </div>
 
       {/* 2 — Next best action (existing deterministic engine) */}
       <section aria-label={t('nextBestActionTitle')}>
