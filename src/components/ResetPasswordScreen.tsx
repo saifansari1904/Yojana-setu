@@ -134,7 +134,7 @@ export const ResetPasswordScreen: React.FC<ResetPasswordScreenProps> = ({ onDone
 
         {/* Page heading — above the card, not inside it */}
         <motion.div variants={shouldReduceMotion ? undefined : staggerItem} className="text-center mb-6 sm:mb-7">
-          <h1 className="text-[26px] sm:text-[30px] leading-[1.2] font-bold tracking-[-0.02em] text-[#1A1C1B] dark:text-[var(--text-main)]">
+          <h1 className="text-2xl sm:text-3xl leading-tight font-bold tracking-tight text-[#1A1C1B] dark:text-[var(--text-main)]">
             {success ? rp('successTitle') : rp('title')}
           </h1>
           <p className="mt-2 text-[14px] leading-relaxed text-[#516A5F] dark:text-[var(--text-secondary)] max-w-[36ch] mx-auto">
