@@ -474,6 +474,7 @@ export const hiTranslations: Translations = {
     openTrackerBtn: 'ट्रैकर में देखें',
     readinessTitle: 'आवेदन तैयारी स्थिति',
     overallReadiness: 'समग्र तैयारी',
+    stepPredictor: 'सफलता दर विश्लेषक',
     stepEligibility: 'वैधानिक समीक्षा',
     stepDocuments: 'दस्तावेज डोजियर',
     stepFinancial: 'वित्तीय अनुकूलता',

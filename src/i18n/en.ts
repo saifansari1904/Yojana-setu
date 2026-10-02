@@ -474,6 +474,7 @@ export const enTranslations: Translations = {
     openTrackerBtn: 'View in Tracker',
     readinessTitle: 'Application Readiness',
     overallReadiness: 'Overall Readiness',
+    stepPredictor: 'Success Rate Predictor',
     stepEligibility: 'Statutory Review',
     stepDocuments: 'Document Dossier',
     stepFinancial: 'Financial Alignment',

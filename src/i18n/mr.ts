@@ -474,6 +474,7 @@ export const mrTranslations: Translations = {
     openTrackerBtn: 'मागोव्यात पहा',
     readinessTitle: 'अर्ज तयारी',
     overallReadiness: 'एकूण तयारी',
+    stepPredictor: 'यशस्वी दर अंदाज',
     stepEligibility: 'वैधानिक आढावा',
     stepDocuments: 'कागदपत्र संच',
     stepFinancial: 'आर्थिक जुळवणी',

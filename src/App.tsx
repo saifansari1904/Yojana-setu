@@ -491,12 +491,17 @@ function YojanaSetuMain() {
    * the native View Transitions layer so the two systems never overlap.
    */
   const navigateTo = (screen: ActiveScreen) => {
-    const usesSharedLayout = screen === 'scheme-detail' || currentScreen === 'scheme-detail';
+    // Authenticated users must never be routed to the login route (gated off, blank screen)
+    let targetScreen = screen;
+    if (targetScreen === 'login' && isCloudAuthenticated) {
+      targetScreen = userProfile ? 'results' : 'form';
+    }
+    const usesSharedLayout = targetScreen === 'scheme-detail' || currentScreen === 'scheme-detail';
     if (usesSharedLayout) {
-      setCurrentScreen(screen);
+      setCurrentScreen(targetScreen);
       return;
     }
-    startScreenTransition(() => setCurrentScreen(screen));
+    startScreenTransition(() => setCurrentScreen(targetScreen));
   };
 
   /**
@@ -614,8 +619,13 @@ function YojanaSetuMain() {
   useEffect(() => {
     if (!import.meta.env.DEV) return;
     if (authStatus === 'authenticated' && currentScreen === 'login' && profileRestore !== 'pending') {
-      // eslint-disable-next-line no-console
-      console.error('[AuthInvariant] authenticated user stranded on login route');
+      const timer = setTimeout(() => {
+        if (currentScreen === 'login') {
+          // eslint-disable-next-line no-console
+          console.error('[AuthInvariant] authenticated user stranded on login route');
+        }
+      }, 50);
+      return () => clearTimeout(timer);
     }
   }, [authStatus, currentScreen, profileRestore]);
 
@@ -638,6 +648,8 @@ function YojanaSetuMain() {
     // signOutUser (Supabase SIGNED_OUT -> AuthContext). Here we only reset
     // the app-level React state ("active memory"). The cloud profile is
     // never deleted.
+    prevCloudUidRef.current = null;
+    inPageSignInRef.current = false;
     setUserProfile(null);
     setApplicantName('');
     navigateTo('welcome');

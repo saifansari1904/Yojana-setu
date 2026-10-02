@@ -76,9 +76,29 @@ export function getCandidateSchemes(): Scheme[] {
 
 /**
  * Retrieves the full combined repository of authoritative AND candidate schemes.
+ * Curated schemes take strict priority; duplicate candidate schemes with matching IDs
+ * are deduplicated so all repository schemes have unique identifiers.
  */
 export function getAllRepositorySchemes(): Scheme[] {
-  return [...getCuratedSchemes(), ...CANDIDATE_SCHEMES_DATABASE];
+  const curated = getCuratedSchemes();
+  const seenIds = new Set<string>();
+  const combined: Scheme[] = [];
+
+  for (const s of curated) {
+    if (s && typeof s.id === 'string' && s.id.length > 0 && !seenIds.has(s.id)) {
+      seenIds.add(s.id);
+      combined.push(s);
+    }
+  }
+
+  for (const s of CANDIDATE_SCHEMES_DATABASE) {
+    if (s && typeof s.id === 'string' && s.id.length > 0 && !seenIds.has(s.id)) {
+      seenIds.add(s.id);
+      combined.push(s);
+    }
+  }
+
+  return combined;
 }
 
 /**

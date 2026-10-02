@@ -12,6 +12,8 @@ import {
   AlertCircle,
   Clock,
   ExternalLink,
+  TrendingUp,
+  Sparkles,
 } from 'lucide-react';
 import type { MatchResult } from '../../types/matching';
 import type { UserProfile } from '../../types/user';
@@ -27,10 +29,15 @@ import {
   saveDocumentProgress,
   toggleDocumentPrepared,
   getPreparedDocIds,
+  loadUploadedFiles,
+  recordDocumentUpload,
+  removeDocumentUpload,
 } from '../../lib/tracker/documentProgress';
+import { predictSchemeSuccessRate } from '../../lib/application/successPredictor';
 import { PreparationReadinessHeader } from './PreparationReadinessHeader';
 import { EligibilityAuditSection } from './EligibilityAuditSection';
 import { DocumentDossierSection } from './DocumentDossierSection';
+import { SuccessRatePredictorSection } from './SuccessRatePredictorSection';
 import { FinancialAlignmentSection } from './FinancialAlignmentSection';
 import { SubmissionProcessSection } from './SubmissionProcessSection';
 import { PortalHandoffSection } from './PortalHandoffSection';
@@ -61,14 +68,19 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
 }) => {
   const { t, lang } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
+  const isHindi = lang === 'hi';
 
-  const [activeTab, setActiveTab] = useState<PreparationStepKey>('ELIGIBILITY_AUDIT');
+  const [activeTab, setActiveTab] = useState<PreparationStepKey>('SUCCESS_PREDICTOR');
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Document progress state
   const [docProgress, setDocProgress] = useState(() => loadDocumentProgress());
   const preparedDocIds = getPreparedDocIds(docProgress, matchResult.scheme.id);
+
+  // Uploaded documents state
+  const [uploadedFilesMap, setUploadedFilesMap] = useState(() => loadUploadedFiles());
+  const schemeUploadedFiles = uploadedFilesMap[matchResult.scheme.id] || {};
 
   const trackedApp = applications.find((a) => a.schemeId === matchResult.scheme.id);
   const isSaved = savedSchemeIds.has(matchResult.scheme.id);
@@ -83,12 +95,42 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
     lang,
   });
 
+  // Calculate Success Rate Prediction based on uploaded document progress & historical data
+  const successPrediction = predictSchemeSuccessRate({
+    scheme: matchResult.scheme,
+    userProfile,
+    matchResult,
+    preparedDocIds,
+    uploadedFiles: schemeUploadedFiles,
+  });
+
   const trustProfile = deriveSchemeTrustProfile(matchResult.scheme);
 
   const handleToggleDocument = (docId: string) => {
     const updated = toggleDocumentPrepared(docProgress, matchResult.scheme.id, docId);
     saveDocumentProgress(updated);
     setDocProgress(updated);
+  };
+
+  const handleUploadDocumentFile = (docId: string, file: File) => {
+    const result = recordDocumentUpload(matchResult.scheme.id, docId, {
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+    });
+    setUploadedFilesMap(result.updatedUploads);
+    setDocProgress(result.updatedProgress);
+    setToastMessage(
+      isHindi
+        ? `दस्तावेज सफलतापूर्वक अपलोड किया गया: ${file.name}`
+        : `Document uploaded: ${file.name}`
+    );
+    setTimeout(() => setToastMessage(null), 4000);
+  };
+
+  const handleRemoveUpload = (docId: string) => {
+    const result = removeDocumentUpload(matchResult.scheme.id, docId);
+    setUploadedFilesMap(result.updatedUploads);
   };
 
   const handleConfirmCitizenSubmission = (confirmation: CitizenSubmissionConfirmation) => {
@@ -98,16 +140,23 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
     setTimeout(() => setToastMessage(null), 5000);
   };
 
-  const tabs: { key: PreparationStepKey; label: string; icon: React.ReactNode }[] = [
+  const tabs: { key: PreparationStepKey; label: string; icon: React.ReactNode; badge?: string }[] = [
     {
-      key: 'ELIGIBILITY_AUDIT',
-      label: t('workspace.stepEligibility'),
-      icon: <Scale className="w-4 h-4" />,
+      key: 'SUCCESS_PREDICTOR',
+      label: t('workspace.stepPredictor') || (isHindi ? 'सफलता दर' : 'Success Rate'),
+      icon: <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />,
+      badge: `${successPrediction.probabilityPercent}%`,
     },
     {
       key: 'DOCUMENT_CHECKLIST',
       label: t('workspace.stepDocuments'),
       icon: <FileCheck2 className="w-4 h-4" />,
+      badge: `${preparedDocIds.length}/${matchResult.scheme.requiredDocuments?.length || 0}`,
+    },
+    {
+      key: 'ELIGIBILITY_AUDIT',
+      label: t('workspace.stepEligibility'),
+      icon: <Scale className="w-4 h-4" />,
     },
     {
       key: 'FINANCIAL_ALIGNMENT',
@@ -202,9 +251,11 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
         </p>
       </div>
 
-      {/* Readiness Header with 4 Pillars */}
+      {/* Readiness Header with Dual Gauges (Overall Readiness + Success Rate Predictor) */}
       <PreparationReadinessHeader
         readiness={workspace.readiness}
+        successPrediction={successPrediction}
+        onSelectPredictor={() => setActiveTab('SUCCESS_PREDICTOR')}
         onSelectPillar={(pillarKey) => {
           if (pillarKey === 'eligibility') setActiveTab('ELIGIBILITY_AUDIT');
           else if (pillarKey === 'documents') setActiveTab('DOCUMENT_CHECKLIST');
@@ -230,6 +281,17 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
             >
               {tab.icon}
               <span>{tab.label}</span>
+              {tab.badge && (
+                <span
+                  className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${
+                    isActive
+                      ? 'bg-white/20 text-white dark:bg-black/20 dark:text-[#0E1311]'
+                      : 'bg-[#E5E9E7] dark:bg-zinc-800 text-[#1F2421] dark:text-[var(--text-main)]'
+                  }`}
+                >
+                  {tab.badge}
+                </span>
+              )}
             </button>
           );
         })}
@@ -237,16 +299,33 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
 
       {/* Active Tab Content Card */}
       <div className="p-6 rounded-2xl bg-white dark:bg-[var(--bg-card)] border border-[#E5E9E7] dark:border-[var(--border-subtle)] shadow-xs">
-        {activeTab === 'ELIGIBILITY_AUDIT' && (
-          <EligibilityAuditSection matchResult={matchResult} userProfile={userProfile} />
+        {activeTab === 'SUCCESS_PREDICTOR' && (
+          <SuccessRatePredictorSection
+            scheme={matchResult.scheme}
+            userProfile={userProfile}
+            matchResult={matchResult}
+            prediction={successPrediction}
+            onOpenDocumentDossier={() => setActiveTab('DOCUMENT_CHECKLIST')}
+            onUploadFile={handleUploadDocumentFile}
+            onToggleDocument={handleToggleDocument}
+          />
         )}
 
         {activeTab === 'DOCUMENT_CHECKLIST' && (
           <DocumentDossierSection
             scheme={matchResult.scheme}
             preparedDocIds={preparedDocIds}
+            uploadedFiles={schemeUploadedFiles}
+            successPrediction={successPrediction}
             onToggleDocument={handleToggleDocument}
+            onUploadFile={handleUploadDocumentFile}
+            onRemoveUpload={handleRemoveUpload}
+            onSwitchToPredictor={() => setActiveTab('SUCCESS_PREDICTOR')}
           />
+        )}
+
+        {activeTab === 'ELIGIBILITY_AUDIT' && (
+          <EligibilityAuditSection matchResult={matchResult} userProfile={userProfile} />
         )}
 
         {activeTab === 'FINANCIAL_ALIGNMENT' && (

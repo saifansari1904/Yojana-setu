@@ -99,21 +99,20 @@ export function decidePostAuthNavigation(args: {
   const { uid, prevUid, currentScreen, profileRestore, inPageSignIn, oauthReturn, hasProfile } = args;
   // Rule 1: restore pending — wait, and don't consume the uid.
   if (isProfileRestorePending(profileRestore)) return { destination: null, consumed: false };
-  // Rules 3–4: no uid, duplicate uid, or not on an entry screen — seen, no nav.
-  if (!uid || uid === prevUid) return { destination: null, consumed: true };
+  // Rules 3–4: no uid or not on an entry screen — seen, no nav.
+  if (!uid) return { destination: null, consumed: true };
   if (currentScreen !== 'welcome' && currentScreen !== 'login') {
     return { destination: null, consumed: true };
   }
   // Authenticated on the login route: the login UI is gated off when
   // authenticated (canShowLoginScreen is false), so staying here strands the
-  // user on a blank screen. Navigate regardless of the intent flags — they
-  // can be lost across a slow auth round-trip or a browser takeover, and the
-  // blank-screen outcome is strictly worse than navigating. (The welcome
-  // route below keeps the strict intent check: a restored session on reload
-  // must not auto-navigate off welcome.)
+  // user on a blank screen. Navigate regardless of the intent flags or duplicate uid —
+  // an authenticated user must NEVER be on the login screen.
   if (currentScreen === 'login') {
     return { destination: hasProfile ? 'results' : 'form', consumed: true };
   }
+  // On welcome screen: duplicate uid does not re-navigate (a restored session stays on welcome).
+  if (uid === prevUid) return { destination: null, consumed: true };
   // Rule 5: explicit intent only — a restored session stays put on welcome.
   if (!inPageSignIn && !oauthReturn) return { destination: null, consumed: true };
   return { destination: hasProfile ? 'results' : 'form', consumed: true };

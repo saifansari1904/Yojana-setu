@@ -138,3 +138,108 @@ export const summariseDocumentProgress = (
     hasEngaged: prepared.length > 0,
   };
 };
+
+/* ------------------- UPLOADED DOCUMENTS PROGRESS ------------------- */
+
+const UPLOADED_FILES_KEY = 'yojana_setu_uploaded_files_v1';
+
+export interface UploadedFileRecord {
+  docId: string;
+  schemeId: string;
+  fileName: string;
+  fileSize: number;
+  fileType: string;
+  uploadedAt: string; // ISO date string
+}
+
+export type UploadedFilesMap = Record<string, Record<string, UploadedFileRecord>>;
+
+export const loadUploadedFiles = (): UploadedFilesMap => {
+  if (typeof window === 'undefined') return {};
+  try {
+    const raw = localStorage.getItem(UPLOADED_FILES_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+    return parsed as UploadedFilesMap;
+  } catch {
+    return {};
+  }
+};
+
+export const saveUploadedFiles = (map: UploadedFilesMap): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(UPLOADED_FILES_KEY, JSON.stringify(map));
+  } catch {
+    // Storage blocked or full
+  }
+};
+
+export const getUploadedFilesForScheme = (
+  schemeId: string,
+  uploadsMap?: UploadedFilesMap,
+): Record<string, UploadedFileRecord> => {
+  const map = uploadsMap ?? loadUploadedFiles();
+  return map[schemeId] || {};
+};
+
+/**
+ * Records an uploaded document, saves metadata, and marks the document
+ * as prepared in the unified progress map.
+ */
+export const recordDocumentUpload = (
+  schemeId: string,
+  docId: string,
+  fileInfo: { fileName: string; fileSize: number; fileType?: string },
+): { updatedProgress: DocumentProgressMap; updatedUploads: UploadedFilesMap; record: UploadedFileRecord } => {
+  const currentUploads = loadUploadedFiles();
+  const currentProgress = loadDocumentProgress();
+
+  const record: UploadedFileRecord = {
+    docId,
+    schemeId,
+    fileName: fileInfo.fileName,
+    fileSize: fileInfo.fileSize,
+    fileType: fileInfo.fileType || 'application/pdf',
+    uploadedAt: new Date().toISOString(),
+  };
+
+  const schemeUploads = { ...(currentUploads[schemeId] || {}), [docId]: record };
+  const updatedUploads: UploadedFilesMap = { ...currentUploads, [schemeId]: schemeUploads };
+  saveUploadedFiles(updatedUploads);
+
+  // Mark as prepared in progress map if not already present
+  const existingDocs = currentProgress[schemeId] || [];
+  const updatedProgress: DocumentProgressMap = existingDocs.includes(docId)
+    ? currentProgress
+    : { ...currentProgress, [schemeId]: [...existingDocs, docId] };
+
+  if (!existingDocs.includes(docId)) {
+    saveDocumentProgress(updatedProgress);
+  }
+
+  return { updatedProgress, updatedUploads, record };
+};
+
+/**
+ * Removes an uploaded document record.
+ */
+export const removeDocumentUpload = (
+  schemeId: string,
+  docId: string,
+): { updatedUploads: UploadedFilesMap } => {
+  const currentUploads = loadUploadedFiles();
+  const schemeUploads = { ...(currentUploads[schemeId] || {}) };
+  delete schemeUploads[docId];
+
+  const updatedUploads: UploadedFilesMap = { ...currentUploads };
+  if (Object.keys(schemeUploads).length > 0) {
+    updatedUploads[schemeId] = schemeUploads;
+  } else {
+    delete updatedUploads[schemeId];
+  }
+  saveUploadedFiles(updatedUploads);
+
+  return { updatedUploads };
+};

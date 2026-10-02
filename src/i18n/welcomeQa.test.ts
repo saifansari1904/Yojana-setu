@@ -220,15 +220,17 @@ assert(!/firebase/i.test(packageJson), 'W7: no Firebase dependency in package.js
 // guests. Viewing must always navigate, for guests and users alike.
 {
   const m = /const handleSelectScheme[\s\S]*?\n  \};/.exec(appSrc);
-  assert(m, 'W8: handleSelectScheme exists in App.tsx');
-  assert(
-    !/requestPersistentAction/.test(m[0]),
-    'W8: handleSelectScheme does not call requestPersistentAction',
-  );
-  assert(
-    /setCurrentScreen\('scheme-detail'\)/.test(m[0]),
-    'W8: handleSelectScheme navigates to scheme-detail',
-  );
+  assert(Boolean(m), 'W8: handleSelectScheme exists in App.tsx');
+  if (m) {
+    assert(
+      !/requestPersistentAction/.test(m[0]),
+      'W8: handleSelectScheme does not call requestPersistentAction',
+    );
+    assert(
+      /setCurrentScreen\('scheme-detail'\)/.test(m[0]),
+      'W8: handleSelectScheme navigates to scheme-detail',
+    );
+  }
 }
 for (const f of [
   'src/components/WelcomeScreen.tsx',

@@ -737,15 +737,16 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
       ? filteredNear.length
       : filteredEligible.length + filteredNear.length + filteredOther.length;
 
-  const renderSchemeCard = (result: MatchResult, isTopPick: boolean = false) => {
+  const renderSchemeCard = (result: MatchResult, isTopPick: boolean = false, keyPrefix: string = '') => {
     const locScheme = getLocalizedScheme(result.scheme);
     const isEligible = result.matchStatus === 'eligible';
     const isNearMatch = result.matchStatus === 'near-match';
     const isCandidate = Boolean(result.scheme.isCandidateScheme);
+    const cardKey = keyPrefix ? `${keyPrefix}-${result.scheme.id}` : result.scheme.id;
 
     return (
       <motion.article
-        key={result.scheme.id}
+        key={cardKey}
         id={`scheme-card-${result.scheme.id}`}
         variants={shouldReduceMotion ? undefined : staggerItem}
         whileHover={shouldReduceMotion ? undefined : { y: -2 }}
@@ -1745,7 +1746,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 viewport={{ once: true, amount: 'some' }}
                 className="space-y-4"
               >
-                {filteredEligible.map((result, idx) => renderSchemeCard(result, idx === 0 && result.matchPercentage >= 80))}
+                {filteredEligible.map((result, idx) => renderSchemeCard(result, idx === 0 && result.matchPercentage >= 80, 'all-eligible'))}
               </motion.div>
             </section>
           )}
@@ -1771,7 +1772,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 viewport={{ once: true, amount: 'some' }}
                 className="space-y-4"
               >
-                {filteredNear.map((result) => renderSchemeCard(result))}
+                {filteredNear.map((result) => renderSchemeCard(result, false, 'all-near'))}
               </motion.div>
             </section>
           )}
@@ -1797,7 +1798,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 viewport={{ once: true, amount: 'some' }}
                 className="space-y-4"
               >
-                {filteredOther.map((result) => renderSchemeCard(result))}
+                {filteredOther.map((result) => renderSchemeCard(result, false, 'all-other'))}
               </motion.div>
             </section>
           )}
@@ -1812,7 +1813,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           animate={shouldReduceMotion ? undefined : 'visible'}
           className="space-y-4"
         >
-          {filteredEligible.map((result, idx) => renderSchemeCard(result, idx === 0 && result.matchPercentage >= 80))}
+          {filteredEligible.map((result, idx) => renderSchemeCard(result, idx === 0 && result.matchPercentage >= 80, 'tab-eligible'))}
         </motion.div>
       )}
 
@@ -1823,7 +1824,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           animate={shouldReduceMotion ? undefined : 'visible'}
           className="space-y-4"
         >
-          {filteredNear.map((result) => renderSchemeCard(result))}
+          {filteredNear.map((result) => renderSchemeCard(result, false, 'tab-near'))}
         </motion.div>
       )}
 
@@ -1834,8 +1835,8 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           animate={shouldReduceMotion ? undefined : 'visible'}
           className="space-y-4"
         >
-          {[...filteredEligible, ...filteredNear, ...filteredOther].map((result) =>
-            renderSchemeCard(result)
+          {[...filteredEligible, ...filteredNear, ...filteredOther].map((result, idx) =>
+            renderSchemeCard(result, false, `subsidized-${idx}`)
           )}
         </motion.div>
       )}

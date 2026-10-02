@@ -474,6 +474,7 @@ export const mlTranslations: Translations = {
     openTrackerBtn: 'ട്രാക്കറിൽ കാണുക',
     readinessTitle: 'അപേക്ഷാ സന്നദ്ധത',
     overallReadiness: 'മൊത്തത്തിലുള്ള സന്നദ്ധത',
+    stepPredictor: 'വിജയ നിരക്ക് പ്രവചകൻ',
     stepEligibility: 'നിയമപരമായ പരിശോധന',
     stepDocuments: 'രേഖകളുടെ ശേഖരം',
     stepFinancial: 'സാമ്പത്തിക ക്രമീകരണം',

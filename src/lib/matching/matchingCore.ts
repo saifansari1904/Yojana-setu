@@ -499,8 +499,18 @@ export function rankSchemesForProfileCore(
   presentation: MatchingPresentation,
   options?: { skipAlternatives?: boolean },
 ): MatchResult[] {
+  // Deduplicate input schemes by unique id defensively (first occurrence / curated wins)
+  const seenIds = new Set<string>();
+  const uniqueSchemes: Scheme[] = [];
+  for (const s of schemes) {
+    if (s && typeof s.id === 'string' && s.id.length > 0 && !seenIds.has(s.id)) {
+      seenIds.add(s.id);
+      uniqueSchemes.push(s);
+    }
+  }
+
   // First evaluate all schemes
-  const evaluated = schemes.map((scheme) => evaluateSchemeEligibilityCore(scheme, profile, presentation));
+  const evaluated = uniqueSchemes.map((scheme) => evaluateSchemeEligibilityCore(scheme, profile, presentation));
 
   // Populate recommended alternatives for near-match and low-match schemes.
   // This is O(n²) and dominates runtime (~3.7s for 259 schemes); callers that

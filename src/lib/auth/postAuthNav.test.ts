@@ -217,5 +217,35 @@ const OTHER_UID = 'user-456';
   assert(d.destination === null, 'post-navigation re-fire is a no-op');
 }
 
+// ── 13. Authenticated session on login route with existing uid ALWAYS navigates ──
+// Even if uid === prevUid, an authenticated user on the login route must never be stranded.
+{
+  const d = decidePostAuthNavigation({
+    uid: UID,
+    prevUid: UID,
+    currentScreen: 'login',
+    profileRestore: 'idle',
+    inPageSignIn: false,
+    oauthReturn: false,
+    hasProfile: true,
+  });
+  assert(d.destination === 'results', 'authenticated user on login route with existing uid navigates to results');
+  assert(d.consumed === true, 'login-route navigation consumes the uid even when already seen');
+}
+
+// ── 14. Authenticated session on login route with existing uid and no profile → form ──
+{
+  const d = decidePostAuthNavigation({
+    uid: UID,
+    prevUid: UID,
+    currentScreen: 'login',
+    profileRestore: 'idle',
+    inPageSignIn: false,
+    oauthReturn: false,
+    hasProfile: false,
+  });
+  assert(d.destination === 'form', 'authenticated user on login route with existing uid and no profile navigates to form');
+}
+
 console.log(`\n${passed} passed, ${failed} failed out of ${passed + failed} assertions.`);
 if (failed > 0) process.exit(1);

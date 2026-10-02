@@ -15,6 +15,7 @@ import type { MatchResult } from './matching';
 import type { TrackedApplication } from './tracker';
 
 export type PreparationStepKey =
+  | 'SUCCESS_PREDICTOR'
   | 'ELIGIBILITY_AUDIT'
   | 'DOCUMENT_CHECKLIST'
   | 'FINANCIAL_ALIGNMENT'
