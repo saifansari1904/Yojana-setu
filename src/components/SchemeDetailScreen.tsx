@@ -274,7 +274,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             initial: { x: 0 },
             hover: { x: -2 },
           }}
-          className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)] hover:text-[#0B302B] dark:hover:text-[#6EE7B7] inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md hover:bg-[#D9E8DF]/40 dark:hover:bg-[#122019]/60 transition-colors cursor-pointer"
+          className="text-sm font-semibold text-[#14453D] dark:text-[var(--accent-green)] hover:text-[#0B302B] dark:hover:text-[#6EE7B7] inline-flex items-center gap-1.5 px-3 py-2 rounded-md hover:bg-[#D9E8DF]/40 dark:hover:bg-[#122019]/60 transition-colors cursor-pointer"
         >
           <motion.span
             variants={{
@@ -289,7 +289,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
           <span>{t('schemeDetail.backToResults')}</span>
         </motion.button>
 
-        <div className="flex items-center gap-2 text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
+        <div className="flex items-center gap-2 text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
           <span>{t('results.title')}</span>
           <span>/</span>
           <span className="font-bold text-[#1A1C1B] dark:text-[var(--text-main)]">
@@ -401,7 +401,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             <motion.div variants={shouldReduceMotion ? undefined : heroItem}>
             <motion.h1
               layoutId={`scheme-title-${locScheme.id}`}
-              className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1A1C1B] dark:text-[var(--text-main)] tracking-tight leading-snug mb-2"
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1A1C1B] dark:text-[var(--text-main)] tracking-tight leading-snug mb-2"
             >
               {locScheme.name}
             </motion.h1>
@@ -420,10 +420,17 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               )}
             </p>
 
+            {/* Benefit lede — the one-line answer to "what do I get",
+                directly under the title (full summary lives in the
+                benefits section below). */}
+            <p className="text-base sm:text-lg text-[#1A1C1B] dark:text-[var(--text-main)] leading-relaxed mt-3 max-w-2xl">
+              {locScheme.benefitSummary}
+            </p>
+
             {/* Quick Status Pill */}
             <div className="mt-4 flex flex-wrap items-center gap-2">
               <div
-                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded text-xs font-bold ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded text-xs font-semibold ${
                   isEligible
                     ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)] border border-[#1E6A50]/30'
                     : isNearMatch
@@ -470,10 +477,10 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 layoutId={`scheme-gauge-${locScheme.id}`}
               />
               <div className="text-left md:text-right">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-[#516A5F] dark:text-[var(--text-tertiary)] block">
+                <span className="text-xs uppercase font-bold tracking-wider text-[#516A5F] dark:text-[var(--text-tertiary)] block">
                   {t('schemeDetail.matchScoreLabel')}
                 </span>
-                <span className="text-2xl font-extrabold text-[#14453D] dark:text-[var(--accent-green)] leading-none">
+                <span className="text-2xl font-bold text-[#14453D] dark:text-[var(--accent-green)] leading-none">
                   {Math.round(matchResult.matchPercentage)}%
                 </span>
               </div>
@@ -525,7 +532,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   type="button"
                   id={`hero-prepare-btn-${locScheme.id}`}
                   onClick={() => onOpenWorkspace(matchResult)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold border border-[#1E6A50] dark:border-[var(--accent-green)] text-[#1E6A50] dark:text-[var(--accent-green)] bg-[#1E6A50]/5 hover:bg-[#1E6A50]/10 transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold border border-[#1E6A50] dark:border-[var(--accent-green)] text-[#1E6A50] dark:text-[var(--accent-green)] bg-[#1E6A50]/5 hover:bg-[#1E6A50]/10 transition-colors cursor-pointer"
                 >
                   <FileCheck2 className="w-3.5 h-3.5" />
                   <span>{sdui.prepWorkspace}</span>
@@ -537,7 +544,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   id={`hero-apply-btn-${locScheme.id}`}
                   onClick={() => window.open(locScheme.officialPortalUrl, '_blank', 'noopener,noreferrer')}
                   variant="primary"
-                  size="md"
+                  size="lg"
                   icon={ExternalLink}
                 >
                   {t('schemeDetail.applyOfficial')}
@@ -570,17 +577,17 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider bg-[#14453D] dark:bg-[var(--accent-green)] text-white dark:text-[#0B251F] px-2 py-0.5 rounded">
+                    <span className="text-xs font-semibold uppercase tracking-wider bg-[#14453D] dark:bg-[var(--accent-green)] text-white dark:text-[#0B251F] px-2 py-0.5 rounded">
                       {sdui.nextBestAction}
                     </span>
                     <span className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)]">
                       {nextAction.badgeText}
                     </span>
                   </div>
-                  <h3 className="text-sm sm:text-base font-bold text-[#1A1C1B] dark:text-[var(--text-main)]">
+                  <h3 className="text-base font-semibold text-[#1A1C1B] dark:text-[var(--text-main)]">
                     {nextAction.title}
                   </h3>
-                  <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] mt-0.5">
+                  <p className="text-sm text-[#516A5F] dark:text-[var(--text-secondary)] mt-0.5">
                     {nextAction.description}
                   </p>
                 </div>
@@ -592,7 +599,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                     href={nextAction.actionUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-[#14453D] hover:bg-[#0E352E] dark:bg-[var(--accent-green)] dark:hover:bg-[#28B781] text-white dark:text-[#0B251F] font-bold text-xs py-2 px-4 rounded transition-colors flex items-center gap-1.5"
+                    className="bg-[#14453D] hover:bg-[#0E352E] dark:bg-[var(--accent-green)] dark:hover:bg-[#28B781] text-white dark:text-[#0B251F] font-semibold text-sm py-2.5 px-5 rounded transition-colors flex items-center gap-1.5"
                   >
                     <span>{nextAction.buttonLabel}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -601,7 +608,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 {nextAction.actionTarget === 'alternatives' && onOpenWhyNotEligible && (
                   <button
                     onClick={() => onOpenWhyNotEligible(matchResult)}
-                    className="bg-[#14453D] hover:bg-[#0E352E] dark:bg-[var(--accent-green)] dark:hover:bg-[#28B781] text-white dark:text-[#0B251F] font-bold text-xs py-2 px-4 rounded transition-colors flex items-center gap-1.5 cursor-pointer"
+                    className="bg-[#14453D] hover:bg-[#0E352E] dark:bg-[var(--accent-green)] dark:hover:bg-[#28B781] text-white dark:text-[#0B251F] font-semibold text-sm py-2.5 px-5 rounded transition-colors flex items-center gap-1.5 cursor-pointer"
                   >
                     <span>{nextAction.buttonLabel}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -628,7 +635,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap mb-1">
-                <span className="text-xs font-extrabold uppercase tracking-wide bg-amber-200 dark:bg-amber-800/80 text-amber-900 dark:text-amber-200 px-2 py-0.5 rounded">
+                <span className="text-xs font-semibold uppercase tracking-wide bg-amber-200 dark:bg-amber-800/80 text-amber-900 dark:text-amber-200 px-2 py-0.5 rounded">
                   {t('schemeDetail.closeToQualifying')}
                 </span>
                 <span className="text-xs font-semibold text-amber-900 dark:text-amber-300">
@@ -655,7 +662,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   <p className="text-xs text-[#3F4943] dark:text-[var(--text-main)] leading-relaxed">
                     {matchResult.primaryGap.explanation}
                   </p>
-                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-2 border-t border-amber-100 dark:border-amber-900/40">
+                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-2 border-t border-amber-100 dark:border-amber-900/40">
                     <div>
                       <span className="text-[#516A5F] dark:text-[var(--text-tertiary)]">
                         {t('schemeDetail.yourProfileCol')}:{' '}
@@ -705,7 +712,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 </div>
                 {matchResult.businessRelevance && (
                   <span
-                    className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded tracking-wider ${
+                    className={`text-xs font-bold uppercase px-2.5 py-0.5 rounded tracking-wider ${
                       matchResult.businessRelevance.relevanceLevel === 'HIGH'
                         ? 'bg-[#175741] text-white'
                         : matchResult.businessRelevance.relevanceLevel === 'MEDIUM'
@@ -722,7 +729,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4 p-3.5 rounded bg-[#FAFAF9] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
                 <div>
-                  <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] block font-medium">
+                  <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] block font-medium">
                     {sdui.businessStage}
                   </span>
                   <strong className="text-xs text-[#1A1C1B] dark:text-[var(--text-main)] font-bold">
@@ -732,7 +739,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   </strong>
                 </div>
                 <div>
-                  <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] block font-medium">
+                  <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] block font-medium">
                     {sdui.primaryNeed}
                   </span>
                   <strong className="text-xs text-[#1A1C1B] dark:text-[var(--text-main)] font-bold">
@@ -742,7 +749,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   </strong>
                 </div>
                 <div>
-                  <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] block font-medium">
+                  <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] block font-medium">
                     {sdui.fundingGap}
                   </span>
                   <strong className="text-xs text-[#14453D] dark:text-[var(--accent-green)] font-bold">
@@ -782,13 +789,13 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 )}
                 {matchResult.businessRelevance?.matchedNeeds && matchResult.businessRelevance.matchedNeeds.length > 0 && (
                   <div className="pt-2 mt-2 border-t border-[#E4E8E4] dark:border-[var(--border-subtle)] flex flex-wrap items-center gap-1.5">
-                    <span className="text-[11px] font-medium text-[#516A5F] dark:text-[var(--text-tertiary)]">
+                    <span className="text-xs font-medium text-[#516A5F] dark:text-[var(--text-tertiary)]">
                       {sdui.supportedNeeds}
                     </span>
                     {matchResult.businessRelevance.matchedNeeds.map((n) => (
                       <span
                         key={n.needType}
-                        className="text-[10px] font-bold bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)] px-2 py-0.5 rounded"
+                        className="text-xs font-bold bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)] px-2 py-0.5 rounded"
                       >
                         ✓ {getLocalizedNeedLabel(n.needType, lang) || resolveLocalizedPair(n.labelEn, n.labelHi, lang) || n.labelEn}
                       </span>
@@ -845,7 +852,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                     </div>
 
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
+                      className={`text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
                         item.matched
                           ? 'bg-[#175741] text-white'
                           : 'bg-[#C2603F] dark:bg-[#B91C1C] text-white'
@@ -859,7 +866,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                     {item.explanation}
                   </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-2 border-t border-[#E4E8E4]/60 dark:border-[var(--border-subtle)]">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-2 border-t border-[#E4E8E4]/60 dark:border-[var(--border-subtle)]">
                     <div>
                       <span className="text-[#516A5F] dark:text-[var(--text-tertiary)]">
                         {t('schemeDetail.yourProfileCol')}:{' '}
@@ -923,7 +930,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
 
             {locScheme.purpose && (
               <div className="mb-5 p-3.5 bg-[#F3F4F3] dark:bg-[var(--bg-raised)] rounded border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
-                <span className="text-[11px] uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1">
+                <span className="text-xs uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1">
                   {sdui.purposeCoreFocus}
                 </span>
                 <p className="text-xs text-[#1A1C1B] dark:text-[var(--text-main)] leading-relaxed font-medium">
@@ -942,14 +949,14 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* Target Categories */}
                 <div className="p-3 rounded bg-[#FAFAF9] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
-                  <span className="text-[10px] uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1.5">
+                  <span className="text-xs uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1.5">
                     {t('schemeDetail.targetBeneficiaries')}
                   </span>
                   <div className="flex flex-wrap gap-1">
                     {locScheme.targetCategories.map((cat, cIdx) => (
                       <span
                         key={cIdx}
-                        className="text-[11px] font-semibold bg-[#EEEEED] dark:bg-[var(--bg-raised)] text-[#1A1C1B] dark:text-[var(--text-main)] px-2 py-0.5 rounded"
+                        className="text-xs font-semibold bg-[#EEEEED] dark:bg-[var(--bg-raised)] text-[#1A1C1B] dark:text-[var(--text-main)] px-2 py-0.5 rounded"
                       >
                         {getLocalizedCategory(cat)}
                       </span>
@@ -959,14 +966,14 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
 
                 {/* Target Business Types */}
                 <div className="p-3 rounded bg-[#FAFAF9] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
-                  <span className="text-[10px] uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1.5">
+                  <span className="text-xs uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1.5">
                     {t('schemeDetail.targetActivities')}
                   </span>
                   <div className="flex flex-wrap gap-1">
                     {locScheme.targetBusinessTypes.map((biz, bIdx) => (
                       <span
                         key={bIdx}
-                        className="text-[11px] font-semibold bg-[#EEEEED] dark:bg-[var(--bg-raised)] text-[#1A1C1B] dark:text-[var(--text-main)] px-2 py-0.5 rounded"
+                        className="text-xs font-semibold bg-[#EEEEED] dark:bg-[var(--bg-raised)] text-[#1A1C1B] dark:text-[var(--text-main)] px-2 py-0.5 rounded"
                       >
                         {getLocalizedBusinessType(biz)}
                       </span>
@@ -976,7 +983,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
 
                 {/* Geographic Coverage */}
                 <div className="p-3 rounded bg-[#FAFAF9] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
-                  <span className="text-[10px] uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1">
+                  <span className="text-xs uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1">
                     {t('schemeDetail.coverageArea')}
                   </span>
                   <p className="text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] flex items-center gap-1.5">
@@ -991,7 +998,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
 
                 {/* Age Eligibility Window */}
                 <div className="p-3 rounded bg-[#FAFAF9] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
-                  <span className="text-[10px] uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1">
+                  <span className="text-xs uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1">
                     {t('schemeDetail.ageLimit')}
                   </span>
                   <p className="text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] flex items-center gap-1.5">
@@ -1063,17 +1070,17 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                       </td>
                       <td className="py-3 px-3 text-right">
                         {row.state === 'MATCHED' || row.matched ? (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#1E6A50] dark:text-[var(--accent-green)]">
+                          <span className="inline-flex items-center gap-1 text-xs font-bold text-[#1E6A50] dark:text-[var(--accent-green)]">
                             <Check className="w-3.5 h-3.5" />
                             <span>{t('common.matched')}</span>
                           </span>
                         ) : row.state === 'UNKNOWN' ? (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 dark:text-amber-300">
+                          <span className="inline-flex items-center gap-1 text-xs font-bold text-amber-700 dark:text-amber-300">
                             <HelpCircle className="w-3.5 h-3.5" />
                             <span>{sdui.needed}</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#C2603F] dark:text-[#F87171]">
+                          <span className="inline-flex items-center gap-1 text-xs font-bold text-[#C2603F] dark:text-[#F87171]">
                             <AlertTriangle className="w-3.5 h-3.5" />
                             <span>{t('common.gap')}</span>
                           </span>
@@ -1237,19 +1244,19 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                     <div className="flex items-center gap-1.5 flex-wrap">
                       {matchResult.scheme.isCandidateScheme ? (
                         <>
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
+                          <span className="text-xs font-bold px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
                             {t('schemeDetail.candidateStatusBadge')}
                           </span>
-                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+                          <span className="text-xs font-semibold px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
                             {t('schemeDetail.candidateConfidenceExtraction')}
                           </span>
                         </>
                       ) : (
                         <>
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                          <span className="text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
                             {t('schemeDetail.provenanceStatusLabel')} {trust.verification.status}
                           </span>
-                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                          <span className="text-xs font-semibold px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                             {trust.confidence} {t('schemeDetail.provenanceConfidenceSuffix')}
                           </span>
                         </>
@@ -1258,11 +1265,11 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   </div>
 
                   {/* Responsible Statutory Disclaimer */}
-                  <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] mb-3 leading-relaxed">
+                  <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] mb-3 leading-relaxed">
                     {t('schemeDetail.provenanceDisclaimer')}
                   </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] pt-2 border-t border-[#E4E8E4] dark:border-[var(--border-subtle)]">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-2 border-t border-[#E4E8E4] dark:border-[var(--border-subtle)]">
                     <div>
                       <span className="text-[#516A5F] dark:text-[var(--text-tertiary)]">{t('schemeDetail.provenanceSponsoringBody')} </span>
                       <strong className="text-[#1A1C1B] dark:text-[var(--text-main)] block sm:inline">
@@ -1347,10 +1354,10 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider">
+                      <span className="text-xs font-bold uppercase tracking-wider">
                         {sdui.fundingFitAnalysis}
                       </span>
-                      <span className="text-[10px] font-extrabold px-1.5 py-0.2 rounded bg-white/70 dark:bg-black/40">
+                      <span className="text-xs font-bold px-1.5 py-0.2 rounded bg-white/70 dark:bg-black/40">
                         {isWithin
                           ? sdui.withinRange
                           : isAbove
@@ -1358,11 +1365,11 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                           : sdui.info}
                       </span>
                     </div>
-                    <p className="text-[11px] leading-relaxed mb-1.5 font-medium">
+                    <p className="text-xs leading-relaxed mb-1.5 font-medium">
                       {fundingFit.explanation}
                     </p>
                     {fundingFit.subsidyExplanation && (
-                      <div className="pt-1.5 border-t border-black/10 dark:border-white/10 text-[10px] text-emerald-800 dark:text-emerald-300 font-semibold">
+                      <div className="pt-1.5 border-t border-black/10 dark:border-white/10 text-xs text-emerald-800 dark:text-emerald-300 font-semibold">
                         {fundingFit.subsidyExplanation}
                       </div>
                     )}
@@ -1373,14 +1380,14 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               {/* Max Funding */}
               {locScheme.maxAmount > 0 && (
                 <div className="p-3 bg-[#D9E8DF]/40 dark:bg-[#1A382D]/40 rounded border border-[#A3D9C9] dark:border-[#265343]">
-                  <span className="text-[10px] uppercase font-bold text-[#516A5F] dark:text-[#A7F3D0] block">
+                  <span className="text-xs uppercase font-bold text-[#516A5F] dark:text-[#A7F3D0] block">
                     {t('schemeDetail.maxAssistance')}
                   </span>
-                  <span className="text-xl font-extrabold text-[#14453D] dark:text-[var(--accent-green)]">
+                  <span className="text-xl font-bold text-[#14453D] dark:text-[var(--accent-green)]">
                     {formatCurrency(locScheme.maxAmount)}
                   </span>
                   {locScheme.minAmount > 0 && (
-                    <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] block mt-0.5">
+                    <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] block mt-0.5">
                       {t('schemeDetail.minAssistance')}: {formatCurrency(locScheme.minAmount)}
                     </span>
                   )}
@@ -1390,7 +1397,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               {/* Funding Range Text */}
               {locScheme.fundingRangeText && (
                 <div className="p-3 bg-[#FAFAF9] dark:bg-[var(--bg-card)] rounded border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
-                  <span className="text-[10px] uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block">
+                  <span className="text-xs uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block">
                     {t('schemeDetail.fundingRange')}
                   </span>
                   <span className="text-xs font-bold text-[#1A1C1B] dark:text-[var(--text-main)] mt-0.5 block">
@@ -1402,14 +1409,14 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               {/* Subsidy Rate */}
               {locScheme.subsidyRatePercent && locScheme.subsidyRatePercent > 0 && (
                 <div className="p-3 bg-amber-50/70 dark:bg-amber-950/40 rounded border border-amber-200 dark:border-amber-800/60">
-                  <span className="text-[10px] uppercase font-bold text-amber-800 dark:text-amber-300 block">
+                  <span className="text-xs uppercase font-bold text-amber-800 dark:text-amber-300 block">
                     {t('schemeDetail.subsidyRate')}
                   </span>
                   <span className="text-lg font-bold text-amber-900 dark:text-amber-200">
                     {sdui.upToSubsidy(locScheme.subsidyRatePercent)}
                   </span>
                   {locScheme.subsidyCap && locScheme.subsidyCap > 0 && (
-                    <span className="text-[11px] text-amber-700 dark:text-amber-400 block mt-0.5">
+                    <span className="text-xs text-amber-700 dark:text-amber-400 block mt-0.5">
                       {t('schemeDetail.subsidyCap')}: {formatCurrency(locScheme.subsidyCap)}
                     </span>
                   )}
@@ -1419,7 +1426,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               {/* Interest Rate */}
               {locScheme.baseInterestRate > 0 && (
                 <div className="p-3 bg-[#FAFAF9] dark:bg-[var(--bg-card)] rounded border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
-                  <span className="text-[10px] uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block">
+                  <span className="text-xs uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block">
                     {t('schemeDetail.interestRate')}
                   </span>
                   <span className="text-sm font-bold text-[#1A1C1B] dark:text-[var(--text-main)]">
@@ -1431,14 +1438,14 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               {/* Tenure & Moratorium */}
               {locScheme.standardTenureYears > 0 && (
                 <div className="p-3 bg-[#FAFAF9] dark:bg-[var(--bg-card)] rounded border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
-                  <span className="text-[10px] uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block">
+                  <span className="text-xs uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block">
                     {t('schemeDetail.tenure')}
                   </span>
                   <span className="text-sm font-bold text-[#1A1C1B] dark:text-[var(--text-main)]">
                     {locScheme.standardTenureYears} {t('common.years')}
                   </span>
                   {locScheme.moratoriumPeriodMonths > 0 && (
-                    <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] block mt-0.5">
+                    <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] block mt-0.5">
                       {t('schemeDetail.moratorium')}: {locScheme.moratoriumPeriodMonths}{' '}
                       {sdui.months}
                     </span>
@@ -1448,7 +1455,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
 
               {/* Assistance / Scheme Type */}
               <div className="p-3 bg-[#FAFAF9] dark:bg-[var(--bg-card)] rounded border border-[#E4E8E4] dark:border-[var(--border-subtle)]">
-                <span className="text-[10px] uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block">
+                <span className="text-xs uppercase font-bold text-[#516A5F] dark:text-[var(--text-tertiary)] block">
                   {t('schemeDetail.schemeTypeLabel')}
                 </span>
                 <span className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)]">
@@ -1465,7 +1472,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                   href={locScheme.officialPortalUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[var(--brand-deep)] text-white py-3 rounded text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
+                  className="w-full bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[var(--brand-deep)] text-white py-3.5 rounded text-sm font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
                 >
                   <span>{t('schemeDetail.applyOfficial')}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -1495,7 +1502,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                 {t('schemeDetail.alternativesTitle')}
               </h2>
             </div>
-            <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] mb-3">
+            <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] mb-3">
               {t('schemeDetail.alternativesSubtitle')}
             </p>
 
@@ -1521,17 +1528,17 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
                         <span className="text-xs font-bold text-[#1A1C1B] dark:text-[var(--text-main)] truncate">
                           {altLoc.shortCode}
                         </span>
-                        <span className="text-[11px] font-bold text-[#14453D] dark:text-[var(--accent-green)] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.2 rounded">
+                        <span className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.2 rounded">
                           {Math.round(alt.matchPercentage)}% {sdui.match}
                         </span>
                       </div>
 
-                      <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] line-clamp-2 mb-2">
+                      <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] line-clamp-2 mb-2">
                         {altLoc.name}
                       </p>
 
                       {alt.reason && (
-                        <p className="text-[10px] text-[#14453D] dark:text-[#A7F3D0] mb-2 bg-[#D9E8DF]/40 dark:bg-[#1A382D]/40 p-1.5 rounded">
+                        <p className="text-xs text-[#14453D] dark:text-[#A7F3D0] mb-2 bg-[#D9E8DF]/40 dark:bg-[#1A382D]/40 p-1.5 rounded">
                           {alt.reason}
                         </p>
                       )}
@@ -1590,7 +1597,7 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               type="button"
               id="mobile-prepare-btn"
               onClick={() => onOpenWorkspace(matchResult)}
-              className="yj-tap px-3 py-2 rounded-[var(--yj-radius-md)] text-xs font-bold border border-[#1E6A50] dark:border-[var(--accent-green)] text-[#1E6A50] dark:text-[var(--accent-green)] bg-[#1E6A50]/5 hover:bg-[#1E6A50]/10 transition-colors yj-focus-ring"
+              className="yj-tap px-3.5 py-2.5 rounded-[var(--yj-radius-md)] text-sm font-semibold border border-[#1E6A50] dark:border-[var(--accent-green)] text-[#1E6A50] dark:text-[var(--accent-green)] bg-[#1E6A50]/5 hover:bg-[#1E6A50]/10 transition-colors yj-focus-ring"
             >
               {sdui.prepare}
             </button>
@@ -1601,14 +1608,14 @@ export const SchemeDetailScreen: React.FC<SchemeDetailScreenProps> = ({
               id="mobile-apply-btn"
               onClick={() => window.open(locScheme.officialPortalUrl, '_blank', 'noopener,noreferrer')}
               variant="primary"
-              size="sm"
+              size="lg"
               icon={ExternalLink}
               className="flex-1"
             >
               {t('schemeDetail.applyOfficial')}
             </ArrowFillButton>
           ) : (
-            <div className="flex-1 text-center py-2 px-3 bg-[#F3F4F3] dark:bg-[var(--bg-raised)] rounded text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
+            <div className="flex-1 text-center py-2 px-3 bg-[#F3F4F3] dark:bg-[var(--bg-raised)] rounded text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
               {t('schemeDetail.officialUnavailable')}
             </div>
           )}
