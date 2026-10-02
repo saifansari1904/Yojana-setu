@@ -12,7 +12,6 @@ import {
   AlertCircle,
   Clock,
   ExternalLink,
-  TrendingUp,
   Sparkles,
 } from 'lucide-react';
 import type { MatchResult } from '../../types/matching';
@@ -33,11 +32,11 @@ import {
   recordDocumentUpload,
   removeDocumentUpload,
 } from '../../lib/tracker/documentProgress';
-import { predictSchemeSuccessRate } from '../../lib/application/successPredictor';
+import { assessRejectionRisk } from '../../lib/application/rejectionRisk';
 import { PreparationReadinessHeader } from './PreparationReadinessHeader';
 import { EligibilityAuditSection } from './EligibilityAuditSection';
 import { DocumentDossierSection } from './DocumentDossierSection';
-import { SuccessRatePredictorSection } from './SuccessRatePredictorSection';
+import { RejectionRiskSection } from './RejectionRiskSection';
 import { FinancialAlignmentSection } from './FinancialAlignmentSection';
 import { SubmissionProcessSection } from './SubmissionProcessSection';
 import { PortalHandoffSection } from './PortalHandoffSection';
@@ -70,7 +69,7 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
   const shouldReduceMotion = useReducedMotion();
   const isHindi = lang === 'hi';
 
-  const [activeTab, setActiveTab] = useState<PreparationStepKey>('SUCCESS_PREDICTOR');
+  const [activeTab, setActiveTab] = useState<PreparationStepKey>('RISK_CHECK');
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -95,10 +94,10 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
     lang,
   });
 
-  // Calculate Success Rate Prediction based on uploaded document progress & historical data
-  const successPrediction = predictSchemeSuccessRate({
+  // Assess which known rejection risks the citizen's dossier already covers.
+  // Facts about their own documents only — never an approval probability.
+  const riskAssessment = assessRejectionRisk({
     scheme: matchResult.scheme,
-    userProfile,
     matchResult,
     preparedDocIds,
     uploadedFiles: schemeUploadedFiles,
@@ -142,10 +141,10 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
 
   const tabs: { key: PreparationStepKey; label: string; icon: React.ReactNode; badge?: string }[] = [
     {
-      key: 'SUCCESS_PREDICTOR',
-      label: t('workspace.stepPredictor') || (isHindi ? 'सफलता दर' : 'Success Rate'),
-      icon: <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />,
-      badge: `${successPrediction.probabilityPercent}%`,
+      key: 'RISK_CHECK',
+      label: t('workspace.stepRiskCheck') || (isHindi ? 'जोखिम जांच' : 'Risk Check'),
+      icon: <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />,
+      badge: `${riskAssessment.mitigatedRisks.length}/${riskAssessment.riskFactors.length}`,
     },
     {
       key: 'DOCUMENT_CHECKLIST',
@@ -251,11 +250,11 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
         </p>
       </div>
 
-      {/* Readiness Header with Dual Gauges (Overall Readiness + Success Rate Predictor) */}
+      {/* Readiness Header (Overall Readiness + Rejection Risk shortcut) */}
       <PreparationReadinessHeader
         readiness={workspace.readiness}
-        successPrediction={successPrediction}
-        onSelectPredictor={() => setActiveTab('SUCCESS_PREDICTOR')}
+        riskAssessment={riskAssessment}
+        onSelectRiskCheck={() => setActiveTab('RISK_CHECK')}
         onSelectPillar={(pillarKey) => {
           if (pillarKey === 'eligibility') setActiveTab('ELIGIBILITY_AUDIT');
           else if (pillarKey === 'documents') setActiveTab('DOCUMENT_CHECKLIST');
@@ -299,12 +298,9 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
 
       {/* Active Tab Content Card */}
       <div className="p-6 rounded-2xl bg-white dark:bg-[var(--bg-card)] border border-[#E5E9E7] dark:border-[var(--border-subtle)] shadow-xs">
-        {activeTab === 'SUCCESS_PREDICTOR' && (
-          <SuccessRatePredictorSection
-            scheme={matchResult.scheme}
-            userProfile={userProfile}
-            matchResult={matchResult}
-            prediction={successPrediction}
+        {activeTab === 'RISK_CHECK' && (
+          <RejectionRiskSection
+            assessment={riskAssessment}
             onOpenDocumentDossier={() => setActiveTab('DOCUMENT_CHECKLIST')}
             onUploadFile={handleUploadDocumentFile}
             onToggleDocument={handleToggleDocument}
@@ -316,11 +312,11 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
             scheme={matchResult.scheme}
             preparedDocIds={preparedDocIds}
             uploadedFiles={schemeUploadedFiles}
-            successPrediction={successPrediction}
+            riskAssessment={riskAssessment}
             onToggleDocument={handleToggleDocument}
             onUploadFile={handleUploadDocumentFile}
             onRemoveUpload={handleRemoveUpload}
-            onSwitchToPredictor={() => setActiveTab('SUCCESS_PREDICTOR')}
+            onSwitchToRiskCheck={() => setActiveTab('RISK_CHECK')}
           />
         )}
 

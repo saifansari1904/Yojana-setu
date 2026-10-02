@@ -9,25 +9,24 @@ import {
   Upload,
   Trash2,
   FileText,
-  TrendingUp,
   Sparkles,
   ArrowRight,
   ShieldCheck,
 } from 'lucide-react';
 import type { Scheme } from '../../types/scheme';
 import type { UploadedFileRecord } from '../../lib/tracker/documentProgress';
-import type { SuccessRatePrediction } from '../../lib/application/successPredictor';
+import type { RejectionRiskAssessment } from '../../lib/application/rejectionRisk';
 import { useTranslation } from '../../i18n';
 
 interface DocumentDossierSectionProps {
   scheme: Scheme;
   preparedDocIds: string[];
   uploadedFiles?: Record<string, UploadedFileRecord>;
-  successPrediction?: SuccessRatePrediction;
+  riskAssessment?: RejectionRiskAssessment;
   onToggleDocument: (docId: string) => void;
   onUploadFile?: (docId: string, file: File) => void;
   onRemoveUpload?: (docId: string) => void;
-  onSwitchToPredictor?: () => void;
+  onSwitchToRiskCheck?: () => void;
   onPrintDossier?: () => void;
 }
 
@@ -62,11 +61,11 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
   scheme,
   preparedDocIds,
   uploadedFiles = {},
-  successPrediction,
+  riskAssessment,
   onToggleDocument,
   onUploadFile,
   onRemoveUpload,
-  onSwitchToPredictor,
+  onSwitchToRiskCheck,
   onPrintDossier,
 }) => {
   const { t, lang } = useTranslation();
@@ -113,40 +112,42 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
         </div>
       </div>
 
-      {/* Success Rate Predictor Banner */}
-      {successPrediction && (
+      {/* Rejection Risk Check Banner */}
+      {riskAssessment && (
         <div className="p-4 rounded-xl border border-emerald-300 dark:border-emerald-800 bg-gradient-to-r from-emerald-50 via-[#EAF4EF] to-emerald-50 dark:from-emerald-950/40 dark:via-emerald-950/20 dark:to-emerald-950/40 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
-              {successPrediction.probabilityPercent}%
+            <div className="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+              {riskAssessment.mitigatedRisks.length}/{riskAssessment.riskFactors.length}
             </div>
             <div>
               <div className="flex items-center gap-1.5 font-bold text-[#1F2421] dark:text-[var(--text-main)]">
-                <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>
                   {isHindi
-                    ? `योजना सफलता संभावना: ${successPrediction.probabilityPercent}%`
-                    : `Predicted Scheme Success Rate: ${successPrediction.probabilityPercent}%`}
+                    ? `अस्वीकृति जोखिम जांच: ${riskAssessment.riskFactors.length} में से ${riskAssessment.mitigatedRisks.length} जोखिम कवर`
+                    : `Rejection Risk Check: ${riskAssessment.mitigatedRisks.length} of ${riskAssessment.riskFactors.length} risks covered`}
                 </span>
                 <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-200/70 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 ml-1">
-                  {successPrediction.probabilityPercent >= 75 ? (isHindi ? 'उच्च संभावना' : 'High Prospect') : (isHindi ? 'मध्यम संभावना' : 'Moderate')}
+                  {riskAssessment.openRisks.length === 0
+                    ? (isHindi ? 'सभी कवर' : 'All Covered')
+                    : (isHindi ? `${riskAssessment.openRisks.length} खुले` : `${riskAssessment.openRisks.length} Open`)}
                 </span>
               </div>
               <p className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)] mt-0.5">
                 {isHindi
-                  ? `${readyCount} / ${totalCount} दस्तावेज तैयार (${uploadedCount} डिजिटल स्कैन अपलोड)। ऐतिहासिक आधार दर: ${successPrediction.baselineRate}%`
-                  : `${readyCount} of ${totalCount} documents marked (${uploadedCount} uploaded). Baseline unassisted rate: ${successPrediction.baselineRate}%`}
+                  ? `${readyCount} / ${totalCount} दस्तावेज तैयार (${uploadedCount} डिजिटल स्कैन अपलोड)।`
+                  : `${readyCount} of ${totalCount} documents marked (${uploadedCount} uploaded).`}
               </p>
             </div>
           </div>
 
-          {onSwitchToPredictor && (
+          {onSwitchToRiskCheck && (
             <button
               type="button"
-              onClick={onSwitchToPredictor}
+              onClick={onSwitchToRiskCheck}
               className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold text-[#1E6A50] dark:text-[var(--accent-green)] bg-white dark:bg-[var(--bg-card)] border border-emerald-300 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 transition-colors shrink-0"
             >
-              <span>{isHindi ? 'सफलता दर विश्लेषण देखें' : 'View Predictor Breakdown'}</span>
+              <span>{isHindi ? 'जोखिम जांच देखें' : 'View Risk Check'}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           )}
@@ -184,8 +185,8 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
             const isUploaded = Boolean(uploadedFile);
             const authority = getIssuingAuthority(doc);
 
-            // Find matching document impact info from prediction if available
-            const impactInfo = successPrediction?.documentImpacts.find((d) => d.docName === doc);
+            // Find matching document status from the risk assessment if available
+            const docStatus = riskAssessment?.documents.find((d) => d.docName === doc);
 
             return (
               <div
@@ -225,9 +226,15 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
                           {doc}
                         </span>
 
-                        {impactInfo && (
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300">
-                            +{impactInfo.potentialGainPercent}% {isHindi ? 'सफलता दर प्रभाव' : 'Success Impact'}
+                        {docStatus && docStatus.criticality !== 'STANDARD' && (
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                            docStatus.criticality === 'CRITICAL'
+                              ? 'bg-rose-100 dark:bg-rose-900/60 text-rose-800 dark:text-rose-300'
+                              : 'bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-blue-300'
+                          }`}>
+                            {docStatus.criticality === 'CRITICAL'
+                              ? (isHindi ? 'अत्यंत महत्वपूर्ण' : 'Critical Document')
+                              : (isHindi ? 'महत्वपूर्ण' : 'Important')}
                           </span>
                         )}
                       </div>

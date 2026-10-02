@@ -474,7 +474,7 @@ export const knTranslations: Translations = {
     openTrackerBtn: 'ಟ್ರ್ಯಾಕರ್‌ನಲ್ಲಿ ನೋಡಿ',
     readinessTitle: 'ಅರ್ಜಿ ಸನ್ನದ್ಧತೆ',
     overallReadiness: 'ಒಟ್ಟಾರೆ ಸನ್ನದ್ಧತೆ',
-    stepPredictor: 'ಯಶಸ್ಸಿನ ದರ ಭವಿಷ್ಯಸೂಚಕ',
+    stepRiskCheck: 'ತಿರಸ್ಕಾರ ಅಪಾಯ ಪರಿಶೀಲನೆ',
     stepEligibility: 'ಶಾಸನಬದ್ಧ ಪರಿಶೀಲನೆ',
     stepDocuments: 'ದಾಖಲೆಗಳ ಕಡತ',
     stepFinancial: 'ಹಣಕಾಸು ಹೊಂದಾಣಿಕೆ',

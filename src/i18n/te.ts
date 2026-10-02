@@ -474,7 +474,7 @@ export const teTranslations: Translations = {
     openTrackerBtn: 'ట్రాకర్‌లో చూడండి',
     readinessTitle: 'దరఖాస్తు సంసిద్ధత',
     overallReadiness: 'మొత్తం సంసిద్ధత',
-    stepPredictor: 'విజయ రేటు ప్రిడిక్టర్',
+    stepRiskCheck: 'తిరస్కరణ ప్రమాద తనిఖీ',
     stepEligibility: 'చట్టబద్ధ సమీక్ష',
     stepDocuments: 'పత్రాల దస్త్రం',
     stepFinancial: 'ఆర్థిక అమరిక',

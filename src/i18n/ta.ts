@@ -474,7 +474,7 @@ export const taTranslations: Translations = {
     openTrackerBtn: 'டிராக்கரில் காண்க',
     readinessTitle: 'விண்ணப்ப தயார்நிலை',
     overallReadiness: 'ஒட்டுமொத்த தயார்நிலை',
-    stepPredictor: 'வெற்றி விகித கணிப்பான்',
+    stepRiskCheck: 'நிராகரிப்பு அபாய சரிபார்ப்பு',
     stepEligibility: 'சட்டப்பூர்வ ஆய்வு',
     stepDocuments: 'ஆவண தொகுப்பு',
     stepFinancial: 'நிதி சீரமைப்பு',

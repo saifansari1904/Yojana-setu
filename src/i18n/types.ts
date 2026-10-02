@@ -461,7 +461,7 @@ export interface Translations {
     openTrackerBtn: string;
     readinessTitle: string;
     overallReadiness: string;
-    stepPredictor: string;
+    stepRiskCheck: string;
     stepEligibility: string;
     stepDocuments: string;
     stepFinancial: string;
