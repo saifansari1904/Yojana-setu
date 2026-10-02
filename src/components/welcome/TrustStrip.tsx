@@ -35,7 +35,7 @@ export const TrustStrip: React.FC = () => {
                 <item.icon className="w-[18px] h-[18px] text-[#14453D] dark:text-[#4ADE80]" aria-hidden="true" />
               </span>
               <span>
-                <dt className="text-sm font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] leading-tight mb-0.5">
+                <dt className="text-[13px] font-bold text-[#1A1C1B] dark:text-[#F0F4F2] leading-tight mb-0.5">
                   {item.title}
                 </dt>
                 <dd className="text-xs text-[#516A5F] dark:text-[#9EB0A7] leading-relaxed">
