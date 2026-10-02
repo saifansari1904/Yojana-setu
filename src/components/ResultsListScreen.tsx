@@ -761,7 +761,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         }`}
       >
         {isTopPick && !isCandidate && (
-          <div className="bg-[#14453D] dark:bg-[#1C5045] text-white px-4 py-1 text-[11px] font-bold flex items-center gap-1.5 border-b border-[#0B302B]/30">
+          <div className="bg-[#14453D] dark:bg-[#1C5045] text-white px-4 py-1 text-xs font-semibold flex items-center gap-1.5 border-b border-[#0B302B]/30">
             <Sparkles className="w-3.5 h-3.5 text-[#4ADE80]" />
             <span>{rui.topRecommendation}</span>
           </div>
@@ -769,7 +769,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         <div className="p-5 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start gap-5">
             {/* Left Column: Match Gauge & Dual Status Pill */}
-            <div className="shrink-0 flex sm:flex-col items-center gap-3 sm:w-32 text-center">
+            <div className="shrink-0 flex sm:flex-col items-center gap-3 sm:w-32 text-center order-2">
               <MatchGauge
                 percentage={result.matchPercentage}
                 size={66}
@@ -777,24 +777,24 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 layoutId={`scheme-gauge-${result.scheme.id}`}
               />
               <div className="text-left sm:text-center">
-                <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] block">
+                <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] block">
                   {t('results.matchScoreLabel')}
                 </span>
 
                 {/* Status Pill: Distinctive and High Contrast */}
                 <div className="mt-1">
                   {isEligible ? (
-                    <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)] border border-[#B2CDBF] dark:border-[#285743]">
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)] border border-[#B2CDBF] dark:border-[#285743]">
                       <CheckCircle2 className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
                       <span>{t('results.statusEligible')}</span>
                     </span>
                   ) : isNearMatch ? (
-                    <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/70 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950/70 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
                       <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                       <span>{t('results.statusNearMatch')}</span>
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded bg-[#F3F4F3] dark:bg-[var(--bg-raised)] text-[#7C2C0F] dark:text-[#FCA5A5] border border-[#FFDAD6] dark:border-[#5A2B20]">
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded bg-[#F3F4F3] dark:bg-[var(--bg-raised)] text-[#7C2C0F] dark:text-[#FCA5A5] border border-[#FFDAD6] dark:border-[#5A2B20]">
                       <Info className="w-3.5 h-3.5 text-[#C2603F] dark:text-[#F87171]" />
                       <span>{t('results.statusLowMatch')}</span>
                     </span>
@@ -802,26 +802,26 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 </div>
 
                 {/* Criteria satisfied count */}
-                <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-secondary)] block mt-1">
+                <span className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] block mt-1">
                   {result.matchedCount}/{result.totalFactorsCount} {t('results.criteriaMetCount')}
                 </span>
               </div>
             </div>
 
             {/* Scheme Information & Details */}
-            <div className="flex-1 w-full">
+            <div className="flex-1 w-full min-w-0 order-1">
               <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
-                <span className="text-[11px] font-bold text-[#14453D] dark:text-[var(--accent-green)] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.5 rounded uppercase tracking-wider">
+                <span className="text-xs font-semibold text-[#14453D] dark:text-[var(--accent-green)] bg-[#D9E8DF] dark:bg-[#1A382D] px-2 py-0.5 rounded uppercase tracking-wider">
                   {locScheme.schemeType}
                 </span>
 
                 {locScheme.applicableStates.length === 0 ? (
-                  <span className="text-[10px] font-semibold text-blue-800 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/60 px-1.5 py-0.5 rounded flex items-center gap-1">
+                  <span className="text-xs font-semibold text-blue-800 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/60 px-1.5 py-0.5 rounded flex items-center gap-1">
                     <Globe className="w-3 h-3" />
                     Central Scheme
                   </span>
                 ) : (
-                  <span className="text-[10px] font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 px-1.5 py-0.5 rounded flex items-center gap-1">
+                  <span className="text-xs font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 px-1.5 py-0.5 rounded flex items-center gap-1">
                     <Building2 className="w-3 h-3" />
                     {locScheme.applicableStates.join(', ')} Scheme
                   </span>
@@ -861,7 +861,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                     {cats.slice(0, 3).map((cat) => (
                       <span
                         key={cat}
-                        className="text-[10px] font-medium bg-[#F3F4F3] dark:bg-[var(--bg-raised)] text-[#3F4943] dark:text-[var(--text-secondary)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] px-1.5 py-0.5 rounded"
+                        className="text-xs font-medium bg-[#F3F4F3] dark:bg-[var(--bg-raised)] text-[#3F4943] dark:text-[var(--text-secondary)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] px-1.5 py-0.5 rounded"
                       >
                         {cat}
                       </span>
@@ -871,7 +871,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               })()}
 
               {/* Benefit Summary */}
-              <p className="text-xs text-[#3F4943] dark:text-[var(--text-secondary)] mt-1.5 leading-relaxed font-medium">
+              <p className="text-base text-[#3F4943] dark:text-[var(--text-secondary)] mt-1.5 leading-relaxed font-normal">
                 {locScheme.benefitSummary}
               </p>
 
@@ -879,7 +879,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                   Uses only factors already computed by the matching engine. */}
               {Array.isArray(result.breakdown) && result.breakdown.length > 0 && (
                 <details className="group/why mt-3 rounded-[var(--yj-radius-md)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-[#FAFAF9] dark:bg-[var(--bg-card)]">
-                  <summary className="yj-focus-ring flex items-center justify-between gap-2 cursor-pointer list-none px-3 py-2 text-[11px] font-bold text-[#0B5D4B] dark:text-[var(--accent-green)] rounded-[var(--yj-radius-md)]">
+                  <summary className="yj-focus-ring flex items-center justify-between gap-2 cursor-pointer list-none px-3 py-2 text-xs font-semibold text-[#0B5D4B] dark:text-[var(--accent-green)] rounded-[var(--yj-radius-md)]">
                     <span>
                       {rui.whyItMatches}
                     </span>
@@ -902,7 +902,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                     {result.breakdown.slice(0, 5).map((factor) => (
                       <li
                         key={factor.factorKey}
-                        className="flex items-start gap-1.5 text-[11px] text-[#3F4943] dark:text-[var(--text-secondary)]"
+                        className="flex items-start gap-1.5 text-xs text-[#3F4943] dark:text-[var(--text-secondary)]"
                       >
                         {factor.matched || factor.state === 'MATCHED' ? (
                           <CheckCircle2 className="w-3 h-3 mt-0.5 shrink-0 text-[#1E6A50] dark:text-[var(--accent-green)]" aria-hidden="true" />
@@ -937,7 +937,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                         {t('results.primaryGapLabel')}{' '}
                         <span className="underline decoration-amber-400">{result.primaryGap.factorLabel}</span>
                       </span>
-                      <p className="text-[11px] text-amber-800 dark:text-amber-300 mt-0.5">
+                      <p className="text-xs text-amber-800 dark:text-amber-300 mt-0.5">
                         {result.primaryGap.gapDistance || result.primaryGap.statutoryRequirement}
                       </p>
                     </div>
@@ -955,7 +955,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               {/* Funding / Loan Range Banner */}
               <div className="mt-3.5 flex flex-wrap items-center gap-4 bg-[#FAFAF9] dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] p-2.5 rounded text-xs">
                 <div>
-                  <span className="text-[#516A5F] dark:text-[var(--text-tertiary)] text-[11px] block">
+                  <span className="text-[#516A5F] dark:text-[var(--text-tertiary)] text-xs block">
                     {t('results.fundingQuantumLabel')}
                   </span>
                   <strong className="text-[#1A1C1B] dark:text-[var(--text-main)] font-bold text-sm">
@@ -964,7 +964,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 </div>
                 {locScheme.subsidyRatePercent && locScheme.subsidyRatePercent > 0 ? (
                   <div className="border-l border-[#E4E8E4] dark:border-[var(--border-subtle)] pl-4">
-                    <span className="text-[#516A5F] dark:text-[var(--text-tertiary)] text-[11px] block">
+                    <span className="text-[#516A5F] dark:text-[var(--text-tertiary)] text-xs block">
                       {t('results.capitalSubsidyLabel')}
                     </span>
                     <strong className="text-[#1E6A50] dark:text-[var(--accent-green)] font-bold text-sm">
@@ -973,7 +973,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                   </div>
                 ) : null}
                 <div className="border-l border-[#E4E8E4] dark:border-[var(--border-subtle)] pl-4">
-                  <span className="text-[#516A5F] dark:text-[var(--text-tertiary)] text-[11px] block">
+                  <span className="text-[#516A5F] dark:text-[var(--text-tertiary)] text-xs block">
                     {t('results.baseInterestLabel')}
                   </span>
                   <strong className="text-[#1A1C1B] dark:text-[var(--text-main)] font-bold text-sm">
@@ -984,7 +984,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
 
               {/* 5-Factor Compliance Pills with 3-State Indicators */}
               <div className="mt-3.5">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1.5">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1.5">
                   {t('results.factorComplianceTitle')}:
                 </span>
                 <div className="flex flex-wrap gap-1.5">
@@ -996,7 +996,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                       <span
                         key={b.factorKey}
                         id={`factor-${locScheme.id}-${b.factorKey}`}
-                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium border ${
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-medium border ${
                           isMatched
                             ? 'bg-[#D9E8DF] dark:bg-[#1A382D] text-[#14453D] dark:text-[var(--accent-green)] border-[#B2CDBF] dark:border-[#285743]'
                             : isUnknown
@@ -1044,7 +1044,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                         {rui.bizNeedRelevance}
                       </span>
                       <span
-                        className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded tracking-wide ${
+                        className={`text-xs font-extrabold uppercase px-2 py-0.5 rounded tracking-wide ${
                           result.businessRelevance.relevanceLevel === 'HIGH'
                             ? 'bg-[#175741] text-white'
                             : result.businessRelevance.relevanceLevel === 'MEDIUM'
@@ -1060,7 +1060,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                         {result.businessRelevance.matchedNeeds.map((n) => (
                           <span
                             key={n.needType}
-                            className="text-[10px] font-semibold bg-white/90 dark:bg-[var(--bg-raised)] text-[#14453D] dark:text-[var(--accent-green)] border border-[#D9E8DF] dark:border-[var(--border-subtle)] px-1.5 py-0.5 rounded"
+                            className="text-xs font-semibold bg-white/90 dark:bg-[var(--bg-raised)] text-[#14453D] dark:text-[var(--accent-green)] border border-[#D9E8DF] dark:border-[var(--border-subtle)] px-1.5 py-0.5 rounded"
                           >
                             ✓ {SUPPORT_NEEDS_LOCALIZED[n.needType]?.[lang] || resolveLocalizedPair(n.labelEn, n.labelHi, lang)}
                           </span>
@@ -1068,11 +1068,11 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                       </div>
                     )}
                   </div>
-                  <p className="text-[11px] text-[#3F4943] dark:text-[var(--text-secondary)] leading-relaxed">
+                  <p className="text-xs text-[#3F4943] dark:text-[var(--text-secondary)] leading-relaxed">
                     {getLocalizedBusinessRelevance(result.businessRelevance, lang).explanation}
                   </p>
                   {(result.businessRelevance.fundingFitNoteEn || result.businessRelevance.fundingFitNoteHi) && (
-                    <div className="mt-1.5 text-[10px] font-medium text-[#14453D] dark:text-[var(--accent-green)] flex items-center gap-1">
+                    <div className="mt-1.5 text-xs font-medium text-[#14453D] dark:text-[var(--accent-green)] flex items-center gap-1">
                       <IndianRupee className="w-3 h-3 shrink-0" />
                       <span>
                         {resolveLocalizedPair(
@@ -1095,7 +1095,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                     className="mt-3.5 p-2.5 rounded-md bg-[#F4F8F6] dark:bg-[var(--bg-raised)] border border-[#D9E8DF] dark:border-[var(--border-subtle)] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
                   >
                     <div className="flex items-start sm:items-center gap-2">
-                      <span className="text-[10px] font-bold uppercase tracking-wider bg-[#14453D] text-white dark:bg-[var(--accent-green)] dark:text-[#0B251F] px-1.5 py-0.5 rounded shrink-0">
+                      <span className="text-xs font-bold uppercase tracking-wider bg-[#14453D] text-white dark:bg-[var(--accent-green)] dark:text-[#0B251F] px-1.5 py-0.5 rounded shrink-0">
                         {nextAction.badgeText}
                       </span>
                       <span className="text-[#1A1C1B] dark:text-[var(--text-main)] font-medium leading-tight">
@@ -1110,7 +1110,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                         href={nextAction.actionUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="self-start sm:self-center font-bold text-[#14453D] dark:text-[var(--accent-green)] hover:underline flex items-center gap-1 text-[11px] shrink-0"
+                        className="self-start sm:self-center font-bold text-[#14453D] dark:text-[var(--accent-green)] hover:underline flex items-center gap-1 text-xs shrink-0"
                       >
                         <span>{nextAction.buttonLabel}</span>
                         <ExternalLink className="w-3 h-3" />
@@ -1122,20 +1122,20 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
 
               {/* Required Documents Section */}
               <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] flex items-center gap-1">
+                <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] flex items-center gap-1">
                   <FileText className="w-3.5 h-3.5" />
                   <span>{t('results.documentsLabel')}</span>
                 </span>
                 {locScheme.requiredDocuments.slice(0, 3).map((doc, dIdx) => (
                   <span
                     key={dIdx}
-                    className="bg-[#EEEEED] dark:bg-[var(--bg-raised)] text-[#1A1C1B] dark:text-[var(--text-main)] text-[11px] px-2 py-0.5 rounded"
+                    className="bg-[#EEEEED] dark:bg-[var(--bg-raised)] text-[#1A1C1B] dark:text-[var(--text-main)] text-xs px-2 py-0.5 rounded"
                   >
                     {doc}
                   </span>
                 ))}
                 {locScheme.requiredDocuments.length > 3 && (
-                  <span className="text-[11px] text-[#516A5F] dark:text-[var(--accent-green)] font-semibold">
+                  <span className="text-xs text-[#516A5F] dark:text-[var(--accent-green)] font-semibold">
                     +{locScheme.requiredDocuments.length - 3} {t('results.moreDocuments')}
                   </span>
                 )}
@@ -1160,7 +1160,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                       onClick={() => onOpenWorkspace(result)}
                       whileHover={shouldReduceMotion ? undefined : { y: -1 }}
                       whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
-                      className="bg-[#1E6A50]/10 hover:bg-[#1E6A50]/20 dark:bg-[#4ADE80]/15 dark:hover:bg-[#4ADE80]/25 text-[#1E6A50] dark:text-[var(--accent-green)] border border-[#1E6A50]/30 dark:border-[#4ADE80]/30 px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                      className="bg-[#1E6A50]/10 hover:bg-[#1E6A50]/20 dark:bg-[#4ADE80]/15 dark:hover:bg-[#4ADE80]/25 text-[#1E6A50] dark:text-[var(--accent-green)] border border-[#1E6A50]/30 dark:border-[#4ADE80]/30 px-3.5 py-2 rounded text-sm font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <FileCheck2 className="w-3.5 h-3.5" />
                       <span>{rui.prepareApplication}</span>
@@ -1177,7 +1177,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                         onClick={() => toggleCompareScheme(result.scheme.id)}
                         whileHover={shouldReduceMotion ? undefined : { y: -1 }}
                         whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
-                        className={`px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer border ${
+                        className={`px-3.5 py-2 rounded text-sm font-semibold flex items-center gap-1.5 transition-colors cursor-pointer border ${
                           isSelectedForCompare
                             ? 'bg-[#14453D] text-white border-[#14453D] dark:bg-[var(--accent-green)] dark:text-[#0B251F]'
                             : 'bg-white dark:bg-[var(--bg-raised)] text-[#516A5F] dark:text-[var(--text-secondary)] border-[#E4E8E4] dark:border-[var(--border-strong)] hover:bg-[#F3F4F3] dark:hover:bg-[#25362C]'
@@ -1215,7 +1215,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                       onClick={() => onOpenWhyNotEligible(result)}
                       whileHover={shouldReduceMotion ? undefined : { y: -1 }}
                       whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
-                      className="bg-[#FAFAF9] dark:bg-[var(--bg-card)] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1A14]/70 text-[#7C2C0F] dark:text-[#FCA5A5] border border-[#FFCCBD] dark:border-[#5A2B20] px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                      className="bg-[#FAFAF9] dark:bg-[var(--bg-card)] hover:bg-[#FFDAD6]/40 dark:hover:bg-[#3D1A14]/70 text-[#7C2C0F] dark:text-[#FCA5A5] border border-[#FFCCBD] dark:border-[#5A2B20] px-3.5 py-2 rounded text-sm font-semibold flex items-center gap-1 transition-colors cursor-pointer"
                     >
                       <AlertTriangle className="w-3.5 h-3.5 text-[#C2603F] dark:text-[#F87171]" />
                       <span>{rui.gapAnalysisAlternatives}</span>
@@ -1323,13 +1323,13 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         </div>
         <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2">
           {authoritativeCount > 0 && (
-            <span className="text-[11px] font-semibold text-[#14453D] dark:text-[var(--accent-green)] bg-white/80 dark:bg-[#141b17]/80 px-2.5 py-1 rounded border border-[#C1E2D0] dark:border-[var(--border-subtle)] whitespace-nowrap flex items-center gap-1.5">
+            <span className="text-xs font-semibold text-[#14453D] dark:text-[var(--accent-green)] bg-white/80 dark:bg-[#141b17]/80 px-2.5 py-1 rounded border border-[#C1E2D0] dark:border-[var(--border-subtle)] whitespace-nowrap flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)]" />
               <span>{rui.authoritativeVerifiedCount(authoritativeCount)}</span>
             </span>
           )}
           {candidateCount > 0 && (
-            <span className="text-[11px] font-semibold text-amber-900 dark:text-amber-300 bg-amber-50/90 dark:bg-amber-950/40 px-2.5 py-1 rounded border border-amber-200/90 dark:border-amber-800/60 flex items-center gap-1.5">
+            <span className="text-xs font-semibold text-amber-900 dark:text-amber-300 bg-amber-50/90 dark:bg-amber-950/40 px-2.5 py-1 rounded border border-amber-200/90 dark:border-amber-800/60 flex items-center gap-1.5">
               <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
               <span>{rui.candidateNeedsVerification(candidateCount)}</span>
             </span>
@@ -1347,7 +1347,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#14453D] dark:text-[var(--accent-green)] bg-[#D9E8DF] dark:bg-[#1A382D] px-2.5 py-0.5 rounded">
+              <span className="text-xs font-semibold uppercase tracking-wider text-[#14453D] dark:text-[var(--accent-green)] bg-[#D9E8DF] dark:bg-[#1A382D] px-2.5 py-0.5 rounded">
                 {t('results.badge')}
               </span>
               <span className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)]">
@@ -1358,7 +1358,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
               {t('results.title')}
             </h2>
             {userProfile && (
-              <p className="text-xs text-[#3F4943] dark:text-[var(--text-secondary)] mt-1">
+              <p className="text-sm text-[#3F4943] dark:text-[var(--text-secondary)] mt-1">
                 {t('results.profileSummaryPrefix')}{' '}
                 <strong className="text-[#14453D] dark:text-[var(--accent-green)]">
                   {getLocalizedCategory(userProfile.category)}
@@ -1388,7 +1388,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             <button
               id="modify-profile-btn"
               onClick={onEditProfile}
-              className="text-xs font-bold bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[var(--brand-deep)] text-white px-3.5 py-2 rounded transition-colors shadow-xs cursor-pointer"
+              className="text-sm font-semibold bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[var(--brand-deep)] text-white px-4 py-2.5 rounded transition-colors shadow-xs cursor-pointer"
             >
               {t('results.modifyProfileBtn')}
             </button>
@@ -1406,10 +1406,10 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 : 'bg-[#D9E8DF]/50 dark:bg-[#122019]/60 border border-[#D9E8DF] dark:border-[#235845] hover:border-[#14453D]'
             }`}
           >
-            <span className="text-xl font-extrabold text-[#14453D] dark:text-[var(--accent-green)] leading-none block">
+            <span className="text-xl font-bold text-[#14453D] dark:text-[var(--accent-green)] leading-none block">
               <AnimatedCounter value={eligibleMatches.length} />
             </span>
-            <span className="text-[11px] font-semibold text-[#1A1C1B] dark:text-[var(--text-main)]">
+            <span className="text-xs font-semibold text-[#1A1C1B] dark:text-[var(--text-main)]">
               {t('results.metricHigh')}
             </span>
           </button>
@@ -1422,10 +1422,10 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 : 'bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 hover:border-amber-400'
             }`}
           >
-            <span className="text-xl font-extrabold text-amber-700 dark:text-amber-400 leading-none block">
+            <span className="text-xl font-bold text-amber-700 dark:text-amber-400 leading-none block">
               <AnimatedCounter value={nearMatches.length} />
             </span>
-            <span className="text-[11px] font-semibold text-amber-900 dark:text-amber-300">
+            <span className="text-xs font-semibold text-amber-900 dark:text-amber-300">
               {t('results.metricPartial')}
             </span>
           </button>
@@ -1438,10 +1438,10 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 : 'bg-[#F3F4F3] dark:bg-[var(--bg-raised)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] hover:border-[#516A5F]'
             }`}
           >
-            <span className="text-xl font-extrabold text-[#3F4943] dark:text-[var(--text-secondary)] leading-none block">
+            <span className="text-xl font-bold text-[#3F4943] dark:text-[var(--text-secondary)] leading-none block">
               <AnimatedCounter value={otherMatches.length} />
             </span>
-            <span className="text-[11px] font-semibold text-[#3F4943] dark:text-[var(--text-secondary)]">
+            <span className="text-xs font-semibold text-[#3F4943] dark:text-[var(--text-secondary)]">
               {t('results.metricGap')}
             </span>
           </button>
@@ -1460,10 +1460,10 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs sm:text-sm font-bold text-[#14453D] dark:text-[#E2EBE6]">
+                <span className="text-sm font-semibold text-[#14453D] dark:text-[#E2EBE6]">
                   {rui.enterprisePathway}
                 </span>
-                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#D9E8DF] dark:bg-[#1C5045] text-[#1E6A50] dark:text-[#6EE7B7]">
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#D9E8DF] dark:bg-[#1C5045] text-[#1E6A50] dark:text-[#6EE7B7]">
                   {(supportPathway.currentStage && LIFECYCLE_PHASES_LOCALIZED[supportPathway.currentStage]?.[lang]) ||
                     resolveLocalizedPair(
                       supportPathway.currentStageLabelEn,
@@ -1472,7 +1472,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                     )}
                 </span>
               </div>
-              <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] truncate">
+              <p className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] truncate">
                 {rui.nextRecommendedStep}
                 {getLocalizedPathwayAction(supportPathway.nextBestAction, lang).title}
               </p>
@@ -1539,7 +1539,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           <button
             id="tab-all"
             onClick={() => handleTabChange('all')}
-            className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${
+            className={`px-3.5 py-2 rounded text-sm font-semibold transition-colors cursor-pointer ${
               activeTab === 'all'
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white'
                 : 'bg-white dark:bg-[var(--bg-card)] text-[#3F4943] dark:text-[var(--text-secondary)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] hover:bg-[#EEEEED] dark:hover:bg-[var(--bg-raised)]'
@@ -1550,7 +1550,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           <button
             id="tab-best"
             onClick={() => handleTabChange('eligible')}
-            className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${
+            className={`px-3.5 py-2 rounded text-sm font-semibold transition-colors cursor-pointer ${
               activeTab === 'eligible'
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white'
                 : 'bg-white dark:bg-[var(--bg-card)] text-[#3F4943] dark:text-[var(--text-secondary)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] hover:bg-[#EEEEED] dark:hover:bg-[var(--bg-raised)]'
@@ -1561,7 +1561,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           <button
             id="tab-near"
             onClick={() => handleTabChange('near')}
-            className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${
+            className={`px-3.5 py-2 rounded text-sm font-semibold transition-colors cursor-pointer ${
               activeTab === 'near'
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white'
                 : 'bg-white dark:bg-[var(--bg-card)] text-[#3F4943] dark:text-[var(--text-secondary)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] hover:bg-[#EEEEED] dark:hover:bg-[var(--bg-raised)]'
@@ -1572,7 +1572,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           <button
             id="tab-subsidized"
             onClick={() => handleTabChange('subsidized')}
-            className={`px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer ${
+            className={`px-3.5 py-2 rounded text-sm font-semibold transition-colors cursor-pointer ${
               activeTab === 'subsidized'
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white'
                 : 'bg-white dark:bg-[var(--bg-card)] text-[#3F4943] dark:text-[var(--text-secondary)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] hover:bg-[#EEEEED] dark:hover:bg-[var(--bg-raised)]'
@@ -1614,7 +1614,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           <button
             key={reg.id}
             onClick={() => setSelectedRegion(reg.id)}
-            className={`px-2.5 py-1 rounded text-[11px] font-bold transition-all cursor-pointer ${
+            className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
               selectedRegion === reg.id
                 ? 'bg-[#14453D] dark:bg-[#1C5045] text-white shadow-xs'
                 : 'bg-white dark:bg-[var(--bg-card)] text-[#3F4943] dark:text-[var(--text-secondary)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] hover:bg-[#EEEEED] dark:hover:bg-[var(--bg-raised)]'
@@ -1631,7 +1631,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           onChange={(e) => {
             if (e.target.value) setSelectedRegion(e.target.value);
           }}
-          className="ml-auto px-2.5 py-1 text-[11px] font-semibold rounded bg-white dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] text-[#14453D] dark:text-[var(--accent-green)] focus:outline-none cursor-pointer"
+          className="ml-auto px-2.5 py-1 text-xs font-semibold rounded bg-white dark:bg-[var(--bg-card)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] text-[#14453D] dark:text-[var(--accent-green)] focus:outline-none cursor-pointer"
         >
           <option value="">{rui.selectStatePrompt}</option>
           {INDIAN_STATES.map((state) => (
@@ -1654,7 +1654,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             type="button"
             id="trust-filter-all"
             onClick={() => setTrustFilter('all')}
-            className={`px-2.5 py-1 rounded text-[11px] font-bold transition-all cursor-pointer ${
+            className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
               trustFilter === 'all'
                 ? 'bg-[#14453D] text-white dark:bg-[var(--accent-green)] dark:text-[#0B251F]'
                 : 'bg-[#F3F4F3] dark:bg-[var(--bg-raised)] text-[#516A5F] dark:text-[var(--text-secondary)] border border-[#E4E8E4] dark:border-[var(--border-subtle)] hover:bg-[#EAEAEA]'
@@ -1667,7 +1667,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             type="button"
             id="trust-filter-authoritative"
             onClick={() => setTrustFilter('authoritative')}
-            className={`px-2.5 py-1 rounded text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+            className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
               trustFilter === 'authoritative'
                 ? 'bg-[#175741] text-white dark:bg-[var(--accent-green)] dark:text-[#0B251F]'
                 : 'bg-[#EBF5EF] dark:bg-[#122019]/60 text-[#175741] dark:text-[var(--accent-green)] border border-[#C1E2D0] dark:border-[#285743] hover:bg-[#E1EFE7]'
@@ -1675,7 +1675,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           >
             <ShieldCheck className="w-3 h-3 text-[#1E6A50] dark:text-[var(--accent-green)]" />
             <span>{rui.authoritativeShort}</span>
-            <span className="ml-0.5 px-1.5 py-0.2 rounded text-[10px] bg-white/70 dark:bg-black/40 font-mono">
+            <span className="ml-0.5 px-1.5 py-0.2 rounded text-xs bg-white/70 dark:bg-black/40 font-mono">
               {authoritativeCount}
             </span>
           </button>
@@ -1684,7 +1684,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
             type="button"
             id="trust-filter-candidate"
             onClick={() => setTrustFilter('candidate')}
-            className={`px-2.5 py-1 rounded text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+            className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
               trustFilter === 'candidate'
                 ? 'bg-amber-600 text-white dark:bg-amber-500 dark:text-black'
                 : 'bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800 hover:bg-amber-100'
@@ -1692,7 +1692,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
           >
             <AlertTriangle className="w-3 h-3 text-amber-600 dark:text-amber-400" />
             <span>{rui.candidateShort}</span>
-            <span className="ml-0.5 px-1.5 py-0.2 rounded text-[10px] bg-amber-100 dark:bg-amber-900/60 font-mono">
+            <span className="ml-0.5 px-1.5 py-0.2 rounded text-xs bg-amber-100 dark:bg-amber-900/60 font-mono">
               {candidateCount}
             </span>
           </button>
@@ -1897,7 +1897,7 @@ export const ResultsListScreen: React.FC<ResultsListScreenProps> = ({
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             ) : (
-              <span className="text-[11px] text-[#A0B0A7] hidden sm:inline">
+              <span className="text-xs text-[#A0B0A7] hidden sm:inline">
                 {rui.selectAtLeast2}
               </span>
             )}
