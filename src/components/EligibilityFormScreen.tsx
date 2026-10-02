@@ -588,14 +588,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
       <div className="mb-6 text-center">
         <div className="flex items-center justify-center gap-2 mb-2">
           <YojanaSetuLogo size={28} iconOnly={true} />
-          <span className="font-bold text-xs uppercase tracking-widest text-[#14453D] dark:text-[var(--accent-green)]">
+          <span className="font-semibold text-xs uppercase tracking-wider text-[#14453D] dark:text-[var(--accent-green)]">
             {t('common.appName')} · {t('form.badge')}
           </span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1A1C1B] dark:text-[var(--text-main)] tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#1A1C1B] dark:text-[var(--text-main)] tracking-tight">
           {t('form.title')}
         </h1>
-        <p className="text-xs sm:text-sm text-[#516A5F] dark:text-[var(--text-tertiary)] max-w-xl mx-auto mt-1">
+        <p className="text-sm sm:text-base text-[#516A5F] dark:text-[var(--text-tertiary)] max-w-xl mx-auto mt-1">
           {t('form.subtitle')}
         </p>
       </div>
@@ -612,14 +612,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
           </div>
           <p className="text-xs sm:text-sm text-[#14453D] dark:text-[#D9E8DF]">
             <span>{t('questionnaire.indicativeCountPrefix')} </span>
-            <strong className="text-base font-extrabold underline decoration-[#1E6A50] dark:decoration-[#4ADE80] inline-flex items-center gap-1">
+            <strong className="text-base font-bold underline decoration-[#1E6A50] dark:decoration-[#4ADE80] inline-flex items-center gap-1">
               <AnimatedCounter value={liveIndicativeMatches} />
               <span>{t('results.tabAll').toLowerCase()}</span>
             </strong>{' '}
             <span>{t('questionnaire.indicativeCountSuffix')}</span>
           </p>
         </div>
-        <span className="text-[11px] font-semibold text-[#516A5F] dark:text-[var(--text-tertiary)] bg-white/70 dark:bg-[#141b17]/70 px-2.5 py-1 rounded border border-[#C1E2D0] dark:border-[var(--border-subtle)] whitespace-nowrap">
+        <span className="text-xs font-semibold text-[#516A5F] dark:text-[var(--text-tertiary)] bg-white/70 dark:bg-[#141b17]/70 px-2.5 py-1 rounded border border-[#C1E2D0] dark:border-[var(--border-subtle)] whitespace-nowrap">
           {t('questionnaire.indicativeEstimateNote')}
         </span>
       </div>
@@ -639,7 +639,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               type="button"
               id="reset-form-btn"
               onClick={handleResetForm}
-              className="text-[#516A5F] dark:text-[var(--text-tertiary)] hover:text-[#C2603F] dark:hover:text-[#F87171] text-[11px] font-medium flex items-center gap-1 transition-colors cursor-pointer"
+              className="text-[#516A5F] dark:text-[var(--text-tertiary)] hover:text-[#C2603F] dark:hover:text-[#F87171] text-xs font-medium flex items-center gap-1 transition-colors cursor-pointer"
               title={eui.clearAllFields}
             >
               <RotateCcw className="w-3 h-3" />
@@ -693,7 +693,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     handleJumpToStage(stage.id);
                   }
                 }}
-                className={`px-2 py-1.5 rounded text-left transition-colors flex items-center gap-1.5 cursor-pointer text-[11px] ${
+                className={`px-2 py-1.5 rounded text-left transition-colors flex items-center gap-1.5 cursor-pointer text-xs ${
                   isCurrent
                     ? 'bg-[#14453D] text-white font-bold shadow-2xs'
                     : isCompleted
@@ -794,7 +794,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   <span>{t('form.categoryTitle')}</span>
                   <span className="text-red-500">*</span>
                 </label>
-                <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
+                <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
                   {t('form.categoryHint')}
                 </span>
               </div>
@@ -820,7 +820,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                         <div className="font-bold text-xs sm:text-sm text-[#1A1C1B] dark:text-[var(--text-main)]">
                           {getLocalizedCategory(cat)}
                         </div>
-                        <div className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
+                        <div className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
                           {getLocalizedCategoryDesc(cat)}
                         </div>
                       </div>
@@ -833,7 +833,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               </div>
 
               {/* Helper tip: Why we ask this */}
-              <div className="mt-2.5 flex items-start gap-1.5 text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
+              <div className="mt-2.5 flex items-start gap-1.5 text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
                 <HelpCircle className="w-3.5 h-3.5 text-[#14453D] dark:text-[var(--accent-green)] shrink-0 mt-0.5" />
                 <span>{t('questionnaire.whyAskCategory')}</span>
               </div>
@@ -901,7 +901,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 ))}
               </div>
 
-              <div className="mt-2 flex items-start gap-1.5 text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
+              <div className="mt-2 flex items-start gap-1.5 text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
                 <HelpCircle className="w-3.5 h-3.5 text-[#14453D] dark:text-[var(--accent-green)] shrink-0 mt-0.5" />
                 <span>{t('questionnaire.whyAskAge')}</span>
               </div>
@@ -915,7 +915,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   <span>{t('form.stateTitle')}</span>
                   <span className="text-red-500">*</span>
                 </label>
-                <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
+                <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
                   {t('form.stateHint')}
                 </span>
               </div>
@@ -971,7 +971,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       }
                       setValidationError(null);
                     }}
-                    className={`px-2 py-0.5 text-[11px] rounded border cursor-pointer ${
+                    className={`px-2 py-0.5 text-xs rounded border cursor-pointer ${
                       state === st
                         ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[var(--accent-green)]'
                         : 'bg-[#FAFAF9] dark:bg-[var(--bg-card)] text-[#516A5F] dark:text-[var(--text-tertiary)] border-[#E4E8E4] dark:border-[var(--border-subtle)] hover:bg-[#EEEEED] dark:hover:bg-[var(--bg-raised)]'
@@ -986,7 +986,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               <div className="mt-3.5 space-y-2.5">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                   <div className="w-full sm:w-1/2">
-                    <label className="text-[11px] font-semibold text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1">
+                    <label className="text-xs font-semibold text-[#516A5F] dark:text-[var(--text-tertiary)] block mb-1">
                       {eui.districtLabel}
                     </label>
                     <input
@@ -1026,7 +1026,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       <span className="font-bold text-[#14453D] dark:text-[var(--accent-green)]">
                         {eui.domicileStateLabel}
                       </span>
-                      <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
+                      <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
                         {eui.domicileQuotaHint}
                       </span>
                     </div>
@@ -1075,7 +1075,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                           <div className="font-bold text-xs text-[#1A1C1B] dark:text-[var(--text-main)]">
                             {t(loc.labelKey as any)}
                           </div>
-                          <div className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
+                          <div className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
                             {t(loc.descKey as any)}
                           </div>
                         </div>
@@ -1088,7 +1088,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 </div>
               </div>
 
-              <div className="mt-2.5 flex items-start gap-1.5 text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
+              <div className="mt-2.5 flex items-start gap-1.5 text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
                 <HelpCircle className="w-3.5 h-3.5 text-[#14453D] dark:text-[var(--accent-green)] shrink-0 mt-0.5" />
                 <span>{t('questionnaire.whyAskLocation')}</span>
               </div>
@@ -1155,7 +1155,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 ))}
               </div>
 
-              <div className="mt-2 flex items-start gap-1.5 text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
+              <div className="mt-2 flex items-start gap-1.5 text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
                 <HelpCircle className="w-3.5 h-3.5 text-[#14453D] dark:text-[var(--accent-green)] shrink-0 mt-0.5" />
                 <span>{t('questionnaire.whyAskIncome')}</span>
               </div>
@@ -1204,7 +1204,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       <div className="w-9 h-9 rounded-md bg-[#14453D]/10 dark:bg-[#4ADE80]/10 text-[#14453D] dark:text-[var(--accent-green)] flex items-center justify-center mb-3 transition-transform duration-200 group-hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0">
                         <IconComponent className="w-5 h-5" />
                       </div>
-                      <h3 className="font-bold text-sm text-[#1A1C1B] dark:text-[var(--text-main)] mb-1">
+                      <h3 className="font-semibold text-sm text-[#1A1C1B] dark:text-[var(--text-main)] mb-1">
                         {t(opt.labelKey as any)}
                       </h3>
                       <p className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] leading-relaxed">
@@ -1228,7 +1228,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                         )}
                       </span>
                       {opt.id === 'new' && (
-                        <span className="text-[10px] font-bold bg-[#14453D] text-white px-1.5 py-0.5 rounded">
+                        <span className="text-xs font-bold bg-[#14453D] text-white px-1.5 py-0.5 rounded">
                           Seed Credit
                         </span>
                       )}
@@ -1246,7 +1246,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     <label className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)]">
                       {eui.lifecyclePhaseLabel}
                     </label>
-                    <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
+                    <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
                       {eui.lifecyclePhaseHint}
                     </span>
                   </div>
@@ -1387,7 +1387,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                       <div className="font-bold text-xs sm:text-sm text-[#1A1C1B] dark:text-[var(--text-main)]">
                         {getLocalizedBusinessType(type)}
                       </div>
-                      <div className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5 leading-snug">
+                      <div className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5 leading-snug">
                         {type === 'manufacturing' && 'Industrial fabrication & assembly'}
                         {type === 'trading' && 'Retail, shopkeeper, wholesale merchant'}
                         {type === 'services' && 'Logistics, repair, technical operations'}
@@ -1413,7 +1413,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   <label className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)]">
                     {eui.legalEntityLabel}
                   </label>
-                  <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
+                  <span className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
                     {eui.legalEntityHint}
                   </span>
                 </div>
@@ -1488,7 +1488,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                           key={yr}
                           type="button"
                           onClick={() => setEntrepreneurExperienceYears(yr)}
-                          className={`px-2 py-1 text-[11px] rounded border cursor-pointer ${
+                          className={`px-2 py-1 text-xs rounded border cursor-pointer ${
                             entrepreneurExperienceYears === yr
                               ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[var(--accent-green)]'
                               : 'bg-white dark:bg-[var(--bg-card)] text-[#516A5F] dark:text-[var(--text-tertiary)] border-[#D1D5D2] dark:border-[var(--border-subtle)]'
@@ -1538,7 +1538,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                     }`}
                   >
                     <div>
-                      <div className="font-extrabold text-sm text-[#1A1C1B] dark:text-[var(--text-main)]">
+                      <div className="font-bold text-sm text-[#1A1C1B] dark:text-[var(--text-main)]">
                         {t(opt.labelKey as any)}
                       </div>
                       <div className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mt-1 leading-relaxed">
@@ -1587,7 +1587,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
             <div className="pt-4 border-t border-[#E4E8E4] dark:border-[var(--border-subtle)] space-y-4">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-[#14453D] dark:text-[var(--accent-green)]" />
-                <h3 className="text-xs sm:text-sm font-bold text-[#1A1C1B] dark:text-[var(--text-main)]">
+                <h3 className="text-sm font-semibold text-[#1A1C1B] dark:text-[var(--text-main)]">
                   {eui.costAndGapTitle}
                 </h3>
               </div>
@@ -1644,14 +1644,14 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               {/* Live Funding Gap Callout */}
               <div className="p-3 rounded-lg bg-[#F4F8F6] dark:bg-[var(--bg-raised)] border border-[#D9E8DF] dark:border-[var(--border-subtle)] flex items-center justify-between">
                 <div>
-                  <span className="text-[11px] text-[#516A5F] dark:text-[var(--text-secondary)] block">
+                  <span className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] block">
                     {eui.fundingGapLabel}
                   </span>
-                  <span className="text-sm font-extrabold text-[#14453D] dark:text-[var(--accent-green)]">
+                  <span className="text-sm font-bold text-[#14453D] dark:text-[var(--accent-green)]">
                     {formatCurrency(calculatedFundingGap)}
                   </span>
                 </div>
-                <span className="text-[10px] text-[#516A5F] dark:text-[var(--text-secondary)] text-right font-medium">
+                <span className="text-xs text-[#516A5F] dark:text-[var(--text-secondary)] text-right font-medium">
                   {eui.gapFormulaHint}
                 </span>
               </div>
@@ -1710,7 +1710,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 {eui.regFormTitle}
                 <span className="text-red-500 ml-1">*</span>
               </label>
-              <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mb-2">
+              <p className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mb-2">
                 {eui.regFormHint}
               </p>
 
@@ -1744,7 +1744,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                           <div className="font-bold text-xs sm:text-sm text-[#1A1C1B] dark:text-[var(--text-main)]">
                             {kindLabel}
                           </div>
-                          <div className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
+                          <div className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
                             {kindDesc}
                           </div>
                         </div>
@@ -1760,7 +1760,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                               type="button"
                               onClick={() => setRegKindStatus(kind, st)}
                               aria-pressed={kindStatus === st}
-                              className={`px-2.5 py-1 text-[11px] font-bold rounded-full border cursor-pointer transition-colors ${
+                              className={`px-2.5 py-1 text-xs font-bold rounded-full border cursor-pointer transition-colors ${
                                 kindStatus === st
                                   ? 'bg-[#14453D] dark:bg-[#1C5045] text-white border-[#14453D] dark:border-[var(--accent-green)]'
                                   : 'bg-white dark:bg-[var(--bg-card)] text-[#516A5F] dark:text-[var(--text-tertiary)] border-[#D1D5D2] dark:border-[var(--border-subtle)]'
@@ -1791,7 +1791,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   <div className="font-bold text-xs sm:text-sm text-[#1A1C1B] dark:text-[var(--text-main)]">
                     {eui.regFormInformal}
                   </div>
-                  <div className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
+                  <div className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
                     {eui.regFormInformalDesc}
                   </div>
                 </div>
@@ -1829,7 +1829,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                         <div className="font-bold text-xs sm:text-sm text-[#1A1C1B] dark:text-[var(--text-main)]">
                           {t(to.labelKey as any)}
                         </div>
-                        <div className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
+                        <div className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
                           {t(to.descKey as any)}
                         </div>
                       </div>
@@ -1862,7 +1862,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   {t('questionnaire.reviewTitle')}
                 </span>
               </div>
-              <span className="text-xs font-extrabold text-[#14453D] dark:text-[var(--accent-green)]">
+              <span className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)]">
                 ~{liveIndicativeMatches} {t('results.tabAll')}
               </span>
             </div>
@@ -1878,7 +1878,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   <button
                     type="button"
                     onClick={() => handleJumpToStage('about_you')}
-                    className="text-[11px] font-bold text-[#14453D] dark:text-[var(--accent-green)] hover:underline flex items-center gap-1 cursor-pointer"
+                    className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)] hover:underline flex items-center gap-1 cursor-pointer"
                   >
                     <Edit3 className="w-3 h-3" />
                     <span>{t('questionnaire.editBtn')}</span>
@@ -1937,7 +1937,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                   <button
                     type="button"
                     onClick={() => handleJumpToStage('business_stage')}
-                    className="text-[11px] font-bold text-[#14453D] dark:text-[var(--accent-green)] hover:underline flex items-center gap-1 cursor-pointer"
+                    className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)] hover:underline flex items-center gap-1 cursor-pointer"
                   >
                     <Edit3 className="w-3 h-3" />
                     <span>{t('questionnaire.editBtn')}</span>
@@ -2081,7 +2081,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
                 hover: { y: -1 },
                 tap: { scale: 0.98 },
               }}
-              className="w-full sm:w-auto px-5 py-2.5 rounded text-xs font-bold border border-[#C2C8C3] dark:border-[var(--border-subtle)] bg-[#FAFAF9] dark:bg-[var(--bg-card)] text-[#1A1C1B] dark:text-[var(--text-main)] hover:bg-[#EEEEED] dark:hover:bg-[var(--bg-raised)] transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+              className="w-full sm:w-auto px-5 py-3 rounded text-sm font-semibold border border-[#C2C8C3] dark:border-[var(--border-subtle)] bg-[#FAFAF9] dark:bg-[var(--bg-card)] text-[#1A1C1B] dark:text-[var(--text-main)] hover:bg-[#EEEEED] dark:hover:bg-[var(--bg-raised)] transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <motion.span
                 variants={{
@@ -2104,7 +2104,7 @@ export const EligibilityFormScreen: React.FC<EligibilityFormScreenProps> = ({
               id="stage-next-btn"
               onClick={handleNext}
               variant="primary"
-              size="md"
+              size="lg"
               className="w-full sm:w-auto"
             >
               {t('questionnaire.nextBtn')}
