@@ -33,7 +33,7 @@ export const TrustCard: React.FC<TrustCardProps> = ({ matches }) => {
                 className="flex items-center gap-3 rounded-xl border border-[var(--yj-border-subtle)] bg-[var(--yj-surface-1)] px-3.5 py-3"
               >
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-bold text-[#14453D] dark:text-[var(--yj-text-1)]">
+                  <span className="block truncate text-sm font-semibold text-[#14453D] dark:text-[var(--yj-text-1)]">
                     {localized.name}
                   </span>
                   <span className="mt-1 flex items-center gap-1.5 text-xs text-[#5A6B63] dark:text-[var(--yj-text-3)]">

@@ -93,13 +93,13 @@ export const ApplicationOverview: React.FC<ApplicationOverviewProps> = ({
                     <div className="font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] truncate">
                       {scheme.code}
                     </div>
-                    <div className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] truncate">
+                    <div className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] truncate">
                       {scheme.name}
                     </div>
                   </div>
 
                   <span
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium shrink-0 ${statusConfig.color}`}
+                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium shrink-0 ${statusConfig.color}`}
                   >
                     <StatusIcon className="w-3 h-3" />
                     {statusConfig.label}

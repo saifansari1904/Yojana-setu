@@ -118,7 +118,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
               >
                 <div className="flex items-center gap-2.5">
                   <div
-                    className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                    className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
                       isCurrent
                         ? 'bg-emerald-400 text-slate-950'
                         : isCompleted
@@ -133,7 +133,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
 
                 <div>
                   {isCurrent && (
-                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-300 uppercase tracking-wide">
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-300 uppercase tracking-wide">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                       Current
                     </span>
@@ -149,7 +149,7 @@ export const BusinessJourneyOverview: React.FC<BusinessJourneyOverviewProps> = (
 
       {/* Current Focus Card */}
       <div className="pt-4 border-t border-[#EAECEB] dark:border-[var(--border-subtle)]">
-        <div className="text-[11px] font-bold uppercase tracking-wider text-[#516A5F] dark:text-[var(--text-tertiary)] mb-1">
+        <div className="text-xs font-bold uppercase tracking-wider text-[#516A5F] dark:text-[var(--text-tertiary)] mb-1">
           {t('currentFocus')}
         </div>
         <div className="text-lg font-bold text-[#1A1C1B] dark:text-[var(--text-main)] mb-2">

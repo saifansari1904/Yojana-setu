@@ -43,7 +43,7 @@ export const NoMatchState: React.FC<NoMatchStateProps> = ({
           id="review-profile-nomatch-btn"
           type="button"
           onClick={onReviewProfile}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-semibold bg-[#14453D] text-white hover:bg-[#14453D] transition-colors min-h-[44px]"
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-semibold bg-[#14453D] text-white hover:bg-[#14453D] transition-colors min-h-[44px]"
         >
           <UserCheck className="w-4 h-4" />
           <span>{t('reviewProfileBtn')}</span>

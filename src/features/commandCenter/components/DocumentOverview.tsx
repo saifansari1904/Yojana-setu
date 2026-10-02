@@ -119,21 +119,21 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
     switch (status) {
       case 'PREPARED':
         return (
-          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#1E6A50] dark:text-[var(--accent-green)] bg-[#C1E2D0] dark:bg-[#22503E] px-2 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#1E6A50] dark:text-[var(--accent-green)] bg-[#C1E2D0] dark:bg-[#22503E] px-2 py-0.5 rounded-full">
             <FileCheck className="w-3 h-3" />
             {t('prepared')}
           </span>
         );
       case 'NEED_PREPARATION':
         return (
-          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#92610A] dark:text-[var(--text-accent)] bg-[#FEF3C7] dark:bg-[var(--status-warning-bg)] px-2 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#92610A] dark:text-[var(--text-accent)] bg-[#FEF3C7] dark:bg-[var(--status-warning-bg)] px-2 py-0.5 rounded-full">
             <AlertCircle className="w-3 h-3" />
             {t('needPreparation')}
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#516A5F] dark:text-[var(--text-secondary)] bg-[#F3F4F3] dark:bg-[var(--bg-raised)] px-2 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#516A5F] dark:text-[var(--text-secondary)] bg-[#F3F4F3] dark:bg-[var(--bg-raised)] px-2 py-0.5 rounded-full">
             <HelpCircle className="w-3 h-3" />
             {t('unknown')}
           </span>
@@ -245,7 +245,7 @@ export const DocumentOverview: React.FC<DocumentOverviewProps> = ({
 
       <div>
         {/* Strict Privacy Badge */}
-        <div className="flex items-center gap-1.5 text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] bg-[#FAFAF9] dark:bg-[var(--bg-raised)] p-2 rounded-md mb-3 border border-[#EAECEB] dark:border-[var(--border-subtle)]">
+        <div className="flex items-center gap-1.5 text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] bg-[#FAFAF9] dark:bg-[var(--bg-raised)] p-2 rounded-md mb-3 border border-[#EAECEB] dark:border-[var(--border-subtle)]">
           <ShieldCheck className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)] shrink-0" />
           <span className="leading-tight">{t('privacyGuarantee')}</span>
         </div>

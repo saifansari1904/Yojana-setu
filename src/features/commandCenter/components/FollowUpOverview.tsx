@@ -83,7 +83,7 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
                       <div className="font-semibold text-[#1A1C1B] dark:text-[var(--text-main)]">
                         {resolveLocalizedPair(item.title, item.titleHi, language)}
                       </div>
-                      <div className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
+                      <div className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
                         {item.schemeName}
                       </div>
                     </div>
@@ -95,7 +95,7 @@ export const FollowUpOverview: React.FC<FollowUpOverviewProps> = ({
                     </div>
                     {/* Strict distinction between User reminder and Official deadline */}
                     <span
-                      className={`inline-block text-[10px] px-1.5 py-0.5 rounded font-medium mt-1 ${
+                      className={`inline-block text-xs px-1.5 py-0.5 rounded font-medium mt-1 ${
                         isOfficial
                           ? 'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-900/60'
                           : 'bg-[#EEEEED] dark:bg-[var(--bg-raised)] text-[#3F4943] dark:text-[var(--text-secondary)]'

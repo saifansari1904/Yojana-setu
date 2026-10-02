@@ -38,7 +38,7 @@ export const JourneyStageStrip: React.FC<JourneyStageStripProps> = ({ stage, onN
             <li key={s} className="flex min-w-0 flex-1 items-start last:flex-none" aria-current={isCurrent ? 'step' : undefined}>
               <div className="flex min-w-0 flex-col items-center gap-1.5">
                 <span
-                  className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-extrabold transition-colors motion-reduce:transition-none ${
+                  className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-bold transition-colors motion-reduce:transition-none ${
                     isCurrent
                       ? 'border-[#14453D] bg-[#14453D] text-white dark:border-[var(--accent-green)] dark:bg-[var(--accent-green)] dark:text-[#0A2420]'
                       : isPast
@@ -49,7 +49,7 @@ export const JourneyStageStrip: React.FC<JourneyStageStripProps> = ({ stage, onN
                   {isPast ? <Check className="h-4 w-4" aria-hidden="true" /> : i + 1}
                 </span>
                 <span
-                  className={`text-[10px] sm:text-[11px] font-bold uppercase tracking-wide text-center leading-tight break-words ${
+                  className={`text-xs sm:text-xs font-bold uppercase tracking-wide text-center leading-tight break-words ${
                     isCurrent
                       ? 'text-[#14453D] dark:text-[var(--yj-text-1)]'
                       : 'text-[#8A9A92] dark:text-[var(--yj-text-3)]'
@@ -72,7 +72,7 @@ export const JourneyStageStrip: React.FC<JourneyStageStripProps> = ({ stage, onN
       </ol>
 
       <div className="mt-5 rounded-xl bg-[var(--yj-surface-1)] border border-[var(--yj-border-subtle)] p-4">
-        <p className="text-[11px] font-bold uppercase tracking-wider text-[#5A6B63] dark:text-[var(--yj-text-3)]">
+        <p className="text-xs font-bold uppercase tracking-wider text-[#5A6B63] dark:text-[var(--yj-text-3)]">
           {t('dashCurrentStage')}: {t(`dashStage${stage}`)}
         </p>
         <p className="mt-1 text-sm text-[#3E4F47] dark:text-[var(--yj-text-2)]">
@@ -81,7 +81,7 @@ export const JourneyStageStrip: React.FC<JourneyStageStripProps> = ({ stage, onN
         <button
           type="button"
           onClick={() => onNavigate(STAGE_CTA_TARGET[stage])}
-          className="mt-3 inline-flex items-center gap-2 rounded-xl bg-[#14453D] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#0F352D] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] dark:bg-[#2E7B61] dark:hover:bg-[#256A54] motion-reduce:transition-none motion-reduce:active:scale-100"
+          className="mt-3 inline-flex items-center gap-2 rounded-xl bg-[#14453D] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0F352D] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] dark:bg-[#2E7B61] dark:hover:bg-[#256A54] motion-reduce:transition-none motion-reduce:active:scale-100"
         >
           {t(`dashCta${stage}`)}
           <ArrowRight className="h-4 w-4" aria-hidden="true" />

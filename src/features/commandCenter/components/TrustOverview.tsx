@@ -52,7 +52,7 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
           <div className="text-xl font-bold text-emerald-950 dark:text-[#D9E8DF] mt-1 tabular-nums">
             {summary.recentlyVerifiedPercentage}%
           </div>
-          <p className="text-[11px] text-[#1E6A50] dark:text-[var(--accent-green)] mt-0.5">
+          <p className="text-xs text-[#1E6A50] dark:text-[var(--accent-green)] mt-0.5">
             {summary.recentlyVerifiedCount} of {summary.visibleSchemesCount} schemes audited within 180 days
           </p>
         </div>
@@ -66,7 +66,7 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
           <div className="text-xl font-bold text-[#1A1C1B] dark:text-[var(--text-main)] mt-1 tabular-nums">
             {summary.officialSourcesCount}
           </div>
-          <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
+          <p className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mt-0.5">
             Verified .gov.in and .nic.in apex portals
           </p>
         </div>
@@ -80,7 +80,7 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
           <div className="text-xl font-bold text-sky-950 dark:text-sky-100 mt-1 tabular-nums">
             {summary.nodalSourcesCount}
           </div>
-          <p className="text-[11px] text-sky-700 dark:text-sky-300 mt-0.5">
+          <p className="text-xs text-sky-700 dark:text-sky-300 mt-0.5">
             Statutory platforms (SIDBI, KVIC, CGTMSE)
           </p>
         </div>
@@ -94,7 +94,7 @@ export const TrustOverview: React.FC<TrustOverviewProps> = ({
           <div className="text-xl font-bold text-amber-950 dark:text-[var(--text-accent)] mt-1 tabular-nums">
             {summary.needsVerificationCount}
           </div>
-          <p className="text-[11px] text-[#92610A] dark:text-[var(--text-accent)] mt-0.5">
+          <p className="text-xs text-[#92610A] dark:text-[var(--text-accent)] mt-0.5">
             Flagged for scheduled quarterly re-verification
           </p>
         </div>

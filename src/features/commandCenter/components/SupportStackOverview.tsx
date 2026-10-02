@@ -66,7 +66,7 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-[#1A1C1B] dark:text-[var(--text-main)] tabular-nums">
+                  <span className="text-sm font-semibold text-[#1A1C1B] dark:text-[var(--text-main)] tabular-nums">
                     {count}
                   </span>
                   <ChevronRight className="w-4 h-4 text-[#516A5F] dark:text-[var(--text-tertiary)] group-hover:translate-x-0.5 transition-transform" />
@@ -77,7 +77,7 @@ export const SupportStackOverview: React.FC<SupportStackOverviewProps> = ({
         </div>
       </div>
 
-      <div className="mt-4 pt-3 border-t border-[#EAECEB] dark:border-[var(--border-subtle)] text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] text-center">
+      <div className="mt-4 pt-3 border-t border-[#EAECEB] dark:border-[var(--border-subtle)] text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] text-center">
         Click any pillar to view filtered matching opportunities.
       </div>
     </div>

@@ -59,7 +59,7 @@ export const PreparationOverview: React.FC<PreparationOverviewProps> = ({
             >
               {STATE_ICON[state]}
               <span className="min-w-0 flex-1">
-                <span className="block text-sm font-bold text-[#14453D] dark:text-[var(--yj-text-1)]">
+                <span className="block text-sm font-semibold text-[#14453D] dark:text-[var(--yj-text-1)]">
                   {label}
                 </span>
                 <span className="block text-xs text-[#5A6B63] dark:text-[var(--yj-text-3)]">
@@ -76,7 +76,7 @@ export const PreparationOverview: React.FC<PreparationOverviewProps> = ({
           <li className="flex items-start gap-3 rounded-xl border border-[var(--yj-border-subtle)] bg-[var(--yj-surface-1)] px-3.5 py-3">
             <CheckCircle2 className="h-5 w-5 shrink-0 text-[#1E6A50] dark:text-[var(--accent-green)]" aria-hidden="true" />
             <span className="min-w-0 flex-1">
-              <span className="block text-sm font-bold text-[#14453D] dark:text-[var(--yj-text-1)]">
+              <span className="block text-sm font-semibold text-[#14453D] dark:text-[var(--yj-text-1)]">
                 {t('dashPrepPortal')}
               </span>
               <span className="block truncate text-xs text-[#5A6B63] dark:text-[var(--yj-text-3)]">
@@ -90,7 +90,7 @@ export const PreparationOverview: React.FC<PreparationOverviewProps> = ({
         <button
           type="button"
           onClick={onOpenWorkspace}
-          className="mt-4 inline-flex items-center gap-2 rounded-xl border border-[#14453D]/30 px-4 py-2.5 text-sm font-bold text-[#14453D] transition hover:bg-[#14453D] hover:text-white active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] dark:border-[var(--accent-green)]/40 dark:text-[var(--accent-green)] dark:hover:bg-[var(--accent-green)] dark:hover:text-[#0A2420] motion-reduce:transition-none motion-reduce:active:scale-100"
+          className="mt-4 inline-flex items-center gap-2 rounded-xl border border-[#14453D]/30 px-4 py-2.5 text-sm font-semibold text-[#14453D] transition hover:bg-[#14453D] hover:text-white active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] dark:border-[var(--accent-green)]/40 dark:text-[var(--accent-green)] dark:hover:bg-[var(--accent-green)] dark:hover:text-[#0A2420] motion-reduce:transition-none motion-reduce:active:scale-100"
         >
           {t('dashPrepOpenWorkspace')}
           <ArrowRight className="h-4 w-4" aria-hidden="true" />

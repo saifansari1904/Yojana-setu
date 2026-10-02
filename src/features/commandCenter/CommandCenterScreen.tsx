@@ -196,7 +196,7 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
   if (!userProfile || !pathway) {
     return (
       <div className="mx-auto flex min-h-[60vh] w-full max-w-2xl flex-col items-center justify-center px-4 py-16 text-center">
-        <h1 className="text-2xl font-extrabold tracking-tight text-[#14453D] dark:text-[var(--yj-text-1)] sm:text-3xl">
+        <h1 className="text-2xl font-bold tracking-tight text-[#14453D] dark:text-[var(--yj-text-1)] sm:text-3xl">
           {t('welcomeTitle')}
         </h1>
         <p className="mt-3 max-w-md text-sm text-[#3E4F47] dark:text-[var(--yj-text-2)]">
@@ -205,7 +205,7 @@ export const CommandCenterScreen: React.FC<CommandCenterScreenProps> = ({
         <button
           type="button"
           onClick={onStartCheck}
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#14453D] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0F352D] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] dark:bg-[#2E7B61] dark:hover:bg-[#256A54] motion-reduce:transition-none motion-reduce:active:scale-100"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#14453D] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0F352D] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] dark:bg-[#2E7B61] dark:hover:bg-[#256A54] motion-reduce:transition-none motion-reduce:active:scale-100"
         >
           {t('buildProfileBtn')}
           <ArrowRight className="h-4 w-4" aria-hidden="true" />

@@ -86,7 +86,7 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({
         <div className="flex shrink-0 flex-col items-end gap-2">
           <AnimatedScore
             value={match.matchPercentage}
-            className="text-2xl font-extrabold tabular-nums text-[#14453D] dark:text-[var(--yj-text-1)]"
+            className="text-2xl font-bold tabular-nums text-[#14453D] dark:text-[var(--yj-text-1)]"
           />
           <BookmarkButton
             isSaved={isSaved}
@@ -158,7 +158,7 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({
         <button
           type="button"
           onClick={() => onOpenScheme(match)}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#14453D]/30 px-4 py-2.5 text-sm font-bold text-[#14453D] transition hover:bg-[#14453D] hover:text-white active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] dark:border-[var(--accent-green)]/40 dark:text-[var(--accent-green)] dark:hover:bg-[var(--accent-green)] dark:hover:text-[#0A2420] motion-reduce:transition-none motion-reduce:active:scale-100"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#14453D]/30 px-4 py-2.5 text-sm font-semibold text-[#14453D] transition hover:bg-[#14453D] hover:text-white active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] dark:border-[var(--accent-green)]/40 dark:text-[var(--accent-green)] dark:hover:bg-[var(--accent-green)] dark:hover:text-[#0A2420] motion-reduce:transition-none motion-reduce:active:scale-100"
         >
           {t('dashViewScheme')}
         </button>

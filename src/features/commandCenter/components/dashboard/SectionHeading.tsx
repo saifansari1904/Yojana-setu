@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Shared section eyebrow heading for Dashboard 2.0. Rendered as a semantic
+ * Shared section heading for Dashboard 2.0. Rendered as a semantic
  * heading so assistive tech can navigate the command center by section.
  */
 export const SectionHeading: React.FC<{
@@ -14,7 +14,7 @@ export const SectionHeading: React.FC<{
   return (
     <Tag
       id={id}
-      className={`text-xs font-extrabold tracking-[0.14em] text-[#5A6B63] dark:text-[var(--yj-text-3)] ${className}`}
+      className={`text-xl font-bold tracking-tight text-[#14453D] dark:text-[var(--yj-text-1)] ${className}`}
     >
       {title}
     </Tag>

@@ -38,7 +38,7 @@ export const ApplicationsCard: React.FC<ApplicationsCardProps> = ({
           <button
             type="button"
             onClick={onOpenResults}
-            className="inline-flex items-center gap-2 text-sm font-bold text-[#1E6A50] dark:text-[var(--accent-green)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] rounded"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#1E6A50] dark:text-[var(--accent-green)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] rounded"
           >
             {t('dashExploreYourMatches')}
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -52,7 +52,7 @@ export const ApplicationsCard: React.FC<ApplicationsCardProps> = ({
                 key={`${app.schemeId}-${app.status}-${app.updatedAt}`}
                 className="rounded-xl border border-[var(--yj-border-subtle)] bg-[var(--yj-surface-1)] p-3.5"
               >
-                <p className="truncate text-sm font-bold text-[#14453D] dark:text-[var(--yj-text-1)]">
+                <p className="truncate text-sm font-semibold text-[#14453D] dark:text-[var(--yj-text-1)]">
                   {app.schemeName}
                 </p>
                 <p className="mt-1 flex items-center justify-between gap-2 text-xs text-[#5A6B63] dark:text-[var(--yj-text-3)]">
@@ -65,7 +65,7 @@ export const ApplicationsCard: React.FC<ApplicationsCardProps> = ({
           <button
             type="button"
             onClick={onOpenTracker}
-            className="mt-4 inline-flex items-center gap-2 self-start text-sm font-bold text-[#1E6A50] dark:text-[var(--accent-green)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] rounded"
+            className="mt-4 inline-flex items-center gap-2 self-start text-sm font-semibold text-[#1E6A50] dark:text-[var(--accent-green)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] rounded"
           >
             {t('dashViewApplications')}
             <ArrowRight className="h-4 w-4" aria-hidden="true" />

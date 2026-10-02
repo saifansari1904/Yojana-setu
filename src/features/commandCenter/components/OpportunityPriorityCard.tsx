@@ -101,7 +101,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
               <AnimatedCounter value={matchResult.totalMatchScore} id={`match-counter-${scheme.id}`} />
               <span className="text-xs font-normal text-[#516A5F] dark:text-[var(--text-tertiary)] ml-0.5">/100</span>
             </div>
-            <div className="text-[11px] font-medium text-[#516A5F] dark:text-[var(--text-tertiary)] uppercase tracking-wide">
+            <div className="text-xs font-medium text-[#516A5F] dark:text-[var(--text-tertiary)] uppercase tracking-wide">
               {t('matchScoreLabel')}
             </div>
           </div>
@@ -157,7 +157,7 @@ export const OpportunityPriorityCard: React.FC<OpportunityPriorityCardProps> = (
       {/* NEXT BEST ACTION Box */}
       <div className="mt-5 p-4 rounded-lg bg-emerald-50/70 dark:bg-[var(--bg-subtle)] border border-emerald-200/80 dark:border-[#22503E] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <span className="text-[11px] font-bold text-[#14453D] dark:text-[var(--accent-green)] uppercase tracking-wider block mb-0.5">
+          <span className="text-xs font-bold text-[#14453D] dark:text-[var(--accent-green)] uppercase tracking-wider block mb-0.5">
             {t('nextBestActionTitle')}
           </span>
           <div className="text-sm font-semibold text-[#1A1C1B] dark:text-[var(--text-main)]">

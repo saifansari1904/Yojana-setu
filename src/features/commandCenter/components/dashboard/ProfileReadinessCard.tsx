@@ -49,7 +49,7 @@ export const ProfileReadinessCard: React.FC<ProfileReadinessCardProps> = ({
               <CircleDashed className="h-5 w-5 shrink-0 text-[#8A9A92] dark:text-[var(--yj-text-3)]" aria-hidden="true" />
             )}
             <span className="min-w-0 flex-1">
-              <span className="block text-sm font-bold text-[#14453D] dark:text-[var(--yj-text-1)]">
+              <span className="block text-sm font-semibold text-[#14453D] dark:text-[var(--yj-text-1)]">
                 {t(CATEGORY_KEY[cat.key])}
               </span>
               <span className="block text-xs text-[#5A6B63] dark:text-[var(--yj-text-3)]">
@@ -62,7 +62,7 @@ export const ProfileReadinessCard: React.FC<ProfileReadinessCardProps> = ({
       <button
         type="button"
         onClick={onOpenProfile}
-        className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#1E6A50] dark:text-[var(--accent-green)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] rounded"
+        className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#1E6A50] dark:text-[var(--accent-green)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] rounded"
       >
         {t('dashViewProfile')}
         <ArrowRight className="h-4 w-4" aria-hidden="true" />

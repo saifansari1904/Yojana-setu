@@ -35,7 +35,7 @@ export const SavedSchemesCard: React.FC<SavedSchemesCardProps> = ({
           <button
             type="button"
             onClick={onOpenResults}
-            className="inline-flex items-center gap-2 text-sm font-bold text-[#1E6A50] dark:text-[var(--accent-green)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] rounded"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#1E6A50] dark:text-[var(--accent-green)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] rounded"
           >
             {t('dashExploreYourMatches')}
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -53,7 +53,7 @@ export const SavedSchemesCard: React.FC<SavedSchemesCardProps> = ({
                     onClick={() => onOpenScheme(match)}
                     className="min-w-0 flex-1 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#14453D] rounded"
                   >
-                    <span className="block truncate text-sm font-bold text-[#14453D] dark:text-[var(--yj-text-1)]">
+                    <span className="block truncate text-sm font-semibold text-[#14453D] dark:text-[var(--yj-text-1)]">
                       {localized.name}
                     </span>
                     <span className="mt-1 block">
