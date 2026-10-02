@@ -73,7 +73,7 @@ const ProductFlowVisual = () => {
           {profileChips.map((chip, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#141b17] px-2.5 py-1 text-[11px] font-bold text-[#1A1C1B] dark:text-[#E2E8E4]"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E8E4] dark:border-[#24342D] bg-[#FAFAF9] dark:bg-[#141b17] px-2.5 py-1 text-xs font-semibold text-[#1A1C1B] dark:text-[#E2E8E4]"
             >
               <chip.icon className="w-3 h-3 text-[#14453D] dark:text-[#4ADE80]" />
               {chip.value}
@@ -99,7 +99,7 @@ const ProductFlowVisual = () => {
             transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut' }}
           />
         )}
-        <p className="relative flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#BFD9CE] mb-2">
+        <p className="relative flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#BFD9CE] mb-2">
           <Cpu className="w-3.5 h-3.5 text-[#4ADE80]" />
           {t('welcome.flowEngineTitle')}
         </p>
@@ -113,7 +113,7 @@ const ProductFlowVisual = () => {
               className="flex items-center gap-2"
             >
               <f.icon className="w-3.5 h-3.5 text-[#4ADE80] shrink-0" />
-              <span className="flex-1 min-w-0 truncate text-[11px] font-semibold text-white">
+              <span className="flex-1 min-w-0 truncate text-xs font-medium text-white">
                 {t(f.key)}
               </span>
               <span className="w-14 sm:w-20 h-1 rounded-full bg-white/15 overflow-hidden shrink-0">
@@ -124,7 +124,7 @@ const ProductFlowVisual = () => {
                   transition={stage(0.9 + i * 0.18)}
                 />
               </span>
-              <span className="w-8 shrink-0 text-right text-[11px] font-extrabold text-[#4ADE80] tabular-nums">
+              <span className="w-8 shrink-0 text-right text-xs font-bold text-[#4ADE80] tabular-nums">
                 {f.weight}%
               </span>
             </motion.li>
@@ -145,7 +145,7 @@ const ProductFlowVisual = () => {
           value={86}
           suffix="%"
           duration={1.1}
-          className="text-[1.7rem] leading-none font-extrabold text-[#14453D] dark:text-[#4ADE80] tabular-nums shrink-0"
+          className="text-[1.7rem] leading-none font-bold text-[#14453D] dark:text-[#4ADE80] tabular-nums shrink-0"
         />
         <ul className="min-w-0">
           {resultChecks.map((c, i) => (
@@ -154,7 +154,7 @@ const ProductFlowVisual = () => {
               initial={shouldReduceMotion ? undefined : { opacity: 0, x: -6 }}
               animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
               transition={stage(1.7 + i * 0.12)}
-              className="flex items-center gap-1.5 text-[11px] font-semibold text-[#1A1C1B] dark:text-[#E2E8E4] truncate"
+              className="flex items-center gap-1.5 text-xs font-medium text-[#1A1C1B] dark:text-[#E2E8E4] truncate"
             >
               <Check className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80] shrink-0" />
               <span className="truncate">{c}</span>
@@ -176,16 +176,16 @@ const ProductFlowVisual = () => {
           <FileCheck2 className="w-4 h-4 text-[#4ADE80]" />
         </span>
         <span className="min-w-0">
-          <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-[#516A5F] dark:text-[#8FA197]">
+          <span className="block text-xs font-semibold uppercase tracking-[0.12em] text-[#516A5F] dark:text-[#8FA197]">
             {t('welcome.flowNextTitle')}
           </span>
-          <span className="block text-[12px] font-bold text-[#1A1C1B] dark:text-[#F0F4F2] truncate">
+          <span className="block text-[13px] font-semibold text-[#1A1C1B] dark:text-[#F0F4F2] truncate">
             {t('welcome.flowNextDesc')}
           </span>
         </span>
       </motion.div>
 
-      <p className="mt-3 text-center text-[10px] font-medium uppercase tracking-[0.14em] text-[#8FA197] dark:text-[#6E7F76]">
+      <p className="mt-3 text-center text-xs font-medium uppercase tracking-[0.12em] text-[#8FA197] dark:text-[#6E7F76]">
         {t('welcome.flowIllustrative')}
       </p>
     </div>
@@ -226,20 +226,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onFindSchemes, onNavig
             </motion.div>
             <motion.p
               variants={shouldReduceMotion ? undefined : fadeUp}
-              className="inline-flex flex-wrap items-center justify-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-[0.16em] text-[#1E6A50] dark:text-[#4ADE80] bg-[#D9E8DF]/70 dark:bg-[#1A382D]/70 border border-[#BFD9CE]/60 dark:border-[#22503E]/60 rounded-full px-3 py-1.5 mb-4 sm:mb-5 max-w-full text-center"
+              className="inline-flex flex-wrap items-center justify-center gap-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#1E6A50] dark:text-[#4ADE80] bg-[#D9E8DF]/70 dark:bg-[#1A382D]/70 border border-[#BFD9CE]/60 dark:border-[#22503E]/60 rounded-full px-3 py-1.5 mb-4 sm:mb-5 max-w-full text-center"
             >
               <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
               {t('welcome.heroEyebrow')}
             </motion.p>
             <motion.h1
               variants={shouldReduceMotion ? undefined : fadeUp}
-              className="text-[clamp(1.9rem,7.5vw,2.35rem)] leading-[1.08] sm:text-5xl lg:text-[3.4rem] font-extrabold text-[#1A1C1B] dark:text-[#F0F4F2] mb-4 sm:mb-5 text-balance break-words"
+              className="text-[clamp(2rem,7.5vw,2.5rem)] leading-[1.08] sm:text-[2.75rem] font-bold text-[#1A1C1B] dark:text-[#F0F4F2] mb-4 sm:mb-5 text-balance break-words"
             >
               {t('welcome.heroTitle')}
             </motion.h1>
             <motion.p
               variants={shouldReduceMotion ? undefined : fadeUp}
-              className="text-[15px] sm:text-lg text-[#516A5F] dark:text-[#9EB0A7] leading-relaxed mb-6 sm:mb-8 break-words"
+              className="text-base sm:text-lg text-[#516A5F] dark:text-[#9EB0A7] leading-relaxed mb-6 sm:mb-8 break-words"
             >
               {t('welcome.heroSubtitle')}
             </motion.p>
@@ -251,13 +251,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onFindSchemes, onNavig
                 onClick={onFindSchemes}
                 variant="primary"
                 size="lg"
-                className="group min-w-[220px] justify-center"
+                className="group min-w-[220px] min-h-[52px] justify-center"
               >
                 {t('welcome.heroPrimaryCta')}
               </ArrowFillButton>
               <button
                 onClick={() => onNavigate('welcome-how-it-works')}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl text-sm font-bold text-[#14453D] dark:text-[#4ADE80] border border-[#14453D]/25 dark:border-[#4ADE80]/25 hover:border-[#14453D]/60 dark:hover:border-[#4ADE80]/60 hover:bg-[#14453D]/5 dark:hover:bg-[#4ADE80]/5 transition-all cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[52px] rounded-xl text-sm font-semibold text-[#14453D] dark:text-[#4ADE80] border border-[#14453D]/25 dark:border-[#4ADE80]/25 hover:border-[#14453D]/60 dark:hover:border-[#4ADE80]/60 hover:bg-[#14453D]/5 dark:hover:bg-[#4ADE80]/5 transition-all cursor-pointer"
               >
                 {t('welcome.heroSecondaryCta')}
                 <ArrowDown className="w-4 h-4" aria-hidden="true" />
@@ -265,9 +265,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onFindSchemes, onNavig
             </motion.div>
             <motion.p
               variants={shouldReduceMotion ? undefined : fadeUp}
-              className="mt-4 sm:mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-[#1E6A50] dark:text-[#4ADE80]"
+              className="mt-4 sm:mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-[#516A5F] dark:text-[#9EB0A7]"
             >
-              <Check className="w-3.5 h-3.5" aria-hidden="true" />
+              <Check className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[#4ADE80]" aria-hidden="true" />
               {t('welcome.heroNoAccount')}
             </motion.p>
           </motion.div>

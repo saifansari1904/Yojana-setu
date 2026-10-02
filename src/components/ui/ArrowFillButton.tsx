@@ -87,7 +87,7 @@ export const ArrowFillButton: React.FC<ArrowFillButtonProps> = ({
       icon: 'w-4 h-4',
     },
     lg: {
-      btn: 'px-5 py-3 text-sm sm:text-base gap-3 font-bold',
+      btn: 'px-5 py-3 text-sm sm:text-base gap-3 font-semibold',
       badge: 'w-7 h-7 rounded-md',
       icon: 'w-4 h-4',
     },

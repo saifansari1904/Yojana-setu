@@ -60,7 +60,7 @@ export const VizEyebrow = ({
   icon?: React.ElementType;
   children: React.ReactNode;
 }) => (
-  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#516A5F] dark:text-[#8FA197] mb-3 flex items-center gap-2">
+  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#516A5F] dark:text-[#8FA197] mb-3 flex items-center gap-2">
     {Icon && <Icon className="w-3.5 h-3.5" aria-hidden="true" />}
     {children}
   </p>
