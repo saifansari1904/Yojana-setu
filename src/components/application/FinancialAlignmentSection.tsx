@@ -60,37 +60,37 @@ export const FinancialAlignmentSection: React.FC<FinancialAlignmentSectionProps>
       {/* Key Financial Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="p-4 rounded-xl border border-[#E5E9E7] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-card)]">
-          <span className="text-[11px] font-semibold text-[#5A6561] dark:text-[var(--text-secondary)] uppercase tracking-wider block mb-1">
+          <span className="text-xs font-semibold text-[#5A6561] dark:text-[var(--text-secondary)] uppercase tracking-wider block mb-1">
             {t('workspace.projectCostLabel')}
           </span>
           <div className="text-lg font-bold text-[#1F2421] dark:text-[var(--text-main)]">
             {formatCurrency(investment)}
           </div>
-          <span className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)] mt-1 block">
+          <span className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] mt-1 block">
             Ceiling: {scheme.maxAmount ? formatCurrency(scheme.maxAmount) : 'As per DPR'}
           </span>
         </div>
 
         <div className="p-4 rounded-xl border border-[#E5E9E7] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-card)]">
-          <span className="text-[11px] font-semibold text-[#5A6561] dark:text-[var(--text-secondary)] uppercase tracking-wider block mb-1">
+          <span className="text-xs font-semibold text-[#5A6561] dark:text-[var(--text-secondary)] uppercase tracking-wider block mb-1">
             {t('workspace.promoterMarginLabel')}
           </span>
           <div className="text-lg font-bold text-[#1E6A50] dark:text-[var(--accent-green)]">
             ~{formatCurrency(estimatedMargin)}
           </div>
-          <span className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)] mt-1 block">
+          <span className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] mt-1 block">
             {Math.round(promoterMarginRate * 100)}% based on {userProfile.category} category
           </span>
         </div>
 
         <div className="p-4 rounded-xl border border-[#E5E9E7] dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-card)]">
-          <span className="text-[11px] font-semibold text-[#5A6561] dark:text-[var(--text-secondary)] uppercase tracking-wider block mb-1">
+          <span className="text-xs font-semibold text-[#5A6561] dark:text-[var(--text-secondary)] uppercase tracking-wider block mb-1">
             {t('workspace.subsidyEligibleLabel')}
           </span>
           <div className="text-lg font-bold text-amber-600 dark:text-amber-400">
             {scheme.subsidyRatePercent ? `Up to ${scheme.subsidyRatePercent}%` : formatCurrency(estimatedSubsidy)}
           </div>
-          <span className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)] mt-1 block">
+          <span className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] mt-1 block">
             {scheme.subsidyCap ? `Max cap: ${formatCurrency(scheme.subsidyCap)}` : 'Subject to guidelines'}
           </span>
         </div>

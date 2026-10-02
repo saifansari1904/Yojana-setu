@@ -35,7 +35,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
       {/* Meta Bar: Ministry, Agency, Helpdesk */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[var(--border-subtle)] bg-[#FAFAF9] dark:bg-[#1d2822]/40">
-          <span className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)] block mb-1">
+          <span className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] block mb-1">
             Sponsoring Ministry
           </span>
           <span className="text-xs font-semibold text-[#1F2421] dark:text-[var(--text-main)]">
@@ -44,7 +44,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
         </div>
 
         <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[var(--border-subtle)] bg-[#FAFAF9] dark:bg-[#1d2822]/40">
-          <span className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)] block mb-1">
+          <span className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] block mb-1">
             {t('workspace.nodalAgencyLabel')}
           </span>
           <span className="text-xs font-semibold text-[#1F2421] dark:text-[var(--text-main)]">
@@ -53,7 +53,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
         </div>
 
         <div className="p-3.5 rounded-xl border border-[#E5E9E7] dark:border-[var(--border-subtle)] bg-[#FAFAF9] dark:bg-[#1d2822]/40">
-          <span className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)] block mb-1">
+          <span className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] block mb-1">
             {t('workspace.helplineLabel')}
           </span>
           <span className="text-xs font-semibold text-[#1E6A50] dark:text-[var(--accent-green)] flex items-center gap-1">
@@ -84,7 +84,7 @@ export const SubmissionProcessSection: React.FC<SubmissionProcessSectionProps> =
                     {resolveLocalizedPair(inst.titleEn, inst.titleHi, lang)}
                   </h5>
                   {inst.agency && (
-                    <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#F4F7F5] dark:bg-[var(--bg-raised)] text-[#5A6561] dark:text-[var(--text-secondary)]">
+                    <span className="text-xs font-medium px-2 py-0.5 rounded-md bg-[#F4F7F5] dark:bg-[var(--bg-raised)] text-[#5A6561] dark:text-[var(--text-secondary)]">
                       {inst.agency}
                     </span>
                   )}

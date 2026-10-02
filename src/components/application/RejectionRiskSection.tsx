@@ -71,7 +71,7 @@ export const RejectionRiskSection: React.FC<RejectionRiskSectionProps> = ({
             <span className="p-1 rounded-md bg-emerald-100 dark:bg-emerald-950/50 text-[#1E6A50] dark:text-[var(--accent-green)]">
               <ShieldCheck className="w-4 h-4" />
             </span>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#1E6A50] dark:text-[var(--accent-green)]">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#1E6A50] dark:text-[var(--accent-green)]">
               {isHindi ? 'दस्तावेज जोखिम समीक्षा' : 'Document Risk Review'}
             </span>
           </div>
@@ -136,9 +136,9 @@ export const RejectionRiskSection: React.FC<RejectionRiskSectionProps> = ({
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
                 <AnimatedScore
                   value={assessment.documentReadinessPercent}
-                  className="text-2xl sm:text-3xl font-extrabold text-[#1F2421] dark:text-[var(--text-main)]"
+                  className="text-2xl sm:text-3xl font-bold text-[#1F2421] dark:text-[var(--text-main)]"
                 />
-                <span className="text-[10px] font-semibold text-[#5A6561] dark:text-[var(--text-secondary)] -mt-1">
+                <span className="text-xs font-semibold text-[#5A6561] dark:text-[var(--text-secondary)] -mt-1">
                   {isHindi ? 'डोजियर तैयार' : 'Dossier Ready'}
                 </span>
               </div>
@@ -248,7 +248,7 @@ export const RejectionRiskSection: React.FC<RejectionRiskSectionProps> = ({
                   </span>
                 </div>
 
-                <div className="pl-6 text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)]">
+                <div className="pl-6 text-xs text-[#5A6561] dark:text-[var(--text-secondary)]">
                   {isMitigated ? (
                     <span className="text-emerald-700 dark:text-emerald-400 font-medium">
                       ✓ {isHindi ? 'कवर किया गया: संबंधित दस्तावेज डोजियर में तैयार चिह्नित है।' : 'Covered: a matching document is marked ready in your dossier.'}
@@ -343,13 +343,13 @@ export const RejectionRiskSection: React.FC<RejectionRiskSectionProps> = ({
                       </div>
 
                       {doc.isUploaded && doc.uploadedRecord ? (
-                        <div className="flex items-center gap-1.5 text-[11px] text-emerald-700 dark:text-emerald-400 mt-0.5">
+                        <div className="flex items-center gap-1.5 text-xs text-emerald-700 dark:text-emerald-400 mt-0.5">
                           <FileText className="w-3 h-3 shrink-0" />
                           <span className="truncate max-w-[200px] sm:max-w-xs">{doc.uploadedRecord.fileName}</span>
                           <span>({(doc.uploadedRecord.fileSize / 1024).toFixed(0)} KB)</span>
                         </div>
                       ) : (
-                        <div className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)] mt-0.5">
+                        <div className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] mt-0.5">
                           {doc.isPrepared
                             ? (isHindi ? 'भौतिक प्रति तैयार चिह्नित • डिजिटल सत्यापन हेतु स्कैन अपलोड करें' : 'Marked ready in physical dossier • Upload a scan for digital verification')
                             : (isHindi ? 'दस्तावेज अभी लंबित है' : 'Document pending preparation')}
@@ -417,7 +417,7 @@ export const RejectionRiskSection: React.FC<RejectionRiskSectionProps> = ({
                   <div className="font-bold text-[#1F2421] dark:text-[var(--text-main)] mb-1">
                     {rec.docName}
                   </div>
-                  <p className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)] leading-relaxed">
+                  <p className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] leading-relaxed">
                     {isHindi ? rec.reasonHi : rec.reasonEn}
                   </p>
                 </div>
@@ -432,7 +432,7 @@ export const RejectionRiskSection: React.FC<RejectionRiskSectionProps> = ({
                       onOpenDocumentDossier();
                     }
                   }}
-                  className="mt-3 inline-flex items-center justify-center gap-1 text-[11px] font-bold text-[#1E6A50] dark:text-[var(--accent-green)] hover:underline"
+                  className="mt-3 inline-flex items-center justify-center gap-1 text-xs font-bold text-[#1E6A50] dark:text-[var(--accent-green)] hover:underline"
                 >
                   <Upload className="w-3 h-3" />
                   <span>{isHindi ? 'अपलोड करें' : 'Attach Scan Now'}</span>
@@ -450,12 +450,12 @@ export const RejectionRiskSection: React.FC<RejectionRiskSectionProps> = ({
           <div className="font-semibold text-[#1F2421] dark:text-[var(--text-main)]">
             {isHindi ? 'यह जांच कैसे काम करती है' : 'How This Check Works'}
           </div>
-          <p className="text-[11px] leading-relaxed">
+          <p className="text-xs leading-relaxed">
             {isHindi
               ? 'यह जांच इस योजना के आवश्यक दस्तावेजों और सामान्य प्रक्रियात्मक अस्वीकृति कारणों पर आधारित है। यह आपके अपने डोजियर की स्थिति बताती है — किसी स्वीकृति संभावना का अनुमान नहीं देती, क्योंकि ऐसी कोई सत्यापित आधिकारिक सांख्यिकी उपलब्ध नहीं है।'
               : 'This check is based on the documents this scheme requires and common procedural rejection reasons. It reports the state of your own dossier — it does not estimate any approval probability, because no verified official statistics for that exist.'}
           </p>
-          <p className="text-[10px] text-[#71827A] dark:text-[var(--text-secondary)]">
+          <p className="text-xs text-[#71827A] dark:text-[var(--text-secondary)]">
             {isHindi
               ? 'योजना सेतु एक स्वतंत्र तैयारी सहायक है। अंतिम ऋण अथवा सब्सिडी स्वीकृति केवल सक्षम सरकारी नोडल एजेंसी अथवा नामित बैंक द्वारा भौतिक सत्यापन के अधीन है।'
               : 'Yojana Setu is an advisory preparation platform. Final loan sanction or subsidy disbursement is subject to physical verification by the designated nodal department or lending institution.'}

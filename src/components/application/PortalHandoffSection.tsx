@@ -61,7 +61,7 @@ export const PortalHandoffSection: React.FC<PortalHandoffSectionProps> = ({
             <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
             <div>
               <span className="font-bold">Application Officially Recorded</span>
-              <div className="text-[11px] text-emerald-700 dark:text-emerald-300">
+              <div className="text-xs text-emerald-700 dark:text-emerald-300">
                 {trackedApp?.appliedOn ? `Submitted on ${trackedApp.appliedOn}` : 'Recorded as applied'}
                 {trackedApp?.note ? ` (${trackedApp.note})` : ''}
               </div>
@@ -79,7 +79,7 @@ export const PortalHandoffSection: React.FC<PortalHandoffSectionProps> = ({
                 ? 'Official Government Portal Address'
                 : 'Application Portal Address'}
             </div>
-            <div className="text-sm font-bold text-[#1F2421] dark:text-[var(--text-main)] mt-0.5">
+            <div className="text-sm font-semibold text-[#1F2421] dark:text-[var(--text-main)] mt-0.5">
               {portalInfo.domain || 'Official Ministry Portal'}
             </div>
           </div>
@@ -89,7 +89,7 @@ export const PortalHandoffSection: React.FC<PortalHandoffSectionProps> = ({
               href={scheme.officialPortalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-xs text-white bg-[#1E6A50] hover:bg-[#0D5B41] dark:bg-[var(--accent-green)] dark:text-[#0E1311] dark:hover:bg-[#22C55E] transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-sm text-white bg-[#14453D] hover:bg-[#0B302B] dark:bg-[var(--accent-green)] dark:text-[#0E1311] dark:hover:bg-[#22C55E] transition-colors shadow-sm"
             >
               <span>{t('workspace.openOfficialPortal')}</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -106,7 +106,7 @@ export const PortalHandoffSection: React.FC<PortalHandoffSectionProps> = ({
             <div className="text-xs font-semibold text-[#1F2421] dark:text-[var(--text-main)]">
               Did you complete your application?
             </div>
-            <div className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)]">
+            <div className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)]">
               Record your submission and application reference number to maintain an accurate audit timeline.
             </div>
           </div>

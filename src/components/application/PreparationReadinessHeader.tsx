@@ -228,11 +228,11 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
               className="flex items-center gap-3 bg-gradient-to-r from-emerald-50 to-[#EAF4EF] dark:from-emerald-950/40 dark:to-emerald-950/20 px-4 py-2.5 rounded-xl border border-emerald-300 dark:border-emerald-800 text-left hover:border-emerald-400 dark:hover:border-emerald-600 transition-all group"
             >
               <div>
-                <div className="flex items-center gap-1 text-[11px] font-bold text-[#1E6A50] dark:text-[var(--accent-green)]">
+                <div className="flex items-center gap-1 text-xs font-semibold text-[#1E6A50] dark:text-[var(--accent-green)]">
                   <ShieldCheck className="w-3.5 h-3.5" />
                   <span>{lang === 'hi' ? 'अस्वीकृति जोखिम' : 'Rejection Risks'}</span>
                 </div>
-                <div className="text-[10px] text-[#5A6561] dark:text-[var(--text-secondary)] flex items-center gap-0.5">
+                <div className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] flex items-center gap-0.5">
                   <span>
                     {lang === 'hi'
                       ? `${riskAssessment.mitigatedRisks.length} / ${riskAssessment.riskFactors.length} कवर · जांच देखें`
@@ -242,7 +242,7 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
                 </div>
               </div>
               <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-[var(--bg-card)] border-2 border-emerald-500 shadow-xs">
-                <span className="text-sm font-bold text-[#1E6A50] dark:text-[var(--accent-green)]">
+                <span className="text-sm font-semibold text-[#1E6A50] dark:text-[var(--accent-green)]">
                   {riskAssessment.mitigatedRisks.length}/{riskAssessment.riskFactors.length}
                 </span>
               </div>
@@ -264,7 +264,7 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
             <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-[var(--bg-card)] border-2 border-[#1E6A50] shadow-sm">
               <AnimatedScore
                 value={readiness.overallScore}
-                className="text-sm font-bold text-[#1F2421] dark:text-[var(--text-main)]"
+                className="text-sm font-semibold text-[#1F2421] dark:text-[var(--text-main)]"
               />
             </div>
           </div>
@@ -285,12 +285,12 @@ export const PreparationReadinessHeader: React.FC<PreparationReadinessHeaderProp
                 <span className="p-1.5 rounded-lg bg-white dark:bg-[var(--bg-card)] border border-[#E0E6E2] dark:border-[var(--border-subtle)]">
                   {getPillarIcon(pillar.key)}
                 </span>
-                <span className="text-xs font-bold text-[#1F2421] dark:text-[var(--text-main)]">
+                <span className="text-xs font-semibold text-[#1F2421] dark:text-[var(--text-main)]">
                   {PILLAR_NAMES[pillar.key]?.[lang] || resolveLocalizedPair(pillar.labelEn, pillar.labelHi, lang)}
                 </span>
               </div>
               <span
-                className={`text-[10px] font-semibold px-2 py-0.5 rounded-md border ${getPillarStateColor(
+                className={`text-xs font-semibold px-2 py-0.5 rounded-md border ${getPillarStateColor(
                   pillar.state
                 )}`}
               >

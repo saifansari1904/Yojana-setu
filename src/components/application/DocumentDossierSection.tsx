@@ -127,13 +127,13 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
                     ? `अस्वीकृति जोखिम जांच: ${riskAssessment.riskFactors.length} में से ${riskAssessment.mitigatedRisks.length} जोखिम कवर`
                     : `Rejection Risk Check: ${riskAssessment.mitigatedRisks.length} of ${riskAssessment.riskFactors.length} risks covered`}
                 </span>
-                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-200/70 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 ml-1">
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-200/70 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 ml-1">
                   {riskAssessment.openRisks.length === 0
                     ? (isHindi ? 'सभी कवर' : 'All Covered')
                     : (isHindi ? `${riskAssessment.openRisks.length} खुले` : `${riskAssessment.openRisks.length} Open`)}
                 </span>
               </div>
-              <p className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)] mt-0.5">
+              <p className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] mt-0.5">
                 {isHindi
                   ? `${readyCount} / ${totalCount} दस्तावेज तैयार (${uploadedCount} डिजिटल स्कैन अपलोड)।`
                   : `${readyCount} of ${totalCount} documents marked (${uploadedCount} uploaded).`}
@@ -227,7 +227,7 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
                         </span>
 
                         {docStatus && docStatus.criticality !== 'STANDARD' && (
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
                             docStatus.criticality === 'CRITICAL'
                               ? 'bg-rose-100 dark:bg-rose-900/60 text-rose-800 dark:text-rose-300'
                               : 'bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-blue-300'
@@ -249,7 +249,7 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
                         <div className="mt-2 inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-emerald-100/70 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200 text-xs border border-emerald-300 dark:border-emerald-800">
                           <FileText className="w-3.5 h-3.5 shrink-0" />
                           <span className="font-medium truncate max-w-[200px]">{uploadedFile.fileName}</span>
-                          <span className="text-[10px] text-emerald-700 dark:text-emerald-300">
+                          <span className="text-xs text-emerald-700 dark:text-emerald-300">
                             ({(uploadedFile.fileSize / 1024).toFixed(0)} KB)
                           </span>
                           {onRemoveUpload && (
@@ -296,7 +296,7 @@ export const DocumentDossierSection: React.FC<DocumentDossierSectionProps> = ({
                     <button
                       type="button"
                       onClick={() => onToggleDocument(doc)}
-                      className={`text-[11px] font-semibold px-2.5 py-1.5 rounded-md border transition-colors ${
+                      className={`text-xs font-semibold px-2.5 py-1.5 rounded-md border transition-colors ${
                         isPrepared
                           ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800'
                           : 'bg-[#F4F7F5] dark:bg-[var(--bg-raised)] text-[#5A6561] dark:text-[var(--text-secondary)] border-[#E5E9E7] dark:border-[var(--border-subtle)]'

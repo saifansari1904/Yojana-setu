@@ -223,7 +223,7 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
       {/* Scheme Header Card */}
       <div className="p-6 rounded-2xl bg-white dark:bg-[var(--bg-card)] border border-[#E5E9E7] dark:border-[var(--border-subtle)] shadow-xs">
         <div className="flex flex-wrap items-center gap-2 mb-2">
-          <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#1E6A50]/10 text-[#1E6A50] dark:text-[var(--accent-green)]">
+          <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#1E6A50]/10 text-[#1E6A50] dark:text-[var(--accent-green)]">
             {t('workspace.badge')}
           </span>
           <VerificationBadge
@@ -235,17 +235,17 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
                 : 'in-review'
             }
           />
-          <span className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)] flex items-center gap-1">
+          <span className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)] flex items-center gap-1">
             <Building2 className="w-3.5 h-3.5" />
             {matchResult.scheme.sponsoringMinistry}
           </span>
         </div>
 
-        <h1 className="text-xl sm:text-2xl font-bold text-[#1F2421] dark:text-[var(--text-main)]">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#1F2421] dark:text-[var(--text-main)]">
           {matchResult.scheme.name}
         </h1>
 
-        <p className="text-xs sm:text-sm text-[#5A6561] dark:text-[var(--text-secondary)] mt-1 max-w-3xl leading-relaxed">
+        <p className="text-sm sm:text-base text-[#5A6561] dark:text-[var(--text-secondary)] mt-1 max-w-3xl leading-relaxed">
           {t('workspace.subtitle')}
         </p>
       </div>
@@ -282,7 +282,7 @@ export const ApplicationWorkspaceScreen: React.FC<ApplicationWorkspaceScreenProp
               <span>{tab.label}</span>
               {tab.badge && (
                 <span
-                  className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${
+                  className={`text-xs font-bold px-1.5 py-0.2 rounded-full ${
                     isActive
                       ? 'bg-white/20 text-white dark:bg-black/20 dark:text-[#0E1311]'
                       : 'bg-[#E5E9E7] dark:bg-zinc-800 text-[#1F2421] dark:text-[var(--text-main)]'

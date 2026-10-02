@@ -79,7 +79,7 @@ export const EligibilityAuditSection: React.FC<EligibilityAuditSectionProps> = (
                 className="p-2.5 rounded-lg bg-white dark:bg-[var(--bg-card)] border border-amber-200 dark:border-amber-900 text-xs"
               >
                 <div className="font-semibold">{u.factorLabel}</div>
-                <div className="text-[11px] text-[#5A6561] dark:text-[var(--text-secondary)]">{u.explanation || u.statutoryRequirement}</div>
+                <div className="text-xs text-[#5A6561] dark:text-[var(--text-secondary)]">{u.explanation || u.statutoryRequirement}</div>
               </div>
             ))}
           </div>

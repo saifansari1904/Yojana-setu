@@ -111,7 +111,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
         <p className="text-xs sm:text-sm text-[#516A5F] dark:text-[var(--text-secondary)] max-w-2xl">
           {t('tracker.subtitle')}
         </p>
-        <p className="text-[11px] text-[#516A5F] dark:text-[var(--text-tertiary)] mt-1.5">
+        <p className="text-xs text-[#516A5F] dark:text-[var(--text-tertiary)] mt-1.5">
           {t('tracker.privacyNote')}
         </p>
       </div>
@@ -128,7 +128,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
               >
                 <div className="flex items-center gap-1.5 mb-1">
                   <span className={`w-1.5 h-1.5 rounded-full ${meta.dotClass}`} />
-                  <span className="text-[10px] font-bold uppercase tracking-wide text-[#516A5F] dark:text-[var(--text-tertiary)]">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-[#516A5F] dark:text-[var(--text-tertiary)]">
                     {meta.label}
                   </span>
                 </div>
@@ -200,18 +200,18 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                       </h2>
                       <div className="flex flex-wrap items-center gap-2 mt-1.5">
                         <span
-                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] font-bold ${meta.pillClass}`}
+                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-xs font-semibold ${meta.pillClass}`}
                         >
                           <span className={`w-1.5 h-1.5 rounded-full ${meta.dotClass}`} />
                           {meta.label}
                         </span>
                         {match && (
-                          <span className="text-[10px] font-semibold text-[#516A5F] dark:text-[var(--text-secondary)]">
+                          <span className="text-xs font-semibold text-[#516A5F] dark:text-[var(--text-secondary)]">
                             {match.matchPercentage}% {t('tracker.matchSuffix')}
                           </span>
                         )}
                         {docs.total > 0 && (
-                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#516A5F] dark:text-[var(--text-secondary)]">
+                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#516A5F] dark:text-[var(--text-secondary)]">
                             <FileText className="w-3 h-3" />
                             {docs.ready}/{docs.total} {t('tracker.docsSuffix')}
                           </span>
@@ -234,7 +234,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                   {app.status === 'interested' && docs.allReady && (
                     <div className="mb-3 flex items-start gap-2 bg-[#D9E8DF]/60 dark:bg-[#1A382D]/50 border border-[#C1E2D0] dark:border-[#22503E] rounded px-3 py-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-[#1E6A50] dark:text-[var(--accent-green)] shrink-0 mt-0.5" />
-                      <p className="text-[11px] text-[#14453D] dark:text-[var(--text-secondary)]">
+                      <p className="text-xs text-[#14453D] dark:text-[var(--text-secondary)]">
                         {t('tracker.docsCompleteNote')}
                       </p>
                     </div>
@@ -244,7 +244,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                     <div className="mb-3">
                       <label
                         htmlFor={`tracker-applied-on-${app.schemeId}`}
-                        className="block text-[10px] font-bold uppercase tracking-wide text-[#516A5F] dark:text-[var(--text-tertiary)] mb-1"
+                        className="block text-xs font-semibold uppercase tracking-wide text-[#516A5F] dark:text-[var(--text-tertiary)] mb-1"
                       >
                         {t('tracker.appliedOn')}
                       </label>
@@ -262,7 +262,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                     <div className="mb-3">
                       <label
                         htmlFor={`tracker-note-${app.schemeId}`}
-                        className="block text-[10px] font-bold uppercase tracking-wide text-[#516A5F] dark:text-[var(--text-tertiary)] mb-1"
+                        className="block text-xs font-semibold uppercase tracking-wide text-[#516A5F] dark:text-[var(--text-tertiary)] mb-1"
                       >
                         {t('tracker.note')}
                       </label>
@@ -277,7 +277,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                     </div>
                   ) : (
                     app.note && (
-                      <p className="mb-3 text-[11px] text-[#3F4943] dark:text-[var(--text-secondary)] bg-[#F4F6F5] dark:bg-[var(--bg-raised)] border border-[#EAECEB] dark:border-[var(--border-subtle)] rounded px-3 py-2 whitespace-pre-wrap">
+                      <p className="mb-3 text-xs text-[#3F4943] dark:text-[var(--text-secondary)] bg-[#F4F6F5] dark:bg-[var(--bg-raised)] border border-[#EAECEB] dark:border-[var(--border-subtle)] rounded px-3 py-2 whitespace-pre-wrap">
                         {app.note}
                       </p>
                     )
@@ -289,7 +289,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                     return (
                       <div className="mb-3 flex items-start gap-2 rounded border border-[#FCD34D] dark:border-[#5B4718] bg-[#FEF3C7]/70 dark:bg-[#3B2F14]/60 px-3 py-2">
                         <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#92610A] dark:text-[var(--text-accent)]" />
-                        <p className="text-[11px] text-[#92610A] dark:text-[var(--text-accent)]">
+                        <p className="text-xs text-[#92610A] dark:text-[var(--text-accent)]">
                           <span className="font-bold">
                             {locFreshness.label}
                           </span>
@@ -300,7 +300,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                     );
                   })()}
                   {freshness && !freshness.shouldRecheckOfficialSource && freshness.lastVerifiedDate && (
-                    <p className="mb-3 text-[10px] font-semibold text-[#516A5F] dark:text-[var(--text-tertiary)]">
+                    <p className="mb-3 text-xs font-semibold text-[#516A5F] dark:text-[var(--text-tertiary)]">
                       {t('tracker.verified')}: {freshness.lastVerifiedDate}
                       {' · '}
                       {getLocalizedFreshness(freshness, lang).label}
@@ -313,7 +313,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                       <div className="flex flex-wrap items-center gap-2">
                         <label
                           htmlFor={`tracker-followup-${app.schemeId}`}
-                          className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide"
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide"
                         >
                           <CalendarClock className="h-3.5 w-3.5" aria-hidden="true" />
                           {t('tracker.followUpLabel')}
@@ -328,7 +328,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                           className="min-h-[44px] rounded border border-[#E4E8E4] bg-white px-2.5 py-1.5 text-xs text-[#1A1C1B] outline-none focus-visible:ring-2 focus-visible:ring-[#1E6A50] dark:border-[var(--border-subtle)] dark:bg-[var(--bg-raised)] dark:text-[var(--text-main)]"
                         />
                         {app.followUp?.dueOn && (
-                          <span className="text-[11px] font-semibold">
+                          <span className="text-xs font-semibold">
                             {getLocalizedFollowUp(followUp, lang)}
                           </span>
                         )}
@@ -336,14 +336,14 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                           <button
                             type="button"
                             onClick={() => onCompleteFollowUp(app.schemeId)}
-                            className="inline-flex min-h-[44px] items-center gap-1.5 rounded px-2 text-[11px] font-bold underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
+                            className="inline-flex min-h-[44px] items-center gap-1.5 rounded px-2 text-xs font-bold underline-offset-2 hover:underline focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
                           >
                             <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
                             {t('tracker.markDone')}
                           </button>
                         )}
                       </div>
-                      <p className="mt-1 text-[10px] opacity-80">
+                      <p className="mt-1 text-xs opacity-80">
                         {t('tracker.followUpNote')}
                       </p>
                     </div>
@@ -352,14 +352,14 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                   {/* Phase 4.3 — journey timeline captured from the support pathway */}
                   {app.journey && app.journey.length > 0 && (
                     <details className="mb-3 rounded border border-[#E4E8E4] dark:border-[var(--border-subtle)] bg-[#F4F6F5] dark:bg-[var(--bg-raised)] px-3 py-2">
-                      <summary className="cursor-pointer text-[11px] font-bold text-[#14453D] dark:text-[var(--text-secondary)]">
+                      <summary className="cursor-pointer text-xs font-bold text-[#14453D] dark:text-[var(--text-secondary)]">
                         {t('tracker.journeyTitle')} ({app.journey.length})
                       </summary>
                       <ol className="mt-2 space-y-1">
                         {app.journey.map((event) => (
                           <li
                             key={event.id}
-                            className="text-[11px] text-[#3F4943] dark:text-[var(--text-secondary)]"
+                            className="text-xs text-[#3F4943] dark:text-[var(--text-secondary)]"
                           >
                             <span className="font-semibold">{event.at.slice(0, 10)}</span>{' '}
                             {getLocalizedJourneyEvent(event, lang)}
@@ -369,7 +369,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                       {app.pathwaySnapshot && (() => {
                         const snapshot = getLocalizedPathwaySnapshot(app.pathwaySnapshot, lang);
                         return (
-                          <p className="mt-2 text-[10px] text-[#516A5F] dark:text-[var(--text-tertiary)]">
+                          <p className="mt-2 text-xs text-[#516A5F] dark:text-[var(--text-tertiary)]">
                             {t('tracker.pathwayStage')}:{' '}
                             {snapshot.stageLabel}{' '}
                             ·{' '}
@@ -389,7 +389,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         whileHover={shouldReduceMotion ? undefined : { y: -1 }}
                         whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
                         onClick={() => onUpdateStatus(app.schemeId, nextMeta.status)}
-                        className="inline-flex items-center gap-1.5 bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[var(--brand-deep)] text-white px-3 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
+                        className="inline-flex items-center gap-1.5 bg-[#14453D] hover:bg-[#0B302B] dark:bg-[#1C5045] dark:hover:bg-[var(--brand-deep)] text-white px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
                       >
                         <span>
                           {t('tracker.markAs')}
@@ -404,7 +404,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         id={`tracker-open-scheme-${app.schemeId}`}
                         type="button"
                         onClick={() => onSelectScheme(match)}
-                        className="inline-flex items-center gap-1.5 bg-[#F3F4F3] dark:bg-[var(--bg-raised)] hover:bg-[#EEEEED] dark:hover:bg-[#26352E] border border-[#E4E8E4] dark:border-[var(--border-subtle)] text-[#14453D] dark:text-[var(--text-secondary)] px-3 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
+                        className="inline-flex items-center gap-1.5 bg-[#F3F4F3] dark:bg-[var(--bg-raised)] hover:bg-[#EEEEED] dark:hover:bg-[#26352E] border border-[#E4E8E4] dark:border-[var(--border-subtle)] text-[#14453D] dark:text-[var(--text-secondary)] px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
                       >
                         <FileText className="w-3 h-3" />
                         <span>{t('tracker.openScheme')}</span>
@@ -416,7 +416,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         id={`tracker-open-workspace-${app.schemeId}`}
                         type="button"
                         onClick={() => onOpenWorkspace(match)}
-                        className="inline-flex items-center gap-1.5 bg-[#1E6A50]/10 hover:bg-[#1E6A50]/20 dark:bg-[#4ADE80]/15 dark:hover:bg-[#4ADE80]/25 text-[#1E6A50] dark:text-[var(--accent-green)] border border-[#1E6A50]/30 dark:border-[#4ADE80]/30 px-3 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
+                        className="inline-flex items-center gap-1.5 bg-[#1E6A50]/10 hover:bg-[#1E6A50]/20 dark:bg-[#4ADE80]/15 dark:hover:bg-[#4ADE80]/25 text-[#1E6A50] dark:text-[var(--accent-green)] border border-[#1E6A50]/30 dark:border-[#4ADE80]/30 px-3 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
                       >
                         <span>{t('workspace.badge') || 'Workspace'}</span>
                       </button>
@@ -426,7 +426,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                       id={`tracker-toggle-note-${app.schemeId}`}
                       type="button"
                       onClick={() => setOpenNoteFor(isNoteOpen ? null : app.schemeId)}
-                      className="inline-flex items-center gap-1.5 text-[#516A5F] dark:text-[var(--text-secondary)] hover:text-[#14453D] dark:hover:text-[var(--text-main)] px-2 py-1.5 rounded text-[11px] font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
+                      className="inline-flex items-center gap-1.5 text-[#516A5F] dark:text-[var(--text-secondary)] hover:text-[#14453D] dark:hover:text-[var(--text-main)] px-2 py-1.5 rounded text-xs font-bold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
                       aria-expanded={isNoteOpen}
                     >
                       <NotebookPen className="w-3 h-3" />
@@ -444,7 +444,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         id={`tracker-reject-${app.schemeId}`}
                         type="button"
                         onClick={() => onUpdateStatus(app.schemeId, 'rejected')}
-                        className="inline-flex items-center gap-1.5 text-[#516A5F] dark:text-[var(--text-tertiary)] hover:text-[#C2603F] dark:hover:text-[#F87171] px-2 py-1.5 rounded text-[11px] font-semibold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
+                        className="inline-flex items-center gap-1.5 text-[#516A5F] dark:text-[var(--text-tertiary)] hover:text-[#C2603F] dark:hover:text-[#F87171] px-2 py-1.5 rounded text-xs font-semibold transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
                       >
                         <XCircle className="w-3 h-3" />
                         <span>{t('tracker.markRejected')}</span>
@@ -456,7 +456,7 @@ export const ApplicationTrackerScreen: React.FC<ApplicationTrackerScreenProps> =
                         id={`tracker-reopen-${app.schemeId}`}
                         type="button"
                         onClick={() => onUpdateStatus(app.schemeId, 'applied')}
-                        className="text-[11px] font-semibold text-[#516A5F] dark:text-[var(--text-secondary)] hover:text-[#14453D] dark:hover:text-[var(--text-main)] px-2 py-1.5 rounded transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
+                        className="text-xs font-semibold text-[#516A5F] dark:text-[var(--text-secondary)] hover:text-[#14453D] dark:hover:text-[var(--text-main)] px-2 py-1.5 rounded transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#1E6A50]"
                       >
                         {t('tracker.reopen')}
                       </button>
