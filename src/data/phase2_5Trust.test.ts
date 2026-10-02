@@ -30,7 +30,7 @@ import {
   getReviewQueue,
   getDataQualityAudit,
 } from '../lib/data/schemeRepository';
-import { rankSchemesForProfile, evaluateSchemeEligibility } from '../utils/matchingEngine';
+import { rankSchemesForProfile, evaluateSchemeEligibility } from '../lib/matching';
 import { UserProfile } from '../types';
 
 let passed = 0;

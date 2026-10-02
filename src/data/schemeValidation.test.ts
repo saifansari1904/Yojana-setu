@@ -11,7 +11,7 @@
 
 import { SCHEMES_DATABASE } from './schemes';
 import { validateScheme, validateSchemesDatabase } from './schemeValidation';
-import { evaluateSchemeEligibility, rankSchemesForProfile } from '../utils/matchingEngine';
+import { evaluateSchemeEligibility, rankSchemesForProfile } from '../lib/matching';
 import { Scheme, UserProfile } from '../types';
 
 let passed = 0;

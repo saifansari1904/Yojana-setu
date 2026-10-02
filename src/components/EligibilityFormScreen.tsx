@@ -29,7 +29,7 @@ import {
 import { INDIAN_STATES } from '../data/schemes';
 import { getAllSchemes } from '../lib/data';
 import { validateUserProfile } from '../lib/validation';
-import { rankSchemesForProfile } from '../utils/matchingEngine';
+import { rankSchemesForProfile } from '../lib/matching';
 import {
   QUESTIONNAIRE_STAGES,
   BUSINESS_STAGE_OPTIONS,

@@ -31,7 +31,7 @@ import {
 } from '../lib/data/schemeRepository';
 import { SCHEMES_DATABASE } from './schemes';
 import { validateScheme } from './schemeValidation';
-import { evaluateSchemeEligibility } from '../utils/matchingEngine';
+import { evaluateSchemeEligibility } from '../lib/matching';
 
 let passed = 0;
 let failed = 0;

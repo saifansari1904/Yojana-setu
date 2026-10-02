@@ -11,7 +11,7 @@
 import { SCHEMES_DATABASE } from './schemes';
 import { SOUTH_INDIA_SCHEMES } from './southIndiaSchemes';
 import { validateSchemesDatabase } from './schemeValidation';
-import { evaluateSchemeEligibility, rankSchemesForProfile } from '../utils/matchingEngine';
+import { evaluateSchemeEligibility, rankSchemesForProfile } from '../lib/matching';
 import { UserProfile } from '../types';
 
 let passed = 0;

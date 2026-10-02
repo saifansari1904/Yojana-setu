@@ -5,7 +5,7 @@ import { ActiveScreen, ApplicationStatus, MatchResult, TrackedApplication, UserP
 import type { Scheme } from './types/scheme';
 // Scheme data (1.5MB candidate dataset) loads asynchronously — never in the initial bundle.
 // See the schemesLoaded effect below.
-import { rankSchemesForProfile, evaluateSchemeEligibility } from './utils/matchingEngine';
+import { rankSchemesForProfile, evaluateSchemeEligibility } from './lib/matching';
 import { deriveBusinessNeedProfile, deriveBusinessProfile } from './lib/business';
 import { Header } from './components/Header';
 import { LoginScreen } from './components/LoginScreen';

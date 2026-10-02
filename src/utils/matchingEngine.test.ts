@@ -3,7 +3,7 @@ import {
   evaluateSchemeEligibility,
   rankSchemesForProfile,
   findAlternativeSchemes,
-} from './matchingEngine';
+} from '../lib/matching';
 import { UserProfile, Scheme } from '../types';
 
 let passed = 0;

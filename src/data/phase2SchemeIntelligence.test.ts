@@ -25,7 +25,7 @@ import {
   deduplicateSchemes,
 } from '../lib/data/normalization';
 import { NORMALIZED_SCHEME_CATEGORIES, NormalizedSchemeCategory } from './schemeTaxonomy';
-import { evaluateSchemeEligibility, rankSchemesForProfile } from '../utils/matchingEngine';
+import { evaluateSchemeEligibility, rankSchemesForProfile } from '../lib/matching';
 import { UserProfile } from '../types/user';
 
 console.log('--- RUNNING YOJANA SETU PHASE 2: SOUTH INDIA SCHEME INTELLIGENCE SUITE ---');
